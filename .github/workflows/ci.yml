@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # 不用 npm ci：Windows 上生成的 lock 会缺可选依赖的嵌套包（npm/cli#4828）
+      - run: npm install --no-audit --no-fund
+      - run: npx tsc --noEmit
+      - run: npm run lint
+      - run: npm test
+      - run: npm run validate
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t guild:ci .
+      - name: Smoke test container
+        run: |
+          docker run -d --name guild -p 3000:3000 guild:ci
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3000/ > /dev/null; then echo OK; exit 0; fi
+            sleep 2
+          done
+          docker logs guild
+          exit 1

@@ -1,0 +1,23 @@
+id: mit-8-01
+title: 物理 I：经典力学
+code: "MIT 8.01"
+institution: MIT
+instructor: Walter Lewin
+subject: physics
+level: intermediate
+tags: [力学, 牛顿]
+prerequisites: [mit-18-01]
+estimatedHours: 60
+description: >
+  Walter Lewin 的传奇物理课：亲自当单摆、用生命演示能量守恒。
+  微积分基础的经典力学，物理主线第一课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1ut411B7s6
+    uploader: 搬运
+    note: 英文原声，含中文字幕
+  - platform: youtube
+    url: https://www.youtube.com/playlist?list=PLyQSN7X0ro203puVhQsmCj9qhlFQ-As8e
+    note: Lectures by Walter Lewin 频道原版
+episodeCount: 35
+notes: []

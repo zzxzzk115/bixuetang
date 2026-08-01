@@ -1,0 +1,26 @@
+id: andrew-ng-ml
+title: 机器学习
+code: "Machine Learning Specialization"
+institution: Stanford / DeepLearning.AI
+instructor: 吴恩达 Andrew Ng
+subject: ai
+level: basic
+tags: [机器学习, 监督学习, 入门]
+prerequisites: [essence-of-linear-algebra]
+estimatedHours: 60
+description: >
+  吴恩达 2022 新版机器学习专项课：线性回归、逻辑回归、神经网络、
+  决策树、推荐系统。AI 入门的事实标准。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV19B4y1W76i
+    uploader: 搬运
+    note: 2022 版，中英字幕
+  - platform: other
+    url: https://www.coursera.org/specializations/machine-learning-introduction
+    note: Coursera 官方（可旁听）
+episodeCount: 142
+notes:
+  - title: 吴恩达机器学习课程笔记（中文）
+    url: https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes
+    kind: github

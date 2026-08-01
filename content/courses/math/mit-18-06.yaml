@@ -1,0 +1,26 @@
+id: mit-18-06
+title: 线性代数
+code: "MIT 18.06"
+institution: MIT
+instructor: Gilbert Strang
+subject: math
+level: intermediate
+tags: [线性代数, 矩阵]
+prerequisites: [mit-18-01]
+estimatedHours: 50
+description: >
+  Gilbert Strang 的传奇线代课，B 站播放量千万级。四个基本子空间、
+  投影与最小二乘、特征值、SVD——机器学习与图形学的数学地基。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1zx411g7gq
+    uploader: 搬运
+    note: 中英双语字幕
+  - platform: youtube
+    url: https://www.youtube.com/playlist?list=PL49CF3715CB9EF31D
+    note: MIT OCW 官方原版
+episodeCount: 35
+notes:
+  - title: 线性代数的艺术（18.06 图解笔记）
+    url: https://github.com/kenjihiranabe/The-Art-of-Linear-Algebra
+    kind: github

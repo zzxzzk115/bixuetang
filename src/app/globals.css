@@ -1,26 +1,70 @@
 @import "tailwindcss";
 
+/* 暗色奇幻主题（游戏 UI 固定暗色，不随系统切换） */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b0e14;
+  --panel: #141a29;
+  --panel-hover: #1a2135;
+  --edge: #252d44;
+  --foreground: #e7e9f0;
+  --muted: #8b93a7;
+  --gold: #f5c542;
+  --xp: #34d399;
+  --hp: #f87171;
+  --mana: #60a5fa;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-panel: var(--panel);
+  --color-panel-hover: var(--panel-hover);
+  --color-edge: var(--edge);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-muted: var(--muted);
+  --color-gold: var(--gold);
+  --color-xp: var(--xp);
+  --color-hp: var(--hp);
+  --color-mana: var(--mana);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ui-sans-serif, system-ui, "PingFang SC", "Microsoft YaHei",
+    sans-serif;
+}
+
+/* XP 飘字动画 */
+@keyframes float-up {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.9);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+.animate-float-up {
+  animation: float-up 1.6s ease-out forwards;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 6px rgba(245, 197, 66, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(245, 197, 66, 0.7);
+  }
+}
+.animate-glow {
+  animation: glow-pulse 2s ease-in-out infinite;
 }

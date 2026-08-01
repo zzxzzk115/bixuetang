@@ -1,0 +1,26 @@
+id: hung-yi-lee-ml
+title: 机器学习（生成式 AI）
+code: "NTU ML 2023"
+institution: 台湾大学
+instructor: 李宏毅
+subject: ai
+level: intermediate
+tags: [深度学习, 生成式AI, 中文原声]
+prerequisites: [andrew-ng-ml]
+estimatedHours: 40
+description: >
+  李宏毅 2023 版机器学习：以生成式 AI 为主线讲 Transformer、
+  Diffusion、大语言模型。中文原声无字幕门槛，段子密度极高。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1ka4y1g7To
+    uploader: 搬运
+    note: 2023 版 24 讲，含课件资料
+  - platform: youtube
+    url: https://www.youtube.com/@HungyiLeeNTU
+    note: 李宏毅官方频道
+episodeCount: 24
+notes:
+  - title: 李宏毅机器学习笔记（LeeDL 开源教程）
+    url: https://github.com/datawhalechina/leedl-tutorial
+    kind: github

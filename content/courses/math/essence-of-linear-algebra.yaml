@@ -1,0 +1,23 @@
+id: essence-of-linear-algebra
+title: 线性代数的本质
+code: "3Blue1Brown"
+institution: 3Blue1Brown
+instructor: Grant Sanderson
+subject: math
+level: basic
+tags: [线性代数, 可视化, 直觉]
+prerequisites: []
+estimatedHours: 4
+description: >
+  用动画建立线性代数的几何直觉：向量、线性变换、行列式、特征值。
+  官方 B 站账号发布，几小时看完，先看这个再上 18.06 事半功倍。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1ys411472E
+    uploader: 3Blue1Brown 官方
+    note: 官方双语合集，链接最稳定
+  - platform: youtube
+    url: https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab
+    note: 官方原版
+episodeCount: 16
+notes: []

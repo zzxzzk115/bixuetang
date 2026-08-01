@@ -1,0 +1,14 @@
+services:
+  guild:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - guild-data:/data
+    environment:
+      # HTTPS 反代部署时改为 "1"
+      COOKIE_SECURE: "0"
+    restart: unless-stopped
+
+volumes:
+  guild-data:

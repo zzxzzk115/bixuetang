@@ -1,0 +1,23 @@
+id: mit-18-01
+title: 单变量微积分
+code: "MIT 18.01"
+institution: MIT
+instructor: David Jerison
+subject: math
+level: basic
+tags: [微积分, 数学分析入门]
+prerequisites: []
+estimatedHours: 60
+description: >
+  MIT 数学主线第一课：极限、导数、积分、泰勒展开。
+  一切理科方向的地基。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1uavveaED9
+    uploader: 精译字幕组
+    note: 2007 秋季版，中英精翻字幕，全 35 讲
+  - platform: other
+    url: https://ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/
+    note: MIT OCW 课程页
+episodeCount: 35
+notes: []

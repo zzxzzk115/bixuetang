@@ -1,0 +1,23 @@
+id: mit-8-02
+title: 物理 II：电磁学
+code: "MIT 8.02"
+institution: MIT
+instructor: Walter Lewin
+subject: physics
+level: intermediate
+tags: [电磁学, 麦克斯韦方程]
+prerequisites: [mit-8-01]
+estimatedHours: 60
+description: >
+  静电、电路、磁场、法拉第定律到麦克斯韦方程组。
+  Lewin 的演示实验依旧震撼。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1fJ411v7Vc
+    uploader: 搬运
+    note: Lewin 电磁学全套讲座
+  - platform: other
+    url: https://ocw.mit.edu/courses/8-02-physics-ii-electricity-and-magnetism-spring-2007/
+    note: MIT OCW 课程页
+episodeCount: 36
+notes: []

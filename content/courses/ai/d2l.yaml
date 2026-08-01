@@ -1,0 +1,26 @@
+id: d2l
+title: 动手学深度学习 v2
+code: "D2L"
+institution: 亚马逊 / 上海交大
+instructor: 李沐
+subject: ai
+level: intermediate
+tags: [深度学习, pytorch, 中文原声]
+prerequisites: [andrew-ng-ml, mit-18-06]
+estimatedHours: 80
+description: >
+  李沐用 PyTorch 从零动手实现深度学习：MLP、CNN、RNN、注意力、BERT。
+  官方 B 站账号中文直播录像 + 可运行的开源教材，代码即讲义。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1if4y147hS
+    uploader: 跟李沐学AI（官方）
+    note: 官方账号逐集发布，此为第一集，可从合集页续看
+  - platform: other
+    url: https://courses.d2l.ai/zh-v2/
+    note: 课程官网（教材 / 课件 / 讨论区）
+episodeCount: 73
+notes:
+  - title: 《动手学深度学习》开源教材
+    url: https://zh.d2l.ai/
+    kind: site

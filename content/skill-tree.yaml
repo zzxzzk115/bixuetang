@@ -1,0 +1,123 @@
+nodes:
+  # ---------- 计算机 ----------
+  - id: programming-basics
+    title: 程序设计基础
+    subject: cs
+    tier: 1
+    requires: []
+    courses: [cs61a]
+    rule: any
+    description: 会用抽象组织程序，理解递归与高阶函数。
+  - id: cli-toolbox
+    title: 工匠工具箱
+    subject: cs
+    tier: 1
+    requires: []
+    courses: [missing-semester]
+    rule: any
+    description: Shell / Git / Vim / 调试工具运用自如。
+  - id: computer-systems
+    title: 计算机系统
+    subject: cs
+    tier: 2
+    requires: [programming-basics]
+    courses: [csapp]
+    rule: any
+    description: 理解程序在机器上如何真正运行。
+  - id: algorithms
+    title: 算法之刃
+    subject: cs
+    tier: 2
+    requires: [programming-basics]
+    courses: [mit-6-006]
+    rule: any
+    description: 掌握核心数据结构与算法设计范式。
+  - id: distributed-systems
+    title: 分布式之心
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [computer-systems, algorithms]
+    courses: [mit-6-824]
+    rule: any
+    description: 驾驭共识、复制与容错。
+
+  # ---------- 数学 ----------
+  - id: calculus
+    title: 微积分
+    subject: math
+    tier: 1
+    requires: []
+    courses: [mit-18-01]
+    rule: any
+    description: 极限、导数与积分——变化的语言。
+  - id: linear-intuition
+    title: 线性直觉
+    subject: math
+    tier: 1
+    requires: []
+    courses: [essence-of-linear-algebra]
+    rule: any
+    description: 用几何之眼看见矩阵。
+  - id: linear-algebra
+    title: 线性代数
+    subject: math
+    tier: 2
+    requires: [linear-intuition]
+    courses: [mit-18-06]
+    rule: any
+    description: 四个基本子空间与 SVD 的完全掌握。
+
+  # ---------- 物理 ----------
+  - id: classical-mechanics
+    title: 经典力学
+    subject: physics
+    tier: 1
+    requires: [calculus]
+    courses: [mit-8-01]
+    rule: any
+    description: 牛顿的世界观。
+  - id: electromagnetism
+    title: 电磁奥秘
+    subject: physics
+    tier: 2
+    requires: [classical-mechanics]
+    courses: [mit-8-02]
+    rule: any
+    description: 麦克斯韦方程组在手。
+  - id: waves
+    title: 波之律动
+    subject: physics
+    tier: 3
+    cost: 2
+    requires: [electromagnetism]
+    courses: [mit-8-03]
+    rule: any
+    description: 从振子到光——通往量子世界的桥。
+
+  # ---------- AI ----------
+  - id: ml-basics
+    title: 机器学习基础
+    subject: ai
+    tier: 1
+    requires: [linear-intuition]
+    courses: [andrew-ng-ml]
+    rule: any
+    description: 监督学习的基本功。
+  - id: deep-learning
+    title: 深度学习
+    subject: ai
+    tier: 2
+    requires: [ml-basics]
+    courses: [d2l, hung-yi-lee-ml]
+    rule: any
+    description: 亲手搭起神经网络。
+  - id: generative-ai
+    title: 生成式奥义
+    subject: ai
+    tier: 3
+    cost: 2
+    requires: [deep-learning]
+    courses: [hung-yi-lee-ml]
+    rule: any
+    description: Transformer 与 Diffusion 的炼成术。

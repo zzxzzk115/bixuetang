@@ -1,0 +1,26 @@
+id: cs61a
+title: 计算机程序的构造和解释
+code: "CS 61A"
+institution: UC Berkeley
+instructor: John DeNero
+subject: cs
+level: basic
+tags: [python, sicp, 编程入门]
+prerequisites: []
+estimatedHours: 60
+description: >
+  伯克利镇系神课，用 Python 讲抽象与程序设计思想（函数式、递归、解释器）。
+  零基础入门首选，配套作业与项目质量极高。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1v64y1Q78o
+    uploader: 精译字幕组
+    note: Spring 2021，中英双语精译字幕
+  - platform: other
+    url: https://cs61a.org/
+    note: 课程官网（作业 / 项目 / 讲义）
+episodeCount: 30
+notes:
+  - title: CS 自学指南：CS61A 攻略
+    url: https://csdiy.wiki/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/Python/CS61A/
+    kind: site

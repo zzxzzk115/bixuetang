@@ -1,0 +1,23 @@
+id: mit-8-03
+title: 物理 III：振动与波
+code: "MIT 8.03"
+institution: MIT
+instructor: Walter Lewin
+subject: physics
+level: advanced
+tags: [振动, 波动, 光学]
+prerequisites: [mit-8-02]
+estimatedHours: 45
+description: >
+  简谐振动、耦合振子、行波驻波、电磁波与光学。
+  通往量子力学与信号处理的必经之路。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1AUhnzFExZ
+    uploader: 搬运
+    note: 高清 1080p 修复版，中英字幕
+  - platform: other
+    url: https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/
+    note: MIT OCW 课程页
+episodeCount: 23
+notes: []

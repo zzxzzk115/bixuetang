@@ -1,0 +1,91 @@
+jobs:
+  # ---------- 0 转 ----------
+  - id: novice
+    title: 见习学徒
+    tier: 0
+    parents: []
+    requires: {}
+    description: 每个冒险者的起点。注册即获得。
+
+  # ---------- 1 转 ----------
+  - id: cs-apprentice
+    title: 计算机学徒
+    tier: 1
+    parents: [novice]
+    requires:
+      minLevel: 3
+      skills: { allOf: [programming-basics] }
+    description: 你已能用代码召唤逻辑。
+  - id: math-apprentice
+    title: 数学学徒
+    tier: 1
+    parents: [novice]
+    requires:
+      minLevel: 3
+      skills: { anyOf: [calculus, linear-intuition], minAnyOf: 1 }
+    description: 你开始读懂宇宙的母语。
+  - id: physics-apprentice
+    title: 物理学徒
+    tier: 1
+    parents: [novice]
+    requires:
+      minLevel: 3
+      skills: { allOf: [classical-mechanics] }
+    description: 你与万有引力签订了契约。
+  - id: ai-apprentice
+    title: AI 学徒
+    tier: 1
+    parents: [novice]
+    requires:
+      minLevel: 3
+      skills: { allOf: [ml-basics] }
+    description: 你教会了机器第一课。
+
+  # ---------- 2 转 ----------
+  - id: systems-warden
+    title: 系统守卫
+    tier: 2
+    parents: [cs-apprentice]
+    requires:
+      minLevel: 8
+      skills: { allOf: [computer-systems], anyOf: [algorithms, distributed-systems], minAnyOf: 1 }
+    description: 从比特到集群，皆在你的守望之下。
+  - id: algo-duelist
+    title: 算法决斗家
+    tier: 2
+    parents: [cs-apprentice]
+    requires:
+      minLevel: 8
+      skills: { allOf: [algorithms] }
+    description: 以复杂度为剑，一击制胜。
+  - id: arcane-engineer
+    title: 奥术工程师
+    tier: 2
+    parents: [cs-apprentice, math-apprentice]
+    requires:
+      minLevel: 10
+      skills: { allOf: [linear-algebra] }
+    description: 兼修代码与数学的复合职业——用矩阵驱动机器。
+  - id: natural-philosopher
+    title: 自然哲学家
+    tier: 2
+    parents: [math-apprentice, physics-apprentice]
+    requires:
+      minLevel: 10
+      skills: { allOf: [electromagnetism] }
+    description: 兼修数学与物理的复合职业——继承牛顿的衣钵。
+  - id: ml-alchemist
+    title: 机学炼金术士
+    tier: 2
+    parents: [ai-apprentice]
+    requires:
+      minLevel: 8
+      skills: { allOf: [deep-learning] }
+    description: 把数据点石成金。
+  - id: polymath
+    title: 全知贤者
+    tier: 2
+    parents: [cs-apprentice, math-apprentice, physics-apprentice, ai-apprentice]
+    requires:
+      minLevel: 15
+    description: 四系皆通的传说职业。

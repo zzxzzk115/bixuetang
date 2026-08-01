@@ -1,0 +1,25 @@
+id: mit-6-006
+title: 算法导论
+code: "MIT 6.006"
+institution: MIT
+subject: cs
+level: intermediate
+tags: [算法, 数据结构]
+prerequisites: [cs61a]
+estimatedHours: 70
+description: >
+  MIT 本科算法课：排序、散列、树、图、最短路径、动态规划、NP。
+  比 CLRS 自读友好得多的算法入门主线。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1fu41127MN
+    uploader: 搬运
+    note: 2020 春季版，中英字幕
+  - platform: other
+    url: https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/
+    note: MIT OCW 课程页（讲义 / 作业 / 解答）
+episodeCount: 32
+notes:
+  - title: CS 自学指南：6.006 攻略
+    url: https://csdiy.wiki/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/6.006/
+    kind: site

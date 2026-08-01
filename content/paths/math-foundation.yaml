@@ -1,0 +1,9 @@
+id: math-foundation
+title: 数学基础主线
+subject: math
+description: 微积分与线性代数——所有理科方向共用的地基。
+stages:
+  - title: 第一章 · 微积分
+    courses: [mit-18-01]
+  - title: 第二章 · 线性代数（先建直觉再上硬课）
+    courses: [essence-of-linear-algebra, mit-18-06]

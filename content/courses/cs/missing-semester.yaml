@@ -1,0 +1,25 @@
+id: missing-semester
+title: 计算机教育中缺失的一课
+code: "Missing Semester"
+institution: MIT
+subject: cs
+level: basic
+tags: [shell, git, vim, 工具链]
+prerequisites: []
+estimatedHours: 15
+description: >
+  Shell、Vim、Git、调试与性能分析、元编程……大学不教但天天要用的工具课。
+  短小精悍，越早学收益越大。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1rU4y1h7Qr
+    uploader: 搬运
+    note: 2020 版，英文原声可切中文字幕
+  - platform: other
+    url: https://missing-semester-cn.github.io/
+    note: 官方讲义中文翻译站
+episodeCount: 11
+notes:
+  - title: Missing Semester 中文站
+    url: https://missing-semester-cn.github.io/
+    kind: site
