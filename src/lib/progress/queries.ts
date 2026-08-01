@@ -4,6 +4,7 @@ import { db } from "../db/client";
 import {
   courseProgress,
   episodeProgress,
+  jobUnlocks,
   skillUnlocks,
   xpEvents,
   type CourseStatus,
@@ -99,6 +100,32 @@ export function getXpLog(userId: number, limit = 20): XpLogEntry[] {
     }
     return { ...r, label };
   });
+}
+
+/** 已完成（done）的课程集合 */
+export function doneCourseIds(progress: UserProgress): Set<string> {
+  return new Set(
+    [...progress.statusByCourse.entries()]
+      .filter(([, s]) => s === "done")
+      .map(([id]) => id),
+  );
+}
+
+/** 已持有职业：job_unlocks 记录 ∪ 无条件的 0 转职业（注册即持有，不落库） */
+export function getHeldJobs(userId: number): Set<string> {
+  const content = getContent();
+  const held = new Set(
+    db
+      .select({ jobId: jobUnlocks.jobId })
+      .from(jobUnlocks)
+      .where(eq(jobUnlocks.userId, userId))
+      .all()
+      .map((r) => r.jobId),
+  );
+  for (const j of content.jobs) {
+    if (j.tier === 0) held.add(j.id);
+  }
+  return held;
 }
 
 /** 学科修为（M2 版）：按已看集数折算的各学科 XP */

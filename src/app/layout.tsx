@@ -26,6 +26,12 @@ async function Nav() {
         <Link href="/courses" className="text-muted hover:text-foreground">
           副本图鉴
         </Link>
+        <Link href="/skill-tree" className="text-muted hover:text-foreground">
+          技能树
+        </Link>
+        <Link href="/jobs" className="text-muted hover:text-foreground">
+          转职殿堂
+        </Link>
         <div className="ml-auto flex items-center gap-3">
           {user && progress ? (
             <>

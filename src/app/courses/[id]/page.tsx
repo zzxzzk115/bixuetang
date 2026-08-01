@@ -134,7 +134,12 @@ export default async function CoursePage({
                 </li>
               ))}
             </ul>
-            <p className="mt-2 text-xs text-muted">技能树系统即将开放</p>
+            <Link
+              href="/skill-tree"
+              className="mt-2 inline-block text-xs text-gold hover:underline"
+            >
+              前往技能树加点 →
+            </Link>
           </section>
         )}
 

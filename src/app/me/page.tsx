@@ -7,6 +7,7 @@ import { SUBJECT_LABEL, SUBJECTS } from "@/lib/content/schema";
 import { skillPointsEarned } from "@/lib/game/level";
 import { spentPoints } from "@/lib/game/skills";
 import {
+  getHeldJobs,
   getSubjectXp,
   getUserProgress,
   getXpLog,
@@ -26,6 +27,13 @@ export default async function MePage() {
     skillPointsEarned(progress.level.level) -
     spentPoints(content.skillNodes, progress.litSkills);
 
+  const held = getHeldJobs(user.id);
+  const heldJobs = content.jobs.filter((j) => held.has(j.id));
+  const activeTitle =
+    content.jobById.get(user.activeJobId ?? "")?.title ??
+    heldJobs.find((j) => j.tier === 0)?.title ??
+    "冒险者";
+
   const activeCourses = [...progress.statusByCourse.entries()]
     .filter(([, s]) => s === "learning" || s === "done")
     .map(([id, status]) => ({ course: content.coursesById.get(id), status }))
@@ -43,7 +51,7 @@ export default async function MePage() {
             <h1 className="mt-2 text-lg font-bold">
               {user.displayName || user.username}
             </h1>
-            <p className="text-xs text-gold">见习学徒</p>
+            <p className="text-xs text-gold">{activeTitle}</p>
           </div>
           <div className="mt-4">
             <XpBar level={progress.level} />
@@ -58,6 +66,30 @@ export default async function MePage() {
               <div className="text-xs text-muted">技能点</div>
             </div>
           </div>
+        </section>
+
+        <section className="rounded-lg border border-edge bg-panel p-5">
+          <h2 className="mb-3 text-sm font-bold text-muted">⚜️ 职业徽章</h2>
+          <div className="flex flex-wrap gap-1.5">
+            {heldJobs.map((j) => (
+              <span
+                key={j.id}
+                className={`rounded border px-2 py-1 text-xs ${
+                  (user.activeJobId ?? heldJobs[0]?.id) === j.id
+                    ? "border-gold bg-amber-950 text-gold"
+                    : "border-edge bg-panel-hover text-muted"
+                }`}
+              >
+                {j.title}
+              </span>
+            ))}
+          </div>
+          <Link
+            href="/jobs"
+            className="mt-3 inline-block text-xs text-gold hover:underline"
+          >
+            前往转职殿堂 →
+          </Link>
         </section>
 
         <section className="rounded-lg border border-edge bg-panel p-5">
