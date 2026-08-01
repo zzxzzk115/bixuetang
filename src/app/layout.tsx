@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import { CelebrationLayer } from "@/components/celebration-layer";
 import { getCurrentUser } from "@/lib/auth/session";
 import { logout } from "@/lib/auth/actions";
 import { getUserProgress } from "@/lib/progress/queries";
@@ -44,6 +45,13 @@ async function Nav() {
                 </span>
                 <span>{user.displayName || user.username}</span>
               </Link>
+              <Link
+                href="/settings"
+                className="text-muted hover:text-foreground"
+                title="设置"
+              >
+                ⚙️
+              </Link>
               <form action={logout}>
                 <button className="text-xs text-muted hover:text-foreground">
                   登出
@@ -75,6 +83,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
+        <CelebrationLayer />
         <Nav />
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
           {children}

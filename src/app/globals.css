@@ -56,6 +56,32 @@ body {
   animation: float-up 1.6s ease-out forwards;
 }
 
+/* 全屏庆祝：弹入 → 悬停 → 淡出 */
+@keyframes celebrate-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  12% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  18% {
+    transform: scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.04) translateY(-8px);
+  }
+}
+.animate-celebrate {
+  animation: celebrate-pop 2.6s ease-out forwards;
+}
+
 @keyframes glow-pulse {
   0%,
   100% {

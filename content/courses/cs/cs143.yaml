@@ -1,0 +1,26 @@
+id: cs143
+title: 编译原理
+code: "Stanford CS143"
+institution: Stanford
+instructor: Alex Aiken
+subject: cs
+level: advanced
+tags: [编译器, 龙书, 形式语言]
+prerequisites: [csapp]
+estimatedHours: 80
+description: >
+  三大浪漫之编译原理：词法分析、语法分析、语义分析、运行时与代码生成、
+  优化。配套 Cool 语言实验，亲手写出一个能跑的编译器。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1NE411376V
+    uploader: 搬运
+    note: 中文字幕，127 段短视频（自学版切片）
+  - platform: other
+    url: https://web.stanford.edu/class/cs143/
+    note: 课程官网（讲义 / PA 实验）
+episodeCount: 127
+notes:
+  - title: CS 自学指南：CS143 攻略
+    url: https://csdiy.wiki/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/CS143/
+    kind: site

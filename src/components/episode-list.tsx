@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { celebrate } from "@/lib/celebrate";
 import type { Episode } from "@/lib/content/schema";
 import { toggleEpisode, type ToggleResult } from "@/lib/progress/actions";
 
@@ -58,9 +59,19 @@ export function EpisodeList({
         const episodePart = res.gained - (res.bossBonus ?? 0);
         if (episodePart > 0) pushToast(`+${episodePart} XP`, "xp");
         if (res.bossBonus && res.bossBonus > 0) {
-          pushToast(`🏆 副本通关！Boss 奖励 +${res.bossBonus} XP`, "boss");
+          celebrate({
+            kind: "boss",
+            title: "副本通关！",
+            subtitle: `Boss 讨伐奖励 +${res.bossBonus} XP`,
+          });
         }
-        if (res.levelUp) pushToast(`🎉 升级！Lv.${res.newLevel}`, "level");
+        if (res.levelUp) {
+          celebrate({
+            kind: "level",
+            title: `升级！Lv.${res.newLevel}`,
+            subtitle: "获得 1 技能点，前往技能树加点吧",
+          });
+        }
       }
     });
   };

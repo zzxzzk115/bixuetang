@@ -1,0 +1,26 @@
+id: games101
+title: 现代计算机图形学入门
+code: "GAMES101"
+institution: UCSB / GAMES
+instructor: 闫令琪
+subject: cs
+level: intermediate
+tags: [图形学, 渲染, 光线追踪, 中文原声]
+prerequisites: [essence-of-linear-algebra]
+estimatedHours: 45
+description: >
+  三大浪漫之图形学开山课：变换、光栅化、着色、几何、光线追踪、路径追踪。
+  闫令琪中文授课，B 站官方账号发布，中文图形学社区的共同起点。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1X7411F744
+    uploader: 闫令琪（官方）
+    note: 官方合集，链接最稳定
+  - platform: other
+    url: https://sites.cs.ucsb.edu/~lingqi/teaching/games101.html
+    note: 课程官网（课件 / 作业框架）
+episodeCount: 22
+notes:
+  - title: GAMES101 课程笔记汇总
+    url: https://blog.csdn.net/iteapoy/article/details/128309893
+    kind: blog

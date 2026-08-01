@@ -48,7 +48,7 @@ jobs:
     parents: [cs-apprentice]
     requires:
       minLevel: 8
-      skills: { allOf: [computer-systems], anyOf: [algorithms, distributed-systems], minAnyOf: 1 }
+      skills: { allOf: [computer-systems], anyOf: [algorithms, distributed-systems, operating-systems], minAnyOf: 1 }
     description: 从比特到集群，皆在你的守望之下。
   - id: algo-duelist
     title: 算法决斗家
@@ -82,6 +82,22 @@ jobs:
       minLevel: 8
       skills: { allOf: [deep-learning] }
     description: 把数据点石成金。
+  - id: render-mage
+    title: 渲染法师
+    tier: 2
+    parents: [cs-apprentice, math-apprentice]
+    requires:
+      minLevel: 10
+      skills: { allOf: [computer-graphics] }
+    description: 兼修代码与数学的复合职业——以矩阵为咒文，渲染整个世界。
+  - id: romanticist
+    title: 浪漫主义者
+    tier: 2
+    parents: [cs-apprentice]
+    requires:
+      minLevel: 12
+      skills: { allOf: [computer-graphics, operating-systems, compilers] }
+    description: 图形、内核、编译三大浪漫全修的传说职业。
   - id: polymath
     title: 全知贤者
     tier: 2

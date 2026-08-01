@@ -1,0 +1,23 @@
+id: games202
+title: 高质量实时渲染
+code: "GAMES202"
+institution: UCSB / GAMES
+instructor: 闫令琪
+subject: cs
+level: advanced
+tags: [图形学, 实时渲染, 中文原声]
+prerequisites: [games101]
+estimatedHours: 30
+description: >
+  GAMES101 续作：实时软阴影、环境光照、全局光照（RSM/SSDO/SSR）、
+  PBR 材质、实时光线追踪与降噪。引擎渲染方向的进阶必修。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1YK4y1T7yY
+    uploader: 闫令琪（官方）
+    note: 官方合集
+  - platform: other
+    url: https://sites.cs.ucsb.edu/~lingqi/teaching/games202.html
+    note: 课程官网
+episodeCount: 14
+notes: []

@@ -3,7 +3,65 @@ import { notFound } from "next/navigation";
 import { LevelBadge, StatusBadge, SUBJECT_ICON } from "@/components/badges";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
-import { getUserProgress } from "@/lib/progress/queries";
+import type { Course } from "@/lib/content/schema";
+import { getUserProgress, type UserProgress } from "@/lib/progress/queries";
+
+// 关卡地图布局常量
+const W = 640;
+const ROW_H = 138;
+const BANNER_H = 76;
+const NODE_R = 30;
+const LEFT_X = 110;
+const RIGHT_X = W - 110;
+
+type MapRow =
+  | { type: "banner"; title: string; y: number }
+  | { type: "course"; course: Course; x: number; y: number; isFinal: boolean };
+
+function buildRows(
+  stages: { title: string; courses: string[] }[],
+  coursesById: Map<string, Course>,
+): { rows: MapRow[]; height: number } {
+  const rows: MapRow[] = [];
+  let y = 0;
+  let slot = 0;
+  const total = stages.reduce((n, s) => n + s.courses.length, 0);
+  let seen = 0;
+  for (const stage of stages) {
+    rows.push({ type: "banner", title: stage.title, y: y + BANNER_H / 2 });
+    y += BANNER_H;
+    for (const cid of stage.courses) {
+      seen++;
+      rows.push({
+        type: "course",
+        course: coursesById.get(cid)!,
+        x: slot % 2 === 0 ? LEFT_X : RIGHT_X,
+        y: y + ROW_H / 2,
+        isFinal: seen === total,
+      });
+      slot++;
+      y += ROW_H;
+    }
+  }
+  return { rows, height: y };
+}
+
+function nodeState(
+  course: Course,
+  progress: UserProgress | null,
+  currentId: string | null,
+) {
+  const status = progress?.statusByCourse.get(course.id) ?? null;
+  const watched = progress?.watchedByCourse.get(course.id)?.size ?? 0;
+  const done = status === "done";
+  return {
+    status,
+    watched,
+    done,
+    isCurrent: course.id === currentId,
+    pct: Math.round((watched / course.episodes.length) * 100),
+  };
+}
 
 export default async function PathPage({
   params,
@@ -18,63 +76,152 @@ export default async function PathPage({
   const user = await getCurrentUser();
   const progress = user ? getUserProgress(user.id) : null;
 
+  const { rows, height } = buildRows(path.stages, content.coursesById);
+  const courseRows = rows.filter((r) => r.type === "course");
+  // 当前关卡 = 路径顺序上第一门未通关的课
+  const currentId =
+    progress === null
+      ? null
+      : (courseRows.find(
+          (r) => progress.statusByCourse.get(r.course.id) !== "done",
+        )?.course.id ?? null);
+  const doneCount = progress
+    ? courseRows.filter(
+        (r) => progress.statusByCourse.get(r.course.id) === "done",
+      ).length
+    : 0;
+
   return (
     <div className="mx-auto max-w-3xl">
-      <div className="flex items-center gap-2 text-2xl font-bold">
-        {SUBJECT_ICON[path.subject]} {path.title}
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2 text-2xl font-bold">
+            {SUBJECT_ICON[path.subject]} {path.title}
+          </div>
+          {path.description && (
+            <p className="mt-1.5 text-sm text-muted">{path.description}</p>
+          )}
+        </div>
+        {progress && (
+          <span className="rounded border border-edge bg-panel px-3 py-1.5 text-sm">
+            通关{" "}
+            <b className={doneCount === courseRows.length ? "text-gold" : ""}>
+              {doneCount}
+            </b>{" "}
+            / {courseRows.length}
+          </span>
+        )}
       </div>
-      {path.description && (
-        <p className="mt-1.5 text-sm text-muted">{path.description}</p>
-      )}
 
-      <div className="mt-8 space-y-8">
-        {path.stages.map((stage, si) => (
-          <section key={si} className="relative pl-8">
-            {/* 章节连线 */}
-            {si < path.stages.length - 1 && (
-              <div className="absolute left-[11px] top-8 h-full w-0.5 bg-edge" />
-            )}
-            <div className="absolute left-0 top-0.5 flex h-6 w-6 items-center justify-center rounded-full border border-gold bg-panel text-xs font-bold text-gold">
-              {si + 1}
-            </div>
-            <h2 className="font-bold">{stage.title}</h2>
-            <div className="mt-3 space-y-2.5">
-              {stage.courses.map((cid) => {
-                const c = content.coursesById.get(cid)!;
-                const status = progress?.statusByCourse.get(cid) ?? null;
-                const watched = progress?.watchedByCourse.get(cid)?.size ?? 0;
-                const pct = Math.round((watched / c.episodes.length) * 100);
-                return (
-                  <Link
-                    key={cid}
-                    href={`/courses/${cid}`}
-                    className="block rounded-lg border border-edge bg-panel p-4 transition-colors hover:border-gold hover:bg-panel-hover"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="font-bold">{c.title}</div>
-                      <div className="flex items-center gap-2">
-                        <LevelBadge level={c.level} />
-                        {status && <StatusBadge status={status} />}
-                      </div>
-                    </div>
-                    <div className="mt-1 text-xs text-muted">
-                      {c.code} · {c.episodes.length} 集
-                      {c.estimatedHours ? ` · 约 ${c.estimatedHours} 小时` : ""}
-                    </div>
-                    {progress && watched > 0 && (
-                      <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-edge">
-                        <div
-                          className={`h-full ${pct >= 100 ? "bg-gold" : "bg-hp"}`}
-                          style={{ width: `${pct}%` }}
-                        />
-                      </div>
+      <div className="mt-6 overflow-x-auto rounded-lg border border-edge bg-panel/40 py-6">
+        <div className="relative mx-auto" style={{ width: W, height }}>
+          {/* 蜿蜒道路 */}
+          <svg className="absolute inset-0" width={W} height={height}>
+            {courseRows.map((r, i) => {
+              if (i === 0) return null;
+              const prev = courseRows[i - 1];
+              const y1 = prev.y + NODE_R;
+              const y2 = r.y - NODE_R;
+              const mid = (y1 + y2) / 2;
+              const done =
+                progress?.statusByCourse.get(prev.course.id) === "done";
+              return (
+                <path
+                  key={i}
+                  d={`M ${prev.x} ${y1} C ${prev.x} ${mid}, ${r.x} ${mid}, ${r.x} ${y2}`}
+                  fill="none"
+                  stroke={done ? "var(--gold)" : "var(--edge)"}
+                  strokeWidth="3"
+                  strokeDasharray={done ? "none" : "7 7"}
+                  strokeLinecap="round"
+                />
+              );
+            })}
+          </svg>
+
+          {rows.map((row, ri) => {
+            if (row.type === "banner") {
+              return (
+                <div
+                  key={ri}
+                  className="absolute flex w-full justify-center"
+                  style={{ top: row.y - 14 }}
+                >
+                  <span className="rounded-full border border-edge bg-panel px-4 py-1 text-sm font-bold text-muted">
+                    {row.title}
+                  </span>
+                </div>
+              );
+            }
+            const s = nodeState(row.course, progress, currentId);
+            const icon = s.done
+              ? "✓"
+              : row.isFinal
+                ? "👑"
+                : s.isCurrent
+                  ? "⚔️"
+                  : "🗺️";
+            const cardLeft = row.x === LEFT_X ? LEFT_X + NODE_R + 18 : 16;
+            const cardWidth = W - NODE_R * 2 - 110 - 40;
+            return (
+              <div key={ri}>
+                {/* 关卡节点 */}
+                <Link
+                  href={`/courses/${row.course.id}`}
+                  className={`absolute flex items-center justify-center rounded-full border-2 text-xl transition-transform hover:scale-110 ${
+                    s.done
+                      ? "border-gold bg-amber-950 text-gold"
+                      : s.isCurrent
+                        ? "animate-glow border-gold bg-panel"
+                        : "border-edge bg-panel opacity-80"
+                  }`}
+                  style={{
+                    left: row.x - NODE_R,
+                    top: row.y - NODE_R,
+                    width: NODE_R * 2,
+                    height: NODE_R * 2,
+                  }}
+                >
+                  {icon}
+                </Link>
+                {/* 课程卡 */}
+                <Link
+                  href={`/courses/${row.course.id}`}
+                  className={`absolute block rounded-lg border p-3 transition-colors hover:border-gold ${
+                    s.isCurrent
+                      ? "border-gold bg-panel"
+                      : "border-edge bg-panel"
+                  }`}
+                  style={{ left: cardLeft, top: row.y - 44, width: cardWidth }}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="truncate text-sm font-bold">
+                      {row.course.title}
+                    </span>
+                    <span className="flex shrink-0 items-center gap-1.5">
+                      <LevelBadge level={row.course.level} />
+                      {s.status && <StatusBadge status={s.status} />}
+                    </span>
+                  </div>
+                  <div className="mt-1 text-xs text-muted">
+                    {row.course.code} · {row.course.episodes.length} 集
+                    {s.isCurrent && (
+                      <span className="ml-1.5 text-gold">← 当前关卡</span>
                     )}
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-        ))}
+                  </div>
+                  {progress && s.watched > 0 && (
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-edge">
+                      <div
+                        className={`h-full ${s.pct >= 100 ? "bg-gold" : "bg-hp"}`}
+                        style={{ width: `${s.pct}%` }}
+                      />
+                    </div>
+                  )}
+                </Link>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

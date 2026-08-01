@@ -21,23 +21,29 @@ export const metadata = { title: "副本图鉴" };
 export default async function CoursesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ subject?: string; level?: string }>;
+  searchParams: Promise<{ subject?: string; level?: string; q?: string }>;
 }) {
-  const { subject, level } = await searchParams;
+  const { subject, level, q } = await searchParams;
   const content = getContent();
   const user = await getCurrentUser();
   const progress = user ? getUserProgress(user.id) : null;
 
-  const courses = content.courses.filter(
-    (c) =>
-      (!subject || c.subject === subject) && (!level || c.level === level),
-  );
+  const needle = q?.trim().toLowerCase();
+  const courses = content.courses.filter((c) => {
+    if (subject && c.subject !== subject) return false;
+    if (level && c.level !== level) return false;
+    if (!needle) return true;
+    return [c.title, c.code, c.institution, c.instructor, ...c.tags]
+      .filter((s) => s !== undefined)
+      .some((s) => s.toLowerCase().includes(needle));
+  });
 
   const filterLink = (params: Record<string, string | undefined>) => {
-    const merged = { subject, level, ...params };
+    const merged = { subject, level, q, ...params };
     const qs = new URLSearchParams();
     if (merged.subject) qs.set("subject", merged.subject);
     if (merged.level) qs.set("level", merged.level);
+    if (merged.q) qs.set("q", merged.q);
     const s = qs.toString();
     return s ? `/courses?${s}` : "/courses";
   };
@@ -49,7 +55,21 @@ export default async function CoursesPage({
         每门公开课都是一个副本：看完一集击败一只小怪，全部看完讨伐 Boss。
       </p>
 
-      <div className="mt-5 flex flex-wrap gap-4 text-sm">
+      <form action="/courses" method="get" className="mt-5 flex max-w-md gap-2">
+        {subject && <input type="hidden" name="subject" value={subject} />}
+        {level && <input type="hidden" name="level" value={level} />}
+        <input
+          name="q"
+          defaultValue={q ?? ""}
+          placeholder="搜索副本：课程名 / 编号 / 机构 / 标签……"
+          className="w-full rounded border border-edge bg-panel px-3 py-1.5 text-sm outline-none focus:border-gold"
+        />
+        <button className="shrink-0 rounded border border-edge px-3 py-1.5 text-sm text-muted hover:border-gold hover:text-gold">
+          🔍 搜索
+        </button>
+      </form>
+
+      <div className="mt-4 flex flex-wrap gap-4 text-sm">
         <div className="flex gap-1.5">
           <Link
             href={filterLink({ subject: undefined })}

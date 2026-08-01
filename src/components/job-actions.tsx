@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { celebrate } from "@/lib/celebrate";
 import { promoteJob, setActiveTitle } from "@/lib/game/actions";
 
 export function PromoteButton({ jobId, title }: { jobId: string; title: string }) {
   const [error, setError] = useState<string | null>(null);
-  const [celebrated, setCelebrated] = useState(false);
   const [pending, startTransition] = useTransition();
 
   return (
@@ -16,7 +16,12 @@ export function PromoteButton({ jobId, title }: { jobId: string; title: string }
           startTransition(async () => {
             const res = await promoteJob(jobId);
             if (!res.ok) setError(res.error ?? "转职失败");
-            else setCelebrated(true);
+            else
+              celebrate({
+                kind: "promote",
+                title: "转职成功！",
+                subtitle: `你现在是「${title}」`,
+              });
           });
         }}
         disabled={pending}
@@ -24,11 +29,6 @@ export function PromoteButton({ jobId, title }: { jobId: string; title: string }
       >
         {pending ? "转职中……" : `⚜️ 转职为「${title}」`}
       </button>
-      {celebrated && (
-        <p className="animate-float-up mt-1.5 text-center text-sm font-bold text-gold">
-          🎊 转职成功！
-        </p>
-      )}
       {error && <p className="mt-1.5 text-sm text-hp">{error}</p>}
     </div>
   );
