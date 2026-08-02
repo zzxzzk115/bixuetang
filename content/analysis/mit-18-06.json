@@ -1,0 +1,569 @@
+{
+  "courseId": "mit-18-06",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "Gilbert Strang 的 MIT 18.06 用「矩阵即变换、列即向量」的视角重讲线性代数，从解 Ax=b 出发，一路推进到四个基本子空间、正交投影、行列式、特征值与奇异值分解。全课主线可概括为三条：消元与分解（LU、QR、对角化、SVD）、子空间几何（列空间/零空间/正交补/投影）、以及矩阵作为线性变换在不同基下的表示。Strang 强调直觉与几何图像而非机械计算，几乎每个抽象定理都配一个能手算的小矩阵例子。学完后你能熟练判断方程组的可解性与解的结构、用最小二乘拟合数据、对矩阵做谱分解与 SVD，并具备读懂机器学习、图形学、数值计算文献所需的矩阵语言。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "开篇用三种视角看同一个线性方程组：按行看是若干超平面求交点，按列看是列向量的线性组合，按矩阵看是 Ax=b。Strang 从 2x2、3x3 小例子出发，反复强调「列图像」才是全课的主线视角。最后提出核心问题：Ax=b 是否对所有 b 都有解？",
+      "keyPoints": [
+        { "title": "行图像 Row Picture", "detail": "每个方程是一条直线（二维）或一个平面（三维），解就是它们的交点，维数一高就难以想象。" },
+        { "title": "列图像 Column Picture", "detail": "把方程组写成列向量的线性组合 x·col1 + y·col2 = b，问题变成「能否用这些列凑出 b」，这是全课最重要的换视角。" },
+        { "title": "矩阵形式 Ax=b", "detail": "矩阵乘向量的正确读法是「列的线性组合」，x 的分量是各列的权重，而不是逐行点积。" },
+        { "title": "可解性与列空间", "detail": "若列向量张成整个 R^n，则任意 b 都可解；若列共面（线性相关），只有落在该平面内的 b 才有解——这已埋下列空间的伏笔。", "formula": "Ax = x_1 a_1 + x_2 a_2 + \\cdots + x_n a_n" }
+      ],
+      "terms": [
+        { "term": "linear combination 线性组合", "definition": "若干向量各乘一个标量后相加得到的新向量。" },
+        { "term": "row picture 行图像", "definition": "把方程组每一行看作一个超平面，解为所有超平面的交集。" },
+        { "term": "column picture 列图像", "definition": "把 Ax 看作矩阵列向量的线性组合，Ax=b 即问 b 能否被列张成。" },
+        { "term": "singular matrix 奇异矩阵", "definition": "列向量线性相关、不可逆的方阵，此时 Ax=b 可能无解或有无穷多解。" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "系统讲高斯消元法：用主元逐列把矩阵化为上三角 U，再回代求解。引入初等行变换矩阵 E_ij，把消元过程写成矩阵乘法，并说明主元为 0 时如何行交换（置换矩阵）或判定奇异。",
+      "keyPoints": [
+        { "title": "主元与消元 Pivot & Elimination", "detail": "从左上角主元开始，用倍数消去下方元素，逐列推进得到上三角 U；主元不能为 0。" },
+        { "title": "增广矩阵与回代", "detail": "把 b 拼到 A 右边一起消元，得到 [U | c] 后从最后一个方程往上回代求解。" },
+        { "title": "消元的矩阵语言", "detail": "第 (i,j) 步消元等价于左乘一个初等矩阵 E_ij，整个过程是 E…E A = U。", "formula": "E_{32}E_{31}E_{21}A = U" },
+        { "title": "置换矩阵 P", "detail": "主元位置为 0 但下方非 0 时交换行，对应左乘置换矩阵；若整列都没法找到非零主元，矩阵奇异。" },
+        { "title": "消元的代价", "detail": "n×n 矩阵消元约需 n^3/3 次运算，这是数值线性代数关心的复杂度基准。" }
+      ],
+      "terms": [
+        { "term": "Gaussian elimination 高斯消元", "definition": "用行变换把系数矩阵化为上三角形以便回代求解的算法。" },
+        { "term": "pivot 主元", "definition": "消元时每一行第一个非零元素，用来消去其下方元素。" },
+        { "term": "back substitution 回代", "definition": "从上三角方程组的最后一个方程向上逐一解出未知数。" },
+        { "term": "permutation matrix 置换矩阵", "definition": "由单位矩阵交换若干行得到的矩阵，左乘可交换行、右乘可交换列。" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "先把矩阵乘法拆成五种等价看法（元素点积、列组合、行组合、列乘行求和、分块），再讲逆矩阵的定义与存在条件，最后用 Gauss-Jordan 消元同时求出 A 的逆。",
+      "keyPoints": [
+        { "title": "矩阵乘法的五种视角", "detail": "AB 可看作行列点积、A 的列组合、B 的行组合、A 的列乘 B 的行求和（秩 1 矩阵之和）、或分块相乘。", "formula": "AB = \\sum_{k} a_k b_k^{T}" },
+        { "title": "逆矩阵的定义", "detail": "方阵 A 可逆当且仅当存在 A^{-1} 使 AA^{-1}=A^{-1}A=I；方阵情形左逆自动等于右逆。" },
+        { "title": "不可逆的判据", "detail": "若存在非零 x 使 Ax=0，则 A 不可逆；等价说法是列相关、行列式为 0、主元个数少于 n。" },
+        { "title": "乘积与转置的逆", "detail": "(AB)^{-1}=B^{-1}A^{-1}，顺序反转；同样 (A^T)^{-1}=(A^{-1})^T。", "formula": "(AB)^{-1} = B^{-1}A^{-1}" },
+        { "title": "Gauss-Jordan 求逆", "detail": "对增广矩阵 [A | I] 做消元直到左边变成 I，右边自动变成 A^{-1}。" }
+      ],
+      "terms": [
+        { "term": "inverse matrix 逆矩阵", "definition": "满足 AA^{-1}=I 的矩阵，存在时唯一。" },
+        { "term": "Gauss-Jordan elimination 高斯-若尔当消元", "definition": "把矩阵消到简化行阶梯形，可一次性求出逆矩阵。" },
+        { "term": "rank-one matrix 秩 1 矩阵", "definition": "形如列向量乘行向量 uv^T 的矩阵，是矩阵乘法分解的基本积木。" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "把消元过程整理成 A=LU 分解：L 是下三角且对角为 1、元素恰是消元乘数，U 是消元结果。讨论为什么 L 比 E 的乘积更漂亮，以及需要行交换时的 PA=LU。",
+      "keyPoints": [
+        { "title": "A=LU 分解", "detail": "消元得到 U 后，把各步乘数直接填进 L 的对应位置即可，无需再算矩阵乘积。", "formula": "A = LU" },
+        { "title": "L 中乘数直接可读", "detail": "E 的逆的乘积不会互相干扰，所以 L 的 (i,j) 元素就是消元时第 i 行减去第 j 行的倍数。" },
+        { "title": "LDU 形式", "detail": "把 U 的主元提出成对角矩阵 D，得到 A=LDU，其中 L、U 对角线均为 1，形式更对称。", "formula": "A = LDU" },
+        { "title": "PA=LU", "detail": "当消元需要行交换时，先用置换矩阵 P 把行排好，再做 LU 分解；n×n 共有 n! 个置换矩阵，且 P^{-1}=P^T。" },
+        { "title": "分解的价值", "detail": "有了 LU，对同一个 A 的不同右端 b 只需两次三角求解（Lc=b、Ux=c），代价从 n^3 降到 n^2。" }
+      ],
+      "terms": [
+        { "term": "LU decomposition LU 分解", "definition": "把方阵分解为下三角与上三角矩阵之积，是数值求解线性方程组的标准做法。" },
+        { "term": "lower triangular matrix 下三角矩阵", "definition": "主对角线以上元素全为 0 的矩阵。" },
+        { "term": "operation count 运算量", "definition": "算法所需乘加次数，消元约为 n^3/3，衡量数值方法效率的基本指标。" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "先补完置换矩阵的群结构与转置性质，再正式给出向量空间与子空间的公理化定义。核心信息：空间必须对加法和数乘封闭，R^n 的子空间只有原点、过原点的直线/平面等有限几类。",
+      "keyPoints": [
+        { "title": "置换矩阵的性质", "detail": "P 的行是单位矩阵行的重排，满足 P^{-1}=P^T；n×n 置换矩阵共 n! 个，构成一个群。", "formula": "P^{-1} = P^{T}" },
+        { "title": "转置与对称矩阵", "detail": "(A^T)_{ij}=A_{ji}；A=A^T 称对称矩阵，且对任意 R，R^T R 总是对称的。", "formula": "(R^{T}R)^{T} = R^{T}R" },
+        { "title": "向量空间的封闭性", "detail": "向量空间对加法和标量乘法封闭，因此必须包含零向量；不过原点的平面不是子空间。" },
+        { "title": "R^3 的全部子空间", "detail": "只有四类：{0}、过原点的直线、过原点的平面、R^3 本身。" },
+        { "title": "子空间的交与并", "detail": "两个子空间的交仍是子空间，但并集通常不是（对加法不封闭）。" }
+      ],
+      "terms": [
+        { "term": "vector space 向量空间", "definition": "对加法与数乘封闭并满足八条公理的向量集合。" },
+        { "term": "subspace 子空间", "definition": "向量空间中本身也构成向量空间的子集，必含零向量。" },
+        { "term": "transpose 转置", "definition": "把矩阵的行与列互换得到的矩阵。" },
+        { "term": "symmetric matrix 对称矩阵", "definition": "满足 A=A^T 的方阵。" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "定义 A 的列空间 C(A)（所有列的线性组合，即所有可解的 b）与零空间 N(A)（所有满足 Ax=0 的 x），并验证二者都是子空间。这一集把「Ax=b 何时可解」和「解是否唯一」两个问题分别对应到两个子空间。",
+      "keyPoints": [
+        { "title": "列空间 C(A)", "detail": "A 的列张成的子空间，是 R^m 的子空间；Ax=b 有解当且仅当 b ∈ C(A)。" },
+        { "title": "零空间 N(A)", "detail": "所有使 Ax=0 的 x 组成的集合，是 R^n 的子空间，必含零向量。", "formula": "N(A) = \\{x \\in \\mathbb{R}^{n} : Ax = 0\\}" },
+        { "title": "为什么零空间是子空间", "detail": "若 Ax=0 且 Ay=0，则 A(x+cy)=0，加法与数乘封闭性直接由矩阵线性性给出。" },
+        { "title": "Ax=b 的解集不是子空间", "detail": "当 b≠0 时解集不含原点，只是零空间平移后的仿射集合。" },
+        { "title": "两个问题两个空间", "detail": "存在性问题看列空间，唯一性问题看零空间，这一对偶贯穿全课。" }
+      ],
+      "terms": [
+        { "term": "column space 列空间", "definition": "矩阵所有列向量的线性组合构成的子空间。" },
+        { "term": "null space 零空间", "definition": "使 Ax=0 的全部解向量构成的子空间。" },
+        { "term": "span 张成", "definition": "一组向量所有线性组合构成的集合。" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "给出求零空间的完整算法：消元得到行阶梯形 U，区分主元列与自由列，对每个自由变量取 1 其余取 0 得到一个特解，特解张成零空间。同时引入秩 r 与简化行阶梯形 R。",
+      "keyPoints": [
+        { "title": "主变量与自由变量", "detail": "主元所在列对应主变量，其余列对应自由变量；自由变量个数 = n − r，就是零空间的维数。" },
+        { "title": "秩 r 的定义", "detail": "秩就是消元后主元的个数，等于矩阵中真正独立的行（列）数。" },
+        { "title": "特解的构造", "detail": "让某个自由变量取 1、其他自由变量取 0，回代解出主变量，得到一个特解；n−r 个特解构成零空间的一组基。" },
+        { "title": "简化行阶梯形 R", "detail": "继续向上消元并把主元化为 1，得到 R=[I F; 0 0]，零空间基可直接读出为 N=[−F; I]。", "formula": "R = \\begin{bmatrix} I & F \\\\ 0 & 0 \\end{bmatrix},\\quad N = \\begin{bmatrix} -F \\\\ I \\end{bmatrix}" },
+        { "title": "RN=0 的验证", "detail": "把零空间矩阵 N 代回 R 立刻得到 0，这是「−F 从哪来」的最快解释。" }
+      ],
+      "terms": [
+        { "term": "rank 秩", "definition": "矩阵消元后主元的个数，等于列空间（也等于行空间）的维数。" },
+        { "term": "pivot variable 主变量", "definition": "对应主元列的未知数，由自由变量决定。" },
+        { "term": "free variable 自由变量", "definition": "不对应主元列的未知数，可任意取值。" },
+        { "term": "reduced row echelon form 简化行阶梯形", "definition": "主元为 1 且主元列其余元素为 0 的最简形式，记作 R 或 rref(A)。" },
+        { "term": "special solution 特解", "definition": "令一个自由变量为 1、其余为 0 得到的 Ax=0 的解。" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "把上一集的方法推广到 Ax=b：先判可解性（消元后 0 行对应的右端必须为 0），再写出完整解 = 一个特解 + 零空间。最后按秩把 m×n 矩阵分四种情形讨论解的个数。",
+      "keyPoints": [
+        { "title": "可解性条件", "detail": "Ax=b 有解当且仅当 b 在列空间中；消元后若 U 的某行全零而右端非零则无解。" },
+        { "title": "完整解结构", "detail": "全部解 = 一个特解 x_p（自由变量取 0）+ 零空间中任意向量 x_n。", "formula": "x = x_p + x_n,\\quad A x_p = b,\\ A x_n = 0" },
+        { "title": "解集是平移的子空间", "detail": "解集不过原点，是零空间沿 x_p 平移得到的仿射子空间，维数为 n−r。" },
+        { "title": "按秩分类", "detail": "r=m=n 唯一解；r=n<m 零个或一个解；r=m<n 无穷多解；r<m 且 r<n 零个或无穷多解。" },
+        { "title": "秩决定一切", "detail": "解的存在性与唯一性完全由秩 r 与 m、n 的关系确定，与具体数值无关。" }
+      ],
+      "terms": [
+        { "term": "particular solution 特解", "definition": "满足 Ax=b 的任一具体解。" },
+        { "term": "full rank 满秩", "definition": "秩达到 min(m,n) 的情形，分为列满秩与行满秩。" },
+        { "term": "complete solution 通解", "definition": "特解加上零空间全部向量构成的解集合。" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "把线性无关、张成、基、维数四个概念一次讲清，并说明它们都是空间的性质而非某个矩阵的性质。关键结论：同一空间的所有基含相同个数的向量，这个数就是维数。",
+      "keyPoints": [
+        { "title": "线性无关的定义", "detail": "向量组无关当且仅当只有系数全为 0 的组合才等于零向量；用矩阵说就是 N(A)={0}。" },
+        { "title": "无关与秩的关系", "detail": "A 的列无关 ⟺ r=n ⟺ 没有自由变量；若 m<n 则列必然相关（方程比未知数少）。" },
+        { "title": "张成空间 Span", "detail": "一组向量的所有线性组合构成的最小子空间；张成不要求无关。" },
+        { "title": "基 Basis", "detail": "既线性无关又张成整个空间的向量组，是空间的最小生成集也是最大无关组。" },
+        { "title": "维数 Dimension", "detail": "任一基中向量的个数，与基的选取无关；dim C(A)=r，dim N(A)=n−r。", "formula": "\\dim C(A) + \\dim N(A) = n" }
+      ],
+      "terms": [
+        { "term": "linear independence 线性无关", "definition": "任一向量都不能被其余向量线性表出。" },
+        { "term": "basis 基", "definition": "线性无关且张成整个空间的一组向量。" },
+        { "term": "dimension 维数", "definition": "空间任一基所含向量的个数。" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "本课的枢纽一集：列空间、零空间、行空间、左零空间四个基本子空间，各自的维数、所在的大空间、以及如何从简化行阶梯形读出它们的基。线性代数基本定理第一部分在此成型。",
+      "keyPoints": [
+        { "title": "四个子空间与维数", "detail": "C(A) ⊂ R^m 维数 r；N(A) ⊂ R^n 维数 n−r；C(A^T) ⊂ R^n 维数 r；N(A^T) ⊂ R^m 维数 m−r。", "formula": "\\dim C(A)=\\dim C(A^{T})=r" },
+        { "title": "行空间的基", "detail": "行空间在消元中不变，所以 R 的非零行就是行空间的一组基；但列空间会变，列空间的基要取原矩阵 A 的主元列。" },
+        { "title": "行秩 = 列秩", "detail": "行空间与列空间维数都等于 r，这是全课最漂亮的结论之一。" },
+        { "title": "左零空间", "detail": "N(A^T) 满足 A^T y=0，等价于 y^T A=0，故称左零空间；用 E A=R 中 E 的最后 m−r 行可读出它的基。" },
+        { "title": "维数守恒", "detail": "R^n 被行空间与零空间分成 r 与 n−r，R^m 被列空间与左零空间分成 r 与 m−r，为下一步的正交性作准备。" }
+      ],
+      "terms": [
+        { "term": "row space 行空间", "definition": "矩阵所有行向量的线性组合构成的子空间，即 C(A^T)。" },
+        { "term": "left null space 左零空间", "definition": "满足 A^T y = 0 的向量构成的子空间。" },
+        { "term": "fundamental theorem of linear algebra 线性代数基本定理", "definition": "刻画四个基本子空间维数与正交关系的核心定理。" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "把「向量空间」概念推广到矩阵空间、函数空间与微分方程解空间，说明基与维数的定义完全通用。后半段讲秩 1 矩阵是所有矩阵的积木，并用小世界图引出图论与线性代数的联系。",
+      "keyPoints": [
+        { "title": "矩阵空间", "detail": "全体 3×3 矩阵构成维数为 9 的空间，对称矩阵子空间维数 6，上三角子空间维数 6，二者的交（对角阵）维数 3。", "formula": "\\dim(S+U) = \\dim S + \\dim U - \\dim(S \\cap U)" },
+        { "title": "函数与解空间", "detail": "微分方程 y''+y=0 的解空间由 cos x 与 sin x 张成，维数为 2——线性代数的语言完全适用。" },
+        { "title": "秩 1 矩阵", "detail": "任何秩 1 矩阵都可写成 uv^T；秩 r 矩阵是 r 个秩 1 矩阵之和，这是 SVD 的雏形。", "formula": "A = uv^{T}" },
+        { "title": "秩 1 矩阵集合不是子空间", "detail": "两个秩 1 矩阵相加秩可能变成 2，对加法不封闭。" },
+        { "title": "小世界图", "detail": "用图的邻接结构与「六度分隔」引入图，为下一集图与网络的关联矩阵铺垫。" }
+      ],
+      "terms": [
+        { "term": "matrix space 矩阵空间", "definition": "以矩阵为元素、按元素加法与数乘构成的向量空间。" },
+        { "term": "small world graph 小世界图", "definition": "节点间平均路径很短的图模型，用于刻画社交网络。" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "把线性代数用到电路与网络：图的关联矩阵 A 的零空间是电位常数、左零空间对应基尔霍夫电流定律的回路，四个子空间在这里都有物理意义。最后给出欧拉公式与平衡方程 A^T C A x = f。",
+      "keyPoints": [
+        { "title": "关联矩阵 Incidence Matrix", "detail": "每条边一行，起点记 −1、终点记 +1，把图完全编码成矩阵。" },
+        { "title": "零空间与电位", "detail": "N(A) 由全 1 向量张成，维数 1，含义是所有节点电位同时加常数不改变电位差。" },
+        { "title": "行空间与生成树", "detail": "无关的行对应图中不构成回路的边，r = 节点数 − 1，恰是一棵生成树的边数。" },
+        { "title": "左零空间与基尔霍夫电流定律", "detail": "N(A^T) 的维数 m−r 等于独立回路数，A^T y=0 即每个节点流入等于流出。" },
+        { "title": "欧拉公式", "detail": "由 dim N(A^T)=m−r 直接推出「节点 − 边 + 回路 = 1」，即欧拉公式。", "formula": "\\#nodes - \\#edges + \\#loops = 1" },
+        { "title": "平衡方程", "detail": "把电位差 e=Ax、欧姆定律 y=Ce、电流守恒 A^T y=f 串起来得到 A^T C A x = f，这是应用数学的通用框架。", "formula": "A^{T}CAx = f" }
+      ],
+      "terms": [
+        { "term": "incidence matrix 关联矩阵", "definition": "描述图中边与节点连接关系的 0/±1 矩阵。" },
+        { "term": "Kirchhoff's current law 基尔霍夫电流定律", "definition": "任一节点流入电流之和等于流出之和。" },
+        { "term": "spanning tree 生成树", "definition": "连通图中包含所有节点且无回路的边子集。" },
+        { "term": "Euler's formula 欧拉公式", "definition": "连通图中节点数减边数加回路数恒等于 1。" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "第一次单元复习，把消元、逆、LU、秩、四个基本子空间串成一条线。Strang 通过讲评往年考题演示如何从「秩 + 尺寸」瞬间判断解的结构，是检验前 12 讲掌握程度的关键一集。",
+      "keyPoints": [
+        { "title": "从秩读解的结构", "detail": "看到 m、n、r 三个数，就能立刻说出解的存在性、唯一性与自由变量个数。" },
+        { "title": "四个子空间的速查", "detail": "把 dim C(A)=r、dim N(A)=n−r、dim C(A^T)=r、dim N(A^T)=m−r 背成本能。" },
+        { "title": "典型考题模式", "detail": "给出零空间的特解反推矩阵、给出 rref 反推列空间、判断某个 b 是否可解，都是常考套路。" },
+        { "title": "可逆的等价刻画", "detail": "方阵可逆 ⟺ 满秩 ⟺ 零空间只有零向量 ⟺ 列是 R^n 的基 ⟺ 消元有 n 个主元。" }
+      ],
+      "terms": [
+        { "term": "invertibility criteria 可逆判据", "definition": "方阵可逆的一系列等价条件集合。" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "进入课程第二大块——正交性。先定义向量正交（内积为 0）与子空间正交，然后给出核心定理：行空间与零空间在 R^n 中互为正交补，列空间与左零空间在 R^m 中互为正交补。",
+      "keyPoints": [
+        { "title": "正交向量", "detail": "x^T y=0 即两向量正交，等价于勾股定理 ||x||^2+||y||^2=||x+y||^2；零向量与任何向量正交。", "formula": "x^{T}y = 0" },
+        { "title": "子空间正交", "detail": "两个子空间正交是指其中任一向量都与另一空间中每个向量正交，例如墙与地面并不正交（交线上的向量与自身不正交）。" },
+        { "title": "正交补定理", "detail": "N(A) ⊥ C(A^T) 且二者维数相加为 n，所以互为正交补；这是线性代数基本定理第二部分。", "formula": "N(A) = C(A^{T})^{\\perp}" },
+        { "title": "为什么正交", "detail": "Ax=0 逐行看就是每一行与 x 内积为 0，因此 x 与所有行的线性组合正交。" },
+        { "title": "A^T A 的关键性质", "detail": "A^T A 是对称方阵，且 N(A^T A)=N(A)；当 A 列无关时 A^T A 可逆，这直接支撑下一集的最小二乘。", "formula": "N(A^{T}A) = N(A)" }
+      ],
+      "terms": [
+        { "term": "orthogonal 正交", "definition": "内积为零，几何上互相垂直。" },
+        { "term": "orthogonal complement 正交补", "definition": "与给定子空间中每个向量都正交的全部向量构成的子空间。" },
+        { "term": "inner product 内积", "definition": "两向量对应分量乘积之和，记作 x^T y。" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "讲投影：先做一维投影（把 b 投到直线 a 上），再推广到把 b 投到列空间上，得到投影矩阵 P=A(A^TA)^{-1}A^T。核心动机是当 Ax=b 无解时，退而求解最接近的 Ax=p。",
+      "keyPoints": [
+        { "title": "投影到一条直线", "detail": "p=x̂a，由误差 e=b−p 与 a 正交得 x̂=a^Tb/(a^Ta)，投影矩阵 P=aa^T/(a^Ta)。", "formula": "P = \\frac{aa^{T}}{a^{T}a}" },
+        { "title": "投影到子空间", "detail": "把 b 投到 C(A)：误差 b−Ax̂ 必须与所有列正交，即 A^T(b−Ax̂)=0，解出 x̂=(A^TA)^{-1}A^Tb。", "formula": "\\hat{x} = (A^{T}A)^{-1}A^{T}b" },
+        { "title": "投影矩阵公式", "detail": "p=Pb，其中 P=A(A^TA)^{-1}A^T，注意 A 一般不是方阵，不能把括号拆开。", "formula": "P = A(A^{T}A)^{-1}A^{T}" },
+        { "title": "P 的两条性质", "detail": "P^T=P（对称）且 P^2=P（投影两次等于投影一次）；I−P 是投到正交补（左零空间）的投影。" },
+        { "title": "为什么要投影", "detail": "现实中方程通常多于未知数、b 不在列空间里，投影给出「最好的近似解」，即最小二乘。" }
+      ],
+      "terms": [
+        { "term": "projection 投影", "definition": "把向量分解为子空间内分量与正交误差分量的操作。" },
+        { "term": "projection matrix 投影矩阵", "definition": "满足 P^2=P 且 P^T=P 的矩阵，作用是把任意向量投到某子空间。" },
+        { "term": "error vector 误差向量", "definition": "原向量减去其投影，垂直于被投影的子空间。" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "把投影落到最小二乘拟合上：用直线拟合若干数据点，法方程 A^TAx̂=A^Tb 给出使误差平方和最小的系数。并证明当 A 列无关时 A^TA 可逆，保证解唯一。",
+      "keyPoints": [
+        { "title": "法方程 Normal Equations", "detail": "最小二乘解满足 A^TAx̂=A^Tb，这是把无解方程组两边同乘 A^T 得到的可解方程。", "formula": "A^{T}A\\hat{x} = A^{T}b" },
+        { "title": "最小二乘拟合直线", "detail": "拟合 y=C+Dt 时 A 的两列是全 1 与 t，最小化 Σ(C+Dt_i−y_i)^2 等价于解法方程。", "formula": "\\min \\sum_{i}(C + Dt_i - y_i)^{2}" },
+        { "title": "微积分与几何两条路", "detail": "对误差平方和求偏导置零，得到的方程组与几何投影推出的法方程完全一致。" },
+        { "title": "A^TA 可逆的条件", "detail": "A 列线性无关 ⟺ N(A)={0} ⟺ A^TA 可逆；证明用 A^TAx=0 ⟹ x^TA^TAx=||Ax||^2=0 ⟹ Ax=0。" },
+        { "title": "误差与投影的正交分解", "detail": "b=p+e，p 在列空间、e 在左零空间，二者正交，误差范数 ||e|| 就是最小的那个。" }
+      ],
+      "terms": [
+        { "term": "least squares 最小二乘", "definition": "在无解的超定方程组中求使残差平方和最小的近似解。" },
+        { "term": "normal equations 法方程", "definition": "最小二乘问题等价的可解方程 A^TAx=A^Tb。" },
+        { "term": "overdetermined system 超定方程组", "definition": "方程个数多于未知数、通常无精确解的方程组。" }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "标准正交基让所有公式变简单：Q^TQ=I 时投影矩阵变成 QQ^T，系数直接由内积给出。Gram-Schmidt 把任意无关向量组正交化，对应矩阵分解 A=QR。",
+      "keyPoints": [
+        { "title": "标准正交向量组", "detail": "两两正交且长度为 1，写成矩阵 Q 满足 Q^TQ=I；若 Q 是方阵则 Q^T=Q^{-1}，称正交矩阵。", "formula": "Q^{T}Q = I" },
+        { "title": "正交基下的投影", "detail": "P=Q(Q^TQ)^{-1}Q^T 化简成 QQ^T，系数 x̂=Q^Tb，每个分量就是与对应基向量的内积。", "formula": "p = QQ^{T}b" },
+        { "title": "Gram-Schmidt 过程", "detail": "依次减去在已得正交向量上的投影再单位化：B=b−(A^Tb/A^TA)A，可推广到任意多个向量。", "formula": "B = b - \\frac{A^{T}b}{A^{T}A}A" },
+        { "title": "A=QR 分解", "detail": "Gram-Schmidt 的矩阵形式，R 是上三角且 R=Q^TA，是数值上求最小二乘的稳定做法。", "formula": "A = QR" },
+        { "title": "正交矩阵保长度", "detail": "||Qx||=||x||，正交变换是旋转或反射，不改变长度与夹角，因此数值上非常稳定。" }
+      ],
+      "terms": [
+        { "term": "orthonormal 标准正交", "definition": "向量两两正交且各自长度为 1。" },
+        { "term": "orthogonal matrix 正交矩阵", "definition": "列为标准正交基的方阵，满足 Q^TQ=QQ^T=I。" },
+        { "term": "Gram-Schmidt process 格拉姆-施密特正交化", "definition": "把线性无关向量组逐步正交化并单位化的算法。" },
+        { "term": "QR decomposition QR 分解", "definition": "把矩阵分解为正交矩阵与上三角矩阵之积。" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "转入行列式主题。Strang 用三条公理（单位矩阵为 1、交换行变号、每行线性）出发，推出行列式的全部十条性质，包括与可逆性、消元、转置、乘积的关系。",
+      "keyPoints": [
+        { "title": "三条基本性质", "detail": "det I=1；交换两行行列式变号；行列式对每一行是线性的（其他行固定）。", "formula": "\\det I = 1" },
+        { "title": "推论性质", "detail": "两行相等则行列式为 0；行相减不改变行列式；有零行则行列式为 0。" },
+        { "title": "三角矩阵的行列式", "detail": "上（下）三角矩阵行列式等于对角元素之积，因此消元后一乘即得。", "formula": "\\det U = d_1 d_2 \\cdots d_n" },
+        { "title": "行列式与可逆", "detail": "det A=0 ⟺ A 奇异；det A≠0 ⟺ A 可逆，这是最重要的判据。" },
+        { "title": "乘积与转置", "detail": "det(AB)=det A·det B，det(A^{-1})=1/det A，det(A^T)=det A（所以行性质对列同样成立）。", "formula": "\\det(AB) = \\det A \\cdot \\det B" }
+      ],
+      "terms": [
+        { "term": "determinant 行列式", "definition": "方阵的一个标量函数，为零当且仅当矩阵奇异，几何上表示体积缩放因子。" },
+        { "term": "multilinearity 多线性", "definition": "行列式关于每一行（列）分别是线性函数的性质。" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "给出行列式的两种显式公式：n! 项的大公式（每项取自不同行不同列，符号由置换奇偶决定）与按行展开的代数余子式公式，并说明二者如何互相导出。",
+      "keyPoints": [
+        { "title": "大公式 Big Formula", "detail": "det A 是 n! 项之和，每项取自各行各列各一个元素，符号由置换的奇偶性决定。", "formula": "\\det A = \\sum_{\\sigma} \\operatorname{sgn}(\\sigma) \\prod_{i} a_{i\\sigma(i)}" },
+        { "title": "代数余子式展开", "detail": "沿第一行展开 det A = a_11 C_11 + a_12 C_12 + …，把 n 阶行列式降为 n−1 阶。", "formula": "\\det A = \\sum_{j} a_{1j} C_{1j}" },
+        { "title": "余子式与代数余子式", "detail": "C_ij = (−1)^{i+j} M_ij，其中 M_ij 是划掉第 i 行第 j 列后的子行列式。", "formula": "C_{ij} = (-1)^{i+j} M_{ij}" },
+        { "title": "三对角矩阵的递推", "detail": "对特殊结构矩阵展开会得到递推式（如 D_n=D_{n-1}−D_{n-2}），出现周期性结果，是经典练习。" },
+        { "title": "三种算法的取舍", "detail": "消元求主元乘积最实用（n^3），大公式与余子式主要用于理论推导与小矩阵。" }
+      ],
+      "terms": [
+        { "term": "cofactor 代数余子式", "definition": "带符号的子行列式 (−1)^{i+j}M_ij。" },
+        { "term": "minor 余子式", "definition": "删去某行某列后剩余矩阵的行列式。" },
+        { "term": "permutation sign 置换符号", "definition": "置换可分解为的对换次数的奇偶性对应的 ±1。" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "行列式的三大应用：用伴随矩阵给出 A^{-1} 的显式公式、用克拉默法则写出解的分量、以及行列式等于平行六面体体积的几何意义。",
+      "keyPoints": [
+        { "title": "伴随矩阵求逆", "detail": "A^{-1} = C^T/det A，其中 C 是代数余子式矩阵；证明关键是 A C^T = (det A) I。", "formula": "A^{-1} = \\frac{1}{\\det A}C^{T}" },
+        { "title": "克拉默法则", "detail": "x_j = det B_j / det A，B_j 是把 A 的第 j 列换成 b 得到的矩阵；理论优美但计算昂贵。", "formula": "x_j = \\frac{\\det B_j}{\\det A}" },
+        { "title": "行列式即体积", "detail": "|det A| 等于以 A 的行（列）为棱的平行六面体体积，正交矩阵体积为 1，符号表示定向。" },
+        { "title": "为什么体积满足三条性质", "detail": "单位立方体体积为 1、交换棱改变定向、沿一条棱伸缩体积成比例——恰好就是行列式的三条公理。" },
+        { "title": "三角形面积公式", "detail": "由行列式立刻推出平面三角形面积 = |x_1(y_2−y_3)+x_2(y_3−y_1)+x_3(y_1−y_2)|/2。" }
+      ],
+      "terms": [
+        { "term": "Cramer's rule 克拉默法则", "definition": "用行列式之比表示线性方程组解的公式。" },
+        { "term": "adjugate matrix 伴随矩阵", "definition": "代数余子式矩阵的转置，用于逆矩阵的显式表达。" },
+        { "term": "volume 体积", "definition": "行列式绝对值的几何解释，即向量张成的平行多面体的体积。" }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "进入课程第三大块——特征值。定义 Ax=λx，用 det(A−λI)=0 求特征值再解零空间得特征向量。给出迹与行列式的快速校验，以及旋转矩阵出现复特征值的例子。",
+      "keyPoints": [
+        { "title": "特征值方程", "detail": "非零向量 x 满足 Ax=λx 时称特征向量，λ 为特征值，几何意义是方向不变只被拉伸。", "formula": "Ax = \\lambda x" },
+        { "title": "特征多项式", "detail": "由 (A−λI)x=0 需有非零解得 det(A−λI)=0，解出 n 个根（含重根与复根）。", "formula": "\\det(A - \\lambda I) = 0" },
+        { "title": "迹与行列式", "detail": "特征值之和等于迹，特征值之积等于行列式，是最快的验算手段。", "formula": "\\sum \\lambda_i = \\operatorname{tr}(A),\\quad \\prod \\lambda_i = \\det A" },
+        { "title": "平移的影响", "detail": "A+cI 的特征值是 λ+c，特征向量不变；但 A+B 的特征值一般不是 λ_A+λ_B。" },
+        { "title": "特殊矩阵的特征值", "detail": "投影矩阵特征值只有 0 和 1；置换/旋转矩阵可能出现复特征值；对称矩阵特征值全实。" }
+      ],
+      "terms": [
+        { "term": "eigenvalue 特征值", "definition": "使 Ax=λx 有非零解的标量。" },
+        { "term": "eigenvector 特征向量", "definition": "被矩阵作用后只改变长度不改变方向的非零向量。" },
+        { "term": "characteristic polynomial 特征多项式", "definition": "det(A−λI) 关于 λ 的 n 次多项式，其根为特征值。" },
+        { "term": "trace 迹", "definition": "方阵主对角线元素之和，等于全部特征值之和。" }
+      ]
+    },
+    {
+      "n": 22,
+      "summary": "当 A 有 n 个无关特征向量时，可写成 A=SΛS^{-1}，从而 A^k=SΛ^kS^{-1}，把矩阵幂化为对角元素的幂。用来分析差分方程与 Fibonacci 数列的增长率。",
+      "keyPoints": [
+        { "title": "对角化", "detail": "把特征向量排成 S 的列，则 AS=SΛ，即 A=SΛS^{-1}，Λ 是特征值构成的对角矩阵。", "formula": "A = S\\Lambda S^{-1}" },
+        { "title": "可对角化条件", "detail": "需要 n 个线性无关的特征向量；特征值互不相同时一定可对角化，重根时可能不行。" },
+        { "title": "矩阵的幂", "detail": "A^k=SΛ^kS^{-1}，长期行为由 |λ| 最大的那个特征值主导，|λ|<1 时 A^k→0。", "formula": "A^{k} = S\\Lambda^{k}S^{-1}" },
+        { "title": "差分方程 u_{k+1}=Au_k", "detail": "把初值 u_0 展开成特征向量组合，则 u_k=Σ c_i λ_i^k x_i，各模式独立演化。", "formula": "u_k = \\sum_i c_i \\lambda_i^{k} x_i" },
+        { "title": "Fibonacci 例子", "detail": "用 2×2 矩阵表示 F_{k+2}=F_{k+1}+F_k，特征值为黄金比例 (1±√5)/2，增长率约 1.618。", "formula": "\\lambda = \\frac{1 \\pm \\sqrt{5}}{2}" }
+      ],
+      "terms": [
+        { "term": "diagonalization 对角化", "definition": "把矩阵写成 SΛS^{-1} 形式，S 由特征向量组成。" },
+        { "term": "difference equation 差分方程", "definition": "描述离散时间序列递推关系的方程。" },
+        { "term": "eigenvalue decomposition 特征值分解", "definition": "基于特征向量与特征值的矩阵分解。" }
+      ]
+    },
+    {
+      "n": 23,
+      "summary": "把对角化用于常系数线性微分方程组 du/dt=Au：解为 u(t)=Σ c_i e^{λ_i t} x_i，稳定性由特征值实部决定。随后定义矩阵指数 e^{At} 并给出其级数与对角化两种算法。",
+      "keyPoints": [
+        { "title": "微分方程组的解", "detail": "把初值展开为特征向量组合，每个模式按 e^{λt} 演化，得到 u(t)=Σ c_i e^{λ_i t} x_i。", "formula": "u(t) = \\sum_i c_i e^{\\lambda_i t}x_i" },
+        { "title": "稳定性判据", "detail": "所有 Re(λ)<0 时解趋于 0（稳定）；有 Re(λ)>0 则发散；2×2 情形可用 tr<0 且 det>0 判断。" },
+        { "title": "矩阵指数", "detail": "e^{At} 由级数 I+At+(At)^2/2!+… 定义，可对角化时等于 S e^{Λt} S^{-1}。", "formula": "e^{At} = Se^{\\Lambda t}S^{-1}" },
+        { "title": "高阶方程降阶", "detail": "把 y''+by'+ky=0 写成一阶方程组 u'=Au（伴随矩阵形式），从而复用特征值方法。" },
+        { "title": "解耦的核心思想", "detail": "令 u=Sv 把耦合方程变成 v'=Λv，各分量互不干扰，这是「换基使问题简单」的典型案例。" }
+      ],
+      "terms": [
+        { "term": "matrix exponential 矩阵指数", "definition": "由幂级数定义的 e^{At}，是线性微分方程组的解算子。" },
+        { "term": "stability 稳定性", "definition": "解随时间趋于零的性质，由特征值实部符号决定。" },
+        { "term": "decoupling 解耦", "definition": "通过换基把互相耦合的方程变为彼此独立的方程。" }
+      ]
+    },
+    {
+      "n": 24,
+      "summary": "两个应用：马尔可夫矩阵（列和为 1、非负）必有特征值 1，对应稳态分布；以及以正交基展开的思想，从投影推广到傅里叶级数。",
+      "keyPoints": [
+        { "title": "马尔可夫矩阵", "detail": "元素非负且每列和为 1，λ=1 一定是特征值（因为 A−I 的列和为 0，行相关），其余 |λ|≤1。" },
+        { "title": "稳态分布", "detail": "u_k=A^k u_0 收敛到 λ=1 对应的特征向量方向，总量守恒，是 PageRank 一类算法的原理。", "formula": "u_{\\infty} = c_1 x_1,\\quad Ax_1 = x_1" },
+        { "title": "标准正交基展开", "detail": "在标准正交基下 v=Σ (q_i^T v) q_i，系数由内积直接给出，无需解方程。", "formula": "v = \\sum_i (q_i^{T}v)q_i" },
+        { "title": "傅里叶级数", "detail": "把函数空间中的 1、cos x、sin x、cos 2x… 视为无穷维正交基，系数用积分内积求出。", "formula": "f(x) = a_0 + \\sum_{k\\ge 1}(a_k\\cos kx + b_k\\sin kx)" },
+        { "title": "函数内积", "detail": "定义 (f,g)=∫f g dx，正交性变成积分为 0，线性代数的语言原样搬到无穷维。" }
+      ],
+      "terms": [
+        { "term": "Markov matrix 马尔可夫矩阵", "definition": "元素非负且每列元素和为 1 的方阵，用于描述状态转移概率。" },
+        { "term": "steady state 稳态", "definition": "马尔可夫过程长期收敛到的分布，即 λ=1 的特征向量。" },
+        { "term": "Fourier series 傅里叶级数", "definition": "把周期函数展开为正交三角函数级数。" }
+      ]
+    },
+    {
+      "n": 25,
+      "summary": "第二次复习，重点是特征值、对角化、差分与微分方程、马尔可夫矩阵、投影与最小二乘。Strang 通过考题演示如何在不硬算特征多项式的情况下推断特征值。",
+      "keyPoints": [
+        { "title": "不算多项式推特征值", "detail": "利用秩、迹、行列式、投影/置换等结构信息直接判断特征值，是考试与实践的常用捷径。" },
+        { "title": "对角化的适用边界", "detail": "重复特征值时要检查几何重数是否等于代数重数，否则不可对角化。" },
+        { "title": "离散与连续的对应", "detail": "差分方程看 |λ| 与 1 的关系，微分方程看 Re(λ) 与 0 的关系，二者由 e^{λt} 联系。" },
+        { "title": "综合题型", "detail": "常见把投影矩阵、马尔可夫矩阵、微分方程组混合考查，核心仍是分解 A 与展开初值。" }
+      ],
+      "terms": [
+        { "term": "algebraic multiplicity 代数重数", "definition": "特征值作为特征多项式根的重数。" },
+        { "term": "geometric multiplicity 几何重数", "definition": "特征值对应特征空间的维数。" }
+      ]
+    },
+    {
+      "n": 26,
+      "summary": "对称矩阵是线性代数中最好的矩阵：特征值全为实数、特征向量可取标准正交，从而 A=QΛQ^T（谱定理）。并给出正定性的初步判据：主元、特征值、行列式全为正。",
+      "keyPoints": [
+        { "title": "谱定理", "detail": "实对称矩阵可正交对角化 A=QΛQ^T，特征值实、特征向量正交。", "formula": "A = Q\\Lambda Q^{T}" },
+        { "title": "特征值为实的证明", "detail": "由 Ax=λx 取共轭转置并结合 A=A^T 推出 λ=λ̄，故 λ 为实数。" },
+        { "title": "谱分解为投影之和", "detail": "A=Σ λ_i q_i q_i^T，即对称矩阵是若干正交投影矩阵的加权和。", "formula": "A = \\sum_i \\lambda_i q_i q_i^{T}" },
+        { "title": "主元与特征值同号", "detail": "对称矩阵中正主元的个数等于正特征值的个数，这给出不必求特征值的快速判定。" },
+        { "title": "正定的初步定义", "detail": "对称且全部特征值为正（等价于全部主元为正、全部顺序主子式为正）。" }
+      ],
+      "terms": [
+        { "term": "spectral theorem 谱定理", "definition": "实对称矩阵总可以由正交特征向量对角化。" },
+        { "term": "positive definite matrix 正定矩阵", "definition": "对称且所有特征值为正的矩阵。" },
+        { "term": "leading principal minor 顺序主子式", "definition": "取矩阵左上角 k×k 子块的行列式。" }
+      ]
+    },
+    {
+      "n": 27,
+      "summary": "把实向量与实矩阵推广到复数：内积改为共轭转置、对称推广为 Hermite、正交推广为酉。后半段讲傅里叶矩阵 F_n 与其快速算法 FFT，把 n^2 降到 n log n。",
+      "keyPoints": [
+        { "title": "复内积与长度", "detail": "复向量长度用 x̄^T x，记作 x^H x，保证结果为正实数。", "formula": "\\|x\\|^{2} = x^{H}x" },
+        { "title": "Hermite 矩阵与酉矩阵", "detail": "A^H=A 称 Hermite 矩阵（特征值实）；Q^HQ=I 称酉矩阵，是正交矩阵在复数域的推广。" },
+        { "title": "傅里叶矩阵", "detail": "F_n 的 (j,k) 元素是 w^{jk}，其中 w=e^{2πi/n} 是 n 次单位根；F_n/√n 是酉矩阵。", "formula": "(F_n)_{jk} = w^{jk},\\quad w = e^{2\\pi i/n}" },
+        { "title": "FFT 的递归分解", "detail": "F_{2n} 可分解为置换、两个 F_n 与对角修正矩阵之积，从而递归得到 O(n log n)。", "formula": "F_{2n} = \\begin{bmatrix} I & D \\\\ I & -D \\end{bmatrix}\\begin{bmatrix} F_n & 0 \\\\ 0 & F_n \\end{bmatrix} P" },
+        { "title": "复杂度对比", "detail": "n=1024 时直接乘约 10^6 次运算，FFT 约 5×10^3 次，差两个数量级，这是信号处理的基石。" }
+      ],
+      "terms": [
+        { "term": "Hermitian matrix 埃尔米特矩阵", "definition": "满足 A^H=A 的复矩阵，特征值全为实数。" },
+        { "term": "unitary matrix 酉矩阵", "definition": "满足 Q^HQ=I 的复方阵，正交矩阵的复数推广。" },
+        { "term": "fast Fourier transform 快速傅里叶变换", "definition": "利用单位根对称性把离散傅里叶变换降到 O(n log n) 的算法。" },
+        { "term": "root of unity 单位根", "definition": "满足 w^n=1 的复数，FFT 的核心对象。" }
+      ]
+    },
+    {
+      "n": 28,
+      "summary": "从多个等价角度刻画正定矩阵：特征值、主元、顺序主子式、二次型 x^TAx>0，并把它与多元函数极小值、椭圆几何、A^TA 结构联系起来。",
+      "keyPoints": [
+        { "title": "正定的四条等价判据", "detail": "全部特征值>0；全部主元>0；全部顺序主子式>0；对一切 x≠0 有 x^TAx>0。", "formula": "x^{T}Ax > 0 \\quad \\forall x \\neq 0" },
+        { "title": "二次型与配方", "detail": "消元过程等价于对二次型配平方，主元是平方项系数，正主元 ⟺ 每项都是正的平方和。" },
+        { "title": "与极小值的关系", "detail": "多元函数在驻点处二阶导数矩阵（Hessian）正定 ⟺ 该点是局部极小值，推广了一元 f''>0。" },
+        { "title": "几何图像", "detail": "x^TAx=1 在正定时是椭圆（椭球），主轴方向是特征向量，半轴长为 1/√λ。" },
+        { "title": "A^TA 总是半正定", "detail": "x^TA^TAx=||Ax||^2≥0；当 A 列无关时严格正定，因此最小二乘的法方程可解。", "formula": "x^{T}A^{T}Ax = \\|Ax\\|^{2} \\ge 0" }
+      ],
+      "terms": [
+        { "term": "quadratic form 二次型", "definition": "形如 x^TAx 的二次齐次多项式。" },
+        { "term": "Hessian matrix 黑塞矩阵", "definition": "多元函数二阶偏导数构成的对称矩阵。" },
+        { "term": "positive semidefinite 半正定", "definition": "对一切 x 有 x^TAx≥0，允许零特征值。" },
+        { "term": "completing the square 配方法", "definition": "把二次型写成平方项之和，系数即主元。" }
+      ]
+    },
+    {
+      "n": 29,
+      "summary": "相似矩阵 B=M^{-1}AM 具有相同的特征值与相同的「本质」，只是换了基。对于不可对角化的矩阵，最好的相似标准形是若尔当形，由若尔当块拼成。",
+      "keyPoints": [
+        { "title": "相似的定义", "detail": "存在可逆 M 使 B=M^{-1}AM，则 A 与 B 相似；特征值相同，特征向量按 M^{-1}x 对应。", "formula": "B = M^{-1}AM" },
+        { "title": "为什么特征值不变", "detail": "由 Ax=λx 得 B(M^{-1}x)=λ(M^{-1}x)，同一个 λ 只是特征向量换了坐标。" },
+        { "title": "相似类与对角化", "detail": "可对角化矩阵的相似类中最简单的代表就是 Λ；不可对角化时无法达到对角形。" },
+        { "title": "若尔当块", "detail": "对角线为 λ、上对角线为 1 的块，块的个数等于线性无关特征向量的个数。", "formula": "J_k(\\lambda) = \\begin{bmatrix} \\lambda & 1 & \\\\ & \\lambda & \\ddots \\\\ & & \\lambda \\end{bmatrix}" },
+        { "title": "若尔当形的意义", "detail": "任何方阵都相似于唯一（差块序）的若尔当形 J=M^{-1}AM，理论上完备但数值上不稳定。" }
+      ],
+      "terms": [
+        { "term": "similar matrices 相似矩阵", "definition": "通过可逆变换 M^{-1}AM 相联系的矩阵，代表同一线性变换在不同基下的表示。" },
+        { "term": "Jordan form 若尔当形", "definition": "由若尔当块组成的近似对角矩阵，是一般方阵的相似标准形。" },
+        { "term": "Jordan block 若尔当块", "definition": "对角为同一特征值、上次对角为 1 的基本块。" }
+      ]
+    },
+    {
+      "n": 30,
+      "summary": "全课的最高点：奇异值分解 A=UΣV^T 对任意 m×n 矩阵都成立。V 是行空间的标准正交基，U 是列空间的标准正交基，Σ 的奇异值把二者联系起来。",
+      "keyPoints": [
+        { "title": "SVD 的形式", "detail": "任意矩阵可写成 A=UΣV^T，U、V 正交，Σ 对角且元素非负递减，无需 A 是方阵或可对角化。", "formula": "A = U\\Sigma V^{T}" },
+        { "title": "几何解释", "detail": "AV=UΣ 意味着存在行空间的正交基，被 A 映成列空间的正交基，只做了拉伸——旋转-拉伸-旋转。", "formula": "Av_i = \\sigma_i u_i" },
+        { "title": "如何求 U、V、Σ", "detail": "V 与 σ^2 来自 A^TA 的特征分解，U 来自 AA^T；也可由 u_i=Av_i/σ_i 直接得到。", "formula": "A^{T}A = V\\Sigma^{2}V^{T}" },
+        { "title": "SVD 与四个子空间", "detail": "v_1..v_r 是行空间基，v_{r+1}..v_n 是零空间基；u_1..u_r 是列空间基，其余是左零空间基。" },
+        { "title": "秩 1 展开与低秩逼近", "detail": "A=Σ σ_i u_i v_i^T，截断前 k 项即得最优 k 秩逼近，是图像压缩与 PCA 的理论基础。", "formula": "A = \\sum_{i=1}^{r} \\sigma_i u_i v_i^{T}" }
+      ],
+      "terms": [
+        { "term": "singular value decomposition 奇异值分解", "definition": "把任意矩阵分解为正交-对角-正交三个矩阵之积。" },
+        { "term": "singular value 奇异值", "definition": "A^TA 特征值的非负平方根，衡量各方向的拉伸倍数。" },
+        { "term": "low-rank approximation 低秩逼近", "definition": "截断 SVD 得到的最优近似矩阵。" },
+        { "term": "principal component analysis 主成分分析", "definition": "基于 SVD/协方差特征分解的降维方法。" }
+      ]
+    },
+    {
+      "n": 31,
+      "summary": "抛开坐标重新定义线性变换：满足可加性与齐次性的映射。选定输入输出的基之后，每个线性变换都对应唯一矩阵，矩阵的每一列是基向量的像在输出基下的坐标。",
+      "keyPoints": [
+        { "title": "线性变换的定义", "detail": "T(v+w)=T(v)+T(w) 且 T(cv)=cT(v)；平移不是线性变换（不保原点）。", "formula": "T(cv + dw) = cT(v) + dT(w)" },
+        { "title": "由基决定整个变换", "detail": "知道基向量的像就知道任意向量的像，因为 T(Σ c_i v_i)=Σ c_i T(v_i)。" },
+        { "title": "变换的矩阵表示", "detail": "选定输入基 v 与输出基 w，矩阵第 j 列是 T(v_j) 在 w 下的坐标。" },
+        { "title": "典型例子", "detail": "投影、旋转、微分算子、积分算子都是线性变换；微分作用在多项式空间上给出一个矩阵。" },
+        { "title": "矩阵乘法即变换复合", "detail": "两个变换先后作用对应两个矩阵相乘，这解释了矩阵乘法为何如此定义。" }
+      ],
+      "terms": [
+        { "term": "linear transformation 线性变换", "definition": "保持加法与数乘的映射。" },
+        { "term": "matrix representation 矩阵表示", "definition": "在选定基下描述线性变换的矩阵。" },
+        { "term": "coordinates 坐标", "definition": "向量在某组基下的展开系数。" }
+      ]
+    },
+    {
+      "n": 32,
+      "summary": "同一个变换在不同基下矩阵不同，二者相似：A'=M^{-1}AM，M 是基变换矩阵。以 JPEG 图像压缩为例说明「选一个好的基」能让信息集中在少数系数上。",
+      "keyPoints": [
+        { "title": "基变换矩阵", "detail": "把新基向量按旧基坐标排成列得到 M，坐标变换与矩阵变换方向相反。", "formula": "A' = M^{-1}AM" },
+        { "title": "好基的标准", "detail": "计算快（如 FFT 基）、能量集中（少数系数就能重构）、且最好是正交基。" },
+        { "title": "图像压缩流程", "detail": "把 8×8 图块变换到频域基（DCT/傅里叶/小波），量化丢掉小系数，再编码，得到有损压缩。" },
+        { "title": "小波基", "detail": "Haar 小波用 ±1 阶梯函数构成正交基，同时刻画局部与整体，是 JPEG2000 的基础。" },
+        { "title": "特征向量基最优", "detail": "在特征向量（或奇异向量）基下矩阵变成对角，这是「最好的基」的数学极限，代价是求解成本高。" }
+      ],
+      "terms": [
+        { "term": "change of basis 基变换", "definition": "用另一组基重新表达同一向量或变换。" },
+        { "term": "wavelet basis 小波基", "definition": "兼顾时域与频域局部性的正交基。" },
+        { "term": "compression 压缩", "definition": "换到能量集中的基后丢弃小系数以减少数据量。" }
+      ]
+    },
+    {
+      "n": 33,
+      "summary": "第三次单元复习，覆盖特征值、对称与正定、相似与若尔当形、SVD 与线性变换。重点是把「分解」的四条主线（LU、QR、SΛS^{-1}、UΣV^T）横向对比。",
+      "keyPoints": [
+        { "title": "四大分解对比", "detail": "LU 来自消元，QR 来自正交化，SΛS^{-1} 来自特征向量，UΣV^T 来自 A^TA，用途各不相同。" },
+        { "title": "对称与正定题型", "detail": "常考给定参数区间使矩阵正定，用顺序主子式或主元条件求解。" },
+        { "title": "相似与对角化的边界", "detail": "特征值相同不代表相似（若尔当结构可能不同），需比较各特征值的秩条件。" },
+        { "title": "SVD 与四子空间联动", "detail": "常考由 SVD 读出四个基本子空间的基与秩。" }
+      ],
+      "terms": [
+        { "term": "matrix factorization 矩阵分解", "definition": "把矩阵写成结构简单的矩阵之积，是全课的组织主线。" }
+      ]
+    },
+    {
+      "n": 34,
+      "summary": "把「逆」的概念推广：列满秩有左逆、行满秩有右逆，一般矩阵有伪逆 A^+。伪逆把行空间与列空间之间的一一对应反过来，给出最小二乘最小范数解。",
+      "keyPoints": [
+        { "title": "左逆与右逆", "detail": "列满秩 (r=n) 时 (A^TA)^{-1}A^T 是左逆；行满秩 (r=m) 时 A^T(AA^T)^{-1} 是右逆。", "formula": "A^{+}_{left} = (A^{T}A)^{-1}A^{T}" },
+        { "title": "左逆与投影的关系", "detail": "左逆反过来乘得到 A(A^TA)^{-1}A^T，正是投影到列空间的矩阵，而不是单位矩阵。" },
+        { "title": "伪逆的定义", "detail": "A 把行空间一一映到列空间，A^+ 就是这个映射的逆，并把左零空间映到 0。", "formula": "A^{+} = V\\Sigma^{+}U^{T}" },
+        { "title": "由 SVD 构造伪逆", "detail": "把 Σ 中非零奇异值取倒数并转置得到 Σ^+，再由 A^+=VΣ^+U^T 得伪逆。" },
+        { "title": "伪逆解的意义", "detail": "x^+=A^+b 是最小二乘解中范数最小的那个，处理秩亏与欠定问题的统一工具。" }
+      ],
+      "terms": [
+        { "term": "pseudoinverse 伪逆", "definition": "Moore-Penrose 广义逆 A^+，对任意矩阵都存在。" },
+        { "term": "left inverse 左逆", "definition": "满足 BA=I 的矩阵，列满秩时存在。" },
+        { "term": "right inverse 右逆", "definition": "满足 AB=I 的矩阵，行满秩时存在。" },
+        { "term": "minimum norm solution 最小范数解", "definition": "所有最小二乘解中长度最短的那个。" }
+      ]
+    },
+    {
+      "n": 35,
+      "summary": "期末总复习，Strang 用讲评往年真题的方式把全课串起来：从秩与子空间、投影与最小二乘，到特征值、对称正定与 SVD。强调解题时先看结构再动笔算。",
+      "keyPoints": [
+        { "title": "全课主干回顾", "detail": "Ax=b 的可解性与解结构 → 四个基本子空间 → 正交与投影 → 行列式 → 特征值 → 对称正定 → SVD。" },
+        { "title": "先看结构再计算", "detail": "看到投影、置换、马尔可夫、秩 1 等特殊结构，往往能直接说出特征值与子空间，无需硬算。" },
+        { "title": "常考综合题", "detail": "由零空间特解反推矩阵、由 SVD 反推四子空间、由正定条件定参数范围，是三类高频题。" },
+        { "title": "后续方向", "detail": "18.06 之后可接数值线性代数、优化、机器学习与图形学，SVD 与最小二乘是共同的入口。" }
+      ],
+      "terms": [
+        { "term": "review 复习", "definition": "把分散知识点按主线重新组织的过程。" }
+      ]
+    }
+  ]
+}

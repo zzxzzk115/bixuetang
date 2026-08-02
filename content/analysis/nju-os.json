@@ -1,0 +1,526 @@
+{
+  "courseId": "nju-os",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "南京大学蒋炎岩（jyy）的《操作系统：设计与实现》用一条极其锋利的主线贯穿全课——「程序就是状态机，操作系统就是管理状态机的状态机」。课程分三大部分：并发（多处理器编程、原子指令与自旋锁、互斥与条件变量、协程与 Channel、并发 bug 与动态分析工具）、虚拟化（进程、地址空间、可执行文件与动态加载、调度、终端与 Shell）、持久化（存储介质、I/O 设备与驱动、文件系统 API 与实现、RAID 与日志）。课程的独特之处在于大量「代码讲解」环节：现场用 gdb 调试固件与 bootloader、手写 model checker、读 xv6 源码、从零实现动态加载器，把抽象概念全部落到可运行的代码上。学完后你能真正理解并发程序为什么会出错、一个程序从上电到 Hello World 中间发生了什么，并具备读改真实内核代码的能力。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "绪论。回答「什么是操作系统、为什么要学、怎么学」。核心是建立本课的世界观：任何程序都是状态机，操作系统是管理这些状态机的软件；同时强调本课的方法论是「不听不看不如动手」，一切概念都要能在真实机器上验证。",
+      "keyPoints": [
+        { "title": "程序 = 状态机", "detail": "程序的状态是（内存 + 寄存器），执行一条指令就是一次状态转移；这个视角贯穿全课，并发、进程、系统调用都用它解释。" },
+        { "title": "操作系统的三个视角", "detail": "对程序员是一组对象与 API（进程、文件、地址空间）、对硬件是资源的管理者、对课程是「管理状态机的状态机」。" },
+        { "title": "为什么必须学 OS", "detail": "OS 是理解真实系统性能、稳定性与安全性的钥匙，也是 AI 时代仍不可替代的系统能力。" },
+        { "title": "课程的三条主线", "detail": "并发、虚拟化、持久化，分别对应「多个状态机」「假装独占的状态机」「状态机的持久状态」。" },
+        { "title": "学习方法：工具优先", "detail": "gdb、strace、objdump、man 是全课最重要的伙伴，遇到任何疑问都应先用工具观察实际行为而非猜测。" }
+      ],
+      "terms": [
+        { "term": "operating system 操作系统", "definition": "管理硬件资源、为程序提供抽象与隔离的系统软件。" },
+        { "term": "state machine 状态机", "definition": "由状态集合与转移规则构成的计算模型，本课用它统一刻画程序与操作系统。" },
+        { "term": "abstraction 抽象", "definition": "操作系统提供给程序的简化对象模型，如进程、文件、地址空间。" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "代码讲解：操作系统上的程序。把「程序 = 状态机」落到实处，展示一个 C 程序如何被编译为可执行文件、如何仅靠系统调用（syscall）与外部世界交互，并用 gdb 和 strace 现场观察状态机的每一步转移与所有系统调用。",
+      "keyPoints": [
+        { "title": "最小的程序", "detail": "用内联汇编直接发 syscall 写出不依赖 libc 的可执行文件，说明程序本质上只需要指令与系统调用。" },
+        { "title": "syscall 是状态机的唯一出口", "detail": "计算指令只改变自己的状态，只有系统调用能让程序影响外部世界；因此 strace 能完整刻画一个程序做了什么。" },
+        { "title": "用 gdb 单步观察状态转移", "detail": "starti 从第一条指令开始，info registers 与 x 命令查看状态，把抽象的状态机变成可见的数字。" },
+        { "title": "strace 看穿程序行为", "detail": "任何程序的外部行为都是一串系统调用；用 strace 看 ls、gcc 甚至图形程序，能迅速建立系统直觉。" },
+        { "title": "编译工具链的中间产物", "detail": "-E 预处理、-S 汇编、-c 目标文件、链接为可执行文件，每一步都可以打开来看。" }
+      ],
+      "terms": [
+        { "term": "system call 系统调用", "definition": "用户程序请求操作系统服务的唯一受控入口。" },
+        { "term": "strace", "definition": "跟踪并打印进程所有系统调用及其参数返回值的诊断工具。" },
+        { "term": "gdb GNU debugger", "definition": "可单步执行、查看寄存器与内存的调试器，本课的核心观察工具。" },
+        { "term": "libc C 标准库", "definition": "封装系统调用并提供常用函数的运行时库。" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "并发起点：多处理器编程「从入门到放弃」。用最简单的多线程计数器例子展示并发程序如何违背直觉，指出并发的三个根本困难——原子性丧失、执行顺序不确定、内存可见性（编译器与处理器重排），并说明为什么「凭直觉推理并发程序」注定失败。",
+      "keyPoints": [
+        { "title": "线程与共享内存模型", "detail": "同一进程内多个执行流共享全局变量与堆、各有独立栈，这是并发问题的物质基础。" },
+        { "title": "原子性的丧失", "detail": "sum++ 不是一条指令，多线程交错执行会丢失更新；任何非原子操作都可能被打断。" },
+        { "title": "顺序的丧失", "detail": "编译器在单线程语义下可自由重排语句，甚至把循环变量提升到寄存器导致死循环，加 -O2 就能复现。" },
+        { "title": "可见性的丧失", "detail": "现代处理器采用宽松内存模型，一个核的写不保证立刻被另一个核看到，x86 上 store-load 也可被重排。" },
+        { "title": "并发难以调试的根源", "detail": "错误依赖时序，出现概率低且不可复现，因此需要模型检查与专门的动态分析工具而非打印日志。" },
+        { "title": "结论：需要规范与工具", "detail": "并发编程必须依赖明确的同步原语与内存模型规范，而不是「我觉得应该没问题」。" }
+      ],
+      "terms": [
+        { "term": "thread 线程", "definition": "共享地址空间的独立执行流，拥有私有栈和寄存器。" },
+        { "term": "atomicity 原子性", "definition": "操作不可被其他执行流观察到中间状态的性质。" },
+        { "term": "memory model 内存模型", "definition": "规定多处理器上读写操作可见性与顺序的规范。" },
+        { "term": "instruction reordering 指令重排", "definition": "编译器或处理器为性能改变指令执行顺序的行为。" },
+        { "term": "data race 数据竞争", "definition": "两个线程并发访问同一内存且至少一个是写、又没有同步的情形。" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "代码讲解：操作系统也是程序。从计算机上电的第一条指令讲起，用 QEMU + gdb 调试固件与 boot loader，展示 CPU 复位后如何从固定地址取指、如何从实模式一路走到加载内核，说明操作系统本身也只是一个（特殊的）状态机。",
+      "keyPoints": [
+        { "title": "上电后的第一条指令", "detail": "CPU 复位后寄存器处于确定状态，从固定物理地址开始取指执行固件代码，这就是整个系统状态机的初始状态。" },
+        { "title": "固件与 BIOS/UEFI 的职责", "detail": "初始化硬件、提供基本 I/O 服务，然后按启动顺序把第一个扇区（MBR）加载到内存并跳转过去。" },
+        { "title": "boot loader 的任务", "detail": "在极其受限的 512 字节里完成从磁盘读出内核、切换处理器模式、跳转到内核入口。" },
+        { "title": "用 QEMU + gdb 调试固件", "detail": "qemu 加 -s -S 启动后用 gdb 连上，可以在第一条指令处停下，逐条观察整台机器的启动过程。" },
+        { "title": "操作系统没有魔法", "detail": "内核也是被加载到内存里执行的指令序列，只是运行在更高特权级并掌管中断向量与页表。" }
+      ],
+      "terms": [
+        { "term": "firmware 固件", "definition": "固化在主板上、上电后最先执行的软件，如 BIOS 或 UEFI。" },
+        { "term": "boot loader 引导加载器", "definition": "负责把操作系统内核从磁盘装入内存并移交控制权的小程序。" },
+        { "term": "QEMU", "definition": "开源的全系统模拟器，可模拟完整硬件并配合 gdb 从第一条指令开始调试。" },
+        { "term": "MBR master boot record 主引导记录", "definition": "磁盘第一个扇区，存放引导代码与分区表。" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "并发：阅读理解并发程序。给出并发程序的严格数学模型——把线程视为共享状态上的不确定状态机，用状态空间与可达状态集合来精确回答「这个并发程序可能输出什么」，从而摆脱靠直觉猜测的困境。",
+      "keyPoints": [
+        { "title": "并发程序的状态机模型", "detail": "状态 =（共享内存 + 每个线程的局部状态），转移 = 任选一个线程执行一步，程序行为就是所有可达状态的集合。" },
+        { "title": "不确定性来自调度", "detail": "同一初始状态可以有多条执行路径，程序的正确性必须对所有路径成立，而不是对你想到的那条。" },
+        { "title": "穷举状态空间", "detail": "对小程序可以枚举全部交错，机械地判断某个断言是否可能被违反，这正是 model checker 的思路。" },
+        { "title": "状态空间爆炸", "detail": "线程数与步数增加时可达状态呈指数增长，因此实践中需要偏序归约等剪枝技术。" },
+        { "title": "顺序一致性假设的意义", "detail": "该模型隐含 SC 假设；真实硬件更弱，所以还需要内存屏障与原子操作把行为拉回可推理的范围。" }
+      ],
+      "terms": [
+        { "term": "interleaving 交错执行", "definition": "多线程指令按某种顺序穿插执行形成的一条具体执行路径。" },
+        { "term": "state space 状态空间", "definition": "程序所有可达状态构成的集合。" },
+        { "term": "sequential consistency 顺序一致性", "definition": "所有线程操作可排成一个全局顺序且各线程内部顺序保持不变的内存模型。" },
+        { "term": "nondeterminism 不确定性", "definition": "同一输入下程序可能产生多种合法执行结果的性质。" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "代码讲解：实现 model checker。把上一讲的理论变成代码——用 Python 的生成器/协程把 C 风格线程改写成可单步控制的状态机，然后做广度优先搜索穷举所有交错，自动找出违反断言的执行序列，还能画出状态转移图。",
+      "keyPoints": [
+        { "title": "用协程模拟线程", "detail": "把每个线程写成生成器，yield 表示一个可被调度的原子步，调度器就能精确控制交错顺序。" },
+        { "title": "状态的表示与哈希", "detail": "把共享变量与各线程程序计数器打包成可哈希的状态，用集合去重避免重复探索。" },
+        { "title": "BFS/DFS 穷举执行", "detail": "从初始状态出发不断展开所有可能的下一步，得到完整状态转移图并检查断言。" },
+        { "title": "可视化状态图", "detail": "把可达状态与转移导出成 graphviz 图，能直观看到并发 bug 出现在哪条路径上。" },
+        { "title": "工具的力量", "detail": "百来行代码就能自动发现人脑难以想到的反例，这是本课「不要靠直觉」的最有力示范。" }
+      ],
+      "terms": [
+        { "term": "model checker 模型检验器", "definition": "自动穷举系统所有可达状态以验证性质是否成立的工具。" },
+        { "term": "generator 生成器", "definition": "可挂起与恢复执行的函数，Python 中用 yield 实现。" },
+        { "term": "assertion 断言", "definition": "程序中声明必须成立的条件，用于检测状态是否合法。" },
+        { "term": "state space explosion 状态空间爆炸", "definition": "可达状态数随并发规模指数增长导致穷举不可行的现象。" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "并发：互斥。先证明「只用普通读写实现互斥非常困难」（Peterson 算法及其对内存模型的依赖），再引入硬件提供的原子指令（如 xchg / cmpxchg），并用它实现最简单的自旋锁，分析自旋锁的适用场景与开销。",
+      "keyPoints": [
+        { "title": "互斥问题的定义", "detail": "任意时刻至多一个线程处于临界区，且不能死锁；这是所有同步机制的基石。" },
+        { "title": "Peterson 算法", "detail": "仅用共享读写变量即可实现两线程互斥，但正确性依赖顺序一致性，在真实处理器上必须加内存屏障。" },
+        { "title": "硬件原子指令", "detail": "x86 的 lock 前缀指令（xchg、cmpxchg）保证读-改-写不可分割，是软件同步的物理基础。" },
+        { "title": "自旋锁的实现", "detail": "用原子交换不断尝试把锁位置为 1，成功者进入临界区，失败者忙等待；释放时置 0。" },
+        { "title": "自旋锁的代价", "detail": "忙等待浪费 CPU 且引发缓存行争用，只适合临界区极短、不会被切换出去的场景（典型是内核中断上下文）。" },
+        { "title": "为什么需要操作系统介入", "detail": "用户态长临界区应当让出 CPU 而非自旋，这就引出了需要内核支持的互斥锁与睡眠唤醒机制。" }
+      ],
+      "terms": [
+        { "term": "mutual exclusion 互斥", "definition": "保证同一时刻只有一个线程进入临界区的性质。" },
+        { "term": "Peterson's algorithm Peterson 算法", "definition": "仅用共享读写变量实现两线程互斥的经典算法。" },
+        { "term": "atomic instruction 原子指令", "definition": "硬件保证不可分割完成的读-改-写指令，如 cmpxchg。" },
+        { "term": "spin lock 自旋锁", "definition": "获取失败时忙等待重试的锁，适用于极短临界区。" },
+        { "term": "memory barrier 内存屏障", "definition": "限制处理器与编译器重排访存顺序的指令。" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "代码讲解：并发数据结构。以并发链表和 malloc/free 为例，讲从「一把大锁保平安」到细粒度锁的演进，展示锁粒度与性能、正确性之间的权衡，并解释现代内存分配器为什么要用线程本地缓存（arena/tcache）。",
+      "keyPoints": [
+        { "title": "全局大锁的正确性与代价", "detail": "把所有操作串行化最容易保证正确，但在多核上完全无法扩展，锁成为瓶颈。" },
+        { "title": "细粒度锁与手递手加锁", "detail": "链表可以每个节点一把锁，遍历时按顺序获取相邻节点的锁；正确但复杂度与死锁风险陡增。" },
+        { "title": "malloc 的并发挑战", "detail": "分配器状态是全局共享的，高频小对象分配会让锁争用主导性能。" },
+        { "title": "线程本地缓存", "detail": "每个线程维护私有的小对象缓存（tcache/arena），绝大多数分配无需加锁，只在缓存耗尽时才访问全局堆。" },
+        { "title": "快慢路径分离", "detail": "常见情况走无锁快路径、罕见情况走带锁慢路径，是系统软件里普适的性能设计模式。" },
+        { "title": "正确性优先", "detail": "并发数据结构的优化必须以可论证的正确性为前提，否则收获的是不可复现的 bug。" }
+      ],
+      "terms": [
+        { "term": "fine-grained locking 细粒度锁", "definition": "为数据结构的局部而非整体加锁以提升并发度的技术。" },
+        { "term": "lock contention 锁争用", "definition": "多个线程同时竞争同一把锁造成的性能损失。" },
+        { "term": "thread-local cache 线程本地缓存", "definition": "每线程私有的资源缓存，用以避免共享数据结构上的加锁。" },
+        { "term": "fast path / slow path 快路径 慢路径", "definition": "把常见情形与罕见情形分开实现，前者尽量避免同步开销的设计模式。" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "并发：互斥的实现。讲用户态互斥锁的完整实现路径——从纯自旋，到自旋失败后调用系统调用睡眠，再到 Linux futex 的「快路径无系统调用、慢路径进内核」设计，解释为什么现代 mutex 在无争用时几乎零开销。",
+      "keyPoints": [
+        { "title": "自旋锁的问题", "detail": "线程持锁期间被调度出去会让所有等待者空转，用户态尤其严重，因此需要「等不到就睡」。" },
+        { "title": "睡眠等待的实现", "detail": "获取失败时通过系统调用把自己挂到等待队列并让出 CPU，释放锁时唤醒一个等待者。" },
+        { "title": "系统调用的开销", "detail": "无争用时也进内核代价太高，理想的锁应该在无争用路径上只做一条原子指令。" },
+        { "title": "futex 快慢路径设计", "detail": "用户态原子指令处理无争用情形，只有确实需要阻塞或唤醒时才进内核，兼得性能与正确性。" },
+        { "title": "锁的公平性与惊群", "detail": "释放时唤醒全部等待者会造成惊群效应，实际实现需考虑唤醒策略与饥饿问题。" },
+        { "title": "正确性的关键：原子的检查与睡眠", "detail": "「判断需要睡」与「真的睡下去」之间不能有窗口，否则会丢失唤醒而永久阻塞。" }
+      ],
+      "terms": [
+        { "term": "futex fast userspace mutex", "definition": "Linux 提供的机制，无争用时全在用户态完成，需要阻塞时才进入内核。" },
+        { "term": "wait queue 等待队列", "definition": "内核中保存等待某资源的线程集合的数据结构。" },
+        { "term": "lost wakeup 唤醒丢失", "definition": "唤醒发生在线程真正睡下之前，导致其永久等待的错误。" },
+        { "term": "thundering herd 惊群", "definition": "一次唤醒大量等待者但只有一个能成功获取资源造成的浪费。" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "代码讲解：xv6 中的自旋锁。读真实内核代码，看 xv6 的 spinlock 如何用原子指令实现、为什么获取锁时必须关中断、push_off/pop_off 的中断嵌套计数如何工作，以及内核为何能容忍自旋而用户态不能。",
+      "keyPoints": [
+        { "title": "xv6 spinlock 的结构", "detail": "一个 locked 字段加上持有者 CPU 信息，acquire 用原子交换循环尝试，release 用原子写清零。" },
+        { "title": "为什么加锁要关中断", "detail": "若持锁时被中断且中断处理程序也想拿同一把锁，就会自我死锁，因此 acquire 前必须关本 CPU 中断。" },
+        { "title": "push_off / pop_off", "detail": "中断关闭需要嵌套计数，只有最外层 pop 才真正恢复中断，避免内层解锁误开中断。" },
+        { "title": "内存屏障的必要性", "detail": "acquire 后与 release 前需要屏障，防止临界区内的访存被重排到锁外面。" },
+        { "title": "内核可自旋的前提", "detail": "内核临界区极短且持锁期间不会主动让出 CPU，因此自旋的期望等待时间可控。" },
+        { "title": "读内核源码的方法", "detail": "xv6 代码量小、结构清晰，是把课堂概念与真实实现对上的最佳桥梁。" }
+      ],
+      "terms": [
+        { "term": "xv6", "definition": "MIT 开发的教学用类 Unix 内核，代码精简适合逐行阅读。" },
+        { "term": "interrupt disabling 关中断", "definition": "临时屏蔽中断以保护临界区不被中断处理程序打断的手段。" },
+        { "term": "self-deadlock 自死锁", "definition": "同一执行流重复获取不可重入的锁导致的永久阻塞。" },
+        { "term": "critical section 临界区", "definition": "必须互斥执行的访问共享资源的代码段。" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "并发：同步。区分互斥（保证不同时）与同步（保证先后顺序），讲条件变量作为通用同步原语的语义与「万能同步模板」，以及信号量作为一种更受限但更简洁的抽象，并用生产者-消费者和哲学家就餐问题演示两者的用法。",
+      "keyPoints": [
+        { "title": "互斥与同步的区别", "detail": "互斥解决「不能同时」，同步解决「必须等到某条件成立」，二者需要不同的原语。" },
+        { "title": "条件变量的语义", "detail": "wait 必须在持锁时调用，它原子地释放锁并睡眠，被唤醒后重新获取锁；signal/broadcast 唤醒等待者。" },
+        { "title": "万能同步模板", "detail": "while (条件不满足) cond_wait; 做事; cond_broadcast。用 while 而非 if 是因为存在虚假唤醒与条件被抢。" },
+        { "title": "信号量的直觉", "detail": "信号量像一叠可用资源的令牌，P 取一个（没有就等）、V 还一个，天然适合表达计数型资源。" },
+        { "title": "生产者-消费者", "detail": "用空槽与满槽两个计数信号量加一把互斥锁，即可实现有界缓冲区，是同步问题的标准范式。" },
+        { "title": "哲学家就餐与死锁", "detail": "对称地先取左叉再取右叉会全体死锁；通过打破对称性或引入服务员（全局仲裁）可解决。" }
+      ],
+      "terms": [
+        { "term": "condition variable 条件变量", "definition": "允许线程在条件不满足时释放锁并睡眠、条件变化时被唤醒的同步原语。" },
+        { "term": "spurious wakeup 虚假唤醒", "definition": "线程在条件未真正满足时被唤醒的情形，因此必须用循环重新检查。" },
+        { "term": "semaphore 信号量", "definition": "维护计数并支持原子 P/V 操作的同步原语。" },
+        { "term": "dining philosophers 哲学家就餐问题", "definition": "演示资源循环等待导致死锁的经典并发问题。" },
+        { "term": "deadlock 死锁", "definition": "一组线程互相等待对方持有的资源而全部无法推进的状态。" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "并发编程模型。跳出线程与锁，介绍更高层的并发抽象：协程（用户态可挂起的执行流）与 Go 的 goroutine 调度、用 Channel 做 CSP 风格的消息传递，以及 Promise/async-await 如何组织异步任务，比较共享内存与消息传递两条路线的取舍。",
+      "keyPoints": [
+        { "title": "协程", "detail": "在用户态保存与切换执行上下文，切换开销远小于线程，可创建海量并发任务；本质是把状态机手动交给运行时调度。" },
+        { "title": "goroutine 与 M:N 调度", "detail": "Go 运行时把大量 goroutine 复用到少量 OS 线程上，遇到阻塞系统调用时自动搬移，兼顾并发规模与并行性能。" },
+        { "title": "Channel 与 CSP 模型", "detail": "用消息传递而非共享内存通信，「不要通过共享内存来通信」，把同步隐含在收发操作中，显著降低出错概率。" },
+        { "title": "Promise 与 async/await", "detail": "把异步操作封装成未来值，await 在语法层面把回调链拉直成顺序代码，编译器/运行时生成状态机。" },
+        { "title": "并发模型的本质统一", "detail": "所有模型最终都落到「多个状态机 + 一个调度器」，区别只在谁负责调度与如何表达等待。" },
+        { "title": "选择的依据", "detail": "计算密集用线程与并行，I/O 密集用协程与事件循环；共享内存性能高但难写对，消息传递清晰但有拷贝开销。" }
+      ],
+      "terms": [
+        { "term": "coroutine 协程", "definition": "可在用户态挂起与恢复的执行单元，切换不经过内核。" },
+        { "term": "goroutine", "definition": "Go 语言中由运行时调度的轻量级并发执行单元。" },
+        { "term": "channel 通道", "definition": "在并发执行单元之间传递消息并隐含同步的管道。" },
+        { "term": "CSP communicating sequential processes 通信顺序进程", "definition": "以消息传递而非共享内存为核心的并发模型。" },
+        { "term": "promise / future 承诺 未来值", "definition": "表示尚未完成的异步计算结果的对象。" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "并发 bug 与动态分析。分类真实系统中的并发缺陷（死锁与非死锁的原子性违反、顺序违反），讲 Lockdep 如何在运行时构建锁序图检测潜在死锁，以及 ThreadSanitizer/AddressSanitizer 等 sanitizer 的插桩原理与使用方法。",
+      "keyPoints": [
+        { "title": "并发 bug 的分类", "detail": "研究显示大多数并发 bug 不是死锁，而是原子性违反（本该原子的一段被打断）与顺序违反（假定了不成立的先后关系）。" },
+        { "title": "死锁的四个必要条件", "detail": "互斥、持有并等待、不可抢占、循环等待；破坏任一条即可预防，实践中最常用的是规定全局加锁顺序。" },
+        { "title": "Lockdep 锁序检测", "detail": "运行时记录每次加锁的先后关系构成有向图，一旦出现环就报告潜在死锁，即使这次没真的死锁。" },
+        { "title": "ThreadSanitizer 原理", "detail": "编译时插桩每次访存，用向量时钟/happens-before 关系判断是否存在无同步的并发读写，从而报告数据竞争。" },
+        { "title": "AddressSanitizer 原理", "detail": "用影子内存标记每字节的可访问状态，并在分配区周围放置红区，精确捕获越界与释放后使用。" },
+        { "title": "工具优先的调试哲学", "detail": "并发 bug 靠肉眼和 printf 几乎不可能稳定复现，先上 sanitizer 与模型检查是性价比最高的做法。" }
+      ],
+      "terms": [
+        { "term": "atomicity violation 原子性违反", "definition": "本应作为整体执行的代码段被其他线程插入操作而破坏语义的 bug。" },
+        { "term": "order violation 顺序违反", "definition": "程序错误地假设两个操作的执行先后关系而产生的 bug。" },
+        { "term": "Lockdep 锁依赖检测器", "definition": "Linux 内核中通过记录加锁顺序图来预警潜在死锁的机制。" },
+        { "term": "ThreadSanitizer TSan 线程消毒器", "definition": "基于 happens-before 分析检测数据竞争的动态分析工具。" },
+        { "term": "happens-before 先行发生关系", "definition": "刻画并发事件之间确定先后顺序的偏序关系，无此关系的并发访问即为竞争。" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "虚拟化开篇：什么是进程。用状态机视角定义进程——被操作系统管理的、拥有独立地址空间的状态机；讲清 fork 复制状态机、execve 重置状态机、exit 销毁状态机这三个 Unix 核心系统调用的精确语义与常见坑。",
+      "keyPoints": [
+        { "title": "进程是状态机的快照", "detail": "进程 = 地址空间 + 寄存器 + 操作系统中的对象（文件描述符等），操作系统负责在它们之间切换。" },
+        { "title": "fork 复制状态机", "detail": "完整复制调用者当前状态，父子从同一位置继续执行、仅返回值不同；缓冲区中未刷新的内容也会被复制，这是 printf 输出重复的原因。" },
+        { "title": "execve 重置状态机", "detail": "用新程序替换当前进程的代码与数据，保留 PID 与部分文件描述符；成功则不返回。" },
+        { "title": "exit 与 _exit 的区别", "detail": "exit 会运行 atexit 注册的清理函数并刷新缓冲区，_exit 直接进内核终止，多线程下差异尤其重要。" },
+        { "title": "fork + execve 的组合威力", "detail": "把「创建进程」与「运行程序」分离，使得在两者之间可以自由设置重定向、权限、环境，这是 Unix 设计的经典之笔。" },
+        { "title": "进程树", "detail": "所有进程由 fork 派生形成树，根是 init/systemd；孤儿进程被 init 收养并回收。" }
+      ],
+      "terms": [
+        { "term": "process 进程", "definition": "操作系统管理的、拥有独立地址空间与资源的程序执行实例。" },
+        { "term": "fork", "definition": "复制当前进程创建子进程的系统调用，调用一次返回两次。" },
+        { "term": "execve", "definition": "用磁盘上的新程序映像替换当前进程内容的系统调用。" },
+        { "term": "orphan process 孤儿进程", "definition": "父进程先退出、被 init 收养的进程。" },
+        { "term": "process tree 进程树", "definition": "由 fork 派生关系构成的进程层次结构。" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "进程的状态与文件描述符。讲进程在内核中的状态迁移（运行、就绪、可中断/不可中断睡眠、僵尸），父进程如何用 wait 回收，以及文件描述符表的三层结构、fork 与 dup2 下的共享语义，最后解释管道与重定向如何由此构建。",
+      "keyPoints": [
+        { "title": "进程状态迁移", "detail": "R 运行/就绪、S 可中断睡眠、D 不可中断睡眠（常见于 I/O，kill 不掉）、Z 僵尸、T 停止；ps 里看到的状态字母都能对上。" },
+        { "title": "僵尸与回收", "detail": "子进程退出后保留退出状态直到父进程 wait；父进程不回收就成僵尸，占用 PID 表项。" },
+        { "title": "文件描述符的三层结构", "detail": "进程描述符表 → 系统打开文件表（含偏移量与状态标志）→ inode；这解释了为什么 fork 后父子共享文件偏移。" },
+        { "title": "dup2 与重定向", "detail": "把某个描述符复制到 0/1/2 号位置，程序无需修改即可让输入输出接到文件或管道上。" },
+        { "title": "管道的本质", "detail": "pipe 创建一对读写描述符共享的内核缓冲区，配合 fork 与 dup2 就实现了 shell 里的 | 。" },
+        { "title": "描述符的引用计数", "detail": "打开文件表项被引用计数管理，只有所有引用都关闭后资源才真正释放，因此忘记 close 会导致管道读端永不返回 EOF。" }
+      ],
+      "terms": [
+        { "term": "file descriptor 文件描述符", "definition": "进程内标识打开文件或其他 I/O 对象的小整数。" },
+        { "term": "zombie process 僵尸进程", "definition": "已退出但退出状态尚未被父进程回收的进程。" },
+        { "term": "dup2", "definition": "把一个文件描述符复制到指定编号上的系统调用，是 I/O 重定向的基础。" },
+        { "term": "pipe 管道", "definition": "内核提供的单向字节流通道，一端写一端读。" },
+        { "term": "inode 索引节点", "definition": "文件系统中保存文件元数据与数据块位置的结构。" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "进程的地址空间。讲虚拟内存给每个进程制造「独占内存」假象的机制，Linux 进程地址空间的实际布局（代码段、数据段、堆、mmap 区、栈），以及 mmap/munmap/mprotect 这组直接操纵地址空间的系统调用。",
+      "keyPoints": [
+        { "title": "地址空间是一个映射", "detail": "进程看到的虚拟地址由页表映射到物理页，操作系统通过修改映射实现隔离、共享与保护。" },
+        { "title": "Linux 进程内存布局", "detail": "从低到高依次是代码段、只读数据、可写数据、堆（向上增长）、mmap 映射区、栈（向下增长），可用 /proc/pid/maps 直接查看。" },
+        { "title": "mmap 是地址空间的通用接口", "detail": "malloc、加载可执行文件、加载共享库、共享内存全部基于 mmap，它才是「分配内存」的底层真相。" },
+        { "title": "权限位与保护", "detail": "每段映射带读/写/执行权限，mprotect 可动态修改；违反权限即触发 SIGSEGV，这是段错误的机制解释。" },
+        { "title": "按需分页与惰性分配", "detail": "mmap 只建立映射不立刻分配物理页，首次访问时缺页才真正分配，所以「申请很多内存」并不立刻消耗物理内存。" },
+        { "title": "共享映射与写时复制", "detail": "MAP_SHARED 让多进程看到同一份物理页，MAP_PRIVATE 在写入时复制，fork 的高效正来自后者。" }
+      ],
+      "terms": [
+        { "term": "address space 地址空间", "definition": "进程可寻址的虚拟地址集合及其到物理内存的映射。" },
+        { "term": "mmap memory map 内存映射", "definition": "把文件或匿名内存映射到进程地址空间的系统调用。" },
+        { "term": "demand paging 按需分页", "definition": "只有在实际访问时才分配并载入物理页的策略。" },
+        { "term": "copy-on-write 写时复制", "definition": "共享页面在被写入时才真正复制的优化。" },
+        { "term": "/proc/pid/maps", "definition": "Linux 中展示进程地址空间各段范围与权限的伪文件。" }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "xv6 中的进程。落到真实内核实现，看 xv6 如何用 proc 结构体表示进程、如何维护内核栈与陷阱帧、如何实现 fork 复制页表、如何通过 swtch 完成上下文切换，把前几讲的抽象概念对上具体的 C 代码。",
+      "keyPoints": [
+        { "title": "proc 结构体", "detail": "保存进程状态、页表指针、内核栈、trapframe、上下文与打开文件表，是「进程」在内核中的实体。" },
+        { "title": "用户栈与内核栈", "detail": "每个进程有两个栈，进入内核时切到内核栈，保证用户态崩溃不影响内核执行。" },
+        { "title": "trapframe 陷阱帧", "detail": "进入内核时保存用户态全部寄存器，返回用户态时恢复；这就是「状态机被暂停又恢复」的物理实现。" },
+        { "title": "fork 的内核实现", "detail": "分配新 proc、复制页表（uvmcopy）、复制 trapframe 并把子进程返回值置 0、复制文件描述符表。" },
+        { "title": "swtch 上下文切换", "detail": "一段短小的汇编，保存当前 callee-saved 寄存器与栈指针、加载另一进程的，函数返回时就「变成」了另一个进程。" },
+        { "title": "scheduler 与进程状态", "detail": "每个 CPU 上运行调度器循环，在 RUNNABLE 的进程之间选择并 swtch 过去，进程让出时再 swtch 回调度器。" }
+      ],
+      "terms": [
+        { "term": "trapframe 陷阱帧", "definition": "陷入内核时保存的用户态寄存器快照。" },
+        { "term": "kernel stack 内核栈", "definition": "进程在内核态执行时使用的独立栈。" },
+        { "term": "context switch 上下文切换", "definition": "保存当前执行上下文并恢复另一个执行上下文的操作。" },
+        { "term": "swtch", "definition": "xv6 中实现上下文切换的汇编函数。" },
+        { "term": "page table 页表", "definition": "把虚拟页映射到物理页的多级表结构。" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "代码讲解：可执行文件。剖析 ELF 格式的两副面孔——链接视角的节（section）与执行视角的段（segment），讲静态链接与动态链接的差别，以及内核 execve 究竟如何读取 ELF 头、建立映射、设置入口点并把控制权交给新程序。",
+      "keyPoints": [
+        { "title": "ELF 的双重视图", "detail": "节头表面向链接器（.text/.data/.bss/.symtab），程序头表面向加载器（LOAD 段及其权限），readelf 可分别查看。" },
+        { "title": "execve 的加载过程", "detail": "解析 ELF 头、按程序头表把 LOAD 段 mmap 进地址空间、设置堆栈与 argv/envp、把 PC 指向入口点。" },
+        { "title": "静态链接与动态链接", "detail": "静态把库代码打进可执行文件，体积大但自足；动态在运行时由解释器加载 .so，节省内存并可独立升级。" },
+        { "title": "程序真正的入口不是 main", "detail": "入口是 _start，由 libc 的启动代码完成初始化后才调用 main，main 返回后再调用 exit。" },
+        { "title": "INTERP 段与动态链接器", "detail": "动态可执行文件的程序头里记录 ld.so 路径，内核先把控制权交给它，由它完成符号解析与重定位。" },
+        { "title": "从文件到进程的完整链路", "detail": "磁盘上的字节 → 内核解析 → 地址空间映射 → 第一条用户指令，这条链路把编译、链接、虚拟内存串成一体。" }
+      ],
+      "terms": [
+        { "term": "ELF executable and linkable format", "definition": "Linux 上目标文件、可执行文件与共享库的统一格式。" },
+        { "term": "section 节", "definition": "ELF 中面向链接的划分单位，如 .text、.data。" },
+        { "term": "segment 段", "definition": "ELF 中面向加载的划分单位，程序头表描述其映射方式与权限。" },
+        { "term": "dynamic linker 动态链接器", "definition": "运行时负责加载共享库并完成符号重定位的程序，如 ld.so。" },
+        { "term": "entry point 入口点", "definition": "程序被加载后执行的第一条指令地址，通常是 _start。" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "代码讲解：从零实现动态加载。亲手写一个迷你动态链接器：解析自定义或简化的目标文件格式、mmap 分配可执行内存、按重定位表修正地址、解析符号并跳转执行，把「动态链接」从黑魔法变成几百行可读代码。",
+      "keyPoints": [
+        { "title": "自己定义一个最小可加载格式", "detail": "抛开 ELF 的复杂性，先设计只含代码、数据、符号表和重定位表的格式，抓住动态加载的本质。" },
+        { "title": "分配可执行内存", "detail": "用 mmap 带 PROT_EXEC 申请页，把代码字节拷贝进去，即可让数据变成可以跳转执行的代码。" },
+        { "title": "重定位的本质", "detail": "遍历重定位表，把代码中留下的占位地址改写为符号的实际运行时地址，这一步等价于链接器所做的事。" },
+        { "title": "符号解析", "detail": "在已加载模块与宿主程序的符号表中查找名字，缺失符号就是运行时的 undefined symbol 错误。" },
+        { "title": "延迟绑定与 PLT/GOT", "detail": "真实系统用过程链接表与全局偏移表把首次调用重定向到解析函数，之后直接跳转，实现惰性解析。" },
+        { "title": "动手带来的理解", "detail": "写过一次加载器之后，链接错误、LD_PRELOAD、插件系统这些现象都会变得显而易见。" }
+      ],
+      "terms": [
+        { "term": "dynamic loading 动态加载", "definition": "在运行时把代码模块载入地址空间并解析其符号的过程。" },
+        { "term": "relocation 重定位", "definition": "把模块中的地址引用修正为实际加载地址的操作。" },
+        { "term": "symbol table 符号表", "definition": "记录模块中定义与引用的名字及其地址的表。" },
+        { "term": "GOT/PLT 全局偏移表 过程链接表", "definition": "动态链接中用于间接寻址与延迟绑定的两张表。" },
+        { "term": "LD_PRELOAD", "definition": "环境变量，可让指定共享库先于其他库加载，从而覆盖同名函数。" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "虚拟化：进程调度。讲操作系统如何在多个进程间分配 CPU：先给出调度目标（周转时间、响应时间、公平性、吞吐）的内在冲突，再依次分析 FIFO、SJF、RR、MLFQ 等策略，最后介绍 Linux CFS 的虚拟运行时间思想与多核负载均衡。",
+      "keyPoints": [
+        { "title": "调度目标的冲突", "detail": "缩短平均周转时间偏爱短任务，保证响应时间需要频繁切换，而切换本身有开销，没有全局最优解。" },
+        { "title": "FIFO 与 SJF", "detail": "FIFO 简单但被长任务堵死（护航效应）；SJF 平均周转最优但需要预知运行时间且会饿死长任务。" },
+        { "title": "时间片轮转 RR", "detail": "给每个任务固定时间片轮流执行，响应时间好但上下文切换开销随时间片变小而上升。" },
+        { "title": "多级反馈队列 MLFQ", "detail": "用「行为」推测任务类型：用满时间片就降级（判为计算型），主动让出就保持高优先级（判为交互型），并定期提升防饥饿。" },
+        { "title": "Linux CFS", "detail": "为每个任务记录按权重缩放的虚拟运行时间，总是调度 vruntime 最小者，用红黑树维护，实现近似完全公平。", "formula": "vruntime \\mathrel{+}= \\Delta t \\times \\frac{w_0}{w_i}" },
+        { "title": "多核调度与亲和性", "detail": "每 CPU 一个运行队列减少锁争用，周期性负载均衡迁移任务，但迁移会丢失缓存亲和性，需要权衡。" }
+      ],
+      "terms": [
+        { "term": "scheduler 调度器", "definition": "决定哪个进程在何时占用 CPU 的内核组件。" },
+        { "term": "turnaround time 周转时间", "definition": "任务从到达到完成经历的总时间。" },
+        { "term": "MLFQ multi-level feedback queue 多级反馈队列", "definition": "根据任务历史行为动态调整优先级的调度算法。" },
+        { "term": "CFS completely fair scheduler 完全公平调度器", "definition": "Linux 基于虚拟运行时间实现按权重公平分配 CPU 的调度器。" },
+        { "term": "cache affinity 缓存亲和性", "definition": "任务在原 CPU 上运行可复用其缓存内容带来的性能优势。" }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "代码讲解：终端、Shell 和 Hello World。回答一个看似简单的问题——printf(\"Hello World\") 之后到底发生了什么。沿着 libc 缓冲、write 系统调用、tty 驱动、终端模拟器、显示输出一路追下去，并讲清 shell 如何用 fork/exec/dup2/pipe 实现命令行、作业控制与信号分发。",
+      "keyPoints": [
+        { "title": "printf 到屏幕的完整链路", "detail": "格式化到用户态缓冲 → 缓冲策略决定何时 write → 内核 tty 层 → 终端模拟器读伪终端 → 渲染字符，全程可用 strace 观察。" },
+        { "title": "标准 I/O 的缓冲策略", "detail": "连到终端是行缓冲、连到管道或文件是全缓冲、stderr 无缓冲；这解释了重定向后输出顺序变化与 fork 输出重复。" },
+        { "title": "tty 与伪终端", "detail": "tty 驱动处理行编辑、回显与控制字符；图形环境下终端模拟器通过 pty 主从设备对与 shell 通信。" },
+        { "title": "Shell 的核心循环", "detail": "读一行 → 解析 → fork → 子进程 dup2 设置重定向与管道 → execve → 父进程 waitpid，几十行代码就是一个 shell。" },
+        { "title": "作业控制与进程组", "detail": "Ctrl-C 发 SIGINT 给前台进程组、Ctrl-Z 发 SIGTSTP，shell 用进程组和会话管理前后台任务。" },
+        { "title": "一切皆文件的威力", "detail": "终端、管道、文件在程序看来都是描述符，程序无需知道自己输出到哪里，组合性由此而来。" }
+      ],
+      "terms": [
+        { "term": "tty teletype 终端", "definition": "内核中处理终端输入输出、行编辑与控制信号的子系统。" },
+        { "term": "pty pseudo terminal 伪终端", "definition": "由主从设备对构成的软件终端，供终端模拟器与 shell 通信。" },
+        { "term": "shell 命令解释器", "definition": "读取命令并通过 fork/exec 创建进程执行的用户态程序。" },
+        { "term": "process group 进程组", "definition": "一组可被一并接收信号的进程集合，用于作业控制。" },
+        { "term": "line buffering 行缓冲", "definition": "遇到换行才刷新输出缓冲区的策略，终端输出的默认行为。" }
+      ]
+    },
+    {
+      "n": 22,
+      "summary": "持久化开篇：1-Bit 信息的存储。从物理层面讲「怎么把一个比特存住」——磁存储、闪存、光存储各自的原理与代价，进而解释机械硬盘的寻道旋转特性、SSD 的擦除块与磨损均衡，说明存储介质特性如何反过来塑造上层文件系统的设计。",
+      "keyPoints": [
+        { "title": "存储介质的物理原理", "detail": "磁盘靠磁畴方向、闪存靠浮栅中的电荷、光盘靠反射率差异；持久性来自需要能量才能改变的稳定物理状态。" },
+        { "title": "机械硬盘的性能特征", "detail": "访问时间由寻道与旋转延迟主导，顺序吞吐可达上百 MB/s 而随机 IOPS 只有一两百，差距上千倍。" },
+        { "title": "闪存与擦除块", "detail": "闪存只能按页写、按块擦，且写前必须擦除，因此不能原地更新，必须写到新位置并维护映射。" },
+        { "title": "FTL 与磨损均衡", "detail": "SSD 内部的闪存转换层把逻辑块映射到物理页、做垃圾回收与磨损均衡，对外伪装成一块普通块设备。" },
+        { "title": "写放大与寿命", "detail": "垃圾回收搬移有效数据导致实际写入量大于用户写入量，直接影响 SSD 寿命与长期性能。" },
+        { "title": "介质决定设计", "detail": "机械盘时代的文件系统拼命追求顺序布局，SSD 时代日志式与写时复制文件系统更有优势。" }
+      ],
+      "terms": [
+        { "term": "HDD hard disk drive 机械硬盘", "definition": "靠旋转磁盘与移动磁头读写的存储设备，随机访问代价高。" },
+        { "term": "SSD solid state drive 固态硬盘", "definition": "基于闪存芯片的存储设备，无机械部件、随机读极快。" },
+        { "term": "FTL flash translation layer 闪存转换层", "definition": "SSD 内部把逻辑地址映射到物理闪存页并管理擦除的固件层。" },
+        { "term": "wear leveling 磨损均衡", "definition": "均匀分散写入以延长闪存整体寿命的策略。" },
+        { "term": "write amplification 写放大", "definition": "实际写入闪存的数据量大于用户请求量的现象。" }
+      ]
+    },
+    {
+      "n": 23,
+      "summary": "I/O 设备与驱动。讲 CPU 与外设通信的三种基本手段（端口/内存映射 I/O、中断、DMA），设备驱动在其中扮演的角色，以及 Linux 用 /dev 下的设备文件把千奇百怪的硬件统一成「文件」这一抽象的意义。",
+      "keyPoints": [
+        { "title": "设备的寄存器接口", "detail": "设备对外暴露状态、命令、数据寄存器，CPU 通过 in/out 指令或内存映射读写它们，这是所有驱动的起点。" },
+        { "title": "轮询与中断", "detail": "轮询简单但浪费 CPU，中断让设备就绪时主动通知，代价是上下文切换；高吞吐场景常用混合策略（NAPI）。" },
+        { "title": "DMA 直接内存访问", "detail": "由 DMA 控制器在设备与内存之间直接搬运数据，CPU 只负责发起与收尾，大幅降低数据传输的 CPU 占用。" },
+        { "title": "驱动程序的职责", "detail": "把设备的具体协议翻译成内核统一接口（如块设备的 read/write），使上层无需了解硬件细节。" },
+        { "title": "设备文件抽象", "detail": "/dev 下的字符设备与块设备以文件形式暴露，用主次设备号定位驱动，配合 ioctl 处理不规则操作。" },
+        { "title": "中断处理的上下半部", "detail": "中断处理程序要极短，把耗时工作推迟到下半部（软中断/工作队列），避免长时间关中断。" }
+      ],
+      "terms": [
+        { "term": "MMIO memory-mapped I/O 内存映射 I/O", "definition": "把设备寄存器映射到物理地址空间，用普通访存指令访问的方式。" },
+        { "term": "interrupt 中断", "definition": "设备主动通知 CPU 有事件发生的机制。" },
+        { "term": "DMA direct memory access 直接内存访问", "definition": "设备绕过 CPU 直接与内存交换数据的机制。" },
+        { "term": "device driver 设备驱动", "definition": "把具体硬件协议适配为内核统一接口的软件模块。" },
+        { "term": "ioctl", "definition": "对设备执行非读写类控制操作的通用系统调用。" }
+      ]
+    },
+    {
+      "n": 24,
+      "summary": "文件系统 API。讲操作系统给上层提供的持久化抽象：目录树与路径解析、inode 与硬链接软链接的区别、打开-读写-关闭的偏移语义、mount 如何把多个设备拼成一棵树，以及 mmap 文件映射这一「把文件当内存用」的接口。",
+      "keyPoints": [
+        { "title": "目录树与挂载", "detail": "Unix 只有一棵以 / 为根的树，不同设备通过 mount 挂到某个目录上，路径解析对用户完全透明。" },
+        { "title": "inode 与目录项", "detail": "文件的真身是 inode（元数据 + 数据块位置），目录只是「名字 → inode 号」的映射表，因此同一 inode 可有多个名字。" },
+        { "title": "硬链接与符号链接", "detail": "硬链接是目录中指向同一 inode 的另一个名字，删除只是减引用计数；符号链接是存放路径字符串的特殊文件，可跨文件系统但会悬空。" },
+        { "title": "文件偏移与读写语义", "detail": "每个打开文件表项维护偏移量，read/write 隐式推进，lseek 可显式设置；fork/dup 共享偏移而重新 open 不共享。" },
+        { "title": "mmap 文件映射", "detail": "把文件映射进地址空间后直接用指针访问，省去拷贝与系统调用，适合随机访问大文件。" },
+        { "title": "权限与元数据", "detail": "所有者、组、rwx 权限位与特殊位（setuid、sticky）构成 Unix 的基本访问控制模型。" }
+      ],
+      "terms": [
+        { "term": "inode 索引节点", "definition": "保存文件元数据与数据块索引的结构，是文件的真实身份。" },
+        { "term": "hard link 硬链接", "definition": "指向同一 inode 的另一个目录项。" },
+        { "term": "symbolic link 符号链接", "definition": "内容为目标路径字符串的特殊文件。" },
+        { "term": "mount 挂载", "definition": "把一个文件系统接入目录树某个位置的操作。" },
+        { "term": "lseek", "definition": "设置打开文件当前读写偏移量的系统调用。" }
+      ]
+    },
+    {
+      "n": 25,
+      "summary": "文件系统实现：FAT 与 UNIX 文件系统。把上一讲的 API 落到磁盘数据结构上：FAT 用一张全局链表表管理簇，UNIX FS 用多级索引的 inode；比较两者在随机访问、大文件支持、可靠性与碎片上的优劣。",
+      "keyPoints": [
+        { "title": "磁盘布局的基本要素", "detail": "超级块记录整体参数，位图或空闲表管理空闲块，inode 区与数据区分开存放，这是绝大多数文件系统的共同骨架。" },
+        { "title": "FAT 的链式分配", "detail": "文件的块通过 FAT 表中的链表串起来，实现简单、格式通用，但随机访问需沿链遍历，且 FAT 表损坏即全盘丢失。" },
+        { "title": "UNIX inode 的多级索引", "detail": "inode 中直接指针指向前若干块，再用一级、二级、三级间接块支持大文件，小文件访问快、大文件也能覆盖。", "formula": "N_{max} = N_d + \\frac{B}{p} + \\left(\\frac{B}{p}\\right)^2 + \\left(\\frac{B}{p}\\right)^3" },
+        { "title": "目录的实现", "detail": "目录本身也是文件，内容是目录项数组；路径解析就是从根 inode 逐级查表，因此深路径解析开销不小。" },
+        { "title": "块大小的权衡", "detail": "大块提升顺序吞吐但加剧内部碎片，小块省空间但索引开销与随机寻址次数增加。" },
+        { "title": "局部性优化", "detail": "把 inode 与其数据块、同目录文件放在相近的柱面组，可显著减少磁头移动，是 FFS 的核心思想。" }
+      ],
+      "terms": [
+        { "term": "FAT file allocation table 文件分配表", "definition": "用全局链表表记录每个簇下一簇编号的文件系统结构。" },
+        { "term": "superblock 超级块", "definition": "记录文件系统全局元数据（大小、块大小、空闲计数）的结构。" },
+        { "term": "indirect block 间接块", "definition": "存放数据块指针的块，用于扩展 inode 可索引的文件大小。" },
+        { "term": "block bitmap 块位图", "definition": "用位标记每个数据块是否被占用的结构。" },
+        { "term": "FFS fast file system 快速文件系统", "definition": "通过柱面组与局部性布局优化磁盘访问的经典 UNIX 文件系统。" }
+      ]
+    },
+    {
+      "n": 26,
+      "summary": "持久数据的可靠性。分两条线：一是设备级冗余，用 RAID 各级别在性能、容量与容错之间取舍；二是崩溃一致性，说明为什么多次写入之间断电会破坏文件系统，并讲 fsck 与 journaling（写前日志）两种应对方案。",
+      "keyPoints": [
+        { "title": "RAID 的基本思想", "detail": "把多块盘虚拟成一块，用条带化提性能、用镜像或校验提可靠性，对上层保持块设备接口不变。" },
+        { "title": "常见 RAID 级别", "detail": "RAID-0 只条带无冗余、RAID-1 镜像、RAID-5 分布式奇偶校验容一盘、RAID-10 兼顾性能与冗余。", "formula": "P = D_1 \\oplus D_2 \\oplus \\cdots \\oplus D_n" },
+        { "title": "崩溃一致性问题", "detail": "一次文件追加需要更新数据块、位图和 inode 三处，任意时刻断电都可能留下不一致状态（如块被标记占用却无人引用）。" },
+        { "title": "fsck 的思路与代价", "detail": "重启后全盘扫描并修复不一致，正确性尚可但耗时与磁盘容量成正比，且无法恢复语义层信息。" },
+        { "title": "journaling 写前日志", "detail": "先把要做的修改成组写入日志并提交，再真正写回原位置；崩溃后重放日志即可，把多次写变成原子事务。" },
+        { "title": "日志的优化", "detail": "只记录元数据日志可大幅降低开销（数据可能不一致但结构一致），checksum 与 checkpoint 保证日志本身可靠且不无限增长。" }
+      ],
+      "terms": [
+        { "term": "RAID redundant array of independent disks 磁盘冗余阵列", "definition": "用多块磁盘组合提升性能与可靠性的技术。" },
+        { "term": "striping 条带化", "definition": "把数据分散到多块盘上以并行读写提升吞吐的布局。" },
+        { "term": "crash consistency 崩溃一致性", "definition": "系统在任意时刻断电后仍能恢复到一致状态的性质。" },
+        { "term": "journaling 日志", "definition": "先写日志再写数据，用重放保证更新原子性的技术。" },
+        { "term": "fsck file system check 文件系统检查", "definition": "扫描并修复文件系统结构不一致的工具。" }
+      ]
+    },
+    {
+      "n": 27,
+      "summary": "代码讲解：xv6 文件系统实现。自底向上读完 xv6 文件系统的七层结构——磁盘布局与 mkfs 生成镜像、buffer cache 缓存与串行化块访问、日志层提供事务、inode 层、目录层、路径解析层，直到文件描述符层，把前三讲的理论对上真实代码。",
+      "keyPoints": [
+        { "title": "mkfs 与磁盘镜像", "detail": "mkfs 在宿主机上按 xv6 的布局生成 fs.img（超级块、日志区、inode 区、位图、数据区），是理解磁盘格式最直观的入口。" },
+        { "title": "buffer cache 层", "detail": "缓存磁盘块并保证同一块在内存中只有一份副本，用睡眠锁串行化访问，兼顾性能与一致性。" },
+        { "title": "日志层与事务", "detail": "begin_op/end_op 包围的系统调用构成事务，修改先写日志区，提交后再安装到原位置，崩溃时按日志重放。" },
+        { "title": "inode 层与 bmap", "detail": "ialloc/iget/ilock 管理 inode 生命周期，bmap 把文件内偏移翻译成磁盘块号，处理直接块与间接块。" },
+        { "title": "目录与路径解析", "detail": "dirlookup 在目录数据块中线性查找目录项，namei 沿路径逐级调用它，支持相对路径与根路径。" },
+        { "title": "文件描述符层", "detail": "file 结构体统一封装文件、管道与设备，使 read/write 系统调用对三者一视同仁。" }
+      ],
+      "terms": [
+        { "term": "buffer cache 缓冲区缓存", "definition": "内核中缓存磁盘块的层，保证块的唯一副本并减少磁盘访问。" },
+        { "term": "mkfs make file system", "definition": "按文件系统格式初始化磁盘或镜像的工具。" },
+        { "term": "transaction 事务", "definition": "要么全部生效要么全部不生效的一组操作。" },
+        { "term": "bmap", "definition": "xv6 中把文件逻辑块号映射到磁盘物理块号的函数。" },
+        { "term": "sleep lock 睡眠锁", "definition": "获取失败时睡眠而非自旋的锁，适合长临界区如磁盘 I/O。" }
+      ]
+    },
+    {
+      "n": 28,
+      "summary": "课程总结与「毒鸡汤」。回顾全课三条主线如何被「状态机」这一视角统一起来，梳理从上电到应用程序运行的完整链条，并谈学习方法、工程素养与职业发展——以调侃的方式讲清一些关于努力、天赋与选择的真话。",
+      "keyPoints": [
+        { "title": "全课主线回顾", "detail": "并发是多个状态机、虚拟化是被复制与隔离的状态机、持久化是状态机的持久状态，一个视角贯穿始终。" },
+        { "title": "从上电到 Hello World", "detail": "固件 → boot loader → 内核初始化 → 第一个进程 → shell → fork/exec → printf → tty → 屏幕，全链路已被逐段拆解过。" },
+        { "title": "工具即能力", "detail": "gdb、strace、sanitizer、model checker、QEMU 这些工具在课程结束后仍会长期发挥作用，远比记住术语重要。" },
+        { "title": "学习方法论", "detail": "遇到不懂的先动手观察实际行为，读文档与源码而非道听途说；能自己写出来的才算真懂。" },
+        { "title": "关于努力与选择", "detail": "承认天赋与运气的存在，但可控的部分仍然是持续动手与积累；系统能力是长期稀缺、不易贬值的资产。" }
+      ],
+      "terms": [
+        { "term": "state machine 状态机", "definition": "本课贯穿始终的统一抽象，用于刻画程序、进程与操作系统本身。" },
+        { "term": "concurrency 并发", "definition": "多个执行流在时间上重叠推进的性质。" },
+        { "term": "virtualization 虚拟化", "definition": "为每个程序制造独占硬件资源假象的技术。" },
+        { "term": "persistence 持久化", "definition": "让数据在断电后仍然存在并保持一致的技术。" }
+      ]
+    }
+  ]
+}

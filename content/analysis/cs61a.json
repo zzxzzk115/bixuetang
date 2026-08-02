@@ -1,0 +1,513 @@
+{
+  "courseId": "cs61a",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "CS 61A 是伯克利的编程入门课，但它教的不是 Python 语法而是「如何用抽象控制复杂度」，思想源流是 SICP。课程分四大板块：先用函数抽象（高阶函数、环境模型、递归、树递归）建立计算模型，再用数据抽象（序列、字典、树、可变性、迭代器）组织数据，接着用面向对象与继承封装状态，最后转向 Scheme 并亲手写出一个 Scheme 解释器，理解「程序即数据」。收尾部分讲声明式编程：正则表达式、BNF 文法与 SQL。学完能自如地读写递归与高阶函数代码、设计合理的抽象层次，并真正理解一门语言是怎样被实现出来的。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "课程导论。介绍 CS 61A 的目标是掌握管理复杂度的技术而非某门语言，并从零开始讲 Python 的表达式、函数调用、名称绑定与求值过程。第一次强调「表达式求值」这一贯穿全课的核心心智模型。",
+      "keyPoints": [
+        { "title": "课程主题是抽象", "detail": "编程的难点不在语法而在复杂度管理，函数抽象与数据抽象是本课两大主线。" },
+        { "title": "表达式与调用表达式", "detail": "任何调用都写成 operator(operand, ...)，先求值各子表达式，再把运算符作用于实参。" },
+        { "title": "表达式树求值", "detail": "嵌套调用形成表达式树，求值自内向外递归进行，这是理解 Python 行为的基本工具。" },
+        { "title": "名称与赋值", "detail": "赋值语句把名称绑定到值，导入语句把内建函数的名称引入当前环境。" },
+        { "title": "print 与 None", "detail": "print 是有副作用的函数，其返回值是 None；区分「值」与「显示」是初学的第一个坑。" }
+      ],
+      "terms": [
+        { "term": "expression 表达式", "definition": "描述一次计算并产生一个值的代码片段。" },
+        { "term": "call expression 调用表达式", "definition": "形如 f(x, y) 的表达式，把运算符作用于运算数。" },
+        { "term": "evaluation 求值", "definition": "把表达式化归为一个值的过程。" },
+        { "term": "binding 绑定", "definition": "名称与值之间的对应关系。" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "深入函数：函数定义、形参与实参、返回值，以及最重要的环境（frame）概念雏形。讲清 def 语句执行时发生了什么、调用时如何创建新的局部帧，并引入纯函数与非纯函数的区别。",
+      "keyPoints": [
+        { "title": "def 语句的语义", "detail": "执行 def 会创建一个函数对象并把它绑定到函数名，函数体此时并不执行。" },
+        { "title": "调用的三步", "detail": "求值运算符与运算数、创建新帧、在新帧中把形参绑定到实参并执行函数体。" },
+        { "title": "纯函数与非纯函数", "detail": "纯函数只根据参数返回值（如 abs）；非纯函数有副作用（如 print），返回 None。" },
+        { "title": "环境是帧的序列", "detail": "名称查找从当前帧开始，逐层向外直到全局帧，找不到则报 NameError。" },
+        { "title": "为什么要写函数", "detail": "函数给一段计算起名字，是最基本的抽象手段：使用者只需知道做什么，不需知道怎么做。" }
+      ],
+      "terms": [
+        { "term": "frame 帧", "definition": "记录一组名称到值绑定的环境片段，每次函数调用产生一个新帧。" },
+        { "term": "pure function 纯函数", "definition": "无副作用、相同输入总产生相同输出的函数。" },
+        { "term": "formal parameter 形参", "definition": "函数定义中列出的参数名。" },
+        { "term": "global frame 全局帧", "definition": "模块顶层名称所在的最外层环境帧。" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "控制流：条件语句、布尔运算与短路求值、while 循环，以及函数中的 return。同时引入用 assert 与 doctest 做测试的习惯，强调「先想清楚不变量再写循环」。",
+      "keyPoints": [
+        { "title": "语句与表达式的区别", "detail": "语句被执行以产生效果，表达式被求值以产生值；if / while 是语句，不返回值。" },
+        { "title": "短路求值", "detail": "and 遇到假值立即返回该值，or 遇到真值立即返回该值，因此 and/or 的结果不一定是布尔类型。" },
+        { "title": "return 与 print 的区别", "detail": "return 结束函数并把值交回调用处，print 只是显示；初学者最常见的混淆点。" },
+        { "title": "循环不变量", "detail": "写 while 时先明确「每轮开始时哪些关系恒成立」，能极大减少边界错误。" },
+        { "title": "测试驱动", "detail": "用 assert 与 doctest 把预期行为写成可执行的规格，是本课作业的标准做法。" }
+      ],
+      "terms": [
+        { "term": "short-circuiting 短路求值", "definition": "布尔运算在结果已确定时不再求值剩余操作数。" },
+        { "term": "falsy value 假值", "definition": "在布尔上下文中被视为假的值，如 0、''、None、空容器。" },
+        { "term": "doctest", "definition": "写在文档字符串中的交互式示例，可被自动执行以验证函数行为。" },
+        { "term": "invariant 不变量", "definition": "在程序某个位置总是成立的条件断言。" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "高阶函数：把函数作为参数传入、作为返回值返回。通过求和模板、逐步改进法（迭代改进）等例子展示如何把重复模式提炼成通用函数，并引入嵌套定义与闭包的初步概念。",
+      "keyPoints": [
+        { "title": "函数是一等公民", "detail": "函数可以像数一样被绑定名称、放进容器、当作实参传递、作为返回值。" },
+        { "title": "以函数为参数", "detail": "summation(n, term) 这类模板把「累加什么」抽象出去，一份代码服务无数具体求和。", "formula": "\\sum_{k=1}^{n} f(k)" },
+        { "title": "以函数为返回值", "detail": "make_adder(n) 返回一个新函数，返回的函数记住了定义时环境中的 n。" },
+        { "title": "嵌套定义与局部作用域", "detail": "在函数内部 def 出的函数只在该次调用的帧中可见，天然避免了名称污染。" },
+        { "title": "函数柯里化", "detail": "把多参数函数转化为一串单参数函数，是高阶函数的经典应用。" }
+      ],
+      "terms": [
+        { "term": "higher-order function 高阶函数", "definition": "接受函数为参数或返回函数的函数。" },
+        { "term": "first-class 一等公民", "definition": "某类值可以被自由传递、返回和存储的性质。" },
+        { "term": "currying 柯里化", "definition": "把接受多个参数的函数变换为嵌套的单参数函数。" },
+        { "term": "closure 闭包", "definition": "函数与其定义时所处环境的组合。" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "环境模型（Environment Diagram）的完整讲解，这是本课最重要的调试工具。讲清帧、父帧、函数对象的 parent 指针如何决定名称查找路径，并用 lambda 表达式与返回函数的例子演示复杂情形。",
+      "keyPoints": [
+        { "title": "函数对象携带父环境", "detail": "每个函数对象记录它被定义时所在的帧作为 parent，这决定了它的名称查找路径（词法作用域）。" },
+        { "title": "调用帧的父帧", "detail": "新帧的父帧是被调用函数的 parent，而不是调用者所在的帧，这是理解闭包的关键。" },
+        { "title": "lambda 表达式", "detail": "lambda 创建匿名函数对象，语义与 def 相同，只是不绑定名称且函数体必须是单个表达式。" },
+        { "title": "画环境图的步骤", "detail": "按语句顺序逐步画帧、记录绑定、标注函数对象的 parent，遇到错误代码时先画图再猜原因。" },
+        { "title": "作用域链查找", "detail": "查找名称时沿 parent 链一路向外，第一个找到的绑定生效，外层同名绑定被遮蔽。" }
+      ],
+      "terms": [
+        { "term": "environment 环境", "definition": "由当前帧沿父指针串起的帧序列，决定名称的含义。" },
+        { "term": "lexical scope 词法作用域", "definition": "名称的作用范围由代码书写位置而非调用位置决定。" },
+        { "term": "lambda 匿名函数", "definition": "用表达式形式创建的没有名字的函数。" },
+        { "term": "parent frame 父帧", "definition": "帧中记录的指向外层环境的引用。" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "递归：函数调用自身。讲基线情形与递归情形的划分、如何用「递归信仰跳跃」推理正确性、以及为什么递归代码往往比循环更贴近问题的数学定义。经典例子有阶乘、数位求和、互递归。",
+      "keyPoints": [
+        { "title": "递归三要素", "detail": "基线情形（最小问题直接给答案）、递归情形（把问题化为更小的同类问题）、以及每次都必须朝基线收敛。" },
+        { "title": "递归信仰跳跃", "detail": "写递归时假定对更小规模的调用已经正确，不要在脑中展开整个调用栈。" },
+        { "title": "阶乘与数位分解", "detail": "n! = n·(n-1)! 与用 // 10 和 % 10 逐位处理整数是最典型的递归模板。", "formula": "n! = n \\cdot (n-1)!,\\quad 0! = 1" },
+        { "title": "递归与迭代的对应", "detail": "线性递归可以机械地改写成 while 循环，反之亦然，选择取决于哪种写法更清晰。" },
+        { "title": "互递归", "detail": "两个函数互相调用（如 is_even / is_odd），本质仍是同一套推理方式。" }
+      ],
+      "terms": [
+        { "term": "recursion 递归", "definition": "函数在其定义中调用自身的技术。" },
+        { "term": "base case 基线情形", "definition": "递归中不再自我调用、直接给出答案的最简情况。" },
+        { "term": "recursive leap of faith 递归信仰跳跃", "definition": "假设递归调用对子问题已正确从而简化推理的思维方法。" },
+        { "term": "mutual recursion 互递归", "definition": "两个或多个函数互相调用形成的递归。" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "树递归：一次调用中发起多个递归调用，形成分支状的计算树。以斐波那契、找零钱数、分割数为例，展示这类问题的共同套路——把问题按「用不用当前选项」分成两个子问题求和。",
+      "keyPoints": [
+        { "title": "什么是树递归", "detail": "函数体中出现两次或以上的递归调用，调用结构呈树形而非链形。" },
+        { "title": "斐波那契的指数代价", "detail": "朴素递归会重复计算大量子问题，调用次数随 n 指数增长，为后面的记忆化埋伏笔。", "formula": "F(n) = F(n-1) + F(n-2),\\ F(0)=0,\\ F(1)=1" },
+        { "title": "计数问题的通用套路", "detail": "把方案分为「使用当前面额/元素」与「不使用」两类，分别递归再相加，注意两类必须互斥且穷尽。" },
+        { "title": "分割数 count_partitions", "detail": "用不超过 m 的正整数分割 n 的方案数，是本课最经典的树递归练习。" },
+        { "title": "边界条件的推敲", "detail": "n == 0 返回 1（空方案算一种）、n < 0 或 m == 0 返回 0，边界写错是最常见错误来源。" }
+      ],
+      "terms": [
+        { "term": "tree recursion 树递归", "definition": "一次调用中产生多个递归分支的递归形式。" },
+        { "term": "Fibonacci sequence 斐波那契数列", "definition": "每项为前两项之和的经典数列。" },
+        { "term": "partition 分割", "definition": "把一个整数写成若干正整数之和的方式。" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "补充函数机制的细节：默认参数、关键字参数、可变参数 *args 与 **kwargs、函数装饰器的基本形态，以及为什么可变对象作默认值是陷阱。同时讨论函数的设计原则（单一职责、好名字、文档字符串）。",
+      "keyPoints": [
+        { "title": "默认值在定义时求值一次", "detail": "默认参数对象在 def 执行时创建并复用，用可变对象作默认值会跨调用累积状态。" },
+        { "title": "关键字参数与可变参数", "detail": "*args 收集位置实参成元组，**kwargs 收集关键字实参成字典，用于写通用包装函数。" },
+        { "title": "装饰器", "detail": "@decorator 语法等价于把函数传给装饰器再重新绑定原名，本质仍是高阶函数。" },
+        { "title": "函数设计准则", "detail": "每个函数只做一件事、名字表意、用 docstring 写清参数与返回值的契约。" },
+        { "title": "抽象屏障的雏形", "detail": "调用者只应依赖函数的文档承诺，不应依赖其内部实现细节。" }
+      ],
+      "terms": [
+        { "term": "default argument 默认参数", "definition": "函数定义中给出的、调用时可省略的参数值。" },
+        { "term": "decorator 装饰器", "definition": "接受函数并返回增强版函数的高阶函数，配有 @ 语法糖。" },
+        { "term": "docstring 文档字符串", "definition": "写在函数体开头、描述其行为的字符串。" },
+        { "term": "variadic arguments 可变参数", "definition": "用 *args / **kwargs 接收任意数量实参的机制。" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "函数综合实例课：用一系列练习巩固高阶函数、递归与环境模型。典型内容包括自引用函数、返回函数的函数、以及用函数组合（compose）与累加器模式解决问题，重点训练「读代码画环境图」的能力。",
+      "keyPoints": [
+        { "title": "函数组合", "detail": "compose(f, g) 返回 x -> f(g(x))，是用函数构造函数的最小例子。" },
+        { "title": "重复应用", "detail": "repeated(f, n) 返回把 f 应用 n 次的函数，可用递归或循环实现，是高阶函数的经典练习。" },
+        { "title": "自引用与闭包状态", "detail": "返回的函数可以引用外层帧中的名称，从而在多次调用间保持信息。" },
+        { "title": "先写签名再写实现", "detail": "明确输入是值还是函数、输出是值还是函数，能消除高阶函数题目的大部分困惑。" },
+        { "title": "环境图作为验证手段", "detail": "对复杂的返回函数题目，画图比在脑中模拟可靠得多。" }
+      ],
+      "terms": [
+        { "term": "function composition 函数组合", "definition": "把一个函数的输出作为另一个函数输入而形成的新函数。" },
+        { "term": "accumulator 累加器", "definition": "在递归或迭代中携带中间结果的参数。" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "容器：列表、range、字符串与序列的通用操作。讲索引、切片、成员测试、for 语句的展开语义，以及列表推导式与 map/filter/reduce 的对应关系，把序列处理提升到声明式风格。",
+      "keyPoints": [
+        { "title": "序列抽象", "detail": "列表、字符串、range 都支持长度、索引、切片、迭代，可用同一套代码处理。" },
+        { "title": "for 语句的语义", "detail": "for 会依次取出序列元素并绑定到循环变量，等价于取迭代器后反复调用 next。" },
+        { "title": "列表推导式", "detail": "[f(x) for x in s if p(x)] 一行表达 map 与 filter 的组合，可读性通常优于显式循环。" },
+        { "title": "切片产生新列表", "detail": "s[i:j] 返回浅拷贝的新序列，不会修改原序列，这与后面讲的可变性对照理解。" },
+        { "title": "聚合与归约", "detail": "sum / max / min 以及 reduce 把序列归约为单个值，常配合 key 函数使用。" }
+      ],
+      "terms": [
+        { "term": "sequence 序列", "definition": "支持按整数索引访问且有确定长度的有序集合。" },
+        { "term": "list comprehension 列表推导式", "definition": "用一行表达式从已有序列构造新列表的语法。" },
+        { "term": "slicing 切片", "definition": "取序列子区间并生成新序列的操作。" },
+        { "term": "reduce 归约", "definition": "用二元函数把序列逐步合并为单个值的操作。" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "数据抽象：用抽象屏障把「数据怎么用」和「数据怎么存」分开。以有理数为例，先定义构造器与选择器并规定它们必须满足的性质，再讨论底层可以用列表、字典甚至函数（消息传递）来实现，实现替换不影响上层代码。",
+      "keyPoints": [
+        { "title": "构造器与选择器", "detail": "rational(n, d)、numer(r)、denom(r) 构成数据的接口，上层只通过它们操作数据。" },
+        { "title": "抽象屏障", "detail": "程序分层，每层只调用相邻下层的接口；跨层直接访问表示会让实现无法替换。" },
+        { "title": "数据由行为定义", "detail": "只要构造器与选择器满足约定关系，底层用什么表示都无所谓——数据即其满足的性质。" },
+        { "title": "用函数表示数据", "detail": "pair 可以完全用高阶函数实现（消息传递），说明「数据」并不需要专门的语言特性。" },
+        { "title": "违反抽象的代价", "detail": "直接用下标访问底层列表的代码在表示改变时会全部失效，是维护成本的主要来源。" }
+      ],
+      "terms": [
+        { "term": "data abstraction 数据抽象", "definition": "通过接口隔离数据的使用与表示的设计方法。" },
+        { "term": "abstraction barrier 抽象屏障", "definition": "分隔程序各层、限制其只能通过接口交互的边界。" },
+        { "term": "constructor 构造器", "definition": "从组成部分创建复合数据的函数。" },
+        { "term": "selector 选择器", "definition": "从复合数据中取出组成部分的函数。" },
+        { "term": "message passing 消息传递", "definition": "用函数响应不同「消息」来实现数据结构的技术。" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "字典与嵌套数据：讲字典的键值语义与字典推导式，再用嵌套列表表示矩阵，最后引入本课贯穿始终的树抽象——用 [label, branches] 表示一棵树并定义 tree/label/branches 三个接口函数。",
+      "keyPoints": [
+        { "title": "字典的性质", "detail": "键必须不可变且唯一，查找平均常数时间；适合表示映射关系而非有序集合。" },
+        { "title": "嵌套数据与矩阵", "detail": "列表的列表可表示二维结构，遍历时注意区分行索引与列索引。" },
+        { "title": "树的数据抽象", "detail": "一棵树由根标签和分支列表构成，每个分支本身又是一棵树，是递归定义的典范。" },
+        { "title": "叶子的判定", "detail": "分支列表为空即为叶子，is_leaf 是几乎所有树算法的基线情形。" },
+        { "title": "树处理即递归", "detail": "对树的操作几乎总是「处理标签 + 对每个分支递归」，模板高度一致。" }
+      ],
+      "terms": [
+        { "term": "dictionary 字典", "definition": "键到值的映射容器，支持快速按键查找。" },
+        { "term": "tree 树", "definition": "由根标签与若干子树分支递归构成的层次结构。" },
+        { "term": "leaf 叶子", "definition": "没有分支的树节点。" },
+        { "term": "nested list 嵌套列表", "definition": "元素本身也是列表的列表。" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "先练习构造树（如从斐波那契计算过程构造树、剪枝），再转入可变性：列表是可变对象，append、pop、切片赋值会原地修改，这与之前所有「返回新值」的操作形成对比，也带来共享与别名问题。",
+      "keyPoints": [
+        { "title": "构造树的递归", "detail": "写返回树的函数时，先递归构造各分支，再用 tree(label, branches) 组装，保持抽象层次。" },
+        { "title": "可变对象", "detail": "列表和字典的内容可以在不改变绑定的情况下被修改，函数因此可能产生副作用。" },
+        { "title": "原地修改的方法", "detail": "append、extend、insert、remove、pop 修改原列表并返回 None，容易被误当作返回新列表。" },
+        { "title": "别名问题", "detail": "两个名称绑定到同一个列表时，通过任一名称的修改对另一个立即可见。" },
+        { "title": "值语义 vs 引用语义", "detail": "赋值传递的是对象引用而非拷贝，这是理解后续 identity vs equality 的前提。" }
+      ],
+      "terms": [
+        { "term": "mutability 可变性", "definition": "对象创建后其内容仍可被修改的性质。" },
+        { "term": "aliasing 别名", "definition": "多个名称指向同一个对象的情形。" },
+        { "term": "in-place 原地修改", "definition": "直接改动原对象而不创建新对象的操作。" },
+        { "term": "side effect 副作用", "definition": "函数除返回值之外对程序状态造成的改变。" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "继续列表变异，并区分 identity（is，是不是同一个对象）与 equality（==，值是否相等）。随后讲 global 与 nonlocal 声明：默认情况下函数内赋值创建局部绑定，nonlocal 让函数能修改外层帧中的名称，从而实现有状态的闭包。",
+      "keyPoints": [
+        { "title": "is 与 == 的区别", "detail": "is 比较对象身份（内存中是否同一个），== 比较值；对可变对象二者常常不一致。" },
+        { "title": "浅拷贝", "detail": "list(s) 或 s[:] 复制外层列表但内部元素仍是共享引用，嵌套结构需注意。" },
+        { "title": "赋值默认创建局部绑定", "detail": "函数体中出现 x = ... 就会让 x 成为该帧的局部名称，即使外层已有同名绑定。" },
+        { "title": "nonlocal 声明", "detail": "nonlocal x 让赋值作用于最近的非全局外层帧，使闭包可以维护可变状态（如计数器、银行账户）。" },
+        { "title": "有状态函数", "detail": "用 nonlocal 或可变默认容器实现的函数不再是纯函数，多次相同调用可能返回不同结果。" }
+      ],
+      "terms": [
+        { "term": "identity 身份", "definition": "对象在内存中的唯一标识，用 is 比较。" },
+        { "term": "equality 相等", "definition": "两个值内容是否相同，用 == 比较。" },
+        { "term": "nonlocal 非局部声明", "definition": "让函数内赋值作用于外层函数帧的语句。" },
+        { "term": "shallow copy 浅拷贝", "definition": "只复制最外层容器、内部元素仍共享的复制方式。" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "迭代器与生成器：把「遍历」本身抽象成对象。讲 iter/next 协议、StopIteration、内建的惰性迭代器（map、filter、zip），再讲 yield 如何把一个函数变成生成器，以及 yield from 用于递归生成。",
+      "keyPoints": [
+        { "title": "迭代器协议", "detail": "可迭代对象实现 __iter__ 返回迭代器，迭代器实现 __next__ 逐个产出元素，耗尽时抛 StopIteration。" },
+        { "title": "惰性求值", "detail": "map/filter/zip 返回迭代器而非列表，元素按需计算，可处理超大甚至无限的数据流。" },
+        { "title": "生成器函数", "detail": "函数体中含 yield 时，调用它不执行函数体而返回生成器；每次 next 从上次 yield 处继续。" },
+        { "title": "yield from", "detail": "把子生成器的所有产出转发出去，让树等递归结构的遍历写起来非常自然。" },
+        { "title": "一次性消费", "detail": "迭代器只能遍历一次，重复使用需重新创建，这是初学者常踩的坑。" }
+      ],
+      "terms": [
+        { "term": "iterator 迭代器", "definition": "维护遍历位置、通过 next 逐个产出元素的对象。" },
+        { "term": "generator 生成器", "definition": "由含 yield 的函数创建的迭代器。" },
+        { "term": "lazy evaluation 惰性求值", "definition": "推迟计算直到结果真正被需要。" },
+        { "term": "StopIteration 迭代终止", "definition": "迭代器耗尽时抛出的异常。" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "面向对象编程入门：类是对象的模板，实例拥有各自的属性（状态），方法是绑定到实例的函数。以银行账户为例讲 __init__、self 的含义、实例属性与类属性的区别，以及点表达式的查找规则。",
+      "keyPoints": [
+        { "title": "类与实例", "detail": "class 语句创建类对象，调用类创建实例；实例的属性存在自己的字典里。" },
+        { "title": "self 的本质", "detail": "方法就是普通函数，实例调用时 Python 自动把实例作为第一个参数传入。" },
+        { "title": "__init__ 构造", "detail": "实例创建后自动调用，用于初始化实例属性，不返回值。" },
+        { "title": "类属性 vs 实例属性", "detail": "类属性被所有实例共享，赋值给实例属性会遮蔽同名类属性而非修改它。" },
+        { "title": "点表达式查找顺序", "detail": "先查实例自身属性，再查类，再沿继承链向上，第一个找到的生效。" }
+      ],
+      "terms": [
+        { "term": "class 类", "definition": "定义一类对象共同行为与结构的模板。" },
+        { "term": "instance 实例", "definition": "由类创建的具体对象，拥有自己的属性。" },
+        { "term": "method 方法", "definition": "定义在类中、通过实例调用并自动接收实例作为首参的函数。" },
+        { "term": "attribute 属性", "definition": "绑定在对象上的名称与值。" }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "继承与组合两种代码复用方式。继承表达 is-a 关系，子类可覆盖或扩展父类方法并用 super() 调用父类实现；组合表达 has-a 关系，把对象作为另一个对象的属性。课上强调多数场景组合优于继承。",
+      "keyPoints": [
+        { "title": "继承的属性查找", "detail": "子类找不到属性时沿基类链向上查找，因此子类自动获得父类的全部行为。" },
+        { "title": "方法覆盖与 super", "detail": "子类可定义同名方法覆盖父类实现，用 super().method() 复用父类逻辑再做增补。" },
+        { "title": "is-a 与 has-a", "detail": "继承用于「子类就是一种父类」；若只是「包含一个」，应当用组合把对象存为属性。" },
+        { "title": "组合的灵活性", "detail": "组合可在运行时替换被包含的对象，耦合更松，也避免了深继承树的脆弱性。" },
+        { "title": "多重继承", "detail": "Python 允许多个基类，按 MRO 顺序查找；容易引发歧义，应谨慎使用。" }
+      ],
+      "terms": [
+        { "term": "inheritance 继承", "definition": "子类自动获得基类属性与方法的机制。" },
+        { "term": "composition 组合", "definition": "把对象作为另一对象的属性来复用功能的设计方式。" },
+        { "term": "override 覆盖", "definition": "子类以同名定义取代基类方法实现。" },
+        { "term": "super 超类调用", "definition": "在子类中调用基类同名方法的内建函数。" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "特殊方法（魔法方法）：让自定义类融入 Python 语言本身的接口。讲 __repr__ 与 __str__ 的分工、__len__ / __getitem__ 让对象可索引可迭代、__add__ 等运算符重载，以及多态与 type dispatch 的思路。",
+      "keyPoints": [
+        { "title": "__repr__ 与 __str__", "detail": "repr 面向开发者、力求可求值还原对象；str 面向用户、力求可读；print 用 str，交互式回显用 repr。" },
+        { "title": "容器协议", "detail": "实现 __len__ 和 __getitem__ 后，对象可用 len()、下标访问，甚至能被 for 遍历。" },
+        { "title": "运算符重载", "detail": "__add__ / __mul__ 等让自定义类型支持 + 与 *，需要考虑 __radd__ 处理反向操作数。" },
+        { "title": "多态", "detail": "同一段代码可作用于任何实现了所需特殊方法的类型，这是 Python 的鸭子类型精神。" },
+        { "title": "类型分派", "detail": "处理多种类型组合的运算时，可用类型标签或字典查表来选择正确的实现。" }
+      ],
+      "terms": [
+        { "term": "special method 特殊方法", "definition": "双下划线命名、由语言语法自动调用的方法。" },
+        { "term": "polymorphism 多态", "definition": "同一接口作用于不同类型对象而产生各自恰当行为。" },
+        { "term": "operator overloading 运算符重载", "definition": "让自定义类型支持内建运算符的机制。" },
+        { "term": "duck typing 鸭子类型", "definition": "只关心对象是否具备所需方法而不关心其具体类型。" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "递归对象：用类实现链表与树。Link 类用 first 与 rest 两个属性递归表示序列，Tree 类用 label 与 branches 表示层次结构；讲如何为它们写 __repr__、以及为什么这类结构上的算法天然是递归的。",
+      "keyPoints": [
+        { "title": "Link 链表", "detail": "Link(first, rest) 中 rest 要么是另一个 Link 要么是空链表哨兵 Link.empty，形成递归定义。" },
+        { "title": "链表算法模板", "detail": "处理 first，再对 rest 递归；基线情形是 rest is Link.empty。" },
+        { "title": "链表 vs Python 列表", "detail": "链表头部插入是常数时间但按下标访问是线性时间，与数组式列表的代价特征相反。" },
+        { "title": "Tree 类", "detail": "把之前的函数式树抽象改写成类，label 与 branches 成为属性，is_leaf 成为方法。" },
+        { "title": "可变递归结构", "detail": "对象版的链表和树可以原地修改（如剪枝、插入），需要小心共享结构带来的意外改动。" }
+      ],
+      "terms": [
+        { "term": "linked list 链表", "definition": "由节点及其指向后继的引用递归构成的序列结构。" },
+        { "term": "recursive object 递归对象", "definition": "属性中包含同类对象的类实例。" },
+        { "term": "sentinel 哨兵", "definition": "表示结构末端或空的特殊值，如 Link.empty。" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "复杂度分析入门：用增长阶（Order of Growth）描述运行时间随输入规模的变化趋势，忽略常数与低阶项。通过比较朴素斐波那契、线性查找、二分查找与嵌套循环，建立对常数、对数、线性、平方、指数几档的直觉。",
+      "keyPoints": [
+        { "title": "为什么用增长阶", "detail": "机器速度与常数因子因环境而异，只有增长趋势才是算法本身的性质。" },
+        { "title": "常见增长阶", "detail": "从快到慢依次为 Θ(1)、Θ(log n)、Θ(n)、Θ(n log n)、Θ(n²)、Θ(2ⁿ)。", "formula": "1 \\prec \\log n \\prec n \\prec n\\log n \\prec n^2 \\prec 2^n" },
+        { "title": "计数基本操作", "detail": "分析时数循环执行次数或递归调用次数，而不是逐条指令计时。" },
+        { "title": "递归的代价", "detail": "树递归的调用数可能指数增长，如朴素 fib 的调用次数与 F(n) 同阶。" },
+        { "title": "空间复杂度", "detail": "递归深度决定栈空间占用，线性递归为 Θ(n)，尾迭代改写可降到 Θ(1)。" }
+      ],
+      "terms": [
+        { "term": "order of growth 增长阶", "definition": "描述资源消耗随输入规模增长速度的度量。" },
+        { "term": "Theta notation Θ 记号", "definition": "同时给出增长的上下界、刻画确切增长阶的记号。" },
+        { "term": "exponential growth 指数增长", "definition": "随输入规模每增加一个单位、代价成倍增长的趋势。" },
+        { "term": "space complexity 空间复杂度", "definition": "算法执行所需的额外存储随输入规模的增长趋势。" }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "记忆化：用字典缓存已计算过的结果，把重复子问题的重算消除掉。以斐波那契为例，记忆化把指数级调用降为线性，并讨论它与纯函数、可变状态、装饰器的关系。",
+      "keyPoints": [
+        { "title": "重复子问题", "detail": "树递归中同一子问题被反复求解是低效的根源，记忆化正是针对这一点。" },
+        { "title": "memo 装饰器", "detail": "用闭包中的字典缓存参数到结果的映射，命中直接返回，未命中才调用原函数并存入。" },
+        { "title": "效果量级", "detail": "记忆化后的 fib 每个 n 只计算一次，时间从 Θ(2ⁿ) 降到 Θ(n)。" },
+        { "title": "适用前提", "detail": "被缓存的函数必须是纯函数且参数可哈希，否则缓存结果不再正确。" },
+        { "title": "空间换时间", "detail": "记忆化以额外的字典存储换取时间，是动态规划思想的自然入口。" }
+      ],
+      "terms": [
+        { "term": "memoization 记忆化", "definition": "缓存函数调用结果以避免重复计算的技术。" },
+        { "term": "cache 缓存", "definition": "保存已算结果以便快速复用的存储。" },
+        { "term": "hashable 可哈希", "definition": "可作为字典键使用的、具有稳定哈希值的对象性质。" }
+      ]
+    },
+    {
+      "n": 22,
+      "summary": "泛型编程：让同一份代码作用于多种数据类型。讲三条路线——鸭子类型下的通用函数、类型分派（type dispatching）与类型强制（type coercion），以及用特殊方法与接口约定实现的多态，并以有理数与复数的混合运算为例。",
+      "keyPoints": [
+        { "title": "泛型的目标", "detail": "让抽象既能跨多种参数类型，又能在新增类型时不必改动已有代码。" },
+        { "title": "接口约定", "detail": "只要各类型都实现约定的方法（如 __repr__、比较），通用代码即可无差别处理。" },
+        { "title": "类型分派", "detail": "用字典把 (类型A, 类型B) 映射到对应实现，运算时查表选择函数。" },
+        { "title": "类型强制", "detail": "先把参数转换到共同类型再执行单一实现，新增类型只需提供转换函数，扩展成本更低。" },
+        { "title": "组合数据类型的复杂度", "detail": "n 种类型两两组合会有 n² 种运算实现，强制转换把它压回 n 个转换器。" }
+      ],
+      "terms": [
+        { "term": "generic function 泛型函数", "definition": "能作用于多种数据类型的函数。" },
+        { "term": "type dispatching 类型分派", "definition": "依据参数类型查表选择具体实现的技术。" },
+        { "term": "type coercion 类型强制", "definition": "把不同类型转换为共同类型后统一处理。" },
+        { "term": "interface 接口", "definition": "一组约定的方法名与行为，构成类型间的通用契约。" }
+      ]
+    },
+    {
+      "n": 23,
+      "summary": "可迭代对象的进阶玩法：用生成器和 itertools 风格的组合器构造无限流、惰性管道与复杂遍历。展示如何用少量通用组件（map、filter、zip、take）拼出强表达力的数据处理链，并复习生成器的递归用法。",
+      "keyPoints": [
+        { "title": "无限序列", "detail": "生成器可以表示无限流（如自然数、素数），只要消费端只取有限项就不会不终止。" },
+        { "title": "惰性管道", "detail": "把多个惰性变换串联，元素逐个流过整条管道，内存占用与流长度无关。" },
+        { "title": "生成器递归", "detail": "用 yield from 递归产出子结构元素，可优雅地展平嵌套列表或遍历树。" },
+        { "title": "组合器思想", "detail": "少数几个通用高阶函数组合出的解法，往往比专门写的循环更短也更容易验证。" },
+        { "title": "迭代器的陷阱", "detail": "把同一个迭代器传给两处消费会互相偷取元素，需要 tee 或重新构造。" }
+      ],
+      "terms": [
+        { "term": "infinite stream 无限流", "definition": "元素可无限产出、只能按需取用的惰性序列。" },
+        { "term": "pipeline 管道", "definition": "由多个惰性变换串联形成的数据处理链。" },
+        { "term": "flatten 展平", "definition": "把嵌套结构转化为单层序列的操作。" }
+      ]
+    },
+    {
+      "n": 24,
+      "summary": "转向 Scheme：一门语法极简的 Lisp 方言。讲前缀表达式与括号语法、define / if / cond / lambda / let 等特殊形式、以及 Scheme 用 cons 单元构建的表。极简语法正是为了后面亲手实现解释器做准备。",
+      "keyPoints": [
+        { "title": "统一的前缀语法", "detail": "所有运算都写成 (运算符 运算数 ...)，没有优先级问题，程序结构与语法树完全一致。" },
+        { "title": "特殊形式", "detail": "if、define、lambda、and/or、quote 不遵循「先求值全部子表达式」的规则，需要特殊处理。" },
+        { "title": "Scheme 的表", "detail": "表由 cons 单元链成，(1 2 3) 实际是嵌套的 pair，nil 表示空表，与 Link 链表同构。" },
+        { "title": "define 定义函数", "detail": "(define (f x) body) 是 (define f (lambda (x) body)) 的语法糖。" },
+        { "title": "尾递归", "detail": "Scheme 要求尾调用不增长栈，因此循环可以完全用递归表达。" }
+      ],
+      "terms": [
+        { "term": "Scheme", "definition": "语法极简的 Lisp 方言，本课用于讲解解释器实现。" },
+        { "term": "special form 特殊形式", "definition": "求值规则与普通调用不同的语言构造，如 if 与 define。" },
+        { "term": "cons pair 序对", "definition": "包含两个部分的基本复合结构，Scheme 用它构建表。" },
+        { "term": "tail call 尾调用", "definition": "函数体中处于最后一步的调用，可不增长调用栈。" }
+      ]
+    },
+    {
+      "n": 25,
+      "summary": "Scheme 编程实例：用 Scheme 重写此前学过的递归、高阶函数与表处理，例如 map / filter / reduce 的自定义实现、树操作与深递归。目的是把已有的思维模型迁移到新语法上，同时体会函数式风格。",
+      "keyPoints": [
+        { "title": "表处理递归模板", "detail": "取 car 处理首元素、对 cdr 递归、以 null? 为基线，是几乎所有 Scheme 表函数的骨架。" },
+        { "title": "自己实现高阶函数", "detail": "map、filter、reduce 都能用十几行 Scheme 写出来，说明它们并非语言内建魔法。" },
+        { "title": "Scheme 中的树", "detail": "树用嵌套表表示，遍历时需区分「元素是表还是原子」，对应深递归模式。" },
+        { "title": "let 与局部绑定", "detail": "let 本质是立即调用的 lambda，用来给中间结果起名以提升可读性。" },
+        { "title": "quote 与符号", "detail": "'(1 2 3) 阻止求值，把代码当作数据看待，为后面的宏与解释器铺路。" }
+      ],
+      "terms": [
+        { "term": "car / cdr", "definition": "Scheme 中取序对首元素与剩余部分的两个基本操作。" },
+        { "term": "quote 引用", "definition": "阻止表达式被求值、把它当作数据返回的特殊形式。" },
+        { "term": "symbol 符号", "definition": "Scheme 中的标识符类型值，常用作数据标签。" }
+      ]
+    },
+    {
+      "n": 26,
+      "summary": "Calculator 语言：一个只支持 + - * / 的极小 Scheme 子集，用它演示解释器的三大部件——读取（Parse）、求值（Eval）、打印（Print）。讲词法分析产生记号、语法分析产生表达式树，以及 eval 的递归结构。",
+      "keyPoints": [
+        { "title": "REPL 循环", "detail": "解释器就是不断执行「读取输入、解析、求值、打印结果」的循环。" },
+        { "title": "词法与语法分析", "detail": "tokenize 把字符流切成记号，parse 按括号结构把记号组装成嵌套的 Pair 表达式树。" },
+        { "title": "表达式树即数据", "detail": "程序被表示成解释器可以操作的普通数据结构，这是 Lisp 家族的核心特征。" },
+        { "title": "递归求值", "detail": "calc_eval 对数字直接返回、对调用表达式先递归求值各运算数再作用运算符。" },
+        { "title": "错误处理", "detail": "解析阶段检查括号匹配，求值阶段检查运算符合法性与参数个数，给出清晰的错误信息。" }
+      ],
+      "terms": [
+        { "term": "interpreter 解释器", "definition": "读取程序表示并直接执行其语义的程序。" },
+        { "term": "REPL 读取-求值-打印循环", "definition": "交互式解释器的基本工作循环。" },
+        { "term": "tokenization 词法分析", "definition": "把源代码字符流切分成记号序列的过程。" },
+        { "term": "parsing 语法分析", "definition": "把记号序列组织成结构化表达式树的过程。" }
+      ]
+    },
+    {
+      "n": 27,
+      "summary": "完整的 Scheme 解释器：在 Calculator 基础上加入环境、变量、用户自定义过程与特殊形式。核心是 eval 与 apply 的互递归，以及 LambdaProcedure 如何携带定义环境实现词法作用域——此时前面第 5 讲的环境模型完全对应上了。",
+      "keyPoints": [
+        { "title": "eval / apply 互递归", "detail": "eval 求值表达式（需要环境），apply 把过程作用于已求值的实参，二者相互调用构成解释器主干。" },
+        { "title": "环境的实现", "detail": "Frame 对象保存绑定字典和 parent 指针，lookup 沿链向上查找，与 Python 环境图完全同构。" },
+        { "title": "用户自定义过程", "detail": "LambdaProcedure 保存形参、函数体和定义时的环境；调用时新建以该环境为父的子帧。" },
+        { "title": "特殊形式的分派", "detail": "eval 先检查表达式首元素是否是 if/define/lambda 等关键字，是则走专门逻辑而非普通调用规则。" },
+        { "title": "元循环解释器", "detail": "用一门语言实现它自己（或近亲），揭示「程序即数据」并让语言设计的选择变得可见可改。" }
+      ],
+      "terms": [
+        { "term": "eval 求值", "definition": "在给定环境中计算表达式值的过程。" },
+        { "term": "apply 应用", "definition": "把过程作用于实参列表并返回结果的过程。" },
+        { "term": "metacircular evaluator 元循环求值器", "definition": "用某语言写成的、解释该语言自身的解释器。" },
+        { "term": "dynamic scope 动态作用域", "definition": "名称含义由调用时环境决定的作用域规则，与词法作用域相对。" }
+      ]
+    },
+    {
+      "n": 28,
+      "summary": "不可判定性：证明停机问题无解。用一个自指的对角线论证说明不存在能判断任意程序是否终止的程序，从而给出计算的根本极限。这一讲把前面「程序即数据」的观点推到哲学层面。",
+      "keyPoints": [
+        { "title": "停机问题的表述", "detail": "是否存在函数 halts(f, x)，对任意程序 f 与输入 x 判断 f(x) 是否终止？" },
+        { "title": "对角线构造", "detail": "假设 halts 存在，构造一个在 halts 说「会停」时故意死循环的程序，把它作用于自身即得矛盾。" },
+        { "title": "自指是关键", "detail": "程序可以把程序当作数据处理（正是解释器教给我们的），因此可以把程序喂给它自己。" },
+        { "title": "结论的普遍性", "detail": "任何等价于图灵机的语言都受此限制，不是 Python 或 Scheme 的缺陷。" },
+        { "title": "实践含义", "detail": "静态分析工具只能给出保守近似（可能误报或漏报），完美的通用检查器不存在。" }
+      ],
+      "terms": [
+        { "term": "halting problem 停机问题", "definition": "判断任意程序在给定输入下是否终止的问题，已证明不可判定。" },
+        { "term": "undecidability 不可判定性", "definition": "不存在总能给出正确答案的算法的性质。" },
+        { "term": "diagonalization 对角线论证", "definition": "通过构造与所有已列举对象都不同的对象来推出矛盾的证明技巧。" },
+        { "term": "self-reference 自指", "definition": "程序或命题指向自身的情形。" }
+      ]
+    },
+    {
+      "n": 29,
+      "summary": "宏：在求值之前对代码本身做变换。因为 Scheme 程序就是表数据，宏可以接收未求值的表达式、拼装出新的表达式再交给 eval，从而在语言里添加新的特殊形式。讲 define-macro 的实现与常见陷阱。",
+      "keyPoints": [
+        { "title": "宏与过程的区别", "detail": "过程先求值实参再执行；宏拿到的是未求值的表达式本身，返回的是一段新代码。" },
+        { "title": "两阶段模型", "detail": "宏展开发生在求值之前，展开结果再按普通规则求值，因此宏能改变求值顺序。" },
+        { "title": "在解释器中实现", "detail": "MacroProcedure 在 apply 时不预先求值实参，返回值被送回 eval 再次求值。" },
+        { "title": "典型用途", "detail": "实现 when、unless、短路逻辑或自定义循环等需要延迟求值的构造。" },
+        { "title": "卫生问题", "detail": "宏展开引入的临时名称可能与调用处名称冲突，未做卫生处理的宏需要小心命名。" }
+      ],
+      "terms": [
+        { "term": "macro 宏", "definition": "在求值前把代码变换成另一段代码的语言构造。" },
+        { "term": "macro expansion 宏展开", "definition": "把宏调用替换为其生成代码的过程。" },
+        { "term": "hygiene 卫生性", "definition": "宏展开不意外捕获或遮蔽用户名称的性质。" }
+      ]
+    },
+    {
+      "n": 30,
+      "summary": "声明式编程：从「怎么做」转向「要什么」。对比命令式与声明式风格，引入 SQL 作为主要例子——只描述想要的结果集，由查询引擎决定执行方式，为后续的正则表达式、BNF 与 SQL 各讲开篇。",
+      "keyPoints": [
+        { "title": "命令式 vs 声明式", "detail": "命令式程序描述计算步骤，声明式程序描述结果应满足的性质，执行策略交给系统。" },
+        { "title": "SQL 的基本查询", "detail": "SELECT 列 FROM 表 WHERE 条件 ORDER BY 排序，一条语句表达筛选、投影与排序。" },
+        { "title": "表即数据抽象", "detail": "关系表由行与具名列构成，是本课数据抽象思想在数据库领域的体现。" },
+        { "title": "解释器负责优化", "detail": "同一查询可以有多种执行计划，声明式的价值在于系统能自动选择高效方案。" },
+        { "title": "适用边界", "detail": "声明式在有成熟求解引擎的领域（查询、匹配、约束）最有威力，通用计算仍以命令式为主。" }
+      ],
+      "terms": [
+        { "term": "declarative programming 声明式编程", "definition": "描述所需结果而非计算步骤的编程范式。" },
+        { "term": "imperative programming 命令式编程", "definition": "通过显式语句序列描述计算过程的编程范式。" },
+        { "term": "SQL 结构化查询语言", "definition": "用于描述关系数据查询的声明式语言。" },
+        { "term": "query plan 查询计划", "definition": "数据库为执行一条查询而选择的具体操作序列。" }
+      ]
+    }
+  ]
+}

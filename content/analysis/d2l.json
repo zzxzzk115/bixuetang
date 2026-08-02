@@ -1,0 +1,477 @@
+{
+  "courseId": "d2l",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "李沐的《动手学深度学习 v2》用 PyTorch 从零手写每一个模型，走完「数学基础 → 线性/Softmax 回归 → 多层感知机 → 卷积网络 → 计算机视觉 → 循环网络 → 注意力与 BERT」的完整主线。课程最大的特色是「一节理论 + 一节代码」交替推进：先在白板上把公式推清楚，紧接着在 Jupyter 里逐行敲出可运行实现，再给出框架的简洁写法，让你同时看懂原理和工程惯例。中间穿插数次 Kaggle 实战竞赛（房价预测、树叶分类、CIFAR-10、目标检测），把训练技巧、调参与提交流程走一遍真实流程。前 30 集是全课的地基，覆盖张量操作、线性代数、自动求导、优化算法、Softmax 分类、多层感知机与过拟合/欠拟合。学完整门课，你能独立读懂主流深度学习论文的模型结构，并用 PyTorch 复现和训练它们。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "开篇介绍课程的定位与安排：面向想真正动手写代码的学习者，讲什么、不讲什么、需要什么前置知识。李沐说明本课配套开源教材《动手学深度学习》与可运行 Jupyter 记事本，并介绍作业、竞赛与讨论区的组织方式。",
+      "keyPoints": [
+        { "title": "课程目标", "detail": "不止讲概念，而是把每个模型都从零实现一遍，再对照框架的简洁实现，理解「论文里的公式」如何变成「能跑的代码」。" },
+        { "title": "前置要求", "detail": "需要基本的 Python 编程能力、线性代数与微积分基础、以及一点概率统计；深度学习本身零基础也可以跟。" },
+        { "title": "教材即讲义", "detail": "配套开源书 zh.d2l.ai 的每一节都是可执行的 Jupyter Notebook，讲义、代码、数学推导在同一份文件里。" },
+        { "title": "课程结构", "detail": "整体按「深度学习基础 → 卷积神经网络 → 计算机视觉 → 循环神经网络与注意力 → 优化与工程」的顺序推进，中间穿插 Kaggle 实战竞赛。" }
+      ],
+      "terms": [
+        { "term": "deep learning 深度学习", "definition": "用多层神经网络从数据中自动学习分层特征表示的机器学习方法。" },
+        { "term": "PyTorch", "definition": "本课使用的深度学习框架，以动态计算图和贴近 NumPy 的张量 API 著称。" },
+        { "term": "Jupyter Notebook", "definition": "把代码、公式与文字混排并可逐格执行的交互式笔记本环境。" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "从应用出发介绍深度学习到底能做什么：图片分类、物体检测、语义分割、样式迁移、人脸合成、机器翻译、语音识别与推荐系统等。李沐用「广告点击」这一完整案例串起从数据、特征、模型到部署的全流程，说明深度学习在工业界的真实位置。",
+      "keyPoints": [
+        { "title": "AI 地图", "detail": "按「符号学 / 概率模型 / 机器学习」与「感知 / 推理 / 知识 / 规划」两个维度定位深度学习，它主要攻克的是感知层面的问题。" },
+        { "title": "典型应用谱系", "detail": "图片分类、物体检测与分割、样式迁移、人脸合成、文字生成图片、机器翻译、语音识别与自动驾驶。" },
+        { "title": "广告点击案例", "detail": "完整链路是「触发 → 点击率预估 → 排序」，需要领域专家、数据科学家与工程师三种角色协作，模型只是其中一环。" },
+        { "title": "为什么现在能成", "detail": "数据规模、算力（GPU）与算法三者同时到位，端到端训练取代了手工设计特征。" }
+      ],
+      "terms": [
+        { "term": "object detection 物体检测", "definition": "在图片中同时定位物体位置（边框）并识别其类别的任务。" },
+        { "term": "semantic segmentation 语义分割", "definition": "为图片中每个像素预测所属类别的稠密预测任务。" },
+        { "term": "click-through rate 点击率", "definition": "广告被展示后被点击的概率，是在线广告排序的核心预估目标。" },
+        { "term": "end-to-end 端到端", "definition": "从原始输入直接学到最终输出，不再依赖人工设计的中间特征。" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "手把手安装课程环境：Linux/macOS 上通过 Miniconda 创建 Python 环境，安装 PyTorch、d2l 包与 Jupyter，并下载课程记事本。演示如何启动 Notebook 服务、通过 SSH 端口转发在本地浏览器访问远程服务器上的 Jupyter。",
+      "keyPoints": [
+        { "title": "Miniconda 环境隔离", "detail": "用 conda 建独立环境避免包冲突，课程统一使用一个干净的 Python 环境安装依赖。" },
+        { "title": "安装三件套", "detail": "pip 安装 torch、torchvision 与 d2l 工具包；d2l 包封装了课程中反复使用的辅助函数。" },
+        { "title": "获取课程记事本", "detail": "从课程官网下载 zip 后解压，每一节对应一个可直接运行的 .ipynb 文件。" },
+        { "title": "远程访问 Jupyter", "detail": "在服务器上启动 jupyter notebook，再用 ssh -L 做本地端口转发，即可在本机浏览器操作远程 GPU 机器。" }
+      ],
+      "terms": [
+        { "term": "conda", "definition": "跨平台的包与环境管理器，用于创建互相隔离的 Python 运行环境。" },
+        { "term": "port forwarding 端口转发", "definition": "通过 SSH 把远程机器的服务端口映射到本地，从而用本地浏览器访问远程服务。" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "介绍深度学习最基础的数据结构——N 维数组（张量）。从 0 维标量、1 维向量、2 维矩阵一直到 4 维图片批量和 5 维视频批量，说明每一维在真实任务里代表什么，以及如何用切片访问其中的子区域。",
+      "keyPoints": [
+        { "title": "N 维数组是机器学习的主要数据结构", "detail": "0-d 是标量（一个类别），1-d 是特征向量，2-d 是样本-特征矩阵，3-d 是 RGB 图片，4-d 是一个图片批量，5-d 是视频批量。" },
+        { "title": "形状与元素类型", "detail": "一个张量由 shape（每一维的长度）和 dtype（元素类型）刻画，形状决定了运算是否合法。" },
+        { "title": "创建数组", "detail": "创建时需要指定形状、元素类型和初始值（全 0、全 1 或随机采样自某个分布）。" },
+        { "title": "切片访问", "detail": "用 [start:stop:step] 可以按行、按列或跳步取出子区域，支持读也支持写。" }
+      ],
+      "terms": [
+        { "term": "tensor 张量", "definition": "N 维数组，是深度学习框架中承载数据与参数的基本对象。" },
+        { "term": "shape 形状", "definition": "描述张量每个维度长度的元组，例如 (batch, channel, height, width)。" },
+        { "term": "batch 批量", "definition": "一次前向/反向传播中同时处理的一组样本。" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "在 PyTorch 里实操张量：创建、查看形状与元素个数、reshape、按元素运算、连结、广播、索引与切片，以及如何避免不必要的内存分配。最后演示张量与 NumPy 数组之间的互相转换。",
+      "keyPoints": [
+        { "title": "创建与变形", "detail": "arange 创建序列，reshape 改变形状而不改变元素，numel 返回元素总数；-1 可让某一维自动推断。" },
+        { "title": "按元素运算与连结", "detail": "加减乘除幂、exp 等都按元素作用；torch.cat 可以沿指定维度把多个张量拼在一起。" },
+        { "title": "广播机制", "detail": "形状不同但可对齐的张量会自动复制扩展后再按元素运算，写起来方便但容易产生意料之外的形状。" },
+        { "title": "原地操作省内存", "detail": "X[:] = X + Y 或 X += Y 会写回原有内存，而 X = X + Y 会新分配一块内存，训练大模型时差别很大。" },
+        { "title": "与 NumPy 互转", "detail": "tensor.numpy() 与 torch.from_numpy() 之间共享内存；单元素张量用 .item() 转成 Python 标量。" }
+      ],
+      "terms": [
+        { "term": "broadcasting 广播", "definition": "形状不同的张量在运算前自动沿长度为 1 的维度复制扩展，使形状对齐的机制。" },
+        { "term": "in-place operation 原地操作", "definition": "直接在原有内存上修改张量而不新分配内存的运算。" },
+        { "term": "reshape 变形", "definition": "在保持元素总数与顺序不变的前提下改变张量形状。" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "演示从原始数据到张量的预处理流程：用 pandas 读取 csv，处理缺失值（数值列用均值填充，类别列用独热编码把 NaN 当作一个类别），最后把 DataFrame 转成 PyTorch 张量喂给模型。",
+      "keyPoints": [
+        { "title": "读取原始数据", "detail": "用 pandas.read_csv 把磁盘上的表格数据读成 DataFrame，是真实项目的常见起点。" },
+        { "title": "缺失值处理", "detail": "数值型缺失可用该列均值 fillna 填补；类别型缺失可通过 get_dummies(dummy_na=True) 把 NaN 单独编成一列。" },
+        { "title": "独热编码", "detail": "把离散类别变量展开成若干 0/1 列，避免模型误把类别编号当成有序数值。" },
+        { "title": "转换为张量", "detail": "取 DataFrame 的 values 后用 torch.tensor 转成张量，注意统一 dtype 为 float32。" }
+      ],
+      "terms": [
+        { "term": "pandas", "definition": "Python 的表格数据处理库，提供 DataFrame 结构与读写、清洗、聚合能力。" },
+        { "term": "one-hot encoding 独热编码", "definition": "把有 k 个取值的类别变量表示成长度为 k 的向量，仅对应位置为 1。" },
+        { "term": "missing value 缺失值", "definition": "数据中未记录的条目，通常表示为 NaN，需在建模前填补或标记。" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "复习深度学习需要的线性代数：标量、向量、矩阵及其运算，特殊矩阵（对称、正定、正交、置换），特征向量与特征值，以及矩阵范数与向量范数的定义和几何含义。",
+      "keyPoints": [
+        { "title": "向量与矩阵运算", "detail": "点积、矩阵-向量积、矩阵-矩阵积是神经网络前向计算的骨架，一层全连接就是一次矩阵乘法加偏置。", "formula": "\\mathbf{y} = W\\mathbf{x} + \\mathbf{b}" },
+        { "title": "矩阵是一种空间扭曲", "detail": "把矩阵看作线性变换：它把输入向量拉伸、旋转到另一个空间，乘法的复合就是变换的串联。" },
+        { "title": "范数", "detail": "L2 范数度量向量长度，L1 范数是绝对值之和，Frobenius 范数是矩阵所有元素平方和开根，后面权重衰退会用到。", "formula": "\\|\\mathbf{x}\\|_2 = \\sqrt{\\sum_{i=1}^{n} x_i^2}" },
+        { "title": "特殊矩阵", "detail": "对称矩阵、正定矩阵、正交矩阵与置换矩阵各有良好性质，正定性与优化中的凸性密切相关。" },
+        { "title": "特征值与特征向量", "detail": "满足 Av = λv 的方向在变换下只被缩放不被旋转，是理解矩阵行为的关键。", "formula": "A\\mathbf{v} = \\lambda \\mathbf{v}" }
+      ],
+      "terms": [
+        { "term": "norm 范数", "definition": "度量向量或矩阵「大小」的函数，满足非负、齐次与三角不等式。" },
+        { "term": "eigenvector 特征向量", "definition": "在矩阵作用下方向不变、只被缩放的非零向量。" },
+        { "term": "positive definite 正定", "definition": "对任意非零向量 x 都有 xᵀAx > 0 的对称矩阵性质。" },
+        { "term": "dot product 点积", "definition": "两个等长向量对应元素相乘后求和得到的标量。" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "用 PyTorch 实现上一节的线性代数运算：张量的转置、按元素乘（哈达玛积）、求和与均值、按维度降维、点积、矩阵-向量积、矩阵乘法以及各种范数的计算。",
+      "keyPoints": [
+        { "title": "求和与降维", "detail": "sum(axis=0) 沿行方向求和会消掉第 0 维，keepdims=True 可保留维度以便后续广播。" },
+        { "title": "哈达玛积 vs 矩阵乘法", "detail": "A * B 是按元素乘要求形状相同；torch.mm / @ 才是矩阵乘法，要求内维匹配。", "formula": "(A \\odot B)_{ij} = a_{ij} b_{ij}" },
+        { "title": "点积与矩阵向量积", "detail": "torch.dot 用于一维向量，torch.mv 做矩阵乘向量，本质都是加权求和。" },
+        { "title": "范数的实现", "detail": "torch.norm 计算 L2/Frobenius 范数，torch.abs(u).sum() 得到 L1 范数。" },
+        { "title": "累加求和 cumsum", "detail": "cumsum 沿某一维做前缀和，不会降维，适合做累积统计。" }
+      ],
+      "terms": [
+        { "term": "Hadamard product 哈达玛积", "definition": "两个同形状矩阵的按元素乘法。" },
+        { "term": "transpose 转置", "definition": "交换矩阵行列索引得到的新矩阵。" },
+        { "term": "Frobenius norm 弗罗贝尼乌斯范数", "definition": "矩阵所有元素平方和的平方根，等价于把矩阵拉平后取 L2 范数。" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "专门澄清初学者最容易困惑的一点——「按特定轴求和」到底发生了什么。通过三维张量的例子逐一演示 sum(axis=0)、sum(axis=1)、sum(axis=[0,1]) 分别消掉哪一维，以及 keepdims 的作用。",
+      "keyPoints": [
+        { "title": "axis 指定的是被消掉的维", "detail": "sum(axis=i) 会把第 i 维压缩成 1 并去掉，剩余维度顺序不变；理解这一点后所有降维操作都不再混乱。" },
+        { "title": "多轴同时求和", "detail": "axis 传列表可一次消掉多维，例如对 (2,5,4) 张量做 axis=[0,1] 得到形状 (4,)。" },
+        { "title": "keepdims 保留维度", "detail": "keepdims=True 让被求和的维保留为长度 1，便于随后与原张量广播相除做归一化。" },
+        { "title": "归一化的常见写法", "detail": "A / A.sum(axis=1, keepdims=True) 就是把每一行归一化成和为 1 的分布，这正是 Softmax 的实现套路。" }
+      ],
+      "terms": [
+        { "term": "axis 轴", "definition": "张量的某个维度编号，指定运算沿哪一维进行。" },
+        { "term": "reduction 降维运算", "definition": "沿某些维度聚合（求和、求均值、取最大）从而减少维数的操作。" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "讲清楚神经网络求导所需的矩阵微积分：标量对向量、向量对向量的导数是什么形状，分子布局与分母布局的约定，以及链式法则在向量情形下如何写。这是理解反向传播的数学前提。",
+      "keyPoints": [
+        { "title": "导数的形状规则", "detail": "标量对 n 维向量求导得到 1×n 的行向量（分子布局），m 维向量对 n 维向量求导得到 m×n 的雅可比矩阵。" },
+        { "title": "常用向量求导公式", "detail": "∂(Ax)/∂x = A，∂(xᵀA)/∂x = Aᵀ，∂‖x‖²/∂x = 2xᵀ，是推导线性层梯度的基础。", "formula": "\\frac{\\partial \\|\\mathbf{x}\\|^2}{\\partial \\mathbf{x}} = 2\\mathbf{x}^\\top" },
+        { "title": "雅可比矩阵", "detail": "向量值函数对向量的一阶导数集合成矩阵，每一行是一个输出分量对所有输入的偏导。" },
+        { "title": "链式法则", "detail": "复合函数的导数是各层雅可比矩阵的连乘，这正是反向传播逐层回传梯度的形式。", "formula": "\\frac{\\partial y}{\\partial \\mathbf{x}} = \\frac{\\partial y}{\\partial \\mathbf{u}} \\frac{\\partial \\mathbf{u}}{\\partial \\mathbf{x}}" },
+        { "title": "梯度指向上升最快方向", "detail": "标量函数的梯度与等高线正交，指向函数值增长最快的方向，所以优化时要沿负梯度走。" }
+      ],
+      "terms": [
+        { "term": "gradient 梯度", "definition": "标量函数对向量各分量偏导数组成的向量，指向函数增长最快的方向。" },
+        { "term": "Jacobian matrix 雅可比矩阵", "definition": "向量值函数所有一阶偏导数按行排列成的矩阵。" },
+        { "term": "chain rule 链式法则", "definition": "复合函数求导时把各层导数相乘的法则。" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "介绍自动求导的原理：与符号求导、数值求导的区别，计算图（显式构造与隐式构造）的概念，以及正向累积与反向累积两种模式的计算复杂度和内存开销对比。解释了为什么深度学习框架都选反向累积。",
+      "keyPoints": [
+        { "title": "三种求导方式", "detail": "符号求导给出解析表达式，数值求导用差分近似，自动求导则把计算拆成基本算子并用链式法则精确地机器求导。" },
+        { "title": "计算图", "detail": "把计算表示成有向无环图，节点是算子、边是数据依赖；PyTorch 在前向执行时隐式动态构造这张图。" },
+        { "title": "正向累积 vs 反向累积", "detail": "正向累积一次只能得到对一个输入的导数；反向累积（反向传播）一次前向后可得到对所有参数的梯度。" },
+        { "title": "复杂度权衡", "detail": "反向累积的计算复杂度约为 O(n)（与前向同阶），但需要存储所有中间结果，内存开销是 O(n)，这就是训练比推理更吃显存的原因。" }
+      ],
+      "terms": [
+        { "term": "automatic differentiation 自动求导", "definition": "把程序分解为基本可导算子，用链式法则自动、精确地计算导数的技术。" },
+        { "term": "computational graph 计算图", "definition": "记录张量运算依赖关系的有向无环图，反向传播沿其逆序回传梯度。" },
+        { "term": "backpropagation 反向传播", "definition": "从损失出发沿计算图逆向逐层计算参数梯度的算法。" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "在 PyTorch 中实操自动求导：用 requires_grad_ 标记待求导张量，调用 backward() 得到 .grad，注意梯度会累积需手动清零；还演示了非标量输出的求导、把计算图中某部分 detach 成常数，以及对含控制流的 Python 函数求导。",
+      "keyPoints": [
+        { "title": "开启梯度追踪", "detail": "x.requires_grad_(True) 后所有依赖 x 的运算都会被记录，y.backward() 后梯度存在 x.grad 中。" },
+        { "title": "梯度会累积", "detail": "PyTorch 默认把新梯度加到已有 .grad 上，因此每轮训练前必须 x.grad.zero_() 或 optimizer.zero_grad()。" },
+        { "title": "非标量的反向传播", "detail": "对向量输出通常先 sum() 变成标量再 backward，或给 backward 传入同形状的权重向量。" },
+        { "title": "detach 分离计算图", "detail": "u = y.detach() 把 y 当作常数参与后续计算，梯度不会再穿过它，常用于固定某部分网络。" },
+        { "title": "支持控制流", "detail": "即使函数里有 if/while 等 Python 控制流，动态图也能记录实际执行路径并正确求导。" }
+      ],
+      "terms": [
+        { "term": "requires_grad", "definition": "PyTorch 张量属性，为 True 时框架会记录其参与的运算以便反向求导。" },
+        { "term": "detach 分离", "definition": "从计算图中切断某个张量的梯度传播，将其视为常数。" },
+        { "term": "dynamic computational graph 动态计算图", "definition": "在每次前向执行时按实际代码路径即时构建的计算图。" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "以房价预测为例引出线性回归：把预测写成特征的加权和加偏置，用平方损失衡量误差，并推导出最小二乘的显式解。线性回归被解释为一个单层神经网络，是理解后续所有模型的最小单元。",
+      "keyPoints": [
+        { "title": "线性模型", "detail": "预测值是输入特征的加权和加偏置，权重表示每个特征对结果的影响大小。", "formula": "\\hat{y} = \\langle \\mathbf{w}, \\mathbf{x} \\rangle + b" },
+        { "title": "平方损失", "detail": "用真实值与预测值差的平方的一半衡量单个样本的误差，除以 2 是为了求导后系数为 1。", "formula": "\\ell(y, \\hat{y}) = \\frac{1}{2}(y - \\hat{y})^2" },
+        { "title": "训练目标", "detail": "最小化训练集上的平均损失，即最小化 ‖y − Xw − b‖² / n。", "formula": "\\mathbf{w}^*, b^* = \\arg\\min_{\\mathbf{w}, b} \\frac{1}{2n}\\|\\mathbf{y} - X\\mathbf{w} - b\\|^2" },
+        { "title": "显式解", "detail": "线性回归是少有的有闭式解的模型，令梯度为零可得 w* = (XᵀX)⁻¹Xᵀy。", "formula": "\\mathbf{w}^* = (X^\\top X)^{-1} X^\\top \\mathbf{y}" },
+        { "title": "线性回归即单层神经网络", "detail": "把输入特征视为输入层、输出视为一个神经元，线性回归就是没有隐藏层、无激活函数的最简神经网络。" }
+      ],
+      "terms": [
+        { "term": "linear regression 线性回归", "definition": "用输入特征的线性组合预测连续实数目标的模型。" },
+        { "term": "squared loss 平方损失", "definition": "预测值与真实值之差的平方，是回归任务最常用的损失函数。" },
+        { "term": "bias 偏置", "definition": "线性模型中与输入无关的常数项，使决策面不必过原点。" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "介绍训练神经网络的通用优化算法——梯度下降及其小批量随机版本。讲清楚学习率与批量大小这两个最重要超参数的取值权衡：学习率太小收敛慢、太大会震荡发散；批量太小无法充分利用并行、太大则梯度冗余。",
+      "keyPoints": [
+        { "title": "梯度下降", "detail": "沿负梯度方向更新参数，每步走的距离由学习率控制。", "formula": "\\mathbf{w}_{t} = \\mathbf{w}_{t-1} - \\eta \\frac{\\partial \\ell}{\\partial \\mathbf{w}_{t-1}}" },
+        { "title": "小批量随机梯度下降", "detail": "每次随机采样 b 个样本估计梯度，兼顾计算效率与梯度噪声，是深度学习的默认优化器。", "formula": "\\mathbf{w}_{t} = \\mathbf{w}_{t-1} - \\frac{\\eta}{b}\\sum_{i \\in I_t} \\frac{\\partial \\ell(\\mathbf{x}_i, y_i, \\mathbf{w}_{t-1})}{\\partial \\mathbf{w}_{t-1}}" },
+        { "title": "学习率的选择", "detail": "学习率过小则迭代次数太多训练很慢，过大则在山谷两侧来回震荡甚至损失爆炸。" },
+        { "title": "批量大小的选择", "detail": "批量太小时 GPU 并行度不足浪费算力，太大时同一批内样本相似度高导致梯度信息冗余。" },
+        { "title": "无需调参的优点", "detail": "小批量 SGD 是深度学习默认求解算法，几乎所有模型都能用它训练，只是需要调学习率与批量大小两个超参数。" }
+      ],
+      "terms": [
+        { "term": "gradient descent 梯度下降", "definition": "沿目标函数负梯度方向迭代更新参数以最小化目标的优化算法。" },
+        { "term": "learning rate 学习率", "definition": "每次参数更新沿负梯度方向前进的步长，是最关键的超参数。" },
+        { "term": "minibatch SGD 小批量随机梯度下降", "definition": "每次用一小批随机样本估计梯度并更新参数的优化算法。" },
+        { "term": "hyperparameter 超参数", "definition": "不由训练数据学出、需人工设定或搜索的参数，如学习率与批量大小。" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "不借助任何高级 API，从零实现线性回归的完整训练流程：人工合成带噪声的数据集、写数据迭代器、初始化参数、定义模型与平方损失、手写 SGD 更新，最后在循环中训练并对比学到的参数与真实参数。",
+      "keyPoints": [
+        { "title": "合成数据", "detail": "按 y = Xw + b + 噪声 生成人造数据集，因为真实参数已知，便于验证训练是否正确。" },
+        { "title": "数据迭代器", "detail": "打乱索引后按 batch_size 切片 yield 出小批量，是所有训练循环的标准结构。" },
+        { "title": "参数初始化", "detail": "权重从均值 0、标准差 0.01 的正态分布采样，偏置初始化为 0，并都设 requires_grad=True。" },
+        { "title": "手写 SGD", "detail": "在 torch.no_grad() 块中对每个参数执行 param -= lr * param.grad / batch_size，然后把梯度清零。" },
+        { "title": "训练循环三步曲", "detail": "前向算损失 → l.sum().backward() 反向求梯度 → 优化器更新参数，这个骨架贯穿全课。" }
+      ],
+      "terms": [
+        { "term": "epoch 轮次", "definition": "把整个训练集完整遍历一遍称为一个 epoch。" },
+        { "term": "data iterator 数据迭代器", "definition": "按批量顺序产出训练样本的生成器。" },
+        { "term": "torch.no_grad", "definition": "上下文管理器，在其中的运算不记录计算图，用于参数更新和推理。" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "用 PyTorch 的高级 API 重写上一节：用 TensorDataset + DataLoader 读数据，用 nn.Sequential(nn.Linear) 定义模型，用 nn.MSELoss 做损失，用 torch.optim.SGD 做优化，几行代码完成同样的训练。",
+      "keyPoints": [
+        { "title": "DataLoader 读数据", "detail": "把张量包成 TensorDataset 后交给 DataLoader，自动完成打乱与批量切分。" },
+        { "title": "nn.Linear 定义层", "detail": "nn.Linear(in_features, out_features) 内部已包含权重和偏置，nn.Sequential 把多层串起来。" },
+        { "title": "参数初始化 API", "detail": "通过 net[0].weight.data.normal_(0, 0.01) 与 net[0].bias.data.fill_(0) 显式设定初值。" },
+        { "title": "损失与优化器", "detail": "nn.MSELoss() 默认返回批量平均损失，trainer.zero_grad() → l.backward() → trainer.step() 是标准三步。" },
+        { "title": "框架简洁实现的意义", "detail": "从零实现帮你理解原理，简洁实现才是工程中真正会写的代码，两者对照是本课的固定节奏。" }
+      ],
+      "terms": [
+        { "term": "DataLoader 数据加载器", "definition": "PyTorch 提供的批量采样、打乱与多进程预取工具。" },
+        { "term": "nn.Module 模块", "definition": "PyTorch 中所有神经网络层与模型的基类，负责管理参数与前向计算。" },
+        { "term": "optimizer 优化器", "definition": "封装参数更新规则的对象，如 SGD、Adam。" }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "从回归转向分类，引入 Softmax 回归：用独热编码表示类别标签，用 Softmax 把模型输出的实数分数转换为概率分布，再用交叉熵衡量预测分布与真实分布的差距。它是一个单层的多输出神经网络。",
+      "keyPoints": [
+        { "title": "回归 vs 分类", "detail": "回归输出一个连续值、关注预测值与真实值的差；分类输出多个类别的置信度、关注正确类别的概率是否够大。" },
+        { "title": "独热编码标签", "detail": "有 n 个类别时标签写成长度 n 的向量，正确类为 1 其余为 0。" },
+        { "title": "Softmax 运算", "detail": "对每个输出取指数后归一化，得到非负且和为 1 的概率分布，且保持原有大小顺序。", "formula": "\\hat{y}_i = \\frac{\\exp(o_i)}{\\sum_{k} \\exp(o_k)}" },
+        { "title": "交叉熵损失", "detail": "衡量两个概率分布的差距，由于标签是独热的，实际只剩正确类别对数概率的负值。", "formula": "\\ell(\\mathbf{y}, \\hat{\\mathbf{y}}) = -\\sum_{i} y_i \\log \\hat{y}_i = -\\log \\hat{y}_{c}" },
+        { "title": "梯度形式极简", "detail": "交叉熵对未归一化输出 o 的梯度恰好是「预测概率减真实概率」，形式与线性回归的残差高度一致。", "formula": "\\frac{\\partial \\ell}{\\partial o_i} = \\hat{y}_i - y_i" }
+      ],
+      "terms": [
+        { "term": "softmax regression Softmax 回归", "definition": "输出多个类别概率的单层分类模型，本质是多类逻辑回归。" },
+        { "term": "cross-entropy 交叉熵", "definition": "衡量预测概率分布与真实分布差异的损失函数。" },
+        { "term": "logit 未归一化输出", "definition": "Softmax 之前的实数分数，可取任意值。" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "横向对比三种常用损失函数：L2 损失、L1 损失和 Huber 鲁棒损失。李沐用「损失函数曲线、梯度曲线、似然函数曲线」三张图说明它们在远离真值和接近真值时的不同行为，从而理解各自适用场景。",
+      "keyPoints": [
+        { "title": "L2 平方损失", "detail": "梯度与误差成正比，离真值远时更新步子大；但对离群点过度敏感。", "formula": "\\ell(y, y') = \\frac{1}{2}(y - y')^2" },
+        { "title": "L1 绝对值损失", "detail": "梯度是常数 ±1，对离群点鲁棒、更新稳定，但在零点不可导、收敛后期会来回抖动。", "formula": "\\ell(y, y') = |y - y'|" },
+        { "title": "Huber 鲁棒损失", "detail": "误差大时像 L1（梯度恒定、抗离群），误差小时像 L2（平滑可导），兼顾两者优点。", "formula": "\\ell(y, y') = \\begin{cases} |y-y'| - \\frac{1}{2} & |y-y'| > 1 \\\\ \\frac{1}{2}(y-y')^2 & \\text{otherwise} \\end{cases}" },
+        { "title": "损失、梯度、似然三视角", "detail": "损失曲线看惩罚强度，梯度曲线看更新步长，似然曲线看对应的概率假设（L2 对应高斯噪声，L1 对应拉普拉斯噪声）。" }
+      ],
+      "terms": [
+        { "term": "L1 loss L1 损失", "definition": "预测值与真实值差的绝对值，对离群点不敏感。" },
+        { "term": "Huber loss 胡贝尔损失", "definition": "小误差用平方、大误差用绝对值的分段损失函数。" },
+        { "term": "likelihood 似然", "definition": "在给定参数下观测到当前数据的概率，最小化损失常等价于最大化似然。" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "介绍课程分类任务使用的 Fashion-MNIST 数据集：10 类服饰灰度图片，28×28 分辨率，训练集 6 万张、测试集 1 万张。演示如何用 torchvision 下载、可视化样本，以及用多进程 DataLoader 测量读取速度。",
+      "keyPoints": [
+        { "title": "Fashion-MNIST 数据集", "detail": "取代经典 MNIST 的服饰图片分类基准，10 个类别、28×28 灰度图，比手写数字更有区分难度。" },
+        { "title": "torchvision 读取", "detail": "torchvision.datasets.FashionMNIST 配合 transforms.ToTensor() 自动下载并把 PIL 图片转成 [0,1] 的浮点张量。" },
+        { "title": "可视化样本", "detail": "写一个 show_images 辅助函数把一批图片按网格画出并标注类别名，养成先看数据再建模的习惯。" },
+        { "title": "数据读取常是瓶颈", "detail": "用 num_workers 开多进程预取，读一遍训练集的时间应远小于模型训练时间，否则 GPU 会空转。" }
+      ],
+      "terms": [
+        { "term": "Fashion-MNIST", "definition": "包含 10 类服饰的 28×28 灰度图片分类数据集。" },
+        { "term": "torchvision", "definition": "PyTorch 的计算机视觉配套库，提供常用数据集、模型与图像变换。" },
+        { "term": "num_workers 工作进程数", "definition": "DataLoader 用于并行加载数据的子进程数量。" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "从零实现 Softmax 回归：把 28×28 图片拉平成 784 维向量，初始化 784×10 的权重矩阵，手写 softmax 函数、交叉熵损失、精度计算与训练循环，最后在 Fashion-MNIST 上训练并做预测可视化。",
+      "keyPoints": [
+        { "title": "图片展平为向量", "detail": "把 28×28 图片 reshape 成 784 维输入，丢弃空间结构，这也是后面卷积网络要解决的问题。" },
+        { "title": "手写 softmax", "detail": "先 exp 再按行求和归一化，注意用 keepdims=True 让广播正确工作。" },
+        { "title": "用花式索引取正确类概率", "detail": "y_hat[range(len(y_hat)), y] 一次性取出每行对应真实标签的预测概率，避免写循环。" },
+        { "title": "精度评估", "detail": "argmax 取预测类别与标签比较，累加正确数除以样本总数得到准确率；用 Accumulator 类累计多个量。" },
+        { "title": "训练与可视化", "detail": "每个 epoch 记录训练损失、训练精度与测试精度并动态画图，是判断欠拟合/过拟合的第一手依据。" }
+      ],
+      "terms": [
+        { "term": "accuracy 准确率", "definition": "预测类别与真实类别一致的样本比例。" },
+        { "term": "argmax", "definition": "返回使函数取最大值的下标，此处即预测概率最大的类别。" },
+        { "term": "flatten 展平", "definition": "把多维张量拉成一维向量的操作。" }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "用高级 API 重写 Softmax 回归：模型只需 nn.Flatten + nn.Linear(784, 10)，损失直接用 nn.CrossEntropyLoss，它内部把 softmax 和交叉熵融合在一起以保证数值稳定，无需在网络里显式写 softmax。",
+      "keyPoints": [
+        { "title": "网络定义只需两行", "detail": "nn.Sequential(nn.Flatten(), nn.Linear(784, 10))，Flatten 负责把图片批量展平成二维。" },
+        { "title": "CrossEntropyLoss 已含 softmax", "detail": "它接收未归一化的 logits，内部同时完成 log-softmax 和负对数似然，所以网络最后一层不要再加 softmax。" },
+        { "title": "数值稳定性技巧", "detail": "直接 exp 大数会上溢，把 softmax 与 log 合并后可先减去最大值再计算，避免上溢和下溢。", "formula": "\\log \\hat{y}_i = o_i - \\max_k o_k - \\log \\sum_j \\exp(o_j - \\max_k o_k)" },
+        { "title": "权重初始化", "detail": "用 net.apply(init_weights) 遍历所有子模块，对 nn.Linear 做正态初始化。" }
+      ],
+      "terms": [
+        { "term": "CrossEntropyLoss", "definition": "PyTorch 中融合 log-softmax 与负对数似然的分类损失函数。" },
+        { "term": "numerical stability 数值稳定性", "definition": "算法在浮点运算中避免上溢、下溢与精度损失的性质。" },
+        { "term": "LogSumExp trick", "definition": "计算 log∑exp 时先减去最大值以避免指数溢出的技巧。" }
+      ]
+    },
+    {
+      "n": 22,
+      "summary": "环境搭建补充课：在 Windows 系统上配置深度学习环境。演示确认显卡型号、安装 NVIDIA 驱动与 CUDA 工具包、装 Miniconda，再按 PyTorch 官网给出的命令安装对应 CUDA 版本的 torch，最后用 torch.cuda.is_available() 验证。",
+      "keyPoints": [
+        { "title": "驱动与 CUDA 版本要匹配", "detail": "先看显卡支持的驱动版本，再选不高于驱动上限的 CUDA 版本，最后按 CUDA 版本选 PyTorch 安装命令。" },
+        { "title": "从官网复制安装命令", "detail": "PyTorch 官网的安装向导会根据操作系统、包管理器和 CUDA 版本生成正确的 pip/conda 命令。" },
+        { "title": "验证 GPU 可用", "detail": "torch.cuda.is_available() 返回 True、torch.cuda.device_count() 返回显卡数即安装成功。" },
+        { "title": "Windows 也能跑课程代码", "detail": "装好 conda 环境和 Jupyter 后，课程记事本在 Windows 上可直接运行，无需 WSL。" }
+      ],
+      "terms": [
+        { "term": "CUDA", "definition": "NVIDIA 的并行计算平台与编程模型，深度学习框架依赖它调用 GPU。" },
+        { "term": "GPU driver 显卡驱动", "definition": "操作系统与显卡硬件通信的软件层，其版本决定可用的 CUDA 上限。" }
+      ]
+    },
+    {
+      "n": 23,
+      "summary": "介绍如何低成本使用云端 GPU：在 AWS EC2 上申请 GPU 实例配额、选择性价比最高的机型与竞价实例、配置安全组与存储，装好环境后通过 SSH 端口转发跑 Jupyter，并提醒用完及时关机避免持续计费。",
+      "keyPoints": [
+        { "title": "申请 GPU 配额", "detail": "新账号默认不能开 GPU 实例，需要先向 AWS 提交 limit increase 申请。" },
+        { "title": "机型与价格权衡", "detail": "不同代际的 GPU 实例性价比差别很大，按显存需求和每小时价格挑选，训练大模型才需要高端机型。" },
+        { "title": "竞价实例省钱", "detail": "Spot 实例价格远低于按需实例，但可能被随时回收，适合可断点续训的任务。" },
+        { "title": "远程开发流程", "detail": "SSH 登录 → 装 conda 和 PyTorch → 启动 Jupyter → 本地端口转发访问，与前面第 3 集的方法一致。" },
+        { "title": "务必关机", "detail": "云实例按运行时长计费，停止而非仅关闭浏览器，否则会持续产生费用。" }
+      ],
+      "terms": [
+        { "term": "AWS EC2", "definition": "亚马逊的弹性云服务器服务，可按小时租用带 GPU 的虚拟机。" },
+        { "term": "spot instance 竞价实例", "definition": "以折扣价使用云厂商闲置算力、但可能被中断回收的实例类型。" }
+      ]
+    },
+    {
+      "n": 24,
+      "summary": "介绍神经网络的历史起点——感知机：它是一个输出 ±1 的二分类线性模型，用「错了就更新」的在线学习规则训练。李沐讲了收敛定理，也讲了感知机无法解决 XOR 问题这一致命缺陷，正是它引发了第一次 AI 寒冬。",
+      "keyPoints": [
+        { "title": "感知机模型", "detail": "对输入做线性加权后取符号函数，输出 +1 或 -1，是最早的二分类模型。", "formula": "o = \\sigma(\\langle \\mathbf{w}, \\mathbf{x}\\rangle + b), \\quad \\sigma(x) = \\begin{cases} 1 & x > 0 \\\\ -1 & \\text{otherwise}\\end{cases}" },
+        { "title": "训练算法", "detail": "遍历样本，若 y·(⟨w,x⟩+b) ≤ 0 说明分错，则 w ← w + y·x，b ← b + y，等价于用批量大小为 1 的 SGD 优化最大间隔损失。", "formula": "\\ell(y, \\mathbf{x}, \\mathbf{w}) = \\max(0, -y \\langle \\mathbf{w}, \\mathbf{x}\\rangle)" },
+        { "title": "收敛定理", "detail": "若数据线性可分且间隔为 ρ、特征范数有界，感知机会在有限步内收敛，步数上界为 r²/ρ²。" },
+        { "title": "XOR 问题", "detail": "感知机只能画一条直线，无法拟合异或这种线性不可分的简单函数，Minsky 与 Papert 指出这一点后神经网络研究陷入低谷。" }
+      ],
+      "terms": [
+        { "term": "perceptron 感知机", "definition": "输出 ±1 的最简单二分类线性模型，用错分驱动的规则训练。" },
+        { "term": "XOR problem 异或问题", "definition": "单层感知机无法表示的经典线性不可分任务。" },
+        { "term": "linearly separable 线性可分", "definition": "存在一个超平面能把两类样本完全分开的性质。" }
+      ]
+    },
+    {
+      "n": 25,
+      "summary": "用「学两个分类器再组合」的思路引出多层感知机：在输入和输出之间加入隐藏层并施加非线性激活函数，从而突破线性模型的表达能力限制。对比 Sigmoid、Tanh、ReLU 三种激活函数的形状与优缺点。",
+      "keyPoints": [
+        { "title": "为什么需要隐藏层", "detail": "多个线性层直接叠加仍等价于一个线性层，必须在层间插入非线性激活函数才能获得更强表达能力。" },
+        { "title": "MLP 的形式", "detail": "隐藏层做仿射变换后过激活函数，输出层再做一次仿射变换；隐藏层大小是关键超参数。", "formula": "\\mathbf{h} = \\sigma(W_1 \\mathbf{x} + \\mathbf{b}_1), \\quad \\mathbf{o} = W_2 \\mathbf{h} + \\mathbf{b}_2" },
+        { "title": "Sigmoid 激活", "detail": "把实数压到 (0,1)，是阶跃函数的平滑版本，但两端梯度接近 0 容易造成梯度消失。", "formula": "\\mathrm{sigmoid}(x) = \\frac{1}{1 + \\exp(-x)}" },
+        { "title": "Tanh 激活", "detail": "输出压到 (-1,1) 且以 0 为中心，比 Sigmoid 收敛稍快，但同样有饱和区。", "formula": "\\tanh(x) = \\frac{1 - \\exp(-2x)}{1 + \\exp(-2x)}" },
+        { "title": "ReLU 激活", "detail": "max(x, 0)，计算只需一次比较、正区间梯度恒为 1，几乎没有梯度消失问题，是现代网络的默认选择。", "formula": "\\mathrm{ReLU}(x) = \\max(x, 0)" },
+        { "title": "多类与多隐藏层", "detail": "输出层接 softmax 即可做多分类；堆叠多个隐藏层时通常层宽逐渐收窄，避免信息在第一层就被压缩过度。" }
+      ],
+      "terms": [
+        { "term": "multilayer perceptron 多层感知机", "definition": "由若干带非线性激活的全连接层堆叠而成的前馈神经网络。" },
+        { "term": "activation function 激活函数", "definition": "作用于线性变换输出的非线性函数，赋予网络表达非线性关系的能力。" },
+        { "term": "hidden layer 隐藏层", "definition": "位于输入层与输出层之间、其输出不直接被观测的网络层。" },
+        { "term": "ReLU 修正线性单元", "definition": "max(x, 0) 形式的激活函数，计算简单且缓解梯度消失。" }
+      ]
+    },
+    {
+      "n": 26,
+      "summary": "实现多层感知机：先从零手写一个含 256 个隐藏单元、ReLU 激活的两层网络并在 Fashion-MNIST 上训练；再用 nn.Sequential(nn.Flatten, nn.Linear, nn.ReLU, nn.Linear) 的简洁写法得到同样效果。",
+      "keyPoints": [
+        { "title": "从零实现的参数", "detail": "手动创建 W1(784×256)、b1、W2(256×10)、b2 四组参数并放入 params 列表交给优化器。" },
+        { "title": "手写 ReLU", "detail": "用 torch.max(X, torch.zeros_like(X)) 即可实现，展示激活函数并不神秘。" },
+        { "title": "简洁实现", "detail": "nn.Sequential 里插入 nn.ReLU() 层即可，训练循环与 Softmax 回归完全复用。" },
+        { "title": "效果与调参", "detail": "相比单层 Softmax 回归，MLP 训练精度明显提升，但测试精度提升有限，说明模型开始有过拟合倾向。" },
+        { "title": "隐藏层大小的影响", "detail": "隐藏单元太少会欠拟合，太多则容易过拟合且训练更慢，需要配合正则化手段。" }
+      ],
+      "terms": [
+        { "term": "nn.Sequential", "definition": "PyTorch 中按顺序串联多个层的容器模块。" },
+        { "term": "hidden units 隐藏单元", "definition": "隐藏层中神经元的数量，决定该层的表示容量。" }
+      ]
+    },
+    {
+      "n": 27,
+      "summary": "一节实用工具课：介绍 AutoGluon 自动机器学习框架。只需十行左右代码读入表格数据并调用 fit，它就能自动完成特征处理、模型选择、超参数搜索与多模型集成，在很多 Kaggle 表格赛上超过大多数手工调参的选手。",
+      "keyPoints": [
+        { "title": "AutoML 的定位", "detail": "把数据预处理、模型选择、调参与集成自动化，让不熟悉建模细节的人也能拿到强基线。" },
+        { "title": "十行代码流程", "detail": "读 csv → TabularPredictor(label=...).fit(train_data) → predict(test_data)，剩下的全自动。" },
+        { "title": "自动特征工程", "detail": "会自动识别数值、类别、文本、日期等列类型并施加相应的编码与缺失值处理。" },
+        { "title": "多模型堆叠集成", "detail": "内部同时训练树模型、神经网络等多种模型并做多层 stacking，最终性能通常优于单一模型。" },
+        { "title": "该学的还得学", "detail": "AutoML 能给出强基线，但要突破上限、处理非标准数据或做部署优化，仍需理解模型原理。" }
+      ],
+      "terms": [
+        { "term": "AutoGluon", "definition": "亚马逊开源的自动机器学习工具包，擅长表格、图像与文本任务的快速建模。" },
+        { "term": "AutoML 自动机器学习", "definition": "自动完成特征工程、模型选择与超参数优化的技术。" },
+        { "term": "stacking 堆叠集成", "definition": "用一个上层模型融合多个基模型预测结果的集成方法。" }
+      ]
+    },
+    {
+      "n": 28,
+      "summary": "讲模型选择的方法论：区分训练误差与泛化误差，说明为什么不能用测试集调参，介绍验证数据集的作用以及在小数据集上用 K 折交叉验证估计泛化性能的做法。",
+      "keyPoints": [
+        { "title": "训练误差 vs 泛化误差", "detail": "训练误差是模型在训练数据上的误差，泛化误差是在新数据上的期望误差，我们真正关心后者。" },
+        { "title": "验证集不是测试集", "detail": "验证集用来选超参数、可以反复使用；测试集只能用一次，用来给出最终无偏估计，一旦用来调参就失去意义。" },
+        { "title": "K 折交叉验证", "detail": "把数据切成 K 份，轮流用其中一份做验证、其余训练，取 K 次验证误差的平均，数据不足时的标准做法。" },
+        { "title": "K 的常见取值", "detail": "K 常取 5 或 10；K 越大估计越准但训练成本线性上升。" }
+      ],
+      "terms": [
+        { "term": "generalization error 泛化误差", "definition": "模型在未见过的新数据上的期望误差。" },
+        { "term": "validation set 验证集", "definition": "用于选择超参数和比较模型的独立数据子集。" },
+        { "term": "K-fold cross-validation K 折交叉验证", "definition": "把数据分成 K 份轮流做验证集、取平均误差的评估方法。" }
+      ]
+    },
+    {
+      "n": 29,
+      "summary": "讲过拟合与欠拟合：模型容量与数据复杂度不匹配时的两种失败模式。介绍如何通过训练误差与验证误差的关系诊断，并给出 VC 维等衡量模型容量的理论视角，以及数据复杂度的多个维度。",
+      "keyPoints": [
+        { "title": "两种失败模式", "detail": "模型容量低而数据复杂 → 欠拟合（训练误差就很高）；模型容量高而数据简单 → 过拟合（训练误差很低但验证误差高）。" },
+        { "title": "容量与误差曲线", "detail": "随模型容量增加，训练误差单调下降，泛化误差先降后升，两者的间隙即泛化间隙。" },
+        { "title": "核心原则", "detail": "首先要让模型容量足够大能拟合数据，然后再用正则化手段控制容量，而不是一开始就用小模型。" },
+        { "title": "VC 维", "detail": "统计学习理论中衡量模型容量的指标，等于模型能完全打散的最大数据集规模；线性分类器在 d 维空间的 VC 维是 d+1。" },
+        { "title": "数据复杂度", "detail": "样本数量、每个样本的特征数、时空结构、标签多样性共同决定数据有多难拟合。" }
+      ],
+      "terms": [
+        { "term": "overfitting 过拟合", "definition": "模型记住了训练数据的噪声，训练误差低但泛化误差高。" },
+        { "term": "underfitting 欠拟合", "definition": "模型容量不足，连训练数据都拟合不好。" },
+        { "term": "model capacity 模型容量", "definition": "模型能拟合的函数集合的丰富程度。" },
+        { "term": "VC dimension VC 维", "definition": "衡量模型容量的理论指标，指模型能任意打散的最大样本数。" }
+      ]
+    },
+    {
+      "n": 30,
+      "summary": "用多项式回归做过拟合与欠拟合的可视化实验：人工生成三阶多项式加噪声的数据，分别用三阶（正好）、一阶（欠拟合）和高阶（过拟合）多项式去拟合，观察三种情形下训练误差与测试误差曲线的差异。",
+      "keyPoints": [
+        { "title": "构造多项式特征", "detail": "把标量 x 展开成 [1, x, x²/2!, x³/3!, ...] 作为特征，除以阶乘防止高次项数值过大。" },
+        { "title": "正常拟合", "detail": "用三阶特征（与真实数据生成过程一致）训练，训练误差与测试误差都降到噪声水平且几乎重合。" },
+        { "title": "欠拟合", "detail": "只用一阶（线性）特征，训练误差居高不下，说明模型容量不足以表达三阶曲线。" },
+        { "title": "过拟合", "detail": "用 20 阶特征在少量样本上训练，训练误差降得很低但测试误差反弹上升，学到了噪声。" },
+        { "title": "诊断方法总结", "detail": "看训练误差与验证误差的绝对值和间隙：都高是欠拟合，训练低验证高是过拟合。" }
+      ],
+      "terms": [
+        { "term": "polynomial regression 多项式回归", "definition": "用输入的幂次作为特征、仍按线性模型求解的回归方法。" },
+        { "term": "generalization gap 泛化间隙", "definition": "验证误差与训练误差之差，反映过拟合程度。" }
+      ]
+    }
+  ]
+}

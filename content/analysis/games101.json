@@ -1,0 +1,403 @@
+{
+  "courseId": "games101",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "GAMES101 是闫令琪主讲的现代计算机图形学入门课，用中文系统讲透实时渲染与离线渲染的核心原理。课程主线分四大块：变换与光栅化（如何把三维场景画到屏幕上）、着色与纹理（如何让画面有明暗与细节）、几何表示（曲线曲面、网格与隐式表面）、光线追踪与路径追踪（如何用物理正确的方式求解渲染方程），最后补上材质外观、相机与光场、色彩感知和动画模拟。学完你能理解 OpenGL/DirectX 图形管线每一步在做什么，能手写一个软件光栅化器和一个路径追踪器，也具备阅读 SIGGRAPH 论文和进阶到 GAMES202/104 的基础。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "课程导论，回答「计算机图形学是什么、为什么学、学什么」。闫令琪先展示图形学在游戏、电影、设计、VR、可视化中的应用，再界定本课程的四大板块，并明确区分图形学与计算机视觉的边界。",
+      "keyPoints": [
+        { "title": "图形学的应用版图", "detail": "视频游戏、电影特效、动画、产品设计、模拟仿真、GUI、可视化、VR/AR、数字插画、字体排版都建立在图形学之上。" },
+        { "title": "课程四大主题", "detail": "光栅化（Rasterization）、曲线与网格（Geometry）、光线追踪（Ray Tracing）、动画与模拟（Animation/Simulation），本课程只讲原理不讲 API。" },
+        { "title": "图形学 vs 计算机视觉", "detail": "图形学是「模型到图像」的正向合成，视觉是「图像到模型」的逆向理解，二者边界模糊、互相渗透。" },
+        { "title": "不教什么", "detail": "本课不是 OpenGL/DirectX 教程，也不覆盖计算机视觉与深度学习，重点在数学与算法原理。" }
+      ],
+      "terms": [
+        { "term": "Computer Graphics 计算机图形学", "definition": "研究如何用计算机合成与操作视觉内容的学科。" },
+        { "term": "Rasterization 光栅化", "definition": "把三维几何图元投影到屏幕并转成像素的实时渲染技术。" },
+        { "term": "Ray Tracing 光线追踪", "definition": "沿光线路径求交与积分来生成物理真实图像的渲染方法。" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "复习图形学必需的线性代数：向量与点、点乘叉乘的几何意义、矩阵乘法与变换的关系。这些是后面所有变换、光照、求交计算的语言基础。",
+      "keyPoints": [
+        { "title": "向量与单位向量", "detail": "向量只有方向和长度、没有起点；归一化得到单位向量用于表示方向。", "formula": "\\hat{a} = \\frac{\\vec{a}}{\\|\\vec{a}\\|}" },
+        { "title": "点乘与夹角/投影", "detail": "点乘给出夹角余弦，可判断前后向、做投影分解、在光照中算 cos 项。", "formula": "\\vec{a}\\cdot\\vec{b} = \\|\\vec{a}\\|\\|\\vec{b}\\|\\cos\\theta" },
+        { "title": "叉乘与法线/朝向", "detail": "叉乘结果垂直于两向量，用于构造正交坐标系、判断左右（内外侧）、求三角形法线。", "formula": "\\vec{a}\\times\\vec{b} = \\|\\vec{a}\\|\\|\\vec{b}\\|\\sin\\theta\\,\\hat{n}" },
+        { "title": "矩阵乘法与变换", "detail": "矩阵乘法不满足交换律但满足结合律，因此复合变换可以预先合并成一个矩阵。" },
+        { "title": "判断点在三角形内", "detail": "用三次叉乘符号一致性判断点是否落在三角形内，是光栅化的核心测试。" }
+      ],
+      "terms": [
+        { "term": "Dot Product 点乘", "definition": "两向量对应分量乘积之和，结果为标量，反映夹角与投影长度。" },
+        { "term": "Cross Product 叉乘", "definition": "两向量生成的垂直向量，模长等于平行四边形面积。" },
+        { "term": "Orthonormal Basis 标准正交基", "definition": "两两垂直且长度为一的一组基向量。" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "介绍二维变换与齐次坐标。先讲缩放、切变、旋转的矩阵形式，再指出平移不是线性变换，从而引出齐次坐标把仿射变换统一成矩阵乘法。",
+      "keyPoints": [
+        { "title": "线性变换即矩阵乘法", "detail": "缩放、切变、旋转都能写成二维矩阵左乘坐标向量的形式。", "formula": "\\begin{bmatrix}x'\\\\y'\\end{bmatrix} = \\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}\\begin{bmatrix}x\\\\y\\end{bmatrix}" },
+        { "title": "二维旋转矩阵", "detail": "绕原点逆时针旋转 theta 的矩阵，其转置等于逆矩阵，说明旋转矩阵是正交矩阵。", "formula": "R(\\theta) = \\begin{bmatrix}\\cos\\theta & -\\sin\\theta\\\\ \\sin\\theta & \\cos\\theta\\end{bmatrix}" },
+        { "title": "齐次坐标", "detail": "点写成 (x,y,1)、向量写成 (x,y,0)，使平移也能用矩阵表示；向量加向量仍是向量、点减点得向量的性质被自动保持。" },
+        { "title": "仿射变换", "detail": "仿射变换 = 线性变换 + 平移，在齐次坐标下是一个三阶矩阵。", "formula": "\\begin{bmatrix}x'\\\\y'\\\\1\\end{bmatrix} = \\begin{bmatrix}a&b&t_x\\\\c&d&t_y\\\\0&0&1\\end{bmatrix}\\begin{bmatrix}x\\\\y\\\\1\\end{bmatrix}" },
+        { "title": "变换的复合与分解", "detail": "复合变换按从右到左的顺序作用；绕任意点旋转可分解为「平移到原点—旋转—平移回去」。" }
+      ],
+      "terms": [
+        { "term": "Homogeneous Coordinates 齐次坐标", "definition": "给 n 维坐标补一维，使平移也能表示为矩阵乘法的坐标系统。" },
+        { "term": "Affine Transformation 仿射变换", "definition": "线性变换与平移的组合，保持直线和平行关系。" },
+        { "term": "Orthogonal Matrix 正交矩阵", "definition": "行列均为标准正交基的矩阵，其逆等于转置。" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "把变换推广到三维，并建立观测（Viewing）变换流水线。讲三维旋转、罗德里格斯公式与欧拉角，然后依次推导模型变换、视图变换、正交投影与透视投影。",
+      "keyPoints": [
+        { "title": "三维变换与齐次坐标", "detail": "三维仿射变换用四阶矩阵表示，先做线性部分再做平移。" },
+        { "title": "罗德里格斯旋转公式", "detail": "绕任意单位轴 n 旋转 alpha 角的通用旋转矩阵公式。", "formula": "R(\\mathbf{n},\\alpha) = \\cos\\alpha\\,I + (1-\\cos\\alpha)\\,\\mathbf{n}\\mathbf{n}^{T} + \\sin\\alpha\\,\\mathbf{N}" },
+        { "title": "MVP 变换流水线", "detail": "Model（摆放物体）→ View（把相机放到原点朝 -z）→ Projection（投影到标准立方体）是渲染的固定三步。" },
+        { "title": "正交投影", "detail": "把 [l,r]×[b,t]×[f,n] 的长方体先平移到原点再缩放到 [-1,1]^3 的标准立方体，不产生近大远小。" },
+        { "title": "透视投影", "detail": "先用一个「挤压」矩阵把视锥压成长方体（保持近平面不变、远平面 z 不变），再做正交投影。", "formula": "M_{persp\\to ortho} = \\begin{bmatrix}n&0&0&0\\\\0&n&0&0\\\\0&0&n+f&-nf\\\\0&0&1&0\\end{bmatrix}" }
+      ],
+      "terms": [
+        { "term": "Model-View-Projection MVP 变换", "definition": "把物体从模型空间依次变换到世界、相机、裁剪空间的三个矩阵。" },
+        { "term": "Orthographic Projection 正交投影", "definition": "平行投影，物体大小不随距离变化。" },
+        { "term": "Perspective Projection 透视投影", "definition": "模拟人眼近大远小的投影方式，平行线会汇聚。" },
+        { "term": "Field of View 视场角", "definition": "视锥垂直或水平方向张开的角度，决定取景范围。" },
+        { "term": "Rodrigues Rotation Formula 罗德里格斯旋转公式", "definition": "给出绕任意轴旋转指定角度的旋转矩阵的闭式表达。" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "进入光栅化：把投影后的标准立方体映射到屏幕像素，然后讨论为什么用三角形作为基本图元，以及如何用采样判断像素是否被三角形覆盖。",
+      "keyPoints": [
+        { "title": "视口变换", "detail": "把 x、y 从 [-1,1] 拉伸到屏幕的 [0,width]×[0,height]，z 暂时保留用于深度测试。" },
+        { "title": "为什么是三角形", "detail": "三角形一定是平面的、内外定义明确、可用重心坐标做属性插值，且任何多边形都能三角化。" },
+        { "title": "采样即覆盖测试", "detail": "光栅化本质是对函数 inside(triangle, x, y) 在像素中心采样，用三次叉乘同号判断点是否在内。" },
+        { "title": "包围盒加速", "detail": "只遍历三角形轴对齐包围盒内的像素，避免全屏扫描；也可逐行求交做增量扫描。" },
+        { "title": "走样的来源", "detail": "像素中心的离散采样无法表达连续边界，导致锯齿（Jaggies），为下一讲的反走样埋伏笔。" }
+      ],
+      "terms": [
+        { "term": "Rasterization 光栅化", "definition": "判定屏幕上哪些像素被图元覆盖并着色的过程。" },
+        { "term": "Viewport Transform 视口变换", "definition": "把标准设备坐标映射到屏幕像素坐标的变换。" },
+        { "term": "Bounding Box 包围盒", "definition": "包住几何体的最小轴对齐矩形，用于快速剔除。" },
+        { "term": "Aliasing 走样", "definition": "采样频率不足导致信号被错误重建的现象，表现为锯齿或摩尔纹。" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "从信号处理角度解释走样成因，介绍反走样方法（滤波后采样、MSAA、FXAA、TAA），随后讲深度缓冲解决遮挡关系。",
+      "keyPoints": [
+        { "title": "采样定理与频域解释", "detail": "采样在频域上是频谱的搬移复制，采样率不足会造成频谱混叠（Aliasing），高频伪装成低频。" },
+        { "title": "先滤波后采样", "detail": "正确的反走样是先用低通滤波（模糊）去掉高频，再采样；而不是先采样再模糊。" },
+        { "title": "MSAA 与其他 AA", "detail": "MSAA 在每像素内多点采样估计覆盖率；FXAA 是图像后处理找边缘替换；TAA 复用上一帧样本在时间上分摊开销。" },
+        { "title": "画家算法的缺陷", "detail": "按深度排序后从远到近绘制，遇到互相遮挡的循环三角形就无法给出正确顺序。" },
+        { "title": "Z-Buffer 深度缓冲", "detail": "为每个像素额外存一个深度值，只有更近的片元才写入颜色，与绘制顺序无关，复杂度是线性的。", "formula": "\\text{if } z_{new} < z_{buffer}(x,y): \\; z_{buffer}(x,y) \\leftarrow z_{new},\\; C(x,y) \\leftarrow C_{new}" }
+      ],
+      "terms": [
+        { "term": "Antialiasing 反走样", "definition": "通过滤波或超采样减轻走样伪影的技术。" },
+        { "term": "MSAA 多重采样抗锯齿", "definition": "在每个像素内取多个覆盖样本、共享着色结果的抗锯齿方法。" },
+        { "term": "TAA 时间性抗锯齿", "definition": "利用历史帧样本与运动向量在时间维度累积采样的抗锯齿方法。" },
+        { "term": "Z-Buffer 深度缓冲", "definition": "逐像素记录最近可见深度以解决遮挡的缓冲区。" },
+        { "term": "Nyquist Frequency 奈奎斯特频率", "definition": "无失真重建信号所需的最低采样率的一半。" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "开始着色：定义 Shading 为「对物体应用材质」，推导 Blinn-Phong 反射模型的漫反射、高光、环境光三项，并给出实时渲染管线全貌。",
+      "keyPoints": [
+        { "title": "Blinn-Phong 三项模型", "detail": "最终颜色由环境光、漫反射、镜面高光三部分相加得到，是经验模型而非物理正确模型。", "formula": "L = k_a I_a + k_d \\frac{I}{r^2}\\max(0, \\mathbf{n}\\cdot\\mathbf{l}) + k_s \\frac{I}{r^2}\\max(0, \\mathbf{n}\\cdot\\mathbf{h})^{p}" },
+        { "title": "漫反射与朗伯余弦定律", "detail": "漫反射与观察方向无关，只与光线入射角余弦和距离平方衰减有关。", "formula": "L_d = k_d \\frac{I}{r^2}\\max(0, \\mathbf{n}\\cdot\\mathbf{l})" },
+        { "title": "半程向量与高光", "detail": "Blinn-Phong 用半程向量 h 与法线的夹角替代 Phong 的反射向量与视线夹角，计算更快；指数 p 控制高光大小。", "formula": "\\mathbf{h} = \\frac{\\mathbf{v}+\\mathbf{l}}{\\|\\mathbf{v}+\\mathbf{l}\\|}" },
+        { "title": "着色不产生阴影", "detail": "Blinn-Phong 是局部光照模型，只考虑当前着色点，不判断遮挡，因此需要单独的阴影算法。" },
+        { "title": "实时渲染管线", "detail": "顶点处理 → 三角形处理 → 光栅化 → 片元处理 → 帧缓冲，Vertex Shader 与 Fragment Shader 是其中可编程的两环。" }
+      ],
+      "terms": [
+        { "term": "Blinn-Phong Reflection Model 布林-冯反射模型", "definition": "由环境光、漫反射与半程向量高光组成的经验着色模型。" },
+        { "term": "Diffuse Reflection 漫反射", "definition": "入射光被均匀散射到各方向、亮度与视角无关的反射。" },
+        { "term": "Specular Highlight 镜面高光", "definition": "接近镜面反射方向时出现的明亮光斑。" },
+        { "term": "Graphics Pipeline 图形管线", "definition": "从顶点数据到屏幕像素的一系列固定与可编程阶段。" },
+        { "term": "Shader 着色器", "definition": "在 GPU 上运行、决定顶点位置或片元颜色的小程序。" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "讲着色频率（逐面/逐顶点/逐像素）、顶点法线的求法与重心坐标插值，随后引入纹理映射，把纹理理解为「定义在表面上的属性查找表」。",
+      "keyPoints": [
+        { "title": "着色频率", "detail": "Flat Shading 逐三角形、Gouraud Shading 逐顶点后插值、Phong Shading 逐像素插值法线再着色，几何足够密时三者差别缩小。" },
+        { "title": "顶点法线与重心坐标", "detail": "顶点法线取相邻面法线的（面积加权）平均；三角形内部属性用重心坐标线性插值。", "formula": "(x,y) = \\alpha A + \\beta B + \\gamma C,\\quad \\alpha+\\beta+\\gamma = 1" },
+        { "title": "透视校正插值", "detail": "屏幕空间的重心坐标插值对深度不线性，必须在三维空间做插值（除以 w）才能得到正确的纹理坐标。" },
+        { "title": "纹理映射与 UV", "detail": "每个三角形顶点带一组 (u,v) 纹理坐标，把二维纹理图「贴」到三维表面；UV 一般在 [0,1] 范围内。" },
+        { "title": "纹理的通用性", "detail": "纹理不只存颜色，也可以存环境光照（环境贴图）、法线扰动、粗糙度等任意逐点参数。" }
+      ],
+      "terms": [
+        { "term": "Barycentric Coordinates 重心坐标", "definition": "用三角形三个顶点的加权组合表示内部点的坐标系统，用于属性插值。" },
+        { "term": "Texture Mapping 纹理映射", "definition": "把二维图像按 UV 坐标映射到三维表面的技术。" },
+        { "term": "Gouraud Shading 高洛德着色", "definition": "在顶点计算光照再插值颜色的着色频率。" },
+        { "term": "Phong Shading 冯氏着色", "definition": "插值法线后逐像素计算光照的着色频率。" },
+        { "term": "Perspective Correct Interpolation 透视校正插值", "definition": "考虑深度非线性、在世界空间正确插值属性的方法。" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "深入纹理：纹理放大用双线性/双三次插值，纹理缩小用 Mipmap 与各向异性过滤，最后介绍纹理的高级用法——环境贴图、凹凸/法线贴图、位移贴图与三维噪声纹理。",
+      "keyPoints": [
+        { "title": "纹理过小的放大问题", "detail": "纹理分辨率不足会出现块状锯齿，用双线性插值（4 个纹素加权）或 Bicubic（16 个纹素）平滑。" },
+        { "title": "纹理过大的走样问题", "detail": "一个像素覆盖大量纹素时单点采样产生摩尔纹与锯齿，需要做范围查询而非点查询。" },
+        { "title": "Mipmap 层级金字塔", "detail": "预计算逐级减半的图像金字塔，按屏幕空间纹理坐标微分估计层级 D，并在层间做三线性插值；额外存储开销仅 1/3。", "formula": "D = \\log_2 L,\\quad L = \\max\\left(\\sqrt{\\left(\\tfrac{du}{dx}\\right)^2+\\left(\\tfrac{dv}{dx}\\right)^2},\\ \\sqrt{\\left(\\tfrac{du}{dy}\\right)^2+\\left(\\tfrac{dv}{dy}\\right)^2}\\right)" },
+        { "title": "各向异性过滤", "detail": "Mipmap 只支持正方形范围查询会导致远处过糊，Ripmap/各向异性过滤支持长条形足迹，效果更清晰。" },
+        { "title": "纹理的高级应用", "detail": "环境贴图（球面贴图 / Cube Map）记录远处光照；凹凸与法线贴图扰动法线制造细节假象；位移贴图真实改变顶点位置。" }
+      ],
+      "terms": [
+        { "term": "Mipmap 多级渐远纹理", "definition": "预生成的多分辨率纹理金字塔，用于快速近似范围平均查询。" },
+        { "term": "Bilinear Interpolation 双线性插值", "definition": "在两个方向上依次做线性插值来平滑采样纹理。" },
+        { "term": "Anisotropic Filtering 各向异性过滤", "definition": "支持非正方形采样足迹的纹理过滤方法。" },
+        { "term": "Environment Map 环境贴图", "definition": "把来自远处的入射光照记录成纹理以近似环境光照。" },
+        { "term": "Normal Map 法线贴图", "definition": "在纹理中存储法线扰动以在低模上表现高频细节。" },
+        { "term": "Displacement Mapping 位移贴图", "definition": "按纹理值真实移动表面顶点，产生正确轮廓与自阴影。" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "几何部分开篇：分类几何的隐式表示与显式表示，比较各自的优劣，并介绍常见的具体表示形式。",
+      "keyPoints": [
+        { "title": "隐式表示", "detail": "用方程 f(x,y,z)=0 描述表面，容易判断点在内外、易做求交和布尔运算，但难以枚举表面上的点。", "formula": "f(x,y,z)=0" },
+        { "title": "显式表示", "detail": "用参数映射或直接列举点/面来描述表面，容易采样绘制，但判断内外困难。", "formula": "(u,v) \\mapsto (x(u,v), y(u,v), z(u,v))" },
+        { "title": "常见隐式表示", "detail": "代数曲面、构造实体几何 CSG、距离函数 SDF、水平集、分形都是隐式表示，SDF 支持自然的形状混合。" },
+        { "title": "常见显式表示", "detail": "点云、多边形网格（最常用，OBJ 格式）、细分曲面、NURBS 曲面。" },
+        { "title": "表示各有所长", "detail": "没有万能表示，实际管线中常在隐式与显式之间转换（如 Marching Cubes 提取等值面）。" }
+      ],
+      "terms": [
+        { "term": "Implicit Surface 隐式曲面", "definition": "由满足某方程的点集定义的曲面。" },
+        { "term": "Explicit Surface 显式曲面", "definition": "由参数化映射或顶点面片直接给出的曲面。" },
+        { "term": "Signed Distance Function 有向距离场", "definition": "返回空间点到表面的带符号最短距离的函数。" },
+        { "term": "Constructive Solid Geometry 构造实体几何", "definition": "用并、交、差布尔运算组合基本体得到复杂形状的建模方式。" },
+        { "term": "Polygon Mesh 多边形网格", "definition": "由顶点、边、面组成的离散曲面表示。" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "讲曲线与曲面：贝塞尔曲线的 de Casteljau 递归构造、伯恩斯坦多项式形式、分段贝塞尔的连续性条件，以及张量积得到的贝塞尔曲面。",
+      "keyPoints": [
+        { "title": "de Casteljau 算法", "detail": "对控制点反复做线性插值，最终收敛到一点，几何直观地画出贝塞尔曲线。" },
+        { "title": "伯恩斯坦多项式形式", "detail": "n 阶贝塞尔曲线是控制点以伯恩斯坦基加权的和。", "formula": "\\mathbf{b}^{n}(t) = \\sum_{j=0}^{n} \\mathbf{b}_j B_j^{n}(t),\\quad B_j^{n}(t)=\\binom{n}{j}t^{j}(1-t)^{n-j}" },
+        { "title": "贝塞尔曲线的性质", "detail": "过首末控制点、起止切线由相邻控制点决定、具有仿射不变性和凸包性质。" },
+        { "title": "分段贝塞尔与连续性", "detail": "高阶曲线不易控制，实践中用分段三次贝塞尔；C0 要求端点重合，C1 还要求相邻控制点共线且等距。" },
+        { "title": "贝塞尔曲面与 B 样条", "detail": "对 4×4 控制点网格分别在 u、v 方向做 de Casteljau 得到双三次贝塞尔曲面；B 样条具有局部性，NURBS 更通用。" }
+      ],
+      "terms": [
+        { "term": "Bezier Curve 贝塞尔曲线", "definition": "由控制点通过伯恩斯坦基加权定义的参数曲线。" },
+        { "term": "de Casteljau Algorithm 德卡斯特里奥算法", "definition": "通过反复线性插值求贝塞尔曲线上一点的递归算法。" },
+        { "term": "B-Spline B 样条", "definition": "具有局部控制性质的分段多项式曲线表示。" },
+        { "term": "NURBS 非均匀有理 B 样条", "definition": "带权重的有理 B 样条，可精确表示圆锥曲线。" },
+        { "term": "Convex Hull Property 凸包性质", "definition": "曲线始终落在其控制点凸包内的性质。" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "网格处理三大操作：细分（增加细节）、简化（减少面数）、正则化，并介绍 Loop 细分、Catmull-Clark 细分与基于二次误差度量的边坍缩简化，最后回到阴影映射。",
+      "keyPoints": [
+        { "title": "Loop 细分", "detail": "只适用于三角形网格：先每边取中点把一个三角形分成四个，再按权重更新新旧顶点位置使表面平滑。" },
+        { "title": "Catmull-Clark 细分", "detail": "适用于任意多边形网格，每步把非四边形面变成四边形并引入奇异点；奇异点数目在第一次细分后固定。" },
+        { "title": "网格简化与边坍缩", "detail": "用二次误差度量（Quadric Error Metrics）衡量坍缩一条边引入的误差，用优先队列贪心地依次坍缩误差最小的边。" },
+        { "title": "阴影映射原理", "detail": "从光源视角渲染一张深度图，再从相机视角把着色点变换到光源空间比较深度，深度更大即处于阴影中。" },
+        { "title": "阴影映射的问题", "detail": "分辨率与走样导致锯齿，浮点比较导致自遮挡（Shadow Acne），只能处理点光源产生的硬阴影。" }
+      ],
+      "terms": [
+        { "term": "Mesh Subdivision 网格细分", "definition": "通过增加顶点与面来提升网格精度并平滑表面的操作。" },
+        { "term": "Loop Subdivision 卢普细分", "definition": "针对三角网格的经典细分方案。" },
+        { "term": "Catmull-Clark Subdivision 卡特穆尔-克拉克细分", "definition": "针对一般多边形网格的四边形化细分方案。" },
+        { "term": "Quadric Error Metrics 二次误差度量", "definition": "用到相关平面距离平方和衡量简化误差的指标。" },
+        { "term": "Shadow Mapping 阴影映射", "definition": "利用光源视角深度图判断着色点是否被遮挡的实时阴影技术。" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "光线追踪开篇：解释光栅化难以处理全局效果的原因，给出光线的基本假设，推导 Whitted-Style 递归光线追踪与光线-球/三角形求交。",
+      "keyPoints": [
+        { "title": "为什么需要光线追踪", "detail": "光栅化难以处理软阴影、镜面间接光照与折射焦散，是快速但近似的方法；光线追踪准确但慢，主要用于离线渲染。" },
+        { "title": "光线的三条假设", "detail": "光沿直线传播、光线之间互不碰撞、光路可逆（从眼睛发出光线与从光源出发等价）。" },
+        { "title": "Whitted-Style 递归光线追踪", "detail": "从视点穿过像素投射主光线，遇到镜面/透明材质时递归产生反射与折射光线，在每个交点向光源投射阴影射线。" },
+        { "title": "光线与隐式曲面求交", "detail": "把参数化射线代入球面方程解一元二次方程，取正的最小根。", "formula": "\\mathbf{r}(t)=\\mathbf{o}+t\\mathbf{d},\\quad (\\mathbf{o}+t\\mathbf{d}-\\mathbf{c})^2 - R^2 = 0" },
+        { "title": "Moller-Trumbore 算法", "detail": "直接用重心坐标解三角形求交，一步得到 t 与两个重心坐标，需满足 t>0 且重心坐标非负。", "formula": "\\mathbf{o}+t\\mathbf{d} = (1-b_1-b_2)\\mathbf{P}_0 + b_1\\mathbf{P}_1 + b_2\\mathbf{P}_2" }
+      ],
+      "terms": [
+        { "term": "Whitted-Style Ray Tracing 惠特德式光线追踪", "definition": "递归追踪镜面反射与折射光线的经典光线追踪算法。" },
+        { "term": "Shadow Ray 阴影射线", "definition": "从着色点射向光源、用于判断是否被遮挡的辅助光线。" },
+        { "term": "Moller-Trumbore Algorithm 莫勒-特朗博算法", "definition": "用重心坐标直接求解射线与三角形交点的高效算法。" },
+        { "term": "Reciprocity of Light 光路可逆性", "definition": "光线沿相反方向传播时路径与传输量不变的性质。" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "光线追踪加速结构：先讲包围盒与轴对齐包围盒的求交（Slab 方法），再比较均匀空间划分、KD 树与 BVH 的思路与取舍。",
+      "keyPoints": [
+        { "title": "AABB 与 Slab 求交", "detail": "轴对齐包围盒的求交只需在三对平行平面上求进入/离开时间，取最大进入与最小离开。", "formula": "t_{enter}=\\max_i t_{min}^{i},\\quad t_{exit}=\\min_i t_{max}^{i};\\ \\text{命中当且仅当}\\ t_{enter}<t_{exit}\\ \\text{且}\\ t_{exit}\\ge 0" },
+        { "title": "均匀网格划分", "detail": "把场景切成规则格子，沿射线做增量遍历；适合分布均匀的场景，遇到「Teapot in a Stadium」会退化。" },
+        { "title": "KD-Tree 空间划分", "detail": "轮换坐标轴递归二分空间，只在叶子存物体；缺点是同一物体可能落入多个叶子且判定物体与格子相交较难。" },
+        { "title": "BVH 物体划分", "detail": "按物体划分而非空间划分，每个物体只属于一个节点，包围盒可以重叠；实践中最常用。" },
+        { "title": "BVH 的构建启发式", "detail": "常按最长轴的物体中位数划分（可用快速选择做到线性期望），更好的是使用表面积启发式 SAH。" }
+      ],
+      "terms": [
+        { "term": "Axis-Aligned Bounding Box 轴对齐包围盒", "definition": "各面与坐标轴对齐的最小长方体包围体。" },
+        { "term": "Bounding Volume Hierarchy 层次包围盒", "definition": "按物体递归分组构建的包围体树形加速结构。" },
+        { "term": "KD-Tree KD 树", "definition": "沿坐标轴递归二分空间的树形加速结构。" },
+        { "term": "Surface Area Heuristic 表面积启发式", "definition": "以子节点表面积估计遍历代价来选择划分位置的策略。" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "为路径追踪做数学准备：辐射度量学。定义辐射通量、辐射强度、辐照度与辐射亮度，并推导双向反射分布函数 BRDF 与反射方程。",
+      "keyPoints": [
+        { "title": "立体角与微分立体角", "detail": "立体角是面积与半径平方之比，单位球总立体角为 4π；微分立体角用极角与方位角表示。", "formula": "d\\omega = \\sin\\theta\\, d\\theta\\, d\\phi" },
+        { "title": "辐射强度与辐照度", "detail": "Radiant Intensity 是单位立体角的功率；Irradiance 是单位垂直面积接收的功率，需要乘 cos 项。", "formula": "E(\\mathbf{x}) = \\frac{d\\Phi(\\mathbf{x})}{dA}" },
+        { "title": "Radiance 辐射亮度", "detail": "单位立体角、单位垂直面积上的功率，是渲染中最核心的量，沿直线传播时不衰减。", "formula": "L(\\mathbf{p},\\omega) = \\frac{d^{2}\\Phi(\\mathbf{p},\\omega)}{d\\omega\\, dA\\cos\\theta}" },
+        { "title": "BRDF 定义", "detail": "描述从入射方向进入的能量有多少反射到出射方向，是材质的数学刻画。", "formula": "f_r(\\omega_i \\to \\omega_r) = \\frac{dL_r(\\omega_r)}{dE_i(\\omega_i)} = \\frac{dL_r(\\omega_r)}{L_i(\\omega_i)\\cos\\theta_i\\, d\\omega_i}" },
+        { "title": "反射方程与渲染方程", "detail": "出射辐射亮度是半球上所有入射辐射亮度按 BRDF 与余弦项加权的积分，加上自发光即渲染方程。", "formula": "L_o(p,\\omega_o) = L_e(p,\\omega_o) + \\int_{H^2} L_i(p,\\omega_i) f_r(p,\\omega_i,\\omega_o)(\\mathbf{n}\\cdot\\omega_i)\\, d\\omega_i" }
+      ],
+      "terms": [
+        { "term": "Radiometry 辐射度量学", "definition": "用物理单位度量光能传输的学科。" },
+        { "term": "Radiance 辐射亮度", "definition": "单位立体角单位投影面积上的辐射功率。" },
+        { "term": "Irradiance 辐照度", "definition": "单位面积接收到的辐射功率。" },
+        { "term": "Solid Angle 立体角", "definition": "三维空间中方向所张开的角度，单位为球面度。" },
+        { "term": "BRDF 双向反射分布函数", "definition": "描述表面把入射方向能量分配到各出射方向比例的函数。" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "用蒙特卡洛积分求解渲染方程，得到路径追踪算法。讲清楚为什么要用俄罗斯轮盘赌保证无偏、以及为什么要对光源直接采样降低方差。",
+      "keyPoints": [
+        { "title": "蒙特卡洛积分", "detail": "用按概率密度采样的函数值均值估计积分，样本越多方差越小，估计是无偏的。", "formula": "\\int f(x)\\,dx \\approx \\frac{1}{N}\\sum_{i=1}^{N} \\frac{f(X_i)}{p(X_i)}" },
+        { "title": "朴素路径追踪的两个问题", "detail": "每次弹射发射多条光线会导致光线数目指数爆炸；递归没有终止条件会无限进行下去。" },
+        { "title": "俄罗斯轮盘赌", "detail": "以概率 P 继续追踪并把结果除以 P，以概率 1-P 直接返回 0，使期望仍等于原值，从而无偏地终止递归。", "formula": "E = P \\cdot \\frac{L_o}{P} + (1-P)\\cdot 0 = L_o" },
+        { "title": "对光源采样", "detail": "在半球上均匀采样时大部分光线打不到小光源，改为在光源面积上采样并做立体角转换，方差大幅下降。", "formula": "d\\omega = \\frac{dA\\cos\\theta'}{\\|x'-x\\|^{2}}" },
+        { "title": "直接光照 + 间接光照", "detail": "把着色分成「对光源采样得到直接光照」与「俄罗斯轮盘赌递归得到间接光照」两部分求和，是现代路径追踪的标准写法。" }
+      ],
+      "terms": [
+        { "term": "Monte Carlo Integration 蒙特卡洛积分", "definition": "用随机采样估计定积分的数值方法。" },
+        { "term": "Path Tracing 路径追踪", "definition": "用蒙特卡洛方法求解渲染方程的无偏全局光照算法。" },
+        { "term": "Russian Roulette 俄罗斯轮盘赌", "definition": "以概率提前终止递归并补偿权重以保持无偏的技巧。" },
+        { "term": "Importance Sampling 重要性采样", "definition": "按被积函数形状选择采样分布以降低方差的技术。" },
+        { "term": "Rendering Equation 渲染方程", "definition": "描述表面出射光等于自发光加上半球入射光反射积分的方程。" }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "从 BRDF 角度系统讲材质：漫反射、玻璃与水的折射、金属的微表面模型、各向异性材质，并介绍 BSDF/BSSRDF 与菲涅耳项。",
+      "keyPoints": [
+        { "title": "材质就是 BRDF", "detail": "同样的几何配上不同 BRDF 就得到完全不同的外观，材质在渲染中等价于它的 BRDF。" },
+        { "title": "漫反射 BRDF", "detail": "理想漫反射体在能量守恒下 BRDF 是常数，等于反照率除以 π。", "formula": "f_r = \\frac{\\rho}{\\pi}" },
+        { "title": "折射与 Snell 定律", "detail": "光进入不同折射率介质时方向改变，入射角大于临界角时发生全反射，是水下视野受限的原因。", "formula": "\\eta_i \\sin\\theta_i = \\eta_t \\sin\\theta_t" },
+        { "title": "菲涅耳项", "detail": "反射比例随入射角增大而增大，掠射时几乎全反射；导体与绝缘体的菲涅耳曲线差异明显，可用 Schlick 近似。", "formula": "R(\\theta) \\approx R_0 + (1-R_0)(1-\\cos\\theta)^{5}" },
+        { "title": "微表面模型", "detail": "把宏观材质看作大量微小镜面的统计集合，BRDF 由法线分布 D、几何遮蔽 G 与菲涅耳 F 三项组成，是 PBR 的基础。", "formula": "f(\\mathbf{i},\\mathbf{o}) = \\frac{F(\\mathbf{i},\\mathbf{h})\\, G(\\mathbf{i},\\mathbf{o},\\mathbf{h})\\, D(\\mathbf{h})}{4(\\mathbf{n}\\cdot\\mathbf{i})(\\mathbf{n}\\cdot\\mathbf{o})}" },
+        { "title": "各向同性与各向异性", "detail": "各向异性 BRDF 依赖方位角（如拉丝金属、尼龙、天鹅绒），微表面法线分布有方向性。" }
+      ],
+      "terms": [
+        { "term": "BSDF 双向散射分布函数", "definition": "统一描述反射与透射的散射分布函数。" },
+        { "term": "Fresnel Term 菲涅耳项", "definition": "描述反射率随入射角变化的因子。" },
+        { "term": "Microfacet Model 微表面模型", "definition": "把粗糙表面建模为微小镜面统计分布的物理材质模型。" },
+        { "term": "Snell's Law 斯涅尔定律", "definition": "描述光在两种介质界面折射方向的关系式。" },
+        { "term": "Albedo 反照率", "definition": "表面反射光能与入射光能的比值。" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "渲染的进阶话题速览：无偏与有偏光线传播方法、参与介质、毛发与颗粒渲染、程序化生成，以及外观建模的各种模型。",
+      "keyPoints": [
+        { "title": "双向路径追踪 BDPT", "detail": "同时从光源和相机各自生成子路径再连接，适合光路难以从相机找到的场景（如间接光为主的室内）。" },
+        { "title": "Metropolis Light Transport", "detail": "用马尔可夫链在路径空间做局部扰动采样，擅长处理复杂焦散等困难光路，但难以估计收敛、图像局部噪声不均。" },
+        { "title": "光子映射", "detail": "有偏但一致的两阶段方法：先从光源打出光子存在场景中，再从相机做局部密度估计，擅长焦散（SDS 路径）。" },
+        { "title": "VCM 与实时渲染趋势", "detail": "Vertex Connection and Merging 融合光子映射与 BDPT；实时渲染方向以 IBL、预计算辐射传输与降噪为主。" },
+        { "title": "参与介质与次表面散射", "detail": "云雾等参与介质需要在传播过程中考虑吸收与相函数散射；皮肤、玉石等需要 BSSRDF 描述次表面散射。" },
+        { "title": "毛发与程序化生成", "detail": "Kajiya-Kay 与 Marschner 模型描述毛发的 R/TT/TRT 光路，双重圆柱模型可处理动物绒毛；程序化噪声可无需存储地生成海量细节。" }
+      ],
+      "terms": [
+        { "term": "Bidirectional Path Tracing 双向路径追踪", "definition": "从光源与相机双向生成子路径并连接的全局光照算法。" },
+        { "term": "Photon Mapping 光子映射", "definition": "先散布光子再做密度估计的有偏一致渲染方法。" },
+        { "term": "Participating Media 参与介质", "definition": "会吸收、散射光线的体积介质，如烟雾与云。" },
+        { "term": "BSSRDF 双向次表面散射反射分布函数", "definition": "允许光在一点进入另一点射出的散射描述函数。" },
+        { "term": "Procedural Generation 程序化生成", "definition": "用算法与噪声函数即时生成纹理或几何细节的技术。" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "从渲染转向成像：讲相机的针孔与透镜成像、光圈快门 ISO 的曝光三角、景深的形成，以及光场与光场相机的原理。",
+      "keyPoints": [
+        { "title": "针孔相机与快门", "detail": "针孔成像没有景深、处处清晰；曝光量由光圈、快门时间与感光度共同决定。", "formula": "H = T \\times E" },
+        { "title": "F 数与光圈", "detail": "F 数是焦距与光圈直径之比，F 数越小光圈越大、进光量越多、景深越浅。", "formula": "N = \\frac{f}{D}" },
+        { "title": "薄透镜方程", "detail": "物距、像距与焦距满足高斯薄透镜公式，改变像距即为对焦。", "formula": "\\frac{1}{f} = \\frac{1}{z_o} + \\frac{1}{z_i}" },
+        { "title": "弥散圆与景深", "detail": "不在对焦平面的点成像为一个圆斑（Circle of Confusion），其直径与光圈直径成正比，可接受的清晰范围即景深。", "formula": "C = A\\,\\frac{|z_s - z_i|}{z_i}" },
+        { "title": "快门效应与运动模糊", "detail": "长快门产生运动模糊（也可作为一种反走样），卷帘快门（Rolling Shutter）会造成高速物体形变。" },
+        { "title": "光场与光场相机", "detail": "全光函数记录任意位置任意方向的光，四维光场可用两平面参数化；Lytro 用微透镜阵列记录光场，实现先拍照后对焦，代价是空间分辨率下降。" }
+      ],
+      "terms": [
+        { "term": "Thin Lens Approximation 薄透镜近似", "definition": "忽略透镜厚度、假设平行光聚焦于焦点的简化模型。" },
+        { "term": "Circle of Confusion 弥散圆", "definition": "离焦点在成像面上形成的模糊圆斑。" },
+        { "term": "Depth of Field 景深", "definition": "成像看起来足够清晰的物距范围。" },
+        { "term": "Plenoptic Function 全光函数", "definition": "描述任意位置、方向、波长、时刻光线强度的高维函数。" },
+        { "term": "Light Field 光场", "definition": "全光函数在自由空间中的四维简化表示。" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "讲颜色的物理与感知基础：光谱与人眼三种视锥细胞、CIE XYZ 与色度图、加色与减色系统，以及常见色彩空间。",
+      "keyPoints": [
+        { "title": "光谱功率分布", "detail": "光的物理描述是波长上的功率分布 SPD，SPD 可以线性叠加。" },
+        { "title": "三色视觉理论", "detail": "人眼有 S/M/L 三种视锥细胞，不同人各类细胞比例差异很大；大脑只接收三个积分响应值。", "formula": "S = \\int r_S(\\lambda)s(\\lambda)\\,d\\lambda" },
+        { "title": "同色异谱", "detail": "不同光谱可能激发相同的 SML 响应而看起来同色，这是显示器只用三原色就能复现大部分颜色的原理。" },
+        { "title": "CIE XYZ 与色度图", "detail": "用标准匹配函数把 SPD 映射到 XYZ，归一化后的 xy 色度图去掉亮度信息，边界是单色光轨迹。", "formula": "x = \\frac{X}{X+Y+Z},\\quad y = \\frac{Y}{X+Y+Z}" },
+        { "title": "加色与减色", "detail": "显示器发光用 RGB 加色系统，印刷颜料用 CMYK 减色系统。" },
+        { "title": "常见色彩空间", "detail": "sRGB 是事实标准但色域有限；HSV 便于交互选色；Lab 试图做到感知均匀，其对立色轴来自感知的拮抗理论。" }
+      ],
+      "terms": [
+        { "term": "Spectral Power Distribution 光谱功率分布", "definition": "光在各波长上的功率分布函数。" },
+        { "term": "Metamerism 同色异谱", "definition": "光谱不同但视觉上颜色相同的现象。" },
+        { "term": "CIE XYZ 国际照明委员会 XYZ 色彩空间", "definition": "用标准观察者匹配函数定义的设备无关色彩空间。" },
+        { "term": "Gamut 色域", "definition": "某个色彩系统能够表示的颜色范围。" },
+        { "term": "sRGB 标准 RGB 色彩空间", "definition": "被广泛采用的显示器标准色彩空间。" }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "动画部分开篇：关键帧插值与绑定、正逆向运动学、质点弹簧系统与显式/隐式积分器的稳定性。",
+      "keyPoints": [
+        { "title": "关键帧动画与插值", "detail": "美术只画关键帧，中间帧由计算机插值生成；插值曲线的选择决定动画节奏。" },
+        { "title": "正向与逆向运动学", "detail": "正向运动学由关节角推末端位置，直观但难以摆姿势；逆向运动学由目标位置反解关节角，解可能不存在或不唯一，常用数值优化求解。" },
+        { "title": "绑定与蒙皮", "detail": "Rigging 给模型加上可控骨架，蒙皮权重决定顶点跟随骨骼的方式；混合形状用于面部表情。" },
+        { "title": "质点弹簧系统", "detail": "用胡克定律的弹簧连接质点模拟绳子与布料，需要额外的阻尼项和抗剪切、抗弯曲的结构弹簧。", "formula": "\\mathbf{f}_{a\\to b} = k_s \\frac{\\mathbf{b}-\\mathbf{a}}{\\|\\mathbf{b}-\\mathbf{a}\\|}\\left(\\|\\mathbf{b}-\\mathbf{a}\\|-l\\right)" },
+        { "title": "欧拉法与稳定性", "detail": "显式欧拉用上一时刻的状态更新，误差与不稳定性随步长增大而累积（能量发散）；隐式欧拉需要解方程但无条件稳定。", "formula": "\\mathbf{x}^{t+1} = \\mathbf{x}^{t} + \\Delta t\\, \\dot{\\mathbf{x}}^{t+1},\\quad \\dot{\\mathbf{x}}^{t+1} = \\dot{\\mathbf{x}}^{t} + \\Delta t\\, \\ddot{\\mathbf{x}}^{t+1}" },
+        { "title": "改进的积分器", "detail": "中点法、修正欧拉法、自适应步长、Runge-Kutta 四阶方法都能提升精度与稳定性；位置基方法（PBD）在游戏中常用。" }
+      ],
+      "terms": [
+        { "term": "Keyframe Animation 关键帧动画", "definition": "指定关键姿态并由插值生成中间帧的动画方式。" },
+        { "term": "Forward Kinematics 正向运动学", "definition": "由关节参数计算末端位置的过程。" },
+        { "term": "Inverse Kinematics 逆向运动学", "definition": "由末端目标位置反求关节参数的过程。" },
+        { "term": "Mass Spring System 质点弹簧系统", "definition": "用弹簧连接质点来模拟可形变物体的物理模型。" },
+        { "term": "Implicit Euler 隐式欧拉法", "definition": "用下一时刻导数更新状态、无条件稳定的时间积分方法。" }
+      ]
+    },
+    {
+      "n": 22,
+      "summary": "动画续讲：刚体与流体模拟，比较拉格朗日视角与欧拉视角，介绍基于位置的流体、材料点法，最后讲动画的渲染（运动模糊）与课程总结。",
+      "keyPoints": [
+        { "title": "粒子系统", "detail": "用大量粒子加上受力规则模拟烟、火、水、鸟群等；每帧生成、受力、更新、渲染、销毁粒子。" },
+        { "title": "运动捕捉", "detail": "光学、磁力、惯性等方式采集真实动作，真实度高但受限于采集条件与重定向（Retargeting）问题。" },
+        { "title": "拉格朗日视角与欧拉视角", "detail": "拉格朗日方法跟踪每个质点（如 SPH 光滑粒子流体动力学）；欧拉方法在固定网格上观察物理量变化。" },
+        { "title": "材料点法 MPM", "detail": "混合方法：物质用粒子承载，动力学在背景网格上求解，适合雪、泥等复杂材料。" },
+        { "title": "求解即积分", "detail": "所有模拟归结为「计算受力—更新加速度速度位置—推进时间步」的循环，稳定性依赖积分方法与步长。" },
+        { "title": "课程总结与后续", "detail": "GAMES101 覆盖光栅化、几何、光线追踪、动画四大块，后续可衔接 GAMES202 实时高质量渲染与 GAMES104 游戏引擎。" }
+      ],
+      "terms": [
+        { "term": "Particle System 粒子系统", "definition": "用大量简单粒子及其受力规则模拟自然现象的方法。" },
+        { "term": "Motion Capture 动作捕捉", "definition": "记录真实演员动作并驱动虚拟角色的技术。" },
+        { "term": "Eulerian View 欧拉视角", "definition": "在固定空间网格上观察物理量随时间变化的模拟视角。" },
+        { "term": "Lagrangian View 拉格朗日视角", "definition": "跟踪每个物质粒子运动的模拟视角。" },
+        { "term": "Material Point Method 材料点法", "definition": "结合粒子与网格优点的混合连续介质模拟方法。" }
+      ]
+    }
+  ]
+}

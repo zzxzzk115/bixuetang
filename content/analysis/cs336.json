@@ -1,0 +1,309 @@
+{
+  "courseId": "cs336",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "斯坦福 CS336 是少有的把大语言模型「从算法到系统」全链条讲透的公开课，核心信条是「不许调库」——分词器、Transformer、优化器、并行策略、推理引擎全部自己写一遍。课程主线沿着一条真实的造模型流水线展开：先做分词与架构基础，再深入 GPU 硬件、Triton 算子与多维并行把训练效率压到极限，接着用缩放定律决定「给定算力该训多大的模型、喂多少数据」，然后处理推理加速、评测与数据清洗，最后进入 SFT、RLHF 与强化学习的对齐阶段。贯穿全课的思维是资源核算：每一个设计决策都要换算成 FLOPs、显存字节数和通信量来评估。学完之后你能独立读懂并复现前沿模型的技术报告，也具备在真实集群上训练与部署自研模型的工程能力。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "课程总览与分词。先说明课程的哲学：只有亲手实现每一层才能真正理解大模型，因此作业禁止直接调用高层库。随后进入第一个真实组件——分词器，讲清楚为什么需要子词分词，以及 BPE 的训练与编码过程。",
+      "keyPoints": [
+        { "title": "课程五大板块", "detail": "Basics（分词与架构）、Systems（GPU、算子、并行）、Scaling（缩放定律）、Data（清洗与配比）、Alignment（SFT 与 RL），对应五次大作业。" },
+        { "title": "为什么不能直接用字符或词", "detail": "字符级序列过长导致计算浪费，词级词表过大且无法处理未登录词，子词分词在两者之间取得平衡。" },
+        { "title": "BPE 字节对编码", "detail": "从字节级词表出发，反复统计语料中最高频的相邻符号对并合并为新符号，直到达到目标词表大小。" },
+        { "title": "字节级回退保证无损", "detail": "以 UTF-8 字节为最小单位可以覆盖任意输入而不产生 UNK，中文、emoji、代码都能编码。" },
+        { "title": "压缩率与效率的关系", "detail": "分词器的 bytes-per-token 直接决定同样文本消耗多少 token，进而影响训练成本与有效上下文长度。" },
+        { "title": "分词器的坑", "detail": "数字切分不一致、空格前缀处理、多语言下的 token 膨胀都会实打实地损害模型能力。" }
+      ],
+      "terms": [
+        { "term": "tokenization 分词", "definition": "把原始文本切分成模型词表中离散单元的过程。" },
+        { "term": "BPE byte pair encoding 字节对编码", "definition": "通过迭代合并高频相邻符号对来构造子词词表的算法。" },
+        { "term": "vocabulary 词表", "definition": "模型可识别的全部 token 及其编号的集合。" },
+        { "term": "subword 子词", "definition": "介于字符与完整单词之间的切分粒度。" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "PyTorch 基础与资源核算。这一集教你把每一个建模决策都翻译成三个数字：需要多少浮点运算、占多少显存、跑多久。核心是张量的内存布局、数据类型选择，以及 Transformer 训练的 FLOPs 估算公式。",
+      "keyPoints": [
+        { "title": "张量的内存视图", "detail": "stride、view、reshape、contiguous 决定操作是零拷贝还是触发实际搬运，直接影响性能。" },
+        { "title": "数据类型与显存", "detail": "fp32 每个参数 4 字节，bf16/fp16 为 2 字节，fp8 为 1 字节；bf16 因指数位与 fp32 相同而比 fp16 更稳。" },
+        { "title": "训练显存的四大来源", "detail": "参数、梯度、优化器状态（Adam 的一阶与二阶动量）、激活值；用 Adam 混合精度训练时前三项约需每参数 16 字节。" },
+        { "title": "前向 FLOPs 估算", "detail": "对参数量 N、token 数 D 的稠密模型，前向约 2ND，反向约为前向的两倍，训练总量约 6ND。", "formula": "C \\approx 6ND" },
+        { "title": "矩阵乘的 FLOPs", "detail": "一次 (m×k)·(k×n) 的矩阵乘约需 2mkn 次浮点运算，是所有估算的基本单元。", "formula": "\\text{FLOPs} = 2mkn" },
+        { "title": "MFU 模型算力利用率", "detail": "实际达到的 FLOPs 除以硬件峰值 FLOPs，是衡量训练效率的行业标准指标。" }
+      ],
+      "terms": [
+        { "term": "FLOPs 浮点运算次数", "definition": "衡量计算量的单位，用于估算训练与推理成本。" },
+        { "term": "MFU model FLOPs utilization 模型算力利用率", "definition": "有效模型计算量占硬件理论峰值算力的比例。" },
+        { "term": "bfloat16 脑浮点16", "definition": "指数位与 fp32 相同、尾数更短的 16 位浮点格式，训练稳定性优于 fp16。" },
+        { "term": "stride 步长", "definition": "张量各维度在底层一维内存中相邻元素的间隔。" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "Transformer 架构变体与超参数选择。系统梳理从原始 Transformer 到现代 LLM 的一系列架构改动，并给出各类超参数的经验取值范围与背后的理由。",
+      "keyPoints": [
+        { "title": "Pre-Norm 取代 Post-Norm", "detail": "把 LayerNorm 移到残差分支内部，让残差流保持恒等通路，深层网络训练显著更稳定、可省去或简化 warmup。" },
+        { "title": "RMSNorm 替代 LayerNorm", "detail": "去掉均值中心化只做均方根缩放，参数与计算更少而效果相当。", "formula": "\\mathrm{RMSNorm}(x) = \\frac{x}{\\sqrt{\\frac{1}{d}\\sum_i x_i^2 + \\epsilon}} \\odot g" },
+        { "title": "SwiGLU 前馈层", "detail": "用门控线性单元配合 SiLU 激活替代 ReLU MLP，通常把隐藏维设为 8/3·d 以保持参数量相当。", "formula": "\\mathrm{SwiGLU}(x) = (\\mathrm{SiLU}(xW_1) \\odot xW_3)W_2" },
+        { "title": "RoPE 旋转位置编码", "detail": "通过对 query 和 key 的成对维度做旋转来注入相对位置信息，天然支持外推与上下文长度扩展。" },
+        { "title": "注意力的 KV 共享", "detail": "MQA 与 GQA 让多个 query 头共享少量 KV 头，大幅降低推理时 KV Cache 的显存与带宽压力。" },
+        { "title": "超参数经验法则", "detail": "头维度常取 64-128，FFN 与模型维之比约 4（SwiGLU 下约 8/3），宽深比、词表大小与批大小都有相对稳定的经验区间。" }
+      ],
+      "terms": [
+        { "term": "pre-norm 前置归一化", "definition": "把归一化层放在残差分支入口的 Transformer 结构。" },
+        { "term": "RMSNorm 均方根归一化", "definition": "只按均方根缩放、不做均值中心化的归一化方法。" },
+        { "term": "SwiGLU", "definition": "结合 Swish 激活与门控线性单元的前馈网络结构。" },
+        { "term": "RoPE rotary position embedding 旋转位置编码", "definition": "通过旋转变换把相对位置信息编码进注意力的方法。" },
+        { "term": "GQA grouped query attention 分组查询注意力", "definition": "让若干 query 头共享一组 key/value 头以压缩 KV Cache 的注意力变体。" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "混合专家模型 MoE。讲解如何用稀疏激活在几乎不增加单 token 计算量的前提下把参数量放大若干倍，以及路由、负载均衡与训练稳定性这些实际难题。",
+      "keyPoints": [
+        { "title": "稀疏激活的核心思想", "detail": "把 FFN 复制成 E 个专家，每个 token 只路由到其中 top-k 个，总参数量随 E 增长而单 token FLOPs 基本不变。" },
+        { "title": "路由器与 top-k 选择", "detail": "一个线性层给出各专家得分，取 softmax 后选前 k 个专家，输出按门控权重加权求和。", "formula": "y = \\sum_{i \\in \\mathrm{TopK}} g_i(x)\\, E_i(x)" },
+        { "title": "负载均衡损失", "detail": "不加约束时路由会坍缩到少数专家，需要辅助损失惩罚专家使用率与路由概率的不均衡。" },
+        { "title": "容量因子与丢弃", "detail": "每个专家有 token 容量上限，超出部分被丢弃或走残差通路，容量因子是效率与质量的权衡旋钮。" },
+        { "title": "共享专家与细粒度专家", "detail": "DeepSeek 系列采用始终激活的共享专家加大量细粒度路由专家，提升专家专业化程度。" },
+        { "title": "系统代价", "detail": "MoE 需要 all-to-all 通信把 token 发往专家所在设备，通信与专家并行的设计是落地的关键瓶颈。" }
+      ],
+      "terms": [
+        { "term": "MoE mixture of experts 混合专家", "definition": "由路由器为每个 token 选择少量专家子网络参与计算的稀疏模型结构。" },
+        { "term": "router 路由器", "definition": "决定每个 token 送往哪些专家的轻量网络。" },
+        { "term": "load balancing loss 负载均衡损失", "definition": "促使各专家被均匀使用的辅助训练目标。" },
+        { "term": "capacity factor 容量因子", "definition": "控制每个专家最多接收多少 token 的超参数。" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "GPU 硬件原理。要写出快的代码必须先理解硬件：SM 与 CUDA 核心的组织、显存层次、算术强度与 Roofline 模型，以及为什么绝大多数深度学习算子是访存受限的。",
+      "keyPoints": [
+        { "title": "GPU 的执行模型", "detail": "GPU 由众多 SM 组成，线程以 warp（32 线程）为单位 SIMT 执行，靠海量并发线程隐藏访存延迟。" },
+        { "title": "显存层次", "detail": "寄存器 → 共享内存/L1 → L2 → HBM 显存，带宽逐级下降数量级，数据搬运往往比计算更贵。" },
+        { "title": "算术强度", "detail": "每字节访存对应的浮点运算次数，决定算子落在 Roofline 的计算受限区还是带宽受限区。", "formula": "I = \\frac{\\text{FLOPs}}{\\text{bytes moved}}" },
+        { "title": "Roofline 模型", "detail": "可达性能是峰值算力与带宽乘以算术强度两者的较小值，据此判断优化方向是省访存还是提利用率。", "formula": "P = \\min(P_{\\max},\\ B \\cdot I)" },
+        { "title": "Tensor Core", "detail": "专用矩阵乘累加单元，只有在数据类型、形状与对齐都满足要求时才会被启用，是达到高 MFU 的前提。" },
+        { "title": "为什么要融合算子", "detail": "逐元素操作算术强度极低，把多个逐元素算子融合成一个 kernel 可以省掉多轮 HBM 往返。" }
+      ],
+      "terms": [
+        { "term": "SM streaming multiprocessor 流式多处理器", "definition": "GPU 上负责调度并执行线程块的基本计算单元。" },
+        { "term": "HBM high bandwidth memory 高带宽显存", "definition": "GPU 的主显存，容量大但相对片上存储带宽低。" },
+        { "term": "arithmetic intensity 算术强度", "definition": "每搬运一字节数据所执行的浮点运算次数。" },
+        { "term": "roofline model 屋顶线模型", "definition": "以算术强度为横轴刻画性能上界的分析模型。" },
+        { "term": "warp 线程束", "definition": "GPU 上以同一指令流同步执行的 32 个线程。" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "自定义算子与 Triton。教你用 Triton 写 GPU kernel：分块、加载到共享内存、计算、写回，并以 FlashAttention 为范例说明算子融合与在线 softmax 如何把注意力从访存受限变成计算受限。",
+      "keyPoints": [
+        { "title": "Triton 编程模型", "detail": "以程序实例（program）为单位处理一个数据块，用 tl.load / tl.store 配合掩码访问显存，编译器负责底层线程映射。" },
+        { "title": "分块与 tiling", "detail": "把大矩阵切成能放进共享内存的小块循环处理，提高数据复用率从而提升算术强度。" },
+        { "title": "算子融合", "detail": "把 LayerNorm、激活、dropout 等连续逐元素操作写进同一个 kernel，避免中间结果往返 HBM。" },
+        { "title": "FlashAttention 思想", "detail": "不显式构造 N×N 注意力矩阵，而是分块流式计算并用在线 softmax 维护运行中的最大值与归一化因子，把显存复杂度从平方降为线性。" },
+        { "title": "反向传播的重计算", "detail": "FlashAttention 反向时重新计算注意力块而不是存下来，用少量额外计算换取大量显存节省。" },
+        { "title": "正确性与性能验证", "detail": "自定义 kernel 必须与 PyTorch 参考实现做数值比对，并用基准测试确认相对朴素实现真的更快。" }
+      ],
+      "terms": [
+        { "term": "Triton", "definition": "用 Python 语法编写高性能 GPU kernel 的编译器与语言。" },
+        { "term": "kernel fusion 算子融合", "definition": "把多个算子合并为一个 GPU kernel 以减少显存往返。" },
+        { "term": "FlashAttention", "definition": "分块流式计算注意力、避免物化完整注意力矩阵的 IO 感知算法。" },
+        { "term": "online softmax 在线 softmax", "definition": "边流式读取边更新最大值与归一化和的数值稳定 softmax 计算方式。" },
+        { "term": "recomputation 重计算", "definition": "反向传播时重新计算前向中间值以换取显存节省的技术。" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "并行训练第一讲。当模型放不进单卡时如何切分：从数据并行与集合通信原语讲起，再到 ZeRO 系列的优化器状态、梯度与参数分片。",
+      "keyPoints": [
+        { "title": "集合通信原语", "detail": "all-reduce、reduce-scatter、all-gather、broadcast、all-to-all 是所有并行策略的底层积木，其中 all-reduce ≈ reduce-scatter + all-gather。" },
+        { "title": "数据并行 DP", "detail": "每卡持有完整模型副本处理不同数据分片，反向后 all-reduce 梯度；实现简单但显存冗余最大。" },
+        { "title": "ZeRO 三阶段", "detail": "Stage 1 分片优化器状态，Stage 2 再分片梯度，Stage 3 连参数也分片（即 FSDP），显存随卡数近线性下降。" },
+        { "title": "通信量核算", "detail": "参数量 N 的 ring all-reduce 每卡通信约 2N(1−1/P) 字节，是判断某并行策略能否被带宽支撑的依据。", "formula": "V_{\\text{allreduce}} \\approx 2N\\left(1-\\frac{1}{P}\\right)" },
+        { "title": "计算通信重叠", "detail": "反向计算某层的同时异步归约上一层梯度，把通信时间藏进计算时间里是提高扩展效率的关键。" },
+        { "title": "梯度累积与全局批量", "detail": "用多次微批前向反向累积梯度来模拟大批量，同时保持单步显存不变。" }
+      ],
+      "terms": [
+        { "term": "data parallelism 数据并行", "definition": "各设备持有完整模型、处理不同数据分片并同步梯度的并行方式。" },
+        { "term": "all-reduce 全归约", "definition": "把各设备张量按元素求和后广播回所有设备的集合通信操作。" },
+        { "term": "ZeRO zero redundancy optimizer 零冗余优化器", "definition": "把优化器状态、梯度与参数分片到各设备以消除显存冗余的技术。" },
+        { "term": "FSDP fully sharded data parallel 全分片数据并行", "definition": "PyTorch 中对应 ZeRO-3 的参数全分片实现。" },
+        { "term": "gradient accumulation 梯度累积", "definition": "累积多个小批次梯度后再更新参数的方法。" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "并行训练第二讲。介绍模型本身的切分方式：张量并行、流水线并行、序列/上下文并行，以及如何把多种并行组合成 3D 并行来匹配集群拓扑。",
+      "keyPoints": [
+        { "title": "张量并行 TP", "detail": "把单层的权重矩阵按行或列切到多卡，前馈层用列切后行切、注意力按头切分，每层需要一次 all-reduce，因此通常只在单机 NVLink 内使用。" },
+        { "title": "流水线并行 PP", "detail": "按层把模型切成若干 stage 分布到不同节点，用微批次流水执行，通信量小但存在气泡。" },
+        { "title": "流水线气泡", "detail": "气泡占比约为 (P−1)/(m+P−1)，增大微批数 m 或采用 1F1B、交错调度可以显著降低。", "formula": "\\text{bubble} = \\frac{P-1}{m+P-1}" },
+        { "title": "序列与上下文并行", "detail": "把长序列按位置维切分到多卡，配合环形注意力交换 KV，是训练超长上下文的必需手段。" },
+        { "title": "3D 并行组合", "detail": "机内用张量并行、跨机用流水线并行、最外层用数据并行/ZeRO，让高带宽域承担高频通信。" },
+        { "title": "激活检查点", "detail": "只保存部分层的激活、反向时重算其余部分，是与并行策略正交的显存换计算手段。" }
+      ],
+      "terms": [
+        { "term": "tensor parallelism 张量并行", "definition": "把单个算子的权重与计算切分到多设备的并行方式。" },
+        { "term": "pipeline parallelism 流水线并行", "definition": "按层划分模型并以微批次流水执行的并行方式。" },
+        { "term": "pipeline bubble 流水线气泡", "definition": "流水线填充与排空阶段设备空闲造成的效率损失。" },
+        { "term": "sequence parallelism 序列并行", "definition": "沿序列长度维切分计算与激活的并行方式。" },
+        { "term": "activation checkpointing 激活检查点", "definition": "丢弃部分前向激活并在反向时重算以节省显存的技术。" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "缩放定律第一讲。讲清楚为什么损失随模型规模、数据量与算力呈幂律下降，以及 Kaplan 与 Chinchilla 两代结论的差异和计算最优配比的推导。",
+      "keyPoints": [
+        { "title": "幂律形式", "detail": "损失可写成不可约项加上参数与数据的幂律衰减项，双对数坐标下近似为直线。", "formula": "L(N, D) = E + \\frac{A}{N^{\\alpha}} + \\frac{B}{D^{\\beta}}" },
+        { "title": "计算预算约束", "detail": "训练算力约为 6ND，在预算 C 固定的前提下求最优的 N 与 D 分配。", "formula": "C \\approx 6ND" },
+        { "title": "Chinchilla 最优配比", "detail": "在计算最优点上参数量与 token 数应大致同比例增长，经验值约为每个参数配 20 个 token。", "formula": "D^{*} \\approx 20 N^{*}" },
+        { "title": "与 Kaplan 结论的差异", "detail": "早期研究因未充分调整学习率调度而高估了模型规模的重要性，Chinchilla 修正后强调数据量同样关键。" },
+        { "title": "训练最优 vs 推理最优", "detail": "考虑部署成本时应该训练比计算最优更小、喂更多数据的模型，因为推理成本会被调用量放大。" },
+        { "title": "缩放定律的实用价值", "detail": "用一批小规模实验拟合曲线，就能在花掉大预算前预测大模型的表现并选定超参数。" }
+      ],
+      "terms": [
+        { "term": "scaling law 缩放定律", "definition": "描述模型性能随规模、数据与算力变化的经验幂律关系。" },
+        { "term": "power law 幂律", "definition": "两个量之间呈固定指数关系的函数形式。" },
+        { "term": "compute-optimal 计算最优", "definition": "在固定训练算力下使损失最小的模型大小与数据量组合。" },
+        { "term": "irreducible loss 不可约损失", "definition": "由数据本身的熵决定、无法通过扩大规模消除的损失下界。" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "推理系统。分析自回归生成的两个阶段特性完全不同，并介绍 KV Cache、连续批处理、PagedAttention、投机解码与量化等一整套加速手段。",
+      "keyPoints": [
+        { "title": "Prefill 与 Decode 两阶段", "detail": "prefill 并行处理整段 prompt 属计算受限，decode 每步只出一个 token 属严重访存受限，两者需要不同的优化策略。" },
+        { "title": "KV Cache", "detail": "缓存历史 token 的 key/value 避免重复计算，代价是显存随 batch 与序列长度线性增长，常常成为吞吐瓶颈。" },
+        { "title": "PagedAttention", "detail": "借鉴操作系统分页把 KV Cache 切成固定大小的块非连续存放，消除显存碎片并支持前缀共享。" },
+        { "title": "连续批处理", "detail": "在 token 粒度动态加入与移出请求，而不是等整批完成，可大幅提升 GPU 利用率与吞吐。" },
+        { "title": "投机解码", "detail": "用小草稿模型一次生成多个候选 token，再由大模型一次性并行验证接受，把访存受限的 decode 变得更划算。" },
+        { "title": "量化推理", "detail": "把权重压到 int8/int4 主要为了减少访存字节数，在 decode 阶段的加速往往比计算精度损失更值得。" }
+      ],
+      "terms": [
+        { "term": "KV cache 键值缓存", "definition": "保存历史 token 注意力 key 与 value 以避免重复计算的缓存。" },
+        { "term": "prefill 预填充", "definition": "自回归生成中并行处理输入提示词的阶段。" },
+        { "term": "decode 解码", "definition": "自回归生成中逐 token 产出输出的阶段。" },
+        { "term": "PagedAttention 分页注意力", "definition": "以固定大小分页管理 KV Cache 显存的机制。" },
+        { "term": "speculative decoding 投机解码", "definition": "用小模型草拟、大模型批量验证以加速生成的方法。" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "缩放定律第二讲。把缩放定律真正用起来：如何设计缩放实验、拟合曲线、迁移超参数，以及在数据受限、混合专家与下游任务等场景下缩放定律的修正与失效边界。",
+      "keyPoints": [
+        { "title": "IsoFLOP 实验设计", "detail": "固定若干算力预算，在每个预算下扫描不同模型大小，取各条曲线的最低点连线来估计最优缩放指数。" },
+        { "title": "超参数迁移", "detail": "muP 等参数化方案让学习率等超参在小模型上调好后可以零成本迁移到大模型，避免在大规模上盲调。" },
+        { "title": "数据受限下的缩放", "detail": "高质量语料有限时需要重复训练，实验表明重复约 4 个 epoch 内收益接近新数据，之后迅速衰减。" },
+        { "title": "MoE 的缩放", "detail": "稀疏模型的缩放需要额外引入专家数与激活参数比，等效参数量并不等于总参数量。" },
+        { "title": "下游能力的不连续性", "detail": "预训练损失平滑下降，但某些下游指标会呈现涌现式跃升，部分源于指标本身的离散阈值效应。" },
+        { "title": "外推的风险", "detail": "拟合曲线只在实验覆盖的量级附近可靠，跨越数个数量级外推时架构与数据分布变化都可能让定律失效。" }
+      ],
+      "terms": [
+        { "term": "IsoFLOP 等算力曲线", "definition": "固定训练算力、变化模型大小得到的损失曲线。" },
+        { "term": "muP maximal update parametrization 最大更新参数化", "definition": "使超参数可在不同模型宽度间稳定迁移的参数化方案。" },
+        { "term": "emergence 涌现", "definition": "模型规模跨过某阈值后下游能力突然出现的现象。" },
+        { "term": "data-constrained scaling 数据受限缩放", "definition": "可用语料有限时需重复训练的缩放规律修正。" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "模型评测。讨论如何判断模型到底好不好：困惑度与下游基准的关系、多选与生成式评测的实现细节、污染问题，以及基于人类偏好与模型裁判的评测方式。",
+      "keyPoints": [
+        { "title": "困惑度", "detail": "语言建模损失的指数形式，只在同一分词器与同一测试分布下才可横向比较。", "formula": "\\mathrm{PPL} = \\exp\\left(-\\frac{1}{T}\\sum_{t=1}^{T}\\log p(x_t \\mid x_{<t})\\right)" },
+        { "title": "多选题评测的坑", "detail": "按长度归一化对数似然还是直接取字母输出，会让同一模型在 MMLU 上差出好几个点，评测协议必须写清楚。" },
+        { "title": "生成式与执行式评测", "detail": "代码任务用 pass@k 通过单元测试来判分，数学任务比对最终答案，比字符串匹配更贴近真实能力。" },
+        { "title": "数据污染", "detail": "测试集泄漏进预训练语料会显著虚高分数，需要用 n-gram 重叠检测或改用新构造的评测集。" },
+        { "title": "人类偏好与模型裁判", "detail": "Chatbot Arena 用成对比较与 Elo 评分刻画开放式能力；LLM-as-a-judge 便宜但存在位置偏好与长度偏好。" },
+        { "title": "评测应服务于决策", "detail": "评测的意义在于指导下一步该改数据还是改架构，因此需要覆盖能力维度且噪声可控。" }
+      ],
+      "terms": [
+        { "term": "perplexity 困惑度", "definition": "语言模型平均对数损失的指数，衡量预测不确定性。" },
+        { "term": "benchmark contamination 基准污染", "definition": "评测数据混入训练语料导致分数虚高的问题。" },
+        { "term": "pass@k", "definition": "生成 k 个候选中至少一个通过测试的概率指标。" },
+        { "term": "LLM-as-a-judge 模型即裁判", "definition": "用强语言模型对其他模型输出进行打分或比较的评测方式。" },
+        { "term": "Elo rating Elo 评分", "definition": "由成对胜负记录推算相对实力的评分体系。" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "数据处理第二讲。围绕预训练语料的全流程：从网页抓取与正文抽取，到语言识别、质量过滤、去重、去毒与个人信息处理，最后是数据配比与课程式的分阶段配方。",
+      "keyPoints": [
+        { "title": "从 Common Crawl 到可用文本", "detail": "WARC 解析、HTML 正文抽取、去除样板与导航是第一道工序，抽取质量直接决定语料上限。" },
+        { "title": "质量过滤", "detail": "既有基于启发式规则的过滤（长度、符号比、重复行），也有用高质量语料训练分类器打分的模型化过滤。" },
+        { "title": "去重", "detail": "精确去重用哈希，近似去重用 MinHash + LSH 或后缀数组；去重能同时提升效果并减少记忆化泄漏。" },
+        { "title": "数据配比", "detail": "网页、代码、书籍、论文、多语言的比例是关键超参，代码数据被广泛观察到能提升推理能力。" },
+        { "title": "课程式训练与退火", "detail": "训练后期把配比切换到高质量与指令类数据（annealing / mid-training），性价比极高。" },
+        { "title": "合成数据", "detail": "用强模型生成教科书式语料可以提升数据密度，但要警惕分布坍缩与错误自我强化。" }
+      ],
+      "terms": [
+        { "term": "Common Crawl", "definition": "公开的大规模网页抓取数据集，是多数预训练语料的原始来源。" },
+        { "term": "deduplication 去重", "definition": "移除语料中重复或高度相似文档的处理步骤。" },
+        { "term": "MinHash", "definition": "用哈希签名估计集合相似度以做近似去重的算法。" },
+        { "term": "data mixture 数据配比", "definition": "各来源数据在训练语料中所占比例的配置。" },
+        { "term": "synthetic data 合成数据", "definition": "由模型生成而非从真实世界采集的训练数据。" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "对齐第一讲：监督微调与人类反馈强化学习。讲解如何把只会续写的基座模型变成会听指令、有风格、守边界的助手，以及 RLHF 的三段式流程与 DPO 这类免奖励模型的简化路线。",
+      "keyPoints": [
+        { "title": "SFT 监督微调", "detail": "用高质量指令-回复对做标准的下一 token 预测，通常只在回复部分计损失；数据质量远比数量重要。" },
+        { "title": "对话模板与损失掩码", "detail": "角色标记、特殊 token 与多轮拼接方式必须训练推理一致，否则会出现莫名其妙的格式退化。" },
+        { "title": "奖励模型", "detail": "在成对偏好数据上用 Bradley-Terry 目标训练打分模型，让被选中回复的分数高于被拒绝回复。", "formula": "\\mathcal{L}_{RM} = -\\log \\sigma\\big(r_\\theta(x, y_w) - r_\\theta(x, y_l)\\big)" },
+        { "title": "PPO 阶段的 KL 约束", "detail": "以奖励模型打分为回报优化策略，同时用与参考模型的 KL 惩罚防止跑偏与奖励作弊。", "formula": "\\max_{\\pi} \\ \\mathbb{E}\\big[r(x,y)\\big] - \\beta\\, \\mathrm{KL}\\big(\\pi \\,\\|\\, \\pi_{\\text{ref}}\\big)" },
+        { "title": "DPO 直接偏好优化", "detail": "利用 KL 正则最优解的闭式形式，把 RLHF 化简成对偏好数据的分类式损失，无需单独训练奖励模型与在线采样。" },
+        { "title": "奖励作弊与对齐税", "detail": "模型会学会讨好奖励模型（如刻意变长），且对齐后在部分基准上会有能力回退，需要混合数据缓解。" }
+      ],
+      "terms": [
+        { "term": "SFT supervised fine-tuning 监督微调", "definition": "用指令-回复示范数据对基座模型做有监督训练。" },
+        { "term": "RLHF reinforcement learning from human feedback 人类反馈强化学习", "definition": "用人类偏好训练奖励模型并以强化学习优化策略的对齐流程。" },
+        { "term": "reward model 奖励模型", "definition": "为模型输出打分以近似人类偏好的模型。" },
+        { "term": "DPO direct preference optimization 直接偏好优化", "definition": "跳过奖励模型直接在偏好数据上优化策略的方法。" },
+        { "term": "reward hacking 奖励作弊", "definition": "策略通过钻奖励函数漏洞获得高分而非真正完成任务的现象。" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "对齐第二讲：强化学习基础。系统讲清语言模型场景下的 RL 表述——把生成看作序列决策，梳理策略梯度、REINFORCE、基线与优势估计，以及 PPO 的裁剪目标。",
+      "keyPoints": [
+        { "title": "把生成建模成 MDP", "detail": "状态是已生成前缀，动作是下一个 token，回报通常只在序列结束时给出，属稀疏奖励设定。" },
+        { "title": "策略梯度定理", "detail": "期望回报对参数的梯度等于对数概率梯度乘以回报的期望，这是所有策略梯度算法的出发点。", "formula": "\\nabla_\\theta J(\\theta) = \\mathbb{E}\\big[\\nabla_\\theta \\log \\pi_\\theta(a\\mid s)\\, A(s,a)\\big]" },
+        { "title": "基线与方差缩减", "detail": "从回报中减去一个与动作无关的基线（如价值函数或组内均值）不改变梯度期望但显著降低方差。" },
+        { "title": "重要性采样与离策略修正", "detail": "复用旧策略采集的数据时需要用新旧策略概率比加权，比值过大是训练不稳定的主要来源。" },
+        { "title": "PPO 裁剪目标", "detail": "把概率比裁剪在 1±ε 区间内，限制单次更新步长，从而在不算二阶量的前提下获得近似信赖域效果。", "formula": "L^{CLIP} = \\mathbb{E}\\big[\\min(r_t A_t,\\ \\mathrm{clip}(r_t, 1-\\epsilon, 1+\\epsilon) A_t)\\big]" },
+        { "title": "语言模型 RL 的工程难点", "detail": "需要同时驻留策略、参考、奖励、价值四个模型，采样与训练交替进行，吞吐与显存调度是主要瓶颈。" }
+      ],
+      "terms": [
+        { "term": "policy gradient 策略梯度", "definition": "直接对策略参数求期望回报梯度的强化学习方法族。" },
+        { "term": "advantage 优势函数", "definition": "某动作相对于当前状态平均水平的超额回报。" },
+        { "term": "PPO proximal policy optimization 近端策略优化", "definition": "用裁剪概率比限制更新幅度的策略梯度算法。" },
+        { "term": "baseline 基线", "definition": "从回报中扣除以降低梯度方差的参考值。" },
+        { "term": "importance sampling 重要性采样", "definition": "用概率比对不同分布采样的数据做加权修正的技术。" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "对齐第三讲：面向推理能力的强化学习。介绍从 RLHF 走向 RLVR 的转变——用可自动验证的奖励替代人类偏好，以及 GRPO 等去价值网络算法如何催生长链推理行为。",
+      "keyPoints": [
+        { "title": "RLVR 可验证奖励强化学习", "detail": "数学题比对答案、代码跑单元测试，奖励客观且几乎无法被作弊，是推理模型能力跃升的关键。" },
+        { "title": "GRPO 分组相对策略优化", "detail": "对同一问题采样一组回答，用组内奖励的标准化值作为优势，从而彻底去掉价值网络，省下大量显存。", "formula": "A_i = \\frac{r_i - \\mathrm{mean}(r_{1..G})}{\\mathrm{std}(r_{1..G})}" },
+        { "title": "长链推理的自发涌现", "detail": "在充分的 RL 训练下模型会自己学会拉长思考、自我检查与回溯，测试时算力随之成为新的缩放维度。" },
+        { "title": "熵坍缩与探索", "detail": "训练后期策略熵急剧下降导致采样多样性消失、进步停滞，需要用熵正则、温度调度或困难样本筛选来维持探索。" },
+        { "title": "过程奖励与结果奖励", "detail": "结果奖励简单可靠但信号稀疏，过程奖励能给中间步骤打分但标注昂贵且容易被利用。" },
+        { "title": "RL 基础设施", "detail": "采样阶段用推理引擎、训练阶段用训练框架，两者的权重同步、批次调度与容错构成了现代 RL 系统的主要复杂度。" }
+      ],
+      "terms": [
+        { "term": "RLVR reinforcement learning with verifiable rewards 可验证奖励强化学习", "definition": "以程序可自动判定正确性的信号作为奖励的强化学习。" },
+        { "term": "GRPO group relative policy optimization 分组相对策略优化", "definition": "用同题多样本组内相对奖励替代价值网络的策略优化算法。" },
+        { "term": "chain of thought 思维链", "definition": "模型在给出最终答案前显式生成的中间推理步骤。" },
+        { "term": "test-time compute 测试时算力", "definition": "推理阶段通过更长思考或更多采样投入的计算量。" },
+        { "term": "entropy collapse 熵坍缩", "definition": "策略分布过度确定化、探索能力丧失的训练失败模式。" }
+      ]
+    }
+  ]
+}

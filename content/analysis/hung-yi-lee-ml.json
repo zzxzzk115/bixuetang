@@ -1,0 +1,344 @@
+{
+  "courseId": "hung-yi-lee-ml",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "李宏毅 2023 年版《机器学习》把整门课重构成了一条以生成式 AI 为主线的路径：从 ChatGPT 的原理剖析出发，回顾机器学习的三个基本步骤，再深入语言模型的生成策略、Finetuning 与 Prompting 两条使用路线、大模型与大数据的规模法则，最后转向图像生成，用四讲把 Diffusion Model 的数学原理从头推一遍。课程的独特之处在于「先玩再学」——先让你用 ChatGPT 和 Midjourney 做文字冒险游戏，再回头问「它为什么能做到」。数学部分给了可选的深入档（Diffusion 原理剖析 1-4），不想推公式的同学可以只看概念档。学完你能说清 GPT 类模型如何训练与被引导、In-context Learning 与 Instruction Tuning 的区别，以及扩散模型为何要从噪声一步步去噪生成图片。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "课程开篇。李宏毅介绍 2023 版机器学习课程的定位与安排，说明这一年的主线是生成式 AI，并引出接下来对 ChatGPT 这类大型语言模型的原理剖析。",
+      "keyPoints": [
+        { "title": "课程主线是生成式 AI", "detail": "2023 版不再按传统教材顺序，而是围绕「机器如何生成文字与图像」组织全部内容。" },
+        { "title": "先体验再讲原理", "detail": "课程鼓励先动手用 ChatGPT、Midjourney 等工具，产生疑问之后再回来学背后的机制。" },
+        { "title": "分层设计", "detail": "概念档人人可看，标注 optional 的数学档留给想深入推导的同学，跳过不影响主线理解。" }
+      ],
+      "terms": [
+        { "term": "generative AI 生成式人工智能", "definition": "能够生成文字、图像、音频等新内容而非仅做分类判别的 AI 系统。" },
+        { "term": "large language model 大型语言模型", "definition": "在海量文本上训练、以预测下一个词为目标的超大规模神经网络。" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "ChatGPT 原理剖析系列的第三部分，聚焦它带来的开放研究问题。讨论如何让模型不说假话、如何检测一段文字是否由 AI 生成、如何让模型「忘记」不该记住的内容，以及模型能力评估的困难。",
+      "keyPoints": [
+        { "title": "如何精准引导模型", "detail": "研究问题之一是如何可靠地让模型做我们想要的事，而不是靠反复试探 prompt 的玄学。" },
+        { "title": "事实性与幻觉", "detail": "语言模型会一本正经地编造不存在的事实，如何让它知道自己不知道是核心难题。" },
+        { "title": "AI 生成内容的检测", "detail": "能否判断一段文字是人写的还是机器写的，涉及水印、统计特征等多种思路，但都不够可靠。" },
+        { "title": "机器遗忘", "detail": "训练数据中若含隐私或有害内容，如何在不重新训练的前提下让模型忘掉，是 machine unlearning 的课题。" },
+        { "title": "模型能力难以评估", "detail": "大模型能力跨度极广，单一基准测试无法刻画，且容易受测试集泄漏污染。" }
+      ],
+      "terms": [
+        { "term": "hallucination 幻觉", "definition": "语言模型生成看似合理但与事实不符的内容。" },
+        { "term": "machine unlearning 机器遗忘", "definition": "让已训练模型有针对性地遗忘某些训练数据影响的技术。" },
+        { "term": "prompt 提示词", "definition": "输入给语言模型、用于引导其输出的文字指令或上下文。" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "一节实践性的趣味课：用 ChatGPT 担任文字冒险游戏的主持人生成剧情，再把场景描述交给 Midjourney 画出插图，把两个生成式模型串成一条完整的内容生产流水线。",
+      "keyPoints": [
+        { "title": "用 LLM 做游戏主持", "detail": "通过设定角色与规则的 prompt，让 ChatGPT 持续根据玩家输入推进剧情，展示其上下文保持能力。" },
+        { "title": "文字到图像的接力", "detail": "把 ChatGPT 生成的场景描述作为 Midjourney 的 prompt，实现文字与图像两种生成模型的串联。" },
+        { "title": "Prompt 工程直觉", "detail": "指令写得越具体（角色、风格、约束条件），输出越可控，这为后面 Prompting 章节做铺垫。" },
+        { "title": "生成式模型的组合威力", "detail": "单个模型能力有限，但把不同模态的生成模型串起来即可完成复杂的创作任务。" }
+      ],
+      "terms": [
+        { "term": "Midjourney", "definition": "以文字描述生成图像的商用扩散模型服务。" },
+        { "term": "prompt engineering 提示工程", "definition": "设计与优化输入提示以引导模型产生期望输出的实践。" },
+        { "term": "in-context 上下文", "definition": "模型在生成时可见的历史对话与指令内容。" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "为没有机器学习背景的同学补的速成课上半部分。用「找一个函数」的框架说明机器学习是什么：定义带未知参数的函数、定义损失函数、用优化方法找出最好的参数，这三步适用于本课后面所有模型。",
+      "keyPoints": [
+        { "title": "机器学习就是找函数", "detail": "无论是分类、回归还是文字生成，本质都是从数据中找出一个把输入映射到输出的函数。" },
+        { "title": "第一步：设定函数族", "detail": "先写下一个含未知参数的函数形式（模型），参数的取值范围就是候选函数的集合。" },
+        { "title": "第二步：定义损失", "detail": "用损失函数衡量给定参数下模型输出与正确答案的差距，损失越小函数越好。", "formula": "L(\\theta) = \\frac{1}{N}\\sum_{n=1}^{N} e_n" },
+        { "title": "第三步：最佳化", "detail": "用梯度下降沿损失的负梯度方向调整参数，直到找到（局部）最优解。", "formula": "\\theta_{t+1} = \\theta_t - \\eta \\nabla L(\\theta_t)" },
+        { "title": "深度学习的位置", "detail": "深度学习只是把第一步中的函数族换成了多层神经网络，三步框架完全不变。" }
+      ],
+      "terms": [
+        { "term": "loss function 损失函数", "definition": "衡量模型输出与正确答案差距的函数，是优化的目标。" },
+        { "term": "gradient descent 梯度下降", "definition": "沿损失负梯度方向迭代更新参数的最佳化方法。" },
+        { "term": "parameter 参数", "definition": "模型中由训练数据决定的可学习变量。" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "机器学习速成课下半部分。介绍如何用多个激活函数拼出任意曲线从而得到神经网络，说明深度与宽度的取舍、过拟合现象，以及训练时常见的调参与诊断思路。",
+      "keyPoints": [
+        { "title": "用简单函数拼复杂函数", "detail": "任意连续曲线都能用足够多的 sigmoid 或 ReLU 分段叠加逼近，这是神经网络表达能力的直观来源。", "formula": "y = b + \\sum_{i} c_i \\, \\mathrm{sigmoid}(b_i + w_i x)" },
+        { "title": "从一层到多层", "detail": "把这样的函数层层堆叠就是深度神经网络，「深」比「宽」在同等参数量下往往更有效率。" },
+        { "title": "训练集与测试集", "detail": "模型在训练集上表现好不代表在没见过的数据上好，两者差距即过拟合。" },
+        { "title": "诊断流程", "detail": "先看训练损失：训练损失就高说明模型太小或最佳化没做好；训练低测试高才是过拟合。" },
+        { "title": "常见调整手段", "detail": "增加数据、数据增强、减小模型、加正则化、早停都是应对过拟合的手段。" }
+      ],
+      "terms": [
+        { "term": "neural network 神经网络", "definition": "由多层带激活函数的线性变换堆叠而成的函数族。" },
+        { "term": "overfitting 过拟合", "definition": "模型在训练数据上表现好但在新数据上表现差的现象。" },
+        { "term": "activation function 激活函数", "definition": "赋予网络非线性表达能力的逐元素函数，如 sigmoid 与 ReLU。" },
+        { "term": "training set 训练集", "definition": "用于学习模型参数的数据集合。" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "讲生成式学习的两种基本策略：Autoregressive 的「各个击破」——一次生成一个单位（字、像素），逐步拼出完整结果；以及 Non-autoregressive 的「一次到位」——并行生成全部内容。对比两者在品质与速度上的取舍，并介绍两者结合的常见做法。",
+      "keyPoints": [
+        { "title": "各个击破（Autoregressive）", "detail": "把生成拆成一连串条件预测，每一步都以已生成的内容为条件，品质高但生成速度慢且无法并行。", "formula": "P(x_1, \\dots, x_T) = \\prod_{t=1}^{T} P(x_t \\mid x_{<t})" },
+        { "title": "一次到位（Non-autoregressive）", "detail": "所有位置同时生成，速度快可并行，但各位置独立决策容易产生互相矛盾的结果。" },
+        { "title": "为何 NAR 品质较差", "detail": "同一个输入可能对应多种合理输出，各位置独立采样时会混合不同模式，导致结果不连贯。" },
+        { "title": "两者结合", "detail": "常见做法是先用 NAR 一次生成粗略草稿，再用 AR 或多轮迭代反复修正，兼顾速度与品质。" },
+        { "title": "对应到不同模态", "detail": "文字生成主流是 AR（GPT 系），图像生成则更多采用一次到位或多次迭代修正的路线（Diffusion）。" }
+      ],
+      "terms": [
+        { "term": "autoregressive 自回归", "definition": "以已生成内容为条件逐个生成下一个单位的生成方式。" },
+        { "term": "non-autoregressive 非自回归", "definition": "并行一次性生成所有输出单位的生成方式。" },
+        { "term": "decoder 解码器", "definition": "负责根据编码表示逐步或一次性生成输出序列的模块。" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "Finetuning vs. Prompting 系列第一部分。区分对大型语言模型的两类期待：一类是把它改造成「专才」去解某个特定任务，另一类是把它当成「通才」用指令直接驱动。这一部分主要讲专才路线，也就是微调。",
+      "keyPoints": [
+        { "title": "专才 vs 通才", "detail": "专才路线追求在特定任务上做到最好，通才路线追求一个模型应对各种没见过的任务。" },
+        { "title": "微调的两种做法", "detail": "一是在预训练模型上加外挂的任务模块（如加一个分类头），二是直接微调整个模型的参数。" },
+        { "title": "预训练加微调范式", "detail": "先在大量无标注文本上自监督预训练，再用少量任务标注数据微调，是 BERT 时代的主流做法。" },
+        { "title": "微调的代价", "detail": "每个任务都要存一份完整模型参数，成本高昂，催生了后续的参数高效微调方法。" }
+      ],
+      "terms": [
+        { "term": "finetuning 微调", "definition": "在预训练模型基础上用特定任务数据继续训练以适配该任务。" },
+        { "term": "pre-training 预训练", "definition": "在大规模无标注数据上以自监督目标训练通用模型的阶段。" },
+        { "term": "self-supervised learning 自监督学习", "definition": "从数据自身构造标签（如遮住词让模型预测）进行训练的范式。" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "Finetuning vs. Prompting 第二部分。介绍参数高效微调（Adapter、LoRA 等）如何只更新极少参数就达到接近全量微调的效果，并转向通才路线，讲 In-context Learning 与 Instruction Tuning。",
+      "keyPoints": [
+        { "title": "参数高效微调", "detail": "冻结原模型绝大部分参数，只训练插入的少量额外参数（Adapter、LoRA、Prefix Tuning），每个任务只需存下这一小块。" },
+        { "title": "In-context Learning", "detail": "不更新任何参数，只在 prompt 里给几个范例，模型就能照做，这就是 few-shot learning 的新形态。" },
+        { "title": "Instruction Tuning", "detail": "用大量「指令-回答」配对数据微调模型，让它学会听懂人类自然语言指令并泛化到没见过的指令。" },
+        { "title": "两条路线的取舍", "detail": "专才路线在单一任务上更强，通才路线部署简单、能应对开放任务，ChatGPT 走的是后者。" }
+      ],
+      "terms": [
+        { "term": "in-context learning 上下文学习", "definition": "仅通过提示中的示例引导模型完成任务、不更新参数的能力。" },
+        { "term": "instruction tuning 指令微调", "definition": "用指令与期望回答的配对数据微调模型，使其能遵循自然语言指令。" },
+        { "term": "adapter 适配器", "definition": "插入预训练模型中、仅训练其自身参数的小型模块。" },
+        { "term": "few-shot learning 少样本学习", "definition": "仅用极少量示例即可完成新任务的学习能力。" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "Finetuning vs. Prompting 第三部分。深入 Prompting 的进阶技巧与 ChatGPT 背后的完整训练流程，包括 Chain-of-Thought 思维链、自洽性采样，以及以人类回馈做强化学习（RLHF）的三阶段训练。",
+      "keyPoints": [
+        { "title": "Chain-of-Thought", "detail": "在提示中要求模型「一步一步想」，让它把推理过程写出来，能显著提升数学与逻辑题的正确率。" },
+        { "title": "Self-consistency", "detail": "对同一问题多次采样不同推理路径，取出现次数最多的答案，进一步提高准确率。" },
+        { "title": "ChatGPT 三阶段训练", "detail": "先自监督预训练学语言，再用人类示范做监督微调，最后用人类偏好排序训练奖励模型并做强化学习。" },
+        { "title": "RLHF 的作用", "detail": "让模型的输出对齐人类偏好——更有帮助、更诚实、更无害，而不只是「统计上像人写的」。" },
+        { "title": "机器自己找 prompt", "detail": "prompt 本身也可以被优化甚至由模型自动搜索生成，无需人手工试错。" }
+      ],
+      "terms": [
+        { "term": "chain-of-thought 思维链", "definition": "让模型显式生成中间推理步骤以提升复杂推理能力的提示技巧。" },
+        { "term": "RLHF 基于人类回馈的强化学习", "definition": "用人类偏好数据训练奖励模型，再以强化学习优化语言模型输出的对齐方法。" },
+        { "term": "reward model 奖励模型", "definition": "学习预测人类对模型输出偏好程度的评分模型。" },
+        { "term": "alignment 对齐", "definition": "让模型行为符合人类意图与价值观的技术方向。" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "「大模型 + 大资料」系列第一部分，讲模型规模带来的顿悟时刻。介绍 Scaling Law 与 Emergent Ability：多数能力随规模平滑提升，但某些能力（如多步推理）在参数量跨过某个门槛后突然出现。",
+      "keyPoints": [
+        { "title": "Scaling Law 规模法则", "detail": "模型损失随参数量、数据量与算力按幂律平滑下降，可用于预测更大模型的表现。" },
+        { "title": "Emergent Ability 顿悟能力", "detail": "某些任务的正确率在小模型上一直接近随机，参数量越过临界点后突然跃升，无法从小模型外推。" },
+        { "title": "为何看起来突然", "detail": "部分原因是评估指标是全对才算对的严格指标，把渐进的改善掩盖成了阶跃。" },
+        { "title": "Calibration 校准", "detail": "大模型不仅答得更准，对自己答案的信心也更接近真实正确率，这也是随规模改善的性质。" }
+      ],
+      "terms": [
+        { "term": "scaling law 规模法则", "definition": "描述模型性能随参数量、数据量与算力变化的幂律关系。" },
+        { "term": "emergent ability 顿悟能力", "definition": "只在模型规模超过某阈值后才出现的能力。" },
+        { "term": "calibration 校准", "definition": "模型输出置信度与其实际正确率相符的程度。" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "「大模型 + 大资料」第二部分，讨论到底需要多少资料。介绍资料量与模型大小之间的最优配比问题，以及 Chinchilla 的结论：在固定算力预算下，当时的大模型普遍训练资料不足，应该用更小的模型配更多的数据。",
+      "keyPoints": [
+        { "title": "算力预算的分配问题", "detail": "在总算力固定时，参数量与训练 token 数存在最优配比，一味把参数堆大并不划算。" },
+        { "title": "Chinchilla 的结论", "detail": "实验显示参数量与训练资料量应大致等比例增长，同预算下小一些但训练更充分的模型表现更好。" },
+        { "title": "资料品质同样关键", "detail": "去重、过滤有害内容、剔除低品质文本与测试集污染，对最终效果的影响不亚于数量。" },
+        { "title": "预训练资料的处理流程", "detail": "从网页抓取开始，经语言过滤、品质打分、去重、去除个资等多道工序才能进入训练。" }
+      ],
+      "terms": [
+        { "term": "token 词元", "definition": "语言模型处理文本的基本单位，通常是子词片段。" },
+        { "term": "Chinchilla", "definition": "DeepMind 提出的计算最优训练配比研究及对应模型。" },
+        { "term": "data deduplication 资料去重", "definition": "移除训练语料中重复文本以提升训练效率与泛化的处理步骤。" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "「大模型 + 大资料」第三部分，介绍另辟蹊径的 kNN-LM。它在预测下一个词时不仅用模型本身的输出分布，还去一个巨大的文本资料库中检索最相似的上下文，把邻居的后继词分布混合进来。",
+      "keyPoints": [
+        { "title": "kNN-LM 的核心想法", "detail": "把训练语料每个位置的上下文表示与其下一个词存成键值对，推理时用当前上下文检索最近邻并聚合它们的后继词。" },
+        { "title": "两个分布的插值", "detail": "最终概率是语言模型自身分布与检索得到的邻居分布的加权混合，权重是一个超参数。", "formula": "P(y \\mid x) = \\lambda P_{\\mathrm{kNN}}(y \\mid x) + (1 - \\lambda) P_{\\mathrm{LM}}(y \\mid x)" },
+        { "title": "不需要重新训练", "detail": "换资料库即可让模型适配新领域或获取新知识，避免了昂贵的重新训练。" },
+        { "title": "代价是推理变慢", "detail": "每生成一个词都要在超大向量库中做最近邻搜索，速度远低于纯参数化模型。" },
+        { "title": "与检索增强的关系", "detail": "这是把外部知识以非参数方式引入语言模型的早期代表，思路与后来的 RAG 一脉相承。" }
+      ],
+      "terms": [
+        { "term": "kNN-LM 最近邻语言模型", "definition": "在预测时检索训练语料中相似上下文并混合其后继词分布的语言模型。" },
+        { "term": "nearest neighbor search 最近邻搜索", "definition": "在向量库中找出与查询向量最相似条目的检索操作。" },
+        { "term": "retrieval augmentation 检索增强", "definition": "在生成时引入外部检索结果作为额外依据的方法。" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "GPT-4 发布后的即时解读。介绍它相较前代的主要变化：支持图像输入的多模态能力、在各类专业考试上的大幅提升、更长的上下文窗口，以及在安全性与拒答策略上的改进；同时指出官方技术报告未公开模型细节。",
+      "keyPoints": [
+        { "title": "多模态输入", "detail": "GPT-4 可以接受图片与文字混合的输入，能读懂图表、看懂梗图并解释其笑点。" },
+        { "title": "考试成绩大幅提升", "detail": "在律师考试、各类 AP 与学科竞赛题上的表现相比前代有明显跃升，接近或超过人类考生中上水平。" },
+        { "title": "更长的上下文", "detail": "上下文窗口显著扩大，可以处理长文档，但仍存在长距离信息利用不均的问题。" },
+        { "title": "安全性改进", "detail": "对有害请求的拒答率提升，但仍可能被越狱提示绕过。" },
+        { "title": "技术细节不公开", "detail": "技术报告未披露架构、参数量与训练资料，标志着前沿模型走向封闭。" }
+      ],
+      "terms": [
+        { "term": "multimodal 多模态", "definition": "同时处理文字、图像等多种类型输入的模型能力。" },
+        { "term": "context window 上下文窗口", "definition": "模型一次能处理的最大 token 数量。" },
+        { "term": "jailbreak 越狱", "definition": "通过特殊提示绕过模型安全限制的行为。" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "图像生成部分的开场，速览常见的图像生成模型家族：VAE、Flow-based、GAN 与 Diffusion Model。说明它们共同的目标——学会从一个简单分布采样并映射到图片分布，以及各自采用的不同路径。",
+      "keyPoints": [
+        { "title": "共同框架", "detail": "所有图像生成模型都是从一个简单分布（通常是高斯噪声）采样，再学一个函数把它变成图片，从而处理「同一输入有多种合理输出」的问题。" },
+        { "title": "VAE", "detail": "用编码器把图片映到隐空间的分布、解码器还原，训练目标是重建误差加 KL 正则。" },
+        { "title": "Flow-based Model", "detail": "用一连串可逆变换把噪声映到图片，可以精确计算似然，但对网络结构限制很强。" },
+        { "title": "GAN", "detail": "生成器与判别器对抗训练，图片锐利但训练不稳定、容易模式崩塌。" },
+        { "title": "Diffusion Model", "detail": "正向逐步加噪破坏图片，反向学一个去噪网络从纯噪声一步步还原，是当前主流。" }
+      ],
+      "terms": [
+        { "term": "VAE 变分自编码器", "definition": "用编码器-解码器结构学习隐变量分布并生成数据的模型。" },
+        { "term": "GAN 生成对抗网络", "definition": "生成器与判别器互相对抗训练的生成模型。" },
+        { "term": "flow-based model 流模型", "definition": "由可逆变换构成、能精确计算似然的生成模型。" },
+        { "term": "latent space 隐空间", "definition": "模型内部用于表示数据的低维连续空间。" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "浅谈 Diffusion Model 的原理（概念档）。用「从一块大理石中把雕像敲出来」的比喻讲清 Denoising Diffusion 的直觉：正向不断加噪把图片变成纯噪声，反向训练一个网络在每一步预测并去掉噪声。",
+      "keyPoints": [
+        { "title": "Forward Process 加噪", "detail": "对真实图片按预定的噪声排程反复加入高斯噪声，经过 T 步后变成几乎纯粹的噪声。" },
+        { "title": "Reverse Process 去噪", "detail": "训练一个 noise predictor 在给定含噪图片与当前步数时预测所加的噪声，逐步减去它即可还原图片。" },
+        { "title": "训练目标极简", "detail": "随机取一张图、随机取一个步数、随机采样噪声，让网络预测这个噪声，最小化预测噪声与真实噪声的平方误差。", "formula": "L = \\mathbb{E}_{x_0, t, \\epsilon} \\left[ \\| \\epsilon - \\epsilon_\\theta(x_t, t) \\|^2 \\right]" },
+        { "title": "为何要分很多步", "detail": "一步从噪声跳到图片太难，拆成上千个小步后每一步只需做一点点修正，网络容易学。" },
+        { "title": "文字条件", "detail": "把文字描述的编码作为额外条件输入去噪网络，即可实现文生图。" }
+      ],
+      "terms": [
+        { "term": "diffusion model 扩散模型", "definition": "通过正向加噪与反向去噪过程建模数据分布的生成模型。" },
+        { "term": "denoising 去噪", "definition": "从含噪信号中恢复干净信号的过程。" },
+        { "term": "noise predictor 噪声预测器", "definition": "扩散模型中预测当前步所含噪声的神经网络。" },
+        { "term": "Gaussian noise 高斯噪声", "definition": "服从正态分布的随机扰动。" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "揭示 Stable Diffusion、DALL-E 系列与 Imagen 共享的通用架构：三个组件——文字编码器、生成模型（扩散）、解码器。三者的差别主要在中间产物是隐空间向量还是低分辨率图片。",
+      "keyPoints": [
+        { "title": "三大组件框架", "detail": "文字 → Text Encoder 得到文字表示 → Generation Model 生成中间产物 → Decoder 还原成高分辨率图片。" },
+        { "title": "文字编码器最关键", "detail": "实验显示放大文字编码器（如换更大的语言模型）对生成品质的提升，远大于放大扩散模型本身。" },
+        { "title": "Latent Diffusion", "detail": "Stable Diffusion 在自编码器的隐空间做扩散，计算量大幅降低，最后用解码器还原图片。" },
+        { "title": "级联超分", "detail": "Imagen 的中间产物是小尺寸图片，再用多级扩散模型逐步放大到高分辨率。" },
+        { "title": "评估指标", "detail": "用 FID 衡量生成图片分布与真实分布的距离，用 CLIP Score 衡量图片与文字描述的匹配程度。" }
+      ],
+      "terms": [
+        { "term": "Stable Diffusion", "definition": "在隐空间执行扩散过程的开源文生图模型。" },
+        { "term": "text encoder 文字编码器", "definition": "把文字描述转换为向量表示以条件化生成过程的模块。" },
+        { "term": "FID 弗雷歇初始距离", "definition": "衡量生成图片分布与真实图片分布差异的评估指标，越小越好。" },
+        { "term": "CLIP Score", "definition": "用 CLIP 模型衡量生成图片与文字描述语义匹配度的指标。" }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "Diffusion Model 原理剖析（可选数学档）第一部分。回到生成模型的共同目标——最大化观测资料的似然，说明为什么直接算似然很困难，以及 VAE 如何用变分下界（ELBO）绕开这个困难，为后面推导扩散模型做准备。",
+      "keyPoints": [
+        { "title": "生成模型的统一目标", "detail": "所有生成模型本质上都在做最大似然估计，等价于最小化模型分布与真实数据分布的 KL 散度。", "formula": "\\theta^* = \\arg\\max_\\theta \\sum_{i} \\log P_\\theta(x^i)" },
+        { "title": "似然难以直接计算", "detail": "P(x) 需要对所有隐变量积分，无法解析求解，因此必须找可优化的替代目标。", "formula": "P_\\theta(x) = \\int P_\\theta(x \\mid z) P(z) \\, dz" },
+        { "title": "变分下界 ELBO", "detail": "引入近似后验 q(z|x)，可以推出对数似然的一个下界，最大化下界即间接最大化似然。", "formula": "\\log P_\\theta(x) \\geq \\mathbb{E}_{q(z|x)}\\left[\\log \\frac{P_\\theta(x, z)}{q(z \\mid x)}\\right]" },
+        { "title": "VAE 作为跳板", "detail": "扩散模型可以看成一个隐变量层数极多、且编码器固定为加噪过程的特殊 VAE。" }
+      ],
+      "terms": [
+        { "term": "maximum likelihood estimation 最大似然估计", "definition": "选择使观测数据出现概率最大的参数的估计方法。" },
+        { "term": "ELBO 证据下界", "definition": "对数似然的可计算下界，是变分推断的优化目标。" },
+        { "term": "KL divergence KL 散度", "definition": "衡量两个概率分布差异的非对称度量。" },
+        { "term": "latent variable 隐变量", "definition": "无法直接观测、用于解释数据生成过程的变量。" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "Diffusion Model 原理剖析第二部分。正式写出正向加噪过程的数学形式，推导出可以一步从原图跳到任意时刻 t 的闭式公式，这是扩散模型能高效训练的关键。",
+      "keyPoints": [
+        { "title": "正向过程是固定的马可夫链", "detail": "每一步在前一步结果上加一点高斯噪声，噪声强度由排程参数 β_t 决定，整个过程没有可学参数。", "formula": "q(x_t \\mid x_{t-1}) = \\mathcal{N}(x_t; \\sqrt{1-\\beta_t}\\, x_{t-1}, \\beta_t I)" },
+        { "title": "一步到位的闭式解", "detail": "由于高斯分布可加，任意时刻 t 的含噪图片可以直接由原图与一次高斯采样得到，无需逐步模拟。", "formula": "x_t = \\sqrt{\\bar{\\alpha}_t}\\, x_0 + \\sqrt{1 - \\bar{\\alpha}_t}\\, \\epsilon, \\quad \\epsilon \\sim \\mathcal{N}(0, I)" },
+        { "title": "累积系数", "detail": "α_t = 1 − β_t，ᾱ_t 是 α 的连乘积，随 t 增大趋近 0，此时 x_t 近似纯噪声。", "formula": "\\bar{\\alpha}_t = \\prod_{s=1}^{t} \\alpha_s" },
+        { "title": "训练可随机取步", "detail": "有了闭式解，训练时可随机抽一个 t 直接构造样本，不必按时间顺序展开，效率极高。" }
+      ],
+      "terms": [
+        { "term": "forward process 正向过程", "definition": "扩散模型中逐步向数据添加噪声的固定马可夫过程。" },
+        { "term": "noise schedule 噪声排程", "definition": "规定每一步添加噪声强度的参数序列。" },
+        { "term": "Markov chain 马可夫链", "definition": "下一状态只依赖当前状态的随机过程。" },
+        { "term": "reparameterization 重参数化", "definition": "把随机采样写成确定函数加独立噪声，从而可反向传播的技巧。" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "Diffusion Model 原理剖析第三部分。把 ELBO 展开成一系列 KL 散度项，说明其中每一项都是在让学到的去噪分布逼近正向过程的后验，并推导出最终简化的训练目标就是预测噪声的均方误差。",
+      "keyPoints": [
+        { "title": "ELBO 的分解", "detail": "目标可以拆成重建项、先验匹配项和一串去噪匹配项，后者是主体，每一项对应一个时间步。" },
+        { "title": "后验分布可解析", "detail": "在给定原图 x₀ 的条件下，正向过程的后验 q(x_{t-1}|x_t, x₀) 是高斯分布且均值方差有闭式表达。" },
+        { "title": "KL 项化为均值差", "detail": "两个高斯分布的 KL 散度只剩均值差的平方，于是训练目标变成让网络预测的均值逼近真实后验均值。" },
+        { "title": "最终简化目标", "detail": "经过重参数化，均值预测等价于噪声预测，损失退化为预测噪声与真实噪声的 L2 距离，与第 15 讲的直觉一致。", "formula": "L_{\\mathrm{simple}} = \\mathbb{E}_{t, x_0, \\epsilon}\\left[\\|\\epsilon - \\epsilon_\\theta(\\sqrt{\\bar{\\alpha}_t}x_0 + \\sqrt{1-\\bar{\\alpha}_t}\\epsilon,\\ t)\\|^2\\right]" },
+        { "title": "理论与实作的落差", "detail": "论文中丢掉了一些加权系数得到 simple loss，虽不严格等于 ELBO，但实作效果更好。" }
+      ],
+      "terms": [
+        { "term": "reverse process 反向过程", "definition": "扩散模型中从噪声逐步去噪生成数据的可学过程。" },
+        { "term": "posterior 后验分布", "definition": "在给定观测条件下隐变量的条件概率分布。" },
+        { "term": "variational inference 变分推断", "definition": "用可优化的简单分布逼近难解后验分布的方法。" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "Diffusion Model 原理剖析第四部分。解释采样算法中一些反直觉的细节：为什么去噪后还要再加一次随机噪声、扩散模型与最大似然的其他视角联系，以及同样的数学框架如何迁移到语音与文字生成。",
+      "keyPoints": [
+        { "title": "采样时为何再加噪", "detail": "反向过程每一步都是从一个分布中采样而非取均值，加回噪声才能保持多样性，否则生成结果会崩坏。" },
+        { "title": "与语言模型的类比", "detail": "文字生成时若每步都取概率最大的词，结果会重复枯燥，需要随机采样，与扩散加噪的道理相同。" },
+        { "title": "其他理论视角", "detail": "扩散模型也可从分数匹配（score matching）与随机微分方程的角度理解，两条路殊途同归。" },
+        { "title": "跨模态迁移", "detail": "同样的加噪去噪框架已被用于语音合成，以及在离散文字上通过隐空间或遮罩机制实现扩散式生成。" }
+      ],
+      "terms": [
+        { "term": "score matching 分数匹配", "definition": "通过学习对数概率密度的梯度来建模数据分布的方法。" },
+        { "term": "sampling 采样", "definition": "从概率分布中随机抽取样本的过程。" },
+        { "term": "stochastic differential equation 随机微分方程", "definition": "描述含随机项的连续时间动态过程的方程，可统一刻画扩散过程。" }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "课程尾声的一节延伸讨论：如果让多个由大型语言模型驱动的 AI 角色组成一个虚拟村庄，会发生什么。介绍生成式代理（Generative Agents）的记忆、反思与规划机制，以及由此涌现出的社会性行为。",
+      "keyPoints": [
+        { "title": "生成式代理的构成", "detail": "每个村民是一个 LLM 加上记忆流、检索机制与行动规划模块，能感知环境并决定下一步做什么。" },
+        { "title": "记忆流与检索", "detail": "把经历以自然语言存进记忆流，按时近性、重要性与相关性打分检索出与当前情境有关的记忆。" },
+        { "title": "反思机制", "detail": "代理会定期把零散记忆总结成更高层的结论（如「某人喜欢研究」），从而做出更连贯的长期行为。" },
+        { "title": "涌现的社会行为", "detail": "实验中村民自发传播消息、互相邀约、组织派对，这些行为并未被显式编程。" },
+        { "title": "应用与隐忧", "detail": "可用于游戏 NPC、社会模拟与产品原型测试，但也带来拟人化误导与算力成本的问题。" }
+      ],
+      "terms": [
+        { "term": "generative agent 生成式代理", "definition": "由语言模型驱动、具备记忆与规划能力、能自主行动的模拟角色。" },
+        { "term": "memory stream 记忆流", "definition": "以自然语言记录代理全部经历并可检索的存储结构。" },
+        { "term": "emergent behavior 涌现行为", "definition": "未被显式设计、由系统组件交互自发产生的整体行为。" },
+        { "term": "reflection 反思", "definition": "代理将零散记忆归纳为高层抽象结论的过程。" }
+      ]
+    }
+  ]
+}

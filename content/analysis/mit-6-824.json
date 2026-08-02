@@ -1,0 +1,366 @@
+{
+  "courseId": "mit-6-824",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "MIT 6.824 是一门以论文研读为主线的研究生级分布式系统课，围绕「如何用不可靠的机器搭出可靠的系统」展开。前半程从 MapReduce、GFS、主从复制一路推进到 Raft 共识与 Zookeeper，把容错复制这条主干打通；后半程转向分布式事务、Spanner、并发控制、Spark、Memcache 缓存一致性，最后延伸到因果一致性、Certificate Transparency 与区块链等去中心化话题。每讲基本对应一篇经典论文，讲授重点不是 API 而是设计权衡：一致性 vs 性能、可用性 vs 正确性、简单 vs 通用。配套 Lab 用 Go 从零实现 MapReduce 与完整的 Raft（含日志压缩、分片 KV），做完能真正读懂并写出工业级复制状态机代码。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "课程导论，说明分布式系统为什么存在（扩容、容错、物理分布、隔离安全）以及为什么难（并发、部分故障、性能不可预测）。引出全课三大关键词：容错、一致性、性能。最后以 MapReduce 作为第一个具体案例，展示如何把一个易并行的批处理任务隐藏在简单编程模型之后。",
+      "keyPoints": [
+        { "title": "为什么要分布式", "detail": "并行提升吞吐、通过复制容忍故障、地理上就近服务、以及用隔离限制安全爆炸半径。" },
+        { "title": "核心难点：部分故障", "detail": "单机要么全活要么全死，分布式系统中一部分节点失效而其余继续运行，是绝大多数复杂度的来源。" },
+        { "title": "三大抽象目标", "detail": "存储、通信、计算三类基础设施都希望对上层呈现「像一台单机」的接口。" },
+        { "title": "可扩展性并非线性", "detail": "2 倍机器换来 2 倍性能只在瓶颈可切分时成立，通常很快撞到某个不可切分的中心组件。" },
+        { "title": "MapReduce 编程模型", "detail": "用户只写 map 和 reduce 两个纯函数，框架负责切分输入、调度任务、重试失败、shuffle 中间结果。" }
+      ],
+      "terms": [
+        { "term": "fault tolerance 容错", "definition": "系统在部分组件失效时仍能继续提供正确服务的能力。" },
+        { "term": "availability 可用性", "definition": "系统在故障发生期间仍能响应客户端请求的性质。" },
+        { "term": "consistency 一致性", "definition": "对多副本数据读写结果所做的语义保证。" },
+        { "term": "MapReduce", "definition": "Google 提出的批处理框架，把大规模数据处理表达为 map 与 reduce 两阶段。" },
+        { "term": "shuffle 洗牌", "definition": "把 map 输出按 key 重新分组并传输给对应 reduce 任务的中间阶段。" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "为 Lab 做工程铺垫：讲 RPC 与线程这两个分布式编程的基本工具。重点是 Go 的并发模型（goroutine、channel、sync.Mutex）、如何用锁保护共享状态、以及 RPC 在故障下的语义问题（at-least-once / at-most-once / exactly-once）。",
+      "keyPoints": [
+        { "title": "为什么需要线程", "detail": "I/O 并发（同时等多个 RPC）与多核并行是两大动机；分布式代码里前者更常见。" },
+        { "title": "Go 的并发原语", "detail": "goroutine 轻量线程 + channel 传消息 + sync.Mutex/WaitGroup 保护共享内存，两种风格可混用。" },
+        { "title": "竞态与锁规则", "detail": "任何被多个 goroutine 读写的变量都需要加锁；go test -race 是 Lab 中必备的排错手段。" },
+        { "title": "RPC 语义三档", "detail": "at-least-once 会重复执行、at-most-once 需要服务端去重表、exactly-once 在故障下极难实现。" },
+        { "title": "失败的不可区分性", "detail": "客户端无法分辨「服务器挂了」「网络丢包」「服务器很慢」，这是超时重试策略的根本困境。" }
+      ],
+      "terms": [
+        { "term": "RPC 远程过程调用", "definition": "让跨机器的调用在语法上看起来像本地函数调用的通信机制。" },
+        { "term": "goroutine 协程", "definition": "Go 运行时调度的轻量级线程。" },
+        { "term": "race condition 竞态条件", "definition": "多个线程无同步地访问同一变量导致结果依赖执行时序的错误。" },
+        { "term": "at-most-once 至多一次", "definition": "重复请求不会被重复执行的 RPC 语义，需服务端记录已处理请求。" },
+        { "term": "deadlock 死锁", "definition": "多个线程互相等待对方持有的锁而永久阻塞。" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "精读 Google File System 论文。GFS 是一个为大文件顺序读写和 MapReduce 负载定制的分布式文件系统，采用单 Master 管理元数据 + 大量 Chunkserver 存数据的架构。课上重点剖析它「为性能牺牲一致性」的设计取舍：并发追加可能产生重复和空洞，客户端必须容忍。",
+      "keyPoints": [
+        { "title": "单 Master 架构", "detail": "元数据集中在内存中的单个 Master，简化设计；数据流不经过 Master，避免它成为带宽瓶颈。" },
+        { "title": "64MB chunk", "detail": "超大块降低元数据量与 Master 交互频率，适合大文件顺序访问，但对小文件不友好。" },
+        { "title": "Primary + Lease 写流程", "detail": "Master 给某副本发租约使其成为 primary，由它决定并发写的顺序，控制流与数据流分离（链式推送数据）。" },
+        { "title": "宽松一致性模型", "detail": "record append 只保证至少一次原子追加，可能留下重复记录与填充空洞，应用需靠校验和与唯一 ID 自行去重。" },
+        { "title": "故障恢复与版本号", "detail": "chunk version number 用于识别错过更新的陈旧副本，Master 重启靠 operation log + checkpoint 恢复。" }
+      ],
+      "terms": [
+        { "term": "GFS Google 文件系统", "definition": "Google 为大规模批处理设计的分布式文件系统。" },
+        { "term": "chunkserver 块服务器", "definition": "实际存储 64MB 数据块并直接与客户端传输数据的节点。" },
+        { "term": "lease 租约", "definition": "Master 授予某副本在有限时间内担任 primary 的授权，用于避免脑裂。" },
+        { "term": "record append 记录追加", "definition": "GFS 提供的原子追加操作，由系统选择偏移量。" },
+        { "term": "split brain 脑裂", "definition": "网络分区导致两个节点同时认为自己是 primary 的错误状态。" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "以 VMware FT 论文为例讲主从复制。它在虚拟机层面做状态机复制：primary 把所有非确定性输入通过 logging channel 发给 backup，backup 完全重放，从而实现对应用透明的容错。课上借此区分「状态转移」与「复制状态机」两条技术路线。",
+      "keyPoints": [
+        { "title": "状态转移 vs 复制状态机", "detail": "前者传输内存/磁盘状态，带宽大但简单；后者只传输输入指令，带宽小但要求执行完全确定。" },
+        { "title": "非确定性事件的处理", "detail": "中断、时钟读数、网络包到达时刻等都必须由 primary 记录并在 backup 的相同指令位置重放。" },
+        { "title": "Output Rule 输出规则", "detail": "primary 在把输出发给外界之前，必须先确认 backup 已收到对应日志，否则 failover 后会丢失已可见的结果。" },
+        { "title": "脑裂与外部仲裁", "detail": "VMware FT 用共享磁盘上的 test-and-set 原子操作作为仲裁者，保证只有一方能接管。" },
+        { "title": "复制什么层次", "detail": "机器级复制对应用透明但要求严格确定性；应用级复制（如后面的 Raft KV）更灵活但需改写应用。" }
+      ],
+      "terms": [
+        { "term": "primary-backup replication 主从复制", "definition": "由主副本处理请求并把状态或输入同步给备副本的容错方案。" },
+        { "term": "state machine replication 状态机复制", "definition": "让多个确定性副本按相同顺序执行相同输入以保持状态一致。" },
+        { "term": "failover 故障切换", "definition": "primary 失效后由 backup 接管服务的过程。" },
+        { "term": "logging channel 日志通道", "definition": "VMware FT 中 primary 向 backup 传输非确定性事件的通道。" },
+        { "term": "fail-stop 故障停止", "definition": "节点出错时直接停机而非产生错误输出的故障模型。" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "承上启下的一讲：先补 Go 并发的实战细节与 Lab 常见坑（锁粒度、条件变量、定时器），再引入 Raft 的问题背景——如何用多数派投票避免主从复制中的脑裂，从而不依赖外部仲裁者。",
+      "keyPoints": [
+        { "title": "多数派原理", "detail": "在 2f+1 个节点中要求任意决策获得 f+1 票，任意两个多数派必有交集，因此不可能同时存在两个合法 leader。" },
+        { "title": "为什么不能靠 ping 判活", "detail": "网络分区下无法区分对方宕机还是不可达，靠单方面探测必然导致脑裂。" },
+        { "title": "Go 中的锁与条件变量", "detail": "sync.Cond 或轮询 + time.Sleep 用于等待状态变化；持锁时不要做 RPC。" },
+        { "title": "长期运行的后台 goroutine", "detail": "Raft 实现通常用独立 goroutine 跑选举计时器和心跳，需要小心退出与重置逻辑。" },
+        { "title": "调试策略", "detail": "结构化日志 + 随机化测试是分布式代码唯一现实的排错方式，Lab 测试会注入丢包与重排。" }
+      ],
+      "terms": [
+        { "term": "quorum 多数派", "definition": "做出决策所需的最小节点集合，通常为超过半数。" },
+        { "term": "network partition 网络分区", "definition": "网络故障使节点被分割成互相无法通信的若干组。" },
+        { "term": "condition variable 条件变量", "definition": "让线程在某个条件满足前阻塞等待的同步原语。" },
+        { "term": "Raft", "definition": "一种以可理解性为目标设计的分布式共识算法。" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "Raft 第一部分：领导人选举与日志复制。讲清 term（任期）作为逻辑时钟的作用、选举超时随机化如何打破平票、以及 AppendEntries 的一致性检查如何强制 follower 日志与 leader 对齐。",
+      "keyPoints": [
+        { "title": "任期与角色", "detail": "每个节点处于 follower / candidate / leader 之一，term 单调递增，收到更大 term 立即退位为 follower。" },
+        { "title": "随机选举超时", "detail": "各节点选举超时取随机值，使某一节点大概率先发起并赢得选举，避免反复平票。" },
+        { "title": "日志匹配性质", "detail": "若两份日志在同一 index 上 term 相同，则该位置及之前的所有条目都相同。", "formula": "\\forall i,\\ \\mathrm{term}_a[i]=\\mathrm{term}_b[i] \\Rightarrow \\forall j\\le i,\\ \\mathrm{log}_a[j]=\\mathrm{log}_b[j]" },
+        { "title": "AppendEntries 一致性检查", "detail": "leader 携带 prevLogIndex/prevLogTerm，follower 不匹配就拒绝，leader 回退 nextIndex 重试直至找到公共前缀。" },
+        { "title": "提交与 commitIndex", "detail": "条目被多数派复制后 leader 才将其标记为已提交并应用到状态机，commitIndex 随心跳传播给 follower。" }
+      ],
+      "terms": [
+        { "term": "term 任期", "definition": "Raft 中单调递增的逻辑时间编号，每次选举开启一个新任期。" },
+        { "term": "AppendEntries 追加条目", "definition": "leader 用于复制日志和发送心跳的 RPC。" },
+        { "term": "commitIndex 提交索引", "definition": "已知被多数派复制、可安全应用到状态机的最大日志下标。" },
+        { "term": "heartbeat 心跳", "definition": "leader 周期性发送的空 AppendEntries，用于压制新的选举。" },
+        { "term": "log entry 日志条目", "definition": "包含客户端命令与所属 term 的复制单元。" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "Raft 第二部分：正确性与工程化。核心是选举限制（Election Restriction）如何保证已提交条目不丢失、为什么 leader 不能提交前任 term 的条目、以及持久化、快照、线性一致读、集群成员变更等实际问题。",
+      "keyPoints": [
+        { "title": "选举限制", "detail": "candidate 只有日志「至少和投票者一样新」才能获得选票（先比最后条目 term，再比 index），确保新 leader 含全部已提交条目。" },
+        { "title": "不提交旧任期条目", "detail": "新 leader 不能仅凭副本数就提交前任 term 的条目（图 8 场景），必须通过提交本任期的一条新条目间接提交它们。" },
+        { "title": "持久化状态", "detail": "currentTerm、votedFor、log[] 必须在响应 RPC 前落盘，否则重启后可能重复投票或丢失日志。" },
+        { "title": "快照与日志压缩", "detail": "状态机定期生成 snapshot 并截断日志；落后太多的 follower 用 InstallSnapshot RPC 追赶。" },
+        { "title": "线性一致读", "detail": "直接读 leader 内存不安全（可能已被取代），需通过 no-op 日志、ReadIndex 或租约机制确认领导权。" }
+      ],
+      "terms": [
+        { "term": "election restriction 选举限制", "definition": "只把票投给日志不落后于自己的候选人的投票规则。" },
+        { "term": "snapshot 快照", "definition": "状态机某时刻的完整状态副本，用于压缩日志。" },
+        { "term": "linearizability 线性一致性", "definition": "最强的一致性模型，要求所有操作看起来在其调用与返回之间某一瞬间原子发生。" },
+        { "term": "InstallSnapshot 安装快照", "definition": "leader 向严重落后的 follower 直接传输快照的 RPC。" },
+        { "term": "membership change 成员变更", "definition": "在不停机的前提下增删集群节点，Raft 用联合共识实现。" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "Zookeeper 论文：把共识层做成通用协调服务。重点是它为提升读吞吐而放弃线性一致读，转而提供「写线性一致 + 客户端 FIFO 顺序」的混合保证，以及如何用 znode、watch、临时节点构建锁、选主等分布式原语。",
+      "keyPoints": [
+        { "title": "读扩展的代价", "detail": "允许任意副本服务读请求可让吞吐随节点数增长，但读可能返回陈旧数据。" },
+        { "title": "两条一致性保证", "detail": "写是线性一致的；单个客户端的操作满足 FIFO 顺序，且读不会看到比自己已见状态更旧的数据。" },
+        { "title": "sync 操作", "detail": "客户端需要读到最新值时先发 sync，强制该副本追上 leader 的日志。" },
+        { "title": "znode 与 watch", "detail": "类文件系统的层次命名空间，节点支持顺序型与临时型；watch 提供一次性变更通知，避免轮询。" },
+        { "title": "无等待的分布式原语", "detail": "用临时顺序节点实现无羊群效应的锁与 leader 选举；API 设计成 wait-free 加条件更新（version 号）。" }
+      ],
+      "terms": [
+        { "term": "Zookeeper", "definition": "基于 Zab 共识的分布式协调服务，常用于配置管理与选主。" },
+        { "term": "znode 数据节点", "definition": "Zookeeper 命名空间中的一个数据单元，可为持久、临时或顺序型。" },
+        { "term": "watch 监视", "definition": "客户端注册的一次性回调，在对应 znode 变化时触发。" },
+        { "term": "ephemeral node 临时节点", "definition": "随创建它的会话结束而自动删除的 znode，是实现故障检测的基础。" },
+        { "term": "herd effect 羊群效应", "definition": "一次事件唤醒大量等待者导致的性能塌陷。" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "讲链式复制与 CRAQ。Chain Replication 把副本排成链，写从头流到尾、读只在尾部，天然线性一致且实现简单；CRAQ 在此基础上让所有节点都能服务读，通过版本的 clean/dirty 标记维持强一致，从而在保持线性一致的同时把读吞吐提高。",
+      "keyPoints": [
+        { "title": "链式复制结构", "detail": "写请求从 head 依次传递到 tail，tail 确认即提交并回复客户端；读只由 tail 服务。" },
+        { "title": "对比 Raft", "detail": "链式复制的每个节点只需与邻居通信，网络负载更均衡；但对单节点故障的反应依赖外部配置管理器（如 Zookeeper）。" },
+        { "title": "CRAQ 的多版本读", "detail": "每个节点保存对象的多个版本，未在 tail 提交前标记为 dirty；读到 dirty 时向 tail 查询已提交版本号再返回。" },
+        { "title": "读吞吐的提升", "detail": "读多写少时绝大多数读命中 clean 版本，可在本地直接返回，吞吐随链长线性增长。" },
+        { "title": "配置管理器的角色", "detail": "链的成员与顺序由一个独立的强一致服务维护，避免链上节点自行判断故障造成分裂。" }
+      ],
+      "terms": [
+        { "term": "chain replication 链式复制", "definition": "把副本组织成线性链，写沿链传播、读在链尾的复制协议。" },
+        { "term": "CRAQ", "definition": "Chain Replication with Apportioned Queries，允许所有链上节点服务读的改进方案。" },
+        { "term": "dirty version 脏版本", "definition": "已写入但尚未被链尾确认提交的对象版本。" },
+        { "term": "configuration manager 配置管理器", "definition": "负责维护副本组成员关系的外部强一致服务。" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "Amazon Aurora：云上关系数据库如何重新划分层次。传统 MySQL 主从复制要在网络上传输完整数据页，Aurora 把 redo log 处理下推到存储层，只发日志不发页，配合 6 副本跨 3 可用区的 quorum 写，大幅降低网络放大并提升容错。",
+      "keyPoints": [
+        { "title": "网络是瓶颈", "detail": "云环境中 CPU 和存储都可弹性扩展，跨机网络流量成为主要限制，因此设计目标是最小化写放大。" },
+        { "title": "The log is the database", "detail": "数据库层只把 redo log 发给存储层，由存储节点自行重放日志生成数据页。" },
+        { "title": "6 副本 4/6 写、3/6 读", "detail": "跨 3 个 AZ 各放 2 份，写需 4 票、读需 3 票，可容忍整个 AZ 故障加一个额外节点故障。", "formula": "V_r + V_w > V\\quad(3+4>6)" },
+        { "title": "Quorum 与容错权衡", "detail": "读写票数之和大于总副本数保证交集，选择 4/6 而非 3/6 是为了在 AZ 级故障后仍能继续写。" },
+        { "title": "只读副本与故障恢复", "detail": "只读实例共享同一份存储，靠 redo 流保持缓存一致；崩溃恢复由存储层持续进行，无需长时间重放。" }
+      ],
+      "terms": [
+        { "term": "Aurora", "definition": "Amazon 的云原生关系数据库，把存储与日志重放下推到分布式存储层。" },
+        { "term": "redo log 重做日志", "definition": "记录数据页物理修改的日志，用于崩溃恢复与副本同步。" },
+        { "term": "write amplification 写放大", "definition": "一次逻辑写在底层产生的实际 I/O 或网络流量倍数。" },
+        { "term": "availability zone 可用区", "definition": "云中彼此故障隔离的数据中心分区。" },
+        { "term": "quorum write 多数派写", "definition": "写入只需获得部分副本确认即视为成功的策略。" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "Frangipani：一个构建在分布式虚拟磁盘 Petal 之上的分布式文件系统，逻辑几乎全在客户端。重点是它如何用缓存一致性协议（锁与回调）让多台工作站看到一致的文件系统视图，以及用 write-ahead log 做崩溃恢复。",
+      "keyPoints": [
+        { "title": "去中心化设计", "detail": "文件系统逻辑跑在每个客户端工作站上，共享一个块级存储 Petal，没有中心文件服务器。" },
+        { "title": "缓存一致性靠锁", "detail": "读锁/写锁与缓存绑定：获得写锁才能改缓存，释放锁前必须把脏数据写回 Petal。" },
+        { "title": "锁服务器与撤销回调", "detail": "别的客户端要锁时，锁服务器回调当前持有者，迫使其刷盘并降级或释放锁。" },
+        { "title": "每客户端一份 WAL", "detail": "每个工作站在 Petal 上有独立的预写日志，只记元数据变更；崩溃后由他人替它重放。" },
+        { "title": "版本号避免误重放", "detail": "日志条目带版本号，重放时跳过已被更新覆盖的旧操作，保证幂等。" }
+      ],
+      "terms": [
+        { "term": "cache coherence 缓存一致性", "definition": "确保多份缓存副本对同一数据的视图不冲突的协议。" },
+        { "term": "Frangipani", "definition": "构建在 Petal 虚拟磁盘之上的去中心化分布式文件系统。" },
+        { "term": "write-ahead log 预写日志", "definition": "先把修改意图记入日志再改数据，以支持崩溃恢复的技术。" },
+        { "term": "lock revocation 锁撤销", "definition": "锁服务器主动要求持有者归还锁的机制。" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "分布式事务：如何让跨多台服务器的操作满足 ACID。讲两阶段锁（2PL）实现可串行化隔离，以及两阶段提交（2PC）实现原子性，并剖析 2PC 的阻塞问题——协调者在准备阶段后宕机会让参与者无限期持锁等待。",
+      "keyPoints": [
+        { "title": "ACID 与可串行化", "detail": "并发事务的执行结果必须等价于某个串行顺序，这是分布式事务的正确性标准。" },
+        { "title": "两阶段锁", "detail": "事务在增长阶段只取锁、在收缩阶段只放锁，且锁持有到提交（strict 2PL），可保证冲突可串行化。" },
+        { "title": "两阶段提交流程", "detail": "协调者先发 prepare 收集全体投票，全票同意才发 commit；参与者投 yes 后必须保证能提交，需先写日志落盘。" },
+        { "title": "2PC 的阻塞性", "detail": "参与者投 yes 后若协调者失联，既不能提交也不能中止，只能持锁等待，这是 2PC 最大的实用缺陷。" },
+        { "title": "为什么 2PC 不是共识", "detail": "2PC 要求所有参与者都参与决策（全票），共识只要求多数派，因而 2PC 不容忍参与者故障。" }
+      ],
+      "terms": [
+        { "term": "two-phase commit 两阶段提交", "definition": "通过 prepare 与 commit 两轮消息保证跨节点事务原子性的协议。" },
+        { "term": "two-phase locking 两阶段锁", "definition": "先只加锁后只解锁的并发控制协议，保证可串行化。" },
+        { "term": "serializability 可串行化", "definition": "并发执行结果等价于某种串行执行的隔离级别。" },
+        { "term": "coordinator 协调者", "definition": "在 2PC 中收集投票并做出最终提交决定的节点。" },
+        { "term": "atomic commit 原子提交", "definition": "所有参与者要么全部提交要么全部中止的性质。" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "Google Spanner：全球分布、外部一致的分布式数据库。它把 Paxos 复制、2PC 分布式事务与 TrueTime 时钟结合，用有界时钟误差实现无锁的快照读，同时保证跨数据中心事务的外部一致性。",
+      "keyPoints": [
+        { "title": "分层架构", "detail": "数据按 shard 划分，每个 shard 用 Paxos 组跨数据中心复制；跨 shard 事务再叠加 2PC，协调者本身也是 Paxos 复制的。" },
+        { "title": "TrueTime 区间时钟", "detail": "时间 API 返回区间 [earliest, latest] 而非单点，误差上界由 GPS 与原子钟保证，通常几毫秒。" },
+        { "title": "Commit Wait 提交等待", "detail": "事务取时间戳后等待到该时间戳确定已过去才真正提交，从而保证时间戳顺序与真实发生顺序一致。", "formula": "\\text{commit at } s \\Rightarrow \\text{wait until } TT.now().earliest > s" },
+        { "title": "只读事务免锁", "detail": "给只读事务分配一个过去的时间戳，直接读多版本数据的对应快照，不加锁也不阻塞写。" },
+        { "title": "外部一致性", "detail": "若事务 T1 在 T2 开始前提交，则 T1 的时间戳一定小于 T2，等价于全局线性一致。" }
+      ],
+      "terms": [
+        { "term": "Spanner", "definition": "Google 的全球分布式关系数据库，支持外部一致的分布式事务。" },
+        { "term": "TrueTime 真实时间", "definition": "Spanner 提供的带误差上界的全局时钟 API。" },
+        { "term": "external consistency 外部一致性", "definition": "事务时间戳顺序与真实世界的先后顺序一致的保证。" },
+        { "term": "snapshot read 快照读", "definition": "在指定时间戳上读取多版本数据、不加锁的读操作。" },
+        { "term": "Paxos", "definition": "经典的分布式共识算法，Spanner 用它做每个分片的复制。" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "乐观并发控制，以 FaRM 为例（内存 + RDMA + 非易失内存的高性能事务系统）。乐观策略先执行不加锁，提交时验证读集是否被改动，冲突少时性能远超悲观锁；FaRM 用单边 RDMA 把事务延迟压到微秒级。",
+      "keyPoints": [
+        { "title": "OCC 三阶段", "detail": "读取（本地缓存）、验证（检查读集版本未变）、写入（生效），冲突时整个事务重做。" },
+        { "title": "适用场景", "detail": "冲突率低时避免了加锁开销；冲突率高时反复回滚反而更慢。" },
+        { "title": "FaRM 的硬件前提", "detail": "数据全在内存、用带电池的非易失 DRAM 抗掉电、用 RDMA 网卡绕过远端 CPU 直接读写内存。" },
+        { "title": "单边 RDMA 读", "detail": "读阶段不打扰远端 CPU，直接 DMA 读取对象及其版本号，是性能的关键来源。" },
+        { "title": "提交协议", "detail": "把 2PC 的 lock/validate/commit 消息通过 RDMA 写入远端日志队列，远端 CPU 异步处理。" }
+      ],
+      "terms": [
+        { "term": "optimistic concurrency control 乐观并发控制", "definition": "执行时不加锁、提交时验证冲突的并发控制策略。" },
+        { "term": "FaRM", "definition": "微软的内存分布式事务平台，基于 RDMA 与非易失内存。" },
+        { "term": "RDMA 远程直接内存访问", "definition": "网卡直接读写远端主机内存、不经远端 CPU 的通信技术。" },
+        { "term": "read set 读集", "definition": "事务执行期间读取过的对象集合，提交时需验证其未被修改。" },
+        { "term": "NVRAM 非易失内存", "definition": "掉电后仍保留内容的内存，FaRM 用电池加 DRAM 近似实现。" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "Spark：面向迭代计算的大数据框架。核心抽象 RDD 是不可变的分布式数据集，通过记录 lineage（血统）而非复制数据来实现容错，配合内存缓存与惰性求值，使机器学习、图计算这类多轮迭代任务比 MapReduce 快一个数量级。",
+      "keyPoints": [
+        { "title": "MapReduce 的迭代之痛", "detail": "每轮迭代都要把中间结果写回分布式文件系统，多轮任务的磁盘 I/O 成为主要开销。" },
+        { "title": "RDD 抽象", "detail": "只读的分区数据集，只能由确定性的转换操作从其他 RDD 或稳定存储派生而来。" },
+        { "title": "Lineage 容错", "detail": "丢失分区时按记录下来的转换链重新计算，不需要复制数据，代价只在故障时发生。" },
+        { "title": "窄依赖与宽依赖", "detail": "窄依赖（map、filter）可在一个 stage 内流水线执行；宽依赖（groupByKey）需要 shuffle 并划分 stage。" },
+        { "title": "惰性求值与 checkpoint", "detail": "transformation 只构建 DAG，遇到 action 才真正执行；血统过长时可 checkpoint 到稳定存储截断重算链。" }
+      ],
+      "terms": [
+        { "term": "Spark", "definition": "基于 RDD 的内存化大数据计算框架。" },
+        { "term": "RDD 弹性分布式数据集", "definition": "Spark 的核心抽象，不可变、分区、可由血统重建的数据集合。" },
+        { "term": "lineage 血统", "definition": "记录 RDD 由哪些转换从哪些父 RDD 派生的依赖信息。" },
+        { "term": "narrow dependency 窄依赖", "definition": "每个父分区最多被一个子分区使用的依赖关系。" },
+        { "term": "transformation / action 转换与行动", "definition": "Spark 中惰性构建 DAG 的操作与触发实际计算的操作。" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "Facebook 的 memcache 论文：不是新算法，而是把简单组件堆到极致规模的工程经验。重点是 look-aside 缓存模式带来的一致性竞态、thundering herd 与 stale set 的防治（lease）、以及多地域主从数据中心的失效传播。",
+      "keyPoints": [
+        { "title": "look-aside 缓存", "detail": "应用先查 memcache，未命中再查数据库并回填；写时先改数据库再删除缓存（invalidate 而非 update）。" },
+        { "title": "Lease 机制", "detail": "未命中时 memcached 发放 lease token，只有持 token 的回填才被接受，既避免 stale set 又限制 thundering herd。" },
+        { "title": "分区 vs 复制", "detail": "热点 key 用复制分散负载，冷数据用分区节省内存；区域内划分多个 pool 隔离不同访问模式。" },
+        { "title": "incast 拥塞控制", "detail": "一次请求扇出到大量 memcached 会造成返回流量瞬时拥塞，用滑动窗口限制并发未完成请求数。" },
+        { "title": "跨地域一致性", "detail": "只有主区域可写数据库，从区域通过复制流触发缓存失效；用 remote marker 避免在复制延迟窗口内读到旧值。" }
+      ],
+      "terms": [
+        { "term": "memcached", "definition": "分布式内存键值缓存，Facebook 用作数据库前的读缓存层。" },
+        { "term": "look-aside cache 旁路缓存", "definition": "由应用负责查询与回填、缓存本身不感知后端的缓存模式。" },
+        { "term": "thundering herd 惊群", "definition": "热点 key 失效瞬间大量请求同时穿透到数据库的现象。" },
+        { "term": "stale set 陈旧写入", "definition": "慢请求把过期数据写回缓存并覆盖新值的竞态。" },
+        { "term": "lease 租约令牌", "definition": "memcached 授予的回填许可，用于串行化缓存填充。" }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "COPS 与因果一致性：在多地域复制中放弃线性一致以换取低延迟与分区可用性，但仍保证「因果相关的写按因果序可见」。核心机制是客户端记录依赖，写入时携带依赖列表，远端数据中心在依赖满足前不暴露该写。",
+      "keyPoints": [
+        { "title": "CAP 权衡", "detail": "跨地域强一致要求同步等待远端，延迟高且分区时不可用；COPS 选择本地立即返回、异步复制。" },
+        { "title": "因果序定义", "detail": "同一线程的先后、读后写、以及二者的传递闭包构成因果偏序（happens-before）。", "formula": "a \\rightarrow b \\Rightarrow \\text{all replicas apply } a \\text{ before } b" },
+        { "title": "依赖追踪", "detail": "客户端库维护本次会话读写过的 key-version 集合，put 时把依赖随写一起发到远端。" },
+        { "title": "依赖检查与提交", "detail": "远端数据中心收到写后先向本地节点确认所有依赖版本已存在，才使该写对读可见。" },
+        { "title": "get_trans 事务读", "detail": "COPS-GT 提供跨多 key 的因果一致快照读，避免读到互相矛盾的组合。" }
+      ],
+      "terms": [
+        { "term": "causal consistency 因果一致性", "definition": "保证有因果关系的操作在所有副本上按相同顺序可见的一致性模型。" },
+        { "term": "COPS", "definition": "支持因果一致与可扩展读事务的地理复制键值存储。" },
+        { "term": "happens-before 先发生于", "definition": "Lamport 定义的事件间偏序关系。" },
+        { "term": "eventual consistency 最终一致性", "definition": "停止写入后所有副本最终收敛到相同值的弱一致模型。" },
+        { "term": "CAP theorem CAP 定理", "definition": "网络分区时一致性与可用性不可兼得的论断。" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "在不信任服务器的前提下如何获得安全保证。SUNDR 提出 fork consistency：恶意服务器无法让两个客户端看到互相矛盾的历史而不被发现，最多只能把他们「分叉」隔离。Certificate Transparency 用同样思路的 Merkle append-only 日志监督 CA 签发行为。",
+      "keyPoints": [
+        { "title": "威胁模型转变", "detail": "前面各讲假设节点 fail-stop，这里假设服务器主动作恶，只能靠客户端签名与日志结构检测。" },
+        { "title": "Fork Consistency", "detail": "服务器可以隐瞒某些更新，但一旦对两个客户端撒谎，两人的版本向量就永久分叉，任何后续通信都会暴露。" },
+        { "title": "签名的版本结构", "detail": "每个客户端对包含全体版本号的结构签名，服务器无法伪造，只能选择展示哪些签名。" },
+        { "title": "Certificate Transparency 日志", "detail": "CA 签发的证书必须进入公开的 append-only Merkle 树日志，浏览器要求证书附带 SCT 才信任。" },
+        { "title": "Merkle 证明", "detail": "包含证明（inclusion proof）与一致性证明（consistency proof）让客户端以对数代价验证日志未被篡改或回滚。" }
+      ],
+      "terms": [
+        { "term": "fork consistency 分叉一致性", "definition": "恶意服务器只能把客户端视图分叉而无法悄悄制造矛盾历史的安全保证。" },
+        { "term": "SUNDR", "definition": "在不可信服务器上提供完整性保证的网络文件系统。" },
+        { "term": "Certificate Transparency 证书透明度", "definition": "把所有 TLS 证书公开记入可审计日志的机制。" },
+        { "term": "Merkle tree 默克尔树", "definition": "用哈希逐层聚合的树结构，支持高效的包含性与一致性证明。" },
+        { "term": "gossip 流言协议", "definition": "节点间互相交换所见状态以发现不一致的传播方式。" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "比特币作为一个在开放、无准入、拜占庭环境下达成共识的分布式系统。讲交易与 UTXO 模型、工作量证明如何把投票权绑定到算力、最长链规则如何在无成员表的情况下收敛，以及由此带来的概率性最终确认与 51% 攻击。",
+      "keyPoints": [
+        { "title": "开放成员的难题", "detail": "Raft/Paxos 需要已知成员表才能数多数派；比特币无准入，改用算力而非节点数投票以抵抗女巫攻击。" },
+        { "title": "工作量证明", "detail": "矿工寻找使区块哈希小于目标值的 nonce，难度自动调整使全网平均 10 分钟出一块。", "formula": "H(\\text{block} \\| nonce) < \\text{target}" },
+        { "title": "最长链规则", "detail": "节点始终采用累计工作量最大的链，分叉会随后续区块自然消解。" },
+        { "title": "概率性最终性", "detail": "交易不是被「提交」而是被埋得越来越深，通常等 6 个确认使回滚概率足够低。" },
+        { "title": "UTXO 与双花防御", "detail": "每笔交易花费此前未花费的输出，全网通过链上顺序判定哪一笔花费有效，从而防止双重支付。" }
+      ],
+      "terms": [
+        { "term": "proof of work 工作量证明", "definition": "通过消耗算力求解哈希难题来获得记账权的机制。" },
+        { "term": "blockchain 区块链", "definition": "由哈希指针串联、内容不可篡改的区块序列。" },
+        { "term": "UTXO 未花费交易输出", "definition": "比特币的账本模型，余额表示为一组未被花费的输出。" },
+        { "term": "double spend 双重支付", "definition": "把同一笔资金花费两次的攻击。" },
+        { "term": "Sybil attack 女巫攻击", "definition": "攻击者伪造大量身份以操纵基于节点计数的投票。" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "Blockstack：用区块链做去中心化的命名与身份系统，把「谁拥有这个名字」的共识放到链上，而把实际数据放在链下存储。课程结尾讨论去中心化系统的现实取舍，并回顾全课的一致性—性能—容错主线。",
+      "keyPoints": [
+        { "title": "分层设计", "detail": "区块链只记录名字注册与更新的操作序列（控制平面），实际文件放在链下的普通存储（数据平面）。" },
+        { "title": "虚拟链", "detail": "把 Blockstack 的操作编码进比特币交易的元数据字段，从而复用比特币的安全性而不必自建链。" },
+        { "title": "名字所有权与去中心化 PKI", "detail": "名字绑定公钥，用户用私钥更新记录，从而摆脱 DNS 与 CA 这类中心信任方。" },
+        { "title": "链下数据与哈希锚定", "detail": "链上只存数据的哈希，客户端取回数据后校验哈希，兼顾可验证性与容量。" },
+        { "title": "课程回顾", "detail": "全课主线是在容错、一致性、性能三者间做取舍，绝大多数系统的创新点都可归结为「在什么场景下放松哪一项」。" }
+      ],
+      "terms": [
+        { "term": "Blockstack", "definition": "基于区块链的去中心化命名与身份系统。" },
+        { "term": "virtualchain 虚拟链", "definition": "把自定义状态机操作嵌入既有区块链交易中的技术。" },
+        { "term": "PKI 公钥基础设施", "definition": "管理公钥与身份绑定关系的体系。" },
+        { "term": "off-chain storage 链下存储", "definition": "不放在区块链上、仅由链上哈希锚定的数据存储。" }
+      ]
+    }
+  ]
+}
