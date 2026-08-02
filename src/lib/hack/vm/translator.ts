@@ -21,6 +21,42 @@ export interface TranslateResult {
   definedFunctions: string[];
 }
 
+/** VmCommand[] → VM 文本（中间产物展示 / 测试快照） */
+export function vmToText(units: VmUnit[]): string {
+  const lines: string[] = [];
+  for (const u of units) {
+    lines.push(`// === ${u.name} ===`);
+    for (const c of u.commands) {
+      switch (c.kind) {
+        case "push":
+        case "pop":
+          lines.push(`${c.kind} ${c.segment} ${c.index}`);
+          break;
+        case "arith":
+          lines.push(c.op);
+          break;
+        case "label":
+        case "goto":
+          lines.push(`${c.kind} ${c.label}`);
+          break;
+        case "if-goto":
+          lines.push(`if-goto ${c.label}`);
+          break;
+        case "function":
+          lines.push(`function ${c.name} ${c.locals}`);
+          break;
+        case "call":
+          lines.push(`call ${c.name} ${c.args}`);
+          break;
+        case "return":
+          lines.push("return");
+          break;
+      }
+    }
+  }
+  return lines.join("\n");
+}
+
 const SEG_BASE: Record<string, string> = {
   local: "LCL",
   argument: "ARG",

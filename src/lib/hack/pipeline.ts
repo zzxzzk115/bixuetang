@@ -4,9 +4,12 @@
 
 import { assemble, type AsmError } from "./asm/assembler";
 import type { TrapTable } from "./cpu/machine";
+import { compileClass } from "./jack/codegen";
+import { parseJack } from "./jack/parser";
+import { tokenize } from "./jack/tokenizer";
 import { NATIVE_OS } from "./os/native";
 import { parseVm } from "./vm/parser";
-import { translate, type VmUnit } from "./vm/translator";
+import { translate, vmToText, type VmUnit } from "./vm/translator";
 
 export interface BuildFile {
   name: string;
@@ -155,6 +158,31 @@ function buildVm(files: BuildFile[]): BuildResult {
   return linkUnits(units, { vm: vmText });
 }
 
+function buildJack(files: BuildFile[]): BuildResult {
+  const units: VmUnit[] = [];
+  const errors: BuildError[] = [];
+  for (const f of files.filter((f) => f.name.endsWith(".jack"))) {
+    const tok = tokenize(f.source, f.name);
+    if (!tok.ok) {
+      errors.push(...tok.errors);
+      continue;
+    }
+    const parsed = parseJack(tok.tokens, f.name);
+    if (!parsed.ok) {
+      errors.push(...parsed.errors);
+      continue;
+    }
+    const gen = compileClass(parsed.ast, f.name);
+    if (!gen.ok) {
+      errors.push(...gen.errors);
+      continue;
+    }
+    units.push({ name: parsed.ast.name, commands: gen.commands });
+  }
+  if (errors.length > 0) return { ok: false, errors };
+  return linkUnits(units, { vm: vmToText(units) });
+}
+
 export function build(files: BuildFile[]): BuildResult {
   const kind = detectKind(files);
   if (kind === "asm") {
@@ -162,8 +190,5 @@ export function build(files: BuildFile[]): BuildResult {
     return buildAsm(file);
   }
   if (kind === "vm") return buildVm(files);
-  return {
-    ok: false,
-    errors: [{ file: files[0]?.name ?? "", line: 0, message: "Jack 编译器将在 M7c 开放" }],
-  };
+  return buildJack(files);
 }

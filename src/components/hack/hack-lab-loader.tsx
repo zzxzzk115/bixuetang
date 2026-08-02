@@ -14,5 +14,5 @@ const HackLab = dynamic(
 );
 
 export function HackLabLoader() {
-  return <HackLab supportedKinds={["asm"]} />;
+  return <HackLab supportedKinds={["asm", "jack"]} />;
 }

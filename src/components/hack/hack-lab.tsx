@@ -39,7 +39,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
   const machineRef = useRef<HackMachine | null>(null);
   const trapsRef = useRef<TrapTable>(new Map());
   const romRef = useRef<Uint16Array | null>(null);
-  const rafRef = useRef(0);
+  const waitUntilRef = useRef(0);
 
   const demos = HACK_DEMOS.filter((d) => supportedKinds.includes(d.kind));
 
@@ -60,10 +60,12 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
     return true;
   }, [files]);
 
-  // 运行主循环
+  // 运行主循环。用 setTimeout 而非 rAF：面板隐藏/后台标签页时 rAF 不触发，
+  // 模拟器会假死；16ms 定时不依赖页面合成，行为一致。
   useEffect(() => {
     if (!running) return;
     let cancelled = false;
+    let timer: ReturnType<typeof setTimeout>;
     const frame = () => {
       if (cancelled) return;
       const m = machineRef.current;
@@ -72,21 +74,37 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
         setTick((t) => t + 1);
         return;
       }
+      const now = performance.now();
+      // Sys.wait：把请求的毫秒数换算为真实时间暂停（期间保持渲染与键盘）
+      if (m.pendingWaitMs > 0) {
+        waitUntilRef.current = now + m.pendingWaitMs;
+        m.pendingWaitMs = 0;
+      }
+      if (now < waitUntilRef.current) {
+        setTick((t) => t + 1);
+        timer = setTimeout(frame, 16);
+        return;
+      }
       const budget = SPEED_BUDGET[speed];
-      const deadline = performance.now() + FRAME_MS_CAP;
+      const deadline = now + FRAME_MS_CAP;
       let remaining = budget;
-      while (remaining > 0 && !m.halted && performance.now() < deadline) {
+      while (
+        remaining > 0 &&
+        !m.halted &&
+        m.pendingWaitMs === 0 &&
+        performance.now() < deadline
+      ) {
         const chunk = Math.min(remaining, 10_000);
         run(m, chunk, trapsRef.current);
         remaining -= chunk;
       }
       setTick((t) => t + 1);
-      rafRef.current = requestAnimationFrame(frame);
+      timer = setTimeout(frame, 16);
     };
-    rafRef.current = requestAnimationFrame(frame);
+    timer = setTimeout(frame, 0);
     return () => {
       cancelled = true;
-      cancelAnimationFrame(rafRef.current);
+      clearTimeout(timer);
     };
   }, [running, speed]);
 
