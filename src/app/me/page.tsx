@@ -76,7 +76,7 @@ export default async function MePage() {
                 key={j.id}
                 className={`rounded border px-2 py-1 text-xs ${
                   (user.activeJobId ?? heldJobs[0]?.id) === j.id
-                    ? "border-gold bg-amber-950 text-gold"
+                    ? "border-gold bg-amber-100 text-gold dark:bg-amber-950"
                     : "border-edge bg-panel-hover text-muted"
                 }`}
               >

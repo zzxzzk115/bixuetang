@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { CelebrationLayer } from "@/components/celebration-layer";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { getCurrentUser } from "@/lib/auth/session";
 import { logout } from "@/lib/auth/actions";
 import { getUserProgress } from "@/lib/progress/queries";
@@ -36,7 +37,11 @@ async function Nav() {
         <Link href="/lab" className="text-muted hover:text-foreground">
           实验室
         </Link>
+        <Link href="/glossary" className="text-muted hover:text-foreground">
+          术语表
+        </Link>
         <div className="ml-auto flex items-center gap-3">
+          <ThemeToggle />
           {user && progress ? (
             <>
               <Link
@@ -80,11 +85,17 @@ async function Nav() {
   );
 }
 
+// 首屏主题解析：在 hydration 前设置 data-theme，避免闪烁
+const THEME_SCRIPT = `(function(){try{var p=localStorage.getItem("guild-theme")||"auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.dataset.theme=d?"dark":"light";}catch(e){document.documentElement.dataset.theme="dark";}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN" className="h-full antialiased">
+    <html lang="zh-CN" className="h-full antialiased" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col">
         <CelebrationLayer />
         <Nav />

@@ -60,23 +60,25 @@ const LANGS: Record<HackLang, StreamLanguage<unknown>> = {
   vm: vmLang,
 };
 
+// 代码编辑器保持固定暗色（不随站点主题切换）：
+// 高亮 token 配色按暗底设计，且「暗色代码岛」在浅色页面里也是惯例观感
 const darkTheme = EditorView.theme(
   {
     "&": {
-      backgroundColor: "var(--background)",
-      color: "var(--foreground)",
+      backgroundColor: "#0b0e14",
+      color: "#e7e9f0",
       fontSize: "13px",
       height: "100%",
     },
     ".cm-content": { fontFamily: "ui-monospace, Consolas, monospace" },
     ".cm-gutters": {
-      backgroundColor: "var(--panel)",
-      color: "var(--muted)",
+      backgroundColor: "#141a29",
+      color: "#8b93a7",
       border: "none",
     },
     "&.cm-focused": { outline: "none" },
     ".cm-activeLine": { backgroundColor: "rgba(245,197,66,0.05)" },
-    ".cm-cursor": { borderLeftColor: "var(--gold)" },
+    ".cm-cursor": { borderLeftColor: "#f5c542" },
   },
   { dark: true },
 );

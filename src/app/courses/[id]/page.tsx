@@ -16,7 +16,7 @@ function LabCard({ labId }: { labId: LabId }) {
   return (
     <Link
       href={lab.href}
-      className="block rounded-lg border border-gold bg-amber-950/30 p-4 transition-colors hover:bg-amber-950/60"
+      className="block rounded-lg border border-gold bg-amber-100/50 p-4 transition-colors hover:bg-amber-100 dark:bg-amber-950/30 dark:hover:bg-amber-950/60"
     >
       <h3 className="flex items-center gap-1.5 text-sm font-bold text-gold">
         {lab.icon} 附属实验室：{lab.title}

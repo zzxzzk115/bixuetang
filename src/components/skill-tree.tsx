@@ -21,7 +21,7 @@ export interface SkillNodeView {
 const STATE_STYLE: Record<SkillState, string> = {
   locked: "border-edge bg-panel opacity-55",
   available: "border-gold bg-panel animate-glow cursor-pointer",
-  lit: "border-gold bg-amber-950 cursor-pointer",
+  lit: "border-gold bg-amber-100 dark:bg-amber-950 cursor-pointer",
 };
 
 export function SkillTree({
@@ -172,7 +172,7 @@ export function SkillTree({
               </button>
             )}
             {selectedView.state === "lit" && (
-              <span className="rounded bg-amber-950 px-3 py-1.5 text-sm text-gold">
+              <span className="rounded bg-amber-100 px-3 py-1.5 text-sm text-gold dark:bg-amber-950">
                 已点亮
               </span>
             )}

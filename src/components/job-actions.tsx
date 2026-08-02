@@ -44,7 +44,7 @@ export function TitleButton({
   const [pending, startTransition] = useTransition();
   if (isActive) {
     return (
-      <span className="block w-full rounded border border-edge bg-amber-950 py-2 text-center text-sm text-gold">
+      <span className="block w-full rounded border border-edge bg-amber-100 py-2 text-center text-sm text-gold dark:bg-amber-950">
         ✓ 当前称号
       </span>
     );

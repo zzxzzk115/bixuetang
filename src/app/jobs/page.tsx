@@ -106,7 +106,7 @@ export default async function JobsPage() {
                     key={job.id}
                     className={`flex flex-col rounded-lg border p-4 ${
                       isHeld
-                        ? "border-gold bg-amber-950/40"
+                        ? "border-gold bg-amber-100/60 dark:bg-amber-950/40"
                         : verdict?.ok
                           ? "border-gold bg-panel"
                           : "border-edge bg-panel opacity-90"
@@ -118,7 +118,7 @@ export default async function JobsPage() {
                         {job.title}
                       </h3>
                       {isCompound && (
-                        <span className="shrink-0 rounded bg-purple-950 px-1.5 py-0.5 text-[10px] text-purple-300">
+                        <span className="shrink-0 rounded bg-purple-100 px-1.5 py-0.5 text-[10px] text-purple-700 dark:bg-purple-950 dark:text-purple-300">
                           兼修
                         </span>
                       )}

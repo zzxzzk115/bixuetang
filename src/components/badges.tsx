@@ -7,9 +7,12 @@ import {
 import type { CourseStatus } from "@/lib/db/schema";
 
 const LEVEL_STYLE: Record<Level, string> = {
-  basic: "bg-emerald-950 text-emerald-300 border-emerald-800",
-  intermediate: "bg-sky-950 text-sky-300 border-sky-800",
-  advanced: "bg-purple-950 text-purple-300 border-purple-800",
+  basic:
+    "bg-emerald-100 text-emerald-700 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800",
+  intermediate:
+    "bg-sky-100 text-sky-700 border-sky-300 dark:bg-sky-950 dark:text-sky-300 dark:border-sky-800",
+  advanced:
+    "bg-purple-100 text-purple-700 border-purple-300 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800",
 };
 
 export function LevelBadge({ level }: { level: Level }) {
@@ -46,8 +49,9 @@ export const STATUS_LABEL: Record<CourseStatus, string> = {
 
 const STATUS_STYLE: Record<CourseStatus, string> = {
   planned: "bg-edge text-muted border-edge",
-  learning: "bg-sky-950 text-sky-300 border-sky-800",
-  done: "bg-amber-950 text-gold border-amber-700",
+  learning:
+    "bg-sky-100 text-sky-700 border-sky-300 dark:bg-sky-950 dark:text-sky-300 dark:border-sky-800",
+  done: "bg-amber-100 dark:bg-amber-950 text-gold border-amber-400 dark:border-amber-700",
   dropped: "bg-panel text-muted border-edge line-through",
 };
 

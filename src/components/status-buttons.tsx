@@ -35,7 +35,7 @@ export function StatusButtons({
           }}
           className={`rounded border px-2.5 py-1 text-xs transition-colors ${
             status === s
-              ? "border-gold bg-amber-950 text-gold"
+              ? "border-gold bg-amber-100 text-gold dark:bg-amber-950"
               : "border-edge bg-panel text-muted hover:text-foreground"
           }`}
         >

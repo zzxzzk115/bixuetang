@@ -89,9 +89,9 @@ export function EpisodeList({
             key={t.id}
             className={`animate-float-up rounded px-2 py-1 text-sm font-bold ${
               t.kind === "boss"
-                ? "bg-amber-950 text-gold"
+                ? "bg-amber-100 text-gold dark:bg-amber-950"
                 : t.kind === "level"
-                  ? "bg-purple-950 text-purple-300"
+                  ? "bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300"
                   : "text-xp"
             }`}
           >

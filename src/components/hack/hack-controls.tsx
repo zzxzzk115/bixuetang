@@ -40,7 +40,7 @@ export function HackControls({
       {running ? (
         <button
           onClick={onPause}
-          className={`${btn} border-gold bg-amber-950 text-gold`}
+          className={`${btn} border-gold bg-amber-100 text-gold dark:bg-amber-950`}
         >
           ⏸ 暂停
         </button>

@@ -170,7 +170,7 @@ export default async function PathPage({
                   href={`/courses/${row.course.id}`}
                   className={`absolute flex items-center justify-center rounded-full border-2 text-xl transition-transform hover:scale-110 ${
                     s.done
-                      ? "border-gold bg-amber-950 text-gold"
+                      ? "border-gold bg-amber-100 text-gold dark:bg-amber-950"
                       : s.isCurrent
                         ? "animate-glow border-gold bg-panel"
                         : "border-edge bg-panel opacity-80"

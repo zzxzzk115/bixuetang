@@ -1,7 +1,28 @@
 @import "tailwindcss";
 
-/* 暗色奇幻主题（游戏 UI 固定暗色，不随系统切换） */
+/* 双主题：data-theme 由首屏脚本解析（auto 跟随系统 / 手动 light / dark），
+   Tailwind 的 dark: 变体也挂在 data-theme 上 */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* 白天（默认） */
 :root {
+  color-scheme: light;
+  --background: #f4f5f8;
+  --panel: #ffffff;
+  --panel-hover: #eceff5;
+  --edge: #d9dee8;
+  --foreground: #1c2333;
+  --muted: #5c6577;
+  --gold: #a16207;
+  --xp: #059669;
+  --hp: #dc2626;
+  --mana: #2563eb;
+  --glow: rgba(161, 98, 7, 0.35);
+}
+
+/* 黑夜（暗色奇幻） */
+:root[data-theme="dark"] {
+  color-scheme: dark;
   --background: #0b0e14;
   --panel: #141a29;
   --panel-hover: #1a2135;
@@ -12,6 +33,7 @@
   --xp: #34d399;
   --hp: #f87171;
   --mana: #60a5fa;
+  --glow: rgba(245, 197, 66, 0.45);
 }
 
 @theme inline {
@@ -32,6 +54,14 @@ body {
   color: var(--foreground);
   font-family: ui-sans-serif, system-ui, "PingFang SC", "Microsoft YaHei",
     sans-serif;
+}
+
+/* MathLive 默认黑字，暗色主题下强制跟随前景色 */
+math-field {
+  color: var(--foreground);
+  --caret-color: var(--gold);
+  --selection-background-color: rgba(96, 165, 250, 0.25);
+  --placeholder-color: var(--muted);
 }
 
 /* XP 飘字动画 */
@@ -85,10 +115,10 @@ body {
 @keyframes glow-pulse {
   0%,
   100% {
-    box-shadow: 0 0 6px rgba(245, 197, 66, 0.35);
+    box-shadow: 0 0 6px var(--glow);
   }
   50% {
-    box-shadow: 0 0 16px rgba(245, 197, 66, 0.7);
+    box-shadow: 0 0 16px var(--glow);
   }
 }
 .animate-glow {
