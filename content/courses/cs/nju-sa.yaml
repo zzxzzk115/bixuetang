@@ -1,0 +1,75 @@
+id: nju-sa
+title: 软件分析（静态程序分析）
+code: "Static Program Analysis"
+institution: 南京大学
+subject: cs
+level: advanced
+tags: [ 静态分析, 程序分析, 数据流分析, 指针分析 ]
+prerequisites: [ cs143 ]
+estimatedHours: 80
+description: >
+  南京大学李樾、谭添老师讲授的《软件分析》，是中文世界最系统的静态程序分析入门课。 内容涵盖数据流分析、格与不动点理论、过程间分析、指针分析、CFL 可达性、 IFDS 与污点分析等核心主题，并配套 Tai-e 框架的编程作业与在线评测。 讲解由浅入深、逻辑严密，适合想做编译器、安全或软件工程研究的同学。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1b7411K7P4
+    uploader: 南京大学软件分析课程官方
+    note: 2020 版官方录播合集，中文原声
+  - platform: other
+    url: https://tai-e.pascal-lab.net/lectures.html
+    note: 课程官网
+notes:
+  - title: CS自学指南 - NJU 软件分析
+    url: https://csdiy.wiki/编程语言设计与分析/NJU-SoftwareAnalysis/
+    kind: site
+  - title: Static-Program-Analysis-Book（课程配套笔记）
+    url: https://github.com/RangerNJU/Static-Program-Analysis-Book
+    kind: github
+episodes:
+  - n: 1
+    title: 01 - Introduction
+    bvid: BV1b7411K7P4
+  - n: 2
+    title: 02 - Intermediate Representation
+    bvid: BV1zE411s77Z
+  - n: 3
+    title: 03 - Data Flow Analysis I
+    bvid: BV1oE411K79d
+  - n: 4
+    title: 04 - Data Flow Analysis II
+    bvid: BV19741197zA
+  - n: 5
+    title: 05 - Data Flow Analysis - Foundations I
+    bvid: BV1A741117it
+  - n: 6
+    title: 06 - Data Flow Analysis - Foundations II
+    bvid: BV1964y1M7nL
+  - n: 7
+    title: 07 - Interprocedural Analysis
+    bvid: BV1GQ4y1T7zm
+  - n: 8
+    title: 08 - Pointer Analysis
+    bvid: BV1gg4y1z78p
+  - n: 9
+    title: 09 - Pointer Analysis - Foundations I
+    bvid: BV1NS4y1Q7UJ
+  - n: 10
+    title: 10 - Pointer Analysis - Foundations II
+    bvid: BV1fb4y1i7HY
+  - n: 11
+    title: 11 - Pointer Analysis - Context Sensitivity I
+    bvid: BV1wQ4y1v72e
+  - n: 12
+    title: 12 - Pointer Analysis - Context Sensitivity II
+    bvid: BV1aR4y1x7Zk
+  - n: 13
+    title: 13 - Static Analysis for Security
+    bvid: BV1Fq4y1B74m
+  - n: 14
+    title: 14 - Datalog-Based Program Analysis
+    bvid: BV1wa411k7Uv
+  - n: 15
+    title: 15 - CFL-Reachability and IFDS
+    bvid: BV1gL411j7vS
+  - n: 16
+    title: 16 - Soundness and Soundiness
+    bvid: BV1d3411s7tt

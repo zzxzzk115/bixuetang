@@ -4,10 +4,12 @@ subject: cs
 description: 从机器底层到数据库——通往架构宗师的四段远征。
 stages:
   - title: 第一章 · 机器之底
-    courses: [cs61c]
+    courses: [cs61c, nju-ics]
   - title: 第二章 · 内核深渊
     courses: [nju-os, mit-6-s081]
   - title: 第三章 · 网络之海
     courses: [cs144]
   - title: 第四章 · 数据之城
-    courses: [cmu-15-445]
+    courses: [cmu-15-445, cs186]
+  - title: 第五章 · 算力与防线
+    courses: [cmu-15-418, ucb-cs161]

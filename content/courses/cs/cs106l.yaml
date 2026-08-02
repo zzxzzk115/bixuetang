@@ -1,0 +1,66 @@
+id: cs106l
+title: 标准 C++ 编程
+code: "CS106L"
+institution: 斯坦福大学
+subject: cs
+level: intermediate
+tags: [ C++, 现代C++, 编程语言, STL ]
+prerequisites: [ cs61a ]
+estimatedHours: 40
+description: >
+  斯坦福 CS106L 是一门讲授「现代 C++ 该怎么写」的短课，聚焦语言本身而非算法：流、类型推导、模板、STL 容器与迭代器、 lambda、移动语义与 RAII 等。课程不要求你从零学语法，而是帮已有编程基础的人建立地道的 C++ 心智模型。 节奏轻快、例子精炼，是从「会写 C 风格代码」跨到「写出优雅 C++」的最短路径之一。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Fz421q7oh
+    uploader: 搬运
+    note: 2019+2020 年版，中英双语字幕（AI 翻译）
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1K8411b7AU
+    uploader: 搬运
+    note: Special Edition 版本，中英双语字幕
+  - platform: other
+    url: https://web.stanford.edu/class/cs106l/
+    note: 课程官网
+notes:
+  - title: CS DIY Wiki - CS106L
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: "[2]CS 106L Winter 2020 - Lecture 1_ Intro"
+  - n: 2
+    title: "[1]CS 106L Winter 2020 - Lecture 2_ Streams"
+  - n: 3
+    title: "[4]CS 106L Winter 2020 - Lecture 3_ Types and Advanced Streams"
+  - n: 4
+    title: "[09]CS 106L Fall 2019 - Lecture 3_ Sequence Containers (Screencast)"
+  - n: 5
+    title: "[11]CS 106L Fall 2019 - Lecture 4_ Associative Containers (Screencast)"
+  - n: 6
+    title: "[3]CS 106L Winter 2020 - Lecture 6_ Advanced Iterators and Containers"
+  - n: 7
+    title: "[13]CS 106L Fall 2019 - Lecture 6_ Templates (Video)"
+  - n: 8
+    title: "[14]CS 106L Fall 2019 - Lecture 7_ Templates and Functions (Video)"
+  - n: 9
+    title: "[5]CS 106L Winter 2020 - Lecture 8_ Functions and Algorithms"
+  - n: 10
+    title: "[16]CS 106L Fall 2019 - Lecture 9_ STL Summary (Screencast)"
+  - n: 11
+    title: "[17]CS 106L Fall 2019 - Lecture 10_ Classes and Const Correctness"
+  - n: 12
+    title: "[18]CS 106L Fall 2019 - Lecture 11_ Operators (Screencast)"
+  - n: 13
+    title: "[19]CS 106L Fall 2019 - Lecture 12_ Special Member Functions"
+  - n: 14
+    title: "[20]CS 106L Fall 2019 - Lecture 13_ Move Semantics (Screencast)"
+  - n: 15
+    title: "[22]CS 106L Fall 2019 - Lecture 14_ Inheritance (Screencast)"
+  - n: 16
+    title: "[21]CS 106L Fall 2019 - Lecture 15_ Inheritance and Template Classes"
+  - n: 17
+    title: "[23]CS 106L Fall 2019 - Lecture 16_ RAII and Smart Pointers (Screencast)"
+  - n: 18
+    title: "[24]CS 106L Fall 2019 - Lecture 17_ Multithreading (Screencast)"
+  - n: 19
+    title: "[01]CS 106L Fall 2020 - Guest Lecture_ Template Metaprogramming"

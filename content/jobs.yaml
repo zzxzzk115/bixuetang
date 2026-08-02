@@ -22,7 +22,7 @@ jobs:
     parents: [novice]
     requires:
       minLevel: 3
-      skills: { anyOf: [calculus, linear-intuition], minAnyOf: 1 }
+      skills: { anyOf: [calculus, linear-intuition, discrete-math, probability], minAnyOf: 1 }
     description: 你开始读懂宇宙的母语。
   - id: physics-apprentice
     title: 物理学徒
@@ -48,7 +48,7 @@ jobs:
     parents: [cs-apprentice]
     requires:
       minLevel: 8
-      skills: { allOf: [computer-systems], anyOf: [algorithms, distributed-systems, operating-systems, networks, databases], minAnyOf: 1 }
+      skills: { allOf: [computer-systems], anyOf: [algorithms, distributed-systems, operating-systems, networks, databases, security, parallel-computing], minAnyOf: 1 }
     description: 从比特到集群，皆在你的守望之下。
   - id: algo-duelist
     title: 算法决斗家
@@ -113,7 +113,7 @@ jobs:
     parents: [systems-warden]
     requires:
       minLevel: 18
-      skills: { allOf: [operating-systems], anyOf: [distributed-systems, networks, databases], minAnyOf: 2 }
+      skills: { allOf: [operating-systems], anyOf: [distributed-systems, networks, databases, parallel-computing, security], minAnyOf: 2 }
     description: 内核、网络、存储与集群融会贯通——系统世界的立法者。
   - id: engine-soul
     title: 引擎之魂

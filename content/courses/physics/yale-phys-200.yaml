@@ -1,0 +1,123 @@
+id: yale-phys-200
+title: 基础物理：力学与相对论
+code: "Yale PHYS 200"
+institution: Yale University
+instructor: Ramamurti Shankar
+subject: physics
+level: intermediate
+tags: [ 经典力学, 狭义相对论, 热力学, 波动 ]
+prerequisites: [ mit-18-01 ]
+estimatedHours: 50
+description: >
+  牛顿力学、守恒律、刚体转动、万有引力，一路讲到狭义相对论、热力学与波动。 Shankar 教授板书清晰、推导完整，善于把公式背后的物理意义讲透， 是自学者补齐大学物理基础的经典之选。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1E48Xz6EAr
+    uploader: 搬运
+    note: 高清修复版，中英双语字幕
+  - platform: other
+    url: https://oyc.yale.edu/physics/phys-200
+    note: 课程官网
+notes:
+  - title: Yale Open Courses 课程主页
+    url: https://oyc.yale.edu/physics/phys-200
+    kind: site
+episodes:
+  - n: 1
+    title: 01 课程简介和牛顿力学
+  - n: 2
+    title: 02 多重空间矢量
+  - n: 3
+    title: 03 牛顿运动定律
+  - n: 4
+    title: 04 牛顿定律(续)和斜平面
+  - n: 5
+    title: 05 功能定理和能量守恒定律
+  - n: 6
+    title: 06 更高维度的能量守恒定律
+  - n: 7
+    title: 07 开普勒定律
+  - n: 8
+    title: 08 动态的多体系统和动量守恒定律
+  - n: 9
+    title: 09 旋转 第一部分：刚体动力学
+  - n: 10
+    title: 10 旋转 第二部分：平行轴定理
+  - n: 11
+    title: 11 扭矩
+  - n: 12
+    title: 12 介绍相对论
+  - n: 13
+    title: 13 洛伦兹变换
+  - n: 14
+    title: 14 介绍四维矢量
+  - n: 15
+    title: 15 相对论中的四维矢量
+  - n: 16
+    title: 16 泰勒技术和相关数学概念
+  - n: 17
+    title: 17 简单的谐波运动
+  - n: 18
+    title: 18 简单的谐波运动(续)和介绍波
+  - n: 19
+    title: 19 波
+  - n: 20
+    title: 20 流体动力学与静力学和伯努利方程
+  - n: 21
+    title: 21 热力学
+  - n: 22
+    title: 22 玻尔兹曼常数和热力学第一定律
+  - n: 23
+    title: 23 热力学第二定律和卡诺热机
+  - n: 24
+    title: 24 热力学第二定律（续）和熵
+  - n: 25
+    title: 25 Ⅱ01 静电学
+  - n: 26
+    title: 26 Ⅱ02 电场
+  - n: 27
+    title: 27 Ⅱ 03 高斯法则
+  - n: 28
+    title: 28 Ⅱ 04 高斯法则以及在导体与绝缘器上的应用
+  - n: 29
+    title: 29 Ⅱ 05 电势与能量守恒
+  - n: 30
+    title: 30 Ⅱ 06 电容器
+  - n: 31
+    title: 31 Ⅱ 07 阻力
+  - n: 32
+    title: 32 Ⅱ 08 电与磁I
+  - n: 33
+    title: 33 Ⅱ 09 磁II
+  - n: 34
+    title: 34 Ⅱ 10 安培定理
+  - n: 35
+    title: 35 Ⅱ 11 楞次法则和法拉第法则
+  - n: 36
+    title: 36 Ⅱ 12 LCR电路-直流电压
+  - n: 37
+    title: 37 Ⅱ 13 LCR电路-交流电压
+  - n: 38
+    title: 38 Ⅱ 14 麦克斯韦方程与电磁波（一）
+  - n: 39
+    title: 39 Ⅱ 15 麦克斯韦方程与电磁波（二）
+  - n: 40
+    title: 40 Ⅱ 16 光线与几何光学（一）
+  - n: 41
+    title: 41 Ⅱ 17 光线与几何光学（二）
+  - n: 42
+    title: 42 Ⅱ18 光波理论
+  - n: 43
+    title: 43 Ⅱ19 量子力学（一）
+  - n: 44
+    title: 44 Ⅱ20 量子力学（二）
+  - n: 45
+    title: 45 Ⅱ21 量子力学（三）
+  - n: 46
+    title: 46 Ⅱ22 量子力学（四）
+  - n: 47
+    title: 47 Ⅱ23 量子力学（五）
+  - n: 48
+    title: 48 Ⅱ24 量子力学（六）
+  - n: 49
+    title: 49 Ⅱ25 量子力学（七）

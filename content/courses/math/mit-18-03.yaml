@@ -1,0 +1,93 @@
+id: mit-18-03
+title: 微分方程
+code: "MIT 18.03"
+institution: MIT
+instructor: Arthur Mattuck
+subject: math
+level: intermediate
+tags: [ 微分方程, 常微分方程, 拉普拉斯变换 ]
+prerequisites: [ mit-18-01 ]
+estimatedHours: 60
+description: >
+  MIT 数学主线中的常微分方程课程：一阶方程、线性方程组、拉普拉斯变换、 傅里叶级数与相图分析。Mattuck 教授强调几何直觉与数值方法， 是物理、控制、图形学与工程建模绕不开的基础工具课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1eM4y1g7De
+    uploader: 搬运
+    note: 2010 春季版，中英双语字幕，全 32 讲
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Z7411e7Nz
+    uploader: 搬运
+    note: 备用源，纯英文字幕完结版
+  - platform: other
+    url: https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/
+    note: 课程官网
+notes:
+  - title: MIT 18.03 中文笔记
+    url: https://github.com/hova88/MIT-18.03-ode-notes
+    kind: github
+episodes:
+  - n: 1
+    title: 01-ODE的几何解法：方向场、积分曲线
+  - n: 2
+    title: 02-欧拉数值方法及推广
+  - n: 3
+    title: 03-一阶线性常微分方程解法
+  - n: 4
+    title: 04-一阶方程代换法
+  - n: 5
+    title: 05-一阶自治微分方程
+  - n: 6
+    title: 06-复数及复指数
+  - n: 7
+    title: 07-一阶常系数线性方程
+  - n: 8
+    title: 08-一阶常系数线性方程(续)
+  - n: 9
+    title: 09-二阶常系数线性方程
+  - n: 10
+    title: 10-二阶常系数线性方程(续)
+  - n: 11
+    title: 11-二阶齐次线性方程
+  - n: 12
+    title: 12-二阶非齐次方程
+  - n: 13
+    title: 13-非齐次方程特解求法
+  - n: 14
+    title: 14-案例解读：共振
+  - n: 15
+    title: 15-傅里叶级数简介
+  - n: 16
+    title: 16-傅里叶级数简介(续)
+  - n: 17
+    title: 17-通过傅里叶级数求特解
+  - n: 18
+    title: 18-拉普拉斯变换简介
+  - n: 19
+    title: 19-利用拉普拉斯变换求解线性常微分方程
+  - n: 20
+    title: 20-卷积公式
+  - n: 21
+    title: 21-利用拉普拉斯变换求解非连续输入ODE
+  - n: 22
+    title: 22-狄拉克δ函数
+  - n: 23
+    title: 23-一阶常微分方程组简介
+  - n: 24
+    title: 24-常系数齐次线性方程组
+  - n: 25
+    title: 25-常系数齐次线性方程组(续)
+  - n: 26
+    title: 26-2x2齐次线性方程组作图
+  - n: 27
+    title: 27-非齐次方程组矩阵方法
+  - n: 28
+    title: 28-矩阵指数
+  - n: 29
+    title: 29-常系数解耦线性方程组
+  - n: 30
+    title: 30-非线性自治系统
+  - n: 31
+    title: 31-极限环
+  - n: 32
+    title: 32-非线性方程组和一阶常微分方程之间的关联

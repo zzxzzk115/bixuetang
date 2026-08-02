@@ -1,0 +1,76 @@
+id: cs170
+title: 高效算法与难解问题
+code: "UCB CS170"
+institution: UC Berkeley
+subject: cs
+level: advanced
+tags: [ 算法, 复杂度, 动态规划, np完全 ]
+prerequisites: [ cs61b, mit-6-042j ]
+estimatedHours: 90
+description: >
+  伯克利的算法主干课：分治与 FFT、图算法、贪心、动态规划、线性规划、随机化算法， 最后落到 NP 完全与近似算法。相比入门算法课更强调正确性证明与复杂度分析， 是打牢理论功底、准备科研与面试的硬核之选。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV15B4y1w7Ae
+    uploader: 搬运
+    note: UC Berkeley Spring 2021 版，中英文字幕合集
+  - platform: other
+    url: https://cs170.org/
+    note: 课程官网
+notes:
+  - title: CS 自学指南：CS170 攻略
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: CS170 Lecture 01_19_2021
+  - n: 2
+    title: CS170 Lecture 01_21_2021
+  - n: 3
+    title: CS 170 Lecture 01_26_2021
+  - n: 4
+    title: CS 170 Lecture 01_28_2021
+  - n: 5
+    title: CS170 Lecture 02_02_2021
+  - n: 6
+    title: CS170 Lecture 02_04_2021
+  - n: 7
+    title: CS170 Lecture 02_09_2021
+  - n: 8
+    title: CS170 Lecture 02_11_2021
+  - n: 9
+    title: CS170 Lecture 02_16_2021
+  - n: 10
+    title: CS170 Lecture 02_23_2021
+  - n: 11
+    title: CS170 Lecture 02_25_2021
+  - n: 12
+    title: CS170 Lecture 03_02_2021
+  - n: 13
+    title: CS170 Lecture 03_04_2021
+  - n: 14
+    title: CS170 Lecture 03_09_2021
+  - n: 15
+    title: CS 170 Lecture 03_11_2021
+  - n: 16
+    title: CS170 Lecture 03_18_2021
+  - n: 17
+    title: CS170 Lecture 03_30_2021
+  - n: 18
+    title: CS170 Lecture 04_01_2021
+  - n: 19
+    title: CS170 Lecture 04_06_2021
+  - n: 20
+    title: CS170 Lecture 04_08_2021
+  - n: 21
+    title: CS170 Lecture 04_13_2021
+  - n: 22
+    title: CS170 Lecture 04_15_2021
+  - n: 23
+    title: CS170 Lecture 04_20_2021
+  - n: 24
+    title: CS170 Lectures 04_22_2021
+  - n: 25
+    title: CS170 Lectures 04_27_2021
+  - n: 26
+    title: CS170 Lectures 04_29_2021

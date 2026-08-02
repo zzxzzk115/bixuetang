@@ -1,0 +1,71 @@
+id: eecs-498
+title: 深度学习计算机视觉
+code: "EECS 498-007 / 598-005"
+institution: University of Michigan
+instructor: Justin Johnson
+subject: ai
+level: advanced
+tags: [ 计算机视觉, 深度学习, 神经网络, pytorch ]
+prerequisites: [ d2l ]
+estimatedHours: 80
+description: >
+  CS231n 原助教 Justin Johnson 在密歇根大学开设的深度学习视觉课，可视作 CS231n 的加强重制版。 从线性分类器、反向传播一路讲到 CNN、注意力机制、Transformer、生成模型与 3D 视觉， 作业全部用 PyTorch 从零手写，是补齐视觉方向工程能力的最佳课程之一。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV18K4y117K4
+    uploader: 搬运
+    note: 2019 秋季版全 23 讲，英文原声带字幕
+  - platform: other
+    url: https://web.eecs.umich.edu/~justincj/teaching/eecs498/
+    note: 课程官网
+notes:
+  - title: CS 自学指南：EECS 498-007 攻略
+    url: https://csdiy.wiki/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/EECS498-007/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture1-Introduction
+  - n: 2
+    title: Lecture2-Image Classification
+  - n: 3
+    title: Lecture3-Linear Classifiers
+  - n: 4
+    title: Lecture4-Optimization
+  - n: 5
+    title: Lecture5-Neural Networks
+  - n: 6
+    title: Lecture6-Backpropagation
+  - n: 7
+    title: Lecture7-Convolutional Networks
+  - n: 8
+    title: Lecture8-CNN Architectures
+  - n: 9
+    title: Lecture9-Hardware and Software
+  - n: 10
+    title: Lecture10-Training Neural Networks (Part 1)
+  - n: 11
+    title: Lecture11-Training Neural Networks (Part 2)
+  - n: 12
+    title: Lecture12-Recurrent Neural Networks
+  - n: 13
+    title: Lecture13-1-Guest Lecture Adversarial Machine Learning
+  - n: 14
+    title: Lecture13-Attention
+  - n: 15
+    title: Lecture14-Visualizing and Understanding
+  - n: 16
+    title: Lecture15-Object Detection
+  - n: 17
+    title: Lecture16-Detection and Segmentation
+  - n: 18
+    title: Lecture17-3D Vision
+  - n: 19
+    title: Lecture18-Videos
+  - n: 20
+    title: Lecture19-Generative Models (Part 1)
+  - n: 21
+    title: Lecture20-Generative Models (Part 2)
+  - n: 22
+    title: Lecture21-Reinforcement Learning
+  - n: 23
+    title: Lecture22-Recap & Open Problems

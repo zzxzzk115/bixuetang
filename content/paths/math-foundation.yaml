@@ -9,3 +9,7 @@ stages:
     courses: [essence-of-linear-algebra, mit-18-06]
   - title: 第三章 · 离散与多元
     courses: [mit-6-042j, mit-18-02]
+  - title: 第四章 · 概率与微分方程
+    courses: [stat110, mit-6-041, mit-18-03]
+  - title: 第五章 · 矩阵方法与机器学习
+    courses: [mit-18-065]

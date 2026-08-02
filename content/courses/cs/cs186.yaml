@@ -1,0 +1,490 @@
+id: cs186
+title: 数据库系统导论
+code: "UCB CS186"
+institution: UC Berkeley
+subject: cs
+level: advanced
+tags: [ 数据库, sql, 查询优化, 事务 ]
+prerequisites: [ cs61b ]
+estimatedHours: 70
+description: >
+  伯克利的数据库入门课，系统讲解 SQL、存储与索引、缓冲池、连接算法、查询优化、 事务与并发控制，并延伸到 NoSQL、MapReduce 与 Spark。 配套 Java 实现的 rookiedb 项目，动手补全一个真实数据库的核心模块，实践性极强。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1B7411U7dZ
+    uploader: 搬运
+    note: 2021 春季版合集，含中英字幕
+  - platform: other
+    url: https://cs186berkeley.net/
+    note: 课程官网
+notes:
+  - title: CS 自学指南：CS186 攻略
+    url: https://csdiy.wiki/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F/CS186/
+    kind: site
+episodes:
+  - n: 1
+    title: Lec 1 Part 1 Intro and Why
+  - n: 2
+    title: Lec 1 Part 2 What
+  - n: 3
+    title: Lec 1 Part 3 Who
+  - n: 4
+    title: Lec 1 Part 4 How
+  - n: 5
+    title: Lec 2 SQL 1 Clip 1
+  - n: 6
+    title: Lec 2 SQL 1 Clip 2
+  - n: 7
+    title: Lec 2 SQL 1 Clip 3
+  - n: 8
+    title: Lec 2 SQL 1 Clip 4
+  - n: 9
+    title: Lec 2 SQL 1 Clip 5
+  - n: 10
+    title: Lec 2 SQL 1 Clip 6 7
+  - n: 11
+    title: Lec 3 SQL II 1 4
+  - n: 12
+    title: Lec 3 SQL II 6 10
+  - n: 13
+    title: Lec 3 SQL II 11 12
+  - n: 14
+    title: Lec 3 SQL II 13 15 slides
+  - n: 15
+    title: Lec 3 SQL II 17 21
+  - n: 16
+    title: Lec 3 SQL II 23 28
+  - n: 17
+    title: Lec 3 SQL II 30 34
+  - n: 18
+    title: Lec 3 SQL II 35
+  - n: 19
+    title: Lec 3 SQL II 37 39
+  - n: 20
+    title: Lec 3 SQL II 41 46
+  - n: 21
+    title: Lec 3 SQL II 48 53
+  - n: 22
+    title: Lec 3 SQL II 55 56
+  - n: 23
+    title: Lec 3 SQL II 58 66
+  - n: 24
+    title: Lec 3 SQL II 68 69
+  - n: 25
+    title: Lec 4 Part 1 DBMS Architecture
+  - n: 26
+    title: Lec 4 Part 2 Storage Hierarchy
+  - n: 27
+    title: Lec 4 Part 3 Components of a Disk
+  - n: 28
+    title: Lec 4 Part 4 Flash
+  - n: 29
+    title: Lec 4 Part 6 Disk Space Management
+  - n: 30
+    title: Lec 4 Part 7 Files
+  - n: 31
+    title: Lec 4 Part 8 Pages for Fixed Length
+  - n: 32
+    title: Lec 4 Part 9 Pages for Variable Length
+  - n: 33
+    title: Lec 4 Part 10 Record Layout
+  - n: 34
+    title: Lec 4 Part 11 Summary
+  - n: 35
+    title: Lec 5 Part 1 Review and Goals
+  - n: 36
+    title: Lec 5 Part 2 Model and Assumptions
+  - n: 37
+    title: Lec 5 Part 3 Scan
+  - n: 38
+    title: Lec 5 Part 4 Equality
+  - n: 39
+    title: Lec 5 Part 5 Range Search
+  - n: 40
+    title: Lec 5 Part 6 Insert
+  - n: 41
+    title: Lec 5 Part 7 Delete
+  - n: 42
+    title: Lec 5 Part 8 Summary
+  - n: 43
+    title: Lec 6 Part 1 Intro to Indexes
+  - n: 44
+    title: Lec 6 Part 2 High Fan out Search Tree
+  - n: 45
+    title: Lec 6 Part 3 Search and Insertion in ISAM
+  - n: 46
+    title: Lec 6 Part 4 B+ Tree Intro
+  - n: 47
+    title: Lec 6 Part 5 B+ Tree Search
+  - n: 48
+    title: Lec 6 Part 6 B+ Tree Insertion by example
+  - n: 49
+    title: Lec 6 Part 7 B+ Tree Insertion
+  - n: 50
+    title: Lec 6 Part 8 B+ Tree Deletion
+  - n: 51
+    title: Lec 6 Part 9 Bulk Loading
+  - n: 52
+    title: Lec 6 Part 10 Summary
+  - n: 53
+    title: Lec 7 Part 1 Lec Introduction
+  - n: 54
+    title: Lec 7 Part 2 Query Support Overview
+  - n: 55
+    title: Lec 7 Part 3 Composite Search Keys in One Dimension
+  - n: 56
+    title: Lec 7 Part 4 Three Alternatives for Data Entry Storage
+  - n: 57
+    title: Lec 7 Part 5 Clustered vs Unclustered Indexes
+  - n: 58
+    title: Lec 7 Part 6 Variable Length Keys
+  - n: 59
+    title: Lec 7 Part 7 Clustered B+ Tree Cost Model
+  - n: 60
+    title: Lec 7 Part 8 Lec Summary
+  - n: 61
+    title: Lec 8 Part 1 Intro to Buffer Management
+  - n: 62
+    title: Lec 8 Part 2 Mapping Pages
+  - n: 63
+    title: Lec 8 Part 3 Dirty Pages
+  - n: 64
+    title: Lec 8 Part 4 Buf Mgr State
+  - n: 65
+    title: Lec 8 Part 5 Page Replacement
+  - n: 66
+    title: Lec 8 Part 6 LRU
+  - n: 67
+    title: Lec 8 Part 7 Clock
+  - n: 68
+    title: Lec 8 Part 8 LRU and Sequential Flooding
+  - n: 69
+    title: Lec 8 Part 9 MRU and Repeated Scans
+  - n: 70
+    title: Lec 8 Part 10 Additional Topics
+  - n: 71
+    title: Lec 8 Part 11 Summary
+  - n: 72
+    title: Lec 9 Part 1 Out of Core Algs
+  - n: 73
+    title: Lec 9 Part 2 Double Buffering
+  - n: 74
+    title: Lec 9 Part 3 Sort Hash Specs
+  - n: 75
+    title: Lec 9 Part 4 Two Way Sorting
+  - n: 76
+    title: Lec 9 Part 5 External Sort
+  - n: 77
+    title: Lec 9 Part 6 External Hashing
+  - n: 78
+    title: Lec 9 Part 7 Recursive Partitioning for External Hash
+  - n: 79
+    title: Lec 9 Part 8 Sort Hash Duality
+  - n: 80
+    title: Lec 9 Part 9 parallel hashing
+  - n: 81
+    title: Lec 9 Part 10 parallel sort
+  - n: 82
+    title: Lec 9 Part 11 Sort v Hash
+  - n: 83
+    title: Lec 9 Part 12 Summary
+  - n: 84
+    title: Lec 10 Part 1 Intro
+  - n: 85
+    title: Lec 10 Part 2 Unary Operators
+  - n: 86
+    title: Lec 10 Part 3 Set Operators
+  - n: 87
+    title: Lec 10 Part 4 Joins
+  - n: 88
+    title: Lec 10 Part 5 GroupBy and Summary
+  - n: 89
+    title: Lec 11 Part 1 Intro and Select
+  - n: 90
+    title: Lec 11 Part 2 HeapScan and Sort Iterators
+  - n: 91
+    title: Lec 11 Part 3 Group By Iterator
+  - n: 92
+    title: Lec 11 Part 4 Cost Model for Subsequent Analysis
+  - n: 93
+    title: Lec 11 Part 5 Nested Loops Join
+  - n: 94
+    title: Lec 11 Part 6 Index Nested Loops Join
+  - n: 95
+    title: Lec 11 Part 7 Sort Merge Join
+  - n: 96
+    title: Lec 11 Part 8 Sort Merge Cost and a Refinement
+  - n: 97
+    title: Lec 11 Part 9 Grace Hash Join
+  - n: 98
+    title: Lec 11 Part 10 Grace Hash, Animated
+  - n: 99
+    title: Lec 11 Part 11 Hash Join Costs
+  - n: 100
+    title: Lec 11 Part 12 Conclusion
+  - n: 101
+    title: Lec 13 Part 1 Intro
+  - n: 102
+    title: Lec 13 Part 2 Big Picture
+  - n: 103
+    title: Lec 13 Part 3 Algebra Equivalences
+  - n: 104
+    title: Lec 13 Part 4 Heuristics
+  - n: 105
+    title: Lec 13 Part 5 Physical Equivalences
+  - n: 106
+    title: Lec 13 Part 6 Running Example
+  - n: 107
+    title: Lec 13 Part 7 Selection Pushdown
+  - n: 108
+    title: Lec 13 Part 8 Join Orders
+  - n: 109
+    title: Lec 13 Part 9 Join Algs
+  - n: 110
+    title: Lec 13 Part 10 Projection Pushdown
+  - n: 111
+    title: Lec 13 Part 11 Indexes
+  - n: 112
+    title: Lec 13 Part 12 Conclusion
+  - n: 113
+    title: Lec 14 Part 1 Introduction
+  - n: 114
+    title: Lec 14 Part 2 Background Query Blocks and Physical Properties
+  - n: 115
+    title: Lec 14 Part 3 Plan Space
+  - n: 116
+    title: Lec 14 Part 4 Selectivity Estimation
+  - n: 117
+    title: Lec 14 Part 5 Selectivity in More Depth
+  - n: 118
+    title: Lec 14 Part 6 Using Histograms for Selectivity Estimation
+  - n: 119
+    title: Lec 14 Part 7 Selectivity for Join Queries
+  - n: 120
+    title: Lec 14 Part 8 Summary of Cost Estimation
+  - n: 121
+    title: Lec 14 Part 9 Single Table Plans
+  - n: 122
+    title: Lec 14 Part 10 Dynamic Programming
+  - n: 123
+    title: Lec 14 Part 11 Example Query
+  - n: 124
+    title: Lec 14 Part 12 Summary of Query Optimization
+  - n: 125
+    title: Parallel Part 1 Intro to Parallelism
+  - n: 126
+    title: Parallel Part 2 A Bit of History
+  - n: 127
+    title: Parallel Part 3 Parallel Architectures and Software Structures
+  - n: 128
+    title: Parallel Part 4 Kinds of Query Parallelism
+  - n: 129
+    title: Parallel Part 5 Parallel Data Acceess
+  - n: 130
+    title: Parallel Part 6 Parallel Hash Join
+  - n: 131
+    title: Parallel Part 7 Parallel Sort-Merge
+  - n: 132
+    title: Parallel Part 8 Parallel Grouping_Aggregation
+  - n: 133
+    title: Parallel Part 9 Summary of Parallel Query Execution
+  - n: 134
+    title: Parallel Part 10 One-Sided and Broadcast Join Patterns
+  - n: 135
+    title: Parallel Part 11 Summary of Parallel Query Execution
+  - n: 136
+    title: Lec 15 Part 1 Intro to Text Search
+  - n: 137
+    title: Lec 15 Part 2 Bag of Words
+  - n: 138
+    title: Lec 15 Part 3 Inverted Files and Single
+  - n: 139
+    title: Lec 15 Part 4 Inverted Indexes and Boolean Logic
+  - n: 140
+    title: Lec 15 Part 5 Phrase Queries and Content Results
+  - n: 141
+    title: Lec 15 Part 6 Updating Text Indexes
+  - n: 142
+    title: Lec 15 Part 7 Text Search Summary
+  - n: 143
+    title: Lec 16 Introduction
+  - n: 144
+    title: Lec 16 Part 2 Overview of DB Design
+  - n: 145
+    title: Lec 16 Part 3 Data Models and Relational Levels of Abstraction
+  - n: 146
+    title: Lec 16 Part 4 Data Independence
+  - n: 147
+    title: Lec 16 Part 6 Basics of Entities and Relationships
+  - n: 148
+    title: Lec 16 Part 7 Key and Participation Constraints
+  - n: 149
+    title: Lec 16 Part 8 Weak Entities
+  - n: 150
+    title: Lec 16 Part 9 Alternative Notation and Terminology
+  - n: 151
+    title: Lec 16 Part 10 Binary vs Ternary Relationships
+  - n: 152
+    title: Lec 16 Part 11 Aggregation and Ternary Relationships
+  - n: 153
+    title: Lec 16 Part 12 Entities vs Attributes
+  - n: 154
+    title: Lec 16 Part 13 Entities vs Relationships
+  - n: 155
+    title: Lec 16 Part 14 Converting ER to Relational
+  - n: 156
+    title: Lec 16 Part 15 Translating Weak Entity Sets
+  - n: 157
+    title: Lec 16 part 16 Summary
+  - n: 158
+    title: Lec 17 Part 1 Functional Dependencies
+  - n: 159
+    title: Lec 17 Part 2 Anomalies
+  - n: 160
+    title: Lec 17 Part 3 Armstrongs Axioms
+  - n: 161
+    title: Lec 17 Part 4 Attribute Closures
+  - n: 162
+    title: Lec 17 Part 5 BCNF and other Normal Forms
+  - n: 163
+    title: Lec 17 Part 6 Lossless Join Decompositions
+  - n: 164
+    title: Lec 17 Part 7 Dependency Preservation and BCNF Decomposition
+  - n: 165
+    title: Lec 17 Part 8 Conclusion
+  - n: 166
+    title: Lec 18 Part 1 Intro to Transactions
+  - n: 167
+    title: Lec 18 Part 2 Examples and Problems
+  - n: 168
+    title: Lec 18 Part 3 The Transaction Model
+  - n: 169
+    title: Lec 18 Part 4 ACID Properties of Transactions
+  - n: 170
+    title: Lec 18 Part 5 Serializability
+  - n: 171
+    title: Lec 18 Part 6 Conflict Serializability
+  - n: 172
+    title: Lec 18 Part 7 Conflict Dependency Graphs
+  - n: 173
+    title: Lec 18 Part 8 View Serializability
+  - n: 174
+    title: Lec 19 Part 01 Two Phase Locking
+  - n: 175
+    title: Lec 19 Part 2 Strict 2PL
+  - n: 176
+    title: Lec 19 Part 3 Concurrency Examples
+  - n: 177
+    title: Lec 19 Part 04 Lock Manager Implementation
+  - n: 178
+    title: Lec 19 Part 5 Deadlock Scenarios and Prevention
+  - n: 179
+    title: Lec 19 Part 6 Deadlock Avoidance
+  - n: 180
+    title: Lec 19 Part 7 Deadlock Detection and Resolution
+  - n: 181
+    title: Lec 19 Part 8 Intro to Multigranularity Locking
+  - n: 182
+    title: Lec 19 Part 9 Intent Locks and Hierarchical Lock Protocol
+  - n: 183
+    title: Lec 19 Part 10 FYI
+  - n: 184
+    title: Lec 19 Part 11 Conclusion
+  - n: 185
+    title: Lec 20 Part 1 Recovery Intro
+  - n: 186
+    title: Lec 20 Part 2 Need for Atomicity and Durability, SQL support for Transactions
+  - n: 187
+    title: Lec 20 Part 3 Strawman Solution
+  - n: 188
+    title: Lec 20 Part 4 STEAL _ NO FORCE, UNDO and REDO
+  - n: 189
+    title: Lec 20 Part 5 Intro to Write
+  - n: 190
+    title: Lec 20 Part 6 Lec 20 Part 6 ARIES Log Records
+  - n: 191
+    title: Lec 20 Part 7
+  - n: 192
+    title: Lec 20 Part 8 ARIES Abort and Checkpointing
+  - n: 193
+    title: Lec 20 Part 9 ARIES Recovery
+  - n: 194
+    title: Lec 20 Part 10 Redo
+  - n: 195
+    title: Lec 20 Part 11 Undo
+  - n: 196
+    title: Lec 20 Part 12 Example of Recovery
+  - n: 197
+    title: Lec 20 Part 13 Summary
+  - n: 198
+    title: Lec 21 1 Cosine Similarity
+  - n: 199
+    title: Lec 21 2 TFxIDF
+  - n: 200
+    title: Lec 21 3 Precision and Recall
+  - n: 201
+    title: Lec 21 4 Parallelization and Zipf Distributions
+  - n: 202
+    title: Lec 21 5 n
+  - n: 203
+    title: Lec 21 6 PageRank
+  - n: 204
+    title: Lec 21 7 Notes from the Real World
+  - n: 205
+    title: Lec 21 8 Webcrawler Intro
+  - n: 206
+    title: Lec 21 9 Webcrawler Refinements
+  - n: 207
+    title: Lec 21 10 Conclusion
+  - n: 208
+    title: Lec 22 Part 1 Introduction to Distributed Transactions
+  - n: 209
+    title: Lec 22 Part 2 Distributed Locking
+  - n: 210
+    title: Lec 22 Part 3 Distributed Deadlock Detection
+  - n: 211
+    title: Lec 22 Part 4 Intro to Distributed Commit
+  - n: 212
+    title: Lec 22 Part 5 Simple 2PC
+  - n: 213
+    title: Lec 22 Part 6 Full 2PC Including Logging (Presumed Abort)
+  - n: 214
+    title: Lec 22 Part 7 The Recovery Processes
+  - n: 215
+    title: Lec 22 Part 8 2PC, Locking and Availability
+  - n: 216
+    title: Lec 22 Part 9
+  - n: 217
+    title: Lec 23 Part 1 Organization of Database Applications
+  - n: 218
+    title: Lec 23 Part 2 Scaling Relational Databases
+  - n: 219
+    title: Lec 23 Part 3 Taxonomy of NoSQL Data Models
+  - n: 220
+    title: Lec 23 Part 4 Introduction to JSON
+  - n: 221
+    title: Lec 23 Part 5 Mapping between Relational Data and JSON
+  - n: 222
+    title: Lec 23 Part 6 Summary of NoSQL Data Models
+  - n: 223
+    title: Lec 23 Part 7 Introduction to MongoDB
+  - n: 224
+    title: Lec 23 Part 8 MQL Retrieval Queries
+  - n: 225
+    title: Lec 23 Part 9 MQL Aggregations and Updates
+  - n: 226
+    title: Lec 23 Part 10 MongoDB Internals and Summary
+  - n: 227
+    title: Lec 24 Part 1 Motivation for MapReduce
+  - n: 228
+    title: Lec 24 Part 2 MapReduce Data and Programming Model
+  - n: 229
+    title: Lec 24 Part 3 MapReduce Implementation
+  - n: 230
+    title: Lec 24 Part 4 Implementing Relational Operators
+  - n: 231
+    title: Lec 24 Part 5 Introduction to Spark
+  - n: 232
+    title: Lec 24 Part 6 Programming in Spark
+  - n: 233
+    title: Lec 24 Part 7 Spark Datasets and Conclusions

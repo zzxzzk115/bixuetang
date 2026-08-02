@@ -1,0 +1,11 @@
+id: quantum-road
+title: 通往量子之路
+subject: physics
+description: 从耶鲁的基础物理一路推进到 MIT 量子物理——微观世界的完整攀登。
+stages:
+  - title: 第一章 · 基础物理
+    courses: [yale-phys-200]
+  - title: 第二章 · 电磁与波动
+    courses: [mit-8-02, mit-8-03]
+  - title: 第三章 · 量子物理
+    courses: [mit-8-04]

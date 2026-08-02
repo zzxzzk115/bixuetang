@@ -1,0 +1,55 @@
+id: cs110l
+title: 系统编程中的安全性（Rust）
+code: "CS110L"
+institution: 斯坦福大学
+subject: cs
+level: intermediate
+tags: [ Rust, 系统编程, 内存安全, 并发 ]
+prerequisites: [ csapp ]
+estimatedHours: 45
+description: >
+  斯坦福 CS110L 用 Rust 作为载体，讲解系统编程中的安全与健壮性问题：内存安全、所有权与借用、错误处理、 trait 与泛型、智能指针、多线程与通道。课程从 C/C++ 的经典崩溃与漏洞讲起，说明 Rust 的设计如何在编译期消灭这些问题。 配套项目包括实现一个简易调试器和多线程代理服务器，实践性很强。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Ra411A7kN
+    uploader: 搬运
+    note: 2020 春季版，中文字幕，14 讲完整合集
+  - platform: other
+    url: https://reberhardt.com/cs110l/spring-2020/
+    note: 课程官网
+notes:
+  - title: PKUFlyingPig/CS110L 作业实现
+    url: https://github.com/PKUFlyingPig/CS110L
+    kind: github
+  - title: CS DIY Wiki - CS110L
+    url: https://csdiy.wiki/en/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/Rust/CS110L/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture 1_ Welcome to CS110L_Stanford CS110L(Safety in Systems Programming)
+  - n: 2
+    title: Lecture 2_ Memory Safety _ Stanford CS 110L (Safety in Systems Programming)
+  - n: 3
+    title: Lecture 3_ Error Handling _ Stanford CS 110L (Safety in Systems Programming)
+  - n: 4
+    title: Lecture 4_ Object Oriented Rust _ Stanford CS 110L (Safety in Systems Programmin
+  - n: 5
+    title: Lecture 5_ Traits and Generics _ Stanford CS 110L (Safety in Systems Programming
+  - n: 6
+    title: Lecture 6_ Smart Pointers _ Stanford CS 110L (Safety in Systems Programming)
+  - n: 7
+    title: Lecture 7_ Pitfalls in Multiprocessing _ Stanford CS 110L (Safety in Systems Pro
+  - n: 8
+    title: Lecture 8_ Pitfalls in Signal Handling, Google Chrome case study _ Stanford CS 1
+  - n: 9
+    title: Lecture 9_ Intro to Multithreading _ Stanford CS 110L (Safety in Systems Program
+  - n: 10
+    title: Lecture 10_ Shared Memory _ Stanford CS 110L (Safety in Systems Programming)
+  - n: 11
+    title: Lecture 11_ Synchronization _ Stanford CS 110L (Safety in Systems Programming)
+  - n: 12
+    title: Lecture 12_ Channels _ Stanford CS 110L (Safety in Systems Programming)
+  - n: 13
+    title: Lecture 13_ Scalability and Availability _ Stanford CS 110L (Safety in Systems P
+  - n: 14
+    title: Lecture 14_ Information Security _ Stanford CS 110L (Safety in Systems Programmi

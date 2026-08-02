@@ -1,0 +1,99 @@
+id: stat110
+title: 概率论
+code: "Harvard STAT 110"
+institution: Harvard
+instructor: Joe Blitzstein
+subject: math
+level: intermediate
+tags: [ 概率论, 随机变量, 马尔可夫链 ]
+prerequisites: [ mit-18-01 ]
+estimatedHours: 70
+description: >
+  哈佛大学最负盛名的概率论公开课，从计数原理一路讲到条件概率、随机变量、 期望、极限定理与马尔可夫链。Blitzstein 教授擅长用故事和直觉拆解反直觉的 概率问题，是机器学习与统计方向公认最好的概率论自学课程。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV12G41137uj
+    uploader: 搬运
+    note: 全 35 讲完整合集，英文字幕
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1kE41157pa
+    uploader: 搬运
+    note: 备用源，中英双语字幕（21 段）
+  - platform: other
+    url: https://projects.iq.harvard.edu/stat110
+    note: 课程官网
+notes:
+  - title: csdiy.wiki 课程攻略
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Joseph Blitzstein- 'The Soul of Statistics' _ Harvard Thinks Big 4
+  - n: 2
+    title: Lecture 1- Probability and Counting _ Statistics 110
+  - n: 3
+    title: Lecture 2- Story Proofs, Axioms of Probability _ Statistics 110
+  - n: 4
+    title: Lecture 3- Birthday Problem, Properties of Probability _ Statistics 110
+  - n: 5
+    title: Lecture 4- Conditional Probability _ Statistics 110
+  - n: 6
+    title: Lecture 5- Conditioning Continued, Law of Total Probability _ Statistics 110
+  - n: 7
+    title: Lecture 6- Monty Hall, Simpson's Paradox _ Statistics 110
+  - n: 8
+    title: Lecture 7- Gambler's Ruin and Random Variables _ Statistics 110
+  - n: 9
+    title: Lecture 8- Random Variables and Their Distributions _ Statistics 110
+  - n: 10
+    title: Lecture 9- Expectation, Indicator Random Variables, Linearity _ Statistics 1
+  - n: 11
+    title: Lecture 10- Expectation Continued _ Statistics 110
+  - n: 12
+    title: Lecture 11- The Poisson distribution _ Statistics 110
+  - n: 13
+    title: Lecture 12- Discrete vs. Continuous, the Uniform _ Statistics 110
+  - n: 14
+    title: Lecture 13- Normal distribution _ Statistics 110
+  - n: 15
+    title: Lecture 14- Location, Scale, and LOTUS _ Statistics 110
+  - n: 16
+    title: Lecture 15- Midterm Review _ Statistics 110
+  - n: 17
+    title: Lecture 16- Exponential Distribution _ Statistics 110
+  - n: 18
+    title: Lecture 17- Moment Generating Functions _ Statistics 110
+  - n: 19
+    title: Lecture 18- MGFs Continued _ Statistics 110
+  - n: 20
+    title: Lecture 19- Joint, Conditional, and Marginal Distributions _ Statistics 110
+  - n: 21
+    title: Lecture 20- Multinomial and Cauchy _ Statistics 110
+  - n: 22
+    title: Lecture 21- Covariance and Correlation _ Statistics 110
+  - n: 23
+    title: Lecture 22- Transformations and Convolutions _ Statistics 110
+  - n: 24
+    title: Lecture 23- Beta distribution _ Statistics 110
+  - n: 25
+    title: Lecture 24- Gamma distribution and Poisson process _ Statistics 110
+  - n: 26
+    title: Lecture 25- Order Statistics and Conditional Expectation _ Statistics 110
+  - n: 27
+    title: Lecture 26- Conditional Expectation Continued _ Statistics 110
+  - n: 28
+    title: Lecture 27- Conditional Expectation given an R.V. _ Statistics 110
+  - n: 29
+    title: Lecture 28- Inequalities _ Statistics 110
+  - n: 30
+    title: Lecture 29- Law of Large Numbers and Central Limit Theorem _ Statistics 110
+  - n: 31
+    title: Lecture 30- Chi-Square, Student-t, Multivariate Normal _ Statistics 110
+  - n: 32
+    title: Lecture 31- Markov Chains _ Statistics 110
+  - n: 33
+    title: Lecture 32- Markov Chains Continued _ Statistics 110
+  - n: 34
+    title: Lecture 33- Markov Chains Continued Further _ Statistics 110
+  - n: 35
+    title: Lecture 34- A Look Ahead _ Statistics 110

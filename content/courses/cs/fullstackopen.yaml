@@ -1,0 +1,22 @@
+id: fullstackopen
+title: Full Stack Open 全栈公开课
+code: "FullStackOpen"
+institution: 赫尔辛基大学
+subject: cs
+level: intermediate
+tags: [Web开发, React, Node.js, 全栈]
+prerequisites: [cs61a]
+estimatedHours: 200
+description: >
+  赫尔辛基大学开设的现代 Web 全栈开发公开课，以 React、Node.js、Express、MongoDB 为主线，
+  逐步涵盖 TypeScript、GraphQL、React Native、CI/CD 与容器化。
+  以文字教材加动手练习为主，官网提供完整中文版，学完可申请学分证书。
+sources:
+  - platform: other
+    url: https://fullstackopen.com/zh/
+    note: 课程官网（官方中文版教材与练习）
+episodeCount: 13
+notes:
+  - title: csdiy.wiki Full Stack Open 攻略
+    url: https://csdiy.wiki/
+    kind: site

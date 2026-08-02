@@ -1,0 +1,118 @@
+id: cmu-15-418
+title: 并行计算架构与编程
+code: "15-418"
+institution: 卡内基梅隆大学
+subject: cs
+level: advanced
+tags: [ 并行计算, 体系结构, 多核, GPU ]
+prerequisites: [ csapp ]
+estimatedHours: 90
+description: >
+  CMU 经典的并行计算课程，从多核 CPU、SIMD、GPU 到分布式内存模型， 系统讲解并行硬件的工作原理与并行程序的设计、优化方法。 课程作业极具分量（ISPC、CUDA、无锁数据结构），是写出真正高性能代码的必经之路。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1SM4y1j7XL
+    uploader: 搬运
+    note: 2023 春季版，45 段
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV18b421J7cA
+    uploader: 搬运
+    note: 备用源，sp18 版 30 段
+  - platform: other
+    url: https://www.cs.cmu.edu/~418/
+    note: 课程官网（含全部讲义、录像与作业）
+notes:
+  - title: csdiy.wiki CMU 15-418 攻略
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 18 Why parallelism
+  - n: 2
+    title: 1.20 Modern multicore processors
+  - n: 3
+    title: 1.23 Parallel programming models
+  - n: 4
+    title: 1.25&1.27 Graphic processing units and CUDA p1
+  - n: 5
+    title: 1.25&1.27 p2
+  - n: 6
+    title: 1.30 Parallel programming basics
+  - n: 7
+    title: 2.1 Work distribution and scheduling
+  - n: 8
+    title: 2.3 Locality, communication, and contention
+  - n: 9
+    title: 额外 Application case studies
+  - n: 10
+    title: 2.6 Workload-driven performance evaluation p1
+  - n: 11
+    title: 2.6 p2
+  - n: 12
+    title: 2.6 p3
+  - n: 13
+    title: 2.8 Snooping-based cache coherence p1
+  - n: 14
+    title: 2.8 p2
+  - n: 15
+    title: 2.10 Directory-based cache coherence p1
+  - n: 16
+    title: 2.10 p2
+  - n: 17
+    title: 2.13 Snooping implementation p1
+  - n: 18
+    title: 2.13 p2
+  - n: 19
+    title: 2.15 Performance Measurement and Tuning p1
+  - n: 20
+    title: 2.15 p2
+  - n: 21
+    title: 2.17 Interconnection Networks p1
+  - n: 22
+    title: 2.17 p2
+  - n: 23
+    title: 2.17 (Review for Exam 1)
+  - n: 24
+    title: 2.22 Memory consistency
+  - n: 25
+    title: 额外 Scaling a Website
+  - n: 26
+    title: 2.24 Implementing Synchronization p1
+  - n: 27
+    title: 2.24 p2
+  - n: 28
+    title: 2.24 p3
+  - n: 29
+    title: 2.27 Fine-grained synchronization, lock-free programming p1
+  - n: 30
+    title: 2.27 p2
+  - n: 31
+    title: 2.27 p3
+  - n: 32
+    title: 3.1 Transactional Memory p1
+  - n: 33
+    title: 3.1 p2
+  - n: 34
+    title: 3.1 p3
+  - n: 35
+    title: 3.3 Heterogenous parallelism p1
+  - n: 36
+    title: 3.3 p2
+  - n: 37
+    title: 3.3 p3
+  - n: 38
+    title: 3.13 Domain-specific programming languages
+  - n: 39
+    title: 3.15 Domain-specific programming on graphs
+  - n: 40
+    title: "3.17 Parallel Deep Learning: Basics"
+  - n: 41
+    title: "3.20 Parallel Deep Learning: Reverse AutoDiff + Data Parallelism"
+  - n: 42
+    title: "3.22 Parallel Deep Learning Model: Parallelism"
+  - n: 43
+    title: "3.22 Parallel Deep Learning: Pipeline Parallelism"
+  - n: 44
+    title: 3.24 Under the Hood Message Passing Implementation p1
+  - n: 45
+    title: 3.24 p2

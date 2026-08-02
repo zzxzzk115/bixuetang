@@ -21,7 +21,7 @@ nodes:
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [csapp, nand2tetris, cs61c]
+    courses: [csapp, nand2tetris, cs61c, nju-ics]
     rule: any
     description: 理解程序在机器上如何真正运行——自顶向下（CSAPP）、自底向上（Nand2Tetris）或伯克利路线（CS61C）任选。
   - id: algorithms
@@ -29,9 +29,25 @@ nodes:
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [mit-6-006, cs61b]
+    courses: [mit-6-006, cs61b, cs170, mit-6-046]
     rule: any
     description: 掌握核心数据结构与算法设计范式。
+  - id: prog-languages
+    title: 语言之艺
+    subject: cs
+    tier: 2
+    requires: [programming-basics]
+    courses: [cs106l, cs110l, cs3110]
+    rule: any
+    description: C++、Rust、OCaml——不同范式塑造不同的思维。
+  - id: web-fullstack
+    title: 全栈之路
+    subject: cs
+    tier: 2
+    requires: [programming-basics]
+    courses: [fullstackopen]
+    rule: any
+    description: 从 React 到 Node，把想法变成能上线的产品。
   - id: distributed-systems
     title: 分布式之心
     subject: cs
@@ -83,7 +99,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [computer-systems]
-    courses: [cmu-15-445]
+    courses: [cmu-15-445, cs186]
     rule: any
     description: 存储引擎、索引与事务的内部世界。
   - id: compilers
@@ -92,9 +108,27 @@ nodes:
     tier: 3
     cost: 2
     requires: [computer-systems]
-    courses: [cs143]
+    courses: [cs143, nju-sa]
     rule: any
     description: 三大浪漫之三：铸造属于自己的语言。
+  - id: parallel-computing
+    title: 并行之力
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [computer-systems]
+    courses: [cmu-15-418]
+    rule: any
+    description: 多核、SIMD 与 GPU——榨干每一寸算力。
+  - id: security
+    title: 安全之盾
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [computer-systems]
+    courses: [ucb-cs161]
+    rule: any
+    description: 攻防视角下的系统与密码学。
 
   # ---------- 数学 ----------
   - id: calculus
@@ -126,9 +160,25 @@ nodes:
     subject: math
     tier: 2
     requires: [linear-intuition]
-    courses: [mit-18-06]
+    courses: [mit-18-06, mit-18-065]
     rule: any
     description: 四个基本子空间与 SVD 的完全掌握。
+  - id: probability
+    title: 概率之眼
+    subject: math
+    tier: 2
+    requires: [calculus]
+    courses: [stat110, mit-6-041]
+    rule: any
+    description: 用分布与期望描述不确定的世界。
+  - id: differential-equations
+    title: 微分之律
+    subject: math
+    tier: 2
+    requires: [calculus]
+    courses: [mit-18-03]
+    rule: any
+    description: 用方程刻画万物如何随时间演化。
 
   # ---------- 物理 ----------
   - id: classical-mechanics
@@ -136,7 +186,7 @@ nodes:
     subject: physics
     tier: 1
     requires: [calculus]
-    courses: [mit-8-01]
+    courses: [mit-8-01, yale-phys-200]
     rule: any
     description: 牛顿的世界观。
   - id: electromagnetism
@@ -156,6 +206,15 @@ nodes:
     courses: [mit-8-03]
     rule: any
     description: 从振子到光——通往量子世界的桥。
+  - id: quantum-physics
+    title: 量子之门
+    subject: physics
+    tier: 3
+    cost: 2
+    requires: [waves]
+    courses: [mit-8-04]
+    rule: any
+    description: 波函数、叠加与不确定性——微观世界的语言。
 
   # ---------- AI ----------
   - id: ml-basics
@@ -197,7 +256,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [deep-learning]
-    courses: [cs231n]
+    courses: [cs231n, eecs-498]
     rule: any
     description: 让机器看见世界。
   - id: nlp

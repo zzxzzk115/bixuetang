@@ -14,7 +14,7 @@ sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1oU4y1R7Km
     uploader: GAMES-Webinar（官方）
-    note: 官方账号逐讲发布，此为第 01 讲，可从合集页续看
+    note: 官方合集 37 讲（含 Piccolo 源码解读），点集数直接切换
   - platform: other
     url: https://games104.boomingtech.com/
     note: 课程官网（Piccolo 引擎与作业）

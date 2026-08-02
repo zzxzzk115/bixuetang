@@ -1,0 +1,425 @@
+id: cs3110
+title: OCaml 函数式编程与数据结构
+code: "Cornell CS3110"
+institution: Cornell University
+instructor: Michael Ryan Clarkson
+subject: cs
+level: intermediate
+tags: [ 函数式编程, ocaml, 数据结构, 程序语言 ]
+prerequisites: [ cs61a ]
+estimatedHours: 70
+description: >
+  康奈尔打磨二十余年的函数式编程课，用 OCaml 讲清模块系统、代数数据类型、高阶函数与惰性求值， 再走到解释器、类型检查与形式化推理。配套开源教材《OCaml Programming: Correct + Efficient + Beautiful》， 是从"会写代码"迈向"懂语言"的最佳桥梁。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Tx4y1s7sP
+    uploader: 搬运
+    note: 官方教材配套视频，中英双语字幕，200 个短视频合集
+  - platform: other
+    url: https://cs3110.github.io/textbook/cover.html
+    note: 课程官网 / 开源教材
+notes:
+  - title: CS 自学指南：Cornell CS3110 攻略
+    url: https://csdiy.wiki/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/CS3110/
+    kind: site
+episodes:
+  - n: 1
+    title: "[001]Introduction Chap1 Video 1.zh_en"
+  - n: 2
+    title: "[002]Functional Programming - What Chap1 Video 2.zh_en"
+  - n: 3
+    title: "[003]Functional Programming - Why Part 1 Chap1 Video 3.zh_en"
+  - n: 4
+    title: "[004]Functional Programming - Why Part 2 Chap1 Video 4.zh_en"
+  - n: 5
+    title: "[005]OCaml Chap1 Video 5.zh_en"
+  - n: 6
+    title: "[006]Five Aspects of Learning a Programming Language Chap2 Video 1.zh_en"
+  - n: 7
+    title: "[007]Expressions Chap2 Video 2.zh_en"
+  - n: 8
+    title: "[008]If Expressions Chap2 Video 3.zh_en"
+  - n: 9
+    title: "[009]Let Definitions Chap2 Video 4.zh_en"
+  - n: 10
+    title: "[010]Let Expressions Chap2 Video 5.zh_en"
+  - n: 11
+    title: "[011]Variable Expressions and Scope Chap2 Video 6.zh_en"
+  - n: 12
+    title: "[012]Scope and the Toplevel Chap2 Video 7.zh_en"
+  - n: 13
+    title: "[013]Anonymous Functions Chap2 Video 8.zh_en"
+  - n: 14
+    title: "[014]Lambdas Chap2 Video 9.zh_en"
+  - n: 15
+    title: "[015]Function Application Chap2 Video 10.zh_en"
+  - n: 16
+    title: "[016]Named Functions Chap2 Video 11.zh_en"
+  - n: 17
+    title: "[017]Recursive Functions Chap2 Video 12.zh_en"
+  - n: 18
+    title: "[018]Function Types Chap2 Video 13.zh_en"
+  - n: 19
+    title: "[019]Partial Application Chap2 Video 14.zh_en"
+  - n: 20
+    title: "[020]Polymorphic Functions Chap2 Video 15.zh_en"
+  - n: 21
+    title: "[021]Operators As Functions Chap2 Video 16.zh_en"
+  - n: 22
+    title: "[022]Application Operators Chap2 Video 17.zh_en"
+  - n: 23
+    title: "[023]Lists Chap3 Video 1.zh_en"
+  - n: 24
+    title: "[024]List Syntax and Semantics Chap3 Video 2.zh_en"
+  - n: 25
+    title: "[025]Records and Tuples Chap3 Video 3.zh_en"
+  - n: 26
+    title: "[026]Comparison of Data Types Chap3 Video 4.zh_en"
+  - n: 27
+    title: "[027]Record Syntax and Semantics Chap3 Video 5.zh_en"
+  - n: 28
+    title: "[028]Tuple Syntax and Semantics Chap3 Video 6.zh_en"
+  - n: 29
+    title: "[029]Pattern Matching Chap3 Video 7.zh_en"
+  - n: 30
+    title: "[030]Pattern Matching with Lists Chap3 Video 8.zh_en"
+  - n: 31
+    title: "[031]The Function Keyword Chap3 Video 9.zh_en"
+  - n: 32
+    title: "[032]Cons vs Append Chap3 Video 10.zh_en"
+  - n: 33
+    title: "[033]Pattern Matching Syntax and Semantics Chap3 Video 11.zh_en"
+  - n: 34
+    title: "[034]Static Checking of Pattern Matching Chap3 Video 12.zh_en"
+  - n: 35
+    title: "[035]Variants Chap3 Video 13.zh_en"
+  - n: 36
+    title: "[036]Pattern Matching with Variants Part 1 Chap3 Video 14.zh_en"
+  - n: 37
+    title: "[037]Pattern Matching with Variants Part 2 Chap3 Video 15.zh_en"
+  - n: 38
+    title: "[038]Variant Syntax and Semantics Chap3 Video 16.zh_en"
+  - n: 39
+    title: "[039]Algebraic Data Types Chap3 Video 17.zh_en"
+  - n: 40
+    title: "[040]An ADT for Pokemon Chap3 Video 18.zh_en"
+  - n: 41
+    title: "[041]Recursive Parameterized Variants Chap3 Video 19.zh_en"
+  - n: 42
+    title: "[042]Options Chap3 Video 20.zh_en"
+  - n: 43
+    title: "[043]Exceptions Chap3 Video 21.zh_en"
+  - n: 44
+    title: "[044]Handling Exceptions Chap3 Video 22.zh_en"
+  - n: 45
+    title: "[045]Binary Trees Chap3 Video 23.zh_en"
+  - n: 46
+    title: "[046]Higher-Order Functions Chap4 Video 1.zh_en"
+  - n: 47
+    title: "[047]Map Chap4 Video 2.zh_en"
+  - n: 48
+    title: "[048]Implementing Map Chap4 Video 3.zh_en"
+  - n: 49
+    title: "[049]Combine Chap4 Video 4.zh_en"
+  - n: 50
+    title: "[050]Fold Chap4 Video 5.zh_en"
+  - n: 51
+    title: "[051]Filter Chap4 Video 6.zh_en"
+  - n: 52
+    title: "[052]Trees with Map and Fold Chap4 Video 7.zh_en"
+  - n: 53
+    title: "[053]Modular Programming Chap5 Video 1.zh_en"
+  - n: 54
+    title: "[054]Modules and Structures Chap5 Video 2.zh_en"
+  - n: 55
+    title: "[055]Functional Stacks Chap5 Video 3.zh_en"
+  - n: 56
+    title: "[056]Functional Data Structures Chap5 Video 4.zh_en"
+  - n: 57
+    title: "[057]Module and Structure Syntax and Semantics Chap5 Video 5.zh_en"
+  - n: 58
+    title: "[058]Scope and Opening Chap5 Video 6.zh_en"
+  - n: 59
+    title: "[059]Functional Queues Chap5 Video 7.zh_en"
+  - n: 60
+    title: "[060]Exceptions vs Options and More Application Operators Chap5 Video 8.zh_en"
+  - n: 61
+    title: "[061]Module Types and Signatures Chap5 Video 9.zh_en"
+  - n: 62
+    title: "[062]Module Types for Stacks and Queues Chap5 Video 10.zh_en"
+  - n: 63
+    title: "[063]Module Type Syntax and Semantics Chap5 Video 11.zh_en"
+  - n: 64
+    title: "[064]Abstract Types Chap5 Video 12.zh_en"
+  - n: 65
+    title: "[065]Compilation Units Chap5 Video 13.zh_en"
+  - n: 66
+    title: "[066]Utop with Modules Chap5 Video 14.zh_en"
+  - n: 67
+    title: "[067]Includes Chap5 Video 15.zh_en"
+  - n: 68
+    title: "[068]Include vs Open Chap5 Video 16.zh_en"
+  - n: 69
+    title: "[069]Functors Chap5 Video 17.zh_en"
+  - n: 70
+    title: "[070]Standard Library Map Chap5 Video 18.zh_en"
+  - n: 71
+    title: "[071]Abstraction and Specification Chap6 Video 1.zh_en"
+  - n: 72
+    title: "[072]Function Specifications Chap6 Video 2.zh_en"
+  - n: 73
+    title: "[073]Parts of a Function Specification Chap6 Video 3.zh_en"
+  - n: 74
+    title: "[074]Data Abstractions Chap6 Video 4.zh_en"
+  - n: 75
+    title: "[075]Implementing Sets as Lists Chap6 Video 5.zh_en"
+  - n: 76
+    title: "[076]Another Implementation of Sets Chap6 Video 6.zh_en"
+  - n: 77
+    title: "[077]Abstraction Functions Chap6 Video 7.zh_en"
+  - n: 78
+    title: "[078]Implementing Abstraction Functions Chap6 Video 8.zh_en"
+  - n: 79
+    title: "[079]Representation Invariants Chap6 Video 9.zh_en"
+  - n: 80
+    title: "[080]Implementing Representation Invariants Chap6 Video 10.zh_en"
+  - n: 81
+    title: "[081]Abstraction Functions and Commutative Diagrams Chap6 Video 11.zh_en"
+  - n: 82
+    title: "[082]Testing and Validation Chap6 Video 12.zh_en"
+  - n: 83
+    title: "[083]Bugs Chap6 Video 13.zh_en"
+  - n: 84
+    title: "[084]Approaches to Testing Chap6 Video 14.zh_en"
+  - n: 85
+    title: "[085]Black Box vs Glass Box Testing Chap6 Video 15.zh_en"
+  - n: 86
+    title: "[086]Black Box Testing Chap6 Video 16.zh_en"
+  - n: 87
+    title: "[087]Glass Box Testing Chap6 Video 17.zh_en"
+  - n: 88
+    title: "[088]Bisect Chap6 Video 18.zh_en"
+  - n: 89
+    title: "[089]Randomized Testing and QCheck Chap6 Video 19.zh_en"
+  - n: 90
+    title: "[090]Debugging Chap6 Video 20.zh_en"
+  - n: 91
+    title: "[091]Formal Verification Chap6 Video 21.zh_en"
+  - n: 92
+    title: "[092]Equality of Expressions Chap6 Video 22.zh_en"
+  - n: 93
+    title: "[093]Equational Reasoning Chap6 Video 23.zh_en"
+  - n: 94
+    title: "[094]Inductive Proofs about Recursive Functions Chap6 Video 24.zh_en"
+  - n: 95
+    title: "[095]Example Proof_ Summation Chap6 Video 25.zh_en"
+  - n: 96
+    title: "[096]Example Proof_ Iterative Factorial Chap6 Video 26.zh_en"
+  - n: 97
+    title: "[097]Induction on an ADT for Natural Numbers Chap6 Video 27.zh_en"
+  - n: 98
+    title: "[098]Induction on Lists Chap6 Video 28.zh_en"
+  - n: 99
+    title: "[099]Example Proof_ List Length and Append Chap6 Video 29.zh_en"
+  - n: 100
+    title: "[100]Induction on Trees Chap6 Video 30.zh_en"
+  - n: 101
+    title: "[101]Example Proof_ Preorder and Length Chap6 Video 31.zh_en"
+  - n: 102
+    title: "[102]Induction and Recursion Chap6 Video 32.zh_en"
+  - n: 103
+    title: "[103]Total Correctness Chap6 Video 33.zh_en"
+  - n: 104
+    title: "[104]Equational Specification of Stacks Chap6 Video 34.zh_en"
+  - n: 105
+    title: "[105]Equational Specification of Queues Chap6 Video 35.zh_en"
+  - n: 106
+    title: "[106]Design of Equations Chap6 Video 36.zh_en"
+  - n: 107
+    title: "[107]Refs Chap7 Video 1.zh_en"
+  - n: 108
+    title: "[108]Syntax and Semantics of Refs Chap7 Video 2.zh_en"
+  - n: 109
+    title: "[109]Semicolon Chap7 Video 3.zh_en"
+  - n: 110
+    title: "[110]Aliasing Chap7 Video 4.zh_en"
+  - n: 111
+    title: "[111]Implementing a Counter Chap7 Video 5.zh_en"
+  - n: 112
+    title: "[112]Mutable Fields Chap7 Video 6.zh_en"
+  - n: 113
+    title: "[113]Mutable Singly Linked Lists Part 1 Chap7 Video 7.zh_en"
+  - n: 114
+    title: "[114]Mutable Singly Linked Lists Part 2 Chap7 Video 8.zh_en"
+  - n: 115
+    title: "[115]Arrays Part 1 Chap7 Video 9.zh_en"
+  - n: 116
+    title: "[116]Arrays Part 2 Chap7 Video 10.zh_en"
+  - n: 117
+    title: "[117]Map ADT_ Insert, Find, Remove Chap8 Video 1.zh_en"
+  - n: 118
+    title: "[118]Map ADT_ Bindings, Of List Chap8 Video 2.zh_en"
+  - n: 119
+    title: "[119]Association Lists_ Rep Type Chap8 Video 3.zh_en"
+  - n: 120
+    title: "[120]Association Lists_ Bindings Chap8 Video 4.zh_en"
+  - n: 121
+    title: "[121]Association Lists_ Of List Chap8 Video 5.zh_en"
+  - n: 122
+    title: "[122]Association Lists_ Improving Tests, and TDD Chap8 Video 6.zh_en"
+  - n: 123
+    title: "[123]Association Lists_ Insert, Find, Remove Chap8 Video 7.zh_en"
+  - n: 124
+    title: "[124]Direct Address Map ADT Chap8 Video 8.zh_en"
+  - n: 125
+    title: "[125]Array Map_ Rep Type, and Create Chap8 Video 9.zh_en"
+  - n: 126
+    title: "[126]Array Map_ Remaining Operations Chap8 Video 10.zh_en"
+  - n: 127
+    title: "[127]Association Lists vs Arrays Chap8 Video 11.zh_en"
+  - n: 128
+    title: "[128]Hash Table Rep Type v1 Chap8 Video 12.zh_en"
+  - n: 129
+    title: "[129]Hash Table Rep Type v2 Chap8 Video 13.zh_en"
+  - n: 130
+    title: "[130]Rehashing Chap8 Video 14.zh_en"
+  - n: 131
+    title: "[131]Hash Table Interface Chap8 Video 15.zh_en"
+  - n: 132
+    title: "[132]Hash Table Insert Implementation Chap8 Video 16.zh_en"
+  - n: 133
+    title: "[133]Hash Table Resize Implementation Chap8 Video 17.zh_en"
+  - n: 134
+    title: "[134]Hash Table Find and Remove Implementation Chap8 Video 18.zh_en"
+  - n: 135
+    title: "[135]Hash Tables vs Other Data Structures for Maps Chap8 Video 19.zh_en"
+  - n: 136
+    title: "[136]Hash Functions Chap8 Video 20.zh_en"
+  - n: 137
+    title: "[137]Efficiency Analysis of Rehashing Chap8 Video 21.zh_en"
+  - n: 138
+    title: "[138]Amortized Analysis of Hash Tables Chap8 Video 22.zh_en"
+  - n: 139
+    title: "[139]The Idea of Amortized Analysis Chap8 Video 23.zh_en"
+  - n: 140
+    title: "[140]Amortized Analysis of Two-list Queues Chap8 Video 24.zh_en"
+  - n: 141
+    title: "[141]Theory of Amortized Analysis Chap8 Video 25.zh_en"
+  - n: 142
+    title: "[142]Bankers and Physicists Methods Chap8 Video 26.zh_en"
+  - n: 143
+    title: "[143]Functional Maps and Sets Chap8 Video 27.zh_en"
+  - n: 144
+    title: "[144]Binary Search Trees Chap8 Video 28.zh_en"
+  - n: 145
+    title: "[145]Binary Search Tree Efficiency Chap8 Video 29.zh_en"
+  - n: 146
+    title: "[146]Balanced Trees Chap8 Video 30.zh_en"
+  - n: 147
+    title: "[147]Red-Black Trees Chap8 Video 31.zh_en"
+  - n: 148
+    title: "[148]Red-Black Tree Implementation_ Rep Type, Empty, Mem Chap8 Video 32.zh_en"
+  - n: 149
+    title: "[149]Okasakis Algorithm for Red-Black Tree Insertion Chap8 Video 33.zh_en"
+  - n: 150
+    title: "[150]Red-Black Tree Rotations Chap8 Video 34.zh_en"
+  - n: 151
+    title: "[151]Red-Black Tree Insert Implementation Chap8 Video 35.zh_en"
+  - n: 152
+    title: "[152]Red-Black Set Performance Chap8 Video 36.zh_en"
+  - n: 153
+    title: "[153]Implementing Maps with Red-Black Trees Chap8 Video 37.zh_en"
+  - n: 154
+    title: "[154]Compilers and Interpreters Chap9 Video 1.zh_en"
+  - n: 155
+    title: "[155]Compiler Architecture Chap9 Video 2.zh_en"
+  - n: 156
+    title: "[156]Calculator_ Intro Chap9 Video 3.zh_en"
+  - n: 157
+    title: "[157]Calculator_ Parse Integers Chap9 Video 4.zh_en"
+  - n: 158
+    title: "[158]Calculator_ Evaluate Integers Chap9 Video 5.zh_en"
+  - n: 159
+    title: "[159]Calculator_ Addition Chap9 Video 6.zh_en"
+  - n: 160
+    title: "[160]Calculator_ Multiplication Chap9 Video 7.zh_en"
+  - n: 161
+    title: "[161]Calculator_ Precedence and Associativity Chap9 Video 8.zh_en"
+  - n: 162
+    title: "[162]Calculator_ Whitespace and Parentheses Chap9 Video 9.zh_en"
+  - n: 163
+    title: "[163]Tokens and AST Chap9 Video 10.zh_en"
+  - n: 164
+    title: "[164]Menhir and Ocamllex Chap9 Video 11.zh_en"
+  - n: 165
+    title: "[165]Grammars and BNF Chap9 Video 12.zh_en"
+  - n: 166
+    title: "[166]Small-Step Evaluation Chap9 Video 13.zh_en"
+  - n: 167
+    title: "[167]Evaluation Relations Chap9 Video 14.zh_en"
+  - n: 168
+    title: "[168]Let Semantics Chap9 Video 15.zh_en"
+  - n: 169
+    title: "[169]Substitution Examples Chap9 Video 16.zh_en"
+  - n: 170
+    title: "[170]Definition of Substitution Chap9 Video 17.zh_en"
+  - n: 171
+    title: "[171]Implementing Let in the Calculator Chap9 Video 18.zh_en"
+  - n: 172
+    title: "[172]SimPL Small Step Chap9 Video 19.zh_en"
+  - n: 173
+    title: "[173]SimPL Big Step Chap9 Video 20.zh_en"
+  - n: 174
+    title: "[174]Core OCaml Small Step Chap9 Video 21.zh_en"
+  - n: 175
+    title: "[175]Substitution in Functions Chap9 Video 22.zh_en"
+  - n: 176
+    title: "[176]Environment Model of SimPL Chap9 Video 23.zh_en"
+  - n: 177
+    title: "[177]Environment Model Example Chap9 Video 24.zh_en"
+  - n: 178
+    title: "[178]SimPL Environment Model Interpreter Chap9 Video 25.zh_en"
+  - n: 179
+    title: "[179]Function Semantics in the Environment Model Chap9 Video 26.zh_en"
+  - n: 180
+    title: "[180]Closures Chap9 Video 27.zh_en"
+  - n: 181
+    title: "[181]Lexical vs Dynamic Scope Chap9 Video 28.zh_en"
+  - n: 182
+    title: "[182]Remaining Core OCaml Environment Model Chap9 Video 29.zh_en"
+  - n: 183
+    title: "[183]Recap of All Models Chap9 Video 30.zh_en"
+  - n: 184
+    title: "[184]Type Checking Chap9 Video 31.zh_en"
+  - n: 185
+    title: "[185]SimPL Type System Chap9 Video 32.zh_en"
+  - n: 186
+    title: "[186]Adding Types to SimPL Interpreter Chap9 Video 33.zh_en"
+  - n: 187
+    title: "[187]SimPL Type Checker Part 1 Chap9 Video 34.zh_en"
+  - n: 188
+    title: "[188]SimPL Type Checker Part 2 Chap9 Video 35.zh_en"
+  - n: 189
+    title: "[189]Type Safety Chap9 Video 36.zh_en"
+  - n: 190
+    title: "[190]Hindley-Milner Type Inference Chap9 Video 37.zh_en"
+  - n: 191
+    title: "[191]Type Inference Relation Chap9 Video 38.zh_en"
+  - n: 192
+    title: "[192]Inference of Constants and Names Chap9 Video 39.zh_en"
+  - n: 193
+    title: "[193]Inference of Ifs Chap9 Video 40.zh_en"
+  - n: 194
+    title: "[194]Inference of Functions Chap9 Video 41.zh_en"
+  - n: 195
+    title: "[195]Inference of Applications Chap9 Video 42.zh_en"
+  - n: 196
+    title: "[196]Intuition for Unification Chap9 Video 43.zh_en"
+  - n: 197
+    title: "[197]Unification Algorithm Chap9 Video 44.zh_en"
+  - n: 198
+    title: "[198]A Worked Example of Type Inference Chap9 Video 45.zh_en"
+  - n: 199
+    title: "[199]Finishing Type Inference Chap9 Video 46.zh_en"
+  - n: 200
+    title: "[200-203].zh_en"

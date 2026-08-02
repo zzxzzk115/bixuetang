@@ -1,0 +1,75 @@
+id: mit-8-04
+title: 量子物理 I
+code: "MIT 8.04"
+institution: MIT
+instructor: Allan Adams
+subject: physics
+level: advanced
+tags: [ 量子力学, 波函数, 薛定谔方程 ]
+prerequisites: [ mit-8-03 ]
+estimatedHours: 60
+description: >
+  从双缝干涉与叠加原理出发，系统建立波函数、薛定谔方程、一维势阱与隧穿、 角动量与氢原子的完整图景。Allan Adams 的讲授以物理直觉见长， 是公认最适合入门量子力学的公开课之一。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1U7411u7sr
+    uploader: 搬运
+    note: 2013 春季完整版，中英字幕（机翻）
+  - platform: other
+    url: https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/
+    note: 课程官网
+notes:
+  - title: CS自学指南 物理板块
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Introduction to Superposition
+  - n: 2
+    title: Experimental Facts of Life
+  - n: 3
+    title: The Wave Function
+  - n: 4
+    title: Expectations, Momentum, and Uncertainty
+  - n: 5
+    title: Operators and the Schrӧdinger Equation
+  - n: 6
+    title: Time Evolution and the Schrödinger Equation
+  - n: 7
+    title: More on Energy Eigenstates
+  - n: 8
+    title: Quantum Harmonic Oscillator Part I
+  - n: 9
+    title: Operator Methods for the Harmonic Oscillator
+  - n: 10
+    title: Clicker Bonanza and Dirac Notation
+  - n: 11
+    title: Dispersion of the Gaussian and the Finite Well
+  - n: 12
+    title: The Dirac Well and Scattering off the Finite Step
+  - n: 13
+    title: Scattering Take 2
+  - n: 14
+    title: Resonance and the S-Matrix
+  - n: 15
+    title: Eigenstates of the Angular Momentum
+  - n: 16
+    title: Eigenstates of the Angular Momentum II
+  - n: 17
+    title: Central Potentials Take 2
+  - n: 18
+    title: _Hydrogen_ and its Discontents
+  - n: 19
+    title: Identical Particles
+  - n: 20
+    title: Periodic Lattices Part 1
+  - n: 21
+    title: Periodic Lattices Part 2
+  - n: 22
+    title: Metals, Insulators, and Semiconductors
+  - n: 23
+    title: More on Spin
+  - n: 24
+    title: Entanglement
+  - n: 25
+    title: Experiment 2 Effective Mass

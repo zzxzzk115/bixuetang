@@ -1,0 +1,129 @@
+id: nju-ics
+title: 计算机系统基础（ICS-PA / NEMU）
+code: "ICS"
+institution: 南京大学
+subject: cs
+level: intermediate
+tags: [ 计算机系统, 体系结构, 模拟器, C语言 ]
+prerequisites: [ cs61a ]
+estimatedHours: 200
+description: >
+  南京大学计算机系统基础课程，由袁春风、余子濠等老师讲授，系统讲解程序的表示与转换、 链接、异常控制流、存储层次与 I/O。最大特色是配套的 PA 实验：从零用 C 语言实现 一个能跑起真实程序甚至运行小游戏的 x86/RISC-V 模拟器 NEMU，把「程序如何在机器上跑起来」 彻底打通，是国内公认最硬核的自学系统课之一。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1jE411874k
+    uploader: 搬运
+    note: 袁春风老师主讲，中文原声，理论课完整版
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1rb4y1V7A2
+    uploader: 搬运
+    note: 计算机系统基础实验课（ICS-PA）录像，中文原声
+  - platform: other
+    url: https://ysyx.oscc.cc/docs/ics-pa/
+    note: 课程官网
+notes:
+  - title: CS自学指南 - NJU ICS/PA
+    url: https://csdiy.wiki/
+    kind: site
+  - title: ICS-PA 官方实验讲义
+    url: https://ysyx.oscc.cc/docs/ics-pa/
+    kind: site
+episodes:
+  - n: 1
+    title: 第一周[1.1.1]--进程和进程的上下文切换引言
+  - n: 2
+    title: "[1.2.1]--第1讲异常控制流的概念"
+  - n: 3
+    title: "[1.3.1]--第2讲程序和进程"
+  - n: 4
+    title: "[1.4.1]--第3讲进程的逻辑控制流"
+  - n: 5
+    title: "[1.5.1]--第4讲进程的上下文切换"
+  - n: 6
+    title: "[1.6.1]--进程的存储器映射"
+  - n: 7
+    title: "[1.7.1]--共享对象和私有的写时拷贝对象"
+  - n: 8
+    title: "[1.8.1]--用户态和内核态"
+  - n: 9
+    title: "[1.9.1]--程序的加载和运行"
+  - n: 10
+    title: 第二周[2.1.1]--第二周引言
+  - n: 11
+    title: "[2.2.1]--第1讲异常和中断的基本概念"
+  - n: 12
+    title: "[2.3.1]--第2讲异常和中断的基本处理过程"
+  - n: 13
+    title: "[2.4.1]--第3讲异常的分类"
+  - n: 14
+    title: "[2.5.1]--第4讲故障类异常及举例"
+  - n: 15
+    title: "[2.6.1]--第5讲陷阱类和终止类异常"
+  - n: 16
+    title: "[2.7.1]--第6讲中断的概念"
+  - n: 17
+    title: "[2.8.1]--第7讲异常中断的响应过程"
+  - n: 18
+    title: "[3.1.1]--第三周引言"
+  - n: 19
+    title: "[3.2.1]--第1讲x86实地址模式下异常中断处理"
+  - n: 20
+    title: "[3.3.1]--第2讲x86保护模式下异常中断处理"
+  - n: 21
+    title: "[3.4.1]--第3讲IA-32中异常中断响应过程"
+  - n: 22
+    title: "[3.5.1]--第4讲IA-32中异常中断返回过程"
+  - n: 23
+    title: "[4.1.1]--第四周引言"
+  - n: 24
+    title: "[4.2.1]--第1讲Linux中对IDT的初始化"
+  - n: 25
+    title: "[4.3.1]--第2讲Linux异常处理举例"
+  - n: 26
+    title: "[4.4.1]--第3讲IA-32Linux对中断的处理"
+  - n: 27
+    title: "[4.5.1]--第4讲IA-32Linux的系统调用处理"
+  - n: 28
+    title: "[4.6.1]--第5讲软中断指令int0x80的执行过程"
+  - n: 29
+    title: "[5.1.1]--第五周引言"
+  - n: 30
+    title: "[5.2.1]--第1讲IO子系统概述"
+  - n: 31
+    title: "[5.3.1]--第2讲用户IO软件与系统调用"
+  - n: 32
+    title: "[5.4.1]--第3讲文件的基本概念"
+  - n: 33
+    title: "[5.5.1]--文件缓冲区的概念"
+  - n: 34
+    title: "[5.5.2]--stdout和stderr举例"
+  - n: 35
+    title: "[5.5.3]--文件缓冲区的使用"
+  - n: 36
+    title: "[5.6.1]--第5讲文件操作举例"
+  - n: 37
+    title: "[6.1.1]--第六周引言"
+  - n: 38
+    title: "[6.2.1]--第1讲系统总线及互连概述"
+  - n: 39
+    title: "[6.3.1]--第2讲总线的基本概念和性能指标"
+  - n: 40
+    title: "[6.4.1]--第3讲三种系统总线及系统互连"
+  - n: 41
+    title: "[6.5.1]--第4讲外设和外设控制器"
+  - n: 42
+    title: "[7.1.1]--第七周引言"
+  - n: 43
+    title: "[7.2.1]--第1讲程序查询方式"
+  - n: 44
+    title: "[7.3.1]--第2讲中断IO方式"
+  - n: 45
+    title: "[7.4.1]--第3讲中断处理过程"
+  - n: 46
+    title: "[7.5.1]--第4讲中断屏蔽和多重中断"
+  - n: 47
+    title: "[7.6.1]--第5讲程序查询和中断方式的比较"
+  - n: 48
+    title: "[7.7.1]--第6讲DMA方式"
+  - n: 49
+    title: "[7.8.1]--第7讲内核空间IO软件"
