@@ -1,0 +1,169 @@
+{
+  "courseId": "essence-of-linear-algebra",
+  "generatedAt": "2026-08-02",
+  "model": "claude-fable-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "3Blue1Brown 用动画把线性代数从「算矩阵」还原成「看几何」：向量是空间中的箭头，矩阵是对空间的变换，行列式是面积缩放率，特征向量是变换中方向不变的轴。看完这门课再学 18.06，每个公式背后都有画面。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "序言：为什么线性代数被教得像算术却应该被理解成几何。数值运算与几何直觉是同一枚硬币的两面，课程目标是补上直觉这一面。",
+      "keyPoints": [
+        { "title": "数值视角 vs 几何视角", "detail": "会算矩阵乘法不等于理解它在空间里做了什么" }
+      ],
+      "terms": []
+    },
+    {
+      "n": 2,
+      "summary": "向量究竟是什么：物理系视角（有方向的箭头）、计算机系视角（有序数字列表）、数学系视角（满足加法与数乘的任何东西）。三种视角在坐标系中统一。",
+      "keyPoints": [
+        { "title": "向量三视角", "detail": "箭头 / 数列 / 抽象运算对象，坐标系是它们的翻译官" },
+        { "title": "向量加法与数乘", "detail": "首尾相接与整体缩放，是线性代数仅有的两种基本运算" }
+      ],
+      "terms": [
+        { "term": "vector 向量", "definition": "既可视为空间中从原点出发的箭头，也可视为一列数" },
+        { "term": "scalar 标量", "definition": "缩放向量的数，scaling 一词的由来" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "线性组合、张成的空间与基：任何向量都是基向量的线性组合。一组向量能「张成」的空间是所有线性组合的集合；线性相关意味着有向量是多余的。",
+      "keyPoints": [
+        { "title": "线性组合", "detail": "a·v + b·w 扫过的所有可能", "formula": "a\\vec{v}+b\\vec{w}" },
+        { "title": "张成空间 span", "detail": "两个不共线向量张成平面，三个不共面向量张成空间" },
+        { "title": "基与线性无关", "detail": "基 = 张成全空间的一组线性无关向量" }
+      ],
+      "terms": [
+        { "term": "span 张成空间", "definition": "一组向量全部线性组合构成的集合" },
+        { "term": "basis 基", "definition": "张成空间且线性无关的向量组" },
+        { "term": "linearly dependent 线性相关", "definition": "某向量落在其余向量的张成空间内" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "矩阵与线性变换：矩阵的列就是基向量 i-hat、j-hat 变换后的落点。看到矩阵先问「它把空间怎么了」——网格保持平行且等距的变换才是线性的。",
+      "keyPoints": [
+        { "title": "矩阵 = 变换后的基向量", "detail": "2×2 矩阵两列分别是 î 和 ĵ 的新位置" },
+        { "title": "线性变换判据", "detail": "直线仍是直线、原点不动" },
+        { "title": "矩阵向量乘法", "detail": "就是把该向量写成变换后基向量的同系数组合", "formula": "\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}\\begin{bmatrix}x\\\\y\\end{bmatrix}=x\\begin{bmatrix}a\\\\c\\end{bmatrix}+y\\begin{bmatrix}b\\\\d\\end{bmatrix}" }
+      ],
+      "terms": [
+        { "term": "linear transformation 线性变换", "definition": "保持网格线平行等距且原点不动的空间变换" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "矩阵乘法与线性变换复合：两个矩阵相乘等于两次变换先后作用。从右往左读，就像复合函数 f(g(x))；由此可以「看出」矩阵乘法不满足交换律但满足结合律。",
+      "keyPoints": [
+        { "title": "矩阵乘法 = 变换复合", "detail": "M₂M₁ 表示先做 M₁ 再做 M₂" },
+        { "title": "为什么不可交换", "detail": "先旋转再剪切 ≠ 先剪切再旋转，画面一目了然" }
+      ],
+      "terms": [{ "term": "composition 复合", "definition": "多个变换依次作用的总效果" }]
+    },
+    {
+      "n": 6,
+      "summary": "三维空间中的线性变换：一切规则原样推广到 3×3——三列即三个基向量的落点。计算机图形学与机器人学的直接工具。",
+      "keyPoints": [
+        { "title": "3×3 矩阵三列", "detail": "î、ĵ、k̂ 变换后的坐标" }
+      ],
+      "terms": []
+    },
+    {
+      "n": 7,
+      "summary": "行列式：线性变换对面积（三维为体积）的缩放因子。行列式为 0 意味着空间被压扁到更低维度；负值意味着空间发生了翻转（定向反转）。",
+      "keyPoints": [
+        { "title": "行列式的几何意义", "detail": "单位正方形变换后的面积", "formula": "\\det\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}=ad-bc" },
+        { "title": "det = 0", "detail": "空间降维坍缩，列向量线性相关" },
+        { "title": "负行列式", "detail": "空间定向翻转（î ĵ 左右手互换）" }
+      ],
+      "terms": [{ "term": "determinant 行列式", "definition": "变换的有向面积/体积缩放率" }]
+    },
+    {
+      "n": 8,
+      "summary": "逆矩阵、列空间与零空间：解方程 Ax=v 就是「哪个向量经变换后落在 v」。det≠0 时可用逆变换找回；秩是变换后空间的维数；零空间是被压到原点的向量集合。",
+      "keyPoints": [
+        { "title": "逆矩阵 = 倒放变换", "formula": "A^{-1}A=I" },
+        { "title": "秩 rank", "detail": "变换输出空间的维数 = 列空间维数" },
+        { "title": "零空间 null space", "detail": "Ax=0 的全部解，压缩进原点的方向" }
+      ],
+      "terms": [
+        { "term": "column space 列空间", "definition": "所有可能输出 Ax 构成的空间" },
+        { "term": "null space / kernel 零空间", "definition": "被变换映到零向量的输入集合" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "非方阵：3×2 矩阵把平面映进三维空间，2×3 把三维压到平面——不同维度之间的线性映射，列数是输入维度，行数是输出维度。",
+      "keyPoints": [
+        { "title": "非方阵的几何含义", "detail": "跨维度映射；列仍是输入基向量的落点" }
+      ],
+      "terms": []
+    },
+    {
+      "n": 10,
+      "summary": "点积与对偶性：点积的投影解释，以及为什么「投影再缩放」恰好等于逐项相乘求和——每个到数轴的线性映射都对偶于一个向量。",
+      "keyPoints": [
+        { "title": "点积的几何", "detail": "投影长度 × 被投影向量长度", "formula": "\\vec{v}\\cdot\\vec{w}=\\|\\vec{v}\\|\\|\\vec{w}\\|\\cos\\theta" },
+        { "title": "对偶性", "detail": "1×n 矩阵（线性泛函）↔ 一个向量" }
+      ],
+      "terms": [{ "term": "duality 对偶性", "definition": "线性映射与向量之间的天然对应" }]
+    },
+    {
+      "n": 11,
+      "summary": "叉积的标准介绍：叉积的大小是平行四边形面积，方向由右手定则决定；行列式的计算方式由此而来。",
+      "keyPoints": [
+        { "title": "叉积大小 = 平行四边形面积", "formula": "\\|\\vec{v}\\times\\vec{w}\\|=\\|\\vec{v}\\|\\|\\vec{w}\\|\\sin\\theta" },
+        { "title": "右手定则", "detail": "食指 v、中指 w，拇指是 v×w" }
+      ],
+      "terms": [{ "term": "cross product 叉积", "definition": "垂直于两输入向量、长度为面积的向量" }]
+    },
+    {
+      "n": 12,
+      "summary": "以线性变换的眼光看叉积：用对偶性严格解释「行列式里塞基向量」的计算技巧为什么成立——叉积是某个 3D→1D 线性映射的对偶向量。",
+      "keyPoints": [
+        { "title": "叉积的对偶性解释", "detail": "det(v,w,·) 这个线性泛函对偶出的向量就是 v×w" }
+      ],
+      "terms": []
+    },
+    {
+      "n": 13,
+      "summary": "克莱姆法则的几何意义：用「变换保持有向面积比例」解释解方程组的行列式比值公式——不是最快的算法，但是最漂亮的解释。",
+      "keyPoints": [
+        { "title": "克莱姆法则", "detail": "分量 = 替换列后的行列式 / 原行列式", "formula": "x_i=\\frac{\\det(A_i)}{\\det(A)}" }
+      ],
+      "terms": []
+    },
+    {
+      "n": 14,
+      "summary": "基变换：同一个向量在不同基下坐标不同；P⁻¹AP 的三明治结构是「翻译进对方语言 → 做变换 → 翻译回来」。",
+      "keyPoints": [
+        { "title": "基变换矩阵", "detail": "列 = 对方基向量在我方坐标系的表达" },
+        { "title": "相似变换", "detail": "同一变换在不同基下的表述", "formula": "P^{-1}AP" }
+      ],
+      "terms": [{ "term": "change of basis 基变换", "definition": "在不同坐标语言之间翻译向量与变换" }]
+    },
+    {
+      "n": 15,
+      "summary": "特征向量与特征值：变换中方向保持不变的向量，只被缩放 λ 倍。旋转轴、对角化、为什么对角矩阵好算——全部由此展开。",
+      "keyPoints": [
+        { "title": "特征方程", "detail": "方向不变、只缩放", "formula": "A\\vec{v}=\\lambda\\vec{v}" },
+        { "title": "求解思路", "detail": "det(A-λI)=0 的几何含义是压扁空间", "formula": "\\det(A-\\lambda I)=0" },
+        { "title": "特征基对角化", "detail": "用特征向量做基，变换成为纯缩放" }
+      ],
+      "terms": [
+        { "term": "eigenvector 特征向量", "definition": "变换后仍留在自己张成直线上的向量" },
+        { "term": "eigenvalue 特征值", "definition": "特征向量被缩放的倍数" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "抽象向量空间：函数也可以是「向量」——求导是线性变换，多项式空间有基 {1, x, x², …}。线性代数的一切结论适用于任何满足八条公理的对象，这就是它无处不在的原因。",
+      "keyPoints": [
+        { "title": "函数即向量", "detail": "函数加法与数乘满足同样的公理" },
+        { "title": "求导是线性变换", "detail": "d/dx 满足可加性与齐次性", "formula": "\\frac{d}{dx}(af+bg)=a\\frac{df}{dx}+b\\frac{dg}{dx}" }
+      ],
+      "terms": [{ "term": "vector space 向量空间", "definition": "满足加法与数乘公理的任意集合" }]
+    }
+  ]
+}

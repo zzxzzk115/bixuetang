@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AnalysisPanel } from "@/components/analysis-panel";
 import { LevelBadge, SubjectBadge } from "@/components/badges";
 import { EmbedPlayer } from "@/components/embed-player";
 import { EpisodeList } from "@/components/episode-list";
@@ -50,6 +51,7 @@ export default async function CoursePage({
   const relatedSkills = content.skillNodes.filter((n) =>
     n.courses.includes(id),
   );
+  const analysis = content.analysisByCourse.get(id);
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
@@ -88,6 +90,8 @@ export default async function CoursePage({
             loggedIn={!!user}
           />
         </div>
+
+        {analysis && <AnalysisPanel analysis={analysis} />}
       </div>
 
       <aside className="space-y-5">

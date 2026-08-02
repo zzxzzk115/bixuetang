@@ -1,13 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Source } from "@/lib/content/schema";
-import { embedFor, PLATFORM_LABEL } from "@/lib/embed";
+import { embedFor, PLATFORM_LABEL, type EmbedOptions } from "@/lib/embed";
+import { SEEK_EVENT, type SeekRequest } from "@/lib/seek";
 
 export function EmbedPlayer({ sources }: { sources: Source[] }) {
   const [active, setActive] = useState(0);
+  const [opts, setOpts] = useState<EmbedOptions>({});
+
+  // 分析面板的时间轴跳转：换 src 重载到指定分 P/时间点
+  useEffect(() => {
+    const onSeek = (e: Event) => {
+      const req = (e as CustomEvent<SeekRequest>).detail;
+      setOpts({ page: req.page, startSeconds: req.seconds });
+    };
+    window.addEventListener(SEEK_EVENT, onSeek);
+    return () => window.removeEventListener(SEEK_EVENT, onSeek);
+  }, []);
+
   const source = sources[active];
-  const embed = embedFor(source);
+  const embed = embedFor(source, opts);
 
   return (
     <div>
@@ -15,7 +28,10 @@ export function EmbedPlayer({ sources }: { sources: Source[] }) {
         {sources.map((s, i) => (
           <button
             key={i}
-            onClick={() => setActive(i)}
+            onClick={() => {
+              setActive(i);
+              setOpts({});
+            }}
             className={`rounded-t border border-b-0 px-3 py-1.5 text-sm transition-colors ${
               i === active
                 ? "border-edge bg-panel text-gold"

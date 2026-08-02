@@ -5,7 +5,8 @@ try {
   const idx = loadContent();
   console.log(
     `内容校验通过：${idx.courses.length} 门课程，${idx.paths.length} 条路径，` +
-      `${idx.skillNodes.length} 个技能节点，${idx.jobs.length} 个职业`,
+      `${idx.skillNodes.length} 个技能节点，${idx.jobs.length} 个职业，` +
+      `${idx.analysisByCourse.size} 门课含 AI 分析`,
   );
 } catch (err) {
   if (err instanceof ContentError) {

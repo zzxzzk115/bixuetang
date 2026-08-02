@@ -152,6 +152,41 @@ export const SkillTreeSchema = z.object({
   nodes: z.array(SkillNodeSchema).min(1),
 });
 
+// ---------- AI 视频分析（content/analysis/<courseId>.json，技能生成） ----------
+
+export const TimelinePointSchema = z.object({
+  /** 秒；basis=titles-only 时缺省 */
+  t: z.number().min(0).optional(),
+  title: z.string(),
+  detail: z.string().optional(),
+  /** LaTeX，数学工坊联动入口 */
+  formula: z.string().optional(),
+});
+export type TimelinePoint = z.infer<typeof TimelinePointSchema>;
+
+export const EpisodeAnalysisSchema = z.object({
+  n: z.number().int().positive(),
+  summary: z.string(),
+  keyPoints: z.array(TimelinePointSchema).default([]),
+  terms: z
+    .array(z.object({ term: z.string(), definition: z.string() }))
+    .default([]),
+});
+export type EpisodeAnalysis = z.infer<typeof EpisodeAnalysisSchema>;
+
+export const CourseAnalysisSchema = z.object({
+  courseId: slug,
+  generatedAt: z.string(),
+  model: z.string(),
+  /** 时间戳基于 sources[i]（不同源时间轴可能不同） */
+  sourceIndex: z.number().int().min(0).default(0),
+  /** 降级标记：titles-only = 无字幕，仅基于集标题与公开资料 */
+  basis: z.enum(["subtitles", "titles-only"]).default("subtitles"),
+  overview: z.string().optional(),
+  episodes: z.array(EpisodeAnalysisSchema).min(1),
+});
+export type CourseAnalysis = z.infer<typeof CourseAnalysisSchema>;
+
 // ---------- 职业 ----------
 
 export const JobRequiresSchema = z.object({

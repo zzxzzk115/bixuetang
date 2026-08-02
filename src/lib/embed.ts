@@ -7,13 +7,20 @@ export type Embed =
   | { kind: "iframe"; src: string }
   | { kind: "link"; href: string };
 
-export function embedFor(source: Source): Embed {
+export interface EmbedOptions {
+  /** 分 P / 播放列表序号（1-based，即课程集数） */
+  page?: number;
+  /** 起播秒数（iframe 无跨域控制接口，跳转靠换 src 重载） */
+  startSeconds?: number;
+}
+
+export function embedFor(source: Source, opts: EmbedOptions = {}): Embed {
   if (source.platform === "bilibili") {
-    // 支持 /video/BVxxxx（分 P 用 ?p=N）
+    // 支持 /video/BVxxxx 与 /video/avNNN（分 P 用 ?p=N）
     const bv = source.url.match(/\/video\/(BV[0-9A-Za-z]+)/)?.[1];
     const av = source.url.match(/\/video\/av(\d+)/)?.[1];
     if (bv || av) {
-      const p = source.url.match(/[?&]p=(\d+)/)?.[1];
+      const p = opts.page ?? source.url.match(/[?&]p=(\d+)/)?.[1];
       // high_quality=1: 游客默认拉到可用的最高清晰度（1080P 上限，大会员档位仍需登录）
       const params = new URLSearchParams({
         autoplay: "0",
@@ -22,7 +29,10 @@ export function embedFor(source: Source): Embed {
       });
       if (bv) params.set("bvid", bv);
       else params.set("aid", av!);
-      if (p) params.set("p", p);
+      if (p) params.set("p", String(p));
+      if (opts.startSeconds) {
+        params.set("t", String(Math.floor(opts.startSeconds)));
+      }
       return {
         kind: "iframe",
         src: `//player.bilibili.com/player.html?${params}`,
@@ -34,14 +44,24 @@ export function embedFor(source: Source): Embed {
     const vid =
       source.url.match(/[?&]v=([\w-]+)/)?.[1] ??
       source.url.match(/youtu\.be\/([\w-]+)/)?.[1];
-    if (vid) {
-      const suffix = list ? `?list=${list}` : "";
-      return { kind: "iframe", src: `https://www.youtube.com/embed/${vid}${suffix}` };
+    const params = new URLSearchParams();
+    if (opts.startSeconds) {
+      params.set("start", String(Math.floor(opts.startSeconds)));
     }
-    if (list) {
+    if (vid) {
+      if (list) params.set("list", list);
+      const qs = params.toString();
       return {
         kind: "iframe",
-        src: `https://www.youtube.com/embed/videoseries?list=${list}`,
+        src: `https://www.youtube.com/embed/${vid}${qs ? `?${qs}` : ""}`,
+      };
+    }
+    if (list) {
+      params.set("list", list);
+      if (opts.page) params.set("index", String(opts.page));
+      return {
+        kind: "iframe",
+        src: `https://www.youtube.com/embed/videoseries?${params}`,
       };
     }
   }

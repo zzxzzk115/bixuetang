@@ -2,12 +2,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { parse as parseYaml } from "yaml";
 import {
+  CourseAnalysisSchema,
   CourseSchema,
   JobsSchema,
   LabTasksSchema,
   PathSchema,
   SkillTreeSchema,
   type Course,
+  type CourseAnalysis,
   type Job,
   type LabId,
   type LabTasks,
@@ -25,6 +27,7 @@ export interface ContentIndex {
   jobs: Job[];
   jobById: Map<string, Job>;
   labTasksById: Map<LabId, LabTasks>;
+  analysisByCourse: Map<string, CourseAnalysis>;
 }
 
 export class ContentError extends Error {
@@ -205,6 +208,54 @@ export function loadContent(): ContentIndex {
     labTasksById.set(lab.lab, lab);
   }
 
+  // ---- AI 视频分析 ----
+  const analysisByCourse = new Map<string, CourseAnalysis>();
+  const analysisDir = path.join(root, "analysis");
+  if (fs.existsSync(analysisDir)) {
+    for (const entry of fs.readdirSync(analysisDir)) {
+      if (!entry.endsWith(".json")) continue;
+      const file = path.join(analysisDir, entry);
+      let raw: unknown;
+      try {
+        raw = JSON.parse(fs.readFileSync(file, "utf-8"));
+      } catch {
+        problems.push(`analysis/${entry}: JSON 解析失败`);
+        continue;
+      }
+      const parsed = CourseAnalysisSchema.safeParse(raw);
+      if (!parsed.success) {
+        problems.push(
+          `analysis/${entry}: ${parsed.error.issues
+            .map((i) => `${i.path.join(".")} ${i.message}`)
+            .join("; ")}`,
+        );
+        continue;
+      }
+      const a = parsed.data;
+      if (entry !== `${a.courseId}.json`) {
+        problems.push(`analysis/${entry}: 文件名须为 ${a.courseId}.json`);
+      }
+      const course = coursesById.get(a.courseId);
+      if (!course) {
+        problems.push(`analysis/${entry}: 课程不存在: ${a.courseId}`);
+        continue;
+      }
+      if (a.sourceIndex >= course.sources.length) {
+        problems.push(`analysis/${entry}: sourceIndex 越界 (${a.sourceIndex})`);
+      }
+      const epNums = new Set(course.episodes.map((e) => e.n));
+      const seen = new Set<number>();
+      for (const ep of a.episodes) {
+        if (!epNums.has(ep.n))
+          problems.push(`analysis/${entry}: 集数不存在: ${ep.n}`);
+        if (seen.has(ep.n))
+          problems.push(`analysis/${entry}: 集数重复: ${ep.n}`);
+        seen.add(ep.n);
+      }
+      analysisByCourse.set(a.courseId, a);
+    }
+  }
+
   if (problems.length > 0) throw new ContentError(problems);
 
   return {
@@ -217,6 +268,7 @@ export function loadContent(): ContentIndex {
     jobs,
     jobById,
     labTasksById,
+    analysisByCourse,
   };
 }
 
