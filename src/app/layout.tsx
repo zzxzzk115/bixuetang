@@ -33,6 +33,9 @@ async function Nav() {
         <Link href="/jobs" className="text-muted hover:text-foreground">
           转职殿堂
         </Link>
+        <Link href="/lab" className="text-muted hover:text-foreground">
+          实验室
+        </Link>
         <div className="ml-auto flex items-center gap-3">
           {user && progress ? (
             <>
