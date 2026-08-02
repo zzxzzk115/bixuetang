@@ -13,7 +13,13 @@ export function embedFor(source: Source): Embed {
     const bv = source.url.match(/\/video\/(BV[0-9A-Za-z]+)/)?.[1];
     if (bv) {
       const p = source.url.match(/[?&]p=(\d+)/)?.[1];
-      const params = new URLSearchParams({ bvid: bv, autoplay: "0" });
+      // high_quality=1: 游客默认拉到可用的最高清晰度（1080P 上限，大会员档位仍需登录）
+      const params = new URLSearchParams({
+        bvid: bv,
+        autoplay: "0",
+        high_quality: "1",
+        danmaku: "0",
+      });
       if (p) params.set("p", p);
       return {
         kind: "iframe",

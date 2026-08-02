@@ -14,6 +14,8 @@ export interface HackMachine {
   screenDirty: boolean;
   /** 已执行指令计数（含 trap 记 1） */
   cycles: number;
+  /** Sys.wait 请求的等待毫秒数（执行层消费后清零） */
+  pendingWaitMs: number;
 }
 
 export type TrapHandler = (m: HackMachine) => void;
@@ -31,6 +33,7 @@ export function createMachine(rom: Uint16Array): HackMachine {
     halted: false,
     screenDirty: true,
     cycles: 0,
+    pendingWaitMs: 0,
   };
 }
 
@@ -128,7 +131,7 @@ export function run(
   let lastPc = -1;
   let samePcCount = 0;
 
-  while (steps < maxSteps && !m.halted) {
+  while (steps < maxSteps && !m.halted && m.pendingWaitMs === 0) {
     const pcBefore = m.pc;
     step(m, traps);
     steps++;
