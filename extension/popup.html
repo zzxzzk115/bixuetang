@@ -1,0 +1,32 @@
+
+<meta charset="utf-8" />
+<style>
+  body {
+    width: 300px;
+    margin: 0;
+    padding: 14px;
+    font: 13px/1.5 system-ui, "Microsoft YaHei", sans-serif;
+    background: #0b0e14;
+    color: #e7e9f0;
+  }
+  h1 { margin: 0 0 10px; font-size: 14px; color: #f5c542; }
+  .card { border: 1px solid #252d44; border-radius: 8px; padding: 10px; background: #141a29; }
+  .muted { color: #8b93a7; font-size: 12px; }
+  .gold { color: #f5c542; }
+  button {
+    width: 100%; margin-top: 10px; padding: 8px;
+    border: 1px solid #f5c542; border-radius: 6px;
+    background: transparent; color: #f5c542; cursor: pointer; font-size: 13px;
+  }
+  button:hover { background: #f5c542; color: #0b0e14; }
+  button:disabled { opacity: .4; cursor: default; }
+  a { color: #f5c542; }
+</style>
+
+<h1>🏰 学者公会 · 进度同步</h1>
+<div class="card" id="status">读取中……</div>
+<button id="report" disabled>标记这一集为已看</button>
+<p class="muted" style="margin-top:10px">
+  播放到 80% 会自动同步。<a href="#" id="opts">插件设置</a>
+</p>
+<script src="popup.js"></script>

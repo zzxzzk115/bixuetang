@@ -109,7 +109,7 @@ const CourseRawSchema = z
   });
 
 export const CourseSchema = CourseRawSchema.transform((raw) => {
-  const episodes =
+  const episodes: Episode[] =
     raw.episodes && raw.episodes.length > 0
       ? raw.episodes
       : Array.from({ length: raw.episodeCount! }, (_, i) => ({

@@ -94,6 +94,18 @@ export const skillUnlocks = sqliteTable(
   (t) => [primaryKey({ columns: [t.userId, t.skillId] })],
 );
 
+// 浏览器插件用的长效 token：插件跨域拿不到 cookie，改用 Bearer token。
+// 与 sessions 一样只存 SHA-256。
+export const apiTokens = sqliteTable("api_tokens", {
+  tokenHash: text("token_hash").primaryKey(),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  label: text("label").notNull(),
+  createdAt: integer("created_at").notNull(),
+  lastUsedAt: integer("last_used_at"),
+});
+
 export const jobUnlocks = sqliteTable(
   "job_unlocks",
   {
