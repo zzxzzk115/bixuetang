@@ -1,0 +1,50 @@
+id: cs50g
+title: 游戏开发导论
+code: "CS50G"
+institution: Harvard University
+subject: cs
+level: intermediate
+tags: [ 游戏开发, Lua, LÖVE2D, Unity ]
+prerequisites: [ cs50 ]
+estimatedHours: 60
+description: >
+  哈佛 CS50 系列的游戏开发分支（GD50），通过复刻 Pong、Flappy Bird、Breakout、 超级马里奥、塞尔达等经典游戏来学习 2D/3D 游戏编程。 前半程用 Lua + LÖVE2D 打基础，后半程转向 Unity/C#， 覆盖状态机、精灵动画、碰撞检测、关卡生成与音效等实战主题。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1kp411R74V
+    uploader: 搬运
+    note: GD50 完整合集（13 讲）
+  - platform: other
+    url: https://cs50.harvard.edu/games/
+    note: 课程官网
+notes:
+  - title: CSDIY 课程攻略
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Teaser - CS50's Introduction to Game Development
+  - n: 2
+    title: Pong - Lecture 0 - CS50's Introduction to Game Development
+  - n: 3
+    title: Flappy Bird - Lecture 1 - CS50's Introduction to Game Development
+  - n: 4
+    title: Breakout - Lecture 2 - CS50's Introduction to Game Development
+  - n: 5
+    title: Match 3 - Lecture 3 - CS50's Introduction to Game Development
+  - n: 6
+    title: Super Mario Bros. - Lecture 4 - CS50's Introduction to Game Development
+  - n: 7
+    title: Legend of Zelda - Lecture 5 - CS50's Introduction to Game Development
+  - n: 8
+    title: Angry Birds - Lecture 6 - CS50's Introduction to Game Development
+  - n: 9
+    title: Pokémon - Lecture 7 - CS50's Introduction to Game Development
+  - n: 10
+    title: Helicopter Game 3D - Lecture 8 - CS50's Introduction to Game Development
+  - n: 11
+    title: Dreadhalls - Lecture 9 - CS50's Introduction to Game Development
+  - n: 12
+    title: Portal - Lecture 10 - CS50's Introduction to Game Development
+  - n: 13
+    title: Portal Problems - Lecture 11 - CS50's Introduction to Game Development

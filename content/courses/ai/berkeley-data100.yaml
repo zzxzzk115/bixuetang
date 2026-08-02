@@ -1,0 +1,210 @@
+id: berkeley-data100
+title: 数据科学的原理与技术
+code: "DATA 100"
+institution: UC Berkeley
+subject: ai
+level: intermediate
+tags: [ 数据科学, pandas, 数据可视化, 建模 ]
+prerequisites: [ andrew-ng-ml ]
+estimatedHours: 100
+description: >
+  伯克利数据科学的中坚课程，串起数据获取与清洗、探索性分析与可视化、 SQL 与 pandas 实操，再到线性/逻辑回归、特征工程、交叉验证与偏差方差权衡。 强调「从真实脏数据出发做出可信结论」，作业与项目全部基于 Jupyter， 是把机器学习理论落到工程实践的最佳桥梁课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1FT4y1A7eS
+    uploader: 搬运
+    note: Fall 2020 版本，分 P 众多的完整合集，含字幕
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV19741117jR
+    uploader: 搬运
+    note: Summer 2019 版本，27 讲合集
+  - platform: other
+    url: https://ds100.org/
+    note: 课程官网
+notes:
+  - title: CS自学指南 Data100 攻略
+    url: https://csdiy.wiki/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/Data100/
+    kind: site
+episodes:
+  - n: 1
+    title: 1 Professor introductions
+  - n: 2
+    title: 1.2 What is data science
+  - n: 3
+    title: 1.3 Overview of Data 100
+  - n: 4
+    title: 1.4 Course logistics
+  - n: 5
+    title: 1.5 Data science lifecycle
+  - n: 6
+    title: 1.6 Baby names demo
+  - n: 7
+    title: 2.1 Censuses and surveys
+  - n: 8
+    title: 2.2 Sampling
+  - n: 9
+    title: 2.3 A Case Study in Sampling Bias
+  - n: 10
+    title: 2.4 Sampling Frame and Sources of Bias
+  - n: 11
+    title: 2.5 Probability Samples
+  - n: 12
+    title: 2.6 Binomial and Multinomial Probabilities, Part I
+  - n: 13
+    title: 2.7 Binomial and Multinomial Probabilities, Part II
+  - n: 14
+    title: 2.8 Derivation of the Binomial Coefficient, Part I
+  - n: 15
+    title: 2.9 Derivation of the Binomial Coefficient, Part II
+  - n: 16
+    title: 3.1 Random Variables
+  - n: 17
+    title: 3.2 Distributions
+  - n: 18
+    title: 3.3 Bernoulli and Binomial Distributions
+  - n: 19
+    title: 3.4 Equality
+  - n: 20
+    title: 3.5 Expectation
+  - n: 21
+    title: 3.6 Summary
+  - n: 22
+    title: 4.1 Databases and DBMSes
+  - n: 23
+    title: 4.2 Database schemas
+  - n: 24
+    title: 4.3 SQL Overview
+  - n: 25
+    title: 4.4 Joins in SQL
+  - n: 26
+    title: 4.5 Nulls values in SQL
+  - n: 27
+    title: 4.6 Predicates in SQL
+  - n: 28
+    title: 4.7 Sampling, subqueries, and common table expressions
+  - n: 29
+    title: 4.8 CASE expressions and SUBSTR
+  - n: 30
+    title: 4.9 Summary
+  - n: 31
+    title: 5.1.1 Pandas Data Structures
+  - n: 32
+    title: 5.1.2 Pandas Data Structures Demo
+  - n: 33
+    title: 5.2 Pandas Indexing
+  - n: 34
+    title: 5.3 Pandas Boolean Array Selection and Querying
+  - n: 35
+    title: 5.4.1 Pandas Indexing with .loc
+  - n: 36
+    title: 5.4.2 Pandas Indexing with .iloc and Sampling
+  - n: 37
+    title: 5.5.1 Pandas Utility Functions, Part 1
+  - n: 38
+    title: 5.5.2 Pandas Utility Functions, Part 2
+  - n: 39
+    title: 6.1 Pandas String Methods
+  - n: 40
+    title: 6.2 Manipulating Columns in Pandas
+  - n: 41
+    title: 6.3 Pandas Groupby
+  - n: 42
+    title: 6.4 Pandas Groupby Puzzles
+  - n: 43
+    title: 6.5 Other Features of Pandas Groupby
+  - n: 44
+    title: 6.6 Pandas Groupby with Multiple Columns and Pivot Tables
+  - n: 45
+    title: 6.7 Joins in Pandas
+  - n: 46
+    title: 7.1 Intro to EDA
+  - n: 47
+    title: 7.2 File formats and structure
+  - n: 48
+    title: 7.3 Keys and Joins
+  - n: 49
+    title: 7.4 Types of variables
+  - n: 50
+    title: 7.5 Granularity, Scope, and Temporality
+  - n: 51
+    title: 7.6 Faithfulness and Missing Values
+  - n: 52
+    title: 7.7 Summary of EDA and Data Cleaning
+  - n: 53
+    title: 7.8 EDA Demo
+  - n: 54
+    title: 8.1 String Canonicalization
+  - n: 55
+    title: 8.2 Splitting Strings
+  - n: 56
+    title: 8.3 Regex Basics
+  - n: 57
+    title: 8.4 More Advanced Regex Syntax, Part 1
+  - n: 58
+    title: 8.5 More Advanced Regex Syntax, Part 2
+  - n: 59
+    title: 8.6 Regex in Python and Regex Groups
+  - n: 60
+    title: 8.7 Regex Case Studies
+  - n: 61
+    title: Discussion 4, Question 1
+  - n: 62
+    title: Discussion 4, Question 2
+  - n: 63
+    title: Discussion 4, Question 3
+  - n: 64
+    title: Discussion 4, Question 4
+  - n: 65
+    title: Discussion 4, Question 5
+  - n: 66
+    title: Discussion 4, Question 6
+  - n: 67
+    title: Discussion 4, Question 7
+  - n: 68
+    title: Discussion 4, Question 8
+  - n: 69
+    title: Discussion 4, Question 9
+  - n: 70
+    title: 9.1 Visualization
+  - n: 71
+    title: 9.2 Encoding
+  - n: 72
+    title: 9.3 Distributions
+  - n: 73
+    title: 9.4 Bar Plots
+  - n: 74
+    title: 9.5 Distributions of Quantitative Variables
+  - n: 75
+    title: 9.6 Describing Distributions
+  - n: 76
+    title: 9.7 Box Plots and Violin Plots
+  - n: 77
+    title: 9.8 Visualizing Pairs of Quantitative Variables
+  - n: 78
+    title: 10.1 Principle of Scale
+  - n: 79
+    title: 10.2 Principle of Conditioning
+  - n: 80
+    title: 10.3 Perception of Color
+  - n: 81
+    title: 10.4 Perception of Markings
+  - n: 82
+    title: 10.5 Principle of Context
+  - n: 83
+    title: 10.6 Kernel Density Estimation
+  - n: 84
+    title: 10.7 Transformations
+  - n: 85
+    title: 11.1 Models
+  - n: 86
+    title: 11.2 Summary Statistics and Notation
+  - n: 87
+    title: 11.3 Loss Functions
+  - n: 88
+    title: 11.4 Minimizing MSE for the constant model, Part 1
+  - n: 89
+    title: 11.5 Minimizing MSE for the constant model, Part 2
+  - n: 90
+    title: 11.6 Minimizing MAE for the constant model
+  - n: 91
+    title: 11.7 Exploring Loss Functions, Summary

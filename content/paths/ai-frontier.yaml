@@ -7,3 +7,5 @@ stages:
     courses: [cs188, cs229]
   - title: 第二章 · 三岔口（任选方向）
     courses: [cs231n, cs224n, cs285]
+  - title: 第三章 · 大模型时代
+    courses: [cs336, mit-6-5940]

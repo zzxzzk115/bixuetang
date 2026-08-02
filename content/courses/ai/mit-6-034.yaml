@@ -1,0 +1,84 @@
+id: mit-6-034
+title: 人工智能
+code: "6.034"
+institution: MIT
+subject: ai
+level: intermediate
+tags: [ 人工智能, 搜索算法, 机器学习, 知识表示 ]
+prerequisites: [ cs61a ]
+estimatedHours: 60
+description: >
+  MIT 经典的人工智能导论课，由已故教授 Patrick Winston 主讲。 内容覆盖搜索与博弈、约束满足、规则系统与知识表示、机器学习（近邻、决策树、神经网络、SVM、Boosting）等， 是理解「符号主义 AI」与「统计学习」两条脉络如何交汇的最佳入口。Winston 的板书与讲故事式讲法极具感染力。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1P7411Y7Ud
+    uploader: 搬运
+    note: 2010 秋季版完整合集，英文字幕
+  - platform: other
+    url: https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/
+    note: 课程官网
+notes:
+  - title: CS自学指南 - MIT 6.034
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 1 Introduction and Scope
+  - n: 2
+    title: 2 Reasoning Goal Trees and Problem Solving
+  - n: 3
+    title: 3 Reasoning Goal Trees and Rule-Based Expert Systems
+  - n: 4
+    title: 4 Search Depth-First Hill Climbing Beam
+  - n: 5
+    title: 5 Search Optimal Branch and Bound A
+  - n: 6
+    title: 6 Search Games Minimax and Alpha-Beta
+  - n: 7
+    title: 7 Constraints Interpreting Line Drawings
+  - n: 8
+    title: 8 Constraints Search Domain Reduction
+  - n: 9
+    title: 9 Constraints Visual Object Recognition
+  - n: 10
+    title: 10 Introduction to Learning Nearest Neighbors
+  - n: 11
+    title: 11 Learning Identification Trees Disorder
+  - n: 12
+    title: 12a Neural Nets
+  - n: 13
+    title: 12b Deep Neural Nets
+  - n: 14
+    title: 13 Learning Genetic Algorithms
+  - n: 15
+    title: 14 Learning Sparse Spaces Phonology
+  - n: 16
+    title: 15 Learning Near Misses Felicity Conditions
+  - n: 17
+    title: 16 Learning Support Vector Machines
+  - n: 18
+    title: 17 Learning Boosting
+  - n: 19
+    title: 18 Representations Classes Trajectories Transitions
+  - n: 20
+    title: 19 Architectures GPS SOAR Subsumption Society of Mind
+  - n: 21
+    title: 21 Probabilistic Inference I
+  - n: 22
+    title: 22 Probabilistic Inference II
+  - n: 23
+    title: 23 Model Merging Cross-Modal Coupling Course Summary
+  - n: 24
+    title: Mega-R1 Rule-Based Systems
+  - n: 25
+    title: Mega-R2 Basic Search Optimal Search
+  - n: 26
+    title: Mega-R3 Games Minimax Alpha-Beta
+  - n: 27
+    title: Mega-R4 Neural Nets
+  - n: 28
+    title: Mega-R5 Support Vector Machines
+  - n: 29
+    title: Mega-R6 Boosting
+  - n: 30
+    title: Mega-R7 Near Misses Arch Learning

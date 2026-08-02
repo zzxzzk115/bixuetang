@@ -1,0 +1,25 @@
+id: cmu-15-411
+title: 编译器设计
+code: "15-411"
+institution: Carnegie Mellon University
+subject: cs
+level: advanced
+tags: [编译器, 代码生成, 静态分析, 系统]
+prerequisites: [cs143]
+estimatedHours: 150
+description: >
+  CMU 的硬核编译器实践课：一学期内从零实现一个 C0 语言（C 的安全子集）到 x86-64 的完整优化编译器。
+  内容覆盖词法语法分析、静态语义检查、中间表示、指令选择、图着色寄存器分配、数据流分析与各类优化。
+  与偏理论的入门编译原理不同，本课重工程实现，做完能真正理解一个编译器的每一层。
+sources:
+  - platform: other
+    url: https://www.cs.cmu.edu/~janh/courses/411/18/
+    note: 课程官网，含全部讲义、Lab 说明与参考实现要求
+  - platform: other
+    url: https://www.cs.cmu.edu/afs/cs/academic/class/15411-f20/www/
+    note: Fall 2020 课程主页
+episodeCount: 26
+notes:
+  - title: CS 自学指南 编译原理部分
+    url: https://csdiy.wiki/
+    kind: site

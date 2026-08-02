@@ -1,0 +1,88 @@
+id: cs106b
+title: 编程抽象
+code: "CS106B"
+institution: Stanford University
+subject: cs
+level: intermediate
+tags: [ C++, 数据结构, 递归, 算法 ]
+prerequisites: [ cs106l ]
+estimatedHours: 90
+description: >
+  斯坦福大学面向编程入门后第二门课，用 C++ 系统讲解抽象数据类型、递归与回溯、 指针与动态内存、链表与二叉搜索树、图算法以及算法复杂度分析。 课程作业质量极高，是从「会写代码」跨越到「会设计程序」的经典阶梯， 也是后续学习 CS161 算法课最扎实的铺垫。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1XH4y1F7Dr
+    uploader: 搬运
+    note: Summer 2020 版本，中英双语字幕，约 30 讲合集
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1G7411k7jG
+    uploader: 搬运
+    note: Winter 2018 版本，中英字幕（机翻），完结 27 讲
+  - platform: other
+    url: https://web.stanford.edu/class/cs106b/
+    note: 课程官网
+notes:
+  - title: CS自学指南 CS106B 攻略
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture1Welcome!.subbed
+  - n: 2
+    title: Lecture2ProgrammingFundamentalsinC++.subbed
+  - n: 3
+    title: Lecture3StringsandTesting.subbed
+  - n: 4
+    title: Lecture4ConsoleProgramsandVectors.subbed
+  - n: 5
+    title: Lecture5OrderedDataStructuresGrids,Queues,andStacks.subbed
+  - n: 6
+    title: Lecture6UnorderedDataStructuresSetsandMaps.subbed
+  - n: 7
+    title: Lecture7UsingAbstractions(ImplementingBreadthFirstSearch).subbed
+  - n: 8
+    title: Lecture8BigONotationandAlgorithmicAnalysis.subbed
+  - n: 9
+    title: Lecture9IntroductiontoRecursion.subbed
+  - n: 10
+    title: Lecture10RecursiveFractals.subbed
+  - n: 11
+    title: Lecture11WhyWeUseRecursion.subbed
+  - n: 12
+    title: Lecture12RecursiveBacktrackingandEnumeration.subbed
+  - n: 13
+    title: Lecture13RecursiveBacktrackingRevisited.subbed
+  - n: 14
+    title: Lecture14RecursiveOptimizationandReview.subbed
+  - n: 15
+    title: Lecture15ObjectOrientedProgramming.subbed
+  - n: 16
+    title: Lecture16DynamicMemoryandArrays.subbed
+  - n: 17
+    title: Lecture17ImplementinganADT.subbed
+  - n: 18
+    title: Lecture18PriorityQueuesandHeaps.subbed
+  - n: 19
+    title: Lecture19MemoryandPointers.subbed
+  - n: 20
+    title: Lecture20IntroductiontoLinkedLists.subbed
+  - n: 21
+    title: Lecture21LinkedListOperations.subbed
+  - n: 22
+    title: Lecture22LinkedListWrapupandIntrotoSorting.subbed
+  - n: 23
+    title: Lecture23AdvancedSorting(DivideandConquer).subbed
+  - n: 24
+    title: Lecture24Trees.subbed
+  - n: 25
+    title: Lecture25BinarySearchTrees.subbed
+  - n: 26
+    title: Lecture26HuffmanCoding.subbed
+  - n: 27
+    title: Lecture27Hashing.subbed
+  - n: 28
+    title: Lecture28GraphsandGraphAlgorithms.subbed
+  - n: 29
+    title: Lecture29MultithreadingandParallelComputing.subbed
+  - n: 30
+    title: Lecture30LifeafterCS106B.subbed

@@ -1,0 +1,52 @@
+id: games203
+title: 三维重建和理解
+code: "GAMES203"
+institution: GAMES (UT Austin 黄其兴)
+subject: cs
+level: advanced
+tags: [ 三维重建, 几何处理, 点云, 计算机视觉 ]
+prerequisites: [ games101 ]
+estimatedHours: 40
+description: >
+  GAMES203 系统讲解三维重建与理解的核心方法：从扫描获取点云、配准（Registration）、 曲面重建，到形状分析、语义理解与深度学习在三维数据上的应用。 由 UT Austin 黄其兴老师主讲，中文授课，是国内少见的成体系三维视觉/几何处理课程。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1pw411d7aS
+    uploader: GAMES-Webinar
+    note: GAMES 官方账号发布，中文授课全 14 讲合集
+  - platform: other
+    url: https://www.cs.utexas.edu/~huangqx/Games_3D_Recons_Understanding.html
+    note: 课程官网
+notes:
+  - title: GAMES 系列课程主页
+    url: https://games-cn.org/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture 1 Introduction and Scanning
+  - n: 2
+    title: Lecture 2 Registration
+  - n: 3
+    title: Lecture 3 Surface Reconstruction
+  - n: 4
+    title: Lecture 4 Structure From Motion
+  - n: 5
+    title: Lecture 5 Multi-View Stereo
+  - n: 6
+    title: Lecture 6 Map Synchronization for Inverse Problems
+  - n: 7
+    title: Lecture 7 Point Cloud Processing
+  - n: 8
+    title: Lecture 8 Mesh Processing
+  - n: 9
+    title: Lecture 9 3D Deep Learning
+  - n: 10
+    title: Lecture 10 Geometric Deep Learning I
+  - n: 11
+    title: Lecture 11 Geometric Deep Learning II
+  - n: 12
+    title: Lecture 12 Geometric Deep Learning III
+  - n: 13
+    title: Lecture 13 Hybrid 3D Representations
+  - n: 14
+    title: Lecture 14 Course Warp&Up

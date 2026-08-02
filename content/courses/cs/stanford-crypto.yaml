@@ -1,0 +1,54 @@
+id: stanford-crypto
+title: 密码学 I
+code: "Cryptography I"
+institution: Stanford University
+subject: cs
+level: advanced
+tags: [ 密码学, 安全, 数论, 协议 ]
+prerequisites: [ ucb-cs161 ]
+estimatedHours: 60
+description: >
+  Dan Boneh 教授的经典密码学入门课，从一次一密与流密码讲到分组密码、哈希与消息认证、 认证加密，再到公钥加密、RSA、Diffie-Hellman 与数字签名。课程强调"可证明安全"的思维方式： 先严格定义攻击模型，再论证方案为何安全。是理解 TLS、区块链等现代安全系统的必备基础。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1yx411T78i
+    uploader: 伊卡酱
+    note: Coursera 版完结合集，全程精校中文译注
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1eU4y1M7ad
+    uploader: 搬运
+    note: 斯坦福密码学中英双语字幕版，备选源
+  - platform: other
+    url: https://crypto.stanford.edu/~dabo/courses/OnlineCrypto/
+    note: 课程官网
+notes:
+  - title: CS 自学指南 密码学部分
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 绪论
+  - n: 2
+    title: 流密码
+  - n: 3
+    title: 分组密码
+  - n: 4
+    title: 使用分组密码
+  - n: 5
+    title: 信息完整性
+  - n: 6
+    title: 抗碰撞
+  - n: 7
+    title: 认证加密
+  - n: 8
+    title: 零碎
+  - n: 9
+    title: 密钥交换
+  - n: 10
+    title: 数论简介
+  - n: 11
+    title: 基于陷门置换的公钥加密
+  - n: 12
+    title: 基于Diffie-Hellman的公钥加密
+  - n: 13
+    title: 特典

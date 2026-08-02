@@ -1,0 +1,56 @@
+id: games001
+title: 图形学中的数学
+code: "GAMES001"
+institution: 北京大学 / GAMES
+subject: math
+level: intermediate
+tags: [ 图形学数学, 线性代数, 微分几何, 数值方法 ]
+prerequisites: [ mit-18-06 ]
+estimatedHours: 60
+description: >
+  由北京大学陈宝权、倪星宇、阮良旺主讲的 GAMES 系列基础课，只要求微积分与线性代数基础。 课程系统梳理图形学所需的数学工具：向量与矩阵、变换与旋转表示、微分与积分、 优化与数值方法、概率与蒙特卡洛等，并在每章结合图形学实例说明其用途。 是补齐 GAMES101/202 数学短板的最佳中文课程。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1MF4m1V7e3
+    uploader: GAMES-Webinar
+    note: 2024 春季官方录播，中文讲授
+  - platform: other
+    url: https://games-cn.org/games001/
+    note: 课程官网
+notes:
+  - title: GAMES001 课件与作业
+    url: https://games-cn.org/games001/
+    kind: site
+episodes:
+  - n: 1
+    title: 线性代数基础（一）
+  - n: 2
+    title: 线性代数基础（二）
+  - n: 3
+    title: 计算几何
+  - n: 4
+    title: 旋转变换
+  - n: 5
+    title: 主成分分析与奇异值分解
+  - n: 6
+    title: 插值&拟合
+  - n: 7
+    title: 傅里叶变换与球谐函数
+  - n: 8
+    title: 概率论（一）
+  - n: 9
+    title: 概率论（二）
+  - n: 10
+    title: 场论初步
+  - n: 11
+    title: 古典微分几何
+  - n: 12
+    title: 微分方程
+  - n: 13
+    title: 线性系统
+  - n: 14
+    title: 生成模型的案例分析
+  - n: 15
+    title: 优化基础
+  - n: 16
+    title: 拓扑

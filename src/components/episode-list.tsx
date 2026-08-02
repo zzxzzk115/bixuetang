@@ -26,6 +26,8 @@ export function EpisodeList({
   const [watchedSet, setWatchedSet] = useState(() => new Set(watched));
   const [playing, setPlaying] = useState<number | null>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [query, setQuery] = useState("");
+  const [expanded, setExpanded] = useState(false);
   const [, startTransition] = useTransition();
   const toastSeq = useRef(0);
 
@@ -82,6 +84,27 @@ export function EpisodeList({
   const total = episodes.length;
   const pct = total === 0 ? 0 : Math.round((done / total) * 100);
 
+  const play = (ep: Episode) => {
+    setPlaying(ep.n);
+    seekTo({ page: ep.n, bvid: ep.bvid });
+    document
+      .getElementById("course-player")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  // 长课（动辄一两百集）默认折叠，避免淹没页面；搜索时展示全部命中
+  const COLLAPSED_LIMIT = 24;
+  const needle = query.trim().toLowerCase();
+  const filtered = needle
+    ? episodes.filter(
+        (e) =>
+          e.title.toLowerCase().includes(needle) || String(e.n) === needle,
+      )
+    : episodes;
+  const collapsible = !needle && filtered.length > COLLAPSED_LIMIT;
+  const visible = collapsible && !expanded ? filtered.slice(0, COLLAPSED_LIMIT) : filtered;
+  const nextUp = episodes.find((e) => !watchedSet.has(e.n));
+
   return (
     <div className="relative">
       {/* 飘字通知 */}
@@ -120,21 +143,47 @@ export function EpisodeList({
         </div>
       </div>
 
-      <p className="mb-2 text-xs text-muted">
-        点标题播放这一集，点左侧方框标记已看
-        {!loggedIn && (
-          <>
-            （
-            <a href="/login" className="text-gold underline">
-              登录
-            </a>
-            后可记录进度、赚取经验值）
-          </>
+      {/* 工具条：继续下一集 + 集内搜索 */}
+      <div className="mb-2 flex flex-wrap items-center gap-2">
+        {nextUp && (
+          <button
+            onClick={() => play(nextUp)}
+            className="rounded border border-gold px-3 py-1 text-xs font-bold text-gold hover:bg-gold hover:text-background"
+          >
+            ▶ 继续第 {nextUp.n} 集
+          </button>
         )}
-      </p>
+        {episodes.length > COLLAPSED_LIMIT && (
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={`在 ${episodes.length} 集中搜索…`}
+            className="min-w-40 flex-1 rounded border border-edge bg-panel px-2.5 py-1 text-xs outline-none focus:border-gold"
+          />
+        )}
+        <span className="text-xs text-muted">
+          点标题播放，点左侧方框标记已看
+          {!loggedIn && (
+            <>
+              （
+              <a href="/login" className="text-gold underline">
+                登录
+              </a>
+              后记录进度）
+            </>
+          )}
+        </span>
+      </div>
+
+      {needle && (
+        <p className="mb-1.5 text-xs text-muted">
+          匹配 {filtered.length} 集
+          {filtered.length === 0 && "——换个关键词试试"}
+        </p>
+      )}
 
       <ol className="grid grid-cols-1 gap-1.5">
-        {episodes.map((ep) => {
+        {visible.map((ep) => {
           const isWatched = watchedSet.has(ep.n);
           const isPlaying = playing === ep.n;
           return (
@@ -165,13 +214,7 @@ export function EpisodeList({
               </button>
               {/* 标题：点击跳转播放该集 */}
               <button
-                onClick={() => {
-                  setPlaying(ep.n);
-                  seekTo({ page: ep.n, bvid: ep.bvid });
-                  document
-                    .getElementById("course-player")
-                    ?.scrollIntoView({ behavior: "smooth", block: "center" });
-                }}
+                onClick={() => play(ep)}
                 title="播放这一集"
                 className={`min-w-0 flex-1 py-1.5 pr-2.5 text-left text-sm ${
                   isWatched ? "text-muted" : "text-foreground"
@@ -185,6 +228,17 @@ export function EpisodeList({
           );
         })}
       </ol>
+
+      {collapsible && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="mt-2 w-full rounded border border-dashed border-edge py-2 text-xs text-muted transition-colors hover:border-gold hover:text-gold"
+        >
+          {expanded
+            ? "▲ 收起"
+            : `▼ 展开剩余 ${filtered.length - COLLAPSED_LIMIT} 集（共 ${filtered.length} 集）`}
+        </button>
+      )}
     </div>
   );
 }

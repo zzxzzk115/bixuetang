@@ -13,3 +13,5 @@ stages:
     courses: [stat110, mit-6-041, mit-18-03]
   - title: 第五章 · 矩阵方法与机器学习
     courses: [mit-18-065]
+  - title: 第六章 · 严格化与数值实践
+    courses: [mit-18-100, mit-18-335]

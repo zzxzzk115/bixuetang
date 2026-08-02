@@ -121,7 +121,7 @@ jobs:
     parents: [render-mage]
     requires:
       minLevel: 18
-      skills: { allOf: [computer-graphics, game-engine], anyOf: [operating-systems, compilers, linear-algebra], minAnyOf: 1 }
+      skills: { allOf: [computer-graphics, game-engine], anyOf: [operating-systems, compilers, linear-algebra, game-dev, parallel-computing], minAnyOf: 1 }
     description: 渲染、引擎与系统合一，亲手铸造游戏引擎的传说职业。
   - id: machine-prophet
     title: 智械先知
@@ -129,7 +129,7 @@ jobs:
     parents: [ml-alchemist]
     requires:
       minLevel: 18
-      skills: { allOf: [deep-learning], anyOf: [computer-vision, nlp, reinforcement-learning, generative-ai], minAnyOf: 2 }
+      skills: { allOf: [deep-learning], anyOf: [computer-vision, nlp, reinforcement-learning, generative-ai, large-models, data-science], minAnyOf: 2 }
     description: 视觉、语言与决策皆入掌中——预见机器智能的走向。
   - id: omniscient-sage
     title: 万象大贤者

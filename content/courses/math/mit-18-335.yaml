@@ -1,0 +1,37 @@
+id: mit-18-335
+title: 数值方法导论
+code: "18.335"
+institution: MIT
+subject: math
+level: advanced
+tags: [ 数值分析, 数值线性代数, 浮点运算, 科学计算 ]
+prerequisites: [ mit-18-06 ]
+estimatedHours: 100
+description: >
+  MIT 研究生层次的数值方法课程，核心是数值算法的精度与效率：浮点运算与舍入误差、 条件数与稳定性、后向误差分析，以及稠密与稀疏矩阵的线性方程组、最小二乘和特征值算法。 课程由 Steven G. Johnson 讲授，大量结合 Julia 实操，是把线性代数真正用起来的关键一课。
+  注意：本课无公开录像，以官网讲义与 Julia notebook 自学为主。
+sources:
+  - platform: other
+    url: https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/
+    note: 课程官网
+notes:
+  - title: mitmath/18335 课程仓库（讲义与 Julia notebook）
+    url: https://github.com/mitmath/18335
+    kind: github
+episodes:
+  - n: 1
+    title: Lec 23 | MIT 18.086 Mathematical Methods for Engineers II
+  - n: 2
+    title: Lec 1 | MIT 18.086 Mathematical Methods for Engineers II
+  - n: 3
+    title: Lec 2 | MIT 18.086 Mathematical Methods for Engineers II
+  - n: 4
+    title: Lec 3 | MIT 18.086 Mathematical Methods for Engineers II
+  - n: 5
+    title: Lec 4 | MIT 18.086 Mathematical Methods for Engineers II
+  - n: 6
+    title: Lec 5 | MIT 18.086 Mathematical Methods for Engineers II
+  - n: 7
+    title: Lec 6 | MIT 18.086 Mathematical Methods for Engineers II
+  - n: 8
+    title: Lec 7 | MIT 18.086 Mathematical Methods for Engineers II

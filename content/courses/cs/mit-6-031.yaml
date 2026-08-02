@@ -1,0 +1,28 @@
+id: mit-6-031
+title: 软件构造
+code: "6.031"
+institution: MIT
+subject: cs
+level: intermediate
+tags: [软件工程, 代码质量, 测试, 抽象数据类型]
+prerequisites: [cs61b]
+estimatedHours: 120
+description: >
+  MIT 的软件构造课程，围绕「安全免于 bug、易于理解、可以改进」三大目标，
+  系统讲解规约、抽象数据类型、不变量、测试、并发与设计模式。
+  最大特色是全套在线教材与阅读练习完全公开，逐章配有自测题，适合自学者按章推进。
+sources:
+  - platform: other
+    url: https://web.mit.edu/6.031/www/sp23/
+    note: 课程官网（全套在线教材、阅读练习与实验）
+  - platform: other
+    url: https://ocw.mit.edu/courses/6-005-software-construction-fall-2016/
+    note: 前身 6.005 在 MIT OCW 的完整课程资料
+episodeCount: 30
+notes:
+  - title: CS自学指南 MIT 6.031
+    url: https://csdiy.wiki/
+    kind: site
+  - title: 6.031 课程阅读中文翻译
+    url: https://github.com/WangYihang/MIT-6.031-Readings-zh-cn
+    kind: github

@@ -1,0 +1,166 @@
+id: mit-6-5940
+title: TinyML 与高效深度学习计算
+code: "6.5940"
+institution: 麻省理工学院
+subject: ai
+level: advanced
+instructor: 韩松 (Song Han)
+tags: [ 模型压缩, 量化, 剪枝, 推理加速 ]
+prerequisites: [ d2l ]
+estimatedHours: 80
+description: >
+  韩松教授主讲的模型效率专题课，系统讲解剪枝、量化、知识蒸馏、神经架构搜索， 以及大模型推理加速、长上下文优化、分布式与端侧训练等前沿话题。 课程配套实验可以把模型真正部署到微控制器上跑起来，是"让模型变小变快"方向最权威的公开课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1W14y1C7jv
+    uploader: MIT-HAN-LAB
+    note: Fall 2023 官方录播，英文原声（B 站可开启自动字幕）
+  - platform: other
+    url: https://hanlab.mit.edu/courses/2024-fall-65940
+    note: 课程官网
+notes:
+  - title: CSDIY 课程攻略
+    url: https://csdiy.wiki/en/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%B3%BB%E7%BB%9F/EML/
+    kind: site
+  - title: 全套作业参考实现
+    url: https://github.com/yifanlu0227/MIT-6.5940
+    kind: github
+episodes:
+  - n: 1
+    title: EfficientML.ai Lecture 1 - Introduction (Fall 2023)
+    bvid: BV1W14y1C7jv
+  - n: 2
+    title: EfficientML.ai, Lecture 1 - Introduction (Fall 2023, Zoom recording)
+    bvid: BV18z4y1T75H
+  - n: 3
+    title: EfficientML.ai Lecture 2 - Basics of Neural Networks (MIT 6.5940, Fall 2023)
+    bvid: BV16F411D71C
+  - n: 4
+    title: EfficientML.ai Lecture 2 - Basics of Neural Networks (MIT 6.5940, Fall 2023, Zoo
+    bvid: BV1Dh4y1w7ea
+  - n: 5
+    title: EfficientML.ai Lec 3 - Pruning and Sparsity (Part I) MIT 6.5940, Fall 2023
+    bvid: BV1S94y1W78u
+  - n: 6
+    title: EfficientML.ai Lec 3 - Pruning and Sparsity (Part I) MIT 6.5940, Fall 2023, Zoom
+    bvid: BV15h4y1Y7wo
+  - n: 7
+    title: EfficientML.ai Lecture 4 - Pruning and Sparsity (Part II) (MIT 6.5940, Fall 2023
+    bvid: BV18w411e7Tp
+  - n: 8
+    title: EfficientML.ai Lec 4 - Pruning and Sparsity (Part II)(MIT 6.5940, Fall 2023 Zoom
+    bvid: BV16V411A73Z
+  - n: 9
+    title: EfficientML.ai Lecture 5 - Quantization (Part I) (MIT 6.5940, Fall 2023)
+    bvid: BV1tr4y1f73W
+  - n: 10
+    title: EfficientML.ai Lecture 5 - Quantization (Part I) (MIT 6.5940, Fall 2023, Zoom
+    bvid: BV14H4y1U7EE
+  - n: 11
+    title: EfficientML.ai Lecture 6 - Quantization (Part II) (MIT 6.5940, Fall 2023)
+    bvid: BV13V411w7sn
+  - n: 12
+    title: EfficientML.ai Lecture 6 - Quantization (Part II) (MIT 6.5940, Fall 2023, Zoom
+    bvid: BV1cV411w7Pi
+  - n: 13
+    title: EfficientML.ai Lec 7 - Neural Architecture Search (Part I) (MIT 6.5940, Fall
+    bvid: BV1R94y1h7Dt
+  - n: 14
+    title: EfficientML.ai Lec 7 - Neural Architecture Search (Part I)(MIT 6.5940, Fall Zoom
+    bvid: BV1SF41127jx
+  - n: 15
+    title: EfficientML.ai Lec 8 - Neural Architecture Search (Part II) (MIT 6.5940, Fall
+    bvid: BV1Hu4y1x79z
+  - n: 16
+    title: EfficientML.ai Lec 8 - Neural Architecture Search (Part II)(MIT 6.5940 Fall Zoom
+    bvid: BV1vC4y1L731
+  - n: 17
+    title: EfficientML.ai Lecture 9 - Knowledge Distillation (MIT 6.5940, Fall 2023)
+    bvid: BV1RH4y1d7MK
+  - n: 18
+    title: EfficientML.ai Lecture 9 - Knowledge Distillation (MIT 6.5940, Fall 2023, Zoom)
+    bvid: BV1ew411y7go
+  - n: 19
+    title: "EfficientML.ai Lec 10 - MCUNet: TinyML on Microcontrollers (MIT 6.5940 Fall 2023"
+    bvid: BV1XN4y1C7vi
+  - n: 20
+    title: "EfficientML.ai Lec 10-MCUNet: TinyML on Microcontrollers MIT 6.5940 Fall 2023 Zo"
+    bvid: BV1RG41127gx
+  - n: 21
+    title: EfficientML.ai Lec 11 - TinyEngine and Parallel Processing (MIT 6.5940 Fall 2023
+    bvid: BV1Fh4y1B7RL
+  - n: 22
+    title: EfficientML.ai Lec 11 - TinyEngine and Parallel Processing (MIT 6.5940 Fall 2023
+    bvid: BV1wy4y1K7ZX
+  - n: 23
+    title: EfficientML.ai Lecture 12 - Transformer and LLM (Part I) (MIT 6.5940, Fall 2023)
+    bvid: BV1uu4y1W7Pg
+  - n: 24
+    title: EfficientML.ai Lecture 12 - Transformer and LLM (Part I) (MIT 6.5940, Fall 2023,
+    bvid: BV1tw411B72R
+  - n: 25
+    title: EfficientML.ai Lec 13 - Transformer and LLM (Part II) (MIT 6.5940, Fall 2023)
+    bvid: BV1fc411d7fr
+  - n: 26
+    title: EfficientML.ai Lec 13 - Transformer and LLM (Part II) (MIT 6.5940 Fall 2023 Zoom
+    bvid: BV1Jy4y1c7WT
+  - n: 27
+    title: EfficientML.ai Lecture 14 - Vision Transformer (MIT 6.5940, Fall 2023)
+    bvid: BV16c411d7SS
+  - n: 28
+    title: EfficientML.ai Lecture 14 - Vision Transformer (MIT 6.5940, Fall 2023, Zoom)
+    bvid: BV12c411d7Ee
+  - n: 29
+    title: EfficientML.ai Lecture 15 - GAN, Video, and Point Cloud (MIT 6.5940, Fall 2023)
+    bvid: BV1Eu4y1a728
+  - n: 30
+    title: EfficientML.ai Lecture 15 - GAN, Video, and Point Cloud (MIT 6.5940, Fall 2023,
+    bvid: BV17y4y1c7F2
+  - n: 31
+    title: EfficientML.ai Lecture 16 - Diffusion Model (MIT 6.5940, Fall 2023)
+    bvid: BV1Aa4y197AL
+  - n: 32
+    title: EfficientML.ai Lecture 16 - Diffusion Model (MIT 6.5940, Fall 2023, Zoom)
+    bvid: BV1nw411B7Eo
+  - n: 33
+    title: "EfficientML.ai Lec 17: Distributed Training (Part I) (MIT 6.5940, Fall 2023)"
+    bvid: BV1cN4y1S7k8
+  - n: 34
+    title: "EfficientML.ai Lec 18: Distributed Training (Part II)(MIT 6.5940, Fall 2023 Zoom"
+    bvid: BV1Lu4y1b76T
+  - n: 35
+    title: "EfficientML.ai Lec 18: Distributed Training (Part II) (MIT 6.5940, Fall 2023)"
+    bvid: BV1yN411M7HY
+  - n: 36
+    title: "EfficientML.ai Lec 17: Distributed Training (Part I) (MIT 6.5940, Fall 2023 Zoom"
+    bvid: BV12Q4y1t7ue
+  - n: 37
+    title: "EfficientML.ai Lec 19: On-Device Training and Transfer Learning (MIT 6.5940 Zoom"
+    bvid: BV1Yj41177Pz
+  - n: 38
+    title: "EfficientML.ai Lec 19: On-Device Training and Transfer Learning (MIT 6.5940)"
+    bvid: BV15w411n78o
+  - n: 39
+    title: EfficientML.ai Lec 20:Efficient Fine-tuning and Prompt Engineering (MIT 6.5940 Z
+    bvid: BV1TQ4y1t7wc
+  - n: 40
+    title: "EfficientML.ai Lec 20: Efficient Fine-tuning and Prompt Engineering (MIT 6.5940)"
+    bvid: BV17a4y1Z7L7
+  - n: 41
+    title: "EfficientML.ai Lecture 21: Basics of Quantum Computing (MIT 6.5940, Fall 2023, Z"
+    bvid: BV1Jw411n7M4
+  - n: 42
+    title: "EfficientML.ai Lecture 21: Basics of Quantum Computing (MIT 6.5940, Fall 2023)"
+    bvid: BV1FM411o7Sg
+  - n: 43
+    title: "EfficientML.ai Lecture 22: Quantum Machine Learning (MIT 6.5940, Fall 2023, Zoom"
+    bvid: BV1jw411b7Hz
+  - n: 44
+    title: "EfficientML.ai Lecture 22: Quantum Machine Learning (MIT 6.5940, Fall 2023)"
+    bvid: BV1xH4y1y7rw
+  - n: 45
+    title: "EfficientML.ai Lecture 23: Noise Robust Quantum ML (MIT 6.5940, Fall 2023, Zoom)"
+    bvid: BV1jw411b75s
+  - n: 46
+    title: "EfficientML.ai Lecture 23: Noise Robust Quantum ML (MIT 6.5940, Fall 2023)"
+    bvid: BV1WG411v7bo

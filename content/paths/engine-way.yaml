@@ -6,8 +6,10 @@ stages:
   - title: 第一章 · 图形起点
     courses: [games101]
   - title: 第二章 · 实时渲染进阶
-    courses: [games202]
+    courses: [games202, cmu-15-462]
   - title: 第三章 · 引擎全景
     courses: [games104]
   - title: 第四章 · 亲手铸造（百集长征）
     courses: [thecherno-engine]
+  - title: 第五章 · 玩法与实战
+    courses: [cs50g]

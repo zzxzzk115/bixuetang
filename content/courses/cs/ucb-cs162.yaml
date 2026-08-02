@@ -1,0 +1,82 @@
+id: ucb-cs162
+title: 操作系统与系统编程
+code: "CS162"
+institution: UC Berkeley
+subject: cs
+level: advanced
+tags: [ 操作系统, 并发, 文件系统, 系统编程 ]
+prerequisites: [ csapp ]
+estimatedHours: 150
+description: >
+  伯克利的操作系统经典课程，覆盖进程与线程、调度、同步、虚拟内存、 文件系统与分布式系统基础。配套 Pintos 系列实验强度大但收获极高， 是把「读过操作系统」变成「写过操作系统」的关键一课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1MwDSYWEKy
+    uploader: 搬运
+    note: 2020 春季版，精翻中文字幕、英文原声
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1yk4y1q7C6
+    uploader: 搬运
+    note: 2020 春季版，完结，中英双语字幕（机翻+人工校对）
+  - platform: other
+    url: https://cs162.org/
+    note: 课程官网
+notes:
+  - title: CS自学指南 UCB CS162
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 什么是操作系统？
+  - n: 2
+    title: 操作系统的四个基本概念
+  - n: 3
+    title: 抽象 1：线程和进程
+  - n: 4
+    title: 抽象 2：文件和 I⧸O 系统
+  - n: 5
+    title: 抽象 3：IPC、管道和套接字
+  - n: 6
+    title: 同步 1：并发和互斥
+  - n: 7
+    title: 6.5：并发和互斥（补充内容）
+  - n: 8
+    title: 7：同步 2：信号量（续）、锁的实现、原子指令
+  - n: 9
+    title: 8：同步 3：原子指令（续）、监视器、读写锁
+  - n: 10
+    title: 9：同步 4：监视器和读写锁（续）、进程结构
+  - n: 11
+    title: 10：调度 1：概念和经典策略
+  - n: 12
+    title: 11：调度 2：案例研究、实时性和前进性
+  - n: 13
+    title: 12：调度 3：死锁
+  - n: 14
+    title: 13：内存 1：地址转换和虚拟内存
+  - n: 15
+    title: 14：内存 2：虚拟内存（续）、缓存和 TLBs
+  - n: 16
+    title: 15：内存 3：缓存和 TLBs（续）、缓存替换
+  - n: 17
+    title: 16：内存 4：分页策略
+  - n: 18
+    title: 17：分页（完成）、通用 I⧸O、存储设备
+  - n: 19
+    title: 18：通用 I⧸O（续）、存储设备、性能
+  - n: 20
+    title: 19：文件系统 1：性能（续）、排队理论、文件系统设计
+  - n: 21
+    title: 20：文件系统 2：文件系统设计（续）、文件系统案例研究
+  - n: 22
+    title: 21：文件系统 3：案例研究（续）、缓冲区、可靠性和事务
+  - n: 23
+    title: 22：事务（续）、端到端论点、分布式决策
+  - n: 24
+    title: 23：分布式决策（续）、网络和 TCP⧸IP
+  - n: 25
+    title: 24：网络和 TCP⧸IP（续）、RPC、分布式文件系统
+  - n: 26
+    title: 25：分布式存储、NFS 和 AFS、键值存储
+  - n: 27
+    title: 讲座 26（可选）：键值存储（续）、Chord、数据胶囊、量子计算

@@ -1,0 +1,73 @@
+id: cmu-15-462
+title: 计算机图形学
+code: "15-462/662"
+institution: 卡内基梅隆大学 CMU
+subject: cs
+level: advanced
+tags: [ 计算机图形学, 渲染, 几何处理, C++ ]
+prerequisites: [ games101 ]
+estimatedHours: 120
+description: >
+  CMU 由 Keenan Crane 主讲的图形学经典课程，系统讲解几何表示、网格处理、光栅化、 光线追踪、辐射度量学与动画物理仿真。课程配套 Scotty3D 项目，用 C++ 从零实现 一套完整的建模、渲染与动画工具链，是 GAMES101 之后最值得动手的进阶课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1sv411k7pS
+    uploader: 搬运
+    note: 2020/2021 秋季版本，英文字幕（可开自动翻译）
+  - platform: other
+    url: http://15462.courses.cs.cmu.edu/
+    note: 课程官网
+notes:
+  - title: CS自学指南 CMU 15-462
+    url: https://csdiy.wiki/
+    kind: site
+  - title: Scotty3D 项目文档
+    url: https://cmu-graphics.github.io/Scotty3D/
+    kind: site
+episodes:
+  - n: 1
+    title: Welcome Video
+  - n: 2
+    title: 01- Course Overview
+  - n: 3
+    title: 02- Linear Algebra (P)
+  - n: 4
+    title: 03- Vector Calculus (P)Review
+  - n: 5
+    title: 04- Drawing a Triangle and an Intro to
+  - n: 6
+    title: 05- Spatial Transformations
+  - n: 7
+    title: 06- 3D Rotations and Complex Represent
+  - n: 8
+    title: 07- Perspective Projection and Texture
+  - n: 9
+    title: 08- Depth and Transparency
+  - n: 10
+    title: 09- Introduction to Geometry
+  - n: 11
+    title: 10- Meshes and Manifolds
+  - n: 12
+    title: 11- Digital Geometry Processing
+  - n: 13
+    title: 12- Geometric Queries
+  - n: 14
+    title: 13- Spatial Data Structures
+  - n: 15
+    title: 14- Color
+  - n: 16
+    title: 15- Radiometry
+  - n: 17
+    title: 16- The Rendering Equation
+  - n: 18
+    title: 17- Numerical Integration
+  - n: 19
+    title: 18- Monte Carlo Rendering
+  - n: 20
+    title: 19- Variance Reduction
+  - n: 21
+    title: 20- Introduction to Animation
+  - n: 22
+    title: 21- Dynamics and Time Integration
+  - n: 23
+    title: 22- Optimization
