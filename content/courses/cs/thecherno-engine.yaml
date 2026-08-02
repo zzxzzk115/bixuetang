@@ -1,0 +1,26 @@
+id: thecherno-engine
+title: 从零开发游戏引擎（Hazel）
+code: "TheCherno Game Engine"
+institution: TheCherno（YouTube）
+instructor: Yan Chernikov
+subject: cs
+level: advanced
+tags: [游戏引擎, c++, opengl, 实战]
+prerequisites: [games101]
+estimatedHours: 100
+description: >
+  前 EA 工程师 Cherno 的传奇系列：用 C++ 从空项目一行行写出 Hazel 引擎——
+  窗口、事件、渲染层、ECS、编辑器。跟着敲完你就有一个自己的引擎。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1sa4y1v7zk
+    uploader: 搬运
+    note: 搬运合集，英文原声
+  - platform: youtube
+    url: https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
+    note: 官方 Game Engine 系列播放列表
+episodeCount: 100
+notes:
+  - title: Hazel 引擎源码
+    url: https://github.com/TheCherno/Hazel
+    kind: github

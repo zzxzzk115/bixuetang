@@ -1,0 +1,26 @@
+id: games104
+title: 现代游戏引擎：从入门到实践
+code: "GAMES104"
+institution: GAMES / BOOMING
+instructor: 王希
+subject: cs
+level: advanced
+tags: [游戏引擎, 渲染管线, 物理, 中文原声]
+prerequisites: [games101]
+estimatedHours: 60
+description: >
+  王希（Piccolo 引擎负责人）中文授课：引擎架构分层、渲染管线、动画、物理、
+  粒子、Gameplay、网络同步——现代商业引擎的全景图，配套开源引擎 Piccolo 实践。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1oU4y1R7Km
+    uploader: GAMES-Webinar（官方）
+    note: 官方账号逐讲发布，此为第 01 讲，可从合集页续看
+  - platform: other
+    url: https://games104.boomingtech.com/
+    note: 课程官网（Piccolo 引擎与作业）
+episodeCount: 22
+notes:
+  - title: GAMES104 课程笔记（知乎专栏）
+    url: https://zhuanlan.zhihu.com/p/597024196
+    kind: blog

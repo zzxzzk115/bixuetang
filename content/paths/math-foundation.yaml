@@ -7,3 +7,5 @@ stages:
     courses: [mit-18-01]
   - title: 第二章 · 线性代数（先建直觉再上硬课）
     courses: [essence-of-linear-algebra, mit-18-06]
+  - title: 第三章 · 离散与多元
+    courses: [mit-6-042j, mit-18-02]

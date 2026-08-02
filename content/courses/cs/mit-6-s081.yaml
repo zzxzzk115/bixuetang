@@ -1,0 +1,28 @@
+id: mit-6-s081
+title: 操作系统工程
+code: "MIT 6.S081"
+institution: MIT
+subject: cs
+level: advanced
+tags: [操作系统, xv6, risc-v]
+prerequisites: [csapp]
+estimatedHours: 80
+description: >
+  MIT 本科 OS：基于教学内核 xv6（RISC-V）讲系统调用、页表、中断、
+  锁与文件系统，Lab 直接改内核。与南大 jyy 课互补的动手路线。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV19k4y1C7kA
+    uploader: 搬运
+    note: 2020 版，中英字幕
+  - platform: other
+    url: https://pdos.csail.mit.edu/6.S081/
+    note: 课程官网（xv6 Lab）
+episodeCount: 22
+notes:
+  - title: MIT 6.S081 中文课程笔记（简中翻译）
+    url: https://mit-public-courses-cn-translatio.gitbook.io/mit6-s081
+    kind: site
+  - title: CS 自学指南：6.S081 攻略
+    url: https://csdiy.wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MIT6.S081/
+    kind: site

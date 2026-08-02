@@ -48,7 +48,7 @@ jobs:
     parents: [cs-apprentice]
     requires:
       minLevel: 8
-      skills: { allOf: [computer-systems], anyOf: [algorithms, distributed-systems, operating-systems], minAnyOf: 1 }
+      skills: { allOf: [computer-systems], anyOf: [algorithms, distributed-systems, operating-systems, networks, databases], minAnyOf: 1 }
     description: 从比特到集群，皆在你的守望之下。
   - id: algo-duelist
     title: 算法决斗家
@@ -105,3 +105,37 @@ jobs:
     requires:
       minLevel: 15
     description: 四系皆通的传说职业。
+
+  # ---------- 3 转（传说） ----------
+  - id: grand-architect
+    title: 架构宗师
+    tier: 3
+    parents: [systems-warden]
+    requires:
+      minLevel: 18
+      skills: { allOf: [operating-systems], anyOf: [distributed-systems, networks, databases], minAnyOf: 2 }
+    description: 内核、网络、存储与集群融会贯通——系统世界的立法者。
+  - id: engine-soul
+    title: 引擎之魂
+    tier: 3
+    parents: [render-mage]
+    requires:
+      minLevel: 18
+      skills: { allOf: [computer-graphics, game-engine], anyOf: [operating-systems, compilers, linear-algebra], minAnyOf: 1 }
+    description: 渲染、引擎与系统合一，亲手铸造游戏引擎的传说职业。
+  - id: machine-prophet
+    title: 智械先知
+    tier: 3
+    parents: [ml-alchemist]
+    requires:
+      minLevel: 18
+      skills: { allOf: [deep-learning], anyOf: [computer-vision, nlp, reinforcement-learning, generative-ai], minAnyOf: 2 }
+    description: 视觉、语言与决策皆入掌中——预见机器智能的走向。
+  - id: omniscient-sage
+    title: 万象大贤者
+    tier: 3
+    parents: [polymath]
+    requires:
+      minLevel: 25
+      skills: { anyOf: [distributed-systems, computer-graphics, waves, generative-ai, linear-algebra], minAnyOf: 3 }
+    description: 横跨四系高峰的终极传说——公会史册将记下你的名字。

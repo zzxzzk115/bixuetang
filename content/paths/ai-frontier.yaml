@@ -1,0 +1,9 @@
+id: ai-frontier
+title: AI 前沿三岔口
+subject: ai
+description: 打完深度学习基础后的三条进阶支线——视觉、语言、决策，任选其一或全修成为智械先知。
+stages:
+  - title: 第一章 · 经典 AI 与理论根基
+    courses: [cs188, cs229]
+  - title: 第二章 · 三岔口（任选方向）
+    courses: [cs231n, cs224n, cs285]

@@ -1,0 +1,26 @@
+id: cs231n
+title: 卷积神经网络与计算机视觉
+code: "Stanford CS231n"
+institution: Stanford
+instructor: 李飞飞 / Andrej Karpathy
+subject: ai
+level: advanced
+tags: [计算机视觉, cnn, 深度学习]
+prerequisites: [d2l]
+estimatedHours: 60
+description: >
+  深度学习视觉方向的事实标准课：从图像分类、CNN、训练技巧
+  到检测分割与生成模型。2017 版由 Karpathy 亲授，讲义至今常青。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1E441187AC
+    uploader: 搬运
+    note: 2017 版全 16 讲，中英字幕
+  - platform: other
+    url: https://cs231n.stanford.edu/
+    note: 课程官网（作业框架）
+episodeCount: 16
+notes:
+  - title: CS231n 官方笔记中文翻译
+    url: https://zhuanlan.zhihu.com/p/21930884
+    kind: blog

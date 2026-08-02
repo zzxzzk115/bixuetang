@@ -1,0 +1,26 @@
+id: cs229
+title: 机器学习（理论向）
+code: "Stanford CS229"
+institution: Stanford
+instructor: 吴恩达 Andrew Ng
+subject: ai
+level: advanced
+tags: [机器学习, 数学推导, 理论]
+prerequisites: [andrew-ng-ml, mit-18-06]
+estimatedHours: 70
+description: >
+  吴恩达的校内版机器学习：比 Coursera 版硬核得多，白板推导 GLM、SVM、
+  EM、学习理论。想真正理解 ML 数学根基的进阶必修。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Et4y1U7WB
+    uploader: 搬运
+    note: 2018 秋官方高清版，双语字幕
+  - platform: other
+    url: https://cs229.stanford.edu/
+    note: 课程官网（讲义 notes 是精华）
+episodeCount: 20
+notes:
+  - title: CS229 中文讲义笔记
+    url: https://github.com/Kivy-CN/Stanford-CS-229-CN
+    kind: github

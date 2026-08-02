@@ -1,0 +1,26 @@
+id: cs61b
+title: 数据结构与算法
+code: "UCB CS61B"
+institution: UC Berkeley
+instructor: Josh Hug
+subject: cs
+level: intermediate
+tags: [数据结构, java, 算法]
+prerequisites: [cs61a]
+estimatedHours: 80
+description: >
+  伯克利数据结构神课：用 Java 实现链表、散列、树、图与排序，
+  配套 Gitlet（迷你 Git）等硬核项目。转码与打基础的口碑之选。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1FSzNYpE7s
+    uploader: 搬运
+    note: 2021 版，中英字幕
+  - platform: other
+    url: https://sp21.datastructur.es/
+    note: 课程官网（讲义 / 实验 / 项目）
+episodeCount: 40
+notes:
+  - title: CS 自学指南：CS61B 攻略
+    url: https://csdiy.wiki/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/CS61B/
+    kind: site

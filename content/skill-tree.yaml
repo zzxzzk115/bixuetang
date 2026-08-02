@@ -5,7 +5,7 @@ nodes:
     subject: cs
     tier: 1
     requires: []
-    courses: [cs61a]
+    courses: [cs61a, cs50]
     rule: any
     description: 会用抽象组织程序，理解递归与高阶函数。
   - id: cli-toolbox
@@ -21,15 +21,15 @@ nodes:
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [csapp, nand2tetris]
+    courses: [csapp, nand2tetris, cs61c]
     rule: any
-    description: 理解程序在机器上如何真正运行——自顶向下（CSAPP）或自底向上（Nand2Tetris）任选一条路。
+    description: 理解程序在机器上如何真正运行——自顶向下（CSAPP）、自底向上（Nand2Tetris）或伯克利路线（CS61C）任选。
   - id: algorithms
     title: 算法之刃
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [mit-6-006]
+    courses: [mit-6-006, cs61b]
     rule: any
     description: 掌握核心数据结构与算法设计范式。
   - id: distributed-systems
@@ -50,15 +50,42 @@ nodes:
     courses: [games101, games202]
     rule: any
     description: 三大浪漫之一：亲手渲染出一个世界。
+  - id: game-engine
+    title: 引擎之心
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [computer-graphics]
+    courses: [games104, thecherno-engine]
+    rule: any
+    description: 把渲染、物理与工具链熔铸成一台引擎。
   - id: operating-systems
     title: 内核奥义
     subject: cs
     tier: 3
     cost: 2
     requires: [computer-systems]
-    courses: [nju-os]
+    courses: [nju-os, mit-6-s081]
     rule: any
     description: 三大浪漫之二：状态机视角驾驭并发与虚拟化。
+  - id: networks
+    title: 网络之径
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [computer-systems]
+    courses: [cs144]
+    rule: any
+    description: 从比特流到 TCP——亲手实现一个协议栈。
+  - id: databases
+    title: 数据之库
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [computer-systems]
+    courses: [cmu-15-445]
+    rule: any
+    description: 存储引擎、索引与事务的内部世界。
   - id: compilers
     title: 编译之艺
     subject: cs
@@ -75,9 +102,17 @@ nodes:
     subject: math
     tier: 1
     requires: []
-    courses: [mit-18-01]
+    courses: [mit-18-01, mit-18-02]
     rule: any
     description: 极限、导数与积分——变化的语言。
+  - id: discrete-math
+    title: 离散之基
+    subject: math
+    tier: 1
+    requires: []
+    courses: [mit-6-042j]
+    rule: any
+    description: 证明、图论与计数——算法正确性的语言。
   - id: linear-intuition
     title: 线性直觉
     subject: math
@@ -128,9 +163,17 @@ nodes:
     subject: ai
     tier: 1
     requires: [linear-intuition]
-    courses: [andrew-ng-ml]
+    courses: [andrew-ng-ml, cs188]
     rule: any
-    description: 监督学习的基本功。
+    description: 监督学习与经典 AI 的基本功。
+  - id: ml-theory
+    title: 统计学习之理
+    subject: ai
+    tier: 2
+    requires: [ml-basics]
+    courses: [cs229]
+    rule: any
+    description: 白板推导出的机器学习数学根基。
   - id: deep-learning
     title: 深度学习
     subject: ai
@@ -148,3 +191,30 @@ nodes:
     courses: [hung-yi-lee-ml]
     rule: any
     description: Transformer 与 Diffusion 的炼成术。
+  - id: computer-vision
+    title: 视觉之眼
+    subject: ai
+    tier: 3
+    cost: 2
+    requires: [deep-learning]
+    courses: [cs231n]
+    rule: any
+    description: 让机器看见世界。
+  - id: nlp
+    title: 语言之灵
+    subject: ai
+    tier: 3
+    cost: 2
+    requires: [deep-learning]
+    courses: [cs224n]
+    rule: any
+    description: 从词向量到大语言模型。
+  - id: reinforcement-learning
+    title: 决策之道
+    subject: ai
+    tier: 3
+    cost: 2
+    requires: [deep-learning]
+    courses: [cs285]
+    rule: any
+    description: 在试错中学会最优策略。

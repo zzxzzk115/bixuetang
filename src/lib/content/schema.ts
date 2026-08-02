@@ -204,7 +204,7 @@ export type JobRequires = z.infer<typeof JobRequiresSchema>;
 export const JobSchema = z.object({
   id: slug,
   title: z.string(),
-  tier: z.number().int().min(0).max(2), // 0=新手 1=一转 2=二转
+  tier: z.number().int().min(0).max(3), // 0=新手 1=一转 2=二转 3=三转（传说）
   parents: z.array(slug).default([]), // 多 parent = 兼修复合职业
   requires: JobRequiresSchema.default({}),
   description: z.string().optional(),

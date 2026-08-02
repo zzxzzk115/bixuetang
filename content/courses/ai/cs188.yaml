@@ -1,0 +1,25 @@
+id: cs188
+title: 人工智能导论
+code: "UCB CS188"
+institution: UC Berkeley
+subject: ai
+level: intermediate
+tags: [搜索, mdp, 强化学习入门, 吃豆人]
+prerequisites: [cs61a]
+estimatedHours: 60
+description: >
+  伯克利经典 AI 课：搜索、约束满足、博弈、MDP、强化学习、贝叶斯网络。
+  Project 全程围绕吃豆人（Pacman）展开，是「传统 AI」的最佳入门。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1r3411p7H8
+    uploader: 搬运
+    note: 中英双语字幕
+  - platform: other
+    url: https://inst.eecs.berkeley.edu/~cs188/
+    note: 课程官网（Pacman Projects）
+episodeCount: 29
+notes:
+  - title: CS 自学指南：CS188 攻略
+    url: https://csdiy.wiki/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/CS188/
+    kind: site

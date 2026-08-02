@@ -1,0 +1,26 @@
+id: cs285
+title: 深度强化学习
+code: "UCB CS285"
+institution: UC Berkeley
+instructor: Sergey Levine
+subject: ai
+level: advanced
+tags: [强化学习, 策略梯度, 机器人]
+prerequisites: [d2l, cs188]
+estimatedHours: 60
+description: >
+  Sergey Levine 的深度强化学习：策略梯度、Q 学习、模型强化学习、
+  离线 RL。机器人与决策方向的研究生标准课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV12341167kL
+    uploader: 搬运
+    note: 2020 版全 23 讲，双语字幕（2019 版另有官方授权翻译）
+  - platform: other
+    url: https://rail.eecs.berkeley.edu/deeprlcourse/
+    note: 课程官网
+episodeCount: 23
+notes:
+  - title: CS 自学指南：CS285 攻略
+    url: https://csdiy.wiki/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/CS285/
+    kind: site

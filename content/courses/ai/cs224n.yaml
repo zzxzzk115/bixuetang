@@ -1,0 +1,26 @@
+id: cs224n
+title: 深度自然语言处理
+code: "Stanford CS224n"
+institution: Stanford
+instructor: Christopher Manning
+subject: ai
+level: advanced
+tags: [nlp, transformer, 大语言模型]
+prerequisites: [d2l]
+estimatedHours: 60
+description: >
+  NLP 方向标准课：词向量、RNN、注意力、Transformer、预训练与大模型。
+  Manning 讲授，通往 LLM 时代的正门。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV18Y411p79k
+    uploader: 搬运
+    note: 2021 冬季版，中英字幕
+  - platform: other
+    url: https://web.stanford.edu/class/cs224n/
+    note: 课程官网
+episodeCount: 22
+notes:
+  - title: CS224n 中文笔记（ShowMeAI）
+    url: https://www.showmeai.tech/tutorials/36
+    kind: site

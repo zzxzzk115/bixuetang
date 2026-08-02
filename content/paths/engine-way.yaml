@@ -1,0 +1,13 @@
+id: engine-way
+title: 引擎之道
+subject: cs
+description: 从渲染第一课到亲手写出自己的引擎——通往引擎之魂的完整修行。
+stages:
+  - title: 第一章 · 图形起点
+    courses: [games101]
+  - title: 第二章 · 实时渲染进阶
+    courses: [games202]
+  - title: 第三章 · 引擎全景
+    courses: [games104]
+  - title: 第四章 · 亲手铸造（百集长征）
+    courses: [thecherno-engine]

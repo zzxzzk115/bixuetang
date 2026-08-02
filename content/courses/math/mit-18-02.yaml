@@ -1,0 +1,24 @@
+id: mit-18-02
+title: 多变量微积分
+code: "MIT 18.02"
+institution: MIT
+instructor: Denis Auroux
+subject: math
+level: intermediate
+tags: [微积分, 多元, 向量场]
+prerequisites: [mit-18-01]
+estimatedHours: 60
+description: >
+  偏导、多重积分、梯度散度旋度、格林与斯托克斯定理——
+  图形学、物理场论和机器学习优化的共同地基。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1P4411v7BP
+    uploader: 搬运
+    note: 中英字幕
+  - platform: other
+    url: https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/
+    note: MIT OCW 课程页
+episodeCount: 35
+notes: []
+lab: math

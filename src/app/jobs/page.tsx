@@ -7,7 +7,12 @@ import type { Job } from "@/lib/content/schema";
 
 export const metadata = { title: "转职殿堂" };
 
-const TIER_TITLE = ["0 转 · 起点", "1 转 · 学徒", "2 转 · 大师与兼修"];
+const TIER_TITLE = [
+  "0 转 · 起点",
+  "1 转 · 学徒",
+  "2 转 · 大师与兼修",
+  "3 转 · 传说",
+];
 
 function RequirementList({
   job,
@@ -72,7 +77,7 @@ export default async function JobsPage() {
   const skillTitle = (id: string) => content.skillById.get(id)?.title ?? id;
   const jobTitle = (id: string) => content.jobById.get(id)?.title ?? id;
 
-  const tiers = [0, 1, 2].map((t) =>
+  const tiers = [0, 1, 2, 3].map((t) =>
     content.jobs.filter((j) => j.tier === t),
   );
 
