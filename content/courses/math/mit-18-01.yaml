@@ -5,12 +5,11 @@ institution: MIT
 instructor: David Jerison
 subject: math
 level: basic
-tags: [微积分, 数学分析入门]
+tags: [ 微积分, 数学分析入门 ]
 prerequisites: []
 estimatedHours: 60
 description: >
-  MIT 数学主线第一课：极限、导数、积分、泰勒展开。
-  一切理科方向的地基。
+  MIT 数学主线第一课：极限、导数、积分、泰勒展开。 一切理科方向的地基。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1uavveaED9
@@ -19,6 +18,76 @@ sources:
   - platform: other
     url: https://ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/
     note: MIT OCW 课程页
-episodeCount: 35
 notes: []
 lab: math
+episodes:
+  - n: 1
+    title: Rate of Change
+  - n: 2
+    title: Limits
+  - n: 3
+    title: Derivatives
+  - n: 4
+    title: Chain Rule
+  - n: 5
+    title: Implicit Differentiation
+  - n: 6
+    title: Exponential and Log
+  - n: 7
+    title: Exam 1 Review
+  - n: 8
+    title: "9: Linear and Quadratic Approximations"
+  - n: 9
+    title: "10: Curve Sketching"
+  - n: 10
+    title: "11: Max-min"
+  - n: 11
+    title: "12: Related Rates"
+  - n: 12
+    title: "13: Newton's Method"
+  - n: 13
+    title: "14: Mean Value Theorem"
+  - n: 14
+    title: "15: Antiderivatives"
+  - n: 15
+    title: "16: Differential Equations"
+  - n: 16
+    title: "18: Definite Integrals"
+  - n: 17
+    title: "19: First Fundamental Theorem"
+  - n: 18
+    title: "20: Second Fundamental Theorem"
+  - n: 19
+    title: "21: Applications to Logarithms"
+  - n: 20
+    title: "22: Volumes"
+  - n: 21
+    title: "23: Work, Probability"
+  - n: 22
+    title: "24: Numerical Integration"
+  - n: 23
+    title: "25: Exam 3 Review"
+  - n: 24
+    title: "27: Trig Integrals"
+  - n: 25
+    title: "28: Inverse Substitution"
+  - n: 26
+    title: "29: Partial Fractions"
+  - n: 27
+    title: "30: Integration by Parts"
+  - n: 28
+    title: "31: Parametric Equations"
+  - n: 29
+    title: "32: Polar Coordinates"
+  - n: 30
+    title: "33: Exam 4 Review"
+  - n: 31
+    title: "35: Indeterminate Forms"
+  - n: 32
+    title: "36: Improper Integrals"
+  - n: 33
+    title: "37: Infinite Series"
+  - n: 34
+    title: "38: Taylor's Series"
+  - n: 35
+    title: "39: Final Review"

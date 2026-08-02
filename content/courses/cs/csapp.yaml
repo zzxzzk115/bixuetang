@@ -5,12 +5,11 @@ institution: CMU
 instructor: Randal Bryant / David O'Hallaron
 subject: cs
 level: intermediate
-tags: [体系结构, 汇编, 操作系统, 链接]
-prerequisites: [cs61a]
+tags: [ 体系结构, 汇编, 操作系统, 链接 ]
+prerequisites: [ cs61a ]
 estimatedHours: 100
 description: >
-  CMU 镇校神课 CSAPP：从比特到程序如何在机器上真正运行——数据表示、汇编、
-  存储层次、链接、异常控制流、虚拟内存、系统级 IO。中文社区笔记生态极其丰富。
+  CMU 镇校神课 CSAPP：从比特到程序如何在机器上真正运行——数据表示、汇编、 存储层次、链接、异常控制流、虚拟内存、系统级 IO。中文社区笔记生态极其丰富。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1XW411A7fB
@@ -19,8 +18,58 @@ sources:
   - platform: other
     url: https://www.cs.cmu.edu/~213/
     note: 课程官网（Lab 必做：bomb / attack / malloc）
-episodeCount: 25
 notes:
   - title: CS 自学指南：CSAPP 攻略与 Lab 指引
     url: https://csdiy.wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/CSAPP/
     kind: site
+episodes:
+  - n: 1
+    title: Lecture 01 Course Overview字幕版001
+  - n: 2
+    title: Lecture 03 Bits, Bytes, and Integers cont
+  - n: 3
+    title: Lecture 04 Floating Point
+  - n: 4
+    title: Lecture 05 Machine Level Programming I Basics
+  - n: 5
+    title: Lecture 06 Machine Level Programming II Control
+  - n: 6
+    title: Lecture 07 Machine Level Programming III Procedures
+  - n: 7
+    title: Lecture 08 Machine Level Programming IV Data
+  - n: 8
+    title: Lecture 09 Machine Level Programming V Advanced Topics
+  - n: 9
+    title: Lecture 10 Program Optimization
+  - n: 10
+    title: Lecture 11 The Memory Hierarchy
+  - n: 11
+    title: Lecture 12 Cache Memories
+  - n: 12
+    title: Lecture 13 Linking
+  - n: 13
+    title: Lecture 14 Exceptional Control Flow Exceptions and Processes
+  - n: 14
+    title: Lecture 15 Exceptional Control Flow Signals and Nonlocal Jumps
+  - n: 15
+    title: Lecture 16 System Level I-O
+  - n: 16
+    title: Lecture 17 Virtual Memory Concepts
+  - n: 17
+    title: Lecture 18 Virtual Memory Systems
+  - n: 18
+    title: Lecture 19 Dynamic Memory Allocation Basic Concepts
+  - n: 19
+    title: Lecture 20 Dynamic Memory Allocation Advanced Concepts
+  - n: 20
+    title: Lecture 21 Network Programming Part 1
+  - n: 21
+    title: Lecture 22 Network Programming Part II
+  - n: 22
+    title: Lecture 24 Synchronization Basics
+  - n: 23
+    title: Lecture 25 Synchronization Advanced
+  - n: 24
+    title: Lecture 26 Thread Level Parallelism
+  - n: 25
+    title: Lecture 23 Concurrent Programming

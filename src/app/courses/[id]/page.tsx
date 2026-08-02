@@ -70,7 +70,9 @@ export default async function CoursePage({
           </p>
         </div>
 
-        <EmbedPlayer sources={course.sources} />
+        <div id="course-player">
+          <EmbedPlayer sources={course.sources} />
+        </div>
 
         {course.description && (
           <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-muted">
@@ -91,7 +93,9 @@ export default async function CoursePage({
           />
         </div>
 
-        {analysis && <AnalysisPanel analysis={analysis} />}
+        {analysis && (
+          <AnalysisPanel analysis={analysis} episodes={course.episodes} />
+        )}
       </div>
 
       <aside className="space-y-5">

@@ -13,7 +13,7 @@ export function EmbedPlayer({ sources }: { sources: Source[] }) {
   useEffect(() => {
     const onSeek = (e: Event) => {
       const req = (e as CustomEvent<SeekRequest>).detail;
-      setOpts({ page: req.page, startSeconds: req.seconds });
+      setOpts({ page: req.page, startSeconds: req.seconds, bvid: req.bvid });
     };
     window.addEventListener(SEEK_EVENT, onSeek);
     return () => window.removeEventListener(SEEK_EVENT, onSeek);

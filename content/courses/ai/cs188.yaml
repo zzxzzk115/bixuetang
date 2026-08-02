@@ -4,12 +4,11 @@ code: "UCB CS188"
 institution: UC Berkeley
 subject: ai
 level: intermediate
-tags: [搜索, mdp, 强化学习入门, 吃豆人]
-prerequisites: [cs61a]
+tags: [ 搜索, mdp, 强化学习入门, 吃豆人 ]
+prerequisites: [ cs61a ]
 estimatedHours: 60
 description: >
-  伯克利经典 AI 课：搜索、约束满足、博弈、MDP、强化学习、贝叶斯网络。
-  Project 全程围绕吃豆人（Pacman）展开，是「传统 AI」的最佳入门。
+  伯克利经典 AI 课：搜索、约束满足、博弈、MDP、强化学习、贝叶斯网络。 Project 全程围绕吃豆人（Pacman）展开，是「传统 AI」的最佳入门。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1r3411p7H8
@@ -18,8 +17,66 @@ sources:
   - platform: other
     url: https://inst.eecs.berkeley.edu/~cs188/
     note: 课程官网（Pacman Projects）
-episodeCount: 29
 notes:
   - title: CS 自学指南：CS188 攻略
     url: https://csdiy.wiki/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/CS188/
     kind: site
+episodes:
+  - n: 1
+    title: Lecture 1 Intro to AI(Av584267744,P1)
+  - n: 2
+    title: Lecture 2 Uninformed Search(Av584267744,P2)
+  - n: 3
+    title: Lecture 3 A. Search and Heuristics(Av584267744,P3)
+  - n: 4
+    title: Lecture 4 Game Trees I(Av584267744,P4)
+  - n: 5
+    title: Lecture 5 Game Trees II(Av584267744,P5)
+  - n: 6
+    title: Lecture 6 MDP I(Av584267744,P6)
+  - n: 7
+    title: Lecture 7 MDP II(Av584267744,P7)
+  - n: 8
+    title: Lecture 8 RL I(Av584267744,P8)
+  - n: 9
+    title: Lecture 8 RL II(Av584267744,P9)
+  - n: 10
+    title: Lecture 9 Probability(Av584267744,P10)
+  - n: 11
+    title: Lecture 10 BN Representation(Av584267744,P11)
+  - n: 12
+    title: Lecture 11 BN Independence(Av584267744,P12)
+  - n: 13
+    title: Lecture 12 BN Inference(Av584267744,P13)
+  - n: 14
+    title: Lecture 13 BN Sampling I(Av584267744,P14)
+  - n: 15
+    title: Lecture 14 BN Sampling II(Av584267744,P15)
+  - n: 16
+    title: Lecture 15 Particle Filtering and HMM(Av584267744,P16)
+  - n: 17
+    title: Lecture 16 Decision Networks, VPI(Av584267744,P17)
+  - n: 18
+    title: Lecture 17 ML Perceptron and Logistic(Av584267744,P18)
+  - n: 19
+    title: Lecture 18 ML Naive Bayes(Av584267744,P19)
+  - n: 20
+    title: Lecture 19 ML Neural Networks(Av584267744,P20)
+  - n: 21
+    title: Lecture 20 ML Neural Networks II(Av584267744,P21)
+  - n: 22
+    title: Lecture 21 ML Neural Networks III(Av584267744,P22)
+  - n: 23
+    title: Lecture 22 ML Clustering(Av584267744,P23)
+  - n: 24
+    title: Lecture 23 ML Decision Trees(Av584267744,P24)
+  - n: 25
+    title: Lecture 24 Advanced Topics(Av584267744,P25)
+  - n: 26
+    title: Lecture 25 Advanced Topics II(Av584267744,P26)
+  - n: 27
+    title: Lecture 26 Review Lectures and Exam P(Av584267744,P27)
+  - n: 28
+    title: Lecture 27 Review Lectures and Exam P(Av584267744,P28)
+  - n: 29
+    title: Lecture 28 Review Lectures and Exam P(Av584267744,P29)

@@ -1,0 +1,78 @@
+id: ucb-cs161
+title: 计算机安全
+code: "UCB CS161"
+institution: 加州大学伯克利分校
+subject: cs
+level: advanced
+tags: [ 安全, 密码学, 网络安全, 内存安全 ]
+prerequisites: [ csapp ]
+estimatedHours: 80
+description: >
+  伯克利本科计算机安全导论，系统覆盖内存安全漏洞与利用、密码学基础、 Web 安全（XSS/CSRF/SQL 注入）与网络安全。配套 Project 让你亲手攻破 漏洞程序、破解密码协议、实施 Web 攻击，攻防兼修，实战性极强。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1YGbceREDs
+    uploader: 搬运
+    note: 2023 秋季版，27 讲，AI 翻译中文字幕（Claude-3.5）
+  - platform: other
+    url: https://fa23.cs161.org/
+    note: 课程官网
+notes:
+  - title: csdiy UCB CS161 攻略页
+    url: https://csdiy.wiki/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/CS161/
+    kind: site
+episodes:
+  - n: 1
+    title: "[01][CS161 FA23] Lecture 1 - Introduction and Security Principles.zh_en"
+  - n: 2
+    title: "[02][CS161 SP23] Lecture 2 - x86 Assembly and Call Stack.zh_en"
+  - n: 3
+    title: "[03][CS161 SP23] Lecture 3 - Memory Safety Vulnerabilities.zh_en"
+  - n: 4
+    title: "[04][CS161 FA23] Lecture 4 - More Memory Safety Vulnerabilities.zh_en"
+  - n: 5
+    title: "[05][CS161 FA23] Lecture 5 - Mitigating Memory Safety Vulnerabilities.zh_en"
+  - n: 6
+    title: "[06][CS161 FA23] Lecture 6 - Intro to Cryptography.zh_en"
+  - n: 7
+    title: "[07][CS161 FA23] Lecture 7 - Block Ciphers.zh_en"
+  - n: 8
+    title: "[08][CS161 SP23] Lecture 8 - Block Cipher Modes of Operation.zh_en"
+  - n: 9
+    title: "[09][CS161 FA23] Lecture 9 - Cryptographic Hashes and MACs.zh_en"
+  - n: 10
+    title: "[10][CS161 FA23] Lecture 10 - PRNGs and Diffie-Hellman Key Exchange.zh_en"
+  - n: 11
+    title: "[11][CS161 FA23] Lecture 11 - Public-Key Encryption and Digital Signatures.zh_en"
+  - n: 12
+    title: "[12][CS161 FA23] Lecture 12 - Certificates, Passwords, and Case Studies.zh_en"
+  - n: 13
+    title: "[13][CS161 FA23] Lecture 13 - Intro to Web.zh_en"
+  - n: 14
+    title: "[14][CS161 FA23] Lecture 14 - Cookies and CSRF.zh_en"
+  - n: 15
+    title: "[15][CS161 FA23] Lecture 15 - XSS and UI Attacks.zh_en"
+  - n: 16
+    title: "[16][CS161 FA23] Lecture 16 - SQL Injection and CAPTCHAs.zh_en"
+  - n: 17
+    title: "[17][CS161 FA23] Lecture 17 - Intro to Networking.zh_en"
+  - n: 18
+    title: "[18][CS161 FA23] Lecture 18 - Low-Level Network Attacks.zh_en"
+  - n: 19
+    title: "[19][CS161 FA23] Lecture 19 - Transport Layer_ TCP and UDP.zh_en"
+  - n: 20
+    title: "[20][CS161 FA23] Lecture 20 - TLS.zh_en"
+  - n: 21
+    title: "[21][CS161 FA23] Lecture 21 - DNS.zh_en"
+  - n: 22
+    title: "[22][CS161 FA23] Lecture 22 - DNSSEC.zh_en"
+  - n: 23
+    title: "[23][CS161 FA23] Lecture 23 - Denial of Service and Firewalls.zh_en"
+  - n: 24
+    title: "[24][CS161 FA23] Lecture 24 - Intrusion Detection.zh_en"
+  - n: 25
+    title: "[25][CS161 FA23] Lecture 25 - Malware and Hardware Vulnerabilities.zh_en"
+  - n: 26
+    title: "[26][CS161 FA23] Lecture 26 - Tor.zh_en"
+  - n: 27
+    title: "[27][CS161 FA23] Lecture 27 - Bitcoin.zh_en"

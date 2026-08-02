@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import type { CourseAnalysis } from "@/lib/content/schema";
+import type { CourseAnalysis, Episode } from "@/lib/content/schema";
 import { seekTo } from "@/lib/seek";
 
 function fmtTime(t: number): string {
@@ -11,8 +11,15 @@ function fmtTime(t: number): string {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-export function AnalysisPanel({ analysis }: { analysis: CourseAnalysis }) {
+export function AnalysisPanel({
+  analysis,
+  episodes,
+}: {
+  analysis: CourseAnalysis;
+  episodes: Episode[];
+}) {
   const [openEp, setOpenEp] = useState<number | null>(null);
+  const bvidOf = (n: number) => episodes.find((e) => e.n === n)?.bvid;
 
   return (
     <section className="mt-6 rounded-lg border border-edge bg-panel">
@@ -60,7 +67,11 @@ export function AnalysisPanel({ analysis }: { analysis: CourseAnalysis }) {
                           {kp.t !== undefined ? (
                             <button
                               onClick={() =>
-                                seekTo({ page: ep.n, seconds: kp.t })
+                                seekTo({
+                                  page: ep.n,
+                                  seconds: kp.t,
+                                  bvid: bvidOf(ep.n),
+                                })
                               }
                               className="shrink-0 rounded bg-edge px-1.5 py-0.5 font-mono text-xs text-gold hover:bg-gold hover:text-background"
                               title="跳转到该时间点"

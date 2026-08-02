@@ -5,12 +5,11 @@ institution: UC Berkeley
 instructor: Josh Hug
 subject: cs
 level: intermediate
-tags: [数据结构, java, 算法]
-prerequisites: [cs61a]
+tags: [ 数据结构, java, 算法 ]
+prerequisites: [ cs61a ]
 estimatedHours: 80
 description: >
-  伯克利数据结构神课：用 Java 实现链表、散列、树、图与排序，
-  配套 Gitlet（迷你 Git）等硬核项目。转码与打基础的口碑之选。
+  伯克利数据结构神课：用 Java 实现链表、散列、树、图与排序， 配套 Gitlet（迷你 Git）等硬核项目。转码与打基础的口碑之选。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1FSzNYpE7s
@@ -19,8 +18,88 @@ sources:
   - platform: other
     url: https://sp21.datastructur.es/
     note: 课程官网（讲义 / 实验 / 项目）
-episodeCount: 40
 notes:
   - title: CS 自学指南：CS61B 攻略
     url: https://csdiy.wiki/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/CS61B/
     kind: site
+episodes:
+  - n: 1
+    title: p0 1_Intro, Hello World Java
+  - n: 2
+    title: p1 2_Defining and Using Classes
+  - n: 3
+    title: p2 3_Testing
+  - n: 4
+    title: p3 4_References, Recursion, and Lists
+  - n: 5
+    title: p4 5_SLLists, Nested Classes, Sentinel Nodes
+  - n: 6
+    title: p5 6_DLLists, Arrays
+  - n: 7
+    title: p6 7_ALists, Resizing, vs. SLists
+  - n: 8
+    title: p7 8_Inheritance, Implements
+  - n: 9
+    title: p8 9_Extends, Casting, Higher Order Functions
+  - n: 10
+    title: p9 10_Subtype Polymorphism vs. HoFs
+  - n: 11
+    title: p10 11_Exceptions, Iterators, Object Methods
+  - n: 12
+    title: p11 12_Command Line Programming, Git, Project 2 Preview
+  - n: 13
+    title: p12 13_Asymptotics I
+  - n: 14
+    title: p13 14_Disjoint Sets
+  - n: 15
+    title: p14 15_Asymptotics II
+  - n: 16
+    title: p15 16_ADTs, Sets, Maps, BSTs
+  - n: 17
+    title: p16 17_B-Trees (2-3, 2-3-4 Trees)
+  - n: 18
+    title: p17 18_Red Black Trees
+  - n: 19
+    title: p18 19_Hashing
+  - n: 20
+    title: p19 20_Heaps and PQs
+  - n: 21
+    title: p20 21_Tree and Graph Traversals
+  - n: 22
+    title: p21 22_Graph Traversals and Implementations
+  - n: 23
+    title: p22 23_Shortest Paths
+  - n: 24
+    title: p23 24_Minimum Spanning Trees
+  - n: 25
+    title: p24 25_Range Searching and Multi-Dimensional Data
+  - n: 26
+    title: p25 26_Prefix Operations and Tries
+  - n: 27
+    title: p26 27_Software Engineering I
+  - n: 28
+    title: p27 28_Reductions and Decomposition
+  - n: 29
+    title: p28 29_Basic Sorts
+  - n: 30
+    title: p29 30_Quick Sort
+  - n: 31
+    title: p30 31_Software Engineering II
+  - n: 32
+    title: p31 32_More Quick Sort, Sorting Summary
+  - n: 33
+    title: p32 33_Software Engineering III
+  - n: 34
+    title: p33 34_Sorting and Algorithmic Bounds
+  - n: 35
+    title: p34 35_Radix Sorts
+  - n: 36
+    title: p35 36_Sorting and Data Structures Conclusion
+  - n: 37
+    title: p36 37_Software Engineering IV
+  - n: 38
+    title: p37 38_Compression
+  - n: 39
+    title: p38 39_Compression, Complexity, and P=NP
+  - n: 40
+    title: p39 40_Summary, Fun

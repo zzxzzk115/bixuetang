@@ -5,12 +5,11 @@ institution: UCSB / GAMES
 instructor: 闫令琪
 subject: cs
 level: intermediate
-tags: [图形学, 渲染, 光线追踪, 中文原声]
-prerequisites: [essence-of-linear-algebra]
+tags: [ 图形学, 渲染, 光线追踪, 中文原声 ]
+prerequisites: [ essence-of-linear-algebra ]
 estimatedHours: 45
 description: >
-  三大浪漫之图形学开山课：变换、光栅化、着色、几何、光线追踪、路径追踪。
-  闫令琪中文授课，B 站官方账号发布，中文图形学社区的共同起点。
+  三大浪漫之图形学开山课：变换、光栅化、着色、几何、光线追踪、路径追踪。 闫令琪中文授课，B 站官方账号发布，中文图形学社区的共同起点。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1X7411F744
@@ -19,8 +18,54 @@ sources:
   - platform: other
     url: https://sites.cs.ucsb.edu/~lingqi/teaching/games101.html
     note: 课程官网（课件 / 作业框架）
-episodeCount: 22
 notes:
   - title: GAMES101 课程笔记汇总
     url: https://blog.csdn.net/iteapoy/article/details/128309893
     kind: blog
+episodes:
+  - n: 1
+    title: Lecture 01 Overview of Computer Graphics
+  - n: 2
+    title: Lecture 02 Review of Linear Algebra
+  - n: 3
+    title: Lecture 03 Transformation
+  - n: 4
+    title: Lecture 04 Transformation Cont.
+  - n: 5
+    title: Lecture 05 Rasterization 1 (Triangles)
+  - n: 6
+    title: Lecture 06 Rasterization 2 (Antialiasing and Z-Buffering)
+  - n: 7
+    title: Lecture 07 Shading 1 (Illumination, Shading and Graphics Pipeline)
+  - n: 8
+    title: Lecture 08 Shading 2 (Shading, Pipeline and Texture Mapping)
+  - n: 9
+    title: Lecture 09 Shading 3 (Texture Mapping Cont.)
+  - n: 10
+    title: Lecture 10 Geometry 1 (Introduction)
+  - n: 11
+    title: Lecture 11 Geometry 2 (Curves and Surfaces)
+  - n: 12
+    title: Lecture 12 Geometry 3
+  - n: 13
+    title: Lecture 13 Ray Tracing 1
+  - n: 14
+    title: Lecture 14 Ray Tracing 2
+  - n: 15
+    title: Lecture 15 Ray Tracing 3
+  - n: 16
+    title: Lecture 16 Ray Tracing 4
+  - n: 17
+    title: Lecture 17 Materials and Appearances
+  - n: 18
+    title: Lecture 18 Advanced Topics in Rendering
+  - n: 19
+    title: Lecture 19 Cameras, Lenses and Light Fields
+  - n: 20
+    title: Lecture 20 Color and Perception
+  - n: 21
+    title: Lecture 21 Animation
+  - n: 22
+    title: Lecture 22 Animation Cont.
+  - n: 23
+    title: 番外：纪念16万观看

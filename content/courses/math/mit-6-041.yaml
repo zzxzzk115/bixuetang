@@ -1,0 +1,75 @@
+id: mit-6-041
+title: 概率系统分析与应用概率
+code: "6.041"
+institution: MIT
+instructor: John Tsitsiklis
+subject: math
+level: intermediate
+tags: [ 概率论, 随机过程, 贝叶斯 ]
+prerequisites: [ mit-18-01 ]
+estimatedHours: 60
+description: >
+  MIT 经典概率论入门课，由 John Tsitsiklis 讲授，从概率模型与公理出发， 系统覆盖条件概率、随机变量、极限定理、贝叶斯推断与随机过程。 讲解极为清晰严谨，配套教材《Introduction to Probability》被广泛誉为概率论最佳入门书。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1mi4y1t7DN
+    uploader: 搬运
+    note: 2010 秋季版，蟒蛇君人工翻译中英双语字幕（25P 全）
+  - platform: other
+    url: https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/
+    note: 课程官网
+notes:
+  - title: CS 自学指南（站内搜索 6.041 / 概率论）
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture 1 Probability Models and Axioms
+  - n: 2
+    title: Lecture 2 Conditioning and Bayes' Rule
+  - n: 3
+    title: Lecture 3 Independence
+  - n: 4
+    title: Lecture 4 Counting
+  - n: 5
+    title: Lecture 5 Discrete Random Variables 1
+  - n: 6
+    title: Lecture 6 Discrete Random Variables 2
+  - n: 7
+    title: Lecture 7 Discrete Random Variables 3
+  - n: 8
+    title: Lecture 8 Continuous Random Variables
+  - n: 9
+    title: Lecture 9 Multiple Continuous Random Variables
+  - n: 10
+    title: Lecture 10 Continuous Bayes' Rule; Derived Distributions
+  - n: 11
+    title: Lecture 11 Derived Distributions
+  - n: 12
+    title: Lecture 12 Iterated Expectations
+  - n: 13
+    title: Lecture 13 Bernoulli Process
+  - n: 14
+    title: Lecture 14 Poisson Process I
+  - n: 15
+    title: Lecture 15 Poisson Process II
+  - n: 16
+    title: Lecture 16 Markov Chains I
+  - n: 17
+    title: Lecture 17 Markov Chains II
+  - n: 18
+    title: Lecture 18 Markov Chains III
+  - n: 19
+    title: Lecture 19 Weak Law of Large Numbers
+  - n: 20
+    title: Lecture 20 Central Limit Theorem
+  - n: 21
+    title: Lecture 21 Bayesian Statistical Inference I
+  - n: 22
+    title: Lecture 22 Bayesian Statistical Inference II
+  - n: 23
+    title: Lecture 23 Classical Statistical Inference I
+  - n: 24
+    title: Lecture 24 Classical Inference II
+  - n: 25
+    title: Lecture 25 Classical Inference III

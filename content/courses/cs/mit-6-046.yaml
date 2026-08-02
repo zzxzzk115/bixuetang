@@ -1,0 +1,93 @@
+id: mit-6-046
+title: 算法设计与分析
+code: "MIT 6.046J"
+institution: 麻省理工学院
+instructor: Erik Demaine, Srini Devadas, Nancy Lynch
+subject: cs
+level: advanced
+tags: [ 算法, 分治, 动态规划, 复杂度 ]
+prerequisites: [ mit-6-006 ]
+estimatedHours: 90
+description: >
+  MIT 本科算法进阶课，6.006 的直接后继，覆盖分治、动态规划、网络流、 线性规划、NP 完全性与近似算法等核心主题。由 Erik Demaine 等名师主讲， 讲课清晰严谨，配套习题质量极高，是通往算法竞赛与理论研究的必经之路。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1A7411E737
+    uploader: 搬运
+    note: 2015 春季版，完结，中英字幕（机翻）
+  - platform: other
+    url: https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/
+    note: 课程官网
+notes:
+  - title: csdiy 攻略页（站内搜索 6.046）
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 1 Course Overview Interval Scheduling
+  - n: 2
+    title: 2 Divide Conquer_ Convex Hull Median Finding
+  - n: 3
+    title: 3 Divide Conquer_ FFT
+  - n: 4
+    title: 4 Divide Conquer_ van Emde Boas Trees
+  - n: 5
+    title: 5 Amortization_ Amortized Analysis
+  - n: 6
+    title: 6 Randomization_ Matrix Multiply Quicksort
+  - n: 7
+    title: 7 Randomization_ Skip Lists
+  - n: 8
+    title: 8 Randomization_ Universal Perfect Hashing
+  - n: 9
+    title: 9 Augmentation_ Range Trees
+  - n: 10
+    title: 10 Dynamic Programming_ Advanced DP
+  - n: 11
+    title: 11 Dynamic Programming_ All-Pairs Shortest Paths
+  - n: 12
+    title: 12 Greedy Algorithms_ Minimum Spanning Tree
+  - n: 13
+    title: 13 Incremental Improvement_ Max Flow Min Cut
+  - n: 14
+    title: 14 Incremental Improvement_ Matching
+  - n: 15
+    title: 15 Linear Programming_ LP reductions Simplex
+  - n: 16
+    title: 16 Complexity_ P NP NP-completeness Reductions
+  - n: 17
+    title: 17 Complexity_ Approximation Algorithms
+  - n: 18
+    title: 18 Complexity_ Fixed-Parameter Algorithms
+  - n: 19
+    title: 19 Synchronous Distributed Algorithms_ Symmetry-Breaking Shortest-Paths Spanni
+  - n: 20
+    title: 20 Asynchronous Distributed Algorithms_ Shortest-Paths Spanning Trees
+  - n: 21
+    title: 21 Cryptography_ Hash Functions
+  - n: 22
+    title: 22 Cryptography_ Encryption
+  - n: 23
+    title: 23 Cache-Oblivious Algorithms_ Medians Matrices
+  - n: 24
+    title: 24 Cache-Oblivious Algorithms_ Searching Sorting
+  - n: 25
+    title: R1 Matrix Multiplication and the Master Theorem
+  - n: 26
+    title: R2 2-3 Trees and B-Trees
+  - n: 27
+    title: R4 Randomized Select and Randomized Quicksort
+  - n: 28
+    title: R5 Dynamic Programming
+  - n: 29
+    title: R6 Greedy Algorithms
+  - n: 30
+    title: R7 Network Flow and Matching
+  - n: 31
+    title: R8 NP-Complete Problems
+  - n: 32
+    title: R9 Approximation Algorithms Traveling Salesman Problem
+  - n: 33
+    title: R10 Distributed Algorithms
+  - n: 34
+    title: R11 Cryptography More Primitives

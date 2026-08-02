@@ -5,12 +5,11 @@ institution: TheCherno（YouTube）
 instructor: Yan Chernikov
 subject: cs
 level: advanced
-tags: [游戏引擎, c++, opengl, 实战]
-prerequisites: [games101]
+tags: [ 游戏引擎, c++, opengl, 实战 ]
+prerequisites: [ games101 ]
 estimatedHours: 100
 description: >
-  前 EA 工程师 Cherno 的传奇系列：用 C++ 从空项目一行行写出 Hazel 引擎——
-  窗口、事件、渲染层、ECS、编辑器。跟着敲完你就有一个自己的引擎。
+  前 EA 工程师 Cherno 的传奇系列：用 C++ 从空项目一行行写出 Hazel 引擎—— 窗口、事件、渲染层、ECS、编辑器。跟着敲完你就有一个自己的引擎。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1sa4y1v7zk
@@ -19,8 +18,72 @@ sources:
   - platform: youtube
     url: https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
     note: 官方 Game Engine 系列播放列表
-episodeCount: 100
 notes:
   - title: Hazel 引擎源码
     url: https://github.com/TheCherno/Hazel
     kind: github
+episodes:
+  - n: 1
+    title: 介绍游戏引擎系列（Introducing the GAME ENGINE series!）
+  - n: 2
+    title: 什么是游戏引擎（What is a GAME ENGINE?）
+  - n: 3
+    title: 设计我们的游戏引擎（DESIGNING our GAME ENGINE）
+  - n: 4
+    title: 项目初始化设置（Project Setup - Game Engine Series）
+  - n: 5
+    title: 引擎入口（Entry Point - Game Engine Series）
+  - n: 6
+    title: 日志模块（Logging - Game Engine Series）
+  - n: 7
+    title: Premake工具（Premake - Game Engine Series）
+  - n: 8
+    title: 计划事件系统（Planning the Event System - Game Engine series）
+  - n: 9
+    title: 事件系统（Event System - Game Engine series）
+  - n: 10
+    title: 预编译头文件（Precompiled Headers - Game Engine series）
+  - n: 11
+    title: 窗体抽象和 GLFW（Window Abstraction and GLFW - Game Engine series）
+  - n: 12
+    title: 窗体事件（Window Events - Game Engine series）
+  - n: 13
+    title: 层级（Layers - Game Engine series）
+  - n: 14
+    title: 现代 OpenGL（Modern OpenGL (Glad) - Game Engine series）
+  - n: 15
+    title: 整合 ImGUI（ImGui - Game Engine series）
+  - n: 16
+    title: ImGUI 事件（ ImGui Events - Game Engine series）
+  - n: 17
+    title: Github相关（GitHub and Hazel - Game Engine series）
+  - n: 18
+    title: 拉取请求（Pull Requests - Game Engine series）
+  - n: 19
+    title: 输入循环（Input Polling - Game Engine series）
+  - n: 20
+    title: 键盘鼠标代码（Key and Mouse Codes - Game Engine series）
+  - n: 21
+    title: 数学相关（Maths - Game Engine series）
+  - n: 22
+    title: ImGui Docking and Viewports - Game Engine series
+  - n: 23
+    title: 介绍渲染相关（Introduction to Rendering - Game Engine series）
+  - n: 24
+    title: 渲染架构（Rendering Architecture - Game Engine series）
+  - n: 25
+    title: 渲染与维护（Rendering and Maintenance - Game Engine series）
+  - n: 26
+    title: 静态库和清除所有警告（Static Libraries and ZERO Warnings - Game Engine series）
+  - n: 27
+    title: 渲染上下文（Rendering Context - Game Engine series）
+  - n: 28
+    title: 绘制第一个三角形！（Our First Triangle! - Game Engine series）
+  - n: 29
+    title: OpenGL Shaders - Game Engine series
+  - n: 30
+    title: 渲染API抽象！（Renderer API Abstraction - Game Engine series）
+  - n: 31
+    title: 顶点Buffer布局（Vertex Buffer Layouts - Game Engine series）
+  - n: 32
+    title: Vertex Arrays - Game Engine series

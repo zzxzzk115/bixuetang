@@ -4,6 +4,7 @@ import { useRef, useState, useTransition } from "react";
 import { celebrate } from "@/lib/celebrate";
 import type { Episode } from "@/lib/content/schema";
 import { toggleEpisode, type ToggleResult } from "@/lib/progress/actions";
+import { seekTo } from "@/lib/seek";
 
 interface Toast {
   id: number;
@@ -23,6 +24,7 @@ export function EpisodeList({
   loggedIn: boolean;
 }) {
   const [watchedSet, setWatchedSet] = useState(() => new Set(watched));
+  const [playing, setPlaying] = useState<number | null>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [, startTransition] = useTransition();
   const toastSeq = useRef(0);
@@ -118,41 +120,66 @@ export function EpisodeList({
         </div>
       </div>
 
-      {!loggedIn && (
-        <p className="mb-2 text-xs text-muted">
-          <a href="/login" className="text-gold underline">
-            登录
-          </a>
-          后可勾选集数、赚取经验值
-        </p>
-      )}
+      <p className="mb-2 text-xs text-muted">
+        点标题播放这一集，点左侧方框标记已看
+        {!loggedIn && (
+          <>
+            （
+            <a href="/login" className="text-gold underline">
+              登录
+            </a>
+            后可记录进度、赚取经验值）
+          </>
+        )}
+      </p>
 
-      <ol className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+      <ol className="grid grid-cols-1 gap-1.5">
         {episodes.map((ep) => {
           const isWatched = watchedSet.has(ep.n);
+          const isPlaying = playing === ep.n;
           return (
-            <li key={ep.n}>
+            <li
+              key={ep.n}
+              className={`flex items-center gap-1.5 rounded border transition-colors ${
+                isPlaying
+                  ? "border-gold bg-panel-hover"
+                  : isWatched
+                    ? "border-edge bg-panel"
+                    : "border-edge bg-panel-hover hover:border-gold"
+              }`}
+            >
+              {/* 勾选：击破小怪 */}
               <button
                 onClick={() => onToggle(ep.n)}
                 disabled={!loggedIn}
-                className={`flex w-full items-center gap-2 rounded border px-2.5 py-1.5 text-left text-sm transition-colors ${
-                  isWatched
-                    ? "border-edge bg-panel text-muted"
-                    : "border-edge bg-panel-hover text-foreground hover:border-gold"
-                } ${loggedIn ? "cursor-pointer" : "cursor-default"}`}
+                title={loggedIn ? (isWatched ? "取消标记" : "标记为已看") : "登录后可记录"}
+                className={`shrink-0 py-1.5 pl-2.5 ${loggedIn ? "cursor-pointer" : "cursor-default"}`}
               >
                 <span
-                  className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border text-[10px] ${
-                    isWatched
-                      ? "border-xp bg-xp text-background"
-                      : "border-muted"
+                  className={`flex h-4 w-4 items-center justify-center rounded-sm border text-[10px] ${
+                    isWatched ? "border-xp bg-xp text-background" : "border-muted"
                   }`}
                 >
                   {isWatched ? "✓" : ""}
                 </span>
-                <span className={isWatched ? "line-through" : ""}>
-                  {ep.n}. {ep.title}
-                </span>
+              </button>
+              {/* 标题：点击跳转播放该集 */}
+              <button
+                onClick={() => {
+                  setPlaying(ep.n);
+                  seekTo({ page: ep.n, bvid: ep.bvid });
+                  document
+                    .getElementById("course-player")
+                    ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }}
+                title="播放这一集"
+                className={`min-w-0 flex-1 py-1.5 pr-2.5 text-left text-sm ${
+                  isWatched ? "text-muted" : "text-foreground"
+                }`}
+              >
+                <span className="mr-1.5 text-muted">{ep.n}.</span>
+                <span className={isWatched ? "line-through" : ""}>{ep.title}</span>
+                {isPlaying && <span className="ml-1.5 text-xs text-gold">▶ 播放中</span>}
               </button>
             </li>
           );

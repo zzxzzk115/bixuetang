@@ -10,6 +10,7 @@
     "lint": "eslint",
     "test": "node --import tsx --test \"src/lib/**/*.test.ts\"",
     "validate": "tsx scripts/validate-content.ts",
+    "fetch:episodes": "tsx scripts/fetch-episodes.ts",
     "migrate": "tsx scripts/migrate.ts",
     "db:generate": "drizzle-kit generate"
   },

@@ -5,12 +5,11 @@ institution: UC Berkeley
 instructor: Sergey Levine
 subject: ai
 level: advanced
-tags: [强化学习, 策略梯度, 机器人]
-prerequisites: [d2l, cs188]
+tags: [ 强化学习, 策略梯度, 机器人 ]
+prerequisites: [ d2l, cs188 ]
 estimatedHours: 60
 description: >
-  Sergey Levine 的深度强化学习：策略梯度、Q 学习、模型强化学习、
-  离线 RL。机器人与决策方向的研究生标准课。
+  Sergey Levine 的深度强化学习：策略梯度、Q 学习、模型强化学习、 离线 RL。机器人与决策方向的研究生标准课。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV12341167kL
@@ -19,8 +18,208 @@ sources:
   - platform: other
     url: https://rail.eecs.berkeley.edu/deeprlcourse/
     note: 课程官网
-episodeCount: 23
 notes:
   - title: CS 自学指南：CS285 攻略
     url: https://csdiy.wiki/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/CS285/
     kind: site
+episodes:
+  - n: 1
+    title: L1- 课程速览与介绍-Part 1
+  - n: 2
+    title: L1- 课程速览与介绍-Part 2
+  - n: 3
+    title: L1- 课程速览与介绍-Part 3
+  - n: 4
+    title: L1- 课程速览与介绍-Part 4
+  - n: 5
+    title: L2- 行为监督学习-Part 1
+  - n: 6
+    title: L2- 行为监督学习-Part 2
+  - n: 7
+    title: L2- 行为监督学习-Part 3
+  - n: 8
+    title: L2- 行为监督学习-Part 4
+  - n: 9
+    title: L2- 行为监督学习-Part 5
+  - n: 10
+    title: L2- 行为监督学习-Part 6
+  - n: 11
+    title: L4- 强化学习介绍-Part 1
+  - n: 12
+    title: L4- 强化学习介绍-Part 2
+  - n: 13
+    title: L4- 强化学习介绍-Part 3
+  - n: 14
+    title: L4- 强化学习介绍-Part 4
+  - n: 15
+    title: L4- 强化学习介绍-Part 5
+  - n: 16
+    title: L4- 强化学习介绍-Part 6
+  - n: 17
+    title: L5- 梯度策略-Part 1
+  - n: 18
+    title: L5- 梯度策略-Part 2
+  - n: 19
+    title: L5- 梯度策略-Part 3
+  - n: 20
+    title: L5- 梯度策略-Part 4
+  - n: 21
+    title: L5- 梯度策略-Part 5
+  - n: 22
+    title: L5- 梯度策略-Part 6
+  - n: 23
+    title: L6- Actor-Critic算法-Part 1
+  - n: 24
+    title: L6- Actor-Critic算法-Part 2
+  - n: 25
+    title: L6- Actor-Critic算法-Part 3
+  - n: 26
+    title: L6- Actor-Critic算法-Part 4
+  - n: 27
+    title: L6- Actor-Critic算法-Part 5
+  - n: 28
+    title: L7- 价值函数方法-Part 1
+  - n: 29
+    title: L7- 价值函数方法-Part 2
+  - n: 30
+    title: L7- 价值函数方法-Part 3
+  - n: 31
+    title: L7- 价值函数方法-Part 4
+  - n: 32
+    title: L8- 基于Q函数的的深度强化学习-Part 1
+  - n: 33
+    title: L8- 基于Q函数的的深度强化学习-Part 2
+  - n: 34
+    title: L8- 基于Q函数的的深度强化学习-Part 3
+  - n: 35
+    title: L8- 基于Q函数的的深度强化学习-Part 4
+  - n: 36
+    title: L8- 基于Q函数的的深度强化学习-Part 5
+  - n: 37
+    title: L8- 基于Q函数的的深度强化学习-Part 6
+  - n: 38
+    title: L9- 前沿梯度策略-Part 1
+  - n: 39
+    title: L9- 前沿梯度策略-Part 2
+  - n: 40
+    title: L9- 前沿梯度策略-Part 3
+  - n: 41
+    title: L9- 前沿梯度策略-Part 4
+  - n: 42
+    title: L10- 基于模型的规划-Part 1
+  - n: 43
+    title: L10- 基于模型的规划-Part 2
+  - n: 44
+    title: L10- 基于模型的规划-Part 3
+  - n: 45
+    title: L10- 基于模型的规划-Part 4
+  - n: 46
+    title: L10- 基于模型的规划-Part 5
+  - n: 47
+    title: L11- 基于模型的强化学习-Part 1
+  - n: 48
+    title: L11- 基于模型的强化学习-Part 2
+  - n: 49
+    title: L11- 基于模型的强化学习-Part 3
+  - n: 50
+    title: L11- 基于模型的强化学习-Part 4
+  - n: 51
+    title: L11- 基于模型的强化学习-Part 5
+  - n: 52
+    title: L12- 基于模型的策略学习-Part 1
+  - n: 53
+    title: L12- 基于模型的策略学习-Part 2
+  - n: 54
+    title: L12- 基于模型的策略学习-Part 3
+  - n: 55
+    title: L12- 基于模型的策略学习-Part 4
+  - n: 56
+    title: L13- 探索-Exploration (1)-Part 1
+  - n: 57
+    title: L13- 探索-Exploration (1)-Part 2
+  - n: 58
+    title: L13- 探索-Exploration (1)-Part 3
+  - n: 59
+    title: L13- 探索-Exploration (1)-Part 4
+  - n: 60
+    title: L13- 探索-Exploration (1)-Part 5
+  - n: 61
+    title: L13- 探索-Exploration (1)-Part 6
+  - n: 62
+    title: L14- 探索-Exploration (2)-Part 1
+  - n: 63
+    title: L14- 探索-Exploration (2)-Part 2
+  - n: 64
+    title: L14- 探索-Exploration (2)-Part 3
+  - n: 65
+    title: L14- 探索-Exploration (2)-Part 4
+  - n: 66
+    title: L15- 离线强化学习-Part 1
+  - n: 67
+    title: L15- 离线强化学习-Part 2
+  - n: 68
+    title: L15- 离线强化学习-Part 3
+  - n: 69
+    title: L15- 离线强化学习-Part 4
+  - n: 70
+    title: L15- 离线强化学习-Part 5a
+  - n: 71
+    title: L15- 离线强化学习-Part 5b
+  - n: 72
+    title: L16- 强化学习理论-Part 1
+  - n: 73
+    title: L16- 强化学习理论-Part 2
+  - n: 74
+    title: L16- 强化学习理论-Part 3
+  - n: 75
+    title: L16- 强化学习理论-Part 4
+  - n: 76
+    title: L17- 深度强化学习算法设计-Part 1
+  - n: 77
+    title: L17- 深度强化学习算法设计-Part 2
+  - n: 78
+    title: L17- 深度强化学习算法设计-Part 3
+  - n: 79
+    title: L18- 概率与变分推断初步-Part 1
+  - n: 80
+    title: L18- 概率与变分推断初步-Part 2
+  - n: 81
+    title: L18- 概率与变分推断初步-Part 3
+  - n: 82
+    title: L18- 概率与变分推断初步-Part 4
+  - n: 83
+    title: L19- 推断与控制联系-Part 1
+  - n: 84
+    title: L19- 推断与控制联系-Part 2
+  - n: 85
+    title: L19- 推断与控制联系-Part 3
+  - n: 86
+    title: L19- 推断与控制联系-Part 4
+  - n: 87
+    title: L19- 推断与控制联系-Part 5
+  - n: 88
+    title: L20- 逆强化学习-Part 1
+  - n: 89
+    title: L20- 逆强化学习-Part 2
+  - n: 90
+    title: L20- 逆强化学习-Part 3
+  - n: 91
+    title: L20- 逆强化学习-Part 4
+  - n: 92
+    title: L21- 迁移学习与多任务学习-Part 1
+  - n: 93
+    title: L21- 迁移学习与多任务学习-Part 2
+  - n: 94
+    title: L21- 迁移学习与多任务学习-Part 3
+  - n: 95
+    title: L21- 迁移学习与多任务学习-Part 4
+  - n: 96
+    title: L21- 迁移学习与多任务学习-Part 5
+  - n: 97
+    title: L22- 元学习
+  - n: 98
+    title: L23- 挑战与开放待解决的问题-Part 1
+  - n: 99
+    title: L23- 挑战与开放待解决的问题-Part 2
+  - n: 100
+    title: L23- 挑战与开放待解决的问题-Part 3

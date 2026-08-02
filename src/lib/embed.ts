@@ -12,15 +12,21 @@ export interface EmbedOptions {
   page?: number;
   /** 起播秒数（iframe 无跨域控制接口，跳转靠换 src 重载） */
   startSeconds?: number;
+  /** 该集的独立 B 站稿件（ugc_season 合集课程），优先于 page */
+  bvid?: string;
 }
 
 export function embedFor(source: Source, opts: EmbedOptions = {}): Embed {
   if (source.platform === "bilibili") {
     // 支持 /video/BVxxxx 与 /video/avNNN（分 P 用 ?p=N）
-    const bv = source.url.match(/\/video\/(BV[0-9A-Za-z]+)/)?.[1];
-    const av = source.url.match(/\/video\/av(\d+)/)?.[1];
+    // 合集类课程每集是独立稿件，此时用 opts.bvid 覆盖
+    const bv = opts.bvid ?? source.url.match(/\/video\/(BV[0-9A-Za-z]+)/)?.[1];
+    const av = opts.bvid ? undefined : source.url.match(/\/video\/av(\d+)/)?.[1];
     if (bv || av) {
-      const p = opts.page ?? source.url.match(/[?&]p=(\d+)/)?.[1];
+      // 独立稿件不需要分 P 参数
+      const p = opts.bvid
+        ? undefined
+        : (opts.page ?? source.url.match(/[?&]p=(\d+)/)?.[1]);
       // high_quality=1: 游客默认拉到可用的最高清晰度（1080P 上限，大会员档位仍需登录）
       const params = new URLSearchParams({
         autoplay: "0",

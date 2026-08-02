@@ -5,12 +5,11 @@ institution: Stanford
 instructor: Alex Aiken
 subject: cs
 level: advanced
-tags: [编译器, 龙书, 形式语言]
-prerequisites: [csapp]
+tags: [ 编译器, 龙书, 形式语言 ]
+prerequisites: [ csapp ]
 estimatedHours: 80
 description: >
-  三大浪漫之编译原理：词法分析、语法分析、语义分析、运行时与代码生成、
-  优化。配套 Cool 语言实验，亲手写出一个能跑的编译器。
+  三大浪漫之编译原理：词法分析、语法分析、语义分析、运行时与代码生成、 优化。配套 Cool 语言实验，亲手写出一个能跑的编译器。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1NE411376V
@@ -19,8 +18,262 @@ sources:
   - platform: other
     url: https://web.stanford.edu/class/cs143/
     note: 课程官网（讲义 / PA 实验）
-episodeCount: 127
 notes:
   - title: CS 自学指南：CS143 攻略
     url: https://csdiy.wiki/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/CS143/
     kind: site
+episodes:
+  - n: 1
+    title: Week 1 01-01-introduction-redo-correction
+  - n: 2
+    title: Week 1 01-02-structure-of-a-compiler-final
+  - n: 3
+    title: Week 1 01-03-the-economy-of-programming-languages
+  - n: 4
+    title: Week 1 02-01-cool-overview-final
+  - n: 5
+    title: Week 1 02-02-cool-example-ii-final
+  - n: 6
+    title: Week 1 02-03-cool-example-iii-final-correction
+  - n: 7
+    title: Week 2 03-01-A+Lexical+Analysis
+  - n: 8
+    title: Week 2 03-01-B+Lexical+Analysis
+  - n: 9
+    title: Week 2 03-02-lexical-analysis-examples-final
+  - n: 10
+    title: Week 2 03-03-A+Regular+Languages
+  - n: 11
+    title: Week 2 03-03-B+Regular+Languages
+  - n: 12
+    title: Week 2 03-04-formal-languages
+  - n: 13
+    title: Week 2 03-05-lexical-specifications-final-quizupdate
+  - n: 14
+    title: Week 2 04-01-lexical-specification
+  - n: 15
+    title: Week 2 04+02+finite+automata+part+1
+  - n: 16
+    title: Week 2 04+02+finite+automata+part+2
+  - n: 17
+    title: Week 2 04-03-regular-expressions-to-nfas-final-quizupdate-correction
+  - n: 18
+    title: Week 2 04-04-nfa-to-dfa-quizupdate
+  - n: 19
+    title: Week 2 04-05-implementing-finite-automata-correction
+  - n: 20
+    title: Week 3 05-01-introduction-to-parsing
+  - n: 21
+    title: Week 3 05-02-A+Context+Free+Grammars
+  - n: 22
+    title: Week 3 05-02-B+Context+Free+Grammars
+  - n: 23
+    title: Week 3 05-03-A+Derivations
+  - n: 24
+    title: Week 3 05-03-B+Derivations
+  - n: 25
+    title: Week 3 05-04-A+Ambiguity
+  - n: 26
+    title: Week 3 05-04-B+Ambiguity
+  - n: 27
+    title: Week 3 05-04-C+Ambiguity
+  - n: 28
+    title: Week 3 06-01-error-handling
+  - n: 29
+    title: Week 3 06-02-abstract-syntax-trees
+  - n: 30
+    title: Week 3 06-03-recursive-descent-parsing
+  - n: 31
+    title: Week 3 06-04-recursive-descent-algorithm
+  - n: 32
+    title: Week 3 06-04-1-recursive-descent-limitations-04-1
+  - n: 33
+    title: Week 3 06-05-A+Left+Recursion
+  - n: 34
+    title: Week 3 06-05-B+Left+Recursion
+  - n: 35
+    title: Week 4 07-01-A+Predictive+Parsing
+  - n: 36
+    title: Week 4 07-01-B+Predictive+Parsing
+  - n: 37
+    title: Week 4 07-02-first-sets
+  - n: 38
+    title: Week 4 07-03-follow-sets
+  - n: 39
+    title: Week 4 07-04-ll1-parsing-tables
+  - n: 40
+    title: Week 4 07-05-A+Bottom-Up+Parsing
+  - n: 41
+    title: Week 4 07-05-B+Bottom-Up+Parsing
+  - n: 42
+    title: Week 4 07-06-A+Shift-Reduce+Parsing
+  - n: 43
+    title: Week 4 07-06-B+Shift-Reduce+Parsing
+  - n: 44
+    title: Week 4 08-01-A+Handles
+  - n: 45
+    title: Week 4 08-01-B+Handles
+  - n: 46
+    title: Week 4 08-02-recognizing-handles
+  - n: 47
+    title: Week 4 08-03-recognizing-viable-prefixes
+  - n: 48
+    title: Week 4 08-04-valid-items
+  - n: 49
+    title: Week 4 08-05-slr-parsing
+  - n: 50
+    title: Week 4 08-06-slr-parsing-example
+  - n: 51
+    title: Week 4 08-07-slr-improvements
+  - n: 52
+    title: Week 4 08-08-slr-examples-correction
+  - n: 53
+    title: Week 5 09-01-introduction-to-semantic-analysis
+  - n: 54
+    title: Week 5 09-02-scope
+  - n: 55
+    title: Week 5 09-03-symbol-tables
+  - n: 56
+    title: Week 5 09-04-types
+  - n: 57
+    title: Week 5 09-05-A+Type+Checking
+  - n: 58
+    title: Week 5 09-05-B+Type+Checking
+  - n: 59
+    title: Week 5 09-06-A+Type+Environments
+  - n: 60
+    title: Week 5 09-06-B+Type+Environments
+  - n: 61
+    title: Week 5 09-07-A+Subtyping
+  - n: 62
+    title: Week 5 09-07-B+Subtyping
+  - n: 63
+    title: Week 5 09-08-A+Typing+Methods
+  - n: 64
+    title: Week 5 09-08-B+Typing+Methods
+  - n: 65
+    title: Week 5 09-09-implementing-type-checking
+  - n: 66
+    title: Week 6 10-01-A+Static+vs.+Dynamic+Typing
+  - n: 67
+    title: Week 6 10-01-B+Static+vs.+Dynamic+Typing
+  - n: 68
+    title: Week 6 10-02-self-type
+  - n: 69
+    title: Week 6 10-03-A+Self+Type+Operations
+  - n: 70
+    title: Week 6 10-03-B+Self+Type+Operations
+  - n: 71
+    title: Week 6 10-04-self-type-usage
+  - n: 72
+    title: Week 6 10-05-A+Self+Type+Checking
+  - n: 73
+    title: Week 6 10-05-B+Self+Type+Checking
+  - n: 74
+    title: Week 6 10-06-error-recovery
+  - n: 75
+    title: Week 6 11-01-runtime-organization
+  - n: 76
+    title: Week 6 11-02-A+Activations
+  - n: 77
+    title: Week 6 11-02-B+Activations
+  - n: 78
+    title: Week 6 11-03-activation-records
+  - n: 79
+    title: Week 6 11-04-globals-and-heap
+  - n: 80
+    title: Week 6 11-05-alignment
+  - n: 81
+    title: Week 6 11-06-stack-machines
+  - n: 82
+    title: Week 7 12-01-introduction-to-code-generation
+  - n: 83
+    title: Week 7 12-02-A+Code+Generation+I
+  - n: 84
+    title: Week 7 12-02-B+Code+Generation+I
+  - n: 85
+    title: Week 7 12-03-A+Code+Generation+II
+  - n: 86
+    title: Week 7 12-03-B+Code+Generation+II
+  - n: 87
+    title: Week 7 12-04-code-generation-example
+  - n: 88
+    title: Week 7 12-05-A+Temporaries
+  - n: 89
+    title: Week 7 12-05-B+Temporaries
+  - n: 90
+    title: Week 7 12-06-A+Object+Layout
+  - n: 91
+    title: Week 7 12-06-B+Object+Layout
+  - n: 92
+    title: Week 7 13-01-semantics-overview
+  - n: 93
+    title: Week 7 13-02-operational-semantics
+  - n: 94
+    title: Week 7 13-03-cool-semantics-i
+  - n: 95
+    title: Week 7 13-04-A+Cool+Semantics+II
+  - n: 96
+    title: Week 7 13-04-B+Cool+Semantics+II
+  - n: 97
+    title: Week 8 14-01-intermediate-code
+  - n: 98
+    title: Week 8 14-02-optimization-overview
+  - n: 99
+    title: Week 8 14-03-local-optimization
+  - n: 100
+    title: Week 8 14-04-peephole-optimization
+  - n: 101
+    title: Week 8 15-01-dataflow-analysis
+  - n: 102
+    title: Week 8 15-02-constant-propagation
+  - n: 103
+    title: Week 8 15-03-analysis-of-loops
+  - n: 104
+    title: Week 8 15-04-orderings
+  - n: 105
+    title: Week 8 15-05-A+Liveness+Analysis
+  - n: 106
+    title: Week 8 15-05-B+Liveness+Analysis
+  - n: 107
+    title: Week 9 16-01-register-allocation
+  - n: 108
+    title: Week 9 16-02-A+Graph+Coloring
+  - n: 109
+    title: Week 9 16-02-B+Graph+Coloring
+  - n: 110
+    title: Week 9 16-03-A+Spilling
+  - n: 111
+    title: Week 9 16-03-B+Spilling
+  - n: 112
+    title: Week 9 16-04-managing-caches
+  - n: 113
+    title: Week 9 17-01-automatic-memory-management
+  - n: 114
+    title: Week 9 17-02-A+Mark+and+Sweep
+  - n: 115
+    title: Week 9 17-02-B+Mark+and+Sweep
+  - n: 116
+    title: Week 9 17-03-A+Stop+and+Copy
+  - n: 117
+    title: Week 9 17-03-B+Stop+and+Copy
+  - n: 118
+    title: Week 9 17-04-conservative-collection
+  - n: 119
+    title: Week 9 17-05-A+Reference+Counting
+  - n: 120
+    title: Week 9 17-05-B+Reference+Counting
+  - n: 121
+    title: Week 10 18-01-java
+  - n: 122
+    title: Week 10 18-02-java-arrays
+  - n: 123
+    title: Week 10 18-03-java-exceptions
+  - n: 124
+    title: Week 10 18-04-java-interfaces
+  - n: 125
+    title: Week 10 18-05-java-coercions
+  - n: 126
+    title: Week 10 18-06-java-threads
+  - n: 127
+    title: Week 10 18-07-other-topics

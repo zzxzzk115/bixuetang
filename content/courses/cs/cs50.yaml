@@ -5,12 +5,11 @@ institution: 哈佛大学
 instructor: David Malan
 subject: cs
 level: basic
-tags: [编程入门, c, python, 零基础]
+tags: [ 编程入门, c, python, 零基础 ]
 prerequisites: []
 estimatedHours: 50
 description: >
-  全世界最受欢迎的 CS 入门课：从 Scratch 到 C、数据结构、Python、SQL、Web。
-  Malan 的课堂是一场秀，零基础的第一站。
+  全世界最受欢迎的 CS 入门课：从 Scratch 到 C、数据结构、Python、SQL、Web。 Malan 的课堂是一场秀，零基础的第一站。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1DA411Y7jk
@@ -19,8 +18,28 @@ sources:
   - platform: other
     url: https://cs50.harvard.edu/x/
     note: 课程官网（作业与自动评分）
-episodeCount: 11
 notes:
   - title: CS 自学指南：CS50 攻略
     url: https://csdiy.wiki/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/CS50/
     kind: site
+episodes:
+  - n: 1
+    title: 第0周 Scratch 图形编程
+  - n: 2
+    title: 第1周 C 语言
+  - n: 3
+    title: 第2周 编译 数组 排序 算法复杂度
+  - n: 4
+    title: 第3周 C语言 字符串 指针 内存管理
+  - n: 5
+    title: 第4周 C语言 堆栈 程序内存布局 链表 二叉树
+  - n: 6
+    title: 第5周 HTML CSS 计算机网络 HTTP
+  - n: 7
+    title: 第6周 Python 脚本语言
+  - n: 8
+    title: 第7周 Web开发 Flask CSS JavaScript Jinja
+  - n: 9
+    title: 第8周 Web开发 数据库 SQL Flask
+  - n: 10
+    title: 最后一周 结课仪式 恶搞视频 竞答活动

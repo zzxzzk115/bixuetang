@@ -4,12 +4,11 @@ code: "Stanford CS144"
 institution: Stanford
 subject: cs
 level: advanced
-tags: [网络, tcp, 协议栈]
-prerequisites: [csapp]
+tags: [ 网络, tcp, 协议栈 ]
+prerequisites: [ csapp ]
 estimatedHours: 70
 description: >
-  斯坦福网络课：自顶向下讲透 HTTP/TCP/IP/以太网，
-  Lab 亲手用 C++ 实现一个能收发真实流量的 TCP 协议栈。
+  斯坦福网络课：自顶向下讲透 HTTP/TCP/IP/以太网， Lab 亲手用 C++ 实现一个能收发真实流量的 TCP 协议栈。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1qotgeXE8D
@@ -18,8 +17,294 @@ sources:
   - platform: other
     url: https://cs144.github.io/
     note: 课程官网（Lab 实验）
-episodeCount: 33
 notes:
   - title: CS 自学指南：CS144 攻略
     url: https://csdiy.wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/CS144/
     kind: site
+episodes:
+  - n: 1
+    title: p0 1-0 The Internet and IP Introduction
+  - n: 2
+    title: p1 1-1 A day in the life of an application
+  - n: 3
+    title: p2 1-2 The four layer Internet model
+  - n: 4
+    title: p3 1-3 The IP service model
+  - n: 5
+    title: p4 1-4 A Day in the Life of a Packet
+  - n: 6
+    title: p5 1-5 Packet switching principle
+  - n: 7
+    title: p6 1-6 Layering principle
+  - n: 8
+    title: p7 1-7 Encapslation principle
+  - n: 9
+    title: p8 1-8a byte order
+  - n: 10
+    title: p9 1-8b byte order
+  - n: 11
+    title: p10 1-8c byte order
+  - n: 12
+    title: p11 1-8d byte order
+  - n: 13
+    title: p12 1-9a IPv4 addresses
+  - n: 14
+    title: p13 1-9b IPv4 addresses
+  - n: 15
+    title: p14 1-9c IPv4 addresses
+  - n: 16
+    title: p15 1-9d IPv4 addresses
+  - n: 17
+    title: p16 1-10a Longest prefix match (LPM)
+  - n: 18
+    title: p17 1-10b Longest prefix match (LPM)
+  - n: 19
+    title: p18 1-10c Longest prefix match (LPM)
+  - n: 20
+    title: p19 1-11 Address Resolution Protocol (ARP)
+  - n: 21
+    title: p20 1-12 The Internet and IP Recap
+  - n: 22
+    title: p21 2-0 Transport (intro)
+  - n: 23
+    title: p22 2-1 TCP service model
+  - n: 24
+    title: p23 2-2 UDP service model
+  - n: 25
+    title: p24 2-3 ICMP service model
+  - n: 26
+    title: p25 2-4 End to End Principle
+  - n: 27
+    title: p26 2-5 Error detection
+  - n: 28
+    title: p27 2-6a Finite state machines 1
+  - n: 29
+    title: p28 2-6b Finite state machines 2
+  - n: 30
+    title: p29 2-6c Finite state machines 3
+  - n: 31
+    title: p30 2-6d Finite state machines 4
+  - n: 32
+    title: p31 2-7 Stop and wait
+  - n: 33
+    title: p32 2-8 Sliding window
+  - n: 34
+    title: p33 2-9 Reliable comm --- Retransmission strategies
+  - n: 35
+    title: p34 2-10 Reliable comm --- TCP header
+  - n: 36
+    title: p35 2-11 Reliable comm --- Connection setup and teardown
+  - n: 37
+    title: p36 2-12 Transport (recap)
+  - n: 38
+    title: p37 3-0 Packet Switching
+  - n: 39
+    title: p38 3-1 The History of Networks The History of the Internet
+  - n: 40
+    title: p39 3-2 Packet Switching - Principles What is packet switching
+  - n: 41
+    title: p40 3-3Packet Switching - Principles Terminology End to End Delay and Queueing d
+  - n: 42
+    title: p41 3-4 Packet Switching - Principles Playback buffers
+  - n: 43
+    title: p42 3-5 Packet Switching - Principles Simple Deterministic Queue Model (revised)
+  - n: 44
+    title: p43 3-5a Simple Queueing Model Example
+  - n: 45
+    title: p44 3-6 Packet Switching - Principles Queueing Model Properties
+  - n: 46
+    title: p45 3-7 Packet Switching - Practice Switching and Forwarding (1)
+  - n: 47
+    title: p46 3-8 Packet Switching - Practice Switching and Forwarding (2)
+  - n: 48
+    title: p47 3-9 Packet Switching - Principles Rate guarantees
+  - n: 49
+    title: p48 3-10 Packet Switching - Principles Delay Guarantees (revised)
+  - n: 50
+    title: p49 3-10a Delay Guarantees Example
+  - n: 51
+    title: p50 3-11 Packet Switching (recap)
+  - n: 52
+    title: p51 4-0 Congestion Control
+  - n: 53
+    title: p52 4-1 Congestion Control - Basics
+  - n: 54
+    title: p53 4-2 Congestion Control - Basics 2
+  - n: 55
+    title: p54 4-3 Congestion Control - Dynamics of a single AIMD flow
+  - n: 56
+    title: p55 4-3a Single AIMD flow worked example
+  - n: 57
+    title: p56 4-4 AIMD Multiple Flows
+  - n: 58
+    title: p57 4-5 TCP Tahoe
+  - n: 59
+    title: p58 4-5a Congestion Control - TCP Tahoe
+  - n: 60
+    title: p59 4-6 TCP RTT Estimation
+  - n: 61
+    title: p60 4-6a Congestion Control - RTT Estimation and Self-Clocking
+  - n: 62
+    title: p61 4-7 Congestion Control - TCP Reno and New Reno
+  - n: 63
+    title: p62 4-7a TCP Reno
+  - n: 64
+    title: p63 4-8 Congestion Control - AIMD
+  - n: 65
+    title: p64 4-9 Skills --- Reading and RFC
+  - n: 66
+    title: p65 4-11 Congestion Control
+  - n: 67
+    title: p66 5-0 Applications and NATs
+  - n: 68
+    title: p67 5-1 NATs - Introduction
+  - n: 69
+    title: p68 5-2 NATs - Types
+  - n: 70
+    title: p69 5-3 NATs - Implications
+  - n: 71
+    title: p70 5-4 Nats - Operation
+  - n: 72
+    title: p71 5-5a HTTP
+  - n: 73
+    title: p72 5-5b HTTP Quiz 1 Intro
+  - n: 74
+    title: p73 5-5c HTTP Quiz 1 Explanation
+  - n: 75
+    title: p74 5-5d HTTP Quiz 2 Intro
+  - n: 76
+    title: p75 5-5e HTTP Quiz 2 Explanation
+  - n: 77
+    title: p76 5-6 HTTP11 Keep-alive
+  - n: 78
+    title: p77 5-7 BitTorrent
+  - n: 79
+    title: p78 5-8 DNS 1
+  - n: 80
+    title: p79 5-9 DNS 2
+  - n: 81
+    title: p80 5-10 DNS 3
+  - n: 82
+    title: p81 5-11 DHCP
+  - n: 83
+    title: p82 5-12 Applications and NATs (recap)
+  - n: 84
+    title: p83 6-0 Routing
+  - n: 85
+    title: p84 6-1 Routing - Flooding source routing and spanning trees
+  - n: 86
+    title: p85 6-2 Routing - Bellman Ford
+  - n: 87
+    title: p86 6-3 Routing - Dijkstra
+  - n: 88
+    title: p87 6-4 Routing - Internet (RIP OSPF) ASs
+  - n: 89
+    title: p88 6-5 Routing - BGP
+  - n: 90
+    title: p89 6-6 Routing - Multicast
+  - n: 91
+    title: p90 6-7 Routing - Spanning Tree
+  - n: 92
+    title: p91 6-8 IPv6
+  - n: 93
+    title: p92 6-9 Routing
+  - n: 94
+    title: p93 7-0 Lower Layers
+  - n: 95
+    title: p94 7-1 Physical and Link Principles - Shannon Capacity and Modulation
+  - n: 96
+    title: p95 7-2 Physical and Link Principles - Bit Errors
+  - n: 97
+    title: p96 7-3 Physical and Link - Principles clocks
+  - n: 98
+    title: p97 7-4 Physical and Link Principles - FEC and Reed-Solomon
+  - n: 99
+    title: p98 7-5 Physical and Link - Principles MAC and CSMACD
+  - n: 100
+    title: p99 7-6 Physical and Link - Practice Ethernet
+  - n: 101
+    title: p100 7-7 Wireless - How Its Different
+  - n: 102
+    title: p101 7-8 Wireless - Principles MAC
+  - n: 103
+    title: p102 7-9 Wireless - Principles CSMACA
+  - n: 104
+    title: p103 7-10 Wireless - Principles RTSCTS
+  - n: 105
+    title: p104 7-11 Wireless - Principles WiFi
+  - n: 106
+    title: p105 7-11a Fragmentation
+  - n: 107
+    title: p106 7-11b Forward Error Correction
+  - n: 108
+    title: p107 7-12 Lower Layers (recap)
+  - n: 109
+    title: p108 8-0 Security
+  - n: 110
+    title: p109 8-1 Introduction to Network Security
+  - n: 111
+    title: p110 8-2 Layer 2 Attacks
+  - n: 112
+    title: p111 8-2a MAC Overflow Attack
+  - n: 113
+    title: p112 8-2b DHCP Attack Demo
+  - n: 114
+    title: p113 8-2c Demo SSH Man in the Middle Attack
+  - n: 115
+    title: p114 8-2d TCP Hijack
+  - n: 116
+    title: p115 8-3 Layer 3 Attacks
+  - n: 117
+    title: p116 8-4 Security V - Denial of Service
+  - n: 118
+    title: p117 8-5 Security Principles
+  - n: 119
+    title: p118 8-6a Confidentiality
+  - n: 120
+    title: p119 8-6b Confidentiality
+  - n: 121
+    title: p120 8-6c Confidentiality
+  - n: 122
+    title: p121 8-6d Confidentiality
+  - n: 123
+    title: p122 8-6e Confidentiality
+  - n: 124
+    title: p123 8-6f Confidentiality
+  - n: 125
+    title: p124 8-6g Confidentiality
+  - n: 126
+    title: p125 8-6h Confidentiality
+  - n: 127
+    title: p126 8-7 Integrity
+  - n: 128
+    title: p127 8-8 Public Key Cryptography
+  - n: 129
+    title: p128 8-9 Certificates
+  - n: 130
+    title: p129 8-10a TLS
+  - n: 131
+    title: p130 8-10b TLS
+  - n: 132
+    title: p131 8-10c TLS
+  - n: 133
+    title: p132 8-10d TLS
+  - n: 134
+    title: p133 8-11 Security
+  - n: 135
+    title: p134 9-1 Jon Peterson Interview -- SIP and Security
+  - n: 136
+    title: p135 9-2 Kevin Fall
+  - n: 137
+    title: p136 9-3 Tom Edsall Interview -- DC Switches
+  - n: 138
+    title: p137 9-4 Nandita Interview
+  - n: 139
+    title: p138 9-5 David Ward
+  - n: 140
+    title: p139 9-6 BGP Putting the Inter in Internet Professor Jennifer Rexford Princeton
+  - n: 141
+    title: p140 9-7 Sanjit Biswas CEO of Meraki (interviewed by Nick M)
+  - n: 142
+    title: p141 9-8 Dan Boneh Interview -- Security
+  - n: 143
+    title: p142 9-9 Reed Hundt on security and openness

@@ -5,12 +5,11 @@ institution: CMU
 instructor: Andy Pavlo
 subject: cs
 level: advanced
-tags: [数据库, 存储引擎, sql]
-prerequisites: [csapp]
+tags: [ 数据库, 存储引擎, sql ]
+prerequisites: [ csapp ]
 estimatedHours: 70
 description: >
-  Andy Pavlo 的数据库神课：存储、缓冲池、索引、查询执行、并发控制、恢复。
-  配套 BusTub 项目从零写一个数据库存储引擎。
+  Andy Pavlo 的数据库神课：存储、缓冲池、索引、查询执行、并发控制、恢复。 配套 BusTub 项目从零写一个数据库存储引擎。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1f7411z7dw
@@ -19,8 +18,38 @@ sources:
   - platform: other
     url: https://15445.courses.cs.cmu.edu/
     note: 课程官网（BusTub 项目）
-episodeCount: 26
 notes:
   - title: CS 自学指南：15-445 攻略
     url: https://csdiy.wiki/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F/15445/
     kind: site
+episodes:
+  - n: 1
+    title: 01 课程简介与关系模型 01
+  - n: 2
+    title: 02 课程简介与关系模型 02
+  - n: 3
+    title: 03 课程简介与关系模型 03
+  - n: 4
+    title: 04 课程简介与关系模型 04
+  - n: 5
+    title: 05 高级SQL 01
+  - n: 6
+    title: 06 高级SQL 02
+  - n: 7
+    title: 07 高级SQL 03
+  - n: 8
+    title: 08 数据库存储01-01
+  - n: 9
+    title: 11 数据库存储01-04
+  - n: 10
+    title: 12 数据库存储2-01
+  - n: 11
+    title: 15 Buffer池与内存管理 01
+  - n: 12
+    title: 18 Buffer池与内存管理 04
+  - n: 13
+    title: 19 Hash Tables 01
+  - n: 14
+    title: 22 Hash Table 04
+  - n: 15
+    title: 24 Tree indexes 1-01

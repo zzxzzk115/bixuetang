@@ -5,12 +5,11 @@ institution: MIT
 instructor: Gilbert Strang
 subject: math
 level: intermediate
-tags: [线性代数, 矩阵]
-prerequisites: [mit-18-01]
+tags: [ 线性代数, 矩阵 ]
+prerequisites: [ mit-18-01 ]
 estimatedHours: 50
 description: >
-  Gilbert Strang 的传奇线代课，B 站播放量千万级。四个基本子空间、
-  投影与最小二乘、特征值、SVD——机器学习与图形学的数学地基。
+  Gilbert Strang 的传奇线代课，B 站播放量千万级。四个基本子空间、 投影与最小二乘、特征值、SVD——机器学习与图形学的数学地基。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1zx411g7gq
@@ -19,9 +18,79 @@ sources:
   - platform: youtube
     url: https://www.youtube.com/playlist?list=PL49CF3715CB9EF31D
     note: MIT OCW 官方原版
-episodeCount: 35
 notes:
   - title: 线性代数的艺术（18.06 图解笔记）
     url: https://github.com/kenjihiranabe/The-Art-of-Linear-Algebra
     kind: github
 lab: math
+episodes:
+  - n: 1
+    title: 第1课 方程组的几何解释
+  - n: 2
+    title: 第2课 矩阵消元
+  - n: 3
+    title: 第3课 乘法和逆矩阵
+  - n: 4
+    title: 第4课 A的LU分解
+  - n: 5
+    title: 第5课 转置-置换-向量空间R
+  - n: 6
+    title: 第6课 列空间和零空间
+  - n: 7
+    title: 第7课 求解Ax=0 主变量 特解
+  - n: 8
+    title: 第8课 求解Ax=b 可解性和解的结构
+  - n: 9
+    title: 第9课 线性相关性、基、维数
+  - n: 10
+    title: 第10课 四个基本子空间
+  - n: 11
+    title: 第11课 矩阵空间、秩1矩阵和小世界图
+  - n: 12
+    title: 第12课 图和网络
+  - n: 13
+    title: 第13课 复习一
+  - n: 14
+    title: 第14课 正交向量与子空间
+  - n: 15
+    title: 第15课 子空间投影
+  - n: 16
+    title: 第16课 投影矩阵和最小二乘
+  - n: 17
+    title: 第17课 正交矩阵和Gram-Schmidt正交化
+  - n: 18
+    title: 第18课 行列式及其性质
+  - n: 19
+    title: 第19课 行列式公式和代数余子式
+  - n: 20
+    title: 第20课 克拉默法则、逆矩阵、体积
+  - n: 21
+    title: 第21课 特征值和特征向量
+  - n: 22
+    title: 第22课 对角化和A的幂
+  - n: 23
+    title: 第23课 微分方程和exp(At)
+  - n: 24
+    title: 第24课 马尔可夫矩阵 傅立叶级数
+  - n: 25
+    title: 第25课 复习二
+  - n: 26
+    title: 第26课 对称矩阵及正定性
+  - n: 27
+    title: 第27课 复数矩阵和快速傅里叶变换
+  - n: 28
+    title: 第28课 正定矩阵和最小值
+  - n: 29
+    title: 第29课 相似矩阵和若尔当形
+  - n: 30
+    title: 第30课 奇异值分解
+  - n: 31
+    title: 第31课 线性变换及对应矩阵
+  - n: 32
+    title: 第32课 基变换和图像压缩
+  - n: 33
+    title: 第33课 单元检测3复习
+  - n: 34
+    title: 第34课 左右逆和伪逆
+  - n: 35
+    title: 第35课 期末复习

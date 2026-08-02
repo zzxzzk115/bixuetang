@@ -5,12 +5,11 @@ institution: 台湾大学
 instructor: 李宏毅
 subject: ai
 level: intermediate
-tags: [深度学习, 生成式AI, 中文原声]
-prerequisites: [andrew-ng-ml]
+tags: [ 深度学习, 生成式AI, 中文原声 ]
+prerequisites: [ andrew-ng-ml ]
 estimatedHours: 40
 description: >
-  李宏毅 2023 版机器学习：以生成式 AI 为主线讲 Transformer、
-  Diffusion、大语言模型。中文原声无字幕门槛，段子密度极高。
+  李宏毅 2023 版机器学习：以生成式 AI 为主线讲 Transformer、 Diffusion、大语言模型。中文原声无字幕门槛，段子密度极高。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1ka4y1g7To
@@ -19,8 +18,50 @@ sources:
   - platform: youtube
     url: https://www.youtube.com/@HungyiLeeNTU
     note: 李宏毅官方频道
-episodeCount: 24
 notes:
   - title: 李宏毅机器学习笔记（LeeDL 开源教程）
     url: https://github.com/datawhalechina/leedl-tutorial
     kind: github
+episodes:
+  - n: 1
+    title: 第 1 讲
+  - n: 2
+    title: 【生成式AI】ChatGPT 原理剖析 (3_3) — ChatGPT 所帶來的研究問題
+  - n: 3
+    title: 【生成式AI】用 ChatGPT 和 Midjourney 來玩文字冒險遊戲
+  - n: 4
+    title: 【生成式AI】快速了解機器學習基本原理 (1_2) (已經略懂機器學習的同學可以跳過這段)
+  - n: 5
+    title: 【生成式AI】快速了解機器學習基本原理 (2_2) (已經略懂機器學習的同學可以跳過這段)
+  - n: 6
+    title: 【生成式AI】生成式學習的兩種策略：要各個擊破，還是要一次到位
+  - n: 7
+    title: 8. 【生成式AI】Finetuning vs. Prompting：對於大型語言模型的不同期待所衍生的兩類使用方式 (1_3)
+  - n: 8
+    title: 9. 【生成式AI】Finetuning vs. Prompting：對於大型語言模型的不同期待所衍生的兩類使用方式 (2_3)
+  - n: 9
+    title: 10. 【生成式AI】Finetuning vs. Prompting：對於大型語言模型的不同期待所衍生的兩類使用方式 (3_3)
+  - n: 10
+    title: 11. 【生成式AI】大模型 + 大資料 = 神奇結果？(1_3)：大模型的頓悟時刻
+  - n: 11
+    title: 12. 【生成式AI】大模型 + 大資料 = 神奇結果？(2_3)：到底要多少資料才夠
+  - n: 12
+    title: 13. 【生成式AI】大模型 + 大資料 = 神奇結果？(3_3)：另闢蹊徑 — KNNLM
+  - n: 13
+    title: 14. 【生成式AI】GPT-4 來了! GPT-4 這次有什麼神奇的能力呢？
+  - n: 14
+    title: 15. 【生成式AI】速覽圖像生成常見模型
+  - n: 15
+    title: 16. 【生成式AI】淺談圖像生成模型 Diffusion Model 原理
+  - n: 16
+    title: 17. 【生成式AI】Stable Diffusion、DALL-E、Imagen 背後共同的套路
+  - n: 17
+    title: 18. 【生成式AI】Diffusion Model 原理剖析 (1_4) (optional)
+  - n: 18
+    title: 19. 【生成式AI】Diffusion Model 原理剖析 (2_4) (optional)
+  - n: 19
+    title: 20. 【生成式AI】Diffusion Model 原理剖析 (3_4) (optional)
+  - n: 20
+    title: 21. 【生成式AI】Diffusion Model 原理剖析 (4_4) (optional)
+  - n: 21
+    title: 24. 【生成式AI】讓 AI 村民組成虛擬村莊會發生甚麼事？

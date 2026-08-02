@@ -5,12 +5,11 @@ institution: MIT
 instructor: Walter Lewin
 subject: physics
 level: intermediate
-tags: [电磁学, 麦克斯韦方程]
-prerequisites: [mit-8-01]
+tags: [ 电磁学, 麦克斯韦方程 ]
+prerequisites: [ mit-8-01 ]
 estimatedHours: 60
 description: >
-  静电、电路、磁场、法拉第定律到麦克斯韦方程组。
-  Lewin 的演示实验依旧震撼。
+  静电、电路、磁场、法拉第定律到麦克斯韦方程组。 Lewin 的演示实验依旧震撼。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1fJ411v7Vc
@@ -19,5 +18,77 @@ sources:
   - platform: other
     url: https://ocw.mit.edu/courses/8-02-physics-ii-electricity-and-magnetism-spring-2007/
     note: MIT OCW 课程页
-episodeCount: 36
 notes: []
+episodes:
+  - n: 1
+    title: 8.02x - Lect 01-(是什么将世界连在一起)Electric Charges and Forces - Coulomb's Law - Polari
+  - n: 2
+    title: 8.02x - Lect 02-(电场和偶极子)Electric Field Lines, Superposition, Inductive Charging,
+  - n: 3
+    title: 8.02x - Lect 03-(电通量和高斯定律)Electric Flux, Gauss' Law, Examples
+  - n: 4
+    title: 8.02x - Lect 04-(静电势能和电势)Electrostatic Potential, Electric Energy, Equipotential
+  - n: 5
+    title: 8.02x - Lect 05-(静电屏蔽)E= - grad V, Conductors, Electrostatic Shielding (Faraday
+  - n: 6
+    title: 8.02x - Lect 06 - (高压击穿和闪电)High-voltage Breakdown, Lightning, Sparks, St-Elmo's
+  - n: 7
+    title: 8.02x - Lect 07 - (电容和场能)Capacitance, Electric Field Energy
+  - n: 8
+    title: 02x - Lect 08 - (电介质及极化)Polarization, Dielectrics, Van de Graaff Generator, Ca
+  - n: 9
+    title: 8.02x - Lect 09 - (电流、电阻率和欧姆定律)Electric Currents, Resistivity, Conductivity, Ohm
+  - n: 10
+    title: 8.02x - Lect 10 - (电池和电动势)Batteries, Power, Kirchhoff's Rules, Circuits, Kelvin
+  - n: 11
+    title: 8.02x - Lect 11 - (磁场和洛伦兹力)Magnetic Fields, Lorentz Force, Torques, Electric Mot
+  - n: 12
+    title: 8.02x - Lect 12 - (复习一、神秘陀螺)First Exam Review
+  - n: 13
+    title: 8.02x - Lect 13 - (B场中的运动电荷)Moving charges in B-fields, Cyclotrons, Mass Spectro
+  - n: 14
+    title: 8.02x - Lect 14 - (毕奥萨伐尔定律)Biot-Savart, div B = 0, High-voltage Power Lines, Ley
+  - n: 15
+    title: 8.02x - Lect 15 - (安培定律)Ampere's Law, Solenoids, Kelvin Water Dropper (revisited
+  - n: 16
+    title: 8.02x - Lect 16 - (电磁感应)Electromagnetic Induction, Faraday's Law, Lenz Law, SUPE
+  - n: 17
+    title: 8.02x - Lect 17 - (动生电动势和发电机)Motional EMF, Dynamos, Eddy Currents, Magnetic Brak
+  - n: 18
+    title: 8.02x - Lect 18 - (位移电流和同步电机)Displacement Current, Synchronous Motors, Explanati
+  - n: 19
+    title: 8.02x - Lect 19 - (心电图、极光、磁悬浮)Magnetic Levitation, Human ❤, Superconductivity, A
+  - n: 20
+    title: 8.02x - Lect 20 - (电感和RL电路)Inductance, RL Circuits, Magnetic Field Energy
+  - n: 21
+    title: 8.02x - Lect 21 - (材料磁性)Magnetic Materials, Dia- Para- & Ferromagnetism
+  - n: 22
+    title: 8.02x - Lect 22 - (磁滞和麦克斯韦方程组)Maxwell's Equations - 600 Daffodil Ceremony
+  - n: 23
+    title: 8.02x - Lect 23 - (复习二)Second Exam Review
+  - n: 24
+    title: 8.02x - Lect 24 - (变压器、RC电路)Transformers, Car Coils, RC Circuits
+  - n: 25
+    title: 8.02x - Lect 25 - (LRC电路和谐振)Driven LRC Circuits, Metal Detectors
+  - n: 26
+    title: 8.02x - Lect 26 - (行波和驻波)Traveling Waves, Standing Waves, Musical Instruments
+  - n: 27
+    title: 8.02x - Lect 27 - (共振)Destructive Resonance, Electromagnetic Waves, Speed of Lig
+  - n: 28
+    title: 8.02x - Lect 28 - (电磁波能量及坡印廷矢量)Poynting Vector, Oscillating Charges, Polarizatio
+  - n: 29
+    title: 8.02x - Lect 29 - (斯涅尔定律、折射及全反射)Snell's Law, Index of Refraction, Huygen's Princ
+  - n: 30
+    title: 8.02x - Lect 30 - (偏振和马吕斯定律)Polarizers, Malus' Law, Light Scattering, Blue Skies
+  - n: 31
+    title: 8.02x - Lect 31 - (彩虹)Rainbows, Fog Bows, Haloes, Glories, Sun Dogs
+  - n: 32
+    title: 8.02x - Lect 32 - (复习三)Third Exam Review
+  - n: 33
+    title: 8.02x - Lect 33 - (双缝干涉和干涉仪)Double-slit Interference, Interferometers
+  - n: 34
+    title: 8.02x - Lect 34 - (光栅和分辨率)Diffraction, Gratings, Resolving Power, Angular Resolu
+  - n: 35
+    title: 8.02x - Lect 35 - (多普勒效应和宇宙大爆炸)Doppler Effect, Big Bang, Cosmology
+  - n: 36
+    title: 8.02x - Lect 36 - (告别演出)Farewell Special, My Early Days in Astrophysics, Huge Ba

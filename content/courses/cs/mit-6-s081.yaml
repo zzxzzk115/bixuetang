@@ -4,12 +4,11 @@ code: "MIT 6.S081"
 institution: MIT
 subject: cs
 level: advanced
-tags: [操作系统, xv6, risc-v]
-prerequisites: [csapp]
+tags: [ 操作系统, xv6, risc-v ]
+prerequisites: [ csapp ]
 estimatedHours: 80
 description: >
-  MIT 本科 OS：基于教学内核 xv6（RISC-V）讲系统调用、页表、中断、
-  锁与文件系统，Lab 直接改内核。与南大 jyy 课互补的动手路线。
+  MIT 本科 OS：基于教学内核 xv6（RISC-V）讲系统调用、页表、中断、 锁与文件系统，Lab 直接改内核。与南大 jyy 课互补的动手路线。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV19k4y1C7kA
@@ -18,7 +17,6 @@ sources:
   - platform: other
     url: https://pdos.csail.mit.edu/6.S081/
     note: 课程官网（xv6 Lab）
-episodeCount: 22
 notes:
   - title: MIT 6.S081 中文课程笔记（简中翻译）
     url: https://mit-public-courses-cn-translatio.gitbook.io/mit6-s081
@@ -26,3 +24,50 @@ notes:
   - title: CS 自学指南：6.S081 攻略
     url: https://csdiy.wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MIT6.S081/
     kind: site
+episodes:
+  - n: 1
+    title: Lecture 1 - Introduction and Examples
+  - n: 2
+    title: Lecture 3 - OS Organization and System Calls
+  - n: 3
+    title: Lecture 4 - Page Tables
+  - n: 4
+    title: Lecture 5 - RISC-V Calling Convention and Stack Frames
+  - n: 5
+    title: Lecture 6 - Isolation & System Call Entry_Exit
+  - n: 6
+    title: Lecture 7 - Q&A for Labs
+  - n: 7
+    title: Lecture 8 - Page Faults
+  - n: 8
+    title: Lecture 9 - Interrupts
+  - n: 9
+    title: Lecture 10 - Multiprocessors and Locks
+  - n: 10
+    title: Lecture 11 - Thread Switching
+  - n: 11
+    title: "Lecture 12 - Q&A #2 (COW lab)"
+  - n: 12
+    title: Lecture 13 - Sleep & Wakeup
+  - n: 13
+    title: Lecture 14 - File Systems
+  - n: 14
+    title: Lecture 15 - Crash Recovery
+  - n: 15
+    title: Lecture 16 - File System Performance and Fast Crash Recovery
+  - n: 16
+    title: Lecture 17 - Virtual Memory for Applications
+  - n: 17
+    title: Lecture 18 - OS Organization
+  - n: 18
+    title: Lecture 19 - Virtual Machines
+  - n: 19
+    title: Lecture 20 - Kernels and High-Level-Languages (HLL)
+  - n: 20
+    title: Lecture 21 - Networking
+  - n: 21
+    title: Lecture 22 - Meltdown
+  - n: 22
+    title: Lecture 23 - RCU
+  - n: 23
+    title: Lecture 24 - Final Q&A lecture

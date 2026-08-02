@@ -4,12 +4,11 @@ code: "MIT 6.042J"
 institution: MIT
 subject: math
 level: basic
-tags: [离散数学, 证明, 图论, 计数]
+tags: [ 离散数学, 证明, 图论, 计数 ]
 prerequisites: []
 estimatedHours: 55
 description: >
-  证明方法、数论、图论、计数与离散概率——写算法之前先学会「证明它是对的」。
-  CS 理论侧的第一块地基。
+  证明方法、数论、图论、计数与离散概率——写算法之前先学会「证明它是对的」。 CS 理论侧的第一块地基。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1n64y1i777
@@ -18,8 +17,230 @@ sources:
   - platform: other
     url: https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/
     note: MIT OCW 课程页
-episodeCount: 25
 notes:
   - title: CS 自学指南：6.042J 攻略
     url: https://csdiy.wiki/%E6%95%B0%E5%AD%A6%E8%BF%9B%E9%98%B6/6.042J/
     kind: site
+episodes:
+  - n: 1
+    title: 1.1 Welcome to 6.042J
+  - n: 2
+    title: 1.1.2 证明简介：第1部分
+  - n: 3
+    title: "1.1.3 Intro to Proofs: Part 2"
+  - n: 4
+    title: 1.2.1 Proof by Contradiction
+  - n: 5
+    title: 1.2.3 Proof by Cases
+  - n: 6
+    title: "1.3.1 Well Ordering Principle 1: Video"
+  - n: 7
+    title: "1.3.3 Well Ordering Principle 2: Video"
+  - n: 8
+    title: "1.3.5 Well Ordering Principle 3: Video"
+  - n: 9
+    title: "1.4.1Propositional Operators: Video"
+  - n: 10
+    title: "1.4.3Digital Logic: Video"
+  - n: 11
+    title: "1.4.4 Truth Tables: Video"
+  - n: 12
+    title: "1.5.1 Predicate Logic 1: Video"
+  - n: 13
+    title: "1.5.2 Predicate Logic 2: Video"
+  - n: 14
+    title: "1.5.4 Predicate Logic 3: Video"
+  - n: 15
+    title: "1.6.1 Sets Definitions: Video"
+  - n: 16
+    title: "1.6.2 Sets Operations: Video"
+  - n: 17
+    title: "1.7.1 Relations: Video"
+  - n: 18
+    title: "1.7.3 Relational Mappings: Video"
+  - n: 19
+    title: "1.7.5 Finite Cardinality: Video"
+  - n: 20
+    title: "1.8.1 Induction: Video"
+  - n: 21
+    title: "1.8.2 Bogus Induction: Video"
+  - n: 22
+    title: "1.8.4 Strong Induction: Video"
+  - n: 23
+    title: "1.8.6 WOP vs Induction: Video [optional]"
+  - n: 24
+    title: "1.9.1 State Machines Invariants: Video"
+  - n: 25
+    title: "1.9.3 Derived Variables: Video"
+  - n: 26
+    title: "1.10.1 Recursive Data: Video"
+  - n: 27
+    title: "1.10.4 Structural Induction: Video"
+  - n: 28
+    title: "1.10.7 Recursive Functions: Video"
+  - n: 29
+    title: "1.11.1 Cardinality: Video"
+  - n: 30
+    title: "1.11.3 Countable Sets: Video"
+  - n: 31
+    title: "1.11.4 Cantor's Theorem: Video"
+  - n: 32
+    title: "1.11.7 The Halting Problem: Video [Optional]"
+  - n: 33
+    title: "1.11.9 Russell's Paradox: Video"
+  - n: 34
+    title: "1.11.11 Set Theory Axioms: Video [Optional]"
+  - n: 35
+    title: 2.1.1 GCDs & Linear Combinations Video
+  - n: 36
+    title: 2.1.2 Euclidean Algorithm Video
+  - n: 37
+    title: 2.1.4 Pulverizer Video
+  - n: 38
+    title: 2.1.6 Revisiting Die Hard Video
+  - n: 39
+    title: 2.1.7 Prime Factorization Video
+  - n: 40
+    title: 2.2.1 Congruence mod n Video
+  - n: 41
+    title: 2.2.3 Inverses mod n Video
+  - n: 42
+    title: 2.3.1 Modular Exponentiation Euler's Function Video
+  - n: 43
+    title: 2.3.3 The Ring Z Video
+  - n: 44
+    title: 2.4.1 RSA Public Key Encryption Video
+  - n: 45
+    title: 2.4.3 Reducing Factoring To SAT Video
+  - n: 46
+    title: 2.5.1 Digraphs Walks & Paths Video
+  - n: 47
+    title: 2.5.3 Digraphs Connected Vertices Video
+  - n: 48
+    title: 2.6.1 DAGs Video 2.0版
+  - n: 49
+    title: 2.6.3 Scheduling Video
+  - n: 50
+    title: 2.6.5 Time versus Processors Video
+  - n: 51
+    title: 2.7.1 Partial Orders Video
+  - n: 52
+    title: 2.7.3 Representing Partial Orders As Subset Relations Video
+  - n: 53
+    title: 2.7.4 Equivalence Relations Video
+  - n: 54
+    title: 2.8.1 Degree Video
+  - n: 55
+    title: 2.8.3 Isomorphism Video
+  - n: 56
+    title: 2.9.1 Coloring Video
+  - n: 57
+    title: 2.9.3 Connectivity Video
+  - n: 58
+    title: 2.9.4 k-Connectivity Video
+  - n: 59
+    title: 2.10.1 Trees Video
+  - n: 60
+    title: 2.10.3 Tree Coloring Video
+  - n: 61
+    title: 2.10.5 Spanning Trees Video
+  - n: 62
+    title: 2.11.1 Stable Matching Video
+  - n: 63
+    title: 2.11.2 Matching Ritual Video
+  - n: 64
+    title: 2.11.5 Optimal Stable Matching Video
+  - n: 65
+    title: 2.11.7 Bipartite Matching
+  - n: 66
+    title: 2.11.9 Hall's Theorem
+  - n: 67
+    title: 3.1.1 Arithmetic Sums Video
+  - n: 68
+    title: 3.1.3 Geometric Sums Video
+  - n: 69
+    title: 3.1.5 Book Stacking Video
+  - n: 70
+    title: 3.1.7 Integral Method Video
+  - n: 71
+    title: 3.1.9 Stirling's Formula Video
+  - n: 72
+    title: 3.2.1 Asymptotic Notation Video
+  - n: 73
+    title: 3.2.3 Asymptotic Properties Video
+  - n: 74
+    title: 3.2.6 Asymptotic Blunders
+  - n: 75
+    title: 3.3.1 Sum And Product Rules Video
+  - n: 76
+    title: 3.3.3 Counting with Bijections Video
+  - n: 77
+    title: 3.4.1 Generalized Counting Rules Video
+  - n: 78
+    title: 3.4.3 Two Pair Poker Hands Video
+  - n: 79
+    title: 3.4.4 Binomial Theorem Video
+  - n: 80
+    title: 3.4.5 Multinomial Theorem Video
+  - n: 81
+    title: 3.5.1 The Pigeonhole Principle Video
+  - n: 82
+    title: 3.5.3 Inclusion-Exclusion Example Video
+  - n: 83
+    title: 3.5.4 Inclusion-Exclusion 2 Sets Video
+  - n: 84
+    title: 4.1.1 Tree Model Video
+  - n: 85
+    title: 4.1.3 Simplified Monty Hall Tree Video
+  - n: 86
+    title: 4.1.5 Sample Spaces Video
+  - n: 87
+    title: 4.2.1 Conditional Probability Definitions Video
+  - n: 88
+    title: 4.2.3 Law of Total Probability Video
+  - n: 89
+    title: 4.2.5 Bayes' Theorem Video
+  - n: 90
+    title: 4.2.7 Monty Hall Problem Video
+  - n: 91
+    title: 4.3.1 Independence Video
+  - n: 92
+    title: 4.3.3 Mutual Independence Video
+  - n: 93
+    title: 4.4.1 Bigger Number Game Video
+  - n: 94
+    title: 4.4.2 Random Variables Independence Video
+  - n: 95
+    title: 4.4.4 Random Variables Uniform & Binomial Video
+  - n: 96
+    title: 4.5.1 Expectation Video
+  - n: 97
+    title: 4.5.3 Expected Number Of Heads Video
+  - n: 98
+    title: 4.5.5 Total Expectation Video
+  - n: 99
+    title: 4.5.7 Mean Time to Failure Video
+  - n: 100
+    title: 4.5.9 Linearity of Expectation Video
+  - n: 101
+    title: 4.6.1 Deviation From The Mean Video
+  - n: 102
+    title: 4.6.3 Markov Bounds Video
+  - n: 103
+    title: 4.6.5 Chebyshev Bounds Video
+  - n: 104
+    title: 4.6.7 Variance Video
+  - n: 105
+    title: 4.7.1 Law Of Large Numbers Video
+  - n: 106
+    title: 4.7.3 Independent Sampling Theorem Video
+  - n: 107
+    title: 4.7.5 Birthday Matching Video
+  - n: 108
+    title: 4.7.7 Sampling & Confidence Video
+  - n: 109
+    title: 4.8.1 Random Walks Video
+  - n: 110
+    title: 4.8.2 Stationary Distributions Video
+  - n: 111
+    title: 4.8.3 Page Rank Video

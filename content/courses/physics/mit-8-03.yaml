@@ -5,12 +5,11 @@ institution: MIT
 instructor: Walter Lewin
 subject: physics
 level: advanced
-tags: [振动, 波动, 光学]
-prerequisites: [mit-8-02]
+tags: [ 振动, 波动, 光学 ]
+prerequisites: [ mit-8-02 ]
 estimatedHours: 45
 description: >
-  简谐振动、耦合振子、行波驻波、电磁波与光学。
-  通往量子力学与信号处理的必经之路。
+  简谐振动、耦合振子、行波驻波、电磁波与光学。 通往量子力学与信号处理的必经之路。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1AUhnzFExZ
@@ -19,5 +18,51 @@ sources:
   - platform: other
     url: https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/
     note: MIT OCW 课程页
-episodeCount: 23
 notes: []
+episodes:
+  - n: 1
+    title: p01 振动与波的周期现象
+  - n: 2
+    title: p02 节拍 阻尼自由振荡
+  - n: 3
+    title: p03 带阻尼的强迫振动
+  - n: 4
+    title: p04 强迫振动 共振电
+  - n: 5
+    title: p05 耦合振荡器
+  - n: 6
+    title: p06 驱动耦合振荡
+  - n: 7
+    title: p07 许多耦合振荡器 波动方程
+  - n: 8
+    title: p08 行波 边界条件
+  - n: 9
+    title: p09 乐器的声腔
+  - n: 10
+    title: 物理摆 阻尼与波的传播
+  - n: 11
+    title: 傅里叶分析 时间的脉冲串演变
+  - n: 12
+    title: 分散 相速度 群速度
+  - n: 13
+    title: 电磁波 平面波解麦克斯韦方程组
+  - n: 14
+    title: 坡印廷矢量 雷利散射 极化
+  - n: 15
+    title: 多普勒效应 声音 电磁辐射
+  - n: 16
+    title: 在完美导体便捷条件
+  - n: 17
+    title: 波导器 共振的电磁辐射和腔声
+  - n: 18
+    title: 边界条件为介质 折射率 斯内尔定律
+  - n: 19
+    title: 第2阶段回顾
+  - n: 20
+    title: 惠更斯原理与干扰
+  - n: 21
+    title: 衍射 光栅 销孔 角分辨率
+  - n: 22
+    title: 彩虹 晕 日冕
+  - n: 23
+    title: 结尾

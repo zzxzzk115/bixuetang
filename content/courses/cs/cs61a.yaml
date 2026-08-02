@@ -5,12 +5,11 @@ institution: UC Berkeley
 instructor: John DeNero
 subject: cs
 level: basic
-tags: [python, sicp, 编程入门]
+tags: [ python, sicp, 编程入门 ]
 prerequisites: []
 estimatedHours: 60
 description: >
-  伯克利镇系神课，用 Python 讲抽象与程序设计思想（函数式、递归、解释器）。
-  零基础入门首选，配套作业与项目质量极高。
+  伯克利镇系神课，用 Python 讲抽象与程序设计思想（函数式、递归、解释器）。 零基础入门首选，配套作业与项目质量极高。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1v64y1Q78o
@@ -19,8 +18,84 @@ sources:
   - platform: other
     url: https://cs61a.org/
     note: 课程官网（作业 / 项目 / 讲义）
-episodeCount: 30
 notes:
   - title: CS 自学指南：CS61A 攻略
     url: https://csdiy.wiki/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/Python/CS61A/
     kind: site
+episodes:
+  - n: 1
+    title: 61A-Lecture 1 Introduction中文版3.0
+  - n: 2
+    title: Lecture 2 Functions字幕版
+  - n: 3
+    title: Lecture 3 Control字幕版
+  - n: 4
+    title: Lecture 4 Higher Order Functions字幕版
+  - n: 5
+    title: Lecture 5 Environments字幕版
+  - n: 6
+    title: Lecture 6 Recursion字幕版
+  - n: 7
+    title: Lecture 7 Tree Recursion字幕版
+  - n: 8
+    title: Lecture 8 More on Functions字幕版
+  - n: 9
+    title: Lecture 9 Function Examples字幕版
+  - n: 10
+    title: Lecture 10 Containers字幕版
+  - n: 11
+    title: Lecture 11 Data Abstraction字幕版
+  - n: 12
+    title: Lecture 12 Dictionaries, Matrices, and Trees字幕版
+  - n: 13
+    title: Lecture 13 Creating Trees, Mutability, List Mutations字幕版
+  - n: 14
+    title: Lecture 14 List Mutations, Identity vs. Equality, Global Nonlocal字幕版
+  - n: 15
+    title: Lecture 15 Iterators + Generators字幕版
+  - n: 16
+    title: Lecture 16 Objects + Classes字幕版
+  - n: 17
+    title: Lecture 17 Inheritance + Composition字幕版
+  - n: 18
+    title: Lecture 18 Special Object Methods字幕版
+  - n: 19
+    title: Lecture 19 Recursive Objects (LinkedList + Tree)字幕版
+  - n: 20
+    title: Lecture 20 Complexity字幕版
+  - n: 21
+    title: Lecture 21 Memoization字幕版
+  - n: 22
+    title: Lecture 22 Generics字幕版
+  - n: 23
+    title: Lecture 23 Fun with Iterables字幕版
+  - n: 24
+    title: Lecture 24 Scheme字幕版
+  - n: 25
+    title: Lecture 25 Scheme Examples字幕版
+  - n: 26
+    title: Lecture 26 Calculator字幕版
+  - n: 27
+    title: Lecture 27 Interpreters字幕版
+  - n: 28
+    title: Lecture 28 Undecidability字幕版
+  - n: 29
+    title: Lecture 29 Macros字幕版
+  - n: 30
+    title: Lecture 30 Declarative Programming字幕版
+  - n: 31
+    title: Lecture 31 Regular Expressions字幕版
+  - n: 32
+    title: Lecture 32 BNF字幕版
+  - n: 33
+    title: Lecture 33 Review Regular Expressions + BNF字幕版
+  - n: 34
+    title: Lecture 34 Review Scheme字幕版
+  - n: 35
+    title: Lecture 35 Intro to SQL字幕版
+  - n: 36
+    title: Lecture 36 Review Linked Lists + Trees字幕版
+  - n: 37
+    title: Lecture 37 OOP Review + Design字幕版
+  - n: 38
+    title: Lecture 38 Conclusion字幕版

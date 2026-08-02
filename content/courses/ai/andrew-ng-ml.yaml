@@ -5,12 +5,11 @@ institution: Stanford / DeepLearning.AI
 instructor: 吴恩达 Andrew Ng
 subject: ai
 level: basic
-tags: [机器学习, 监督学习, 入门]
-prerequisites: [essence-of-linear-algebra]
+tags: [ 机器学习, 监督学习, 入门 ]
+prerequisites: [ essence-of-linear-algebra ]
 estimatedHours: 60
 description: >
-  吴恩达 2022 新版机器学习专项课：线性回归、逻辑回归、神经网络、
-  决策树、推荐系统。AI 入门的事实标准。
+  吴恩达 2022 新版机器学习专项课：线性回归、逻辑回归、神经网络、 决策树、推荐系统。AI 入门的事实标准。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV19B4y1W76i
@@ -19,8 +18,292 @@ sources:
   - platform: other
     url: https://www.coursera.org/specializations/machine-learning-introduction
     note: Coursera 官方（可旁听）
-episodeCount: 142
 notes:
   - title: 吴恩达机器学习课程笔记（中文）
     url: https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes
     kind: github
+episodes:
+  - n: 1
+    title: 1 欢迎来到机器学习!
+  - n: 2
+    title: 1.2 机器学习的应用
+  - n: 3
+    title: 2.1 什么是机器学习
+  - n: 4
+    title: 2.2 监督学习 part 1
+  - n: 5
+    title: 2.3 监督学习 part 2
+  - n: 6
+    title: 2.4 非监督学习 part 1
+  - n: 7
+    title: 2.5 非监督学习 part 2
+  - n: 8
+    title: 2.6 Jupyter Notebooks
+  - n: 9
+    title: 3.1 线性回归模型 part 1
+  - n: 10
+    title: 3.2 线性回归模型 part 2
+  - n: 11
+    title: 3.3 代价函数
+  - n: 12
+    title: 3.4 代价函数的直观理解
+  - n: 13
+    title: 3.5 可视化代价函数
+  - n: 14
+    title: 3.6 可视化的例子
+  - n: 15
+    title: 4.1 梯度下降
+  - n: 16
+    title: 4.2 实现梯度下降
+  - n: 17
+    title: 4.3 梯度下降的直观理解
+  - n: 18
+    title: 4.4 学习率
+  - n: 19
+    title: 4.5 线性回归中的梯度下降
+  - n: 20
+    title: 4.6 运行梯度下降
+  - n: 21
+    title: 5.1 多类特征
+  - n: 22
+    title: 5.2 向量化 part 1
+  - n: 23
+    title: 5.3 向量化 part 2
+  - n: 24
+    title: 5.4 多元线性回归的梯度下降法
+  - n: 25
+    title: 6.1 特征缩放 part 1
+  - n: 26
+    title: 6.2 特征缩放 part 2
+  - n: 27
+    title: 6.3 检查梯度下降是否收敛
+  - n: 28
+    title: 6.4 学习率的选择
+  - n: 29
+    title: 6.5 特征工程
+  - n: 30
+    title: 6.6 多项式回归
+  - n: 31
+    title: 7.1 Motivations
+  - n: 32
+    title: 7.2 逻辑(logistic)回归
+  - n: 33
+    title: 7.3 决策边界
+  - n: 34
+    title: 8.1 逻辑回归的代价函数
+  - n: 35
+    title: 8.2 逻辑回归的简化版代价函数
+  - n: 36
+    title: 9.1 梯度下降实现
+  - n: 37
+    title: 10.1 过拟合的问题
+  - n: 38
+    title: 10.2 解决过拟合
+  - n: 39
+    title: 10.3 正则化代价函数
+  - n: 40
+    title: 10.4 正则化线性回归
+  - n: 41
+    title: 10.5 正则化logistic回归
+  - n: 42
+    title: 1.1 欢迎来到第二部分:高级学习算法
+  - n: 43
+    title: 1.2 神经元和大脑
+  - n: 44
+    title: 1.3 需求预测
+  - n: 45
+    title: 1.4 例子：图像识别
+  - n: 46
+    title: 2.1 神经网络中的层
+  - n: 47
+    title: 2.2 更复杂的神经网络
+  - n: 48
+    title: 2.3 推理：做出预测(前向传播)
+  - n: 49
+    title: 3.1 代码中的推理
+  - n: 50
+    title: 3.2 TensorFlow中的数据
+  - n: 51
+    title: 3.3 构建一个神经网络
+  - n: 52
+    title: 4.1 在一个单层中的前向传播
+  - n: 53
+    title: 4.2 前向传播的一般实现
+  - n: 54
+    title: 5.1 是否有路通向AGI(通用人工智能)
+  - n: 55
+    title: 6.1 神经网络如何高效实现
+  - n: 56
+    title: 6.2 矩阵乘法
+  - n: 57
+    title: 6.3 矩阵乘法的规则
+  - n: 58
+    title: 6.4 矩阵乘法代码
+  - n: 59
+    title: 7.1 TensorFlow实现
+  - n: 60
+    title: 7.2 训练细节
+  - n: 61
+    title: 8.1 sigmoid的替代品
+  - n: 62
+    title: 8.2 选择激活函数
+  - n: 63
+    title: 8.3 为什么我们需要激活函数
+  - n: 64
+    title: 9.1 多类
+  - n: 65
+    title: 9.2 Softmax
+  - n: 66
+    title: 9.3 神经网络的Softmax输出
+  - n: 67
+    title: 9.4 softmax的改进实现
+  - n: 68
+    title: 9.5 多个输出的分类(Optional)
+  - n: 69
+    title: 10.1 高级优化方法
+  - n: 70
+    title: 10.2 Additional Layer Types
+  - n: 71
+    title: 11.1 决定下一步做什么
+  - n: 72
+    title: 11.2 模型评估
+  - n: 73
+    title: 11.3 模型选择和训练交叉验证测试集
+  - n: 74
+    title: 12.1 诊断偏差和方差
+  - n: 75
+    title: 12.2 正则化和偏差或方差
+  - n: 76
+    title: 12.3 建立表现基准
+  - n: 77
+    title: 12.4 学习曲线
+  - n: 78
+    title: 12.5 再次决定下一步做什么
+  - n: 79
+    title: 12.6 偏差或方差与神经网络
+  - n: 80
+    title: 13.1 机器学习的迭代发展
+  - n: 81
+    title: 13.2 误差分析
+  - n: 82
+    title: 13.3 添加数据
+  - n: 83
+    title: 13.4 迁移学习：使用其他任务中的数据
+  - n: 84
+    title: 13.5 机器学习项目的完整周期
+  - n: 85
+    title: 13.6 公平、偏见与伦理
+  - n: 86
+    title: 14.1 倾斜数据集的误差指标
+  - n: 87
+    title: 14.2 精确率与召回率的权衡
+  - n: 88
+    title: 15.1 决策树模型
+  - n: 89
+    title: 15.2 学习过程
+  - n: 90
+    title: 16.1 测量纯度
+  - n: 91
+    title: 16.2 选择拆分信息增益
+  - n: 92
+    title: 16.3 整合
+  - n: 93
+    title: 16.4 使用分类特征的一种独热编码(One-Hot)
+  - n: 94
+    title: 16.5 连续的有价值特征
+  - n: 95
+    title: 16.6 回归树 (optional)
+  - n: 96
+    title: 17.1 使用多个决策树
+  - n: 97
+    title: 17.2 放回抽样
+  - n: 98
+    title: 17.3 随机森林算法
+  - n: 99
+    title: 17.4 XGBoost
+  - n: 100
+    title: 17.5 什么时候使用决策树
+  - n: 101
+    title: 1.1 欢迎来到第三部分 无监督学习、推荐系统和强化学习
+  - n: 102
+    title: 2.1 什么是聚类
+  - n: 103
+    title: 2.2 K-means的直观理解
+  - n: 104
+    title: 2.3 K-means算法
+  - n: 105
+    title: 2.4 优化目标
+  - n: 106
+    title: 2.5 初始化K-means
+  - n: 107
+    title: 2.6 选择聚类的个数
+  - n: 108
+    title: 3.1 发现异常事件
+  - n: 109
+    title: 3.2 高斯（正态）分布
+  - n: 110
+    title: 3.3 异常检测算法
+  - n: 111
+    title: 3.4 开发和评估异常检测系统
+  - n: 112
+    title: 3.5 异常检测 vs. 监督学习
+  - n: 113
+    title: 3.6 选择要使用的特征
+  - n: 114
+    title: 4.1 提出建议
+  - n: 115
+    title: 4.2 使用每项特征
+  - n: 116
+    title: 4.3 协同过滤算法
+  - n: 117
+    title: 4.4 Binary labels- favs, likes and clicks
+  - n: 118
+    title: 5.1 均值归一化
+  - n: 119
+    title: 5.2 协同过滤的TensorFlow实现
+  - n: 120
+    title: 5.3 查找相关项目
+  - n: 121
+    title: 6.1 协同过滤 vs. 基于内容的过滤
+  - n: 122
+    title: 6.2 Deep learning for content-based filtering
+  - n: 123
+    title: 6.3 从大目录中推荐
+  - n: 124
+    title: 6.4 推荐系统的道德使用
+  - n: 125
+    title: 6.5 基于内容过滤的TensorFlow实现
+  - n: 126
+    title: 7.1 什么是强化学习
+  - n: 127
+    title: 7.2 火星探测器示例
+  - n: 128
+    title: 7.3 The Return in reinforcement learning
+  - n: 129
+    title: 7.4 强化学习中的决策与策略制定
+  - n: 130
+    title: 7.5 回顾关键概念
+  - n: 131
+    title: 8.1 状态动作值函数定义
+  - n: 132
+    title: 8.2 状态动作值函数示例
+  - n: 133
+    title: 8.3 Bellman方程
+  - n: 134
+    title: 8.4 随机环境（可选）
+  - n: 135
+    title: 9.1 连续状态空间应用示例
+  - n: 136
+    title: 9.2 月球着陆器
+  - n: 137
+    title: 9.3 学习状态值函数
+  - n: 138
+    title: 9.4 算法优化-改进的神经网络结构
+  - n: 139
+    title: 9.5 算法优化ϵ-贪婪策略
+  - n: 140
+    title: 9.6 算法优化-小批量和软更新（可选）
+  - n: 141
+    title: 9.7 强化学习的状态
+  - n: 142
+    title: 10.1 总结与感谢

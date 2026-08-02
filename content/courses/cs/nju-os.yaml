@@ -5,12 +5,11 @@ institution: 南京大学
 instructor: 蒋炎岩
 subject: cs
 level: advanced
-tags: [操作系统, 并发, 中文原声]
-prerequisites: [csapp]
+tags: [ 操作系统, 并发, 中文原声 ]
+prerequisites: [ csapp ]
 estimatedHours: 70
 description: >
-  三大浪漫之操作系统：用「程序是状态机」的视角贯穿并发、虚拟化与持久化，
-  现场写代码调试内核。jyy 中文授课，弹幕区大型欢乐现场。
+  三大浪漫之操作系统：用「程序是状态机」的视角贯穿并发、虚拟化与持久化， 现场写代码调试内核。jyy 中文授课，弹幕区大型欢乐现场。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1HN41197Ko
@@ -19,8 +18,64 @@ sources:
   - platform: other
     url: https://jyywiki.cn/
     note: 课程讲义与实验（jyywiki）
-episodeCount: 34
 notes:
   - title: CS 自学指南：NJU OS 攻略
     url: https://csdiy.wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/NJUOS/
     kind: site
+episodes:
+  - n: 1
+    title: "[绪论] 操作系统概述"
+  - n: 2
+    title: "[代码讲解] 操作系统上的程序"
+  - n: 3
+    title: "[并发] 多处理器编程：从入门到放弃"
+  - n: 4
+    title: "[代码讲解] 操作系统也是程序 (调试固件和 boot loader)"
+  - n: 5
+    title: "[并发] 阅读理解并发程序"
+  - n: 6
+    title: "[代码讲解] 实现 Model Checker (和其他黑科技)"
+  - n: 7
+    title: "[并发] 互斥：原子指令、自旋锁"
+  - n: 8
+    title: "[代码讲解] 并发数据结构：链表和malloc/free"
+  - n: 9
+    title: "[并发] 互斥：实现 (结尾神秘嘉宾)"
+  - n: 10
+    title: "[代码讲解] xv6 和操作系统中的自旋锁 (画质飙升)"
+  - n: 11
+    title: "[并发] 同步：条件变量、信号量"
+  - n: 12
+    title: "[并发] 并发编程模型：协程和 Goroutine；Channel 和 Promise"
+  - n: 13
+    title: "[并发] 并发 bugs：Lockdep、Sanitizers 和动态分析"
+  - n: 14
+    title: "[虚拟化] 什么是进程；fork, execve, exit"
+  - n: 15
+    title: "[虚拟化] 进程的状态和文件描述符"
+  - n: 16
+    title: "[虚拟化] 进程的地址空间"
+  - n: 17
+    title: "[虚拟化] xv6 中的进程 (1)"
+  - n: 18
+    title: "[代码讲解] 可执行文件"
+  - n: 19
+    title: "[代码讲解] 从零实现动态加载 (结尾神秘嘉宾)"
+  - n: 20
+    title: "[虚拟化] 进程调度"
+  - n: 21
+    title: "[代码讲解] 终端、Shell 和 Hello World"
+  - n: 22
+    title: "[持久化] 1-Bit 信息的存储"
+  - n: 23
+    title: "[持久化] I/O 设备和驱动"
+  - n: 24
+    title: "[持久化] 文件系统 API"
+  - n: 25
+    title: "[持久化] 文件系统实现：FAT 和 UNIX 文件系统"
+  - n: 26
+    title: "[持久化] 持久数据的可靠性：RAID 和 journaling"
+  - n: 27
+    title: "[代码讲解] xv6 文件系统实现：mkfs; buffer cache; log"
+  - n: 28
+    title: "[完结撒花] 课程总结；毒鸡汤"

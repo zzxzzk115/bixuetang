@@ -5,12 +5,11 @@ institution: MIT
 instructor: Denis Auroux
 subject: math
 level: intermediate
-tags: [微积分, 多元, 向量场]
-prerequisites: [mit-18-01]
+tags: [ 微积分, 多元, 向量场 ]
+prerequisites: [ mit-18-01 ]
 estimatedHours: 60
 description: >
-  偏导、多重积分、梯度散度旋度、格林与斯托克斯定理——
-  图形学、物理场论和机器学习优化的共同地基。
+  偏导、多重积分、梯度散度旋度、格林与斯托克斯定理—— 图形学、物理场论和机器学习优化的共同地基。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1P4411v7BP
@@ -19,6 +18,76 @@ sources:
   - platform: other
     url: https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/
     note: MIT OCW 课程页
-episodeCount: 35
 notes: []
 lab: math
+episodes:
+  - n: 1
+    title: 1集 点积
+  - n: 2
+    title: 2集 行列式，叉积
+  - n: 3
+    title: 3集 矩阵，逆矩阵
+  - n: 4
+    title: 4集 矩阵方程，平面方程
+  - n: 5
+    title: 5集 曲线和直线的参数方程
+  - n: 6
+    title: 6集 速度，加速度和开普勒第二定律
+  - n: 7
+    title: 7集 复习
+  - n: 8
+    title: 8集 等值面，偏导数，切平面逼近
+  - n: 9
+    title: 9集 极大极小问题，最小二乘法
+  - n: 10
+    title: 10集 二阶导检验：边界与无穷
+  - n: 11
+    title: 11集 微分，链式法则
+  - n: 12
+    title: 12集 梯度，方向导数，切平面
+  - n: 13
+    title: 13集 拉格朗日乘数法
+  - n: 14
+    title: 14集 非独立变量
+  - n: 15
+    title: 15集 偏微分方程，复习
+  - n: 16
+    title: 16集 二重积分
+  - n: 17
+    title: 17集 极坐标的二重积分，应用
+  - n: 18
+    title: 18集 变量的变化
+  - n: 19
+    title: 19集 平面向量场的线积分
+  - n: 20
+    title: 20集 路径独立和保守场
+  - n: 21
+    title: 21 梯度场和势函数
+  - n: 22
+    title: 22集 格林公式
+  - n: 23
+    title: 23集 通量，格林公式的标准形式
+  - n: 24
+    title: 24集 单连通区域，复习
+  - n: 25
+    title: 25集 直角坐标和柱坐标下的三重积分
+  - n: 26
+    title: 26集 球面坐标，表面积
+  - n: 27
+    title: 27集 三维向量场，面积分和通量
+  - n: 28
+    title: 28集 散度定理
+  - n: 29
+    title: 29集 散度定理（续）应用和证明
+  - n: 30
+    title: 30集 空间线积分，旋度，恰当微分和势
+  - n: 31
+    title: 31集 斯托克斯定理
+  - n: 32
+    title: 32集 斯托克斯定理（续），复习
+  - n: 33
+    title: 33集 拓扑思考——麦克斯韦方程组
+  - n: 34
+    title: 34集 期末复习
+  - n: 35
+    title: 35集 期末复习续

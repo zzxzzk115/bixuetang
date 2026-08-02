@@ -5,12 +5,11 @@ institution: UCSB / GAMES
 instructor: 闫令琪
 subject: cs
 level: advanced
-tags: [图形学, 实时渲染, 中文原声]
-prerequisites: [games101]
+tags: [ 图形学, 实时渲染, 中文原声 ]
+prerequisites: [ games101 ]
 estimatedHours: 30
 description: >
-  GAMES101 续作：实时软阴影、环境光照、全局光照（RSM/SSDO/SSR）、
-  PBR 材质、实时光线追踪与降噪。引擎渲染方向的进阶必修。
+  GAMES101 续作：实时软阴影、环境光照、全局光照（RSM/SSDO/SSR）、 PBR 材质、实时光线追踪与降噪。引擎渲染方向的进阶必修。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1YK4y1T7yY
@@ -19,5 +18,33 @@ sources:
   - platform: other
     url: https://sites.cs.ucsb.edu/~lingqi/teaching/games202.html
     note: 课程官网
-episodeCount: 14
 notes: []
+episodes:
+  - n: 1
+    title: Lecture1
+  - n: 2
+    title: Lecture2 Recap of CG Basics
+  - n: 3
+    title: Lecture3 Real-time Shadows 1
+  - n: 4
+    title: Lecture4 Real-time Shadows 2
+  - n: 5
+    title: Lecture5 Real-time Environment Mapping
+  - n: 6
+    title: Lecture6 Real-time Environment Mapping
+  - n: 7
+    title: Lecture7 Real-time GLobal Illumination (in 3D)
+  - n: 8
+    title: Lecture8 Real-time GLobal Illumination (screen space)
+  - n: 9
+    title: Lecture9 Real-time GLobal Illumination (screen space cont.)
+  - n: 10
+    title: "Lecture10 Real-Time Physically-based Materials\x03(surface models)"
+  - n: 11
+    title: "Lecture11 Real-Time Physically-based Materials\x03(surface models cont.)"
+  - n: 12
+    title: Lecture 12 Real-Time Ray-Tracing 1
+  - n: 13
+    title: Lecture 13 Real-Time Ray-Tracing 2
+  - n: 14
+    title: Lecture 14 A Glimpse of Industrial Solution

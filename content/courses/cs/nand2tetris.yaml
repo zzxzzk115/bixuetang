@@ -5,18 +5,16 @@ institution: 希伯来大学
 instructor: Shimon Schocken / Noam Nisan
 subject: cs
 level: intermediate
-tags: [体系结构, 编译器, 自底向上, 造计算机]
-prerequisites: [cs61a]
+tags: [ 体系结构, 编译器, 自底向上, 造计算机 ]
+prerequisites: [ cs61a ]
 estimatedHours: 90
 description: >
-  从一个与非门出发，亲手搭出 ALU、CPU、汇编器、虚拟机、Jack 语言编译器
-  和操作系统，最后在自己造的计算机上跑俄罗斯方块。Part I（硬件）零基础可上，
-  Part II（软件栈）需要一定编程成熟度。本站的 Hack 实验室就是这门课的浏览器版。
+  从一个与非门出发，亲手搭出 ALU、CPU、汇编器、虚拟机、Jack 语言编译器 和操作系统，最后在自己造的计算机上跑俄罗斯方块。Part I（硬件）零基础可上， Part II（软件栈）需要一定编程成熟度。本站的 Hack 实验室就是这门课的浏览器版。
 sources:
   - platform: bilibili
-    url: https://www.bilibili.com/video/av63163361
+    url: https://www.bilibili.com/video/BV1KJ411s7QJ
     uploader: 搬运
-    note: Part I 官方配套视频，中文字幕
+    note: 高清中字完整合集（Part I + Part II，134 段 Unit 级切片）
   - platform: other
     url: https://www.coursera.org/learn/build-a-computer
     note: Coursera 官方（Part I，可旁听）
@@ -24,18 +22,274 @@ sources:
     url: https://www.nand2tetris.org/
     note: 课程官网（全部课件 / 项目材料 / 工具下载）
 episodes:
-  - { n: 1, title: 布尔逻辑（Elementary Logic Gates） }
-  - { n: 2, title: 布尔运算与 ALU }
-  - { n: 3, title: 时序逻辑与存储 }
-  - { n: 4, title: 机器语言（Hack 汇编） }
-  - { n: 5, title: 计算机体系结构（CPU 与内存） }
-  - { n: 6, title: 汇编器 }
-  - { n: 7, title: 虚拟机 I：栈算术 }
-  - { n: 8, title: 虚拟机 II：程序控制 }
-  - { n: 9, title: 高级语言 Jack }
-  - { n: 10, title: 编译器 I：语法分析 }
-  - { n: 11, title: 编译器 II：代码生成 }
-  - { n: 12, title: 操作系统 }
+  - n: 1
+    title: Week 0 Unit 0.0 Introduction
+  - n: 2
+    title: Week 0 Unit 0.1 The Road Ahead
+  - n: 3
+    title: Week 0 Unit 0.2 From Nand to Hack
+  - n: 4
+    title: Week 0 Unit 0.3 From Hack to Tetris
+  - n: 5
+    title: Week0 Unit 0.4 Project 0 Overview
+  - n: 6
+    title: Week 1 Unit 1.1 Boolean Logic
+  - n: 7
+    title: Week 1 Unit 1.2 Boolean Function Synthesis
+  - n: 8
+    title: Week 1 Unit 1.3 Logic Gates
+  - n: 9
+    title: Week 1 Unit 1.4 Hardware Description Language
+  - n: 10
+    title: Week 1 Unit 1.5 Hardware Simulation
+  - n: 11
+    title: Week 1 Unit 1.6 Multi-bit Buses
+  - n: 12
+    title: Week 1 Unit 1.7 Project 1 Overview
+  - n: 13
+    title: Week 1 Unit 1.8 Persectives
+  - n: 14
+    title: Promo Video
+  - n: 15
+    title: Week 2 Unit 2.1 Binary Numbers
+  - n: 16
+    title: Week 2 Unit 2.2 Binary Addition
+  - n: 17
+    title: Week 2 Unit 2.3 Negative Numbers
+  - n: 18
+    title: Week 2 Unit 2.4 Arithmetic Logic Unit
+  - n: 19
+    title: Week 2 Unit 2.5 Project 2 Overview
+  - n: 20
+    title: Week 2 Unit 2.6 Perspectives
+  - n: 21
+    title: Week 3 Unit 3.1 Sequential Logtic
+  - n: 22
+    title: Week 3 Unit 3.2 Flip Flops
+  - n: 23
+    title: Week 3 Unit 3.3 Memory Units
+  - n: 24
+    title: Week 3 Unit 3.4 Counters
+  - n: 25
+    title: Week 3 Unit 3.5 Project 3 Overview
+  - n: 26
+    title: Week 3 Unit 3.6 Perspectives
+  - n: 27
+    title: Week 4 Unit 4.1 Machine Language
+  - n: 28
+    title: Week 4 Unit 4.2 Machine Languages-Element
+  - n: 29
+    title: Week 4 Unit 4.3 The Hack Computer and Machine Language
+  - n: 30
+    title: Week 4 Unit 4.4 Hack Language Specification
+  - n: 31
+    title: Week 4 Unit 4.5 Input-Output
+  - n: 32
+    title: Week 4 Unit 4.6 Hack Programming Part1
+  - n: 33
+    title: Week 4 Unit 4.7 Hack Programming Part2
+  - n: 34
+    title: Week 4 Unit 4.8 Hack Programming Part3
+  - n: 35
+    title: Week 4 Unit 4.9 Project4 Overview
+  - n: 36
+    title: Week 4 Unit 4.10 Perspectives
+  - n: 37
+    title: Week 5 Unit 5.1 Von Neumann Architecture
+  - n: 38
+    title: Week 5 Unit 5.2 The Fetch-Execute Cycle
+  - n: 39
+    title: Week 5 Unit 5.3 Central Processing Unit
+  - n: 40
+    title: Week 5 Unit 5.4 The Hack Computer
+  - n: 41
+    title: Week 5 Unit 5.5 Project5 Overview
+  - n: 42
+    title: Week 5 Unit 5.6 Perspectives
+  - n: 43
+    title: Week 6 Unit 6.1 Assembly Languages and Assemblers
+  - n: 44
+    title: Week 6 Unit 6.2 The Hack Assembly Language-A Translator's Perspective
+  - n: 45
+    title: Week 6 Unit 6.3 The Assembly Process-Handling Instruction
+  - n: 46
+    title: Week 6 Unit 6.4 The Assembly Process-Handling Symbols
+  - n: 47
+    title: Week 6 Unit 6.5 Developing a Hack Assembler-Proposed Software Architecture
+  - n: 48
+    title: Week 6 Unit 6.6 Project6 Overview
+  - n: 49
+    title: Week 6 Unit 6.6B Project6 Overview
+  - n: 50
+    title: Week 6 Unit 6.7 Perspectives
+  - n: 51
+    title: Part2 Course Overview
+  - n: 52
+    title: Part2 Course Introduction
+  - n: 53
+    title: P2 Week 0 Unit 0.0 Machine Language Primer
+  - n: 54
+    title: P2 Week 0 Unit 0.1 Machine Language Overview
+  - n: 55
+    title: P2 Week 0 Unit 0.2 Machine Language Element
+  - n: 56
+    title: P2 Week 0 Unit 0.3 The Hack Computer and Machine Language
+  - n: 57
+    title: P2 Week 0 Unit 0.4 Hack Language Specification
+  - n: 58
+    title: P2 Week 0 Unit 0.5 Handling Input and Output
+  - n: 59
+    title: P2 Week 0 Unit 0.6 Low-Level Programming Part 1
+  - n: 60
+    title: P2 Week 0 Unit 0.7 Low-Level Programming Part 2
+  - n: 61
+    title: P2 Week 0 Unit 0.8 Low-Level Programming Part 3
+  - n: 62
+    title: P2 Week 0 Unit 0.9 Project4（Above video same as Unit 4）
+  - n: 63
+    title: P2 Week 1 Unit 1.0 The Road Ahead
+  - n: 64
+    title: P2 Week 1 Unit 1.1 Program Compilation Preview
+  - n: 65
+    title: P2 Week 1 Unit 1.2 VM Abstraction-the Stack
+  - n: 66
+    title: P2 Week 1 Unit 1.3 VM Abstraction-Memory Segments
+  - n: 67
+    title: P2 Week 1 Unit 1.4 VM Implementation-the Stack
+  - n: 68
+    title: P2 Week 1 Unit 1.5 VM Implementation-Memory Segments
+  - n: 69
+    title: P2 Week 1 Unit 1.6 The VM Emulator
+  - n: 70
+    title: P2 Week 1 Unit 1.7 VM Implementation on the Hack Platform
+  - n: 71
+    title: P2 Week 1 Unit 1.8 VM Translator-Proposed Implementation
+  - n: 72
+    title: P2 Week 1 Unit 1.9 Project 7-Building the VM Translator Part 1
+  - n: 73
+    title: P2 Week 1 Unit 1.10 Perspective
+  - n: 74
+    title: P2 Week 2 Unit 2.1 Program Control
+  - n: 75
+    title: P2 Week 2 Unit 2.2 Branching
+  - n: 76
+    title: P2 Week 2 Unit 2.3 Functions-Abstraction
+  - n: 77
+    title: P2 Week 2 Unit 2.4 Function Call and Return-Implementation Preview
+  - n: 78
+    title: P2 Week 2 Unit 2.5 Function call and Return-Run-time Simulation
+  - n: 79
+    title: P2 Week 2 Unit 2.6 Function Call and Return-Implementation
+  - n: 80
+    title: P2 Week 2 Unit 2.7 VM Implementation on the Hack Platform
+  - n: 81
+    title: P2 Week 2 Unit 2.8 VM Translator Proposed Implementation
+  - n: 82
+    title: P2 Week 2 Unit 2.9 Project8 Building the VM Translator Part II
+  - n: 83
+    title: P2 Week 2 Unit 2.10 Perspective
+  - n: 84
+    title: P2 Week 3 Unit 3.1 The Jack Language in a nutshell
+  - n: 85
+    title: P2 Week 3 Unit 3.2 Object-Based Programming
+  - n: 86
+    title: P2 Week 3 Unit 3.3 List Processing
+  - n: 87
+    title: P2 Week 3 Unit 3.4 Jack Language Specification-Syntax
+  - n: 88
+    title: P2 Week 3 Unit 3.5 Jack Language Specification-Data Types
+  - n: 89
+    title: P2 Week 3 Unit 3.6 Jack Language Specification-Classes
+  - n: 90
+    title: P2 Week 3 Unit 3.7 Jack Language Specification-Methods
+  - n: 91
+    title: P2 Week 3 Unit 3.8 Developing Apps using the Jack Language and OS
+  - n: 92
+    title: P2 Week 3 Unit 3.9 A Sample Jack App-Square Dance
+  - n: 93
+    title: P2 Week 3 Unit 3.10 Graphics Optimization
+  - n: 94
+    title: P2 Week 3 Unit 3.11 Perspective
+  - n: 95
+    title: P2 Week 4 Unit 4.1 Compiler 1-Syntax Analysis
+  - n: 96
+    title: P2 Week 4 Unit 4.2 Lexical Analysis
+  - n: 97
+    title: P2 Week 4 Unit 4.3 Grammars
+  - n: 98
+    title: P2 Week 4 Unit 4.4 Parse Trees
+  - n: 99
+    title: P2 Week 4 Unit 4.5 Parser Logic
+  - n: 100
+    title: P2 Week 4 Unit 4.6 The Jack Grammar
+  - n: 101
+    title: P2 Week 4 Unit 4.7 The Jack Analysis
+  - n: 102
+    title: P2 Week 4 Unit 4.8 The Jack Analyze-Proposed Implementation
+  - n: 103
+    title: P2 Week 4 Unit 4.9 Project 10 Building a Syntax Analyzer
+  - n: 104
+    title: P2 Week 4 Unit 4.10 Perspective
+  - n: 105
+    title: P2 Week 5 Unit 5.1 Compiler II Code Generation
+  - n: 106
+    title: P2 Week 5 Unit 5.2 Handling Variables
+  - n: 107
+    title: P2 Week 5 Unit 5.3 Handling Expressions
+  - n: 108
+    title: P2 Week 5 Unit 5.4 Handling Flow of Control
+  - n: 109
+    title: P2 Week 5 Unit 5.5 Handling Objects low-level aspects
+  - n: 110
+    title: P2 Week 5 Unit 5.6 Handling Objects Construction
+  - n: 111
+    title: P2 Week 5 Unit 5.7 Handling Objects Manipulation
+  - n: 112
+    title: P2 Week 5 Unit 5.8 Handling Arrays
+  - n: 113
+    title: P2 Week 5 Unit 5.9 Standard Mapping Over The Virtual Machine
+  - n: 114
+    title: P2 Week 5 Unit 5.10 Completing the Compiler Proposed Implementation
+  - n: 115
+    title: P2 Week 5 Unit 5.11 Project 11
+  - n: 116
+    title: P2 Week 5 Unit 5.12 Perspective
+  - n: 117
+    title: P2 Week 6 Unit 6.1 Operating System
+  - n: 118
+    title: P2 Week 6 Unit 6.2 Operating System-Efficiency Matters
+  - n: 119
+    title: P2 Week 6 Unit 6.3 Operating System-Mathematical Operations
+  - n: 120
+    title: P2 Week 6 Unit 6.4 Operating System-Memory Access
+  - n: 121
+    title: P2 Week 6 Unit 6.5 Operating System-Heap Management
+  - n: 122
+    title: P2 Week 6 Unit 6.6 Operating System-Graphics
+  - n: 123
+    title: P2 Week 6 Unit 6.7 Operating System-Line Drawing
+  - n: 124
+    title: P2 Week 6 Unit 6.8 Operating System-Handling Textual Output
+  - n: 125
+    title: P2 Week 6 Unit 6.9 Operating System-Input
+  - n: 126
+    title: P2 Week 6 Unit 6.10 Operating System-String Processing
+  - n: 127
+    title: P2 Week 6 Unit 6.11 Operating System-Array Processing
+  - n: 128
+    title: P2 Week 6 Unit 6.12 Operating System-The Sys Class
+  - n: 129
+    title: P2 Week 6 Unit 6.13 Operating System-Project 12 Building the OS
+  - n: 130
+    title: P2 Week 6 Unit 6.14 Perspective
+  - n: 131
+    title: P2 Week 7 Unit 7.1 More Fun To Go
+  - n: 132
+    title: P2 Week 7 Unit 7.2 More Fun To Go
+  - n: 133
+    title: P2 Week 7 Unit 7.3 More Fun To Go
+  - n: 134
+    title: P2 Week 7 Unit 7.4 More Fun To Go
 notes:
   - title: CS 自学指南：Nand2Tetris 攻略
     url: https://csdiy.wiki/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/N2T/

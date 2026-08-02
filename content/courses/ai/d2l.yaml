@@ -5,22 +5,343 @@ institution: 亚马逊 / 上海交大
 instructor: 李沐
 subject: ai
 level: intermediate
-tags: [深度学习, pytorch, 中文原声]
-prerequisites: [andrew-ng-ml, mit-18-06]
+tags: [ 深度学习, pytorch, 中文原声 ]
+prerequisites: [ andrew-ng-ml, mit-18-06 ]
 estimatedHours: 80
 description: >
-  李沐用 PyTorch 从零动手实现深度学习：MLP、CNN、RNN、注意力、BERT。
-  官方 B 站账号中文直播录像 + 可运行的开源教材，代码即讲义。
+  李沐用 PyTorch 从零动手实现深度学习：MLP、CNN、RNN、注意力、BERT。 官方 B 站账号中文直播录像 + 可运行的开源教材，代码即讲义。
 sources:
   - platform: bilibili
-    url: https://www.bilibili.com/video/BV1if4y147hS
-    uploader: 跟李沐学AI（官方）
-    note: 官方账号逐集发布，此为第一集，可从合集页续看
+    url: https://www.bilibili.com/video/BV1RxZmYCEfB
+    uploader: 搬运（原作者：跟李沐学AI）
+    note: 161 集完整合集；官方账号「跟李沐学AI」逐集发布原片
   - platform: other
     url: https://courses.d2l.ai/zh-v2/
     note: 课程官网（教材 / 课件 / 讨论区）
-episodeCount: 73
 notes:
   - title: 《动手学深度学习》开源教材
     url: https://zh.d2l.ai/
     kind: site
+episodes:
+  - n: 1
+    title: 1-动手学深度学习课程安排
+  - n: 2
+    title: 2-深度学习介绍
+  - n: 3
+    title: 3-安装
+  - n: 4
+    title: 4-数据操作
+  - n: 5
+    title: 5-数据操作实现
+  - n: 6
+    title: 6-数据预处理实现
+  - n: 7
+    title: 7-线性代数
+  - n: 8
+    title: 8-线性代数实现
+  - n: 9
+    title: 9-按特定轴求和
+  - n: 10
+    title: 10-矩阵计算
+  - n: 11
+    title: 11-自动求导
+  - n: 12
+    title: 12-自动求导实现
+  - n: 13
+    title: 13-线性回归
+  - n: 14
+    title: 14-基础优化算法
+  - n: 15
+    title: 15-线性回归的从零开始实现
+  - n: 16
+    title: 16-线性回归的简洁实现
+  - n: 17
+    title: 17-Softmax 回归
+  - n: 18
+    title: 18-损失函数
+  - n: 19
+    title: 19-图片分类数据集
+  - n: 20
+    title: 20-Softmax 回归从零开始实现
+  - n: 21
+    title: 21-Softmax 回归简洁实现
+  - n: 22
+    title: 22-Windows 下安装 CUDA 和 Pytorch 跑深度学习 - 动手学深度学习v2
+  - n: 23
+    title: 23-使用 AWS 最便宜的 GPU 实例 - 动手学深度学习v2
+  - n: 24
+    title: 24-感知机
+  - n: 25
+    title: 25-多层感知机
+  - n: 26
+    title: 26-代码实现
+  - n: 27
+    title: 27-10行代码战胜90%数据科学家？
+  - n: 28
+    title: 28-模型选择
+  - n: 29
+    title: 29-过拟合和欠拟合
+  - n: 30
+    title: 30-代码
+  - n: 31
+    title: 31-权重衰退
+  - n: 32
+    title: 32-代码实现
+  - n: 33
+    title: 33-丢弃法
+  - n: 34
+    title: 34-代码实现
+  - n: 35
+    title: 35-数值稳定性
+  - n: 36
+    title: 36-模型初始化和激活函数
+  - n: 37
+    title: 37-实战 Kaggle 比赛：预测房价
+  - n: 38
+    title: 38-课程竞赛：加州2020年房价预测
+  - n: 39
+    title: 39- PyTorch 神经网络基础-模型构造
+  - n: 40
+    title: 40-参数管理
+  - n: 41
+    title: 41-自定义层
+  - n: 42
+    title: 42-读写文件
+  - n: 43
+    title: 43-使用 GPU
+  - n: 44
+    title: 44-购买 GPU
+  - n: 45
+    title: 45-竞赛总结
+  - n: 46
+    title: 46-从全连接到卷积
+  - n: 47
+    title: 47-卷积层
+  - n: 48
+    title: 48-代码
+  - n: 49
+    title: 49-填充和步幅
+  - n: 50
+    title: 50-代码实现
+  - n: 51
+    title: 51-多输入输出通道
+  - n: 52
+    title: 52-代码实现
+  - n: 53
+    title: 53-池化层
+  - n: 54
+    title: 54-实现
+  - n: 55
+    title: 55-LeNet
+  - n: 56
+    title: 56-代码
+  - n: 57
+    title: 57-AlexNet
+  - n: 58
+    title: 58-代码
+  - n: 59
+    title: 59-VGG
+  - n: 60
+    title: 60-代码
+  - n: 61
+    title: 61-NIN
+  - n: 62
+    title: 62-代码
+  - n: 63
+    title: 63-GoogLeNet
+  - n: 64
+    title: 64-代码
+  - n: 65
+    title: 65-批量归一化
+  - n: 66
+    title: 66-代码
+  - n: 67
+    title: 67-ResNet
+  - n: 68
+    title: 68-代码
+  - n: 69
+    title: 69-ResNet的梯度计算
+  - n: 70
+    title: 70-完结竞赛：图片分类
+  - n: 71
+    title: 71-CPU 和 GPU
+  - n: 72
+    title: 72-更多的芯片
+  - n: 73
+    title: 73-单机多卡并行
+  - n: 74
+    title: 74-多GPU训练-从零开始
+  - n: 75
+    title: 75-简洁实现
+  - n: 76
+    title: 76-分布式训练
+  - n: 77
+    title: 77-数据增广
+  - n: 78
+    title: 78-代码
+  - n: 79
+    title: 79-微调
+  - n: 80
+    title: 80-代码
+  - n: 81
+    title: 81-第二次竞赛 树叶分类结果
+  - n: 82
+    title: 82-Kaggle Cifar10
+  - n: 83
+    title: 83-Kaggle ImageNet Dog
+  - n: 84
+    title: 84-物体检测
+  - n: 85
+    title: 85-边缘框实现
+  - n: 86
+    title: 86-数据集
+  - n: 87
+    title: 87-锚框
+  - n: 88
+    title: 88-代码
+  - n: 89
+    title: 89-树叶分类竞赛技术总结
+  - n: 90
+    title: 90-物体检测算法：R-CNN，SSD，YOLO
+  - n: 91
+    title: 91-多尺度锚框
+  - n: 92
+    title: 92-SSD
+  - n: 93
+    title: 93-语义分割
+  - n: 94
+    title: 94-语义分割数据集
+  - n: 95
+    title: 95-转置卷积
+  - n: 96
+    title: 96-代码
+  - n: 97
+    title: 97-转置卷积是一种卷积
+  - n: 98
+    title: 98-FCN
+  - n: 99
+    title: 99-代码
+  - n: 100
+    title: 100-样式迁移
+  - n: 101
+    title: 101-代码
+  - n: 102
+    title: 102-课程竞赛：牛仔行头检测
+  - n: 103
+    title: 103-序列模型
+  - n: 104
+    title: 104-代码
+  - n: 105
+    title: 105-文本预处理代码
+  - n: 106
+    title: 106-语言模型
+  - n: 107
+    title: 107-代码
+  - n: 108
+    title: 108-RNN
+  - n: 109
+    title: 109-从零开始实现
+  - n: 110
+    title: 110-简介实现
+  - n: 111
+    title: 111-门控循环单元（GRU）
+  - n: 112
+    title: 112-代码
+  - n: 113
+    title: 113-长短期记忆网络（LSTM）
+  - n: 114
+    title: 114-代码
+  - n: 115
+    title: 115-深层循环神经网络
+  - n: 116
+    title: 116-代码
+  - n: 117
+    title: 117-双向循环神经网络
+  - n: 118
+    title: 118-代码
+  - n: 119
+    title: 119-机器翻译数据集
+  - n: 120
+    title: 120-编码器-解码器架构
+  - n: 121
+    title: 121-代码
+  - n: 122
+    title: 122-Seq2Seq
+  - n: 123
+    title: 123-代码
+  - n: 124
+    title: 124-束搜索
+  - n: 125
+    title: 125-注意力机制
+  - n: 126
+    title: 126-代码
+  - n: 127
+    title: 127-注意力分数
+  - n: 128
+    title: 128-代码
+  - n: 129
+    title: 129-使用注意力机制的seq2seq
+  - n: 130
+    title: 130-代码
+  - n: 131
+    title: 131-自注意力
+  - n: 132
+    title: 132-代码
+  - n: 133
+    title: 133-BERT
+  - n: 134
+    title: 134-BERT代码
+  - n: 135
+    title: 135-BERT预训练数据代码
+  - n: 136
+    title: 136-BERT预训练代码
+  - n: 137
+    title: 137-BERT微调
+  - n: 138
+    title: 138-自然语言推理数据集
+  - n: 139
+    title: 139-BERT微调代码
+  - n: 140
+    title: 140-目标检测竞赛总结
+  - n: 141
+    title: 141-优化算法
+  - n: 142
+    title: 142-课程总结和进阶学习
+  - n: 143
+    title: 【旧版可选修】1. 第一课：深度学习入门
+  - n: 144
+    title: 2. 第二课：卷积神经网络
+  - n: 145
+    title: 3. 第三课：深度卷积网络
+  - n: 146
+    title: 4. 第四课：模型训练策略
+  - n: 147
+    title: 5. 第五课：优化算法基础
+  - n: 148
+    title: 6. 第六课：计算机视觉
+  - n: 149
+    title: 7. 第七课：物体检测-1
+  - n: 150
+    title: 8. 第八课：物体检测-2
+  - n: 151
+    title: 9. 第九课：物体检测·3
+  - n: 152
+    title: 10. 第十课：语义分割
+  - n: 153
+    title: 11. 第十一课：样式迁移
+  - n: 154
+    title: 12. 第十二课：循环神经网络
+  - n: 155
+    title: 13. 第十四课：循环神经网络的实现、训练和应
+  - n: 156
+    title: 14. 第十三课：正向传播与反向传播
+  - n: 157
+    title: 15. 第十五课：GRU、LSTM及多层循环神经网络实现
+  - n: 158
+    title: 16. 第十六课：词向量
+  - n: 159
+    title: 17. 第十七课：GloVe、fastText和词向量
+  - n: 160
+    title: 18. 第十八课：seq2seq和注意力机制
+  - n: 161
+    title: 19. 第十九课：机器翻译应用

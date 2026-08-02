@@ -5,12 +5,11 @@ institution: MIT
 instructor: Robert Morris
 subject: cs
 level: advanced
-tags: [分布式, golang, raft]
-prerequisites: [csapp, mit-6-006]
+tags: [ 分布式, golang, raft ]
+prerequisites: [ csapp, mit-6-006 ]
 estimatedHours: 80
 description: >
-  研究生分布式系统课：MapReduce、GFS、Raft、事务、Spanner。
-  Lab 用 Go 从零实现 Raft，是中文笔记生态最好的研究生课之一。
+  研究生分布式系统课：MapReduce、GFS、Raft、事务、Spanner。 Lab 用 Go 从零实现 Raft，是中文笔记生态最好的研究生课之一。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1iD4y1U7gu
@@ -19,7 +18,6 @@ sources:
   - platform: youtube
     url: https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB
     note: 官方原版录像
-episodeCount: 20
 notes:
   - title: MIT 6.824 中文课程笔记（简中翻译）
     url: https://mit-public-courses-cn-translatio.gitbook.io/mit6-824
@@ -27,3 +25,44 @@ notes:
   - title: CS 自学指南：6.824 攻略
     url: https://csdiy.wiki/%E5%B9%B6%E8%A1%8C%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/MIT6.824/
     kind: site
+episodes:
+  - n: 1
+    title: 1_Introduction
+  - n: 2
+    title: 2_RPC and Threads
+  - n: 3
+    title: 3_GFS
+  - n: 4
+    title: 4_Primary-Backup Replication
+  - n: 5
+    title: 5_Go, Threads, and Raft
+  - n: 6
+    title: 6_Fault Tolerance-Raft (1)
+  - n: 7
+    title: 7_Fault Tolerance-Raft (2)
+  - n: 8
+    title: 8_Zookeeper
+  - n: 9
+    title: 9_More Replication, CRAQ
+  - n: 10
+    title: 10_Cloud Replicated DB, Aurora
+  - n: 11
+    title: 11_Cache Consistency-Frangipani
+  - n: 12
+    title: 12_Distributed Transactions
+  - n: 13
+    title: 13_Spanner
+  - n: 14
+    title: 14_Optimistic Concurrency Control
+  - n: 15
+    title: 15_Big Data-Spark
+  - n: 16
+    title: 16_Cache Consistency-Memcache at Facebook
+  - n: 17
+    title: 17_COPS, Causal Consistency
+  - n: 18
+    title: 18_Fork Consistency, Certificate Transparency
+  - n: 19
+    title: 19_Bitcoin
+  - n: 20
+    title: 20_Blockstack

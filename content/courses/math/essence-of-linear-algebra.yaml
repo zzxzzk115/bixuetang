@@ -5,12 +5,11 @@ institution: 3Blue1Brown
 instructor: Grant Sanderson
 subject: math
 level: basic
-tags: [线性代数, 可视化, 直觉]
+tags: [ 线性代数, 可视化, 直觉 ]
 prerequisites: []
 estimatedHours: 4
 description: >
-  用动画建立线性代数的几何直觉：向量、线性变换、行列式、特征值。
-  官方 B 站账号发布，几小时看完，先看这个再上 18.06 事半功倍。
+  用动画建立线性代数的几何直觉：向量、线性变换、行列式、特征值。 官方 B 站账号发布，几小时看完，先看这个再上 18.06 事半功倍。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1ys411472E
@@ -19,6 +18,38 @@ sources:
   - platform: youtube
     url: https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab
     note: 官方原版
-episodeCount: 16
 notes: []
 lab: math
+episodes:
+  - n: 1
+    title: 00 - 序言
+  - n: 2
+    title: 01 - 向量究竟是什么？
+  - n: 3
+    title: 02 - 线性组合、张成的空间与基
+  - n: 4
+    title: 03 - 矩阵与线性变换
+  - n: 5
+    title: 04 - 矩阵乘法与线性变换复合
+  - n: 6
+    title: 附注1 - 三维空间中的线性变换
+  - n: 7
+    title: 05 - 行列式
+  - n: 8
+    title: 06 - 逆矩阵、列空间与零空间
+  - n: 9
+    title: 附注2 - 非方阵
+  - n: 10
+    title: 07 - 点积与对偶性
+  - n: 11
+    title: 08第一部分 - 叉积的标准介绍
+  - n: 12
+    title: 08第二部分 - 以线性变换的眼光看叉积
+  - n: 13
+    title: 09 - 基变换
+  - n: 14
+    title: 10 - 特征向量与特征值
+  - n: 15
+    title: 11 - 抽象向量空间
+  - n: 16
+    title: 12 - 克莱姆法则，几何解释

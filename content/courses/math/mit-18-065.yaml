@@ -1,0 +1,95 @@
+id: mit-18-065
+title: 数据分析、信号处理和机器学习中的矩阵方法
+code: "18.065"
+institution: MIT
+instructor: Gilbert Strang
+subject: math
+level: advanced
+tags: [ 线性代数, 机器学习, 数据分析 ]
+prerequisites: [ mit-18-06 ]
+estimatedHours: 80
+description: >
+  Gilbert Strang 在 18.06 之后开设的"线性代数第二课"，聚焦矩阵方法在数据分析、 信号处理与机器学习中的实际应用：SVD、低秩逼近、随机采样、优化与深度学习基础。 是从纯线性代数走向现代数据科学的最佳桥梁课，Strang 晚年集大成之作。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1b4411j7V3
+    uploader: 搬运
+    note: 2018 春季版，中英双语字幕（爱可可-爱生活搬运，36P 全）
+  - platform: other
+    url: https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/
+    note: 课程官网
+notes:
+  - title: CS 自学指南（站内搜索 18.065 / 数学进阶）
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Course Introduction of 18.065 by Professor Strang
+  - n: 2
+    title: 1. The Column Space of A Contains All Vectors Ax
+  - n: 3
+    title: 2. Multiplying and Factoring Matrices
+  - n: 4
+    title: 3. Orthonormal Columns in Q Give Q'Q = I
+  - n: 5
+    title: 4. Eigenvalues and Eigenvectors
+  - n: 6
+    title: 5. Positive Definite and Semidefinite Matrices
+  - n: 7
+    title: 6. Singular Value Decomposition (SVD)
+  - n: 8
+    title: 7. Eckart-Young - The Closest Rank k Matrix to A
+  - n: 9
+    title: 8. Norms of Vectors and Matrices
+  - n: 10
+    title: 9. Four Ways to Solve Least Squares Problems
+  - n: 11
+    title: 10. Survey of Difficulties with Ax = b
+  - n: 12
+    title: 11. Minimizing _x_ Subject to Ax = b
+  - n: 13
+    title: 12. Computing Eigenvalues and Singular Values
+  - n: 14
+    title: 13. Randomized Matrix Multiplication
+  - n: 15
+    title: 14. Low Rank Changes in A and Its Inverse
+  - n: 16
+    title: 15. Matrices A(t) Depending on t, Derivative = dA_dt
+  - n: 17
+    title: 16. Derivatives of Inverse and Singular Values
+  - n: 18
+    title: 17. Rapidly Decreasing Singular Values
+  - n: 19
+    title: 18. Counting Parameters in SVD, LU, QR, Saddle Points
+  - n: 20
+    title: 19. Saddle Points Continued, Maxmin Principle
+  - n: 21
+    title: 20. Definitions and Inequalities
+  - n: 22
+    title: 21. Minimizing a Function Step by Step
+  - n: 23
+    title: 22. Gradient Descent - Downhill to a Minimum
+  - n: 24
+    title: 23. Accelerating Gradient Descent (Use Momentum)
+  - n: 25
+    title: 24. Linear Programming and Two-Person Games
+  - n: 26
+    title: 25. Stochastic Gradient Descent
+  - n: 27
+    title: 26. Structure of Neural Nets for Deep Learning
+  - n: 28
+    title: 27. Backpropagation - Find Partial Derivatives
+  - n: 29
+    title: 30. Completing a Rank-One Matrix, Circulants!
+  - n: 30
+    title: 31. Eigenvectors of Circulant Matrices - Fourier Matrix
+  - n: 31
+    title: 32. ImageNet is a Convolutional Neural Network (CNN), The Convolution Rule
+  - n: 32
+    title: 33. Neural Nets and the Learning Function-L3
+  - n: 33
+    title: 34. Distance Matrices, Procrustes Problem
+  - n: 34
+    title: 35. Finding Clusters in Graphs
+  - n: 35
+    title: 36. Alan Edelman and Julia Language
