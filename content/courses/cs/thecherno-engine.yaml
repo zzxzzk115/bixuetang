@@ -12,9 +12,13 @@ description: >
   前 EA 工程师 Cherno 的传奇系列：用 C++ 从空项目一行行写出 Hazel 引擎—— 窗口、事件、渲染层、ECS、编辑器。跟着敲完你就有一个自己的引擎。
 sources:
   - platform: bilibili
-    url: https://www.bilibili.com/video/BV1sa4y1v7zk
+    url: https://www.bilibili.com/video/BV1LGiUYdEgr
+    uploader: 搬运（AI 精译中文配音）
+    note: 123 集完整版合集，从项目搭建到 C# 脚本系统
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV19z411i7fs
     uploader: 搬运
-    note: 搬运合集，英文原声
+    note: 备用源，英文字幕 95 段
   - platform: youtube
     url: https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
     note: 官方 Game Engine 系列播放列表
@@ -24,66 +28,371 @@ notes:
     kind: github
 episodes:
   - n: 1
-    title: 介绍游戏引擎系列（Introducing the GAME ENGINE series!）
+    title: 【001】介绍游戏引擎系列！ Introducing the GAME ENGINE series!
+    bvid: BV1LGiUYdEgr
   - n: 2
-    title: 什么是游戏引擎（What is a GAME ENGINE?）
+    title: 【002】什么是游戏引擎？ What is a GAME ENGINE?
+    bvid: BV1eGiUYdEUk
   - n: 3
-    title: 设计我们的游戏引擎（DESIGNING our GAME ENGINE）
+    title: 【003】设计我们的游戏引擎 DESIGNING our GAME ENGINE
+    bvid: BV15GiUYdEjF
   - n: 4
-    title: 项目初始化设置（Project Setup - Game Engine Series）
+    title: 【004】项目设置 Project Setup
+    bvid: BV1wCiDYVELd
   - n: 5
-    title: 引擎入口（Entry Point - Game Engine Series）
+    title: 【005】入口点 Entry Point
+    bvid: BV1wCiDYVEcF
   - n: 6
-    title: 日志模块（Logging - Game Engine Series）
+    title: 【006】日志 Logging
+    bvid: BV1wCiDYVEJL
   - n: 7
-    title: Premake工具（Premake - Game Engine Series）
+    title: 【007】Premake
+    bvid: BV1wCiDYVEjS
   - n: 8
-    title: 计划事件系统（Planning the Event System - Game Engine series）
+    title: 【008】事件系统规划 Planning the Event System
+    bvid: BV1AriDYyE8S
   - n: 9
-    title: 事件系统（Event System - Game Engine series）
+    title: 【009】事件系统 Event System
+    bvid: BV1wriDYyEh7
   - n: 10
-    title: 预编译头文件（Precompiled Headers - Game Engine series）
+    title: 【010】预编译头文件 Precompiled Headers
+    bvid: BV1JQiXY1EKM
   - n: 11
-    title: 窗体抽象和 GLFW（Window Abstraction and GLFW - Game Engine series）
+    title: 【011】窗口抽象与GLFW Window Abstraction and GLFW
+    bvid: BV1FQiXY1Enz
   - n: 12
-    title: 窗体事件（Window Events - Game Engine series）
+    title: 【012】窗口事件 Window Events
+    bvid: BV1coioYZEBk
   - n: 13
-    title: 层级（Layers - Game Engine series）
+    title: 【013】图层 Layers | Game Engine series
+    bvid: BV1FoioYZE2K
   - n: 14
-    title: 现代 OpenGL（Modern OpenGL (Glad) - Game Engine series）
+    title: 【014】现代OpenGL (Glad) | Modern OpenGL (Glad)
+    bvid: BV1ZAiZYXEBw
   - n: 15
-    title: 整合 ImGUI（ImGui - Game Engine series）
+    title: 【015】ImGui
+    bvid: BV1gzioYgE5t
   - n: 16
-    title: ImGUI 事件（ ImGui Events - Game Engine series）
+    title: 【016】ImGui 事件 ImGui Events
+    bvid: BV1Rzi6YNEJc
   - n: 17
-    title: Github相关（GitHub and Hazel - Game Engine series）
+    title: 【017】GitHub 和 Hazel
+    bvid: BV1Rzi6YNEK5
   - n: 18
-    title: 拉取请求（Pull Requests - Game Engine series）
+    title: 【018】拉取请求 Pull Requests
+    bvid: BV1QQiyYkEqE
   - n: 19
-    title: 输入循环（Input Polling - Game Engine series）
+    title: 【019】输入轮询 Input Polling
+    bvid: BV1EXqVYvENz
   - n: 20
-    title: 键盘鼠标代码（Key and Mouse Codes - Game Engine series）
+    title: 【020】键鼠代码 | Key and Mouse Codes
+    bvid: BV1aMqjYAEf8
   - n: 21
-    title: 数学相关（Maths - Game Engine series）
+    title: 【021】数学 Maths
+    bvid: BV1GMqjYAEnX
   - n: 22
-    title: ImGui Docking and Viewports - Game Engine series
+    title: 【022】ImGui 停靠和视口 ImGui Docking and Viewports
+    bvid: BV1aCqWYHEvX
   - n: 23
-    title: 介绍渲染相关（Introduction to Rendering - Game Engine series）
+    title: 【023】渲染简介 Introduction to Rendering
+    bvid: BV1aCqWYHEFw
   - n: 24
-    title: 渲染架构（Rendering Architecture - Game Engine series）
+    title: 【024】渲染架构 Rendering Architecture
+    bvid: BV1Y6qWYWEf9
   - n: 25
-    title: 渲染与维护（Rendering and Maintenance - Game Engine series）
+    title: 【025】渲染与维护 Rendering and Maintenance
+    bvid: BV1FKqwYMEb2
   - n: 26
-    title: 静态库和清除所有警告（Static Libraries and ZERO Warnings - Game Engine series）
+    title: 【026】静态库与零警告 Static Libraries and ZERO Warning
+    bvid: BV1FKqwYMEtZ
   - n: 27
-    title: 渲染上下文（Rendering Context - Game Engine series）
+    title: 【027】渲染上下文 Rendering Context
+    bvid: BV1cPqwYzEEm
   - n: 28
-    title: 绘制第一个三角形！（Our First Triangle! - Game Engine series）
+    title: 【028】我们的第一个三角形！Our First Triangle!
+    bvid: BV1cPqwYzEqU
   - n: 29
-    title: OpenGL Shaders - Game Engine series
+    title: 【029】OpenGL 着色器 OpenGL Shaders
+    bvid: BV1rPqwYzELe
   - n: 30
-    title: 渲染API抽象！（Renderer API Abstraction - Game Engine series）
+    title: 【030】渲染API抽象 Renderer API Abstraction
+    bvid: BV1QYq6YAEL3
   - n: 31
-    title: 顶点Buffer布局（Vertex Buffer Layouts - Game Engine series）
+    title: 【031】顶点缓冲布局 Vertex Buffer Layouts
+    bvid: BV13uqUYQEPW
   - n: 32
-    title: Vertex Arrays - Game Engine series
+    title: 【032】顶点数组 Vertex Arrays
+    bvid: BV1guqUYQEc5
+  - n: 33
+    title: 【033】渲染流程与提交 Renderer Flow and Submission | Ga
+    bvid: BV1guqUYQEMa
+  - n: 34
+    title: 【034】摄像机及其工作原理 CAMERAS and How They Work
+    bvid: BV1pKq4Y5EdE
+  - n: 35
+    title: 【035】创建正交摄像机 Creating an Orthographic Camera
+    bvid: BV1Jgq4YrESq
+  - n: 36
+    title: 【036】迁移到沙盒 Moving to Sandbox
+    bvid: BV1ngq4YrE1n
+  - n: 37
+    title: 【037】时间步长与增量时间 TIMESTEPS and DELTA TIME
+    bvid: BV1Jgq4YrE9w
+  - n: 38
+    title: 【038】变换 Transforms
+    bvid: BV1aQqzYwEmH
+  - n: 39
+    title: 【039】材质系统 Material Systems
+    bvid: BV1QpBMYCEoM
+  - n: 40
+    title: 【040】着色器抽象与统一变量 Shader Abstraction and Uniform
+    bvid: BV13pBMYyEbb
+  - n: 41
+    title: 【041】引用、作用域和智能指针 Refs, Scopes and Smart Pointe
+    bvid: BV1XYB5YcEQJ
+  - n: 42
+    title: 【042】纹理 TEXTURES
+    bvid: BV1XYB5YcEcz
+  - n: 43
+    title: 【043】混合 BLENDING
+    bvid: BV1QYB5YcERa
+  - n: 44
+    title: 【044】着色器资产文件 Shader Asset Files
+    bvid: BV1L4B5YKEj3
+  - n: 45
+    title: 【045】着色器库 Shader Library
+    bvid: BV1j4B5YKEjM
+  - n: 46
+    title: 【046】如何构建一个2D渲染器 How to Build a 2D Renderer
+    bvid: BV1j4BNY5Ezo
+  - n: 47
+    title: 【047】摄像机控制器 Camera Controllers
+    bvid: BV1keBPYSEKv
+  - n: 48
+    title: 【048】 窗口大小调整 Resizing
+    bvid: BV1CeBPYSEKr
+  - n: 49
+    title: 【049】维护 Maintenance
+    bvid: BV1Yck3YcEL3
+  - n: 50
+    title: 【050】准备2D渲染 Preparing for 2D Rendering
+    bvid: BV1keBPYSEcV
+  - n: 51
+    title: 【051】开始我们的2D渲染器 Starting our 2D Renderer
+    bvid: BV1tKBTYiERo
+  - n: 52
+    title: 【052】2D渲染器变换 2D Renderer Transforms
+    bvid: BV1Yck3YcEwD
+  - n: 53
+    title: 【053】2D渲染器纹理 2D Renderer Textures
+    bvid: BV1Gck3YcEWz
+  - n: 54
+    title: 【054】单着色器2D渲染器 Single Shader 2D Renderer
+    bvid: BV1ack3YcEJu
+  - n: 55
+    title: 【055】性能分析入门 Intro to Profiling
+    bvid: BV1dVkcY3Ed6
+  - n: 56
+    title: 【056】可视化性能分析 Visual Profiling
+    bvid: BV1dVkcY3ERE
+  - n: 57
+    title: 【057】性能分析 Instrumentation
+    bvid: BV1oVkcY3Epc
+  - n: 58
+    title: 【058】改进2D渲染API Improving our 2D Rendering A
+    bvid: BV1R7kcYBEBX
+  - n: 59
+    title: 【059】如何在一小时内使用Hazel制作游戏 How I Made a Game in an Hour Us
+    bvid: BV1RkksYzELu
+  - n: 60
+    title: 【060】Hazel 2020
+    bvid: BV1ADCwYfEDB
+  - n: 61
+    title: 【061】批量渲染 BATCH RENDERING
+    bvid: BV1PDCwYfEAe
+  - n: 62
+    title: 【062】批量渲染纹理（+ 调试！）Batch Rendering Textures
+    bvid: BV1ADCwYfE4Q
+  - n: 63
+    title: 【063】绘制旋转的四边形 Drawing Rotated Quads
+    bvid: BV1ADCwYfEf4
+  - n: 64
+    title: 【064】渲染器统计与批处理优化 Renderer Stats and Batch Imp
+    bvid: BV1PSCwY8EV5
+  - n: 65
+    title: 【065】测试Hazel的性能 Testing Hazel's Performance!
+    bvid: BV1PSCwY8Ehy
+  - n: 66
+    title: 【066】让我们在Hazel中制作点什么！Let's Make Something in Hazel
+    bvid: BV1PSCwY8Ei2
+  - n: 67
+    title: 【067】精灵表/纹理图集的工作原理 How Sprite Sheets/Texture
+    bvid: BV1sSCwY8EEC
+  - n: 68
+    title: 【068】子纹理 - 创建一个精灵表 API SubTextures - Creating
+    bvid: BV1sSCwY8EHC
+  - n: 69
+    title: 【069】创建一个瓦片地图 Creating a Map of Tiles
+    bvid: BV1NSCwY8Ewn
+  - n: 70
+    title: 【070】下一步 + 停靠空间 Next Steps + Dockspace
+    bvid: BV1PSCwY8EZs
+  - n: 71
+    title: 【071】帧缓冲区 Framebuffers
+    bvid: BV1odCrYZEee
+  - n: 72
+    title: 【072】在Hazel中创建新的C++项目 Making a New C++ Project
+    bvid: BV1odCrYZEEy
+  - n: 73
+    title: 【073】场景视口 Scene Viewport
+    bvid: BV1qdCrYZEGq
+  - n: 74
+    title: 【074】代码审查与ImGui层事件 Code Review + ImGui Layer Event
+    bvid: BV1GR6tY3EfB
+  - n: 75
+    title: 【075】下一步方向与代码审查 Where to go next + Code Review
+    bvid: BV1GR6tY3ECS
+  - n: 76
+    title: 【076】实体组件系统 Entity Component System
+    bvid: BV1YR6tY3E4e
+  - n: 77
+    title: 【077】EnTT (ECS) 入门 Intro to EnTT (ECS)
+    bvid: BV1N36bY8E3r
+  - n: 78
+    title: 【078】实体与组件 Entities and Components
+    bvid: BV1P36bY8EXy
+  - n: 79
+    title: 【079】ENTITY类 The ENTITY Class
+    bvid: BV1P36bY8ESM
+  - n: 80
+    title: 【080】相机系统 Camera Systems
+    bvid: BV1N36bYhELC
+  - n: 81
+    title: 【081】场景相机 Scene Camera
+    bvid: BV1jE6VYzEst
+  - n: 82
+    title: 【082】原生脚本 Native Scripting
+    bvid: BV1qE6VYzECy
+  - n: 83
+    title: 【083】原生脚本编写（现已支持虚函数！）Native Scripting
+    bvid: BV17E6VYzEPY
+  - n: 84
+    title: 【084】场景层级面板 Scene Hierarchy Panel | Game Engin
+    bvid: BV17E6VYzE7J
+  - n: 85
+    title: 【085】属性面板 Properties Panel | Game Engine serie
+    bvid: BV1P967YwEGt
+  - n: 86
+    title: 【086】相机组件UI | 游戏引擎系列 Camera Component UI | Game Engine
+    bvid: BV1W967YwE1r
+  - n: 87
+    title: 【087】绘制组件UI | 游戏引擎系列 Drawing Component UI | Game Engine
+    bvid: BV1P967YwE6k
+  - n: 88
+    title: 【088】变换组件UI | 游戏引擎系列 Transform Component UI | Game Engi
+    bvid: BV1P967YwEvo
+  - n: 89
+    title: 【089】添加/删除实体和组件UI | 游戏引擎系列 Adding/Removing Entities and
+    bvid: BV1W967YwE7n
+  - n: 90
+    title: 【090】让Hazelnut编辑器更美观！| 游戏引擎系列 Making the Hazelnut Edito
+    bvid: BV1LB6dYdECX
+  - n: 91
+    title: 【091】场景的保存与加载！| 游戏引擎系列 Saving and Loading Scenes! | Gam
+    bvid: BV1hr66YBEMJ
+  - n: 92
+    title: 【092】打开/保存文件对话框 | 游戏引擎系列 Open/Save File Dialogs | Game
+    bvid: BV18r66YBEWV
+  - n: 93
+    title: 【093】变换小工具 | 游戏引擎系列 Transformation Gizmos | Game Engine
+    bvid: BV1mErnY1Eqy
+  - n: 94
+    title: 【094】编辑器相机 | 游戏引擎系列 Editor Camera | Game Engine series
+    bvid: BV1mErnY1EJQ
+  - n: 95
+    title: 【095】多重渲染目标与帧缓冲重构 // 游戏引擎系列 Multiple Render Targets and
+    bvid: BV1mErnY1EoT
+  - n: 96
+    title: 【096】为鼠标拾取准备帧缓冲 // 游戏引擎系列 Preparing Framebuffers for Mo
+    bvid: BV1mErnY1EWQ
+  - n: 97
+    title: 【097】清理帧缓冲纹理附件与Git分支 // 游戏引擎系列 Clearing Framebuffer Tex
+    bvid: BV1mErnY1Eid
+  - n: 98
+    title: 【098】鼠标拾取 // 游戏引擎系列 Mouse Picking // Game Engine series
+    bvid: BV1mErnY1EP1
+  - n: 99
+    title: 【099】点击选择实体 // 游戏引擎系列 Clicking to Select Entities // Ga
+    bvid: BV1mErnY1ENa
+  - n: 100
+    title: 【100】SPIR-V 与新的着色器系统 // 游戏引擎系列 SPIR-V and the New Shade
+    bvid: BV1TErnY2Eob
+  - n: 101
+    title: 【101】内容浏览器/资源面板 // 游戏引擎系列 Content Browser/Asset Panel /
+    bvid: BV1mErnY1ENM
+  - n: 102
+    title: 【102】内容浏览器面板 - ImGui 拖放功能 // 游戏引擎系列 Content Browser Pan
+    bvid: BV1Q3rnYnEKq
+  - n: 103
+    title: 【103】实体纹理！// 游戏引擎系列 Textures for Entities! // Game Engi
+    bvid: BV1D3rnYnEo1
+  - n: 104
+    title: 【104】2D游戏引擎所需的一切（Hazel 2D）——让我们聊聊 Everything You Need i
+    bvid: BV1gPrjY6ESU
+  - n: 105
+    title: 【105】播放按钮！// Hazel 2D - 游戏引擎系列 PLAY BUTTON! // Hazel 2D
+    bvid: BV14RrDYYEYM
+  - n: 106
+    title: 【106】2D物理引擎！// 游戏引擎系列 2D PHYSICS! // Game Engine series
+    bvid: BV1NKrYYVEkW
+  - n: 107
+    title: 【107】通用唯一标识符（UUID/GUID）// 游戏引擎系列 Universally Unique Ide
+    bvid: BV1VMrCYQE8N
+  - n: 108
+    title: 【108】游戏场景的播放与停止（及重置）// 游戏引擎系列 Playing and Stopping Scen
+    bvid: BV1VMrCYQEsW
+  - n: 109
+    title: 【109】在游戏引擎中渲染圆形 // 游戏引擎系列 Rendering Circles in a Game E
+    bvid: BV1YMrCYQEwn
+  - n: 110
+    title: 【110】游戏引擎中的线条渲染 // 游戏引擎系列 Rendering Lines in a Game Eng
+    bvid: BV1VMrCYQEbF
+  - n: 111
+    title: 【111】圆形物理碰撞器 // 游戏引擎系列 Circle Physics Colliders // Game
+    bvid: BV1GMrCYQEiS
+  - n: 112
+    title: 【112】可视化物理碰撞器 // 游戏引擎系列 Visualizing Physics Colliders /
+    bvid: BV1YMrCYQEDW
+  - n: 113
+    title: 【113】游戏引擎系列回归！（及问答） Return of the Game Engine Series! (
+    bvid: BV19TcHerEtx
+  - n: 114
+    title: 【114】物理模拟模式 // 游戏引擎系列 Physics Simulation Mode // Game E
+    bvid: BV1VTcHekEKb
+  - n: 115
+    title: 【115】社区问题/拉取请求与分支合并 // 游戏引擎系列 Community Issues/PRs and
+    bvid: BV17KcAe8EvL
+  - n: 116
+    title: 【116】完成拉取请求！// 游戏引擎系列（吐槽版™） Finishing the Pull Requests
+    bvid: BV13WcTeeEms
+  - n: 117
+    title: 【117】下一个主要功能前的最后清理！// 游戏引擎系列 Final Cleaning Before Next
+    bvid: BV1Jjc3eRE8G
+  - n: 118
+    title: 【118】C#脚本编程！// 游戏引擎系列 C# Scripting! // Game Engine seri
+    bvid: BV1Ruc2ejEZd
+  - n: 119
+    title: 【119】从C#调用C++ // 游戏引擎系列 Calling C++ from C# // Game Eng
+    bvid: BV1Ruc2ejEPm
+  - n: 120
+    title: 【120】使用C#脚本与实体组件系统 // 游戏引擎系列 Using C# Scripting with th
+    bvid: BV1h1c6etE1H
+  - n: 121
+    title: 【121】C++引擎组件在C#中的应用 // 游戏引擎系列 C++ Engine Components in
+    bvid: BV1Q1c6etE1S
+  - n: 122
+    title: 【122】C# - 分离游戏代码与核心引擎库 // 游戏引擎系列 C# - Separating Game C
+    bvid: BV1h1c6etE1Q
+  - n: 123
+    title: 【123】在编辑器中读写C#字段 // 游戏引擎系列 Reading/Writing C# Fields in
+    bvid: BV1h1wGemEHi
