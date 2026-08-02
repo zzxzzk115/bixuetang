@@ -38,6 +38,20 @@ export default async function SkillTreePage() {
         title: content.skillById.get(rid)?.title ?? rid,
         lit: lit.has(rid),
       })),
+      // 这个节点出现在哪些职业的晋升条件里——把技能树和转职殿堂串起来
+      jobs: content.jobs
+        .filter((j) => {
+          const s = j.requires.skills;
+          return (
+            !!s && (s.allOf.includes(v.node.id) || s.anyOf.includes(v.node.id))
+          );
+        })
+        .map((j) => ({
+          id: j.id,
+          title: j.title,
+          tier: j.tier,
+          required: !!j.requires.skills?.allOf.includes(v.node.id),
+        })),
     };
   }
 

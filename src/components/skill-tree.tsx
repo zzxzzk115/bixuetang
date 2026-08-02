@@ -16,6 +16,8 @@ export interface SkillNodeView {
   /** 关联课程（含完成态），供详情面板展示 */
   courses: { id: string; title: string; done: boolean }[];
   requires: { id: string; title: string; lit: boolean }[];
+  /** 把这个节点写进晋升条件的职业；required=写在 allOf 里（必需）而非 anyOf（可选之一） */
+  jobs: { id: string; title: string; tier: number; required: boolean }[];
 }
 
 const STATE_STYLE: Record<SkillState, string> = {
@@ -365,6 +367,30 @@ export function SkillTree({
               </ul>
             </div>
           </div>
+
+          {selectedView.jobs.length > 0 && (
+            <div className="mt-4 border-t border-edge pt-3">
+              <h3 className="mb-1.5 text-xs font-bold text-muted">
+                通往的职业
+              </h3>
+              <div className="flex flex-wrap gap-1.5">
+                {selectedView.jobs.map((j) => (
+                  <Link
+                    key={j.id}
+                    href="/jobs"
+                    title={j.required ? "该职业的必需技能" : "该职业的可选技能之一"}
+                    className={`rounded border px-2 py-0.5 text-xs transition-colors hover:border-gold hover:text-gold ${
+                      j.required
+                        ? "border-gold/50 text-gold"
+                        : "border-edge text-muted"
+                    }`}
+                  >
+                    {"★".repeat(j.tier)} {j.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
       {!selected && (
