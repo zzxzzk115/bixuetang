@@ -13,6 +13,11 @@
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
+    "@codemirror/commands": "^6.10.4",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/state": "^6.7.1",
+    "@codemirror/view": "^6.43.7",
+    "@lezer/highlight": "^1.2.3",
     "@node-rs/argon2": "^2.0.2",
     "better-sqlite3": "^13.0.2",
     "drizzle-orm": "^0.45.2",
