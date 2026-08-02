@@ -1,0 +1,168 @@
+id: linux-kernel
+title: Linux 内核源码分析与内核开发
+code: "Linux Kernel"
+institution: The Linux Kernel Archives / 开源社区
+subject: cs
+level: advanced
+tags: [ 操作系统, Linux, 内核开发, 系统编程 ]
+prerequisites: [ mit-6-s081 ]
+estimatedHours: 150
+description: >
+  面向已掌握操作系统原理的学习者，深入真实的 Linux 内核源码：进程调度、 内存管理、文件系统、设备驱动与中断处理等核心子系统。 课程强调阅读与修改真实工业级代码，配合内核文档与补丁提交流程， 是从「懂原理」走向「能改内核」的关键一步。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1tQ4y1d7mo
+    uploader: 孤雁寒窗（搬运）
+    note: 《Linux 内核精讲》全 72 讲，涵盖内核中断架构、调度、内存与源码实现分析
+  - platform: other
+    url: https://www.kernel.org/doc/html/latest/
+    note: 课程官网（Linux 内核官方文档，含开发流程与子系统手册）
+notes:
+  - title: CS 自学指南 - 操作系统与内核
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 操作体系结构与功能流程
+  - n: 2
+    title: 内核中断体系结构
+  - n: 3
+    title: 内核中断代码实现过程分析
+  - n: 4
+    title: 内核进程初始化与创建
+  - n: 5
+    title: 内核进程调度与进程切换
+  - n: 6
+    title: 操作系统进程销毁
+  - n: 7
+    title: 操作系统的引导和启动程序
+  - n: 8
+    title: 操作系统启动初始化程序 init 讲解 1
+  - n: 9
+    title: 操作系统启动初始化程序 init 讲解 2
+  - n: 10
+    title: 内核实项目概述与内核信号量
+  - n: 11
+    title: 文件系统概念解析
+  - n: 12
+    title: 内核与文件系统衔接流程分析
+  - n: 13
+    title: 嵌入式文件系统解析与制作
+  - n: 14
+    title: 文件系统工作流程分析与构建
+  - n: 15
+    title: Linux文件系统层精讲(VFS)
+  - n: 16
+    title: Video_2016-10-07_195226
+  - n: 17
+    title: 高速缓冲区的管理机制
+  - n: 18
+    title: Linux高速缓冲代码解读与hash表循环双链
+  - n: 19
+    title: 文件系统inode节点
+  - n: 20
+    title: 文件系统的Inode结构分析-2
+  - n: 21
+    title: 文件系统的Inode结构分析-3
+  - n: 22
+    title: Linux文件系统挂接卸载源码与超级块操作源码
+  - n: 23
+    title: 文件系统中文件目录创建 打开 节点创建源码解析
+  - n: 24
+    title: 项目相关的设计
+  - n: 25
+    title: 文件系统的目录操作与文件操作源码
+  - n: 26
+    title: 目录操作和链接操作
+  - n: 27
+    title: VFS虚拟文件系统和很重要的分层设计方法讲解
+  - n: 28
+    title: 程序启动过程讲解与shell启动流程讲解
+  - n: 29
+    title: 项目结构设计
+  - n: 30
+    title: 程序的启动流程与exec.c
+  - n: 31
+    title: Linux文件系统小项目程序启动流程分析
+  - n: 32
+    title: Linux文件系统小项目程序启动流程分析2
+  - n: 33
+    title: 文件系统的小项目 文件执行程序与shell脚本的启动机
+  - n: 34
+    title: Linux内核的内存管理和使用机制 缺页讲 分段和分页
+  - n: 35
+    title: Linux虚拟内存管理概念讲解
+  - n: 36
+    title: Linux虚拟内存管理分页机制与写时拷贝机制精讲
+  - n: 37
+    title: Linux虚拟内存管理分页机制代码讲解
+  - n: 38
+    title: 项目电子书编码显示方法和具体实现方式
+  - n: 39
+    title: Linux的内存
+  - n: 40
+    title: 内存
+  - n: 41
+    title: Linux内核驱动开端与知识介绍
+  - n: 42
+    title: 字符型驱动的框架和设计方法
+  - n: 43
+    title: 字符型设备驱动的深入讲解 并配合驱动设计
+  - n: 44
+    title: 项目1
+  - n: 45
+    title: 2.6内核字符驱动设计
+  - n: 46
+    title: 新旧两版的字符驱动设计
+  - n: 47
+    title: 4.0内核字符驱动结构讲解
+  - n: 48
+    title: 新版字符设备的设计
+  - n: 49
+    title: 4.0内核字符驱动设计
+  - n: 50
+    title: 新版的字符设备驱动 并加入多种操作函数 配合设备结构体使
+  - n: 51
+    title: Linux内核驱动多子设备与并发控制设计概念
+  - n: 52
+    title: Uboot的分析与移植
+  - n: 53
+    title: 自旋锁 读写锁 RCU 互斥体
+  - n: 54
+    title: 互斥事件 信号量和PV操作
+  - n: 55
+    title: 20161117- RCU的链表互斥 互斥体和完成体
+  - n: 56
+    title: 20161118-更新kindlemem驱动加入并发控制机制 并且介绍IO
+  - n: 57
+    title: 20161130-一个中断的系统项目
+  - n: 58
+    title: 20161202-代码的编写
+  - n: 59
+    title: 20161206-内存 ,slab
+  - n: 60
+    title: 2016.12.10-19.43.59
+  - n: 61
+    title: 20161212-Linux高级驱动框架讲述
+  - n: 62
+    title: 20161213-进行Linux驱动的系统框架讲述
+  - n: 63
+    title: 20161216-做platform的讲解与misc设备的讲解
+  - n: 64
+    title: 20161214-子系统的驱动设计
+  - n: 65
+    title: 20161215-按键驱动改为输入子系统 进行通用方法设计
+  - n: 66
+    title: 20161217-驱动设计
+  - n: 67
+    title: 20161220 - 讲完dev 然后我们做LCD的驱动
+  - n: 68
+    title: 20161222-测试LCD
+  - n: 69
+    title: 20161223-触摸屏的Linxu驱动
+  - n: 70
+    title: 20161224-触摸屏的Linxu驱动2
+  - n: 71
+    title: 20161226-第一次课
+  - n: 72
+    title: 20161227- 触摸屏的Linux驱动

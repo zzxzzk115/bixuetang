@@ -1,0 +1,15 @@
+id: math-summit
+title: 数学之巅
+subject: math
+description: 走完微积分与线代之后的进阶远征——严格化、抽象化，直到看见结构本身。
+stages:
+  - title: 第一章 · 把微积分建在磐石上
+    courses: [mit-18-100]
+  - title: 第二章 · 结构的语言
+    courses: [abstract-algebra]
+  - title: 第三章 · 只留形状
+    courses: [mit-18-901]
+  - title: 第四章 · 让数学在机器上跑得准
+    courses: [mit-18-335]
+  - title: 第五章 · 优化与信息
+    courses: [ee364a, ee376a]

@@ -4,19 +4,193 @@ code: "USTC-Compiler"
 institution: 中国科学技术大学
 subject: cs
 level: intermediate
-tags: [编译原理, 中文课程, 词法语法分析, 代码生成]
-prerequisites: [csapp]
+tags: [ 编译原理, 中文课程, 词法语法分析, 代码生成 ]
+prerequisites: [ csapp ]
 estimatedHours: 80
 description: >
-  中国科学技术大学的编译原理课程，用中文系统讲解从词法分析、语法分析到语义分析、
-  中间代码生成与优化的完整编译流程。相比英文课程更易入门，配套实验要求动手实现一个
-  完整的小型编译器，是把数据结构、汇编与体系结构知识串起来的关键一课。
+  中国科学技术大学的编译原理课程，用中文系统讲解从词法分析、语法分析到语义分析、 中间代码生成与优化的完整编译流程。相比英文课程更易入门，配套实验要求动手实现一个 完整的小型编译器，是把数据结构、汇编与体系结构知识串起来的关键一课。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1TJ411Y7So
+    uploader: p3rry（搬运）
+    note: 中科大华保健老师编译原理全 86 讲搬运
   - platform: other
     url: https://ustc-compiler.github.io/
     note: 课程官网（含讲义与实验框架）
-episodeCount: 40
 notes:
   - title: CS 自学指南 · 编译原理
     url: https://csdiy.wiki/
     kind: site
+episodes:
+  - n: 1
+    title: 1 编译器概述
+  - n: 2
+    title: 1.2 编译器结构
+  - n: 3
+    title: 1.3 编译器实例
+  - n: 4
+    title: 2.1 词法分析的任务
+  - n: 5
+    title: 2.2.1 词法分析器的手工构造1
+  - n: 6
+    title: 2.2.2 词法分析器的手工构造2
+  - n: 7
+    title: 2.2.3 词法分析器的手工构造3
+  - n: 8
+    title: 2.3.1 正则表达式1
+  - n: 9
+    title: 2.3.2 正则表达式2
+  - n: 10
+    title: 2.3.3 正则表达式3
+  - n: 11
+    title: 2.3.4 正则表达式4
+  - n: 12
+    title: 2.4.1 有限状态自动机1
+  - n: 13
+    title: 2.4.2 有限状态自动机2
+  - n: 14
+    title: 3.1.1 RE转换成NFA：Thompson算法1
+  - n: 15
+    title: 3.1.2 RE转换成NFA：Thompson算法2
+  - n: 16
+    title: 3.1.3 RE转换成NFA：Thompson算法3
+  - n: 17
+    title: 3.2.1 NFA转换成DFA：子集构造算法1
+  - n: 18
+    title: 3.2.2 NFA转换成DFA：子集构造算法2
+  - n: 19
+    title: 3.2.3 NFA转换成DFA：子集构造算法3
+  - n: 20
+    title: 3.2.4 NFA转换成DFA：子集构造算法4
+  - n: 21
+    title: 3.3.1 DFA的最小化：Hopcroft算法1
+  - n: 22
+    title: 3.3.2 DFA的最小化：Hopcroft算法2
+  - n: 23
+    title: 3.3.3 DFA的最小化：Hopcroft算法3
+  - n: 24
+    title: 3.4.1 从DFA生成分析算法1
+  - n: 25
+    title: 3.4.2 从DFA生成分析算法2
+  - n: 26
+    title: 3.4.3 从DFA生成分析算法3
+  - n: 27
+    title: 4.1.1 语法分析的任务1
+  - n: 28
+    title: 4.1.2 语法分析的任务2
+  - n: 29
+    title: 4.1.3 语法分析的任务3
+  - n: 30
+    title: 4.2.1 上下文无关文法和推导1
+  - n: 31
+    title: 4.2.2 上下文无关文法和推导2
+  - n: 32
+    title: 4.2.3 上下文无关文法和推导3
+  - n: 33
+    title: 4.2.4 上下文无关文法和推导4
+  - n: 34
+    title: 4.2.5 上下文无关文法和推导5
+  - n: 35
+    title: 4.3.1 分析树和二义性文法1
+  - n: 36
+    title: 4.3.2 分析树和二义性文法2
+  - n: 37
+    title: 4.3.3 分析树和二义性文法3
+  - n: 38
+    title: 4.3.4 分析树和二义性文法4
+  - n: 39
+    title: 4.4.1 自顶向下分析1
+  - n: 40
+    title: 4.4.2 自顶向下分析2
+  - n: 41
+    title: 4.4.3 自顶向下分析3
+  - n: 42
+    title: 4.4.4 自顶向下分析4
+  - n: 43
+    title: 4.5.1 递归下降分析算法1
+  - n: 44
+    title: 4.5.2 递归下降分析算法2
+  - n: 45
+    title: 4.5.3 递归下降分析算法3
+  - n: 46
+    title: 4.5.4 递归下降分析算法4
+  - n: 47
+    title: 5.1.1 LL(1)分析算法1
+  - n: 48
+    title: 5.1.2 LL(1)分析算法2
+  - n: 49
+    title: 5.1.3 LL(1)分析算法3
+  - n: 50
+    title: 5.1.4 LL(1)分析算法4
+  - n: 51
+    title: 5.1.5 LL(1)分析算法5
+  - n: 52
+    title: 5.1.6 LL(1)分析算法6
+  - n: 53
+    title: 5.1.7 LL(1)分析算法7
+  - n: 54
+    title: 5.1.8 LL(1)分析算法8
+  - n: 55
+    title: 5.2 LL(1)分析的冲突处理
+  - n: 56
+    title: 5.3.1 LR(0)分析算法1
+  - n: 57
+    title: 5.3.2 LR(0)分析算法2
+  - n: 58
+    title: 5.3.3 LR(0)分析算法3
+  - n: 59
+    title: 5.3.4 LR(0)分析算法4
+  - n: 60
+    title: 5.4 SLR分析算法
+  - n: 61
+    title: 5.5 LR(1)分析算法
+  - n: 62
+    title: 5.6.1 LR(1)分析工具1
+  - n: 63
+    title: 5.6.2 LR(1)分析工具2
+  - n: 64
+    title: 5.6.3 LR(1)分析工具3
+  - n: 65
+    title: 6.1.1 语法制导翻译1
+  - n: 66
+    title: 6.1.2 语法制导翻译2
+  - n: 67
+    title: 6.1.3 语法制导翻译3
+  - n: 68
+    title: 6.2.1 语法制导翻译的实现原理1
+  - n: 69
+    title: 6.2.2 语法制导翻译的实现原理2
+  - n: 70
+    title: 6.3.1 抽象语法树1
+  - n: 71
+    title: 6.3.2 抽象语法树2
+  - n: 72
+    title: 6.3.3 抽象语法树3
+  - n: 73
+    title: 6.3.4 抽象语法树4
+  - n: 74
+    title: 6.4.1 抽象语法树的自动生成1
+  - n: 75
+    title: 6.4.2 抽象语法树的自动生成2
+  - n: 76
+    title: 7.1.1 语义分析的任务1
+  - n: 77
+    title: 7.1.2 语义分析的任务2
+  - n: 78
+    title: 7.1.3 语义分析的任务3
+  - n: 79
+    title: 7.2.1 语义规则及实现1
+  - n: 80
+    title: 7.2.2 语义规则及实现2
+  - n: 81
+    title: 7.2.3 语义规则及实现3
+  - n: 82
+    title: 7.2.4 语义规则及实现4
+  - n: 83
+    title: 7.3.1 符号表1
+  - n: 84
+    title: 7.3.2 符号表2
+  - n: 85
+    title: 7.3.3 符号表3
+  - n: 86
+    title: 7.4 语义分析中的其它问题

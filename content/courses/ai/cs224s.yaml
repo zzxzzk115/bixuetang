@@ -1,0 +1,90 @@
+id: cs224s
+title: 斯坦福 CS224S 口语语言处理与语音识别
+code: "CS224S"
+institution: 斯坦福大学
+subject: ai
+level: advanced
+tags: [ 语音识别, 语音合成, 对话系统, 深度学习 ]
+prerequisites: [ cs224n ]
+estimatedHours: 60
+description: >
+  斯坦福大学面向语音方向的进阶课程，系统讲解自动语音识别（ASR）、语音合成（TTS） 与口语对话系统的建模方法，从声学特征、HMM 时代一路讲到端到端神经网络与大规模 自监督语音表征。课程与 CS224N 互补，把 NLP 的能力延伸到真实的声音信号上， 适合想做语音助手、语音大模型或多模态交互的人。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1QE411p7z3
+    uploader: 爱可可-爱生活（搬运）
+    note: 李宏毅《深度学习人类语言处理》国语课程(2020)，全 33 讲，中文对应课程，覆盖语音识别、语音合成与语音表征
+  - platform: other
+    url: https://web.stanford.edu/class/cs224s/
+    note: 课程官网（含 syllabus、讲义与项目要求）
+notes:
+  - title: CSDIY 自学指南
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Deep Learning for Human Language Processing (Course Overview)
+  - n: 2
+    title: Speech Recognition (Part 1)
+  - n: 3
+    title: Speech Recognition - Listen, Attend, Spell (part 2)
+  - n: 4
+    title: Speech Recognition - CTC, RNN-T and more (part 3)
+  - n: 5
+    title: Speech Recognition (Option) - HMM
+  - n: 6
+    title: Speech Recognition (option) - Alignment of HMM, CTC and RNN-T
+  - n: 7
+    title: Speech Recognition (option) - RNN-T Training
+  - n: 8
+    title: Speech Recognition- Language Modeling
+  - n: 9
+    title: Voice Conversion (1/2)
+  - n: 10
+    title: Voice Conversion (2/2)
+  - n: 11
+    title: Speech Separation (1/2) - Deep Clustering, PIT
+  - n: 12
+    title: Speech Separation (2/2) - TasNet
+  - n: 13
+    title: Speech Synthesis（1/2）- Tacotron
+  - n: 14
+    title: Speech Synthesis (2/2) - More than Tacotron
+  - n: 15
+    title: Speaker Verification
+  - n: 16
+    title: Vocoder (由助教許博竣同學講授)
+  - n: 17
+    title: Introduction of NLP Tasks
+  - n: 18
+    title: BERT and its family - Introduction and Fine-tune
+  - n: 19
+    title: BERT and its family - ELMo, BERT, GPT, XLNet, MASS, BART, UniLM, ELECTRA, and mo
+  - n: 20
+    title: Non-Autoregressive Sequence Generation (由助教莊永松同學講授)
+  - n: 21
+    title: Text Style Transfer and Unsupervised Summarization-Translation-
+  - n: 22
+    title: Deep Learning for Coreference Resolution
+  - n: 23
+    title: Deep Learning for Constituency Parsing
+  - n: 24
+    title: Multilingual BERT
+  - n: 25
+    title: Deep Learning for Dependency Parsing
+  - n: 26
+    title: Deep Learning for Question Answering (1-2)
+  - n: 27
+    title: Deep Learning for Question Answering (2-2)
+  - n: 28
+    title: Audio BERT (1-2) (由助教劉廷緯同學講授)
+  - n: 29
+    title: Audio BERT (2-2) (由助教紀伯翰同學和助教楊書文同學講授)
+  - n: 30
+    title: 來自獵人暗黑大陸的模型 GPT3
+  - n: 31
+    title: Controllable Chatbot
+  - n: 32
+    title: Controllable Chatbot(重传补缺)
+  - n: 33
+    title: Dialogue State Tracking (as Question Answering)

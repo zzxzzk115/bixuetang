@@ -7,6 +7,7 @@ import type { TrapTable } from "./cpu/machine";
 import { compileClass } from "./jack/codegen";
 import { parseJack } from "./jack/parser";
 import { tokenize } from "./jack/tokenizer";
+import { JACK_OS_FILES } from "./os/jack-os";
 import { NATIVE_OS } from "./os/native";
 import { parseVm } from "./vm/parser";
 import { translate, vmToText, type VmUnit } from "./vm/translator";
@@ -158,10 +159,15 @@ function buildVm(files: BuildFile[]): BuildResult {
   return linkUnits(units, { vm: vmText });
 }
 
-function buildJack(files: BuildFile[]): BuildResult {
+function buildJack(files: BuildFile[], pureJackOs: boolean): BuildResult {
   const units: VmUnit[] = [];
   const errors: BuildError[] = [];
-  for (const f of files.filter((f) => f.name.endsWith(".jack"))) {
+  // 纯血模式：把 Jack 写的 OS 一起编译进去。这样 OS 函数成为「已定义」，
+  // linkUnits 不会为它们注册 trap，全部真跑在模拟 CPU 上（含软件乘除）。
+  const sources = pureJackOs
+    ? [...files.filter((f) => f.name.endsWith(".jack")), ...JACK_OS_FILES]
+    : files.filter((f) => f.name.endsWith(".jack"));
+  for (const f of sources) {
     const tok = tokenize(f.source, f.name);
     if (!tok.ok) {
       errors.push(...tok.errors);
@@ -183,12 +189,17 @@ function buildJack(files: BuildFile[]): BuildResult {
   return linkUnits(units, { vm: vmToText(units) });
 }
 
-export function build(files: BuildFile[]): BuildResult {
+export interface BuildOptions {
+  /** 纯血模式：用 Jack 写的 OS 替代 TS trap（真实但慢） */
+  pureJackOs?: boolean;
+}
+
+export function build(files: BuildFile[], opts: BuildOptions = {}): BuildResult {
   const kind = detectKind(files);
   if (kind === "asm") {
     const file = files.find((f) => f.name.endsWith(".asm")) ?? files[0];
     return buildAsm(file);
   }
   if (kind === "vm") return buildVm(files);
-  return buildJack(files);
+  return buildJack(files, opts.pureJackOs === true);
 }

@@ -1,0 +1,74 @@
+id: stanford-cs246
+title: 大数据挖掘
+code: "CS246"
+institution: Stanford University
+subject: ai
+level: advanced
+instructor: Jure Leskovec
+tags: [ 数据挖掘, 大数据, MapReduce, 推荐系统 ]
+prerequisites: [ andrew-ng-ml ]
+estimatedHours: 90
+description: >
+  斯坦福 CS246 由图挖掘权威 Jure Leskovec 主讲，聚焦「数据大到放不进内存」时的算法设计： MapReduce、局部敏感哈希、频繁项集、流式算法、PageRank、推荐系统与大规模聚类。 配套教材《Mining of Massive Datasets》免费开放，是把机器学习推向工业规模的必修课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1SC4y187x1
+    uploader: 鬼谷良师（搬运）
+    note: 2019 全 23 讲完结中英字幕搬运
+  - platform: other
+    url: https://web.stanford.edu/class/cs246/
+    note: 课程官网（含全部讲义与作业）
+  - platform: other
+    url: http://www.mmds.org/
+    note: 配套教材 Mining of Massive Datasets 免费电子版
+notes:
+  - title: CS 自学指南 · 数据挖掘
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: lec1 Introduction; MapReduce and Spark
+  - n: 2
+    title: lec2 Frequent itemsets and Association rules
+  - n: 3
+    title: lec3 Locality-Sensitive Hashing
+  - n: 4
+    title: lec4 Theory of Locality-Sensitive Hashing
+  - n: 5
+    title: lec5 Clustering
+  - n: 6
+    title: lec6 Dimensionality Reduction- SVD and CUR
+  - n: 7
+    title: lec7 Recommender Systems I
+  - n: 8
+    title: lec8 Recommender Systems II
+  - n: 9
+    title: lec9 PageRank
+  - n: 10
+    title: lec10 Link Spam and Introduction to Social Networks
+  - n: 11
+    title: lec11 Community Detection in Graphs
+  - n: 12
+    title: lec12 Graph Representation Learning
+  - n: 13
+    title: lec13 Large-Scale Machine Learning I
+  - n: 14
+    title: lec14 Large-Scale Machine Learning II
+  - n: 15
+    title: lec15 Mining Data Streams I
+  - n: 16
+    title: lec16 Mining Data Streams II
+  - n: 17
+    title: lec17 Computational Advertising
+  - n: 18
+    title: lec18 Learning through Experimentation
+  - n: 19
+    title: lec19 Optimizing Submodular Functions
+  - n: 20
+    title: lec20 Final Review
+  - n: 21
+    title: Linear Algebra Review
+  - n: 22
+    title: Proof Techniques + Probability Review
+  - n: 23
+    title: Spark Tutorial

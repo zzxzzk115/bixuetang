@@ -117,6 +117,14 @@ export function step(m: HackMachine, traps?: TrapTable): void {
 }
 
 const SPIN_WINDOW = 64;
+/**
+ * 纯血模式停机约定：Jack 的 Sys.halt 往 R15 写这个魔数再自旋。
+ * 标准 VM 翻译只占用 R13/R14，R15 空闲，因此不会误触发。
+ */
+export const HALT_MAGIC = 32123;
+const HALT_FLAG_ADDR = 15;
+/** 每隔多少步检查一次停机标志（逐步检查会拖慢热循环） */
+const HALT_CHECK_INTERVAL = 1024;
 
 /**
  * 批量执行。返回实际步数；自动停机检测：
@@ -136,7 +144,7 @@ export function run(
     step(m, traps);
     steps++;
     if (m.pc === pcBefore) {
-      // 常见收尾自旋 (END) @END 0;JMP 是两条指令循环；单条自跳立即判停
+      // 汇编常见收尾 (END) @END 0;JMP 是单条自跳，直接判停
       m.halted = true;
       break;
     }
@@ -150,6 +158,13 @@ export function run(
       samePcCount = 0;
     }
     lastPc = pcBefore;
+
+    // 纯血模式：Jack 的 Sys.halt 写完魔数后自旋，靠这个标志识别程序结束
+    if ((steps & (HALT_CHECK_INTERVAL - 1)) === 0 && m.ram[HALT_FLAG_ADDR] === HALT_MAGIC) {
+      m.halted = true;
+      break;
+    }
   }
+  if (m.ram[HALT_FLAG_ADDR] === HALT_MAGIC) m.halted = true;
   return { steps };
 }

@@ -4,19 +4,67 @@ code: "6.045"
 institution: MIT
 subject: cs
 level: advanced
-tags: [计算理论, 自动机, 可计算性, 复杂性]
-prerequisites: [mit-18-404]
+tags: [ 计算理论, 自动机, 可计算性, 复杂性 ]
+prerequisites: [ mit-18-404 ]
 estimatedHours: 100
 description: >
-  MIT 计算理论进阶课程，从有限自动机与正则语言出发，走过图灵机与不可判定性，
-  最终抵达 P/NP、空间复杂性、随机化与交互式证明等现代复杂性理论核心话题。
-  课程由 Sipser 教材体系支撑，是理解「什么问题可算、什么问题算得快」的必修课。
+  MIT 计算理论进阶课程，从有限自动机与正则语言出发，走过图灵机与不可判定性， 最终抵达 P/NP、空间复杂性、随机化与交互式证明等现代复杂性理论核心话题。 课程由 Sipser 教材体系支撑，是理解「什么问题可算、什么问题算得快」的必修课。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV18o4y1R748
+    uploader: 孔乙己2049（搬运）
+    note: MIT 6.045/18.400 2015 春季全 23 讲完整搬运
   - platform: other
     url: https://ocw.mit.edu/courses/6-045j-automata-computability-and-complexity-spring-2011/
     note: MIT OpenCourseWare 课程主页（讲义、作业与考试）
-episodeCount: 24
 notes:
   - title: CS 自学指南 · 计算理论
     url: https://csdiy.wiki/
     kind: site
+episodes:
+  - n: 1
+    title: feb03
+  - n: 2
+    title: feb05
+  - n: 3
+    title: feb12
+  - n: 4
+    title: feb19
+  - n: 5
+    title: 05 feb24
+  - n: 6
+    title: feb26
+  - n: 7
+    title: mar03
+  - n: 8
+    title: mar05
+  - n: 9
+    title: mar10
+  - n: 10
+    title: mar12
+  - n: 11
+    title: mar17
+  - n: 12
+    title: mar19
+  - n: 13
+    title: mar31
+  - n: 14
+    title: apr07
+  - n: 15
+    title: apr09
+  - n: 16
+    title: apr14
+  - n: 17
+    title: apr16
+  - n: 18
+    title: apr23
+  - n: 19
+    title: apr28
+  - n: 20
+    title: 20 apr30
+  - n: 21
+    title: 21 may05
+  - n: 22
+    title: may07
+  - n: 23
+    title: 23 may14

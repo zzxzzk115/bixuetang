@@ -55,7 +55,7 @@ nodes:
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [mit-6-031]
+    courses: [mit-6-031, software-testing]
     rule: any
     description: 可靠、易改、易读——把代码写成工程。
   - id: prog-languages
@@ -125,7 +125,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [computer-systems]
-    courses: [nju-os, mit-6-s081, ucb-cs162]
+    courses: [nju-os, mit-6-s081, ucb-cs162, linux-kernel]
     rule: any
     description: 三大浪漫之二：状态机视角驾驭并发与虚拟化。
   - id: networks
@@ -143,7 +143,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [computer-systems]
-    courses: [cmu-15-445, cs186]
+    courses: [cmu-15-445, cs186, cmu-15-721]
     rule: any
     description: 存储引擎、索引与事务的内部世界。
   - id: compilers
@@ -173,6 +173,42 @@ nodes:
     courses: [ucb-cs161, stanford-crypto, mit-6-858]
     rule: any
     description: 攻防视角下的系统与密码学。
+  - id: chip-design
+    title: 硅之刻印
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [computer-systems]
+    courses: [ysyx]
+    rule: any
+    description: 从 RTL 到流片——把自己写的处理器真正刻进硅片。
+  - id: embedded
+    title: 嵌入之匠
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [computer-systems]
+    courses: [embedded-systems]
+    rule: any
+    description: 中断、外设与实时约束——让代码驱动物理世界。
+  - id: robotics
+    title: 机械之臂
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [linear-algebra]
+    courses: [cs223a]
+    rule: any
+    description: 运动学、动力学与轨迹规划——赋予机械以动作。
+  - id: cloud-native
+    title: 云之疆域
+    subject: cs
+    tier: 4
+    cost: 3
+    requires: [distributed-systems]
+    courses: [cloud-native]
+    rule: any
+    description: 容器、编排与弹性伸缩——把分布式系统交付到生产。
 
   # ---------- 数学 ----------
   - id: calculus
@@ -180,7 +216,7 @@ nodes:
     subject: math
     tier: 1
     requires: []
-    courses: [mit-18-01, mit-18-02]
+    courses: [mit-18-01, mit-18-02, essence-of-calculus]
     rule: any
     description: 极限、导数与积分——变化的语言。
   - id: discrete-math
@@ -241,6 +277,41 @@ nodes:
     courses: [mit-18-03]
     rule: any
     description: 用方程刻画万物如何随时间演化。
+  - id: abstract-algebra
+    title: 代数之构
+    subject: math
+    tier: 2
+    requires: [discrete-math]
+    courses: [abstract-algebra]
+    rule: any
+    description: 群、环、域——从对称性中看见结构本身。
+  - id: information-theory
+    title: 信息之熵
+    subject: math
+    tier: 3
+    cost: 2
+    requires: [probability]
+    courses: [ee376a]
+    rule: any
+    description: 熵、信道容量与压缩极限——为「信息」定出斤两。
+  - id: mathematical-finance
+    title: 金数之算
+    subject: math
+    tier: 3
+    cost: 2
+    requires: [probability]
+    courses: [mit-18-s096]
+    rule: any
+    description: 随机过程与定价模型——把不确定性折算成价格。
+  - id: topology
+    title: 拓扑之形
+    subject: math
+    tier: 4
+    cost: 3
+    requires: [real-analysis]
+    courses: [mit-18-901]
+    rule: any
+    description: 抛开度量只留形状——通往现代几何的门槛。
 
   # ---------- 物理 ----------
   - id: classical-mechanics
@@ -277,6 +348,33 @@ nodes:
     courses: [mit-8-04, mit-8-05]
     rule: any
     description: 波函数、叠加与不确定性——微观世界的语言。
+  - id: statistical-mechanics
+    title: 统计之熵
+    subject: physics
+    tier: 3
+    cost: 2
+    requires: [classical-mechanics]
+    courses: [mit-8-044]
+    rule: any
+    description: 从分子的混沌中涌现出温度与熵的宏观秩序。
+  - id: general-relativity
+    title: 时空之曲
+    subject: physics
+    tier: 3
+    cost: 2
+    requires: [electromagnetism]
+    courses: [mit-8-962]
+    rule: any
+    description: 引力不是力，而是时空的形状——爱因斯坦的世界观。
+  - id: quantum-computing
+    title: 量子之算
+    subject: physics
+    tier: 4
+    cost: 3
+    requires: [quantum-physics]
+    courses: [mit-8-370]
+    rule: any
+    description: 叠加与纠缠化作算力——Shor 与 Grover 的疆域。
 
   # ---------- AI ----------
   - id: ml-basics
@@ -284,7 +382,7 @@ nodes:
     subject: ai
     tier: 1
     requires: [linear-intuition]
-    courses: [andrew-ng-ml, cs188, mit-6-034, essence-of-neural-networks]
+    courses: [andrew-ng-ml, cs188, mit-6-034, essence-of-neural-networks, mit-6-390]
     rule: any
     description: 监督学习与经典 AI 的基本功。
   - id: data-science
@@ -292,7 +390,7 @@ nodes:
     subject: ai
     tier: 2
     requires: [ml-basics]
-    courses: [berkeley-data100]
+    courses: [berkeley-data100, stanford-cs246]
     rule: any
     description: 采集、清洗、可视化与推断——数据说话的完整链路。
   - id: optimization
@@ -326,7 +424,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [deep-learning]
-    courses: [hung-yi-lee-ml]
+    courses: [hung-yi-lee-ml, diffusion-models]
     rule: any
     description: Transformer 与 Diffusion 的炼成术。
   - id: computer-vision
@@ -365,3 +463,47 @@ nodes:
     courses: [cs336, mit-6-5940]
     rule: any
     description: 从零训练与高效部署——大模型时代的核心手艺。
+  - id: neural-computation
+    title: 神经之谜
+    subject: ai
+    tier: 2
+    requires: [ml-basics]
+    courses: [mit-9-40]
+    rule: any
+    description: 从真实神经元的电活动反推计算原理——人工网络的源头。
+  - id: graph-learning
+    title: 图之网络
+    subject: ai
+    tier: 3
+    cost: 2
+    requires: [deep-learning]
+    courses: [cs224w]
+    rule: any
+    description: 在关系而非样本上学习——社交网络与分子皆是图。
+  - id: speech-processing
+    title: 声之解析
+    subject: ai
+    tier: 3
+    cost: 2
+    requires: [deep-learning]
+    courses: [cs224s]
+    rule: any
+    description: 从声波到文字再到对话——让机器听懂人话。
+  - id: computational-biology
+    title: 生命之码
+    subject: ai
+    tier: 3
+    cost: 2
+    requires: [deep-learning]
+    courses: [mit-6-874]
+    rule: any
+    description: 用深度学习解读基因组与蛋白质——生命本身就是一段代码。
+  - id: ai-agents
+    title: 智械之约
+    subject: ai
+    tier: 4
+    cost: 3
+    requires: [nlp]
+    courses: [ai-agents]
+    rule: any
+    description: 让大模型使用工具、规划与协作——从回答者到行动者。

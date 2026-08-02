@@ -1,0 +1,100 @@
+id: abstract-algebra
+title: 抽象代数
+code: "E-222"
+institution: Harvard University
+subject: math
+level: advanced
+tags: [ 抽象代数, 群论, 环与域, 线性代数进阶 ]
+prerequisites: [ mit-18-06 ]
+estimatedHours: 100
+description: >
+  哈佛大学 Benedict Gross 教授主讲的抽象代数课程，以 Artin《Algebra》为教材， 从矩阵群与对称性入手讲解群、环、域及其表示论初步。Gross 的讲法极重几何直觉， 把抽象结构还原成可以"看见"的对称变换，是理解近世代数最经典的公开课之一。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Sx421k7rt
+    uploader: GPT中英字幕课程资源（搬运）
+    note: 全 38 讲中英字幕搬运，Harvard MATH E-222 完整版
+  - platform: other
+    url: https://pll.harvard.edu/course/abstract-algebra
+    note: 哈佛官方公开课页面（含全套录像与讲义）
+notes:
+  - title: CS自学指南 - 数学基础
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: "[01]math e222 L01 20030915.zh_en"
+  - n: 2
+    title: "[02]math e222 L02 20030917.zh_en"
+  - n: 3
+    title: "[03]math e222 L03 20030919.zh_en"
+  - n: 4
+    title: "[04]math e222 L04 20030922.zh_en"
+  - n: 5
+    title: "[05]math e222 L05 20030924.zh_en"
+  - n: 6
+    title: "[06]math e222 L06 20030926.zh_en"
+  - n: 7
+    title: "[07]math e222 L07 20030929.zh_en"
+  - n: 8
+    title: "[08]math e222 L08 20031001.zh_en"
+  - n: 9
+    title: "[09]math e222 L09 20031003.zh_en"
+  - n: 10
+    title: "[10]math e222 L10 20031006.zh_en"
+  - n: 11
+    title: "[11]math e222 L11 20031008.zh_en"
+  - n: 12
+    title: "[12]math e222 L12 20031010.zh_en"
+  - n: 13
+    title: "[13]math e222 L13 20031017.zh_en"
+  - n: 14
+    title: "[14]math e222 L14 20031020.zh_en"
+  - n: 15
+    title: "[15]math e222 L15 20031022.zh_en"
+  - n: 16
+    title: "[16]math e222 L16 20031024.zh_en"
+  - n: 17
+    title: "[17]math e222 L17 20031027.zh_en"
+  - n: 18
+    title: "[18]math e222 L18 20031029.zh_en"
+  - n: 19
+    title: "[19]math e222 L19 20031031.zh_en"
+  - n: 20
+    title: "[20]math e222 L20 20031103.zh_en"
+  - n: 21
+    title: "[21]math e222 L21 20031105.zh_en"
+  - n: 22
+    title: "[22]math e222 L22 20031107.zh_en"
+  - n: 23
+    title: "[23]math e222 L23 20031110.zh_en"
+  - n: 24
+    title: "[24]math e222 L24 20031112.zh_en"
+  - n: 25
+    title: "[25]math e222 L25 20031114.zh_en"
+  - n: 26
+    title: "[26]math e222 L26 20031117.zh_en"
+  - n: 27
+    title: "[27]math e222 L27 20031119.zh_en"
+  - n: 28
+    title: "[28]math e222 L28 20031121.zh_en"
+  - n: 29
+    title: "[29]math e222 L29 20031126.zh_en"
+  - n: 30
+    title: "[30]math e222 L30 20031201.zh_en"
+  - n: 31
+    title: "[31]math e222 L31 20031203.zh_en"
+  - n: 32
+    title: "[32]math e222 L32 20031205.zh_en"
+  - n: 33
+    title: "[33]math e222 L33 20031208.zh_en"
+  - n: 34
+    title: "[34]math e222 L34 20031210.zh_en"
+  - n: 35
+    title: "[35]math e222 L35 20031212.zh_en"
+  - n: 36
+    title: "[36]math e222 L36 20031215.zh_en"
+  - n: 37
+    title: "[37]math e222 Review1 20040114.zh_en"
+  - n: 38
+    title: "[38]math e222 Review2 20040116.zh_en"

@@ -1,0 +1,36 @@
+id: diffusion-models
+title: 扩散模型原理与实践
+code: "Diffusion Models"
+institution: 台湾大学（李宏毅）
+subject: ai
+level: advanced
+tags: [ 扩散模型, 生成模型, 图像生成, 深度学习 ]
+prerequisites: [ d2l ]
+estimatedHours: 30
+description: >
+  从零讲清扩散模型（DDPM / DDIM / Stable Diffusion）的数学原理与工程实现： 前向加噪与反向去噪过程、变分下界推导、条件生成与 classifier-free guidance， 以及文本到图像模型的整体架构。李宏毅老师的中文讲授把复杂推导拆得非常直观， 是中文世界入门生成式视觉模型的首选材料。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1wh4y1k7Te
+    uploader: 李宏毅（搬运）
+    note: Diffusion Model 原理剖析全 6 讲，中文讲授
+  - platform: other
+    url: https://speech.ee.ntu.edu.tw/~hylee/ml/2023-spring.php
+    note: 课程官网（生成式 AI / 扩散模型专题讲义与投影片）
+notes:
+  - title: CSDIY 自学指南
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Diffusion Model 概念讲解 (1 2)
+  - n: 2
+    title: Diffusion Model 概念讲解 (2 2)-480P 清晰-AVC
+  - n: 3
+    title: Diffusion Model 原理剖析 (1 4)
+  - n: 4
+    title: Diffusion Model 原理剖析 (2 4)
+  - n: 5
+    title: Diffusion Model 原理剖析 (3 4)
+  - n: 6
+    title: Diffusion Model 原理剖析 (4 4)

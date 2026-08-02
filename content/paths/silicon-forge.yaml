@@ -1,0 +1,15 @@
+id: silicon-forge
+title: 硅之远征
+subject: cs
+description: 从一颗与非门出发，一路造到自己流片的 RISC-V 处理器——软硬件边界上的终极冒险。
+stages:
+  - title: 第一章 · 从与非门起步
+    courses: [nand2tetris]
+  - title: 第二章 · 数字电路与 Verilog
+    courses: [digital-design]
+  - title: 第三章 · 体系结构进阶
+    courses: [cmu-18-447, mit-6-004]
+  - title: 第四章 · 一生一芯：真正流片
+    courses: [ysyx]
+  - title: 第五章 · 让硅跑起系统
+    courses: [nju-os, embedded-systems]

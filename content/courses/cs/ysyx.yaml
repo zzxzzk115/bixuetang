@@ -1,0 +1,112 @@
+id: ysyx
+title: 一生一芯（从零设计 RISC-V 处理器）
+code: "YSYX"
+institution: 中国科学院大学 / 中科院计算所
+subject: cs
+level: advanced
+tags: [ 处理器设计, RISC-V, 体系结构, 芯片 ]
+prerequisites: [ nju-ics ]
+estimatedHours: 400
+description: >
+  中国科学院「一生一芯」计划的公开课程，带你从零开始设计一款可运行 Linux 的 RISC-V 处理器，并完整走通从 RTL 设计、验证、SoC 集成到流片的全流程。 课程以自学讲义 + 实验为主，强调「自己动手、自己调试」的工程能力， 是国内少有的把体系结构知识真正落到硅片上的实战型课程。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV12e4y1Y76i
+    uploader: 一生一芯（官方）
+    note: 第五期完整合集 28 讲，中文原声
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1WvHazNEsk
+    uploader: 一生一芯（官方）
+    note: v24.07 新版合集 16 讲
+  - platform: other
+    url: https://ysyx.oscc.cc/
+    note: 课程官网（讲义、实验环境与预学习材料）
+notes:
+  - title: CS 自学指南 - 一生一芯
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: “一生一芯”概述
+    bvid: BV12e4y1Y76i
+  - n: 2
+    title: Linux入门教程
+    bvid: BV1Ud4y137kN
+  - n: 3
+    title: 计算机系统的状态机模型
+    bvid: BV1ag4112755
+  - n: 4
+    title: 从C语言到二进制程序
+    bvid: BV1Ye4y1b76T
+  - n: 5
+    title: 程序的执行和模拟器
+    bvid: BV1MT411P7As
+  - n: 6
+    title: NEMU代码导读
+    bvid: BV1uB4y1777m
+  - n: 7
+    title: RISC-V指令集
+    bvid: BV1Je411L7PD
+  - n: 8
+    title: 程序的机器级表示
+    bvid: BV1S8411e7Vi
+  - n: 9
+    title: RISC-V单周期处理器设计
+    bvid: BV1ue411G71A
+  - n: 10
+    title: Abstract Machine裸机运行时环境
+    bvid: BV1we4y117H8
+  - n: 11
+    title: ELF文件和链接
+    bvid: BV1XP411c7bL
+  - n: 12
+    title: 工具和基础设施
+    bvid: BV1Zd4y1b77p
+  - n: 13
+    title: 设备和输入输出
+    bvid: BV1jg411p7vX
+  - n: 14
+    title: 调试技巧选讲
+    bvid: BV1pG4y1R7ay
+  - n: 15
+    title: 异常处理
+    bvid: BV1Le411P7t3
+  - n: 16
+    title: 计算机系统软件栈
+    bvid: BV1oe4y1K7Ge
+  - n: 17
+    title: 总线选讲
+    bvid: BV1wP4y1q7fF
+  - n: 18
+    title: SoC计算机系统
+    bvid: BV1ZK41117MB
+  - n: 19
+    title: 性能和缓存
+    bvid: BV1FY41127tA
+  - n: 20
+    title: 功能单元设计
+    bvid: BV1ET411m7cZ
+  - n: 21
+    title: 流水线处理器
+    bvid: BV1zM411t7Q3
+  - n: 22
+    title: 香山处理器前端(邀请报告)
+    bvid: BV17e4y1c719
+  - n: 23
+    title: 香山乱序流水(邀请报告)
+    bvid: BV13b411X7i4
+  - n: 24
+    title: 香山乱序访存(邀请报告)
+    bvid: BV1hs4y1V7gV
+  - n: 25
+    title: 香山缓存(邀请报告)
+    bvid: BV1Q24y147AX
+  - n: 26
+    title: 高性能处理器的性能迭代加速(邀请报告)
+    bvid: BV1rN411K7jn
+  - n: 27
+    title: 香山处理器敏捷开发方法与工具(邀请报告)
+    bvid: BV1Mh411g7Vf
+  - n: 28
+    title: 课程总结
+    bvid: BV1no4y1w7hr

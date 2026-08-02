@@ -1,0 +1,15 @@
+id: web-builder
+title: 全栈建造者
+subject: cs
+description: 从第一个 HTML 标签到能上线、能测试、能扛住流量的完整产品。
+stages:
+  - title: 第一章 · Web 编程入门
+    courses: [cs50w]
+  - title: 第二章 · 现代全栈实战
+    courses: [fullstackopen]
+  - title: 第三章 · 前端工程化
+    courses: [cs142]
+  - title: 第四章 · 写得住的代码
+    courses: [mit-6-031, software-testing]
+  - title: 第五章 · 上线之后
+    courses: [cloud-native]

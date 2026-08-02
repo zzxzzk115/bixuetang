@@ -4,19 +4,73 @@ code: "CS168"
 institution: UC Berkeley
 subject: cs
 level: intermediate
-tags: [计算机网络, 互联网协议, 路由, TCP/IP]
-prerequisites: [cs61b]
+tags: [ 计算机网络, 互联网协议, 路由, TCP/IP ]
+prerequisites: [ cs61b ]
 estimatedHours: 100
 description: >
-  伯克利的计算机网络课程，由互联网架构的亲历者讲授，自顶向下梳理互联网的设计哲学：
-  分层与端到端原则、路由（距离向量/链路状态/BGP）、可靠传输与拥塞控制、DNS、CDN 与网络安全。
-  相比多数教材式网络课，它更强调「为什么互联网是今天这个样子」，配套编程作业会让你亲手实现路由算法与可靠传输协议。
+  伯克利的计算机网络课程，由互联网架构的亲历者讲授，自顶向下梳理互联网的设计哲学： 分层与端到端原则、路由（距离向量/链路状态/BGP）、可靠传输与拥塞控制、DNS、CDN 与网络安全。 相比多数教材式网络课，它更强调「为什么互联网是今天这个样子」，配套编程作业会让你亲手实现路由算法与可靠传输协议。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1ZJJjzGE5v
+    uploader: Mindofuture（搬运）
+    note: CS168 Spring 2025 全 24 讲搬运
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1TktpzcEjk
+    uploader: 常青藤中英字幕课程（搬运）
+    note: CS168 2025 中英双语字幕版，含讨论课共 59P
   - platform: other
     url: https://cs168.io/
     note: 课程官网
-episodeCount: 26
 notes:
   - title: CS 自学指南 - UCB CS168
     url: https://csdiy.wiki/
     kind: site
+episodes:
+  - n: 1
+    title: P01 Lecture 1 - Intro 1 - Layers of the Internet
+  - n: 2
+    title: P02 Lecture 2 - Intro 2 - Design Principles
+  - n: 3
+    title: P03 Lecture 3 - Links
+  - n: 4
+    title: P04 Lecture 4 - Routing Principles
+  - n: 5
+    title: P05 Lecture 5. Routing 2 - Distance-Vector
+  - n: 6
+    title: P06 Lecture 6 - Distance-Vector Protocols (continued)
+  - n: 7
+    title: P07 Lecture 7 - Routing 3 - Link-State, Addressing
+  - n: 8
+    title: P08 Lecture 8 - Routing 4 - Routers
+  - n: 9
+    title: P09 Lecture 9 - Routing 5 - BGP I
+  - n: 10
+    title: Lecture 12 - Transport 2 - TCP II
+  - n: 11
+    title: Lecture 13 - Transport 3 - Congestion Control I
+  - n: 12
+    title: Lecture 14 - Transport 4 - Congestion Control II
+  - n: 13
+    title: Lecture 15 - Transport 5 - Congestion Control II (continued)
+  - n: 14
+    title: Lecture 16 - Applications 1 - DNS
+  - n: 15
+    title: Lecture 18 - End-to-End 1 - Ethernet, STP
+  - n: 16
+    title: Lecture 19 - End-to-End 2 - ARP, DHCP, NAT, TLS
+  - n: 17
+    title: Lecture 20 - Datacenter Topology
+  - n: 18
+    title: Lecture 21 - Datacenters 1 - Topology
+  - n: 19
+    title: Lecture 22 - Datacenters 2 - Routing
+  - n: 20
+    title: Lecture 23. Datacenters 3-4 - SDN and Host Networking
+  - n: 21
+    title: Lecture 25 - Beyond Client-Server 1 - Multicast
+  - n: 22
+    title: Lecture 25 - Multicast (continued) and Collectives
+  - n: 23
+    title: Lecture 26 - Collectives (continued) and Wireless Links
+  - n: 24
+    title: Lecture 27 - Cellular

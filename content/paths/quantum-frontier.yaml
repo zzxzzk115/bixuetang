@@ -1,0 +1,15 @@
+id: quantum-frontier
+title: 量子疆界
+subject: physics
+description: 从量子力学的第一课推进到量子信息与量子算法——物理与计算交汇的最前线。
+stages:
+  - title: 第一章 · 波函数入门
+    courses: [mit-8-04]
+  - title: 第二章 · 量子力学进阶
+    courses: [mit-8-05]
+  - title: 第三章 · 数学装备
+    courses: [mit-18-06, mit-18-065]
+  - title: 第四章 · 量子计算
+    courses: [mit-8-370]
+  - title: 第五章 · 信息的极限
+    courses: [ee376a]

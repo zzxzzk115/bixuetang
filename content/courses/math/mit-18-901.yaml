@@ -1,0 +1,68 @@
+id: mit-18-901
+title: 拓扑学导论
+code: "18.901"
+institution: MIT
+subject: math
+level: advanced
+tags: [ 拓扑学, 点集拓扑, 连通性与紧性, 数学分析进阶 ]
+prerequisites: [ mit-18-100 ]
+estimatedHours: 120
+description: >
+  MIT 数学系的点集拓扑入门课，教材为 Munkres《Topology》。内容涵盖拓扑空间与连续映射、 连通性、紧性、分离公理、度量化定理以及基本群初步。它把实分析里"开集、极限、连续"的直觉 提升为一般框架，是通往微分几何、代数拓扑与现代几何的必经之路。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV11s411w7C5
+    uploader: 长明-R（搬运）
+    note: 台大齐震宇《General Topology》中文授课全 22 讲，点集拓扑内容与本课高度对应
+  - platform: other
+    url: https://ocw.mit.edu/courses/18-901-introduction-to-topology-fall-2004/
+    note: MIT OCW 官网，含讲义、习题与参考阅读（无课堂录像）
+notes:
+  - title: MIT 18.901 课程主页（含课程进度表）
+    url: https://math.mit.edu/~pieloch/18.901-spring-2025.html
+    kind: site
+episodes:
+  - n: 1
+    title: 23.分析一：【点集拓朴简介1】拓朴空间与映射连续性的观念；紧致性
+  - n: 2
+    title: 24.分析一：【点集拓朴简介2】邻域(neighborhood)与映射的连续性；拓朴空间中一子集的内点、外点、边界点、孤立点、极限点、闭包与内部
+  - n: 3
+    title: 25.分析一：【点集拓朴简介3】闭包操作与联集以及连续映射的关联
+  - n: 4
+    title: 26.分析一：【点集拓朴简介4】几种基本的分离性条件
+  - n: 5
+    title: 27.分析一：【点集拓朴简介5】拓朴的粗(弱)与细(强)；预设某些子集为开而得到的最粗拓朴-subbasis的观念； 基(basis)与局部基(local ba
+  - n: 6
+    title: 28.分析一：【点集拓朴简介6】(习题检讨)闭包、内部、边界与极限点的关系；对局部有限子集族求闭包与求联击集两操作可以交换顺序
+  - n: 7
+    title: 29.分析一：【点集拓朴简介7】给定集合中怎样的一组子集会形成某个拓朴的basis；第一可数性、第二可数性、可析性(separability)与Lindelöf
+  - n: 8
+    title: 30.分析一：【点集拓朴简介8】Initial topology的概念；子空间拓朴；积拓朴
+  - n: 9
+    title: 31.分析一：【点集拓朴简介9】final topology 的概念；等价关系、等价类与商集合；商拓朴(quotient topology)与商映射(quoti
+  - n: 10
+    title: 32.分析一：【点集拓朴简介10】紧致子集与紧致空间；紧致性、闭性与Hausdorff性的关联；恰当映射(proper map)；从积空间到分量的投影映射是开映
+  - n: 11
+    title: 33.分析一：【点集拓朴简介11】在拓朴空间上构造非常数的实数值连续函数；局部紧致空间
+  - n: 12
+    title: 34.分析一：【点集拓朴简介12】一些概念的序列描述；紧致赋距空间、序列紧致、全然有界与完备性
+  - n: 13
+    title: 35.分析一：【点集拓朴简介13】序列概念的推广─net(一)
+  - n: 14
+    title: 36.分析一：【点集拓朴简介14】序列概念的推广─net(二)：任何 net 都有 universal subnet
+  - n: 15
+    title: 37.分析一：【点集拓朴简介15】序列概念的推广─net(三)：以net与universal net刻化紧致性； Tychonoff 定理─紧致空间的积空间亦紧
+  - n: 16
+    title: 38.分析一：【点集拓朴简介16】一个Ascoli定理的推广；相对紧致子集
+  - n: 17
+    title: 39.分析一：【点集拓朴简介17】紧致空间上连续函数族的均匀闭包─Stone-Weierstrass逼近定理
+  - n: 18
+    title: 40.分析一：【点集拓朴简介18】单位分解(partition of unity)；paracompactness的概念与基本性质
+  - n: 19
+    title: 59.分析二：【点集拓朴简介19】单位分解与paracompactness的关联
+  - n: 20
+    title: 60.分析二：【点集拓朴简介20】局部有限开覆盖的收缩定理
+  - n: 21
+    title: 61.分析二：【点集拓朴简介21】局部紧致Hausdorff空间中的部分单位分解(partial partition of unity)
+  - n: 22
+    title: 62.分析二：【点集拓朴简介22】Stone定理─任何可赋距空间皆是paracompact

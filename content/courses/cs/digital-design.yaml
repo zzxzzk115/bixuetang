@@ -4,19 +4,73 @@ code: "CS150"
 institution: UC Berkeley
 subject: cs
 level: intermediate
-tags: [数字电路, Verilog, FPGA, 硬件设计]
-prerequisites: [nand2tetris]
+tags: [ 数字电路, Verilog, FPGA, 硬件设计 ]
+prerequisites: [ nand2tetris ]
 estimatedHours: 60
 description: >
-  伯克利的数字系统设计课，讲组合逻辑与时序逻辑、有限状态机、流水线、存储器与时序约束，
-  并用 Verilog 在 FPGA 上真刀真枪地实现。它把 nand2tetris 里"纸上搭机器"的抽象落到真实硬件，
-  是从软件视角迈向体系结构与芯片设计的关键一课。
+  伯克利的数字系统设计课，讲组合逻辑与时序逻辑、有限状态机、流水线、存储器与时序约束， 并用 Verilog 在 FPGA 上真刀真枪地实现。它把 nand2tetris 里"纸上搭机器"的抽象落到真实硬件， 是从软件视角迈向体系结构与芯片设计的关键一课。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV19C4y1a74h
+    uploader: 微电子与纳电子学（搬运）
+    note: 伯克利 EECS 151/251A（CS150 后继课）全 26 讲中英字幕搬运
   - platform: other
     url: https://inst.eecs.berkeley.edu/~cs150/
     note: 课程官网
-episodeCount: 26
 notes:
   - title: CS自学指南 - 数字电路与体系结构
     url: https://csdiy.wiki/
     kind: site
+episodes:
+  - n: 1
+    title: 1-21,2020
+  - n: 2
+    title: 1-23,2020
+  - n: 3
+    title: 1-28,2020
+  - n: 4
+    title: 1-30,2020
+  - n: 5
+    title: 2-4,2020
+  - n: 6
+    title: 2-6,2020
+  - n: 7
+    title: 2-11,2020
+  - n: 8
+    title: 2-13,2020
+  - n: 9
+    title: 2-18,2020
+  - n: 10
+    title: 2-20,2020
+  - n: 11
+    title: 2-25,2020
+  - n: 12
+    title: 2-27,2020
+  - n: 13
+    title: 3-3,2020
+  - n: 14
+    title: 3-5,2020
+  - n: 15
+    title: 3-10,2020
+  - n: 16
+    title: 3-17,2020
+  - n: 17
+    title: 3-19,2020
+  - n: 18
+    title: 3-31,2020
+  - n: 19
+    title: 4-2,2020
+  - n: 20
+    title: 4-7,2020
+  - n: 21
+    title: 4-9,2020 - DNN
+  - n: 22
+    title: 4-14,2020 - Lec17 Adders
+  - n: 23
+    title: 4-16,2020 lec18 mult count shift1
+  - n: 24
+    title: 4-21,2020 lec19 clk pwr
+  - n: 25
+    title: 4-23,2020 lec20 faults
+  - n: 26
+    title: 4-29,2020 lec21 wrapup

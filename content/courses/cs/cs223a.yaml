@@ -4,19 +4,57 @@ code: "CS223A"
 institution: Stanford
 subject: cs
 level: advanced
-tags: [机器人学, 运动学, 动力学, 控制]
-prerequisites: [mit-18-06]
+tags: [ 机器人学, 运动学, 动力学, 控制 ]
+prerequisites: [ mit-18-06 ]
 estimatedHours: 80
 description: >
-  斯坦福机器人实验室主任 Oussama Khatib 主讲的经典机器人学入门课，系统讲解空间描述与齐次变换、
-  正/逆运动学、雅可比矩阵与奇异性、机械臂动力学以及轨迹生成与力/位控制。
-  课程数学推导干净、板书清晰，是理解机械臂本体建模的最佳起点，学完可直接衔接运动规划与强化学习控制。
+  斯坦福机器人实验室主任 Oussama Khatib 主讲的经典机器人学入门课，系统讲解空间描述与齐次变换、 正/逆运动学、雅可比矩阵与奇异性、机械臂动力学以及轨迹生成与力/位控制。 课程数学推导干净、板书清晰，是理解机械臂本体建模的最佳起点，学完可直接衔接运动规划与强化学习控制。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV17T421k78T
+    uploader: Arxiv论文（搬运）
+    note: 全 16 讲中英字幕搬运，附英文讲义与作业
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV15W411q78p
+    uploader: Omengel（搬运）
+    note: Stanford W2007/08 原版全 16 讲搬运
   - platform: other
     url: https://see.stanford.edu/Course/CS223A
     note: 课程官网（Stanford Engineering Everywhere，含全部讲座视频、讲义与作业）
-episodeCount: 16
 notes:
   - title: CS 自学指南
     url: https://csdiy.wiki/
     kind: site
+episodes:
+  - n: 1
+    title: 斯坦福《机器人学导论》01
+  - n: 2
+    title: 斯坦福《机器人学导论》02
+  - n: 3
+    title: 斯坦福《机器人学导论》03
+  - n: 4
+    title: 斯坦福《机器人学导论》04
+  - n: 5
+    title: 斯坦福《机器人学导论》05
+  - n: 6
+    title: 斯坦福《机器人学导论》06
+  - n: 7
+    title: 斯坦福《机器人学导论》07
+  - n: 8
+    title: 斯坦福《机器人学导论》08
+  - n: 9
+    title: 斯坦福《机器人学导论》09
+  - n: 10
+    title: 斯坦福《机器人学导论》10
+  - n: 11
+    title: 斯坦福《机器人学导论》11
+  - n: 12
+    title: 斯坦福《机器人学导论》12
+  - n: 13
+    title: 斯坦福《机器人学导论》13
+  - n: 14
+    title: 斯坦福《机器人学导论》14
+  - n: 15
+    title: 斯坦福《机器人学导论》15
+  - n: 16
+    title: 斯坦福《机器人学导论》16

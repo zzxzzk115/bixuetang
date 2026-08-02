@@ -1,0 +1,15 @@
+id: security-road
+title: 攻防之路
+subject: cs
+description: 先学会如何被攻破，才懂得如何防守——从内存漏洞到现代密码学的完整攻防修行。
+stages:
+  - title: 第一章 · 理解机器才能攻击机器
+    courses: [csapp, cs61c]
+  - title: 第二章 · 安全导论
+    courses: [ucb-cs161]
+  - title: 第三章 · 系统级攻防
+    courses: [mit-6-858]
+  - title: 第四章 · 密码学根基
+    courses: [stanford-crypto]
+  - title: 第五章 · 数学后盾
+    courses: [abstract-algebra, mit-6-042j]

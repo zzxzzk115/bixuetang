@@ -1,0 +1,15 @@
+id: cloud-quest
+title: 云之疆域
+subject: cs
+description: 从单机进程到跨机房集群——把分布式理论一路推到能上生产的交付能力。
+stages:
+  - title: 第一章 · 单机的极限
+    courses: [csapp, ucb-cs162]
+  - title: 第二章 · 网络与协议
+    courses: [cs144, ucb-cs168]
+  - title: 第三章 · 共识与容错
+    courses: [mit-6-824]
+  - title: 第四章 · 容器与编排
+    courses: [cloud-native]
+  - title: 第五章 · 存储与规模
+    courses: [cmu-15-445, cmu-15-721]

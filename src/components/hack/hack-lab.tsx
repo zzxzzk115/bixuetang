@@ -39,6 +39,7 @@ export function HackLab({
   const [errors, setErrors] = useState<BuildError[]>([]);
   const [running, setRunning] = useState(false);
   const [speed, setSpeed] = useState<Speed>("normal");
+  const [pureJackOs, setPureJackOs] = useState(false);
   // 渲染快照：机器对象与 sourceMap 经 state 传给子组件（渲染期不碰 ref），seq 驱动重渲染
   const [view, setView] = useState<{
     m: HackMachine | null;
@@ -66,7 +67,7 @@ export function HackLab({
   }, []);
 
   const compile = useCallback((): boolean => {
-    const result = build(files);
+    const result = build(files, { pureJackOs });
     if (!result.ok) {
       setErrors(result.errors);
       machineRef.current = null;
@@ -81,7 +82,7 @@ export function HackLab({
     machineRef.current = createMachine(result.rom);
     bump();
     return true;
-  }, [files, bump]);
+  }, [files, bump, pureJackOs]);
 
   // 运行主循环。用 setTimeout 而非 rAF：面板隐藏/后台标签页时 rAF 不触发，
   // 模拟器会假死；16ms 定时不依赖页面合成，行为一致。
@@ -212,12 +213,37 @@ export function HackLab({
               {f.name}
             </button>
           ))}
-          <button
-            onClick={onCompile}
-            className="mb-1 ml-auto rounded border border-gold px-3 py-1 text-xs text-gold hover:bg-gold hover:text-background"
-          >
-            🔨 编译 ({kind})
-          </button>
+          <div className="mb-1 ml-auto flex items-center gap-2">
+            {kind === "jack" && (
+              <button
+                onClick={() => {
+                  setPureJackOs(!pureJackOs);
+                  machineRef.current = null;
+                  romRef.current = null;
+                  setRunning(false);
+                  bump();
+                }}
+                title={
+                  pureJackOs
+                    ? "当前：OS 由 Jack 源码实现，全部跑在模拟 CPU 上（含软件乘除，较慢）。点击切回原生实现"
+                    : "当前：OS 调用由 TS 原生实现拦截（快）。点击切换为纯血模式——把 Jack 写的 OS 一起编译进去"
+                }
+                className={`rounded border px-2 py-1 text-xs transition-colors ${
+                  pureJackOs
+                    ? "border-gold text-gold"
+                    : "border-edge text-muted hover:border-gold hover:text-gold"
+                }`}
+              >
+                {pureJackOs ? "🩸 纯血 OS" : "⚡ 原生 OS"}
+              </button>
+            )}
+            <button
+              onClick={onCompile}
+              className="rounded border border-gold px-3 py-1 text-xs text-gold hover:bg-gold hover:text-background"
+            >
+              🔨 编译 ({kind})
+            </button>
+          </div>
         </div>
         <div className="min-h-0 flex-1">
           <HackEditor

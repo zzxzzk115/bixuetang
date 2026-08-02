@@ -1,0 +1,72 @@
+id: mit-18-s096
+title: MIT 18.S096 金融数学专题
+code: "18.S096"
+institution: MIT
+subject: math
+level: advanced
+tags: [ 金融数学, 随机过程, 时间序列, 概率 ]
+prerequisites: [ stat110 ]
+estimatedHours: 50
+description: >
+  MIT 数学系与业界从业者合开的金融数学专题课，讲解线性代数、概率、随机过程、 时间序列与最优化如何被用在真实的定价、投资组合与风险管理问题上。 课程由多位讲者分专题主讲，兼顾数学推导与市场直觉，是从概率论走向量化金融的经典桥梁课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Sy4y1C7qr
+    uploader: 纳米很短（搬运）
+    note: 全 24 讲搬运，中文标题分P
+  - platform: other
+    url: https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/
+    note: 课程官网（MIT OpenCourseWare，含全部视频与讲义）
+notes:
+  - title: CS 自学指南
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 简介，财务条款和概念
+  - n: 2
+    title: 线性代数
+  - n: 3
+    title: 概率论
+  - n: 4
+    title: 5.随机过程I
+  - n: 5
+    title: 6.回归分析
+  - n: 6
+    title: 7.风险价值（VAR）模型
+  - n: 7
+    title: 8.时间序列分析I
+  - n: 8
+    title: 9.波动率建模
+  - n: 9
+    title: 10.正则化的定价和风险模型
+  - n: 10
+    title: 11.时间序列分析II
+  - n: 11
+    title: 12.时间序列分析III
+  - n: 12
+    title: 13.商品模型
+  - n: 13
+    title: 14.投资组合理论
+  - n: 14
+    title: 15.因子建模
+  - n: 15
+    title: 16.投资组合管理
+  - n: 16
+    title: 17.随机过程II
+  - n: 17
+    title: 18.伊藤微积分
+  - n: 18
+    title: 19. Black-Scholes公式，风险中性评估
+  - n: 19
+    title: 20.期权价格和概率对偶
+  - n: 20
+    title: 21.随机微分方程
+  - n: 21
+    title: 23. Quanto信用对冲
+  - n: 22
+    title: 24. HJM利率和信贷模型
+  - n: 23
+    title: 25.罗斯恢复定理
+  - n: 24
+    title: 26.交易对手信用风险简介

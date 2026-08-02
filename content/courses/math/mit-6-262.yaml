@@ -4,19 +4,71 @@ code: "6.262"
 institution: MIT
 subject: math
 level: advanced
-tags: [随机过程, 概率论, 马尔可夫链, 排队论]
-prerequisites: [stat110]
+tags: [ 随机过程, 概率论, 马尔可夫链, 排队论 ]
+prerequisites: [ stat110 ]
 estimatedHours: 120
 description: >
-  MIT 研究生层次的离散随机过程课程，由信息论泰斗 Robert Gallager 主讲。
-  内容涵盖泊松过程、更新过程、有限状态与可数状态马尔可夫链、鞅、随机游动与排队论。
-  讲授风格强调直观理解与严格推导并重，是进入信息论、通信、性能建模与强化学习理论的关键桥梁。
+  MIT 研究生层次的离散随机过程课程，由信息论泰斗 Robert Gallager 主讲。 内容涵盖泊松过程、更新过程、有限状态与可数状态马尔可夫链、鞅、随机游动与排队论。 讲授风格强调直观理解与严格推导并重，是进入信息论、通信、性能建模与强化学习理论的关键桥梁。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Qs41167VS
+    uploader: 道口老Min（搬运）
+    note: 全 25 讲英文字幕搬运
   - platform: other
     url: https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/
     note: 课程官网（MIT OCW，含全部视频、讲义与作业答案）
-episodeCount: 25
 notes:
   - title: CS 自学指南
     url: https://csdiy.wiki/
     kind: site
+episodes:
+  - n: 1
+    title: Introduction and Probability Review
+  - n: 2
+    title: More Review; The Bernoulli Process
+  - n: 3
+    title: Law of Large Numbers, Convergence
+  - n: 4
+    title: Poisson (the Perfect Arrival Process)
+  - n: 5
+    title: Poisson Combining and Splitting
+  - n: 6
+    title: From Poisson to Markov
+  - n: 7
+    title: Finite-state Markov Chains; The Matrix Approach
+  - n: 8
+    title: Markov Eigenvalues and Eigenvectors
+  - n: 9
+    title: Markov Rewards and Dynamic Programming
+  - n: 10
+    title: Renewals and the Strong Law of Large Numbers
+  - n: 11
+    title: Renewals Strong Law and Rewards
+  - n: 12
+    title: Renewal Rewards, Stopping Trials, and Wald s Inequality
+  - n: 13
+    title: Little, M G 1, Ensemble Averages
+  - n: 14
+    title: Review
+  - n: 15
+    title: The Last Renewal
+  - n: 16
+    title: Renewals and Countable-state Markov
+  - n: 17
+    title: Countable-state Markov Chains
+  - n: 18
+    title: Countable-state Markov Chains and Processes
+  - n: 19
+    title: Countable-state Markov Processes
+  - n: 20
+    title: Markov Processes and Random Walks
+  - n: 21
+    title: Hypothesis Testing and Random Walks
+  - n: 22
+    title: Random Walks and Thresholds
+  - n: 23
+    title: Martingales (Plain, Sub, and Super)
+  - n: 24
+    title: Martingales Stopping and Converging
+  - n: 25
+    title: Putting It All Together

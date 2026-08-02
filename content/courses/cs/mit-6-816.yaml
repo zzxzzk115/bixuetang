@@ -4,21 +4,67 @@ code: "6.816/6.172"
 institution: MIT
 subject: cs
 level: advanced
-tags: [并行编程, 性能优化, 多核, 系统]
-prerequisites: [csapp]
+tags: [ 并行编程, 性能优化, 多核, 系统 ]
+prerequisites: [ csapp ]
 estimatedHours: 120
 description: >
-  MIT 面向高年级的性能工程课程，讲解如何把正确但缓慢的程序改造成榨干现代多核硬件的高性能代码：
-  缓存与局部性、向量化、Cilk 任务并行、无锁数据结构、竞态检测与性能剖析。
-  6.172 偏重单机软件性能工程的全流程（含大量实战 project），6.816 则在同一框架下更强调多核与
-  并发算法（锁、事务内存、并发数据结构）的理论部分，两者课件高度重合，建议以 6.172 的公开
-  讲座为主线，遇到并发算法章节再补 6.816 的材料。
+  MIT 面向高年级的性能工程课程，讲解如何把正确但缓慢的程序改造成榨干现代多核硬件的高性能代码： 缓存与局部性、向量化、Cilk 任务并行、无锁数据结构、竞态检测与性能剖析。 6.172 偏重单机软件性能工程的全流程（含大量实战 project），6.816 则在同一框架下更强调多核与 并发算法（锁、事务内存、并发数据结构）的理论部分，两者课件高度重合，建议以 6.172 的公开 讲座为主线，遇到并发算法章节再补 6.816 的材料。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1N7411T7JP
+    uploader: 李修縁（搬运）
+    note: MIT 6.172 Fall 2018 全 23 讲英文字幕搬运
   - platform: other
     url: https://ocw.mit.edu/courses/6-172-performance-engineering-of-software-systems-fall-2018/
     note: 课程官网（MIT OCW 6.172 Fall 2018，含全部讲座视频、讲义与作业）
-episodeCount: 23
 notes:
   - title: CS 自学指南 - MIT 6.172
     url: https://csdiy.wiki/
     kind: site
+episodes:
+  - n: 1
+    title: Lecture 1 - Introduction and Matrix Multiplication
+  - n: 2
+    title: Lecture 2 - Bentley Rules for Optimizing Work
+  - n: 3
+    title: Lecture 3 - Bit Hacks
+  - n: 4
+    title: Lecture 4 - Assembly Language and Computer Architecture
+  - n: 5
+    title: Lecture 5 - C to Assembly
+  - n: 6
+    title: Lecture 6 - Multicore Programming
+  - n: 7
+    title: Lecture 7 - Races and Parallelism
+  - n: 8
+    title: Lecture 8 - Analysis of Multithreaded Algorithms
+  - n: 9
+    title: Lecture 9 - What Compilers Can and Cannot Do
+  - n: 10
+    title: Lecture 10 - Measurement and Timing
+  - n: 11
+    title: Lecture 11 - Storage Allocation
+  - n: 12
+    title: Lecture 12 - Parallel Storage Allocation
+  - n: 13
+    title: Lecture 13 - The Cilk Runtime System
+  - n: 14
+    title: Lecture 14 - Caching and Cache-Efficient Algorithms
+  - n: 15
+    title: Lecture 15 - Cache-Oblivious Algorithms
+  - n: 16
+    title: Lecture 16 - Nondeterministic Parallel Programming
+  - n: 17
+    title: Lecture 17 - Synchronization Without Locks
+  - n: 18
+    title: Lecture 18 - Domain Specific Languages and Autotuning
+  - n: 19
+    title: Lecture 19 - Leiserchess Codewalk
+  - n: 20
+    title: Lecture 20 - Speculative Parallelism & Leiserchess
+  - n: 21
+    title: Lecture 21 - Tuning a TSP Algorithm
+  - n: 22
+    title: Lecture 22 - Graph Optimization
+  - n: 23
+    title: Lecture 23 - High Performance in Dynamic Languages

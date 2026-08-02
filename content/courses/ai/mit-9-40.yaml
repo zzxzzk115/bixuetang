@@ -4,20 +4,61 @@ code: "9.40"
 institution: MIT
 subject: ai
 level: advanced
-tags: [计算神经科学, 神经元模型, 信号处理, 线性代数应用]
-prerequisites: [mit-18-06]
+tags: [ 计算神经科学, 神经元模型, 信号处理, 线性代数应用 ]
+prerequisites: [ mit-18-06 ]
 estimatedHours: 60
 description: >
-  MIT 大脑与认知科学系的计算神经科学入门课，从生物神经元的电学特性讲起，
-  逐步推进到 Hodgkin-Huxley 模型、突触整合、神经编码与解码、以及神经网络的
-  群体动力学。课程强调用线性代数与信号处理的数学工具定量刻画大脑计算，
-  是理解「生物智能」与人工神经网络渊源的最佳桥梁课程。
+  MIT 大脑与认知科学系的计算神经科学入门课，从生物神经元的电学特性讲起， 逐步推进到 Hodgkin-Huxley 模型、突触整合、神经编码与解码、以及神经网络的 群体动力学。课程强调用线性代数与信号处理的数学工具定量刻画大脑计算， 是理解「生物智能」与人工神经网络渊源的最佳桥梁课程。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1RK4y1V7Wt
+    uploader: Iammyself001（搬运）
+    note: MIT 9.40 (Spring 2018) 全 20 讲英文原版搬运
   - platform: other
     url: https://ocw.mit.edu/courses/9-40-introduction-to-neural-computation-spring-2018/
     note: 课程官网（MIT OCW，含全套讲义、作业与视频）
-episodeCount: 24
 notes:
   - title: CS 自学指南
     url: https://csdiy.wiki/
     kind: site
+episodes:
+  - n: 1
+    title: Overview and Ionic Currents
+  - n: 2
+    title: RC Circuit and Nernst Potential
+  - n: 3
+    title: Nernst Potential and Integrate and Fire Models
+  - n: 4
+    title: Hodgkin-Huxley Model Part 1
+  - n: 5
+    title: Hodgkin-Huxley Model Part 2
+  - n: 6
+    title: Dendrites
+  - n: 7
+    title: Synapses
+  - n: 8
+    title: Spike Trains
+  - n: 9
+    title: Receptive Fields
+  - n: 10
+    title: Time Series
+  - n: 11
+    title: Spectral Analysis Part 1
+  - n: 12
+    title: Spectral Analysis Part 2
+  - n: 13
+    title: Spectral Analysis Part 3
+  - n: 14
+    title: Rate Models and Perceptrons
+  - n: 15
+    title: Matrix Operations
+  - n: 16
+    title: Basis Sets
+  - n: 17
+    title: Principal Components Analysis
+  - n: 18
+    title: Recurrent Networks
+  - n: 19
+    title: Neural Integrators
+  - n: 20
+    title: Hopfield Networks

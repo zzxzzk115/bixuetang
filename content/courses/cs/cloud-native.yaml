@@ -1,0 +1,89 @@
+id: cloud-native
+title: 云原生技术公开课（Docker 与 Kubernetes）
+code: "Cloud Native"
+institution: CNCF / Linux Foundation
+subject: cs
+level: intermediate
+tags: [ 云原生, Kubernetes, Docker, 容器 ]
+prerequisites: [ nju-os ]
+estimatedHours: 60
+description: >
+  从容器与镜像原理讲起，系统梳理 Docker 的隔离机制、Kubernetes 的核心对象与调度体系， 再到服务网格、可观测性等云原生生态组件。课程把「操作系统课上学的进程、命名空间、cgroup」 真正落到工业级部署实践上，是从写代码走向交付系统的关键一课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Kz411i788
+    uploader: 石分神奇（搬运）
+    note: 阿里云 & CNCF 联合推出的云原生技术公开课，全 31 讲完整搬运
+  - platform: other
+    url: https://kubernetes.io/docs/tutorials/
+    note: Kubernetes 官方教程（课程官网）
+  - platform: other
+    url: https://www.cncf.io/training/
+    note: CNCF 官方培训与课程目录
+notes:
+  - title: CS 自学指南 · 云原生方向
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 第一堂云原生课
+  - n: 2
+    title: 容器基本概念
+  - n: 3
+    title: kubernetes核心概念
+  - n: 4
+    title: 理解pod和容器设计模式
+  - n: 5
+    title: 应用编排与管理：核心原理
+  - n: 6
+    title: 应用编排与管理： Deployment
+  - n: 7
+    title: 应用编排与管理：Job 和 DaemonSet
+  - n: 8
+    title: 应用配置管理
+  - n: 9
+    title: 应用存储和持久化数据卷：核心知识
+  - n: 10
+    title: 应用存储和持久化数据卷：存储快照与拓扑调度
+  - n: 11
+    title: 可观测性：你的应用健康吗？
+  - n: 12
+    title: 可观测性：监控与日志
+  - n: 13
+    title: Kubernetes网络概念及策略控制
+  - n: 14
+    title: Kubernetes Service
+  - n: 15
+    title: 【特别篇】从 0 开始创作云原生应用
+  - n: 16
+    title: 15.深入剖析 Linux 容器
+  - n: 17
+    title: 16.深入理解 etcd：基本原理解
+  - n: 18
+    title: 17.深入理解etcd：etcd性能优化实践
+  - n: 19
+    title: 18.Kubernetes 调度和资源管理
+  - n: 20
+    title: 19.调度器的调度流程和算法介绍
+  - n: 21
+    title: 20.GPU管理和Device Plugin工作机制
+  - n: 22
+    title: 21.Kubernetes 存储架构及插件使用
+  - n: 23
+    title: 22.有状态应用编排：StatefulSet
+  - n: 24
+    title: 23.KubernetesAPI编程范式
+  - n: 25
+    title: 24.KubernetesAPI编程利器 - Operator和OperatorFramework
+  - n: 26
+    title: 25.Kubernetes网络模型进阶
+  - n: 27
+    title: 26.理解CNI和CNI插件
+  - n: 28
+    title: 27.Kubernetes安全之访问控制
+  - n: 29
+    title: 28.理解容器运行时接口CRI
+  - n: 30
+    title: 29.安全容器技术
+  - n: 31
+    title: 30.理解RuntimeClass与使用多容器运行时

@@ -1,0 +1,76 @@
+id: mit-8-044
+title: 统计物理 I
+code: "8.044"
+institution: MIT
+subject: physics
+level: advanced
+tags: [ 统计力学, 热力学, 概率论, 系综 ]
+prerequisites: [ mit-8-03 ]
+estimatedHours: 120
+description: >
+  MIT 面向物理系本科生的统计物理第一门课，从概率论基础出发，建立微正则、正则、巨正则系综， 并推导出经典热力学的全部定律。课程强调「微观概率如何涌现出宏观热力学」， 是理解相变、量子统计与凝聚态物理的必经之路。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1WE411J7u3
+    uploader: 鬼谷良师（搬运）
+    note: MIT 8.333 统计力学 I：粒子的统计力学，全 26 讲中英字幕（8.044 无官方视频，此为内容对应的 MIT 替代视频源）
+  - platform: other
+    url: https://ocw.mit.edu/courses/8-044-statistical-physics-i-spring-2013/
+    note: 课程官网（MIT OCW，含讲义、习题与解答）
+notes:
+  - title: CS自学指南 / MIT 物理课程攻略
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 1 热力学 1
+  - n: 2
+    title: 2 热力学 2
+  - n: 3
+    title: 3 热力学 3
+  - n: 4
+    title: 4 热力学 4
+  - n: 5
+    title: 5 概率论 1
+  - n: 6
+    title: 6 概率论 2
+  - n: 7
+    title: 7 气体动力学 1
+  - n: 8
+    title: 8 气体动力学 2
+  - n: 9
+    title: 9 气体动力学 3
+  - n: 10
+    title: 10 气体动力学 4
+  - n: 11
+    title: 11 气体动力学 5
+  - n: 12
+    title: 12 经典统计物理 1
+  - n: 13
+    title: 13 经典统计物理 2
+  - n: 14
+    title: 14 经典统计物理 3
+  - n: 15
+    title: 15 相互作用系统 1
+  - n: 16
+    title: 16 相互作用系统 2
+  - n: 17
+    title: 17 相互作用系统 3
+  - n: 18
+    title: 18 相互作用系统 4
+  - n: 19
+    title: 19 相互作用系统 5
+  - n: 20
+    title: 20 量子统计 1
+  - n: 21
+    title: 21 量子统计 2
+  - n: 22
+    title: 22 量子理想气体 1
+  - n: 23
+    title: 23 量子理想气体 2
+  - n: 24
+    title: 24 量子理想气体 3
+  - n: 25
+    title: 25 量子理想气体 4
+  - n: 26
+    title: 26 量子理想气体 5

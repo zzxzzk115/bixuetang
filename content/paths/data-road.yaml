@@ -1,0 +1,15 @@
+id: data-road
+title: 数据之径
+subject: ai
+description: 从一张脏表格到亿级数据挖掘——数据科学家的完整手艺链。
+stages:
+  - title: 第一章 · 数据科学入门
+    courses: [berkeley-data100]
+  - title: 第二章 · 概率与统计根基
+    courses: [mit-6-041, stat110]
+  - title: 第三章 · 数据存在哪里
+    courses: [cs186, cmu-15-445]
+  - title: 第四章 · 海量数据挖掘
+    courses: [stanford-cs246]
+  - title: 第五章 · 关系即结构
+    courses: [cs224w]

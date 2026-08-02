@@ -1,0 +1,15 @@
+id: llm-forge
+title: 大模型锻造
+subject: ai
+description: 从 Transformer 的第一行注意力，到亲手预训练、微调、量化部署一整套大模型工程。
+stages:
+  - title: 第一章 · 深度学习地基
+    courses: [d2l, hung-yi-lee-ml]
+  - title: 第二章 · 语言模型的语言
+    courses: [cs224n]
+  - title: 第三章 · 从零构建
+    courses: [cs336]
+  - title: 第四章 · 高效与部署
+    courses: [mit-6-5940]
+  - title: 第五章 · 走向智能体
+    courses: [ai-agents]

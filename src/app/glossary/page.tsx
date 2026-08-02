@@ -9,6 +9,25 @@ interface GlossaryEntry {
   sources: { courseId: string; courseTitle: string; episodes: number[] }[];
 }
 
+/**
+ * 术语按「english 中文」的约定录入，展示时拆开——
+ * 否则「A* Algorithm A 星算法」连成一片读不出边界。
+ * 从第一个中日韩字符处切分；没有中文就整条当英文。
+ */
+function splitTerm(term: string): { en: string; zh: string } {
+  const idx = term.search(/[一-龥぀-ヿ]/);
+  if (idx <= 0) return { en: term.trim(), zh: "" };
+  let en = term.slice(0, idx).trim();
+  let zh = term.slice(idx).trim();
+  // 「A* Algorithm A 星算法」——中文名开头的单字母会被切到英文侧，还给中文
+  const tail = en.match(/\s([A-Za-z0-9])$/);
+  if (tail) {
+    en = en.slice(0, -2).trim();
+    zh = `${tail[1]} ${zh}`;
+  }
+  return { en, zh };
+}
+
 /** 聚合全站 AI 分析里的术语（同名合并、按字母排序） */
 function buildGlossary(): GlossaryEntry[] {
   const content = getContent();
@@ -100,11 +119,22 @@ export default async function GlossaryPage({
                 {letter}
               </h2>
               <dl className="space-y-3">
-                {list.map((e) => (
+                {list.map((e) => {
+                  const { en, zh } = splitTerm(e.term);
+                  return (
                   <div key={e.term} className="rounded-lg border border-edge bg-panel p-3">
-                    <dt className="font-bold">{e.term}</dt>
+                    <dt className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                      <span className="font-mono text-[15px] font-bold text-gold">
+                        {en}
+                      </span>
+                      {zh && (
+                        <span className="rounded border border-edge bg-panel-hover px-1.5 py-0.5 text-[13px] font-bold">
+                          {zh}
+                        </span>
+                      )}
+                    </dt>
                     {e.definitions.map((d, i) => (
-                      <dd key={i} className="mt-0.5 text-sm text-muted">
+                      <dd key={i} className="mt-1 text-sm text-muted">
                         {d}
                       </dd>
                     ))}
@@ -120,7 +150,8 @@ export default async function GlossaryPage({
                       ))}
                     </dd>
                   </div>
-                ))}
+                  );
+                })}
               </dl>
             </section>
           ))}

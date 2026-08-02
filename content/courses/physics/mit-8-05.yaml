@@ -4,20 +4,73 @@ code: "8.05"
 institution: MIT
 subject: physics
 level: advanced
-tags: [量子力学, 角动量, 自旋, 希尔伯特空间]
-prerequisites: [mit-8-04]
+tags: [ 量子力学, 角动量, 自旋, 希尔伯特空间 ]
+prerequisites: [ mit-8-04 ]
 estimatedHours: 80
 description: >
-  MIT 量子力学第二学期课程，由弦论学者 Barton Zwiebach 主讲。
-  从量子力学的一般形式体系出发，系统讲解态矢与算符、谐振子的代数解法、三维量子力学、
-  角动量与自旋、角动量耦合等核心内容。讲义后来发展为教材《Mastering Quantum Mechanics》，
-  推导干净、逻辑严整，是把量子力学从「解薛定谔方程」提升到「线性代数语言」的关键一课。
+  MIT 量子力学第二学期课程，由弦论学者 Barton Zwiebach 主讲。 从量子力学的一般形式体系出发，系统讲解态矢与算符、谐振子的代数解法、三维量子力学、 角动量与自旋、角动量耦合等核心内容。讲义后来发展为教材《Mastering Quantum Mechanics》， 推导干净、逻辑严整，是把量子力学从「解薛定谔方程」提升到「线性代数语言」的关键一课。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Tt411W72i
+    uploader: Kane_SWB（搬运）
+    note: 全 26 讲中英字幕搬运
   - platform: other
     url: https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/
     note: 课程官网（含全部视频、讲义与习题）
-episodeCount: 25
 notes:
   - title: 课程讲义 Lecture Notes
     url: https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/pages/lecture-notes/
     kind: site
+episodes:
+  - n: 1
+    title: Wave Mechanics
+  - n: 2
+    title: Wave Mechanics (continued)
+  - n: 3
+    title: Wave Mechanics (continued) and Stern-Gerlach Experiment
+  - n: 4
+    title: Spin One-half, Bras, Kets, and Operators
+  - n: 5
+    title: Linear Algebra_ Vector Spaces and Operators
+  - n: 6
+    title: Linear Algebra_ Vector Spaces and Operators (continued)
+  - n: 7
+    title: Linear Algebra_ Vector Spaces and Operators (continued)
+  - n: 8
+    title: Linear Algebra_ Vector Spaces and Operators (continued)
+  - n: 9
+    title: Dirac&#039;s Bra and Ket Notation
+  - n: 10
+    title: Uncertainty Principle and Compatible Observables
+  - n: 11
+    title: Uncertainty Principle and Compatible Observables (continued)
+  - n: 12
+    title: Quantum Dynamics
+  - n: 13
+    title: Quantum Dynamics (continued)
+  - n: 14
+    title: Quantum Dynamics (continued)
+  - n: 15
+    title: Quantum Dynamics (continued)
+  - n: 16
+    title: Quantum Dynamics (continued) and Two State Systems
+  - n: 17
+    title: Two State Systems (continued)
+  - n: 18
+    title: Two State Systems (continued), Multiparticle States and Tensor Products
+  - n: 19
+    title: Multiparticle States and Tensor Products (continued)
+  - n: 20
+    title: Multiparticle States and Tensor Products (continued) and Angular Momentum
+  - n: 21
+    title: Angular Momentum (continued)
+  - n: 22
+    title: Angular Momentum (continued)
+  - n: 23
+    title: Angular Momentum (continued)
+  - n: 24
+    title: Addition of Angular Momentum
+  - n: 25
+    title: Addition of Angular Momentum (continued)
+  - n: 26
+    title: Addition of Angular Momentum (continued)

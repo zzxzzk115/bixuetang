@@ -4,20 +4,67 @@ code: "6.172"
 institution: MIT
 subject: cs
 level: advanced
-tags: [性能优化, 并行计算, 编译器, C语言]
-prerequisites: [csapp]
+tags: [ 性能优化, 并行计算, 编译器, C语言 ]
+prerequisites: [ csapp ]
 estimatedHours: 120
 description: >
-  MIT 面向高年级本科生的软件性能工程课程，教你如何把一段能跑的代码变成跑得飞快的代码。
-  内容涵盖 Bentley 优化法则、缓存友好的数据结构、向量化、多核并行（Cilk）、
-  分治与缓存无关算法、性能剖析与实测方法论。配套的矩阵乘法、光线追踪等实验以「加速比排行榜」形式展开，
-  是把体系结构知识真正转化为工程能力的经典课程。
+  MIT 面向高年级本科生的软件性能工程课程，教你如何把一段能跑的代码变成跑得飞快的代码。 内容涵盖 Bentley 优化法则、缓存友好的数据结构、向量化、多核并行（Cilk）、 分治与缓存无关算法、性能剖析与实测方法论。配套的矩阵乘法、光线追踪等实验以「加速比排行榜」形式展开， 是把体系结构知识真正转化为工程能力的经典课程。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1wA411h7N7
+    uploader: 鬼谷良师（搬运）
+    note: 2018 秋季全 23 讲中英字幕搬运（机翻字幕）
   - platform: other
     url: https://ocw.mit.edu/courses/6-172-performance-engineering-of-software-systems-fall-2018/
     note: 课程官网
-episodeCount: 23
 notes:
   - title: CS自学指南 6.172 攻略
     url: https://csdiy.wiki/
     kind: site
+episodes:
+  - n: 1
+    title: 1 Introduction and Matrix Multiplication
+  - n: 2
+    title: 2 Bentley Rules for Optimizing Work
+  - n: 3
+    title: 3 Bit Hacks
+  - n: 4
+    title: 4 Assembly Language Computer Architecture
+  - n: 5
+    title: 5 C to Assembly
+  - n: 6
+    title: 6 Multicore Programming
+  - n: 7
+    title: 7 Races and Parallelism
+  - n: 8
+    title: 8 Analysis of Multithreaded Algorithms
+  - n: 9
+    title: 9 What Compilers Can and Cannot Do
+  - n: 10
+    title: 10 Measurement and Timing
+  - n: 11
+    title: 11 Storage Allocation
+  - n: 12
+    title: 12 Parallel Storage Allocation
+  - n: 13
+    title: 13 The Cilk Runtime System
+  - n: 14
+    title: 14 Caching and Cache-Efficient Algorithms
+  - n: 15
+    title: 15 Cache-Oblivious Algorithms
+  - n: 16
+    title: 16 Nondeterministic Parallel Programming
+  - n: 17
+    title: 17 Synchronization Without Locks
+  - n: 18
+    title: 18 Domain Specific Languages and Autotuning
+  - n: 19
+    title: 19 Leiserchess Codewalk
+  - n: 20
+    title: 20 Speculative Parallelism Leiserchess
+  - n: 21
+    title: 21 Tuning a TSP Algorithm
+  - n: 22
+    title: 22 Graph Optimization
+  - n: 23
+    title: 23 High Performance in Dynamic Languages

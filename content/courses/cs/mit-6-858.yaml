@@ -4,20 +4,67 @@ code: "6.858"
 institution: MIT
 subject: cs
 level: advanced
-tags: [系统安全, 攻防, 操作系统, Web安全]
-prerequisites: [mit-6-s081]
+tags: [ 系统安全, 攻防, 操作系统, Web安全 ]
+prerequisites: [ mit-6-s081 ]
 estimatedHours: 100
 description: >
-  MIT 的系统安全课程，从攻击者与防御者双重视角剖析真实系统的安全设计。
-  内容包括缓冲区溢出与控制流劫持、权限隔离与沙箱、内核与浏览器安全模型、Web 攻击、
-  网络与移动端安全、以及安全相关的密码学应用。每节课围绕一篇经典论文展开，
-  实验要求亲手写出可用的漏洞利用并修补它，实战感极强。
+  MIT 的系统安全课程，从攻击者与防御者双重视角剖析真实系统的安全设计。 内容包括缓冲区溢出与控制流劫持、权限隔离与沙箱、内核与浏览器安全模型、Web 攻击、 网络与移动端安全、以及安全相关的密码学应用。每节课围绕一篇经典论文展开， 实验要求亲手写出可用的漏洞利用并修补它，实战感极强。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Py4y1H7Z3
+    uploader: Ophryon（搬运）
+    note: MIT 6.858 2020 全 23 讲，中英机翻字幕
   - platform: other
     url: https://css.csail.mit.edu/6.858/2022/
     note: 课程官网（含公开讲座录像与实验）
-episodeCount: 22
 notes:
   - title: CS自学指南 6.858 攻略
     url: https://csdiy.wiki/
     kind: site
+episodes:
+  - n: 1
+    title: 6.858 Spring 2020 Lecture 1- Introduction
+  - n: 2
+    title: 6.858 Spring 2020 Lecture 2- Security architecture
+  - n: 3
+    title: 6.858 Spring 2020 Lecture 3- User authentication
+  - n: 4
+    title: 6.858 Spring 2020 Lecture 4- Buffer overflows
+  - n: 5
+    title: 6.858 Spring 2020 Lecture 5- Privilege separation
+  - n: 6
+    title: 858 Spring 2020 Recitation 1- Linux containers
+  - n: 7
+    title: 6.858 Spring 2020 Lecture 6- Software isolation
+  - n: 8
+    title: 6.858 Spring 2020 Lecture 7- Enclaves
+  - n: 9
+    title: 6.858 Spring 2020 Lecture 8- Mobile device security
+  - n: 10
+    title: 6.858 Spring 2020 Lecture 9- Mobile app security
+  - n: 11
+    title: 6.858 Spring 2020 Lecture 10- Symbolic execution
+  - n: 12
+    title: 6.858 Spring 2020 Lecture 11- Web security model
+  - n: 13
+    title: 6.858 Spring 2020 Lecture 12- Network security
+  - n: 14
+    title: 6.858 Spring 2020 Lecture 13- Secure channels
+  - n: 15
+    title: 6.858 Spring 2020 Lecture 14- Certificates
+  - n: 16
+    title: 6.858 Spring 2020 Lecture 15- Guest lecture by Max Burkhardt- Information securi
+  - n: 17
+    title: 6.858 Spring 2020 Lecture 16- Messaging security
+  - n: 18
+    title: 6.858 Spring 2020 Lecture 17- Untrusted storage servers
+  - n: 19
+    title: 6.858 Spring 2020 Lecture 18- CPU timing attacks
+  - n: 20
+    title: 6.858 Spring 2020 Lecture 19- Tor Q&A with Nick Mathewson
+  - n: 21
+    title: 6.858 Spring 2020 Lecture 20- MIT network security Q&A with IS&T staff
+  - n: 22
+    title: 6.858 Spring 2020 Lecture 21- Guest lecture by Max Krohn- Keybase
+  - n: 23
+    title: 6.858 Spring 2020 Lecture 22- Final project presentations

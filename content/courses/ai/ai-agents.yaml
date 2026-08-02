@@ -1,0 +1,51 @@
+id: ai-agents
+title: 大模型智能体：LLM Agents 公开课
+code: "CS294-196"
+institution: UC Berkeley
+subject: ai
+level: advanced
+tags: [ LLM, Agent, 大模型应用, 前沿 ]
+prerequisites: [ cs336 ]
+estimatedHours: 40
+description: >
+  伯克利面向公众开放的大模型智能体课程，由 Dawn Song 与 Xinyun Chen 主持， 每周邀请工业界与学术界一线研究者讲解推理与规划、工具调用、代码生成智能体、 多智能体协作与安全对齐。适合已经理解 Transformer 与大模型训练流程的学习者， 用来把"会训模型"升级为"会造能干活的智能体"。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1RsZPYsEtE
+    uploader: GPT中英字幕课程资源（搬运）
+    note: 全 12 讲中英字幕搬运（Claude-3.5-sonnet 翻译）
+  - platform: other
+    url: https://llmagents-learning.org/f24
+    note: 课程官网（含全部讲座录像、Slides 与作业）
+  - platform: other
+    url: https://rdi.berkeley.edu/llm-agents/f24
+    note: Berkeley RDI 课程主页
+notes:
+  - title: CS 自学指南 - 大模型与智能体方向
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture 1, Denny Zhou.zh_en
+  - n: 2
+    title: Lecture 2, Shunyu Yao.zh_en
+  - n: 3
+    title: Lecture 3, Chi Wang and Jerry Liu.zh_en
+  - n: 4
+    title: Lecture 4, Burak Gokturk.zh_en
+  - n: 5
+    title: Lecture 5, Omar Khattab.zh_en
+  - n: 6
+    title: Lecture 6, Graham Neubig.zh_en
+  - n: 7
+    title: Lecture 7, Nicolas Chapados and Alexandre Drouin.zh_en
+  - n: 8
+    title: Lecture 8, Yuandong Tian.zh_en
+  - n: 9
+    title: Lecture 9, Jim Fan.zh_en
+  - n: 10
+    title: Lecture 10, Percy Liang.zh_en
+  - n: 11
+    title: Lecture 11, Ben Mann.zh_en
+  - n: 12
+    title: Lecture 12, Dawn Song.zh_en

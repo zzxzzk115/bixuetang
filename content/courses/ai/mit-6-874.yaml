@@ -1,0 +1,68 @@
+id: mit-6-874
+title: MIT 6.874 计算生物学中的深度学习
+code: "6.874"
+institution: MIT
+subject: ai
+level: advanced
+tags: [ 深度学习, 计算生物学, 基因组学, 生物信息 ]
+prerequisites: [ d2l ]
+estimatedHours: 60
+description: >
+  MIT 由 Manolis Kellis 主讲的研究生课程，把深度学习方法系统地应用到生命科学问题上： 基因调控、蛋白质结构、单细胞组学、药物发现与疾病机理。 课程既讲 CNN/RNN/Transformer/图网络等模型，也讲这些模型在真实生物数据上的建模取舍， 是「AI for Science」方向少见的、由领域专家亲自讲授的高质量课程。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1wV411q7RE
+    uploader: 搬运
+    note: 2021 春季版，双语（中英）字幕合集
+  - platform: other
+    url: https://mit6874.github.io/
+    note: 课程官网
+notes:
+  - title: CS 自学指南 - AI for Science 方向
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture 01 - Course Intro, AI, ML
+  - n: 2
+    title: Lecture 02 - Machine Learning Foundations
+  - n: 3
+    title: Lecture 03 - CNNs Convolutional Neural Networks
+  - n: 4
+    title: Lecture 04 - RNNs, LSTMs, Transformers, GNNs
+  - n: 5
+    title: Lecture 05 - Interpretable Deep Learning
+  - n: 6
+    title: Lecture 6 - Generative Models, GANs, VAEs, Representation Learning
+  - n: 7
+    title: Lecture 7 - Regulatory Genomics
+  - n: 8
+    title: Lecture 8 - Regulator binding, Transcription Factors
+  - n: 9
+    title: Lecture 09 - Gene Expression Prediction
+  - n: 10
+    title: Lecture 10 -Single Cell Genomics
+  - n: 11
+    title: Lecture 11 - Dimensionality Reduction
+  - n: 12
+    title: Lecture 12 - Disease Circuitry Dissection GWAS
+  - n: 13
+    title: Lecture 13 - GWAS mechanism
+  - n: 14
+    title: Lecture 14 - Systems Genetics
+  - n: 15
+    title: Lecture 15 - Graph Neural Networks
+  - n: 16
+    title: Lecture 16 - AI for Drug Design
+  - n: 17
+    title: Lecture 17 - Deep Learning for Protein Folding
+  - n: 18
+    title: Lecture 19 - Machine Learning for Pathology
+  - n: 19
+    title: Lecture 20 - Deep Learning for Cell Imaging Segmentation
+  - n: 20
+    title: Lecture 21 - Deep Learning Image Registration and Analysis
+  - n: 21
+    title: Lecture 22 - Electronic health records
+  - n: 22
+    title: Lecture 23 - Deep Learning and Neuroscience

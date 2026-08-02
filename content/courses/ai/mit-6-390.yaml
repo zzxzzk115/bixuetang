@@ -1,0 +1,55 @@
+id: mit-6-390
+title: 机器学习导论
+code: "6.390"
+institution: MIT
+subject: ai
+level: intermediate
+tags: [ 机器学习, 监督学习, 神经网络, 强化学习 ]
+prerequisites: [ mit-18-06 ]
+estimatedHours: 90
+description: >
+  MIT 面向本科生的机器学习入门课（原 6.036，现编号 6.390），从线性分类器、 感知机、正则化一路讲到神经网络、卷积网络、序列模型、马尔可夫决策过程与强化学习。 特色是数学推导扎实但不失直观，配套讲义与自动评测的编程练习，非常适合作为 线性代数之后进入机器学习的第一门系统课程。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1y44y187wN
+    uploader: ShowMeAI（搬运）
+    note: MIT 6.036 2020 完整版，全 14 讲中英双语字幕并附资料下载
+  - platform: other
+    url: https://introml.mit.edu/
+    note: 课程官网（讲义、习题与实验）
+  - platform: other
+    url: https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/
+    note: MIT OpenCourseWare 6.036 Fall 2020 归档
+notes:
+  - title: CS 自学指南 - 机器学习
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: L1- 基础知识
+  - n: 2
+    title: L2- 感知器
+  - n: 3
+    title: L3- 特征
+  - n: 4
+    title: L4- 逻辑回归(对数几率回归)
+  - n: 5
+    title: L5- 回归建模
+  - n: 6
+    title: L6- 神经网络
+  - n: 7
+    title: L7- 休息/Break
+  - n: 8
+    title: L8- 卷积神经网络
+  - n: 9
+    title: L9- 状态机与马尔可夫决策过程
+  - n: 10
+    title: L10- 强化学习
+  - n: 11
+    title: L11- 循环神经网络
+  - n: 12
+    title: L12- 决策树与随机森林
+  - n: 13
+    title: L13- 聚类算法
+  - n: 14
+    title: L14- 客座讲座（David Sontag）

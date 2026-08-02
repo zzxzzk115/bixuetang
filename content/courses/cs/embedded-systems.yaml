@@ -1,0 +1,127 @@
+id: embedded-systems
+title: 嵌入式系统导论
+code: "UT 6.03x"
+institution: 德克萨斯大学奥斯汀分校
+subject: cs
+level: intermediate
+tags: [ 嵌入式系统, ARM Cortex-M, 单片机, 实时系统 ]
+prerequisites: [ nand2tetris ]
+estimatedHours: 80
+description: >
+  Jonathan Valvano 与 Ramesh Yerraballi 主讲的嵌入式系统课程，以 ARM Cortex-M 微控制器为 平台，从 GPIO、中断、定时器、ADC/DAC 一路讲到有限状态机、串口通信与简易实时内核。 课程配套完整的实验板与在线仿真器，每章都有可动手烧录的工程，是打通"数字电路—体系结构— 操作系统"三者的绝佳桥梁课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1dy1BYxEUY
+    uploader: itshare1024（搬运）
+    note: 嵌入式 ARM Cortex-M4 开发实战，全 50 讲中文课程，与本课 Cortex-M 平台内容对应
+  - platform: other
+    url: https://users.ece.utexas.edu/~valvano/arm/outline1.htm
+    note: 课程官网，含全套讲义、实验与仿真器
+  - platform: other
+    url: https://www.edx.org/learn/embedded-systems
+    note: edX 课程页面
+notes:
+  - title: CS 自学指南 嵌入式系统条目
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 课时1：嵌入式概述_ev
+  - n: 2
+    title: 课时2：Cortex-M4芯片介绍_ev
+  - n: 3
+    title: 课时3：STM32F407ZGT6最小系统_ev
+  - n: 4
+    title: 课时 4 XYD_Cortex-M4_开发板介绍_ev
+  - n: 5
+    title: 课时 5 搭建开发环境(1)_ev
+  - n: 6
+    title: 课时 6 搭建开发环境(2)_ev
+  - n: 7
+    title: 课时 7 新建工程(1)_ev
+  - n: 8
+    title: 课时 8 新建工程(2)_ev
+  - n: 9
+    title: 课时 9 STM32-GPIO口概述(1)_ev
+  - n: 10
+    title: 课时 10 STM32-GPIO口概述(2)_ev
+  - n: 11
+    title: 课时 11 GPIO口输出分析(1)_ev
+  - n: 12
+    title: 课时 12 GPIO口输出分析(2)_ev
+  - n: 13
+    title: 课时 13 GPIO口输入分析_ev
+  - n: 14
+    title: 课时 14 GPIO口保护二极管_ev
+  - n: 15
+    title: 课时 15 GPIO口相关寄存器(1)_ev
+  - n: 16
+    title: 课时 16 GPIO口相关寄存器(2)_ev
+  - n: 17
+    title: 课时 17 GPIO口相关实验_ev
+  - n: 18
+    title: 课时 18 GPIO口位带操作(1)_ev
+  - n: 19
+    title: 课时 19 GPIO口位带操作(2)_ev
+  - n: 20
+    title: 课时 20 GPIO口位带操作(3)_ev
+  - n: 21
+    title: 课时 21 GPIO口按键识别(1)_ev
+  - n: 22
+    title: 课时 22 GPIO口按键识别(2)_ev
+  - n: 23
+    title: 课时 23 UART概述_ev
+  - n: 24
+    title: 课时 24 UART通信原理_ev
+  - n: 25
+    title: 课时 25 UART数据帧格式_ev
+  - n: 26
+    title: 课时 26 UART四要素_ev
+  - n: 27
+    title: 课时 27 STM32的UART概述_ev
+  - n: 28
+    title: 课时 28 STM32的UART框架分析_ev
+  - n: 29
+    title: 课时 29 STM32的UART框架波特率分析_ev
+  - n: 30
+    title: 课时 30 STM32的UART相关寄存器_ev
+  - n: 31
+    title: 课时 31 STM32的UART实验_ev
+  - n: 32
+    title: 课时 32：中断概述课时_ev
+  - n: 33
+    title: 课时 33Cortex-M4中断体系概述_ev
+  - n: 34
+    title: 课时 34NVIC控制器课时_ev
+  - n: 35
+    title: 课时 35NVIC控制器的配置_ev
+  - n: 36
+    title: 课时 36STM32的中断介绍_ev
+  - n: 37
+    title: 课时 37STM32的中断实验_ev
+  - n: 38
+    title: 课时 38：外部中断概述_ev
+  - n: 39
+    title: 课时 39：外部中断框架_ev
+  - n: 40
+    title: 课时 40：外部中断相关寄存器_ev
+  - n: 41
+    title: 课时 41：外部中断实验_ev
+  - n: 42
+    title: 课时 42：软件中断_ev
+  - n: 43
+    title: 课时 43：软件中断实验_ev
+  - n: 44
+    title: 课时 44：时钟树概述_ev
+  - n: 45
+    title: 课时 45：时钟树框架（1）_ev
+  - n: 46
+    title: 课时 46：时钟树框架（2）_ev
+  - n: 47
+    title: 课时 50：系统滴答定时器概述_ev
+  - n: 48
+    title: 课时 51：系统滴答定时器框架_ev
+  - n: 49
+    title: 课时 52：系统滴答定时器相关寄存器_ev
+  - n: 50
+    title: 课时 53：系统滴答定时器实验_ev

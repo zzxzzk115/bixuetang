@@ -4,23 +4,56 @@ code: "EE376A"
 institution: Stanford
 subject: math
 level: advanced
-tags: [信息论, 熵, 信道编码, 数据压缩]
-prerequisites: [stat110]
+tags: [ 信息论, 熵, 信道编码, 数据压缩 ]
+prerequisites: [ stat110 ]
 estimatedHours: 80
 description: >
-  斯坦福大学信息论课程（现编号 EE276），由 Tsachy Weissman 教授讲授。
-  从熵、互信息、KL 散度出发，讲到无损压缩、信道容量、率失真理论与通用压缩算法。
-  课程既有严格的数学推导，也强调在通信、机器学习与生物信息中的实际应用，
-  是理解「信息」这一概念定量本质的必修课。
+  斯坦福大学信息论课程（现编号 EE276），由 Tsachy Weissman 教授讲授。 从熵、互信息、KL 散度出发，讲到无损压缩、信道容量、率失真理论与通用压缩算法。 课程既有严格的数学推导，也强调在通信、机器学习与生物信息中的实际应用， 是理解「信息」这一概念定量本质的必修课。
 sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1HJaYzhEfZ
+    uploader: GPT中英字幕课程资源（搬运）
+    note: 剑桥 David MacKay《信息论、模式识别与神经网络》全 16 讲中英字幕，内容与 EE376A 高度重合
   - platform: other
     url: https://web.stanford.edu/class/ee376a/
     note: 课程官网，含讲义、Scribe Notes 与作业
   - platform: other
     url: https://web.stanford.edu/class/ee276/index.html
     note: 新编号 EE276 课程页
-episodeCount: 20
 notes:
   - title: EE376A 讲义合集 PDF
     url: https://web.stanford.edu/class/ee376a/files/scribes/lecture_notes.pdf
     kind: site
+episodes:
+  - n: 1
+    title: "[01]Lecture 1_ Introduction to Information Theory.zh_en"
+  - n: 2
+    title: "[02]Lecture 2_ Entropy and Data Compression (I)_ Introduction to Compression, In"
+  - n: 3
+    title: "[03]Lecture 3_ Entropy and Data Compression (II)_ Shannons Source Coding Theorem"
+  - n: 4
+    title: "[04]Lecture 4_ Entropy and Data Compression (III)_ Shannons Source Coding Theore"
+  - n: 5
+    title: "[05]Lecture 5_ Entropy and Data Compression (IV)_ Shannons Source Coding Theorem"
+  - n: 6
+    title: "[06]Lecture 6_ Noisy Channel Coding (I)_ Inference and Information Measures for"
+  - n: 7
+    title: "[07]Lecture 7_ Noisy Channel Coding (II)_ The Capacity of a Noisy Channel.zh_en"
+  - n: 8
+    title: "[08]Lecture 8_ Noisy Channel Coding (III)_ The Noisy-Channel Coding Theorem.zh_e"
+  - n: 9
+    title: "[09]Lecture 9_ A Noisy Channel Coding Gem, And An Introduction To Bayesian Infer"
+  - n: 10
+    title: "[10]Lecture 10_ An Introduction To Bayesian Inference (II)_ Inference Of Paramet"
+  - n: 11
+    title: "[11]Lecture 11_ Approximating Probability Distributions (I)_ Clustering As An E"
+  - n: 12
+    title: "[12]Lecture 12_ Approximating Probability Distributions (II)_ Monte Carlo Method"
+  - n: 13
+    title: "[13]Lecture 13_ Approximating Probability Distributions (III)_ Monte Carlo Metho"
+  - n: 14
+    title: "[14]Lecture 14_ Approximating Probability Distributions (IV)_ Variational Method"
+  - n: 15
+    title: "[15]Lecture 15_ Data Modelling With Neural Networks (I)_ Feedforward Networks_ T"
+  - n: 16
+    title: "[16]Lecture 16_ Data Modelling With Neural Networks (II)_ Content-Addressable Me"

@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useCallback, useRef, useState, useTransition } from "react";
 import { SUBJECT_LABEL } from "@/lib/content/schema";
 import { unlockSkill } from "@/lib/game/actions";
 import type { SkillState } from "@/lib/game/skills";
-import { NODE_H, NODE_W, type TreeLayout } from "@/lib/game/tree-layout";
+import { HUB_R, NODE_H, NODE_W, type TreeLayout } from "@/lib/game/tree-layout";
 import { SUBJECT_ICON } from "./badges";
 
 export interface SkillNodeView {
@@ -24,6 +24,14 @@ const STATE_STYLE: Record<SkillState, string> = {
   lit: "border-gold bg-amber-100 dark:bg-amber-950 cursor-pointer",
 };
 
+const ZOOMS = [0.3, 0.45, 0.6, 0.8, 1];
+
+/**
+ * 服务端与浏览器算 Math.cos 末位可能差 1 ulp，直接拼进 path 会触发水合警告。
+ * 坐标统一保留两位小数。
+ */
+const r2 = (n: number) => Math.round(n * 100) / 100;
+
 export function SkillTree({
   layout,
   views,
@@ -37,7 +45,52 @@ export function SkillTree({
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [zoom, setZoom] = useState(0.45);
   const [pending, startTransition] = useTransition();
+
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const drag = useRef<{ x: number; y: number; left: number; top: number } | null>(
+    null,
+  );
+
+  /** 天赋盘比视口大，挂载后把滚动位置摆到中心徽记上 */
+  const centerView = useCallback((el: HTMLDivElement | null) => {
+    viewportRef.current = el;
+    if (!el) return;
+    el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+    el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
+  }, []);
+
+  const recenter = () => {
+    const el = viewportRef.current;
+    if (!el) return;
+    el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+    el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
+  };
+
+  // 按住空白处拖动平移——节点卡自己会 stopPropagation，不会误触发
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = viewportRef.current;
+    if (!el || e.button !== 0) return;
+    drag.current = {
+      x: e.clientX,
+      y: e.clientY,
+      left: el.scrollLeft,
+      top: el.scrollTop,
+    };
+    el.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = viewportRef.current;
+    const d = drag.current;
+    if (!el || !d) return;
+    el.scrollLeft = d.left - (e.clientX - d.x);
+    el.scrollTop = d.top - (e.clientY - d.y);
+  };
+  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    drag.current = null;
+    viewportRef.current?.releasePointerCapture(e.pointerId);
+  };
 
   const pos = new Map(layout.nodes.map((n) => [n.node.id, n]));
   const selected = selectedId ? pos.get(selectedId) : null;
@@ -53,30 +106,101 @@ export function SkillTree({
 
   return (
     <div>
-      <div className="overflow-x-auto rounded-lg border border-edge bg-background/60 p-4">
-        <div
-          className="relative"
-          style={{ width: layout.width, height: layout.height }}
+      <div className="mb-2 flex items-center justify-end gap-1.5">
+        <span className="mr-1 text-xs text-muted">缩放</span>
+        {ZOOMS.map((z) => (
+          <button
+            key={z}
+            onClick={() => setZoom(z)}
+            className={`rounded border px-2 py-0.5 text-xs transition-colors ${
+              zoom === z
+                ? "border-gold text-gold"
+                : "border-edge text-muted hover:border-gold hover:text-gold"
+            }`}
+          >
+            {Math.round(z * 100)}%
+          </button>
+        ))}
+        <button
+          onClick={recenter}
+          className="ml-1 rounded border border-edge px-2 py-0.5 text-xs text-muted hover:border-gold hover:text-gold"
         >
-          {/* 连线层 */}
+          回到中心
+        </button>
+      </div>
+      <div
+        ref={centerView}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        className="h-[72vh] min-h-100 cursor-grab touch-none overflow-auto rounded-lg border border-edge bg-background/60 p-4 active:cursor-grabbing"
+      >
+        {/* 外层按缩放后的尺寸占位，内层整体 scale——滚动条才对得上 */}
+        <div
+          className="mx-auto"
+          style={{ width: layout.width * zoom, height: layout.height * zoom }}
+        >
+        <div
+          className="relative origin-top-left"
+          style={{
+            width: layout.width,
+            height: layout.height,
+            transform: `scale(${zoom})`,
+          }}
+        >
+          {/* 底层：同心圈层 + 连线 */}
           <svg
             className="absolute inset-0"
             width={layout.width}
             height={layout.height}
           >
+            {layout.rings.map((r, i) => (
+              <circle
+                key={i}
+                cx={layout.center.x}
+                cy={layout.center.y}
+                r={r}
+                fill="none"
+                stroke="var(--edge)"
+                strokeWidth="1"
+                strokeDasharray="3 7"
+                opacity="0.5"
+              />
+            ))}
+            {/* 一级节点从中心徽记引出 */}
+            {layout.nodes
+              .filter((n) => n.node.requires.length === 0)
+              .map((n) => (
+                <line
+                  key={`hub-${n.node.id}`}
+                  x1={r2(layout.center.x + Math.cos(n.angle) * HUB_R)}
+                  y1={r2(layout.center.y + Math.sin(n.angle) * HUB_R)}
+                  x2={n.x}
+                  y2={n.y}
+                  stroke={
+                    views[n.node.id]?.state === "lit"
+                      ? "var(--gold)"
+                      : "var(--edge)"
+                  }
+                  strokeWidth={views[n.node.id]?.state === "lit" ? 2 : 1.5}
+                />
+              ))}
+            {/* 前置依赖连线：沿半径方向的平滑曲线 */}
             {layout.edges.map((e, i) => {
               const from = pos.get(e.from);
               const to = pos.get(e.to);
               if (!from || !to) return null;
-              const x1 = from.x + NODE_W / 2;
-              const y1 = from.y + NODE_H;
-              const x2 = to.x + NODE_W / 2;
-              const y2 = to.y;
+              const midR = (from.radius + to.radius) / 2;
+              const c1x = r2(layout.center.x + Math.cos(from.angle) * midR);
+              const c1y = r2(layout.center.y + Math.sin(from.angle) * midR);
+              const c2x = r2(layout.center.x + Math.cos(to.angle) * midR);
+              const c2y = r2(layout.center.y + Math.sin(to.angle) * midR);
               const lit = views[e.from]?.state === "lit";
               return (
                 <path
                   key={i}
-                  d={`M ${x1} ${y1} C ${x1} ${y1 + 44}, ${x2} ${y2 - 44}, ${x2} ${y2}`}
+                  d={`M ${from.x} ${from.y} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${to.x} ${to.y}`}
                   fill="none"
                   stroke={lit ? "var(--gold)" : "var(--edge)"}
                   strokeWidth={lit ? 2 : 1.5}
@@ -85,61 +209,90 @@ export function SkillTree({
             })}
           </svg>
 
-          {/* 学科列标题 */}
-          {layout.columns.map((c) => (
+          {/* 中心徽记 */}
+          <div
+            className="absolute flex items-center justify-center rounded-full border-2 border-gold bg-panel text-center"
+            style={{
+              left: layout.center.x - HUB_R,
+              top: layout.center.y - HUB_R,
+              width: HUB_R * 2,
+              height: HUB_R * 2,
+            }}
+          >
+            <span className="text-xs font-bold text-gold">
+              学者
+              <br />
+              公会
+            </span>
+          </div>
+
+          {/* 学科扇区标签 */}
+          {layout.sectors.map((s) => (
             <div
-              key={c.subject}
-              className="absolute top-0 text-sm font-bold text-muted"
-              style={{ left: c.x, width: c.width }}
+              key={s.subject}
+              className="absolute whitespace-nowrap text-sm font-bold text-muted"
+              style={{
+                left: s.x,
+                top: s.y,
+                transform: "translate(-50%, -50%)",
+              }}
             >
-              <span className="mr-1">{SUBJECT_ICON[c.subject]}</span>
-              {SUBJECT_LABEL[c.subject]}
+              {SUBJECT_ICON[s.subject]} {SUBJECT_LABEL[s.subject]}
             </div>
           ))}
 
-          {/* 节点层 */}
+          {/* 节点层：坐标是中心点，用 translate 居中 */}
           {layout.nodes.map(({ node, x, y }) => {
             const view = views[node.id];
             const isSelected = selectedId === node.id;
             return (
               <button
                 key={node.id}
+                // 不让点节点被外层的拖拽平移吞掉
+                onPointerDown={(e) => e.stopPropagation()}
                 onClick={() => {
                   setSelectedId(isSelected ? null : node.id);
                   setError(null);
                 }}
-                className={`absolute rounded-lg border p-2.5 text-left transition-all ${STATE_STYLE[view.state]} ${
-                  isSelected ? "ring-2 ring-mana" : ""
+                className={`absolute overflow-hidden rounded-lg border px-2 py-1 text-left transition-all hover:z-10 hover:scale-110 ${STATE_STYLE[view.state]} ${
+                  isSelected ? "z-10 ring-2 ring-mana" : ""
                 }`}
-                style={{ left: x, top: y, width: NODE_W, height: NODE_H }}
+                style={{
+                  left: x,
+                  top: y,
+                  width: NODE_W,
+                  height: NODE_H,
+                  transform: "translate(-50%, -50%)",
+                }}
               >
-                <div className="flex items-center justify-between gap-1">
-                  <span
-                    className={`truncate text-sm font-bold ${view.state === "lit" ? "text-gold" : ""}`}
-                  >
+                <div className="flex items-center gap-1">
+                  <span className="text-[11px]">
                     {view.state === "lit"
                       ? "◆"
                       : view.state === "available"
                         ? "✧"
-                        : "🔒"}{" "}
+                        : "🔒"}
+                  </span>
+                  <span
+                    className={`truncate text-[13px] font-bold ${view.state === "lit" ? "text-gold" : ""}`}
+                  >
                     {node.title}
                   </span>
-                  <span className="shrink-0 rounded bg-edge px-1 text-[10px] text-muted">
-                    T{node.tier}
-                  </span>
                 </div>
-                <div className="mt-1.5 text-xs text-muted">
+                <div className="truncate text-[10px] text-muted">
+                  T{node.tier} ·{" "}
                   {view.state === "lit"
                     ? "已点亮"
                     : view.state === "available"
-                      ? `可点亮 · 消耗 ${node.cost} 技能点`
+                      ? `可点亮 ${node.cost} 点`
                       : !view.requiresMet
-                        ? "前置技能未点亮"
-                        : "关联课程未通关"}
+                        ? "前置未点亮"
+                        : "课程未通关"}
                 </div>
               </button>
             );
           })}
+        </div>
         </div>
       </div>
 
