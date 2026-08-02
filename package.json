@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "serve": "node scripts/serve.mjs",
     "lint": "eslint",
     "test": "node --import tsx --test \"src/lib/**/*.test.ts\"",
     "validate": "tsx scripts/validate-content.ts",
