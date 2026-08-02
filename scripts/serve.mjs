@@ -7,21 +7,24 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const standalone = path.join(root, ".next", "standalone");
+// 运行目录与构建产物分离：否则运行中的服务占着 .next/standalone，
+// 下一次 npm run build 会 EBUSY 失败
+const runtime = path.join(root, ".runtime");
 
 if (!fs.existsSync(path.join(standalone, "server.js"))) {
   console.error("未找到 .next/standalone，请先执行 npm run build");
   process.exit(1);
 }
 
+fs.rmSync(runtime, { recursive: true, force: true });
+fs.cpSync(standalone, runtime, { recursive: true });
 // standalone 只打包被 trace 到的依赖；这些目录是运行期 fs 读取，需手动同步
 for (const dir of ["content", "drizzle", "public"]) {
-  fs.cpSync(path.join(root, dir), path.join(standalone, dir), {
-    recursive: true,
-  });
+  fs.cpSync(path.join(root, dir), path.join(runtime, dir), { recursive: true });
 }
 fs.cpSync(
   path.join(root, ".next", "static"),
-  path.join(standalone, ".next", "static"),
+  path.join(runtime, ".next", "static"),
   { recursive: true },
 );
 
@@ -38,7 +41,7 @@ console.log(`学者公会 Guild → http://localhost:${env.PORT}`);
 console.log(`数据库: ${env.DATABASE_PATH}`);
 
 const child = spawn(process.execPath, ["server.js"], {
-  cwd: standalone,
+  cwd: runtime,
   env,
   stdio: "inherit",
 });
