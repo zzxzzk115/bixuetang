@@ -1,0 +1,3558 @@
+{
+  "courseId": "thecherno-engine",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "TheCherno 的 Hazel 游戏引擎系列共 123 集，从一个空白的 Visual Studio 工程出发，逐步搭建入口点、日志、事件系统、窗口抽象、图层栈与 OpenGL 渲染管线，再演进出批量渲染的 2D 渲染器、基于 EnTT 的实体组件系统、Hazelnut 编辑器、场景序列化、Box2D 物理与 Mono 驱动的 C# 脚本系统。全程用 C++ 手写，强调平台抽象、数据导向设计与「先做工具链再做内容」的工程取舍。跟完这一系列，你会拥有一个结构完整、可继续演进的自研 2D 引擎与配套编辑器。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "系列开篇，Cherno 宣布启动筹备两年的游戏引擎教程。他说明这不是「跟着做一个小 demo」，而是从空白工程一行行写出一个真正可用的引擎 Hazel。课程会覆盖窗口、事件、渲染、资源、编辑器、脚本等完整子系统，全程用 C++ 与 OpenGL。观众被鼓励同步敲代码并参与 GitHub 仓库贡献。",
+      "keyPoints": [
+        {
+          "title": "系列目标",
+          "detail": "不做玩具 demo，而是构建一个结构完整、可持续演进的实际引擎 Hazel。"
+        },
+        {
+          "title": "技术栈选型",
+          "detail": "C++ 作为核心语言，图形后端先用 OpenGL，架构上为将来接入 Vulkan/DirectX 预留抽象层。"
+        },
+        {
+          "title": "开源协作",
+          "detail": "代码托管在 GitHub 的 TheCherno/Hazel 仓库，观众可提 Issue 与 Pull Request 一起推进。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Game Engine 游戏引擎",
+          "definition": "为游戏开发提供渲染、输入、资源、脚本等通用能力的软件框架。"
+        },
+        {
+          "term": "Hazel 榛子引擎",
+          "definition": "本系列从零编写的引擎项目名，最终形态包含运行时与 Hazelnut 编辑器。"
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "本集回答「游戏引擎到底是什么」。Cherno 指出引擎的本质是把游戏逻辑之外的通用能力抽出来复用，核心区别在于它是数据驱动的：美术与关卡数据在引擎外部编辑，运行时被加载。他对比了「为一款游戏写的代码」和「能服务多款游戏的引擎」，强调工具链（编辑器）才是引擎与框架的分水岭。最后勾勒出 Hazel 未来要具备的子系统清单。",
+      "keyPoints": [
+        {
+          "title": "数据驱动",
+          "detail": "引擎不硬编码具体游戏内容，而是加载外部资源与场景描述文件来驱动运行。"
+        },
+        {
+          "title": "工具链的地位",
+          "detail": "编辑器与资产管线是引擎区别于普通图形框架的关键，Hazel 后期会做出 Hazelnut 编辑器。"
+        },
+        {
+          "title": "子系统划分",
+          "detail": "渲染、音频、物理、输入、脚本、资源管理、序列化各自成模块，彼此通过抽象接口协作。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Data-Driven 数据驱动",
+          "definition": "程序行为由外部数据而非硬编码逻辑决定的设计方式。"
+        },
+        {
+          "term": "Asset Pipeline 资产管线",
+          "definition": "把美术等原始资源转换为引擎可高效加载格式的一整套流程。"
+        },
+        {
+          "term": "Runtime 运行时",
+          "definition": "引擎中真正跑游戏的那部分代码，与编辑器相对。"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "进入架构设计环节，先在白板上把 Hazel 的顶层结构画清楚。程序入口由引擎持有，客户端只负责提供一个 Application 派生类。往下依次是窗口层、事件系统、图层栈、渲染器、资源与脚本。Cherno 强调先定接口再写实现，让平台相关代码被隔离在 Platform 目录下。",
+      "keyPoints": [
+        {
+          "title": "引擎持有入口",
+          "detail": "main 函数写在引擎里，客户端通过 CreateApplication 提供自己的应用实例，控制权由引擎掌握。"
+        },
+        {
+          "title": "平台抽象分层",
+          "detail": "上层只依赖抽象接口（Window、RendererAPI），具体实现放进 Platform/Windows、Platform/OpenGL。"
+        },
+        {
+          "title": "图层栈模型",
+          "detail": "游戏逻辑与调试 UI 都以 Layer 形式挂在 LayerStack 上，按顺序更新、逆序接收事件。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Abstraction Layer 抽象层",
+          "definition": "隐藏平台差异、对上层暴露统一接口的中间层。"
+        },
+        {
+          "term": "Layer Stack 图层栈",
+          "definition": "按顺序组织的图层集合，决定更新与事件分发的先后。"
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "实际动手搭建 Visual Studio 解决方案。工程分成 Hazel（引擎，先做成动态库）和 Sandbox（示例客户端）两个项目。为了跨越 DLL 边界导出符号，定义了 HZ_API 宏，通过 HZ_BUILD_DLL 在导出与导入之间切换。同时约定预处理器宏 HZ_PLATFORM_WINDOWS 来标记目标平台。",
+      "keyPoints": [
+        {
+          "title": "引擎与沙盒分离",
+          "detail": "Hazel 编译为库，Sandbox 作为使用者链接它，从一开始就验证对外 API 是否好用。"
+        },
+        {
+          "title": "HZ_API 导出宏",
+          "detail": "用 __declspec(dllexport) 与 __declspec(dllimport) 双态宏解决 DLL 符号可见性问题。"
+        },
+        {
+          "title": "输出目录约定",
+          "detail": "按 配置-平台-架构 组织 bin 与中间目录，避免不同构建产物互相覆盖。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Dynamic Link Library 动态链接库",
+          "definition": "运行时加载的共享代码库，Windows 上为 .dll 文件。"
+        },
+        {
+          "term": "Preprocessor Macro 预处理器宏",
+          "definition": "编译前展开的文本替换指令，常用于平台与配置分支。"
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "实现引擎的入口点机制。EntryPoint.h 里写下唯一的 main 函数，它调用由客户端实现的 Hazel::CreateApplication() 拿到应用对象，然后 Run 并释放。客户端只需包含 Hazel.h 并定义这个函数，就把生命周期完全交给引擎管理。这样引擎可以在应用启动前后统一做初始化与清理。",
+      "keyPoints": [
+        {
+          "title": "CreateApplication 契约",
+          "detail": "引擎声明 extern Application* CreateApplication()，由客户端定义，形成编译期的插件式约定。"
+        },
+        {
+          "title": "Application::Run 主循环",
+          "detail": "应用基类持有 while 循环，后续窗口、图层、渲染的每帧驱动都挂在这里。"
+        },
+        {
+          "title": "单一入口的好处",
+          "detail": "引擎可在 main 里集中做日志初始化、内存追踪、崩溃处理等前后置工作。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Entry Point 入口点",
+          "definition": "程序启动时操作系统调用的第一个函数，此处由引擎统一提供。"
+        },
+        {
+          "term": "Client Application 客户端应用",
+          "definition": "使用引擎的上层程序，如 Sandbox。"
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "引入日志系统，选用第三方库 spdlog 作为后端。引擎维护两个 logger：Core 用于引擎自身，Client 用于用户程序，输出带颜色与时间戳便于区分。再用 HZ_CORE_INFO、HZ_TRACE 等宏封装调用，并让发行配置下宏被编译掉，做到零开销。日志是后续调试事件与渲染的基础设施。",
+      "keyPoints": [
+        {
+          "title": "双 logger 设计",
+          "detail": "Core 与 Client 两套日志器分别标注引擎与用户代码，输出更易定位来源。"
+        },
+        {
+          "title": "宏封装与剥离",
+          "detail": "用宏包一层，发行版本可把日志宏定义为空，避免运行时开销。"
+        },
+        {
+          "title": "格式化模式",
+          "detail": "设置 pattern 输出时间、日志器名与彩色级别，提升可读性。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "spdlog 日志库",
+          "definition": "轻量高性能的 C++ 头文件式日志库，Hazel 的日志后端。"
+        },
+        {
+          "term": "Log Level 日志级别",
+          "definition": "trace、info、warn、error 等分级，用于过滤输出。"
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "把手工维护的 Visual Studio 工程换成 Premake 脚本生成。premake5.lua 用 Lua 描述工作区、项目、包含目录、宏定义与不同配置的编译选项。这样跨平台与新增依赖时只需改脚本再重新生成，避免手点 IDE 属性页。Cherno 演示了 filter 语法处理平台与配置差异。",
+      "keyPoints": [
+        {
+          "title": "构建即代码",
+          "detail": "用 premake5.lua 描述整个解决方案结构，工程文件成为可再生成的产物而非仓库真相。"
+        },
+        {
+          "title": "filter 条件块",
+          "detail": "通过 filter \"configurations:Debug\" 等语法为不同配置设置调试符号、优化级别与宏。"
+        },
+        {
+          "title": "依赖包含路径",
+          "detail": "用表变量集中管理 IncludeDir，新增 GLFW、ImGui 等依赖时只改一处。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Premake 构建生成器",
+          "definition": "用 Lua 脚本描述工程并生成各平台构建文件的工具。"
+        },
+        {
+          "term": "Workspace 工作区",
+          "definition": "Premake 中对应 Visual Studio 解决方案的顶层容器。"
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "进入事件系统前先做设计讨论。窗口关闭、按键、鼠标移动等都要以统一形式传递给引擎和图层。Cherno 选择「阻塞式立即分发」作为第一版：事件产生时立刻沿图层栈逆序派发，谁处理谁标记 Handled。同时规划了事件类型枚举与位掩码分类，方便按类别过滤。",
+      "keyPoints": [
+        {
+          "title": "阻塞式事件",
+          "detail": "事件触发即刻同步分发处理，实现简单；缓冲队列作为后续可能的优化方向被记录下来。"
+        },
+        {
+          "title": "类型与类别双维度",
+          "detail": "EventType 精确标识具体事件，EventCategory 用位标志支持「所有输入事件」这类粗粒度过滤。"
+        },
+        {
+          "title": "Handled 标记",
+          "detail": "事件被某一层消费后置位，阻止继续向下层传播，实现 UI 抢占输入。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Event Dispatch 事件分发",
+          "definition": "把事件对象送到合适处理函数的过程。"
+        },
+        {
+          "term": "Bit Flag 位标志",
+          "definition": "用二进制位表示可组合状态的技巧，此处用于事件类别。"
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "落地事件系统代码。Event 基类提供 GetEventType、GetName 与 IsInCategory，用宏 EVENT_CLASS_TYPE 和 EVENT_CLASS_CATEGORY 消除样板代码。派生出 WindowCloseEvent、KeyPressedEvent、MouseMovedEvent 等具体类型，各自携带自己的数据。EventDispatcher 借助模板在运行时匹配类型并调用对应的处理函数。",
+      "keyPoints": [
+        {
+          "title": "宏消除样板",
+          "detail": "两个宏一次性生成静态类型、虚函数重写与名称字符串，减少每个事件类的重复代码。"
+        },
+        {
+          "title": "EventDispatcher 模板",
+          "detail": "Dispatch<T>(fn) 比对运行时类型与 T::GetStaticType，匹配则调用并把返回值写入 Handled。"
+        },
+        {
+          "title": "事件数据承载",
+          "detail": "具体事件类保存按键码、鼠标坐标、窗口宽高等负载，供处理函数读取。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Event Dispatcher 事件分发器",
+          "definition": "按事件类型将事件路由到对应回调的辅助类。"
+        },
+        {
+          "term": "Template 模板",
+          "definition": "C++ 中按类型参数生成代码的泛型机制。"
+        }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "为缓解编译时间引入预编译头文件 hzpch.h 与 hzpch.cpp。里面集中包含 iostream、memory、string、vector、unordered_map 等标准库和平台头，所有引擎 cpp 文件首行包含它。Premake 里用 pchheader 与 pchsource 配置，并对第三方 C 文件排除 PCH。Cherno 也提醒 PCH 只放稳定不常改的头，否则会适得其反。",
+      "keyPoints": [
+        {
+          "title": "PCH 的收益",
+          "detail": "标准库头被预编译一次复用，显著缩短整体编译时间。"
+        },
+        {
+          "title": "内容取舍",
+          "detail": "只放极少变动的系统与标准库头；把频繁修改的引擎头塞进 PCH 会导致全量重编。"
+        },
+        {
+          "title": "构建配置",
+          "detail": "在 premake 中设置 pchheader 与 pchsource，并对不适用的文件加 flags 排除。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Precompiled Header 预编译头",
+          "definition": "提前编译并缓存的公共头文件集合，用于加速构建。"
+        },
+        {
+          "term": "Translation Unit 翻译单元",
+          "definition": "编译器处理的单个源文件及其展开后的全部内容。"
+        }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "设计窗口抽象并接入 GLFW。Window 是纯虚接口，声明 OnUpdate、GetWidth/GetHeight、SetVSync 与事件回调设置；WindowsWindow 是它的 GLFW 实现。静态 Create 方法根据平台宏返回对应实现，上层完全不感知 GLFW。同时把 GLFW 编译成静态库并加入 premake 依赖。",
+      "keyPoints": [
+        {
+          "title": "接口与实现分离",
+          "detail": "Window::Create 工厂函数在编译期按平台宏选择实现，上层代码保持平台无关。"
+        },
+        {
+          "title": "WindowProps 描述",
+          "detail": "用一个结构体传标题与初始宽高，避免构造函数参数膨胀。"
+        },
+        {
+          "title": "GLFW 初始化",
+          "detail": "首次创建窗口时调用 glfwInit，并注册错误回调把 GLFW 错误转成引擎日志。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "GLFW 窗口库",
+          "definition": "跨平台的窗口、上下文与输入管理库。"
+        },
+        {
+          "term": "VSync 垂直同步",
+          "definition": "让缓冲交换与显示器刷新对齐以消除画面撕裂的选项。"
+        }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "把 GLFW 的 C 风格回调接到引擎事件系统上。做法是用 glfwSetWindowUserPointer 把窗口自带的数据结构挂到 GLFW 窗口上，回调里取回后构造对应事件并调用 EventCallbackFn。于是窗口关闭、尺寸变化、按键、鼠标按钮与滚轮都变成引擎事件。Application 收到事件后先处理 WindowClose，再交给图层栈。",
+      "keyPoints": [
+        {
+          "title": "UserPointer 桥接",
+          "detail": "GLFW 回调是自由函数，通过窗口用户指针取回 C++ 对象和回调函数，完成 C 到 C++ 的转接。"
+        },
+        {
+          "title": "std::function 回调",
+          "detail": "EventCallbackFn 用 std::function<void(Event&)>，让窗口不必知道 Application 的存在。"
+        },
+        {
+          "title": "按键重复处理",
+          "detail": "GLFW 的按下、重复、抬起三态被映射为 KeyPressedEvent 的重复计数与 KeyReleasedEvent。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Callback 回调函数",
+          "definition": "由框架在特定时机调用的用户提供函数。"
+        },
+        {
+          "term": "User Pointer 用户指针",
+          "definition": "GLFW 允许挂载在窗口上的任意用户数据指针。"
+        }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "实现图层与图层栈。Layer 提供 OnAttach、OnDetach、OnUpdate、OnEvent 四个虚函数，游戏逻辑与调试界面都以图层形式存在。LayerStack 用一个 vector 同时存放普通层和覆盖层，用插入位置索引把覆盖层永远保持在末尾。更新时正序遍历，事件分发时逆序遍历，保证最上层优先消费输入。",
+      "keyPoints": [
+        {
+          "title": "Layer 生命周期",
+          "detail": "入栈调用 OnAttach、出栈调用 OnDetach，资源创建与销毁有明确时机。"
+        },
+        {
+          "title": "Overlay 覆盖层",
+          "detail": "ImGui 这类调试 UI 作为 overlay 压在最上层，优先接收事件。"
+        },
+        {
+          "title": "正序更新逆序分发",
+          "detail": "渲染按从底到顶叠加，事件按从顶到底传递，符合直觉的交互语义。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Layer 图层",
+          "definition": "引擎中可独立更新与响应事件的功能单元。"
+        },
+        {
+          "term": "Overlay 覆盖层",
+          "definition": "始终位于图层栈顶部的特殊图层。"
+        }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "引入 Glad 作为 OpenGL 函数加载器，正式使用现代 OpenGL。GLFW 只负责创建上下文，真正的 gl 函数指针要靠 gladLoadGLLoader 在上下文变为当前之后加载。加载成功后打印显卡厂商、渲染器与 OpenGL 版本信息作为验证。随后在主循环里调用 glClearColor 与 glClear 画出纯色背景。",
+      "keyPoints": [
+        {
+          "title": "函数加载器的必要性",
+          "detail": "Windows 只暴露 OpenGL 1.1 符号，现代函数必须运行时按名字取地址，Glad 生成这套代码。"
+        },
+        {
+          "title": "加载时机",
+          "detail": "必须在 glfwMakeContextCurrent 之后调用 gladLoadGLLoader，否则拿不到有效函数指针。"
+        },
+        {
+          "title": "设备信息打印",
+          "detail": "用 glGetString 输出厂商、渲染器与版本，便于排查驱动与版本问题。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Glad 加载器",
+          "definition": "根据 OpenGL 规范生成函数指针加载代码的工具与库。"
+        },
+        {
+          "term": "OpenGL Context 上下文",
+          "definition": "保存 OpenGL 状态机全部状态的对象，绑定到线程使用。"
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "集成 Dear ImGui 作为引擎的调试与编辑器界面。新建 ImGuiLayer 作为 overlay，在 OnAttach 里创建 ImGui 上下文、设置样式并初始化 OpenGL 渲染后端。每帧用 Begin 与 End 包裹，中间由各图层调用 OnImGuiRender 提交自己的界面。本集先用 ShowDemoWindow 验证整条链路可用。",
+      "keyPoints": [
+        {
+          "title": "即时模式 UI",
+          "detail": "ImGui 每帧重新描述界面，无需保留控件对象，非常适合引擎工具面板。"
+        },
+        {
+          "title": "ImGuiLayer 封装",
+          "detail": "上下文创建、字体、样式与帧的开始结束全部收在一个 overlay 图层里。"
+        },
+        {
+          "title": "OnImGuiRender 钩子",
+          "detail": "Layer 新增该虚函数，让每个图层在统一时机绘制自己的调试界面。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Dear ImGui 即时模式界面库",
+          "definition": "面向调试与工具的 C++ 立即模式 GUI 库。"
+        },
+        {
+          "term": "Immediate Mode GUI 立即模式界面",
+          "definition": "每帧根据当前状态重建界面、不保留控件树的 UI 范式。"
+        }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "打通 ImGui 与引擎事件系统。ImGui 需要知道鼠标位置、按键与字符输入，因此把引擎事件翻译成 ImGuiIO 的状态写入。Cherno 先手写各类事件的处理函数，演示 Dispatch 的用法与键位映射。之后指出更好的做法是直接使用 ImGui 官方的 GLFW 后端，为后续重构埋下伏笔。",
+      "keyPoints": [
+        {
+          "title": "事件到 IO 的映射",
+          "detail": "鼠标按下、移动、滚轮与键盘事件分别写入 ImGuiIO 的对应数组和字段。"
+        },
+        {
+          "title": "输入抢占",
+          "detail": "通过 WantCaptureMouse 与 WantCaptureKeyboard 判断 UI 是否应吞掉输入，避免穿透到场景。"
+        },
+        {
+          "title": "重构预告",
+          "detail": "手工桥接代码冗长易错，后续改用 ImGui 自带的平台与渲染后端实现。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "ImGuiIO 输入输出结构",
+          "definition": "ImGui 用于接收输入状态与输出捕获意图的核心结构体。"
+        },
+        {
+          "term": "Input Capture 输入捕获",
+          "definition": "UI 层在需要时独占输入、阻止其传给游戏的机制。"
+        }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "把 Hazel 正式推上 GitHub 并规范仓库结构。讲解 .gitignore 排除 bin 与中间目录，用 git submodule 管理 GLFW、Glad、ImGui 等第三方依赖。还介绍了克隆时加 --recursive 拉取子模块，以及 scripts 目录里的一键生成工程脚本。目的是让任何人都能一条命令跑起来。",
+      "keyPoints": [
+        {
+          "title": "子模块管理依赖",
+          "detail": "第三方库以 git submodule 形式引用，仓库保持精简且版本可追溯。"
+        },
+        {
+          "title": "忽略构建产物",
+          "detail": ".gitignore 排除 bin、bin-int 与生成的工程文件，仓库只存源码与脚本。"
+        },
+        {
+          "title": "一键生成工程",
+          "detail": "提供批处理脚本调用 premake5，降低新人上手成本。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Git Submodule 子模块",
+          "definition": "在一个仓库中嵌套引用另一个仓库特定提交的机制。"
+        },
+        {
+          "term": "Repository 仓库",
+          "definition": "存放项目源码与历史记录的版本控制单元。"
+        }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "讲解开源协作中的 Pull Request 流程。观众 fork 仓库、在分支上改动、提交 PR，维护者审阅后合并。Cherno 现场审了几个社区 PR，说明什么样的改动容易被接受：范围聚焦、风格统一、不夹带无关格式化。他也讲了如何在本地拉取 PR 分支测试再决定合并。",
+      "keyPoints": [
+        {
+          "title": "Fork 与分支工作流",
+          "detail": "贡献者在自己的 fork 上开功能分支修改，通过 PR 请求合并回上游。"
+        },
+        {
+          "title": "评审关注点",
+          "detail": "改动是否单一职责、命名与代码风格是否一致、有没有破坏既有 API。"
+        },
+        {
+          "title": "本地验证",
+          "detail": "合并前先在本地检出 PR 分支编译运行，避免仅凭 diff 判断。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Pull Request 拉取请求",
+          "definition": "请求把某分支改动合并到目标分支并接受评审的协作单元。"
+        },
+        {
+          "term": "Fork 派生仓库",
+          "definition": "从他人仓库复制出的个人副本，用于独立开发。"
+        }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "实现输入轮询接口。除了事件推送，游戏逻辑经常需要主动查询「此刻某键是否按下」。Input 类对外提供 IsKeyPressed、IsMouseButtonPressed、GetMousePosition 等静态函数，内部转发到平台实现 WindowsInput。Cherno 用静态成员加单例的方式做静态多态，保持调用点简洁。",
+      "keyPoints": [
+        {
+          "title": "轮询与事件互补",
+          "detail": "事件适合响应「发生了什么」，轮询适合每帧查询「当前状态如何」。"
+        },
+        {
+          "title": "静态接口加平台实现",
+          "detail": "Input 静态函数转发给受保护的虚函数实现，平台层通过单例注入。"
+        },
+        {
+          "title": "依赖当前窗口",
+          "detail": "实现里从 Application 取得原生 GLFW 窗口句柄再调用 glfwGetKey 等函数。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Input Polling 输入轮询",
+          "definition": "主动查询输入设备当前状态的方式。"
+        },
+        {
+          "term": "Singleton 单例",
+          "definition": "保证全局只有一个实例并提供统一访问点的模式。"
+        }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "处理按键与鼠标按钮编码问题。直接把 GLFW 的宏透出到用户代码会绑死平台，因此引擎定义自己的 HZ_KEY 与 HZ_MOUSE_BUTTON 常量。当前实现直接取与 GLFW 相同的数值以便零成本转换，未来换后端时只需改映射表。用户代码从此只使用引擎的键码。",
+      "keyPoints": [
+        {
+          "title": "引擎自有键码",
+          "detail": "定义 KeyCodes.h 与 MouseButtonCodes.h，隔离平台特定的输入常量。"
+        },
+        {
+          "title": "数值对齐取巧",
+          "detail": "暂与 GLFW 数值保持一致，转换成本为零，同时保留将来做映射的余地。"
+        },
+        {
+          "title": "API 稳定性",
+          "detail": "用户代码只依赖引擎符号，后端替换不会破坏已有游戏代码。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Key Code 键码",
+          "definition": "标识键盘按键的整数常量。"
+        },
+        {
+          "term": "Platform Independence 平台无关性",
+          "definition": "上层代码不随底层平台变化而修改的性质。"
+        }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "引入数学库。Cherno 权衡了自研与使用现成库，最终选择 GLM，因为它接口贴近 GLSL、头文件式集成简单且经过大量验证。把 GLM 作为子模块加入并配置包含目录后，演示了向量与矩阵的基本用法。之后引擎的变换、相机与着色器统一变量都建立在 GLM 类型之上。",
+      "keyPoints": [
+        {
+          "title": "选用 GLM",
+          "detail": "语法与 GLSL 一致、纯头文件、社区成熟，比自研数学库更划算。"
+        },
+        {
+          "title": "列主序约定",
+          "detail": "GLM 遵循 OpenGL 的列主序矩阵约定，与着色器中的矩阵内存布局一致。",
+          "formula": "M_{model} = T \\cdot R \\cdot S"
+        },
+        {
+          "title": "常用类型",
+          "detail": "vec2、vec3、vec4 与 mat3、mat4 覆盖后续渲染所需的绝大部分运算。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "GLM 数学库",
+          "definition": "面向图形编程、语法模仿 GLSL 的 C++ 头文件数学库。"
+        },
+        {
+          "term": "Column-Major 列主序",
+          "definition": "矩阵按列连续存储的内存布局，OpenGL 采用此约定。"
+        }
+      ]
+    },
+    {
+      "n": 22,
+      "summary": "升级到 ImGui 的 docking 分支，开启停靠与多视口特性。启用配置标志中的 DockingEnable 与 ViewportsEnable 后，面板可以互相吸附组合，也能被拖出主窗口成为独立系统窗口。多视口要求在帧尾恢复当前 OpenGL 上下文并调用平台窗口更新。这为后面的 Hazelnut 编辑器布局打下基础。",
+      "keyPoints": [
+        {
+          "title": "Docking 停靠",
+          "detail": "面板可拖拽吸附形成分栏布局，是编辑器界面的基础能力。"
+        },
+        {
+          "title": "Viewports 多视口",
+          "detail": "允许 ImGui 窗口脱离主窗口成为独立系统窗口，需在渲染后调用 UpdatePlatformWindows。"
+        },
+        {
+          "title": "上下文恢复",
+          "detail": "多视口渲染会切换 GL 上下文，结束后必须重新把主窗口上下文设为当前。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Docking 停靠",
+          "definition": "UI 面板吸附到指定区域形成布局的交互能力。"
+        },
+        {
+          "term": "Viewport 视口",
+          "definition": "渲染输出的目标矩形区域，此处也指独立的平台窗口。"
+        }
+      ]
+    },
+    {
+      "n": 23,
+      "summary": "开始渲染专题，先讲清楚现代 GPU 的工作方式。数据以顶点缓冲上传显存，经顶点着色器、图元装配、光栅化、片元着色器最终写入帧缓冲。Cherno 强调渲染器设计的关键在于「谁来决定绘制顺序与状态」，并区分了立即绘制与提交-排序-执行两种思路。本集只讲概念，为架构设计做铺垫。",
+      "keyPoints": [
+        {
+          "title": "图形管线概览",
+          "detail": "顶点数据经顶点着色器变换、光栅化成片元、再由片元着色器决定颜色写入帧缓冲。"
+        },
+        {
+          "title": "状态机模型",
+          "detail": "OpenGL 是全局状态机，绑定什么就影响后续绘制，抽象层需要管理好绑定顺序。"
+        },
+        {
+          "title": "提交式渲染",
+          "detail": "上层只提交「画什么」，渲染器负责排序、批处理与最终发出绘制命令。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Graphics Pipeline 图形管线",
+          "definition": "从顶点数据到屏幕像素的固定阶段序列。"
+        },
+        {
+          "term": "Rasterization 光栅化",
+          "definition": "把几何图元转换成屏幕上离散片元的过程。"
+        },
+        {
+          "term": "Fragment Shader 片元着色器",
+          "definition": "为每个片元计算最终颜色的可编程阶段。"
+        }
+      ]
+    },
+    {
+      "n": 24,
+      "summary": "设计 Hazel 的渲染架构分层。最底层 RendererAPI 是平台相关的绘制原语，如清屏与 DrawIndexed；RenderCommand 是静态转发层，把调用送到当前 API 实现；Renderer 是面向用户的高层接口，负责场景开始结束与提交。Cherno 说明这样能在不改上层代码的前提下切换 OpenGL、Vulkan 或 DirectX。",
+      "keyPoints": [
+        {
+          "title": "三层结构",
+          "detail": "Renderer 负责高层语义，RenderCommand 做静态转发，RendererAPI 承担平台实现。"
+        },
+        {
+          "title": "API 选择",
+          "detail": "RendererAPI::API 枚举在启动时决定，所有资源的 Create 工厂据此实例化对应实现。"
+        },
+        {
+          "title": "面向未来",
+          "detail": "分层让加入 Vulkan 这类现代 API 时，改动集中在 Platform 目录内。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Renderer API 渲染接口",
+          "definition": "对底层图形 API 绘制能力的最小抽象。"
+        },
+        {
+          "term": "Render Command 渲染命令",
+          "definition": "一次具体的绘制或状态设置操作。"
+        }
+      ]
+    },
+    {
+      "n": 25,
+      "summary": "一集穿插的维护与整理。回顾已有代码中不一致的命名、遗留的临时实现与头文件包含混乱，逐一清理。同时回答社区关于架构选择的疑问，并调整目录结构让 Platform 与 Renderer 划分更清晰。强调持续重构是长期项目保持可维护的必要成本。",
+      "keyPoints": [
+        {
+          "title": "持续重构",
+          "detail": "每隔一段时间清理临时代码与不一致命名，避免技术债累积到无法动弹。"
+        },
+        {
+          "title": "目录规范",
+          "detail": "Hazel/Renderer 放抽象，Platform/OpenGL 放实现，包含关系单向不反转。"
+        },
+        {
+          "title": "社区反馈",
+          "detail": "根据观众提出的问题修正若干实现细节与文档说明。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Refactoring 重构",
+          "definition": "在不改变外部行为的前提下改善代码内部结构。"
+        },
+        {
+          "term": "Technical Debt 技术债",
+          "definition": "为求快而做的临时妥协，日后需付出额外维护成本。"
+        }
+      ]
+    },
+    {
+      "n": 26,
+      "summary": "把 Hazel 从动态库改为静态库。DLL 方案带来符号导出、运行时依赖与调试上的诸多麻烦，而静态链接更简单且利于跨模块优化。改动包括去掉 HZ_API 宏、把 premake 中的 kind 改为 StaticLib。同时开启更高警告级别并把警告当错误处理，逼迫代码保持干净。",
+      "keyPoints": [
+        {
+          "title": "静态库替代 DLL",
+          "detail": "去掉导出宏后跨模块符号问题消失，链接期优化空间也更大。"
+        },
+        {
+          "title": "零警告策略",
+          "detail": "提高警告等级并将警告视为错误，尽早暴露隐式转换等潜在缺陷。"
+        },
+        {
+          "title": "第三方例外",
+          "detail": "对无法控制的第三方源码单独放宽警告设置，避免噪声淹没自身问题。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Static Library 静态库",
+          "definition": "编译期直接并入可执行文件的代码库，Windows 上为 .lib 文件。"
+        },
+        {
+          "term": "Warnings as Errors 警告即错误",
+          "definition": "把编译警告提升为错误以强制修复的构建策略。"
+        }
+      ]
+    },
+    {
+      "n": 27,
+      "summary": "抽象出图形上下文。之前 Glad 初始化散落在窗口代码里，现在提炼 GraphicsContext 接口，含 Init 与 SwapBuffers 两个方法，OpenGLContext 负责设置当前上下文与加载函数指针。窗口只持有一个上下文对象指针，不再直接接触 OpenGL。这样将来加 Vulkan 上下文时窗口代码无需改动。",
+      "keyPoints": [
+        {
+          "title": "GraphicsContext 接口",
+          "detail": "把上下文创建、函数加载与缓冲交换收拢为一个平台无关接口。"
+        },
+        {
+          "title": "窗口解耦",
+          "detail": "WindowsWindow 只调用 Init 与 SwapBuffers，不再包含 glad 头文件。"
+        },
+        {
+          "title": "信息输出集中",
+          "detail": "显卡与驱动版本打印移到上下文初始化处，职责更内聚。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Graphics Context 图形上下文",
+          "definition": "封装图形 API 状态与设备资源的对象。"
+        },
+        {
+          "term": "Swap Buffers 交换缓冲",
+          "definition": "把后台缓冲内容呈现到屏幕的操作。"
+        }
+      ]
+    },
+    {
+      "n": 28,
+      "summary": "画出引擎的第一个三角形。创建顶点数组对象、顶点缓冲并上传三个顶点坐标，再用索引缓冲描述绘制顺序。通过 glVertexAttribPointer 告诉 OpenGL 顶点属性的布局，最后 glDrawElements 提交绘制。虽然此时代码还写在 Application 里且高度硬编码，但完整跑通了从数据到像素的链路。",
+      "keyPoints": [
+        {
+          "title": "顶点缓冲与索引缓冲",
+          "detail": "顶点缓冲存放顶点数据，索引缓冲复用顶点、减少数据量并明确图元顺序。"
+        },
+        {
+          "title": "顶点属性布局",
+          "detail": "用 glEnableVertexAttribArray 与 glVertexAttribPointer 描述每个属性的类型、步长与偏移。"
+        },
+        {
+          "title": "glDrawElements",
+          "detail": "按索引缓冲绘制三角形，是后续所有绘制调用的基础形式。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Vertex Buffer Object 顶点缓冲对象",
+          "definition": "显存中保存顶点数据的缓冲区。"
+        },
+        {
+          "term": "Index Buffer 索引缓冲",
+          "definition": "存放顶点索引、用于复用顶点的缓冲区。"
+        },
+        {
+          "term": "Draw Call 绘制调用",
+          "definition": "一次提交给 GPU 的绘制命令。"
+        }
+      ]
+    },
+    {
+      "n": 29,
+      "summary": "补上着色器部分，让三角形能自定义颜色。编写最简单的顶点着色器传递位置、片元着色器输出颜色，再用 glCreateShader、glShaderSource、glCompileShader 编译并链接成程序。Cherno 详细演示了编译失败时读取信息日志排错的正确姿势。随后把这套流程封装成 Shader 类。",
+      "keyPoints": [
+        {
+          "title": "着色器编译链接",
+          "detail": "分别编译顶点与片元着色器，附加到 program 后 link，成功即可 glUseProgram。"
+        },
+        {
+          "title": "错误处理",
+          "detail": "用 glGetShaderiv 查询编译状态，失败时读取信息日志打印并及时删除着色器对象。"
+        },
+        {
+          "title": "Shader 类封装",
+          "detail": "把源码字符串、句柄与 Bind、Unbind 收进一个类，避免裸 GL 调用扩散。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Vertex Shader 顶点着色器",
+          "definition": "对每个顶点执行、负责位置变换的可编程阶段。"
+        },
+        {
+          "term": "Shader Program 着色器程序",
+          "definition": "链接后可被 GPU 执行的完整着色器管线对象。"
+        }
+      ]
+    },
+    {
+      "n": 30,
+      "summary": "把渲染资源也做成平台抽象。VertexBuffer、IndexBuffer 等类改为纯虚接口，提供静态 Create 工厂，根据当前渲染 API 返回 OpenGL 实现。同时实现 RenderCommand 与 Renderer 的骨架，让上层通过 RenderCommand 的 Clear 和 DrawIndexed 工作。至此渲染层的分层设计真正落到代码上。",
+      "keyPoints": [
+        {
+          "title": "资源工厂模式",
+          "detail": "每类渲染资源提供静态 Create，在其中按当前 API 分支创建具体实现。"
+        },
+        {
+          "title": "None 分支断言",
+          "detail": "枚举保留 None 值并在工厂中断言，便于未来无渲染模式与清晰的错误提示。"
+        },
+        {
+          "title": "RenderCommand 转发",
+          "detail": "静态类持有唯一的 RendererAPI 实例指针，所有绘制调用经它转发。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Factory Method 工厂方法",
+          "definition": "由静态函数根据条件创建合适子类实例的模式。"
+        },
+        {
+          "term": "Pure Virtual Interface 纯虚接口",
+          "definition": "只声明不实现、强制派生类给出实现的抽象基类。"
+        }
+      ]
+    },
+    {
+      "n": 31,
+      "summary": "解决顶点属性布局硬编码的问题。定义 ShaderDataType 枚举与 BufferElement 结构，描述每个属性的名称、类型、是否归一化。BufferLayout 接收初始化列表，自动计算每个元素的偏移与整体步长，并提供迭代器。顶点缓冲从此携带自己的布局信息，绘制时不再手写属性指针的魔法数字。",
+      "keyPoints": [
+        {
+          "title": "ShaderDataType",
+          "detail": "用枚举统一描述 Float、Float3、Mat4、Int 等类型，并提供尺寸与分量数查询函数。"
+        },
+        {
+          "title": "自动计算步长偏移",
+          "detail": "BufferLayout 构造时遍历元素累加尺寸，得到每个元素的 offset 与总 stride。"
+        },
+        {
+          "title": "数据自描述",
+          "detail": "布局随缓冲一起保存，渲染层可自动完成属性指针设置，消除硬编码。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Buffer Layout 缓冲布局",
+          "definition": "描述顶点缓冲中各属性排列方式的元数据。"
+        },
+        {
+          "term": "Stride 步长",
+          "definition": "相邻两个顶点数据起始地址之间的字节距离。"
+        },
+        {
+          "term": "Offset 偏移",
+          "definition": "某个属性相对于顶点数据起始位置的字节偏移。"
+        }
+      ]
+    },
+    {
+      "n": 32,
+      "summary": "抽象顶点数组对象。VertexArray 接口负责持有若干顶点缓冲与一个索引缓冲，AddVertexBuffer 时读取缓冲自带的 BufferLayout 并自动设置属性指针。OpenGLVertexArray 内部用 glGenVertexArrays 与 glBindVertexArray 实现，绘制时只需绑定 VAO 一次。这样上层彻底摆脱手写属性配置。",
+      "keyPoints": [
+        {
+          "title": "VAO 的作用",
+          "detail": "顶点数组对象记录顶点属性配置与缓冲绑定，绘制时一次绑定即可恢复全部状态。"
+        },
+        {
+          "title": "布局自动应用",
+          "detail": "AddVertexBuffer 遍历布局元素，按 ShaderDataType 调用对应的属性指针函数。"
+        },
+        {
+          "title": "索引缓冲归属",
+          "detail": "SetIndexBuffer 把索引缓冲绑定进 VAO，绘制时可直接从 VAO 取索引数量。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Vertex Array Object 顶点数组对象",
+          "definition": "记录顶点属性配置与缓冲绑定状态的 OpenGL 对象。"
+        },
+        {
+          "term": "Vertex Attribute 顶点属性",
+          "definition": "顶点数据中的一项，如位置、颜色或纹理坐标。"
+        }
+      ]
+    },
+    {
+      "n": 33,
+      "summary": "设计渲染器的提交流程。Renderer 提供 BeginScene、Submit、EndScene 三段式接口：BeginScene 记录场景级数据（当前只有相机的视图投影矩阵），Submit 接收着色器与顶点数组并执行绘制，EndScene 目前为空但预留了排序与刷新。Cherno 解释了为何这套接口能自然演进到多线程与命令队列。",
+      "keyPoints": [
+        {
+          "title": "三段式接口",
+          "detail": "BeginScene 设定场景环境，Submit 收集绘制对象，EndScene 负责收尾与刷新。"
+        },
+        {
+          "title": "SceneData 结构",
+          "detail": "用静态结构保存视图投影矩阵等场景级统一变量，Submit 时上传给着色器。"
+        },
+        {
+          "title": "面向未来的排序",
+          "detail": "当前 Submit 立即绘制，接口形态保留了未来收集命令再批量排序执行的空间。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Scene 场景",
+          "definition": "一次渲染中共享相同相机与环境参数的一组绘制对象。"
+        },
+        {
+          "term": "Uniform 统一变量",
+          "definition": "一次绘制调用中对所有着色器调用保持一致的输入变量。"
+        }
+      ]
+    },
+    {
+      "n": 34,
+      "summary": "讲解相机的数学原理。屏幕上看到的画面由模型矩阵、视图矩阵与投影矩阵三者共同决定；相机本质上是视图矩阵，也就是相机变换矩阵的逆。Cherno 区分了正交与透视两种投影，说明 2D 引擎先用正交更合适。他还澄清了 OpenGL 的裁剪空间与规范化设备坐标的含义。",
+      "keyPoints": [
+        {
+          "title": "MVP 变换链",
+          "detail": "顶点依次经模型、视图、投影矩阵变换到裁剪空间，再透视除法得到设备坐标。",
+          "formula": "v_{clip} = P \\cdot V \\cdot M \\cdot v_{local}"
+        },
+        {
+          "title": "视图矩阵是逆变换",
+          "detail": "移动相机等价于反向移动整个世界，所以视图矩阵取相机变换矩阵的逆。",
+          "formula": "V = (T \\cdot R)^{-1}"
+        },
+        {
+          "title": "正交与透视",
+          "detail": "正交投影保持平行且无近大远小，适合 2D；透视投影模拟人眼，适合 3D。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "View Matrix 视图矩阵",
+          "definition": "把世界空间坐标变换到相机空间的矩阵。"
+        },
+        {
+          "term": "Projection Matrix 投影矩阵",
+          "definition": "把相机空间坐标映射到裁剪空间的矩阵。"
+        },
+        {
+          "term": "Normalized Device Coordinates 规范化设备坐标",
+          "definition": "透视除法后取值区间固定的坐标系。"
+        }
+      ]
+    },
+    {
+      "n": 35,
+      "summary": "实现 OrthographicCamera 类。构造函数接收左右下上边界，用 glm::ortho 生成投影矩阵；位置与旋转合成变换矩阵后取逆得到视图矩阵，二者相乘缓存为 ViewProjection。任何位置或旋转变化都触发重算。Renderer::BeginScene 接收相机并把视图投影矩阵上传给着色器。",
+      "keyPoints": [
+        {
+          "title": "glm::ortho 构建",
+          "detail": "用左右下上边界（可含近远平面）生成正交投影矩阵，宽高比通过边界体现。",
+          "formula": "P_{ortho}(l,r,b,t,n,f)"
+        },
+        {
+          "title": "变换求逆得视图",
+          "detail": "由位置平移与绕 Z 轴旋转组成相机变换，取 glm::inverse 得到视图矩阵。"
+        },
+        {
+          "title": "缓存 ViewProjection",
+          "detail": "把投影乘视图的结果缓存起来，避免每帧每个物体重复计算。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Orthographic Camera 正交相机",
+          "definition": "使用正交投影、物体大小不随距离变化的相机。"
+        },
+        {
+          "term": "Aspect Ratio 宽高比",
+          "definition": "视口宽度与高度之比，影响投影边界的设定。"
+        }
+      ]
+    },
+    {
+      "n": 36,
+      "summary": "把散落在 Application 与引擎内部的示例渲染代码搬到 Sandbox 项目。ExampleLayer 持有自己的顶点数组、着色器与相机，在 OnUpdate 里完成一帧渲染。这既验证了引擎对外 API 是否够用，也让引擎核心恢复干净。Cherno 强调「引擎不应包含任何示例代码」这条纪律。",
+      "keyPoints": [
+        {
+          "title": "引擎与示例分离",
+          "detail": "所有演示性代码迁到 Sandbox，引擎只保留通用能力。"
+        },
+        {
+          "title": "以客户端视角检验 API",
+          "detail": "迁移过程暴露了缺失的公开接口，反过来推动引擎补齐导出。"
+        },
+        {
+          "title": "Hazel.h 汇总头",
+          "detail": "客户端只需包含一个头文件即可访问全部公开 API。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Sandbox 沙盒工程",
+          "definition": "用于试验引擎功能的示例客户端项目。"
+        },
+        {
+          "term": "Public API 公开接口",
+          "definition": "引擎暴露给使用者的稳定接口集合。"
+        }
+      ]
+    },
+    {
+      "n": 37,
+      "summary": "引入时间步长概念。此前更新逻辑与帧率绑定，快机器上物体移动更快。现在 Application 每帧用 glfwGetTime 计算与上一帧的时间差，封装成 Timestep 类传给各图层的 OnUpdate。Timestep 提供隐式转换到 float 与 GetMilliseconds，让运动速度以「每秒多少单位」表达。",
+      "keyPoints": [
+        {
+          "title": "帧率无关运动",
+          "detail": "位移用速度乘以时间差计算，使不同帧率下的表现一致。",
+          "formula": "\\Delta x = v \\cdot \\Delta t"
+        },
+        {
+          "title": "Timestep 封装",
+          "detail": "用轻量类包住秒数，提供秒与毫秒两种读取方式，避免单位混淆。"
+        },
+        {
+          "title": "OnUpdate 签名变更",
+          "detail": "Layer::OnUpdate 接收 Timestep 参数，所有图层的更新逻辑据此推进。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Delta Time 帧时间差",
+          "definition": "相邻两帧之间经过的时间，用于帧率无关的更新。"
+        },
+        {
+          "term": "Timestep 时间步长",
+          "definition": "Hazel 中封装帧时间差的类型。"
+        }
+      ]
+    },
+    {
+      "n": 38,
+      "summary": "给绘制对象加上变换能力。Renderer::Submit 增加 transform 参数，默认是单位矩阵，着色器里用 u_Transform 与 u_ViewProjection 相乘得到最终位置。Cherno 演示用 glm::translate 与 glm::scale 组合出模型矩阵，并在网格状排布中批量绘制多个方块。这一集也揭示了每物体一次绘制调用的性能隐患。",
+      "keyPoints": [
+        {
+          "title": "模型矩阵",
+          "detail": "位移、旋转、缩放按顺序相乘构成模型矩阵，把局部坐标变到世界坐标。",
+          "formula": "gl\\_Position = u\\_ViewProjection \\cdot u\\_Transform \\cdot vec4(a\\_Position, 1.0)"
+        },
+        {
+          "title": "矩阵乘法顺序",
+          "detail": "GLM 中先写的变换后作用，写作 T 乘 R 乘 S 才是常见的缩放-旋转-平移语义。"
+        },
+        {
+          "title": "性能伏笔",
+          "detail": "网格排布上百个方块暴露了逐物体绘制调用的开销，为后面批量渲染做铺垫。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Model Matrix 模型矩阵",
+          "definition": "把物体局部坐标变换到世界坐标的矩阵。"
+        },
+        {
+          "term": "Transform 变换",
+          "definition": "由位置、旋转、缩放构成的空间描述。"
+        }
+      ]
+    },
+    {
+      "n": 39,
+      "summary": "讨论材质系统的设计。材质是着色器加上一组参数的组合；MaterialInstance 则在共享材质的基础上覆盖个别参数，从而在不重复编译着色器的前提下让每个物体有不同外观。Cherno 分析了参数存储、脏标记与统一变量缓冲的取舍。本集偏设计讨论，实现留到后续逐步落地。",
+      "keyPoints": [
+        {
+          "title": "材质等于着色器加参数",
+          "detail": "材质持有着色器引用和一份参数数据块，绑定时统一上传。"
+        },
+        {
+          "title": "材质实例",
+          "detail": "MaterialInstance 共享父材质的着色器，只覆盖少量参数，节省内存与状态切换。"
+        },
+        {
+          "title": "参数存储策略",
+          "detail": "用连续内存缓冲保存统一变量值并记录偏移，比逐个字符串查询更高效。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Material 材质",
+          "definition": "着色器与其参数集合构成的可复用外观描述。"
+        },
+        {
+          "term": "Material Instance 材质实例",
+          "definition": "基于某材质、仅覆盖部分参数的轻量副本。"
+        }
+      ]
+    },
+    {
+      "n": 40,
+      "summary": "完善 Shader 抽象并加入统一变量接口。Shader 增加 SetFloat3、SetMat4、SetInt 等方法，OpenGL 实现内部用 glGetUniformLocation 查询位置并调用对应的 glUniform 函数。为避免每帧重复查询，位置结果被缓存进哈希表。Sandbox 借此把方块颜色做成可用 ImGui 调节的参数。",
+      "keyPoints": [
+        {
+          "title": "统一变量接口",
+          "detail": "Shader 暴露按名字设置统一变量的方法，屏蔽 glUniform 系列函数的类型差异。"
+        },
+        {
+          "title": "位置缓存",
+          "detail": "用 unordered_map 缓存名称到 location 的映射，避免每帧字符串查询开销。"
+        },
+        {
+          "title": "ImGui 联动",
+          "detail": "把颜色等参数接到 ImGui 控件上，实现运行时实时调参。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Uniform Location 统一变量位置",
+          "definition": "着色器程序中统一变量的索引句柄。"
+        },
+        {
+          "term": "Shader Reflection 着色器反射",
+          "definition": "查询着色器内部变量与资源布局的能力。"
+        }
+      ]
+    },
+    {
+      "n": 41,
+      "summary": "统一引擎的内存所有权约定。Cherno 用别名 Ref 表示 std::shared_ptr、Scope 表示 std::unique_ptr，并提供 CreateRef 与 CreateScope 工厂函数。渲染资源多为共享（同一纹理被多个物体使用）故用 Ref，窗口与上下文这类独占资源用 Scope。这层别名也为将来替换成自研引用计数留出口子。",
+      "keyPoints": [
+        {
+          "title": "Ref 与 Scope",
+          "detail": "Ref 表示共享所有权的智能指针，Scope 表示独占所有权，命名统一便于阅读。"
+        },
+        {
+          "title": "工厂函数",
+          "detail": "CreateRef 与 CreateScope 转发参数调用 make_shared 与 make_unique，减少模板噪声。"
+        },
+        {
+          "title": "预留替换空间",
+          "detail": "用别名而非直接使用标准库类型，未来可无痛切换为引擎自有的侵入式引用计数。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Smart Pointer 智能指针",
+          "definition": "自动管理对象生命周期的指针包装类型。"
+        },
+        {
+          "term": "Ownership 所有权",
+          "definition": "决定谁负责释放资源的语义约定。"
+        }
+      ]
+    },
+    {
+      "n": 42,
+      "summary": "实现纹理支持。Texture 抽象出宽高、Bind 与数据设置接口，Texture2D::Create 从文件路径加载。OpenGL 实现用 stb_image 读取像素，按通道数选择内部格式与数据格式，再用 glTextureStorage2D 与 glTextureSubImage2D 上传。着色器通过 sampler2D 与纹理坐标采样，方块终于贴上了图。",
+      "keyPoints": [
+        {
+          "title": "stb_image 加载",
+          "detail": "单头文件库读取 PNG/JPG 像素数据，注意按 OpenGL 约定翻转 Y 轴。"
+        },
+        {
+          "title": "内部格式与数据格式",
+          "detail": "根据通道数选择 RGB8/RGBA8 与 GL_RGB/GL_RGBA，不匹配会导致颜色错乱。"
+        },
+        {
+          "title": "纹理槽与采样",
+          "detail": "纹理绑定到编号槽位，着色器的 sampler2D 统一变量存的是槽位索引而非纹理句柄。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Texture 纹理",
+          "definition": "存放在显存中供着色器采样的图像数据。"
+        },
+        {
+          "term": "Texture Coordinate 纹理坐标",
+          "definition": "顶点上标注的采样位置，通常取值 0 到 1。"
+        },
+        {
+          "term": "Sampler 采样器",
+          "definition": "着色器中读取纹理并做过滤的对象。"
+        }
+      ]
+    },
+    {
+      "n": 43,
+      "summary": "处理带透明通道的纹理。默认情况下 alpha 值被直接写入而不参与混合，导致透明区域显示为黑色。开启 GL_BLEND 并设置源因子为 SRC_ALPHA、目标因子为 ONE_MINUS_SRC_ALPHA 后，半透明像素能正确与背景融合。Cherno 也提醒混合结果依赖绘制顺序，这是后续排序问题的根源。",
+      "keyPoints": [
+        {
+          "title": "启用混合",
+          "detail": "glEnable(GL_BLEND) 配合 glBlendFunc 设定标准的 alpha 混合方程。",
+          "formula": "C_{out} = \\alpha_{src} C_{src} + (1 - \\alpha_{src}) C_{dst}"
+        },
+        {
+          "title": "绘制顺序敏感",
+          "detail": "半透明物体必须从远到近绘制，否则混合结果错误。"
+        },
+        {
+          "title": "初始化位置",
+          "detail": "混合状态在 RendererAPI 的 Init 中统一开启，属于渲染器的默认状态设置。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Alpha Blending 透明混合",
+          "definition": "按透明度把源颜色与目标颜色加权合成的技术。"
+        },
+        {
+          "term": "Blend Function 混合函数",
+          "definition": "指定源与目标颜色权重因子的设置。"
+        }
+      ]
+    },
+    {
+      "n": 44,
+      "summary": "把着色器源码从 C++ 字符串移到独立文件。Hazel 采用单文件多阶段格式：用 #type vertex 与 #type fragment 标记分段，加载时读入整个文件再按标记切分成着色器源映射表。文件名（去掉扩展名）自动作为着色器名称。这样美术与程序都能直接编辑 .glsl 文件而不必重编译引擎。",
+      "keyPoints": [
+        {
+          "title": "单文件多阶段",
+          "detail": "用 #type 指令在同一个 .glsl 文件里分隔顶点与片元着色器，减少文件数量。"
+        },
+        {
+          "title": "字符串解析",
+          "detail": "用 find 定位标记、substr 切分，注意处理换行与末尾片段的边界。"
+        },
+        {
+          "title": "名称推导",
+          "detail": "从文件路径提取不带扩展名的文件名作为着色器名，便于后续按名索引。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "GLSL 着色器语言",
+          "definition": "OpenGL 使用的着色器编程语言。"
+        },
+        {
+          "term": "Shader Asset 着色器资产",
+          "definition": "以文件形式存在、可被引擎加载的着色器资源。"
+        }
+      ]
+    },
+    {
+      "n": 45,
+      "summary": "实现着色器库以统一管理着色器资源。ShaderLibrary 内部是名称到 Ref<Shader> 的哈希表，提供 Add、Load 与 Get，重复添加会触发断言。Renderer 持有一个全局库，客户端通过名字获取着色器而不必自己保存指针。这是资源管理器的雏形，后续纹理与场景资源沿用类似思路。",
+      "keyPoints": [
+        {
+          "title": "按名索引",
+          "detail": "着色器以名称为键存入哈希表，客户端用字符串获取，解耦创建与使用。"
+        },
+        {
+          "title": "Load 便捷重载",
+          "detail": "提供从路径直接加载并注册的重载，名称由文件名推导或显式指定。"
+        },
+        {
+          "title": "存在性断言",
+          "detail": "重复注册或获取不存在的着色器时断言失败，尽早暴露资源命名错误。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Shader Library 着色器库",
+          "definition": "按名称管理着色器资源的容器。"
+        },
+        {
+          "term": "Resource Manager 资源管理器",
+          "definition": "负责资源加载、缓存与生命周期的模块。"
+        }
+      ]
+    },
+    {
+      "n": 46,
+      "summary": "讨论如何构建一个真正的 2D 渲染器。核心 API 应该是 DrawQuad 这样面向用户的语义接口，而不是让用户自己组装顶点数组。内部则要考虑批量合并、纹理槽复用与状态排序。Cherno 列出 Renderer2D 的接口草案并说明它与通用 Renderer 的分工。",
+      "keyPoints": [
+        {
+          "title": "面向语义的 API",
+          "detail": "用户只说「在这个位置画一个多大多什么颜色的方块」，细节由渲染器决定。"
+        },
+        {
+          "title": "批处理必要性",
+          "detail": "逐方块一次绘制调用无法支撑几千个精灵，必须把顶点合并到一个大缓冲。"
+        },
+        {
+          "title": "与通用渲染器分工",
+          "detail": "Renderer2D 专注精灵与四边形，通用 Renderer 保留任意网格提交能力。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Renderer2D 二维渲染器",
+          "definition": "针对四边形与精灵优化的专用渲染模块。"
+        },
+        {
+          "term": "Quad 四边形",
+          "definition": "由两个三角形组成的矩形图元，2D 渲染的基本单位。"
+        }
+      ]
+    },
+    {
+      "n": 47,
+      "summary": "把相机操作逻辑封装成 OrthographicCameraController。它持有相机对象与宽高比、缩放级别，OnUpdate 里根据键盘输入平移与旋转，OnEvent 里处理鼠标滚轮缩放与窗口尺寸变化。缩放会同步重算正交边界，保证画面比例正确。客户端只需持有控制器即可获得完整的相机交互。",
+      "keyPoints": [
+        {
+          "title": "控制器与相机分离",
+          "detail": "相机只管矩阵，控制器管交互，职责清晰且可替换不同控制方案。"
+        },
+        {
+          "title": "缩放与边界联动",
+          "detail": "滚轮改变 ZoomLevel 后按宽高比重算左右下上边界，避免画面拉伸。",
+          "formula": "l = -aspect \\cdot zoom,\\ r = aspect \\cdot zoom,\\ b = -zoom,\\ t = zoom"
+        },
+        {
+          "title": "移动速度随缩放",
+          "detail": "缩放越远平移速度越快，保持不同尺度下操作手感一致。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Camera Controller 相机控制器",
+          "definition": "把用户输入转换为相机位置与参数变化的组件。"
+        },
+        {
+          "term": "Zoom Level 缩放级别",
+          "definition": "控制正交视野大小的参数。"
+        }
+      ]
+    },
+    {
+      "n": 48,
+      "summary": "处理窗口尺寸变化。WindowResizeEvent 传到 Application 后调用 Renderer::OnWindowResize，内部执行 glViewport 更新视口，同时相机控制器调整宽高比。窗口最小化时宽高为零，需要设置 Minimized 标记跳过渲染，否则会产生除零与无效帧缓冲。这一集补齐了窗口交互的最后一块。",
+      "keyPoints": [
+        {
+          "title": "视口同步",
+          "detail": "窗口尺寸变化时必须调用 glViewport，否则渲染结果被拉伸或裁剪。"
+        },
+        {
+          "title": "最小化保护",
+          "detail": "宽或高为 0 时置 Minimized 标记并跳过整帧渲染，避免除零与无效状态。"
+        },
+        {
+          "title": "宽高比更新",
+          "detail": "相机控制器响应同一事件重算宽高比与投影边界。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Window Resize Event 窗口尺寸事件",
+          "definition": "窗口大小变化时触发的引擎事件。"
+        },
+        {
+          "term": "Viewport 视口区域",
+          "definition": "OpenGL 中帧缓冲被渲染到的像素矩形。"
+        }
+      ]
+    },
+    {
+      "n": 49,
+      "summary": "又一次维护与清理。整理头文件包含关系、修正若干平台宏与断言宏的实现、统一命名风格。Cherno 也回顾了 Hazel 目前的架构与还缺的模块，为进入 2D 渲染器专题做准备。中间穿插解答观众关于智能指针与抽象层开销的疑问。",
+      "keyPoints": [
+        {
+          "title": "断言宏完善",
+          "detail": "HZ_ASSERT 与 HZ_CORE_ASSERT 在调试配置下触发断点，发行版被编译掉。"
+        },
+        {
+          "title": "包含关系整理",
+          "detail": "清理循环包含与不必要的头依赖，缩短编译时间。"
+        },
+        {
+          "title": "阶段性回顾",
+          "detail": "盘点已有子系统与缺口，明确接下来的 2D 渲染器目标。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Assertion 断言",
+          "definition": "在条件不成立时中断程序、用于捕捉编程错误的检查。"
+        },
+        {
+          "term": "Debug Break 调试中断",
+          "definition": "让调试器在指定位置暂停的指令。"
+        }
+      ]
+    },
+    {
+      "n": 50,
+      "summary": "为 2D 渲染器做准备工作。梳理 Renderer2D 需要的资源：一个共享的顶点数组、一个通用着色器、一份存储数据的静态结构。Cherno 讨论了 Init 与 Shutdown 的时机，以及为什么静态数据比单例更合适。同时把示例场景改造成便于验证 2D 渲染的形式。",
+      "keyPoints": [
+        {
+          "title": "静态数据结构",
+          "detail": "Renderer2D 用一个静态 Data 结构持有顶点数组、着色器与纹理，随 Init 创建。"
+        },
+        {
+          "title": "初始化时机",
+          "detail": "Renderer::Init 中调用 Renderer2D::Init，确保在图形上下文就绪之后执行。"
+        },
+        {
+          "title": "生命周期收尾",
+          "detail": "Shutdown 中显式释放资源，避免静态对象析构顺序引发的 GL 调用崩溃。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Initialization Order 初始化顺序",
+          "definition": "多个模块启动先后关系，影响资源可用性。"
+        },
+        {
+          "term": "Static Storage 静态存储",
+          "definition": "生命周期贯穿程序运行的存储方式。"
+        }
+      ]
+    },
+    {
+      "n": 51,
+      "summary": "写出 Renderer2D 的第一版。BeginScene 接收正交相机并上传视图投影矩阵，DrawQuad 接收位置、尺寸与颜色，内部设置统一变量后绘制那个共享的单位四边形。EndScene 暂时为空。虽然仍是每个方块一次绘制调用，但对外 API 已经变成简洁的语义接口。",
+      "keyPoints": [
+        {
+          "title": "DrawQuad 接口",
+          "detail": "提供 vec2 与 vec3 位置两个重载，尺寸用 vec2，颜色用 vec4。"
+        },
+        {
+          "title": "共享四边形",
+          "detail": "预先创建一个位于原点的单位方块顶点数组，所有 DrawQuad 复用它。"
+        },
+        {
+          "title": "平面颜色着色器",
+          "detail": "FlatColor 着色器只输出一个统一变量颜色，是最简单的可用管线。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Sprite 精灵",
+          "definition": "2D 游戏中带贴图的矩形图像单元。"
+        },
+        {
+          "term": "Flat Color 纯色",
+          "definition": "不做光照与贴图、直接输出单一颜色的着色方式。"
+        }
+      ]
+    },
+    {
+      "n": 52,
+      "summary": "给 DrawQuad 加上变换。位置与尺寸被合成为模型矩阵：先平移到目标位置，再按尺寸缩放，作为 u_Transform 上传。随后加入带旋转的重载 DrawRotatedQuad，绕 Z 轴旋转。Cherno 指出每帧构造矩阵有开销，也为后续在 CPU 端直接算顶点埋下伏笔。",
+      "keyPoints": [
+        {
+          "title": "位置尺寸合成矩阵",
+          "detail": "transform 由 translate 乘 scale 得到，旋转版本在中间插入 rotate。",
+          "formula": "T(p) \\cdot R(\\theta) \\cdot S(s)"
+        },
+        {
+          "title": "旋转单位",
+          "detail": "接口约定用弧度，若传角度需 glm::radians 转换，避免单位混淆导致的怪异结果。"
+        },
+        {
+          "title": "矩阵构造成本",
+          "detail": "逐方块构造 mat4 在大量精灵时不可忽略，后续批量渲染改为直接计算顶点。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Rotation Matrix 旋转矩阵",
+          "definition": "表示绕某轴旋转变换的矩阵。"
+        },
+        {
+          "term": "Radian 弧度",
+          "definition": "角度的自然单位，一周为 2π。"
+        }
+      ]
+    },
+    {
+      "n": 53,
+      "summary": "让 2D 渲染器支持贴图。新增接收 Ref<Texture2D> 的 DrawQuad 重载，使用带纹理采样的着色器。为避免维护两套着色器，引入 tilingFactor 参数控制纹理重复次数，以及 tintColor 用于整体着色。着色器里把采样结果乘上颜色即可同时支持纯色与贴图两种用法。",
+      "keyPoints": [
+        {
+          "title": "纹理重载",
+          "detail": "DrawQuad 增加纹理参数版本，内部绑定纹理到 0 号槽并设置采样器统一变量。"
+        },
+        {
+          "title": "平铺因子",
+          "detail": "把纹理坐标乘以 tilingFactor 实现重复贴图，配合 GL_REPEAT 环绕模式。"
+        },
+        {
+          "title": "着色与叠色",
+          "detail": "采样颜色乘以 tintColor，纯白贴图配任意颜色即可退化为纯色绘制。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Tiling 平铺",
+          "definition": "纹理在表面上重复排列的效果。"
+        },
+        {
+          "term": "Tint Color 着色颜色",
+          "definition": "与纹理采样结果相乘、用于整体调色的颜色。"
+        }
+      ]
+    },
+    {
+      "n": 54,
+      "summary": "把纯色与贴图两套着色器合并成一个。技巧是创建一张 1x1 的纯白纹理，绘制纯色方块时绑定它：白色乘任意颜色等于该颜色，于是同一个着色器同时覆盖两种情况。着色器统一从纹理采样再乘颜色与平铺因子。这不仅简化代码，也是后续批量渲染的必要前提。",
+      "keyPoints": [
+        {
+          "title": "白色纹理技巧",
+          "detail": "1x1 白色像素纹理作为默认贴图，使纯色路径与贴图路径共用一个着色器。",
+          "formula": "color_{out} = texture(u\\_Texture, uv \\cdot tf) \\cdot u\\_Color"
+        },
+        {
+          "title": "减少状态切换",
+          "detail": "单一着色器意味着绘制过程中不必频繁 glUseProgram，为合批扫清障碍。"
+        },
+        {
+          "title": "接口不变",
+          "detail": "对外的 DrawQuad 重载保持原样，改动完全在内部实现层。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "White Texture 白色纹理",
+          "definition": "用作默认贴图的单像素纯白纹理。"
+        },
+        {
+          "term": "State Change 状态切换",
+          "definition": "更换着色器、纹理等 GPU 状态的操作，开销较高。"
+        }
+      ]
+    },
+    {
+      "n": 55,
+      "summary": "开始性能分析专题。Cherno 先讲清楚为什么「感觉卡」需要用数据说话，介绍了采样式与插桩式两类分析器的区别。他手写了一个 Timer 类，在构造时记录起点、析构时输出耗时，利用作用域自动测量代码块。这个基于 RAII 的计时器是后续插桩系统的雏形。",
+      "keyPoints": [
+        {
+          "title": "两类分析器",
+          "detail": "采样式定期抓调用栈开销小，插桩式在代码里埋点更精确但侵入性强。"
+        },
+        {
+          "title": "RAII 计时器",
+          "detail": "构造记录 high_resolution_clock 起点，析构算差值输出，作用域即测量范围。"
+        },
+        {
+          "title": "避免优化干扰",
+          "detail": "务必在 Release 配置下测量，Debug 的性能数据不具备参考价值。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Profiling 性能分析",
+          "definition": "测量程序各部分耗时与资源占用以定位瓶颈的过程。"
+        },
+        {
+          "term": "RAII 资源获取即初始化",
+          "definition": "用对象生命周期管理资源与行为的 C++ 惯用法。"
+        }
+      ]
+    },
+    {
+      "n": 56,
+      "summary": "把计时结果可视化。Cherno 让分析器把每个作用域的开始时间与持续时间写成 Chrome Tracing 的 JSON 格式，再用浏览器的 chrome://tracing 打开，得到火焰图式的时间轴。这样嵌套调用的层次关系与耗时占比一目了然。文件写入采用流式追加，避免占用大量内存。",
+      "keyPoints": [
+        {
+          "title": "Chrome Tracing 格式",
+          "detail": "输出包含名称、类别、起止时间戳、进程与线程 id 的事件数组，浏览器可直接加载。"
+        },
+        {
+          "title": "火焰图解读",
+          "detail": "横轴为时间、纵轴为调用深度，宽块即为耗时热点。"
+        },
+        {
+          "title": "流式写文件",
+          "detail": "会话开始写头、每条结果追加、结束写尾，避免在内存中堆积全部记录。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Chrome Tracing 追踪格式",
+          "definition": "Chrome 浏览器可视化时间轴所用的 JSON 事件格式。"
+        },
+        {
+          "term": "Flame Graph 火焰图",
+          "definition": "以嵌套矩形展示调用栈耗时分布的可视化图表。"
+        }
+      ]
+    },
+    {
+      "n": 57,
+      "summary": "把插桩做成好用的宏。HZ_PROFILE_SCOPE 接收名称并创建一个匿名计时器对象，HZ_PROFILE_FUNCTION 借助编译器内建宏自动取函数签名作为名称。所有宏受 HZ_PROFILE 开关控制，关闭时展开为空、零开销。随后在引擎各关键函数中大量埋点，找出真正的耗时位置。",
+      "keyPoints": [
+        {
+          "title": "作用域宏",
+          "detail": "宏内定义一个局部计时器变量，利用行号拼接生成唯一变量名避免冲突。"
+        },
+        {
+          "title": "函数签名宏",
+          "detail": "用 __FUNCSIG__ 等编译器内建宏自动填入函数名，省去手写字符串。"
+        },
+        {
+          "title": "可开关零开销",
+          "detail": "通过 HZ_PROFILE 宏总开关控制，发行版本编译后完全消失。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Instrumentation 插桩",
+          "definition": "在代码中插入测量代码以收集运行数据的手段。"
+        },
+        {
+          "term": "Macro Expansion 宏展开",
+          "definition": "预处理器把宏替换成实际代码的过程。"
+        }
+      ]
+    },
+    {
+      "n": 58,
+      "summary": "根据实际使用体验改进 Renderer2D 的接口。参数越来越多导致重载爆炸，Cherno 讨论用参数结构体或默认参数收敛签名，并统一了位置、尺寸、旋转、颜色、纹理、平铺因子的顺序。同时借助上一集的分析数据定位到统一变量设置与绘制调用是热点。这一集是进入批量渲染前的最后铺垫。",
+      "keyPoints": [
+        {
+          "title": "重载收敛",
+          "detail": "整理 DrawQuad 系列签名，用一致的参数顺序与默认值减少重载数量。"
+        },
+        {
+          "title": "热点定位",
+          "detail": "分析结果显示逐方块的统一变量上传与绘制调用占据绝大部分帧时间。"
+        },
+        {
+          "title": "改造方向",
+          "detail": "确认应把顶点数据在 CPU 端拼好、一次性上传并单次绘制。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "API Design 接口设计",
+          "definition": "决定对外函数签名与语义的设计工作。"
+        },
+        {
+          "term": "Bottleneck 瓶颈",
+          "definition": "限制整体性能的最耗时环节。"
+        }
+      ]
+    },
+    {
+      "n": 59,
+      "summary": "一集实战演示：用当前的 Hazel 在一小时内做出一个可玩的小游戏。Cherno 现场搭出场景、处理输入、做碰撞与计分，验证引擎的 2D 能力是否真的可用。过程中暴露出若干缺失功能与不顺手的 API，成为后续改进的清单。这也直观展示了「引擎服务于游戏」的检验方式。",
+      "keyPoints": [
+        {
+          "title": "以做游戏验证引擎",
+          "detail": "真正写一款小游戏是检验引擎 API 是否好用最有效的方法。"
+        },
+        {
+          "title": "暴露的缺口",
+          "detail": "缺少资源管理、场景组织与音频，输入与碰撞也需要更高层封装。"
+        },
+        {
+          "title": "性能观察",
+          "detail": "在实际场景中再次确认逐物体绘制调用的开销无法接受。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Game Loop 游戏循环",
+          "definition": "持续处理输入、更新逻辑与渲染的主循环。"
+        },
+        {
+          "term": "Collision Detection 碰撞检测",
+          "definition": "判断物体之间是否发生重叠的计算。"
+        }
+      ]
+    },
+    {
+      "n": 60,
+      "summary": "年度规划集。Cherno 回顾 Hazel 已完成的部分并公布 2020 年的路线图：先把 2D 渲染做到工业级（批量渲染、精灵表），然后进入编辑器、实体组件系统、场景序列化，最后是物理与脚本。他也解释了为什么先深耕 2D 而不是急着做 3D。观众可据此了解整个系列的走向。",
+      "keyPoints": [
+        {
+          "title": "路线图",
+          "detail": "批量渲染 → 编辑器与 ECS → 场景序列化 → 物理 → 脚本，逐层构建完整引擎。"
+        },
+        {
+          "title": "先 2D 后 3D",
+          "detail": "2D 场景下能把架构、编辑器与工具链打磨扎实，3D 只是渲染层的替换与扩展。"
+        },
+        {
+          "title": "社区参与",
+          "detail": "鼓励通过 Issue 与 PR 参与开发，部分功能由社区贡献推进。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Roadmap 路线图",
+          "definition": "项目未来功能与里程碑的规划。"
+        },
+        {
+          "term": "Hazelnut 编辑器",
+          "definition": "Hazel 的可视化编辑器应用名称。"
+        }
+      ]
+    },
+    {
+      "n": 61,
+      "summary": "实现批量渲染，这是整个 2D 渲染器的性能转折点。做法是预分配一个能容纳上万个四边形的动态顶点缓冲和对应的索引缓冲，DrawQuad 不再立即绘制，而是把四个顶点写入 CPU 端数组。EndScene 时一次性上传并发出单次绘制调用。当缓冲写满时调用 Flush 提前提交并重置。",
+      "keyPoints": [
+        {
+          "title": "动态顶点缓冲",
+          "detail": "用 GL_DYNAMIC_DRAW 预分配大缓冲，每帧用 SetData 上传实际写入的字节数。"
+        },
+        {
+          "title": "索引缓冲预生成",
+          "detail": "四边形索引模式固定，启动时按 0,1,2,2,3,0 规律生成全部索引，运行时无需改动。"
+        },
+        {
+          "title": "Flush 与重置",
+          "detail": "缓冲写满或场景结束时提交绘制并把写指针与计数复位，实现自动分批。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Batch Rendering 批量渲染",
+          "definition": "把多个物体的几何数据合并为一次绘制调用的技术。"
+        },
+        {
+          "term": "Dynamic Buffer 动态缓冲",
+          "definition": "内容会被频繁更新的 GPU 缓冲。"
+        },
+        {
+          "term": "Flush 刷新提交",
+          "definition": "把已积累的批次数据提交给 GPU 绘制的操作。"
+        }
+      ]
+    },
+    {
+      "n": 62,
+      "summary": "让批量渲染也支持多张纹理。着色器里声明 sampler2D 数组，顶点属性中增加纹理索引；CPU 端维护一个纹理槽数组，绘制时若纹理已在数组中则复用索引，否则占用新槽，槽位用尽就 Flush。片元着色器根据索引从数组中采样。Cherno 也演示了排查采样错误与驱动限制的调试过程。",
+      "keyPoints": [
+        {
+          "title": "纹理槽数组",
+          "detail": "用 u_Textures 数组一次绑定多张纹理，槽数上限由 GL_MAX_TEXTURE_IMAGE_UNITS 决定。"
+        },
+        {
+          "title": "顶点携带纹理索引",
+          "detail": "每个顶点多存一个 float 索引，片元着色器据此选择采样哪张纹理。"
+        },
+        {
+          "title": "槽位用尽即刷新",
+          "detail": "纹理种类超过槽位数时先 Flush 再开新批次，保证正确性。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Texture Slot 纹理槽",
+          "definition": "GPU 上可同时绑定纹理的编号位置。"
+        },
+        {
+          "term": "Sampler Array 采样器数组",
+          "definition": "着色器中以数组形式声明的多个纹理采样器。"
+        }
+      ]
+    },
+    {
+      "n": 63,
+      "summary": "给批量渲染补上旋转支持。旋转的方块无法像轴对齐方块那样直接用位置加尺寸算顶点，需要真正构造变换矩阵并把四个单位顶点乘上去。Cherno 因此拆出 DrawRotatedQuad 系列接口，让不需要旋转的常见路径继续走更快的直接计算分支。这体现了「常见情况优先优化」的设计取舍。",
+      "keyPoints": [
+        {
+          "title": "旋转需要矩阵",
+          "detail": "绕 Z 轴旋转的顶点位置由变换矩阵乘以单位方块顶点得到，无法用加减法直接算。"
+        },
+        {
+          "title": "接口拆分",
+          "detail": "DrawQuad 保留快速路径，DrawRotatedQuad 承担较慢但通用的矩阵路径。"
+        },
+        {
+          "title": "单位方块顶点常量",
+          "detail": "预定义四个局部顶点位置常量，两条路径共用同一份几何定义。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Axis-Aligned 轴对齐",
+          "definition": "边与坐标轴平行、无旋转的几何摆放方式。"
+        },
+        {
+          "term": "Fast Path 快速路径",
+          "definition": "针对常见情形做特殊优化的执行分支。"
+        }
+      ]
+    },
+    {
+      "n": 64,
+      "summary": "加入渲染统计并继续优化批处理。Statistics 结构记录本帧的绘制调用数与四边形数，并派生出顶点数与索引数，通过 ImGui 面板实时显示。有了数据就能验证合批是否真的生效。Cherno 还修正了 Flush 后统计未累加、纹理槽复位等细节问题。",
+      "keyPoints": [
+        {
+          "title": "统计数据结构",
+          "detail": "记录 DrawCalls 与 QuadCount，并提供顶点数、索引数的换算函数。"
+        },
+        {
+          "title": "ImGui 实时显示",
+          "detail": "把统计接到编辑器面板上，运行时即可观察合批效果与场景规模。"
+        },
+        {
+          "title": "重置时机",
+          "detail": "BeginScene 时清零统计，Flush 时累加绘制调用，确保数据与实际一致。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Renderer Statistics 渲染统计",
+          "definition": "记录绘制调用与图元数量等运行指标的数据。"
+        },
+        {
+          "term": "Batch 批次",
+          "definition": "一次绘制调用中合并提交的图元集合。"
+        }
+      ]
+    },
+    {
+      "n": 65,
+      "summary": "实测批量渲染带来的性能提升。Cherno 在场景中铺满上万个方块，对比优化前后的帧时间，并强调必须在 Release 配置下测量。结果显示绘制调用从上万降到个位数，帧时间大幅下降。他也分析了剩余瓶颈：CPU 端顶点写入与内存带宽，而非绘制调用数。",
+      "keyPoints": [
+        {
+          "title": "数量级提升",
+          "detail": "合批后绘制调用数从每方块一次降到每批次一次，帧率提升显著。"
+        },
+        {
+          "title": "Release 下测量",
+          "detail": "Debug 配置的迭代器检查与未内联函数会严重扭曲性能数据。"
+        },
+        {
+          "title": "新瓶颈",
+          "detail": "瓶颈转移到 CPU 端逐顶点写入与缓冲上传带宽，指出后续可用实例化等手段。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Frame Time 帧时间",
+          "definition": "渲染一帧所耗费的时间，通常以毫秒计。"
+        },
+        {
+          "term": "Release Build 发行构建",
+          "definition": "开启优化、关闭调试检查的编译配置。"
+        }
+      ]
+    },
+    {
+      "n": 66,
+      "summary": "再次用引擎做点实际内容，检验批量渲染后的手感。Cherno 搭出一个含大量精灵的场景，边做边发现资源加载、坐标约定与相机控制上的不便之处。这些实际使用中的摩擦点被记录下来，直接决定了接下来精灵表与编辑器的开发顺序。",
+      "keyPoints": [
+        {
+          "title": "实践驱动需求",
+          "detail": "通过真实使用发现 API 摩擦点，避免闭门造车式的功能堆砌。"
+        },
+        {
+          "title": "精灵组织问题",
+          "detail": "大量独立贴图带来加载与切换成本，引出精灵表的需求。"
+        },
+        {
+          "title": "场景组织缺失",
+          "detail": "缺少实体与组件的概念，手工管理对象列表难以扩展。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Scene Graph 场景图",
+          "definition": "以层级结构组织场景中对象的表示方式。"
+        },
+        {
+          "term": "Prototype 原型验证",
+          "definition": "用快速实现验证设计可行性的做法。"
+        }
+      ]
+    },
+    {
+      "n": 67,
+      "summary": "讲解精灵表与纹理图集的原理。把许多小图打包进一张大图，可以显著减少纹理切换与绘制批次，同时提高显存利用率。使用时通过纹理坐标裁出所需区域。Cherno 也提到相邻像素采样溢出导致的接缝问题，以及用内边距或半像素偏移缓解的办法。",
+      "keyPoints": [
+        {
+          "title": "图集的收益",
+          "detail": "一张大图容纳众多子图，减少纹理绑定与批次切分，是 2D 渲染的标准做法。"
+        },
+        {
+          "title": "UV 裁剪",
+          "detail": "子图区域通过归一化纹理坐标定位，坐标由子图像素范围除以图集尺寸得到。",
+          "formula": "uv = \\frac{(x \\cdot w,\\ y \\cdot h)}{(W,\\ H)}"
+        },
+        {
+          "title": "接缝问题",
+          "detail": "线性过滤会采到邻近子图像素，加内边距或使用最近邻过滤可缓解。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Sprite Sheet 精灵表",
+          "definition": "把多个精灵按网格排列在一起的图片。"
+        },
+        {
+          "term": "Texture Atlas 纹理图集",
+          "definition": "把多张纹理打包成一张大纹理的技术。"
+        },
+        {
+          "term": "Texture Filtering 纹理过滤",
+          "definition": "采样时对纹素做插值或取最近值的方式。"
+        }
+      ]
+    },
+    {
+      "n": 68,
+      "summary": "实现 SubTexture2D 类把精灵表能力封装成 API。它持有原图纹理引用与四个纹理坐标，静态工厂 CreateFromCoords 接收网格坐标与单元尺寸自动算出 UV。Renderer2D 增加接收 SubTexture2D 的 DrawQuad 重载，把子纹理的 UV 写入顶点。使用者从此只需说「第几行第几列」。",
+      "keyPoints": [
+        {
+          "title": "SubTexture2D 结构",
+          "detail": "保存父纹理 Ref 与四个角的纹理坐标，构成一个可绘制的子图描述。"
+        },
+        {
+          "title": "网格坐标工厂",
+          "detail": "CreateFromCoords 传入格子索引、单元像素尺寸与可选跨格数，自动换算 UV。"
+        },
+        {
+          "title": "顶点写入 UV",
+          "detail": "批量渲染的顶点结构改为从子纹理取 UV，而非固定的 0 到 1。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "SubTexture 子纹理",
+          "definition": "引用大纹理中某一矩形区域的轻量对象。"
+        },
+        {
+          "term": "UV Coordinates UV 坐标",
+          "definition": "标定纹理采样位置的二维坐标。"
+        }
+      ]
+    },
+    {
+      "n": 69,
+      "summary": "用精灵表拼出一张瓦片地图。地图数据写成一个字符串常量，每个字符代表一种地形，用哈希表把字符映射到对应的 SubTexture2D。渲染时按行列遍历字符逐格绘制，配合批量渲染仍是极少的绘制调用。Cherno 顺便调整相机以适配地图尺寸。",
+      "keyPoints": [
+        {
+          "title": "字符地图",
+          "detail": "用多行字符串直观描述关卡，字符到子纹理的映射存在哈希表里。"
+        },
+        {
+          "title": "网格绘制",
+          "detail": "按索引换算世界坐标逐格 DrawQuad，未知字符回退到默认贴图。"
+        },
+        {
+          "title": "相机适配",
+          "detail": "根据地图行列数调整正交相机边界，使整张地图恰好入画。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Tile Map 瓦片地图",
+          "definition": "由规则网格中的图块拼接而成的 2D 关卡表示。"
+        },
+        {
+          "term": "Tile 瓦片",
+          "definition": "瓦片地图中的单个基本图块。"
+        }
+      ]
+    },
+    {
+      "n": 70,
+      "summary": "规划下一阶段并搭出编辑器的 Dockspace。Cherno 说明接下来要做 Hazelnut 编辑器、实体组件系统与场景序列化。技术上先用 ImGui 的 DockSpaceOverViewport 或手写全屏无边框窗口建立可停靠区域，再在其中放置各功能面板。菜单栏加入退出项，编辑器骨架成形。",
+      "keyPoints": [
+        {
+          "title": "Dockspace 骨架",
+          "detail": "一个占满窗口、无装饰的主窗口承载 DockSpace，其余面板停靠其中。"
+        },
+        {
+          "title": "窗口标志组合",
+          "detail": "需要 NoTitleBar、NoResize、NoBringToFrontOnFocus 等标志并去掉内边距。"
+        },
+        {
+          "title": "菜单栏",
+          "detail": "用 BeginMenuBar 添加 File 菜单与退出项，为后续打开保存做位置预留。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Dockspace 停靠空间",
+          "definition": "ImGui 中容纳可停靠面板的区域。"
+        },
+        {
+          "term": "Menu Bar 菜单栏",
+          "definition": "窗口顶部提供命令入口的条状控件。"
+        }
+      ]
+    },
+    {
+      "n": 71,
+      "summary": "实现帧缓冲抽象，这是编辑器视口的关键。Framebuffer 接口带一个 FramebufferSpecification 描述宽高与采样数，OpenGL 实现创建纹理附件与深度模板附件并挂到 FBO 上。渲染时先 Bind 帧缓冲，场景就被画进纹理而不是屏幕。Invalidate 负责在尺寸变化时重建全部附件。",
+      "keyPoints": [
+        {
+          "title": "离屏渲染",
+          "detail": "绑定自定义帧缓冲后所有绘制写入其颜色附件纹理，可供后续采样或显示。"
+        },
+        {
+          "title": "附件与完整性",
+          "detail": "颜色纹理加深度模板附件挂载后需检查 FBO 完整性，否则渲染无效。"
+        },
+        {
+          "title": "Invalidate 重建",
+          "detail": "尺寸变化时删除旧附件重新创建，避免残留资源与尺寸不匹配。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Framebuffer 帧缓冲",
+          "definition": "渲染输出的目标对象，可包含颜色、深度、模板附件。"
+        },
+        {
+          "term": "Render Target 渲染目标",
+          "definition": "接收渲染结果的纹理或缓冲。"
+        },
+        {
+          "term": "Attachment 附件",
+          "definition": "挂载到帧缓冲上的具体纹理或渲染缓冲。"
+        }
+      ]
+    },
+    {
+      "n": 72,
+      "summary": "新建 Hazelnut 编辑器项目。在 premake 中添加第三个项目，和 Sandbox 一样链接 Hazel，但定位为长期维护的编辑器应用。把之前写在 Sandbox 的 2D 示例迁成 EditorLayer，并整理资源目录 assets 的组织方式。至此运行时、示例与编辑器三者职责清晰。",
+      "keyPoints": [
+        {
+          "title": "三项目结构",
+          "detail": "Hazel 是库，Sandbox 是试验场，Hazelnut 是正式编辑器应用。"
+        },
+        {
+          "title": "EditorLayer",
+          "detail": "编辑器的主图层，持有场景、帧缓冲与各面板，是后续所有功能的落点。"
+        },
+        {
+          "title": "资源目录约定",
+          "detail": "assets 目录按 textures、shaders、scenes 分类，工作目录设为项目根。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Editor 编辑器",
+          "definition": "用于可视化编辑场景与资源的工具程序。"
+        },
+        {
+          "term": "Working Directory 工作目录",
+          "definition": "程序运行时解析相对路径的基准目录。"
+        }
+      ]
+    },
+    {
+      "n": 73,
+      "summary": "把帧缓冲显示到编辑器视口面板中。EditorLayer 渲染场景到帧缓冲，然后把颜色附件的纹理 id 传给 ImGui::Image 在 Viewport 窗口中显示。要注意 OpenGL 纹理原点在左下，需要把 UV 上下翻转。同时监听面板尺寸变化重建帧缓冲并更新相机宽高比。",
+      "keyPoints": [
+        {
+          "title": "纹理送入 ImGui",
+          "detail": "把颜色附件的 GL 纹理句柄转成 ImTextureID 交给 ImGui::Image 绘制。"
+        },
+        {
+          "title": "UV 翻转",
+          "detail": "传入 uv0 为 (0,1)、uv1 为 (1,0) 以修正上下颠倒的画面。"
+        },
+        {
+          "title": "尺寸联动",
+          "detail": "面板大小变化时重建帧缓冲、更新相机投影，避免拉伸与模糊。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Scene Viewport 场景视口",
+          "definition": "编辑器中显示场景渲染结果的面板。"
+        },
+        {
+          "term": "Color Attachment 颜色附件",
+          "definition": "帧缓冲中存放颜色输出的纹理。"
+        }
+      ]
+    },
+    {
+      "n": 74,
+      "summary": "审阅社区代码并修复 ImGui 层的事件处理。之前无论鼠标是否在视口上，事件都会同时被 UI 和场景处理，造成误操作。解决办法是给 ImGuiLayer 加 BlockEvents 标记，根据 WantCaptureMouse 与 WantCaptureKeyboard 决定是否把事件标记为已处理。顺带清理若干代码风格问题。",
+      "keyPoints": [
+        {
+          "title": "事件拦截开关",
+          "detail": "ImGuiLayer 根据 ImGui 的捕获意图把鼠标或键盘事件置为 Handled，阻止下传。"
+        },
+        {
+          "title": "可配置行为",
+          "detail": "提供 BlockEvents 开关，便于在需要穿透时临时关闭拦截。"
+        },
+        {
+          "title": "代码审查",
+          "detail": "同步处理社区提交，统一命名与包含顺序。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Event Blocking 事件拦截",
+          "definition": "上层消费事件后阻止其继续传播的机制。"
+        },
+        {
+          "term": "Focus 焦点",
+          "definition": "决定输入应送往哪个界面元素的状态。"
+        }
+      ]
+    },
+    {
+      "n": 75,
+      "summary": "阶段性总结与方向讨论。Cherno 回顾编辑器的现状，指出下一步核心是场景系统：需要一种统一方式描述场景中有哪些对象、各自具备什么数据。他对比了传统面向对象的继承式游戏对象与实体组件系统，说明后者在数据布局与灵活性上的优势。这为进入 ECS 专题做好铺垫。",
+      "keyPoints": [
+        {
+          "title": "继承式的局限",
+          "detail": "深继承树在需要组合多种能力时会出现菱形继承与类爆炸问题。"
+        },
+        {
+          "title": "组合优于继承",
+          "detail": "把能力拆成组件按需组合，比预先设计继承层次更灵活。"
+        },
+        {
+          "title": "数据局部性",
+          "detail": "组件按类型连续存储可显著提升遍历时的缓存命中率。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Composition over Inheritance 组合优于继承",
+          "definition": "用对象组合而非类继承来复用行为的设计原则。"
+        },
+        {
+          "term": "Cache Locality 缓存局部性",
+          "definition": "访问相邻内存以提高 CPU 缓存命中率的特性。"
+        }
+      ]
+    },
+    {
+      "n": 76,
+      "summary": "系统讲解实体组件系统。实体只是一个 id，组件是纯数据，系统负责遍历具备特定组件组合的实体执行逻辑。Cherno 强调 ECS 的核心价值是数据导向的内存布局与运行时可组合性，并澄清「有组件不等于就是 ECS」这一常见误解。最后决定采用成熟库 EnTT 而非自研。",
+      "keyPoints": [
+        {
+          "title": "三要素",
+          "detail": "Entity 是标识符，Component 是数据，System 是操作特定组件集合的逻辑。"
+        },
+        {
+          "title": "数据导向设计",
+          "detail": "同类组件连续存放，遍历时顺序访问内存，充分利用缓存与预取。"
+        },
+        {
+          "title": "选用 EnTT",
+          "detail": "自研 ECS 工作量大且易出错，成熟的头文件库 EnTT 性能与易用性俱佳。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Entity Component System 实体组件系统",
+          "definition": "以实体标识、纯数据组件与系统逻辑三分的架构模式。"
+        },
+        {
+          "term": "Data-Oriented Design 数据导向设计",
+          "definition": "围绕数据布局与访问模式组织代码的设计思路。"
+        }
+      ]
+    },
+    {
+      "n": 77,
+      "summary": "上手 EnTT 库。核心对象是 registry：create 生成实体、emplace 添加组件、get 取组件、view 与 group 遍历。Cherno 演示了用 view 遍历同时拥有若干组件的实体，并对比 group 的更强内存排布保证。还讲了 on_construct 这类信号回调的用法。",
+      "keyPoints": [
+        {
+          "title": "registry 核心",
+          "detail": "entt::registry 管理所有实体与组件的存储，是 Scene 的内部数据容器。"
+        },
+        {
+          "title": "view 与 group",
+          "detail": "view 轻量筛选任意组件组合，group 通过重排存储换取更快的遍历速度。"
+        },
+        {
+          "title": "构造信号",
+          "detail": "on_construct 可注册回调，在组件被添加时自动执行初始化逻辑。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "EnTT 实体组件库",
+          "definition": "高性能的 C++ 头文件式 ECS 库，Hazel 采用它作为底层。"
+        },
+        {
+          "term": "Registry 注册表",
+          "definition": "EnTT 中存放实体与组件数据的中心容器。"
+        }
+      ]
+    },
+    {
+      "n": 78,
+      "summary": "把 EnTT 接入引擎，建立 Scene 类。Scene 内部持有 registry，提供 CreateEntity 创建实体并默认附加 TagComponent 与 TransformComponent。TagComponent 保存名字，TransformComponent 目前是一个 mat4。Scene::OnUpdate 用 view 遍历带 Transform 与 SpriteRenderer 的实体调用 Renderer2D 绘制。",
+      "keyPoints": [
+        {
+          "title": "Scene 封装 registry",
+          "detail": "上层不直接接触 EnTT，所有创建与遍历经由 Scene 提供的接口。"
+        },
+        {
+          "title": "默认组件",
+          "detail": "新实体自动带 TagComponent 与 TransformComponent，保证任何实体都可命名与定位。"
+        },
+        {
+          "title": "渲染系统",
+          "detail": "用 view 取出 Transform 与 SpriteRenderer 组合，逐个提交给 Renderer2D。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Component 组件",
+          "definition": "附加在实体上的纯数据结构。"
+        },
+        {
+          "term": "Tag Component 标签组件",
+          "definition": "保存实体名称的组件。"
+        },
+        {
+          "term": "Sprite Renderer Component 精灵渲染组件",
+          "definition": "描述实体如何以精灵形式绘制的组件。"
+        }
+      ]
+    },
+    {
+      "n": 79,
+      "summary": "设计 Entity 包装类改善使用体验。直接暴露 entt::entity 句柄要求处处传 registry，写起来啰嗦。Entity 类持有句柄与 Scene 指针，提供模板化的 AddComponent、GetComponent、HasComponent、RemoveComponent，并重载 bool 与比较运算符。Scene 声明它为友元以便访问内部 registry。",
+      "keyPoints": [
+        {
+          "title": "轻量句柄封装",
+          "detail": "Entity 只存实体 id 与场景指针，按值传递成本极低。"
+        },
+        {
+          "title": "模板化组件访问",
+          "detail": "AddComponent<T>(args...) 完美转发参数，GetComponent<T> 返回引用，配合断言防御误用。"
+        },
+        {
+          "title": "有效性判断",
+          "detail": "重载 operator bool 判断句柄是否为空实体，简化空值检查。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Entity Handle 实体句柄",
+          "definition": "标识某个实体的轻量引用值。"
+        },
+        {
+          "term": "Perfect Forwarding 完美转发",
+          "definition": "模板中保持参数值类别原样传递的技术。"
+        }
+      ]
+    },
+    {
+      "n": 80,
+      "summary": "把相机纳入 ECS。新增 CameraComponent 保存相机对象与 Primary、FixedAspectRatio 标记，场景渲染时先遍历找到主相机及其变换，再用它开始场景绘制。这样相机变成场景中的普通实体，可以被移动与序列化。Cherno 讨论了多相机时如何标记主相机的策略。",
+      "keyPoints": [
+        {
+          "title": "CameraComponent",
+          "detail": "组件持有相机与 Primary 标记，场景可容纳多个相机但只有一个生效。"
+        },
+        {
+          "title": "主相机查找",
+          "detail": "渲染前遍历带 Camera 与 Transform 的实体，取第一个 Primary 为真的作为主相机。"
+        },
+        {
+          "title": "相机即实体",
+          "detail": "相机具备变换组件，位置与朝向由变换驱动，视图矩阵由变换求逆得到。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Primary Camera 主相机",
+          "definition": "当前用于渲染场景的相机。"
+        },
+        {
+          "term": "Fixed Aspect Ratio 固定宽高比",
+          "definition": "相机不随视口尺寸自动调整投影的选项。"
+        }
+      ]
+    },
+    {
+      "n": 81,
+      "summary": "重构出 SceneCamera 类。它继承通用 Camera，内部同时支持正交与透视两种投影，通过 ProjectionType 枚举切换，各自保留独立的参数（正交尺寸与近远平面，透视的垂直视场角与近远平面）。SetViewportSize 在视口变化时按新宽高比重算投影矩阵。相机参数从此可以在编辑器里调整。",
+      "keyPoints": [
+        {
+          "title": "双投影支持",
+          "detail": "同一个相机类保存正交与透视两套参数，切换类型时各自独立不互相污染。"
+        },
+        {
+          "title": "视口驱动重算",
+          "detail": "SetViewportSize 保存宽高比并调用 RecalculateProjection 更新矩阵。",
+          "formula": "aspect = \\frac{width}{height}"
+        },
+        {
+          "title": "透视参数",
+          "detail": "透视投影由垂直视场角与近远裁剪面确定，用 glm::perspective 构造。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Scene Camera 场景相机",
+          "definition": "作为组件存在于场景中、支持多种投影的相机类。"
+        },
+        {
+          "term": "Field of View 视场角",
+          "definition": "透视投影中可见范围的张角。"
+        },
+        {
+          "term": "Near/Far Plane 近远裁剪面",
+          "definition": "限定可见深度范围的两个平面。"
+        }
+      ]
+    },
+    {
+      "n": 82,
+      "summary": "实现原生脚本，让实体能挂 C++ 逻辑。NativeScriptComponent 保存一个实例指针与两个函数指针（实例化与销毁），Bind<T> 模板把用户脚本类型绑定进去。ScriptableEntity 作为脚本基类，提供 GetComponent 访问所属实体的组件。Scene::OnUpdate 中遍历该组件并调用其 OnUpdate。",
+      "keyPoints": [
+        {
+          "title": "Bind 模板",
+          "detail": "Bind<T>() 用 lambda 生成实例化与销毁函数，避免在组件中存储类型信息。"
+        },
+        {
+          "title": "ScriptableEntity 基类",
+          "detail": "脚本类继承它即可通过 GetComponent 访问自身实体的数据。"
+        },
+        {
+          "title": "生命周期驱动",
+          "detail": "场景更新时若实例为空则先实例化并绑定实体，然后调用 OnUpdate。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Native Script 原生脚本",
+          "definition": "用引擎宿主语言（此处为 C++）编写的实体逻辑。"
+        },
+        {
+          "term": "Scriptable Entity 可脚本实体",
+          "definition": "原生脚本的基类，提供访问所属实体的能力。"
+        }
+      ]
+    },
+    {
+      "n": 83,
+      "summary": "完善原生脚本的回调体系。ScriptableEntity 增加虚函数 OnCreate、OnDestroy、OnUpdate，替代早期用 std::function 手工赋值的写法，写起来更自然。Scene 在实例化后调用 OnCreate，在销毁时调用 OnDestroy。Cherno 用一个控制相机移动的脚本演示完整流程。",
+      "keyPoints": [
+        {
+          "title": "虚函数回调",
+          "detail": "用虚函数替代函数指针成员，脚本类只需 override 需要的钩子。"
+        },
+        {
+          "title": "完整生命周期",
+          "detail": "创建时 OnCreate、每帧 OnUpdate、销毁时 OnDestroy，时机由场景统一驱动。"
+        },
+        {
+          "title": "实战示例",
+          "detail": "写一个相机控制脚本，在 OnUpdate 里读取输入修改自身 TransformComponent。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Virtual Function 虚函数",
+          "definition": "允许派生类重写、通过基类指针调用的成员函数。"
+        },
+        {
+          "term": "Lifecycle Callback 生命周期回调",
+          "definition": "在对象特定阶段被自动调用的函数。"
+        }
+      ]
+    },
+    {
+      "n": 84,
+      "summary": "实现场景层级面板。SceneHierarchyPanel 持有场景引用，用 registry.each 遍历所有实体并以 ImGui 树节点列出名字。点击节点即选中该实体，选中状态保存在面板内供属性面板使用。Cherno 还处理了点击空白区域取消选择的交互细节。",
+      "keyPoints": [
+        {
+          "title": "实体列表",
+          "detail": "遍历 registry 中所有实体，用 TagComponent 的名字作为树节点标签。"
+        },
+        {
+          "title": "唯一控件 id",
+          "detail": "用实体句柄数值作为 ImGui 的 id，避免同名实体的控件冲突。"
+        },
+        {
+          "title": "选中状态",
+          "detail": "面板保存 m_SelectionContext，点击切换，空白处点击清空。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Scene Hierarchy Panel 场景层级面板",
+          "definition": "列出场景内全部实体供选择的编辑器面板。"
+        },
+        {
+          "term": "Selection Context 选中上下文",
+          "definition": "当前被选中对象的引用。"
+        }
+      ]
+    },
+    {
+      "n": 85,
+      "summary": "加上属性面板。选中实体后在 Properties 面板显示其组件内容，先从 TagComponent 开始：用 InputText 编辑名字，需要把 std::string 拷进固定大小的缓冲再写回。接着显示 TransformComponent 的矩阵字段。这一集建立了「层级选中、属性编辑」的编辑器基本工作流。",
+      "keyPoints": [
+        {
+          "title": "属性面板结构",
+          "detail": "面板根据选中实体逐个绘制其拥有的组件界面。"
+        },
+        {
+          "title": "字符串编辑",
+          "detail": "ImGui::InputText 需要 char 缓冲，编辑后再写回 TagComponent 的 string。"
+        },
+        {
+          "title": "选中联动",
+          "detail": "层级面板的选中结果直接驱动属性面板内容，二者共享同一个上下文。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Properties Panel 属性面板",
+          "definition": "显示并编辑选中对象各组件数据的面板。"
+        },
+        {
+          "term": "Inspector 检视器",
+          "definition": "属性面板的通用称呼。"
+        }
+      ]
+    },
+    {
+      "n": 86,
+      "summary": "绘制相机组件的编辑界面。用 Combo 下拉框切换投影类型，然后按类型分别显示正交尺寸或透视视场角，以及各自的近远裁剪面。修改控件值后立刻调用相机的 setter 触发投影矩阵重算。还加上 Primary 与 FixedAspectRatio 的复选框。",
+      "keyPoints": [
+        {
+          "title": "投影类型下拉框",
+          "detail": "用字符串数组配合 BeginCombo 实现枚举选择，选中后调用 SetProjectionType。"
+        },
+        {
+          "title": "分支参数界面",
+          "detail": "根据当前投影类型只显示相关参数，避免无效字段干扰。"
+        },
+        {
+          "title": "视场角单位转换",
+          "detail": "内部以弧度存储，界面以角度显示，读写时做 degrees 与 radians 转换。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Combo Box 下拉框",
+          "definition": "从若干选项中选择一项的界面控件。"
+        },
+        {
+          "term": "Projection Type 投影类型",
+          "definition": "标识相机使用正交还是透视投影的枚举。"
+        }
+      ]
+    },
+    {
+      "n": 87,
+      "summary": "抽象出通用的组件绘制流程。写一个模板函数 DrawComponent，接收名称、实体与一个绘制内容的 lambda，内部统一处理折叠树节点、右侧的设置按钮与「移除组件」弹出菜单。这样新增组件只需提供内容绘制部分，界面风格自动一致。TransformComponent 被排除在可移除之列。",
+      "keyPoints": [
+        {
+          "title": "模板加 lambda",
+          "detail": "DrawComponent<T>(name, entity, uiFunction) 把公共外壳与具体内容分离。"
+        },
+        {
+          "title": "统一样式",
+          "detail": "折叠头、分隔线、间距与设置按钮位置集中处理，界面观感一致。"
+        },
+        {
+          "title": "移除保护",
+          "detail": "变换组件不可移除，通过模板参数或条件判断屏蔽移除入口。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Collapsing Header 折叠标题",
+          "definition": "可展开收起的分组控件。"
+        },
+        {
+          "term": "Lambda 匿名函数",
+          "definition": "就地定义的可调用对象，常用于回调。"
+        }
+      ]
+    },
+    {
+      "n": 88,
+      "summary": "重做变换组件的界面。原来的 mat4 无法直观编辑，因此 TransformComponent 改为存储 Translation、Rotation、Scale 三个 vec3，并提供 GetTransform 合成矩阵。界面上写了 DrawVec3Control，为 X、Y、Z 各配一个带彩色标签按钮的拖动条，点击按钮可重置为默认值。",
+      "keyPoints": [
+        {
+          "title": "分量化存储",
+          "detail": "变换以位移、旋转、缩放三个向量存储，既便于编辑也利于序列化。",
+          "formula": "M = T(t) \\cdot R_{xyz}(r) \\cdot S(s)"
+        },
+        {
+          "title": "DrawVec3Control",
+          "detail": "用三列布局配红绿蓝按钮标注 X、Y、Z，点击标签按钮重置该分量。"
+        },
+        {
+          "title": "ID 作用域",
+          "detail": "用 PushID 与 PopID 包住控件组，避免同名标签造成 ImGui id 冲突。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Translation 位移",
+          "definition": "物体在空间中的平移量。"
+        },
+        {
+          "term": "Euler Angles 欧拉角",
+          "definition": "用绕三个轴的旋转角描述姿态的方式。"
+        },
+        {
+          "term": "Drag Float 拖动数值控件",
+          "definition": "通过拖拽调整浮点数的 ImGui 控件。"
+        }
+      ]
+    },
+    {
+      "n": 89,
+      "summary": "补齐实体与组件的增删界面。层级面板右键空白处弹出「创建空实体」，右键实体弹出「删除实体」。属性面板顶部加 Add Component 按钮，弹窗列出尚未拥有的组件类型。删除实体时要注意先清空选中上下文再销毁，避免悬空句柄。",
+      "keyPoints": [
+        {
+          "title": "上下文菜单",
+          "detail": "用 BeginPopupContextWindow 与 BeginPopupContextItem 分别处理空白与条目右键。"
+        },
+        {
+          "title": "添加组件弹窗",
+          "detail": "按钮打开 Popup，列出相机、精灵渲染等可添加组件，添加后关闭弹窗。"
+        },
+        {
+          "title": "安全删除",
+          "detail": "标记待删除实体、在本帧界面绘制结束后再销毁，并清空选中引用。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Context Menu 上下文菜单",
+          "definition": "右键呼出的操作菜单。"
+        },
+        {
+          "term": "Dangling Handle 悬空句柄",
+          "definition": "指向已销毁对象的失效引用。"
+        }
+      ]
+    },
+    {
+      "n": 90,
+      "summary": "美化 Hazelnut 编辑器外观。加载自定义字体并设置常规与粗体两种字型，然后逐项覆盖 ImGui 样式颜色：窗口背景、标题栏、按钮、输入框及其悬停与激活态。Cherno 用统一的深色调把界面从默认观感提升到接近商业编辑器。样式设置被收进 SetDarkThemeColors 函数集中管理。",
+      "keyPoints": [
+        {
+          "title": "自定义字体",
+          "detail": "用 AddFontFromFileTTF 加载字体并指定像素大小，粗体用于标题与标签。"
+        },
+        {
+          "title": "配色统一",
+          "detail": "覆盖 ImGuiCol 数组中的关键项，为普通、悬停、激活三态设定协调的深色值。"
+        },
+        {
+          "title": "集中管理",
+          "detail": "把全部样式设置放进一个函数，方便日后整体换肤。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Style Colors 样式配色",
+          "definition": "界面各元素在不同状态下的颜色配置。"
+        },
+        {
+          "term": "Font Atlas 字体图集",
+          "definition": "ImGui 把字形打包成的纹理。"
+        }
+      ]
+    },
+    {
+      "n": 91,
+      "summary": "实现场景的保存与加载。选用 YAML 作为格式，引入 yaml-cpp 库。SceneSerializer 遍历场景中每个实体，输出其 UUID/名称与各组件字段；反序列化时读取节点重建实体与组件。Cherno 为 vec3 等类型写了自定义的转换器与输出重载，让文件保持可读。",
+      "keyPoints": [
+        {
+          "title": "选择 YAML",
+          "detail": "相比二进制格式，YAML 可读可手改，适合开发期的场景与配置文件。"
+        },
+        {
+          "title": "SceneSerializer",
+          "detail": "Serialize 写出实体数组与组件字段，Deserialize 按节点存在与否创建对应组件。"
+        },
+        {
+          "title": "自定义类型转换",
+          "detail": "为 glm::vec3、vec4 编写 encode/decode 与 operator<<，使输出为紧凑的序列形式。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Serialization 序列化",
+          "definition": "把内存中的对象转换成可存储或传输格式的过程。"
+        },
+        {
+          "term": "YAML 标记语言",
+          "definition": "以缩进表达层次的人类可读数据序列化格式。"
+        },
+        {
+          "term": "Deserialization 反序列化",
+          "definition": "从存储格式还原出内存对象的过程。"
+        }
+      ]
+    },
+    {
+      "n": 92,
+      "summary": "接入系统文件对话框。FileDialogs 提供 OpenFile 与 SaveFile 两个静态方法，Windows 实现调用 GetOpenFileNameA 与 GetSaveFileNameA，传入过滤器字符串限定 .hazel 扩展名。菜单栏加上新建、打开、另存为项，并绑定 Ctrl+N、Ctrl+O、Ctrl+Shift+S 快捷键。快捷键通过 KeyPressedEvent 中检查修饰键状态实现。",
+      "keyPoints": [
+        {
+          "title": "平台文件对话框",
+          "detail": "用 Win32 通用对话框 API 弹出系统级打开/保存窗口，返回选中路径。"
+        },
+        {
+          "title": "过滤器格式",
+          "detail": "过滤字符串用双 \\0 结尾的特殊格式描述可见类型与通配符。"
+        },
+        {
+          "title": "快捷键处理",
+          "detail": "在 OnKeyPressed 中判断重复计数为零并检查 Ctrl、Shift 是否按下，再执行对应命令。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "File Dialog 文件对话框",
+          "definition": "由操作系统提供的选择文件路径的界面。"
+        },
+        {
+          "term": "Keyboard Shortcut 快捷键",
+          "definition": "组合按键触发命令的交互方式。"
+        }
+      ]
+    },
+    {
+      "n": 93,
+      "summary": "接入 ImGuizmo 实现可视化变换操纵杆。选中实体后在视口中叠加一个 gizmo，可拖拽完成平移、旋转、缩放。需要向 ImGuizmo 传入相机的视图与投影矩阵、视口矩形以及实体的变换矩阵，操作后用 DecomposeTransform 把结果矩阵拆回位移、旋转与缩放三段。按 Q/W/E/R 切换操作类型，按住 Ctrl 启用吸附。",
+      "keyPoints": [
+        {
+          "title": "Gizmo 集成",
+          "detail": "设置 ImGuizmo 的绘制列表与矩形区域，调用 Manipulate 传入视图、投影与模型矩阵。"
+        },
+        {
+          "title": "矩阵分解",
+          "detail": "操作后得到的是完整矩阵，需分解回位移、欧拉角与缩放并写回组件。"
+        },
+        {
+          "title": "吸附与切换",
+          "detail": "按住 Ctrl 按固定步长吸附（旋转常用 45 度），快捷键切换平移旋转缩放模式。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Gizmo 操纵杆",
+          "definition": "视口中用于交互式修改物体变换的可视化控件。"
+        },
+        {
+          "term": "Matrix Decomposition 矩阵分解",
+          "definition": "把变换矩阵还原为位移、旋转、缩放分量的运算。"
+        },
+        {
+          "term": "Snapping 吸附",
+          "definition": "操作时按固定增量取整的辅助功能。"
+        }
+      ]
+    },
+    {
+      "n": 94,
+      "summary": "实现独立于场景相机的编辑器相机。EditorCamera 不属于 ECS，只服务于编辑视图，支持中键平移、左 Alt 加左键环绕旋转、滚轮推拉。内部用焦点距离、俯仰角与偏航角推算相机位置与朝向，再求逆得到视图矩阵。编辑模式下场景用它渲染，运行模式仍用场景主相机。",
+      "keyPoints": [
+        {
+          "title": "轨道相机模型",
+          "detail": "由焦点位置、距离与俯仰偏航角确定相机位姿，符合建模软件的操作直觉。",
+          "formula": "pos = focal - forward \\cdot distance"
+        },
+        {
+          "title": "三种交互",
+          "detail": "平移改变焦点、旋转改变俯仰与偏航、缩放改变距离，速度随距离自适应。"
+        },
+        {
+          "title": "模式分离",
+          "detail": "编辑态用编辑器相机，运行态切换回场景主相机，两套渲染路径互不干扰。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Editor Camera 编辑器相机",
+          "definition": "仅用于编辑视图导航、不参与游戏逻辑的相机。"
+        },
+        {
+          "term": "Orbit Camera 轨道相机",
+          "definition": "围绕焦点旋转与推拉的相机控制模型。"
+        },
+        {
+          "term": "Pitch/Yaw 俯仰角与偏航角",
+          "definition": "分别表示上下与左右转动的姿态角。"
+        }
+      ]
+    },
+    {
+      "n": 95,
+      "summary": "重构帧缓冲以支持多个渲染目标。FramebufferSpecification 改为携带一个附件规格列表，每项指定格式（如 RGBA8 或 DEPTH24STENCIL8）。Invalidate 里按列表批量创建纹理并用 glDrawBuffers 声明可写的颜色附件。这为下一步的鼠标拾取铺路，也让后续做延迟渲染成为可能。",
+      "keyPoints": [
+        {
+          "title": "附件规格列表",
+          "detail": "用 FramebufferTextureSpecification 描述每个附件的格式，深度附件自动识别并单独处理。"
+        },
+        {
+          "title": "多重渲染目标",
+          "detail": "glDrawBuffers 指定多个颜色附件，片元着色器用 layout(location=N) 分别输出。"
+        },
+        {
+          "title": "重建统一化",
+          "detail": "尺寸变化时按规格列表重建全部附件，代码从硬编码两个附件变为通用循环。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Multiple Render Targets 多重渲染目标",
+          "definition": "一次绘制同时写入多个颜色附件的能力。"
+        },
+        {
+          "term": "Texture Format 纹理格式",
+          "definition": "描述纹理每个像素的分量类型与位宽。"
+        }
+      ]
+    },
+    {
+      "n": 96,
+      "summary": "为鼠标拾取准备第二个颜色附件。新增一个 RED_INTEGER 格式的整数附件，专门存放每个像素对应的实体 id。着色器增加第二个输出变量写入 v_EntityID，Renderer2D 的顶点结构也相应增加一个 int 字段随顶点传入。整数纹理不能用普通 clear，需要单独处理。",
+      "keyPoints": [
+        {
+          "title": "整数附件",
+          "detail": "用 GL_RED_INTEGER 与 GL_R32I 存储实体 id，避免浮点精度导致的 id 失真。"
+        },
+        {
+          "title": "顶点携带 id",
+          "detail": "顶点结构新增 EntityID 字段，属性指针用 glVertexAttribIPointer 声明为整型。"
+        },
+        {
+          "title": "着色器双输出",
+          "detail": "片元着色器用两个 layout(location) 输出，分别写颜色与实体 id。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Entity ID 实体标识",
+          "definition": "唯一标记场景中某个实体的整数。"
+        },
+        {
+          "term": "Integer Texture 整数纹理",
+          "definition": "存储整型数据、采样时不做归一化的纹理。"
+        }
+      ]
+    },
+    {
+      "n": 97,
+      "summary": "解决整数附件的清除问题并演示分支开发流程。普通 glClear 用浮点颜色清屏，对整数附件会得到未定义结果，因此新增 Framebuffer::ClearAttachment 接口，内部用 glClearTexImage 把附件填成指定值（通常是 -1 表示无实体）。同时 Cherno 演示如何在 Git 分支上开发大功能再合并回主干。",
+      "keyPoints": [
+        {
+          "title": "ClearAttachment 接口",
+          "detail": "针对指定索引的附件按其格式清除为给定整数值，避免整数纹理被错误清屏。"
+        },
+        {
+          "title": "哨兵值 -1",
+          "detail": "用 -1 表示该像素没有实体，读取时据此判断鼠标是否悬停在空白处。"
+        },
+        {
+          "title": "分支工作流",
+          "detail": "大功能在独立分支开发，完成并验证后再合并，保证主干始终可用。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Clear Value 清除值",
+          "definition": "帧缓冲被清空时填充的数值。"
+        },
+        {
+          "term": "Git Branch 分支",
+          "definition": "与主线并行的独立开发线。"
+        }
+      ]
+    },
+    {
+      "n": 98,
+      "summary": "实现鼠标拾取的读取环节。先把 ImGui 报告的鼠标屏幕坐标换算成视口内的局部坐标，注意 Y 轴需要翻转以匹配 OpenGL 的原点。然后调用新增的 Framebuffer::ReadPixel 用 glReadPixels 从整数附件读取该像素的实体 id。为避免读取到本帧尚未渲染的内容，读取时机放在场景渲染之后、解绑之前。",
+      "keyPoints": [
+        {
+          "title": "坐标换算",
+          "detail": "鼠标全局坐标减去视口左上角得到局部坐标，再用视口高度减去 y 完成翻转。"
+        },
+        {
+          "title": "ReadPixel",
+          "detail": "用 glReadBuffer 选定附件后 glReadPixels 读回单个整数像素值。"
+        },
+        {
+          "title": "边界检查",
+          "detail": "只有当局部坐标落在视口尺寸范围内时才执行读取，避免越界。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Mouse Picking 鼠标拾取",
+          "definition": "通过鼠标位置确定所指向场景对象的技术。"
+        },
+        {
+          "term": "Pixel Readback 像素回读",
+          "definition": "把 GPU 帧缓冲内容读回 CPU 的操作。"
+        }
+      ]
+    },
+    {
+      "n": 99,
+      "summary": "把拾取结果接到编辑器交互上。悬停实体 id 转成 Entity 保存为 m_HoveredEntity，鼠标左键点击时若视口被悬停且未在操作 gizmo，就把它设为层级面板的选中实体。需要用 ImGuizmo::IsOver 与按键状态排除与操纵杆的冲突。至此编辑器具备了点击选中物体的核心体验。",
+      "keyPoints": [
+        {
+          "title": "悬停到选中",
+          "detail": "左键按下事件中读取当前悬停实体并写入场景层级面板的选中上下文。"
+        },
+        {
+          "title": "与 gizmo 互斥",
+          "detail": "当鼠标位于操纵杆上或按住 Alt 时跳过拾取，避免误改选中目标。"
+        },
+        {
+          "title": "调试显示",
+          "detail": "在视口悬浮信息中显示当前悬停实体名称，便于验证拾取正确性。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Hovered Entity 悬停实体",
+          "definition": "当前鼠标指向的场景实体。"
+        },
+        {
+          "term": "Viewport Focus 视口焦点",
+          "definition": "标识视口是否处于激活可交互状态。"
+        }
+      ]
+    },
+    {
+      "n": 100,
+      "summary": "重做着色器系统，引入 SPIR-V 中间表示。用 shaderc 把 GLSL 编译成 SPIR-V 二进制并缓存到磁盘，启动时若缓存有效就直接加载，省去每次编译的开销。再用 SPIRV-Cross 做反射，自动获取统一变量与资源绑定信息，并可把 SPIR-V 反编译回 OpenGL 兼容的 GLSL。这套管线也为将来接入 Vulkan 打下基础。",
+      "keyPoints": [
+        {
+          "title": "SPIR-V 中间表示",
+          "detail": "把 GLSL 预编译为与平台无关的二进制中间码，加载更快且便于跨 API 复用。"
+        },
+        {
+          "title": "编译缓存",
+          "detail": "按源文件与阶段生成缓存文件，源码未变时直接读取缓存，显著缩短启动时间。"
+        },
+        {
+          "title": "反射获取元数据",
+          "detail": "SPIRV-Cross 可枚举统一缓冲、采样器与成员偏移，替代手工维护的绑定表。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "SPIR-V 中间表示",
+          "definition": "Khronos 定义的着色器二进制中间语言。"
+        },
+        {
+          "term": "shaderc 编译器",
+          "definition": "把 GLSL 编译为 SPIR-V 的库与工具。"
+        },
+        {
+          "term": "SPIRV-Cross 转换库",
+          "definition": "对 SPIR-V 做反射与跨语言反编译的库。"
+        }
+      ]
+    },
+    {
+      "n": 101,
+      "summary": "实现内容浏览器面板。用 C++17 的 std::filesystem 遍历 assets 目录，把子目录与文件以图标网格形式展示，双击目录进入、点击返回上级。图标区分文件夹与普通文件，名称显示在图标下方。这是引擎资源管理界面的起点。",
+      "keyPoints": [
+        {
+          "title": "目录遍历",
+          "detail": "用 directory_iterator 列出当前目录条目，按 is_directory 区分显示方式。"
+        },
+        {
+          "title": "网格布局",
+          "detail": "用 ImGui 的 Columns 或按可用宽度计算列数，实现自适应的图标网格。"
+        },
+        {
+          "title": "路径导航",
+          "detail": "维护当前目录成员变量，双击进入子目录，返回按钮回到父目录且不越过根目录。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Content Browser 内容浏览器",
+          "definition": "浏览项目资源文件的编辑器面板。"
+        },
+        {
+          "term": "std::filesystem 文件系统库",
+          "definition": "C++17 提供的跨平台路径与目录操作库。"
+        }
+      ]
+    },
+    {
+      "n": 102,
+      "summary": "为内容浏览器加上拖放能力。文件条目上调用 BeginDragDropSource 并把相对路径字符串作为负载；视口作为 BeginDragDropTarget 接收，根据负载路径加载对应场景文件。要注意负载数据必须包含结尾空字符并正确计算字节长度。拖放让编辑器的工作流真正串起来。",
+      "keyPoints": [
+        {
+          "title": "拖放负载",
+          "detail": "SetDragDropPayload 传入自定义类型标识与路径字节数据，长度要含终止符。"
+        },
+        {
+          "title": "接收端处理",
+          "detail": "目标区域用 AcceptDragDropPayload 匹配类型标识，取出路径后执行加载。"
+        },
+        {
+          "title": "路径基准",
+          "detail": "负载存相对于资源根目录的路径，接收端再拼接成完整路径，便于工程移动。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Drag and Drop 拖放",
+          "definition": "用鼠标拖动对象到目标区域完成操作的交互方式。"
+        },
+        {
+          "term": "Payload 负载",
+          "definition": "拖放过程中携带的数据。"
+        }
+      ]
+    },
+    {
+      "n": 103,
+      "summary": "让实体支持贴图。SpriteRendererComponent 增加纹理引用与平铺因子字段，属性面板上提供一个可接收内容浏览器拖放的纹理槽。Scene 渲染时若组件带纹理就走带贴图的 DrawQuad。序列化部分也相应保存纹理路径，加载时重新读取文件。",
+      "keyPoints": [
+        {
+          "title": "组件持有纹理",
+          "detail": "SpriteRendererComponent 增加 Ref<Texture2D> 与 TilingFactor 字段。"
+        },
+        {
+          "title": "拖放赋值",
+          "detail": "属性面板的纹理按钮作为拖放目标，接收图片路径后加载并赋给组件。"
+        },
+        {
+          "title": "序列化路径",
+          "detail": "场景文件保存纹理的相对路径而非像素数据，加载时按路径重新构建纹理。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Asset Reference 资源引用",
+          "definition": "组件中指向外部资源的引用。"
+        },
+        {
+          "term": "Asset Path 资源路径",
+          "definition": "资源文件相对于项目根的位置描述。"
+        }
+      ]
+    },
+    {
+      "n": 104,
+      "summary": "一集总览性讨论：一个完整的 2D 游戏引擎还需要什么。Cherno 列出物理、音频、动画、粒子、UI、资源系统、脚本、构建打包等模块，并逐项说明优先级与实现难度。他给出 Hazel 2D 的完成度评估与接下来的推进顺序。观众可据此理解引擎的全貌。",
+      "keyPoints": [
+        {
+          "title": "能力清单",
+          "detail": "渲染、物理、音频、动画、粒子、UI、脚本、资源与打包共同构成完整 2D 引擎。"
+        },
+        {
+          "title": "优先级排序",
+          "detail": "先补运行时最关键的播放控制与物理，脚本与资源系统随后跟上。"
+        },
+        {
+          "title": "取舍原则",
+          "detail": "能用成熟第三方库（如 Box2D）的模块不自研，把精力放在引擎架构本身。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Runtime Loop 运行时循环",
+          "definition": "游戏正式运行时的更新与渲染流程。"
+        },
+        {
+          "term": "Particle System 粒子系统",
+          "definition": "用大量小图元模拟烟火、雨雪等效果的模块。"
+        }
+      ]
+    },
+    {
+      "n": 105,
+      "summary": "加入播放按钮，区分编辑与运行两种状态。引入 SceneState 枚举，工具栏用一个图标按钮在编辑与运行之间切换。工具栏是一个去掉边框与滚动条的特殊 ImGui 窗口，按钮贴图从 Resources/Icons 加载。切换状态时分别调用 Scene 的 OnRuntimeStart 与 OnRuntimeStop。",
+      "keyPoints": [
+        {
+          "title": "SceneState 状态机",
+          "detail": "用 Edit 与 Play 两个状态决定使用哪个相机、是否执行脚本与物理。"
+        },
+        {
+          "title": "工具栏窗口",
+          "detail": "用 NoDecoration 与自定义样式做出紧凑的图标工具栏，按钮居中显示。"
+        },
+        {
+          "title": "状态切换钩子",
+          "detail": "进入运行调用 OnRuntimeStart 初始化子系统，停止时调用 OnRuntimeStop 清理。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Scene State 场景状态",
+          "definition": "标识编辑器当前处于编辑还是运行模式的枚举。"
+        },
+        {
+          "term": "Toolbar 工具栏",
+          "definition": "承载常用命令按钮的界面条。"
+        }
+      ]
+    },
+    {
+      "n": 106,
+      "summary": "接入 Box2D 实现 2D 物理。新增 Rigidbody2DComponent 保存刚体类型（静态、动态、运动学）与固定旋转标记，BoxCollider2DComponent 保存偏移、半尺寸与密度、摩擦、弹性等材质参数。运行开始时按组件创建 b2Body 与 fixture，每帧调用世界的 Step 推进模拟并把结果写回变换组件。",
+      "keyPoints": [
+        {
+          "title": "刚体与碰撞体分离",
+          "detail": "Rigidbody2D 决定运动方式，Collider 描述形状与物理材质，二者组合使用。"
+        },
+        {
+          "title": "世界步进",
+          "detail": "每帧以固定时间步和迭代次数调用 b2World::Step 推进模拟。",
+          "formula": "world.Step(\\Delta t, velocityIterations, positionIterations)"
+        },
+        {
+          "title": "结果回写",
+          "detail": "模拟后读取刚体位置与角度写回 TransformComponent，保持渲染与物理同步。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Box2D 物理库",
+          "definition": "成熟的开源 2D 刚体物理引擎。"
+        },
+        {
+          "term": "Rigidbody 刚体",
+          "definition": "参与物理模拟、具有质量与速度的物体。"
+        },
+        {
+          "term": "Collider 碰撞体",
+          "definition": "描述物体碰撞形状的组件。"
+        }
+      ]
+    },
+    {
+      "n": 107,
+      "summary": "引入全局唯一标识符解决实体引用问题。实体在 EnTT 中的句柄会随场景重建而变化，无法用于持久化引用，因此新增 UUID 类包装一个 64 位随机整数，并作为 IDComponent 附加到每个实体。序列化用 UUID 作为实体键，为 std::hash 提供特化以便放进哈希表。",
+      "keyPoints": [
+        {
+          "title": "UUID 生成",
+          "detail": "用 mt19937_64 随机引擎生成 64 位标识，碰撞概率在实用范围内可忽略。"
+        },
+        {
+          "title": "IDComponent",
+          "detail": "创建实体时自动附加，反序列化时用文件中记录的 UUID 而非重新生成。"
+        },
+        {
+          "title": "hash 特化",
+          "detail": "为 UUID 特化 std::hash，使其可作为 unordered_map 的键实现快速查找。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "UUID 通用唯一标识符",
+          "definition": "用于唯一标记对象的长整数或字符串。"
+        },
+        {
+          "term": "Hash Specialization 哈希特化",
+          "definition": "为自定义类型提供哈希函数以支持哈希容器。"
+        }
+      ]
+    },
+    {
+      "n": 108,
+      "summary": "解决运行后场景被修改的问题。之前点击播放会直接在编辑场景上跑物理，停止后物体已被移动无法还原。方案是实现 Scene::Copy 深拷贝一份运行时场景，播放时渲染副本、停止时丢弃并恢复原场景。拷贝需要按 UUID 建立新旧实体映射，再逐组件复制。",
+      "keyPoints": [
+        {
+          "title": "运行时场景副本",
+          "detail": "播放前拷贝整个场景，所有物理与脚本改动只作用在副本上。"
+        },
+        {
+          "title": "按 UUID 映射",
+          "detail": "先创建同 UUID 的新实体建立映射表，再用模板函数批量复制各类组件。"
+        },
+        {
+          "title": "停止即还原",
+          "detail": "停止播放时销毁副本并把编辑器指回原场景，编辑数据完好无损。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Deep Copy 深拷贝",
+          "definition": "复制对象及其所引用数据的完整副本。"
+        },
+        {
+          "term": "Runtime Scene 运行时场景",
+          "definition": "播放模式下实际被更新与渲染的场景副本。"
+        }
+      ]
+    },
+    {
+      "n": 109,
+      "summary": "给渲染器加上圆形绘制能力。做法不是生成圆形网格，而是仍画一个四边形，在片元着色器里根据到中心的距离判断是否丢弃，从而得到抗锯齿的圆。CircleRendererComponent 提供颜色、thickness 与 fade 参数，thickness 控制圆环粗细、fade 控制边缘柔和度。这套着色器同时能画实心圆与圆环。",
+      "keyPoints": [
+        {
+          "title": "距离场画圆",
+          "detail": "在局部坐标下计算到中心的距离，用 smoothstep 在边界处平滑过渡实现抗锯齿。",
+          "formula": "\\alpha = smoothstep(0, fade, 1 - d) \\cdot smoothstep(thickness + fade, thickness, 1 - d)"
+        },
+        {
+          "title": "独立批次",
+          "detail": "圆形使用不同着色器与顶点结构，Renderer2D 维护一套独立的圆形批次数据。"
+        },
+        {
+          "title": "组件化",
+          "detail": "CircleRendererComponent 与 SpriteRendererComponent 并列，可被序列化与编辑。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Signed Distance Field 有向距离场",
+          "definition": "用点到形状边界的距离表示图形的方法。"
+        },
+        {
+          "term": "Anti-Aliasing 抗锯齿",
+          "definition": "缓解图形边缘阶梯感的技术。"
+        },
+        {
+          "term": "smoothstep 平滑插值",
+          "definition": "在区间内做平滑渐变的着色器内置函数。"
+        }
+      ]
+    },
+    {
+      "n": 110,
+      "summary": "实现线条渲染。新增一套使用 GL_LINES 图元的批次，DrawLine 接收两个端点与颜色，DrawRect 用四条线画出矩形轮廓。线宽通过 glLineWidth 设置，Cherno 提醒各驱动对线宽的支持范围不一致。线条主要用于编辑器中的辅助显示而非游戏内容。",
+      "keyPoints": [
+        {
+          "title": "线条批次",
+          "detail": "独立的顶点缓冲与着色器，绘制时用 DrawLines 而非 DrawIndexed。"
+        },
+        {
+          "title": "DrawRect 组合",
+          "detail": "用四次 DrawLine 画出矩形边框，也提供基于变换矩阵的重载。"
+        },
+        {
+          "title": "线宽限制",
+          "detail": "glLineWidth 在多数现代驱动上只保证 1.0，需要更粗的线应改用四边形模拟。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Line Primitive 线图元",
+          "definition": "由两个顶点定义的绘制图元。"
+        },
+        {
+          "term": "Wireframe 线框",
+          "definition": "只绘制边而不填充面的显示方式。"
+        }
+      ]
+    },
+    {
+      "n": 111,
+      "summary": "补上圆形物理碰撞体。CircleCollider2DComponent 保存偏移与半径以及材质参数，运行开始时创建 b2CircleShape 并挂到刚体上。属性面板与序列化同步支持该组件。至此 Hazel 的 2D 物理具备了方形与圆形两种基本碰撞形状。",
+      "keyPoints": [
+        {
+          "title": "CircleCollider2D",
+          "detail": "字段包括 Offset、Radius 与密度、摩擦、弹性及弹性阈值。"
+        },
+        {
+          "title": "形状创建",
+          "detail": "用 b2CircleShape 设置中心偏移与半径，注意半径要乘上实体的缩放。"
+        },
+        {
+          "title": "编辑与序列化",
+          "detail": "属性面板提供对应控件，场景文件保存全部字段以便还原。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Circle Collider 圆形碰撞体",
+          "definition": "以圆形描述碰撞范围的组件。"
+        },
+        {
+          "term": "Restitution 弹性系数",
+          "definition": "碰撞后速度保留比例，决定反弹程度。"
+        },
+        {
+          "term": "Friction 摩擦系数",
+          "definition": "表面之间阻碍相对滑动的程度。"
+        }
+      ]
+    },
+    {
+      "n": 112,
+      "summary": "把碰撞体可视化。编辑器新增「显示物理碰撞体」开关，开启后在场景渲染之后叠加一层绿色线框：方形碰撞体用 DrawRect，圆形碰撞体用带 thickness 的圆环。绘制时要把碰撞体的偏移与缩放正确合成到变换矩阵中，并稍微抬高 Z 值避免被物体遮挡。",
+      "keyPoints": [
+        {
+          "title": "调试绘制层",
+          "detail": "在正常渲染后开启第二遍绘制，只画线框，不写入实体 id 附件。"
+        },
+        {
+          "title": "变换合成",
+          "detail": "碰撞体的位移与半尺寸需与实体变换相乘，才能得到正确的世界位置与大小。"
+        },
+        {
+          "title": "深度偏移",
+          "detail": "给线框一个微小的 Z 偏移，保证它显示在被包裹的精灵之上。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Debug Draw 调试绘制",
+          "definition": "仅供开发者观察内部状态的辅助渲染。"
+        },
+        {
+          "term": "Overlay Rendering 叠加渲染",
+          "definition": "在主画面之上再绘制一层内容。"
+        }
+      ]
+    },
+    {
+      "n": 113,
+      "summary": "系列时隔一段时间回归的重启集。Cherno 回顾 Hazel 当前状态、说明中断原因，并回答观众关于引擎方向、Vulkan 支持、商业版 Hazel 与学习路径的提问。他重申接下来的重点是 C# 脚本系统。本集以答疑与规划为主，代码改动很少。",
+      "keyPoints": [
+        {
+          "title": "现状回顾",
+          "detail": "梳理已完成的渲染、编辑器、ECS、序列化与物理模块，确认下一阶段目标。"
+        },
+        {
+          "title": "社区问答",
+          "detail": "回应关于图形 API 选择、学习顺序与项目规模控制的常见疑问。"
+        },
+        {
+          "title": "脚本预告",
+          "detail": "确定下一个大功能是基于 Mono 的 C# 脚本系统。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Q&A 答疑",
+          "definition": "针对观众提问的集中解答环节。"
+        },
+        {
+          "term": "Milestone 里程碑",
+          "definition": "项目中标志性的阶段目标。"
+        }
+      ]
+    },
+    {
+      "n": 114,
+      "summary": "加入物理模拟模式。有时想在编辑态下只跑物理而不启动完整游戏逻辑，因此 SceneState 增加 Simulate 状态，工具栏加上第二个按钮。Simulate 模式使用编辑器相机观察，仅调用 OnSimulationStart 与 OnUpdateSimulation 推进物理，不执行脚本。同样对场景做副本以便随时还原。",
+      "keyPoints": [
+        {
+          "title": "三态工具栏",
+          "detail": "编辑、运行、模拟三种状态由两个按钮组合控制，互斥切换。"
+        },
+        {
+          "title": "OnUpdateSimulation",
+          "detail": "只推进 Box2D 世界并渲染，跳过脚本与游戏相机切换。"
+        },
+        {
+          "title": "共享副本机制",
+          "detail": "复用运行模式的场景拷贝逻辑，模拟结束同样丢弃副本恢复原场景。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Simulation Mode 模拟模式",
+          "definition": "只运行物理而不执行游戏逻辑的编辑器状态。"
+        },
+        {
+          "term": "Physics Step 物理步进",
+          "definition": "推进物理世界一个时间片的计算。"
+        }
+      ]
+    },
+    {
+      "n": 115,
+      "summary": "处理社区提交的 Issue 与 Pull Request。Cherno 逐条查看问题报告，复现并修复若干缺陷，同时审阅几个功能性 PR。过程中演示了如何在本地检出贡献者分支、解决合并冲突并把改动整合进主干。这类维护集展示了开源项目的真实日常。",
+      "keyPoints": [
+        {
+          "title": "缺陷复现",
+          "detail": "先按报告步骤复现问题，确认根因后再动手修改，避免盲目改代码。"
+        },
+        {
+          "title": "合并冲突处理",
+          "detail": "演示用 Git 解决同一文件的并行修改冲突并验证结果可编译运行。"
+        },
+        {
+          "title": "贡献规范",
+          "detail": "提醒贡献者保持改动聚焦并遵循项目代码风格，方便评审。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Issue 问题单",
+          "definition": "记录缺陷或需求的跟踪条目。"
+        },
+        {
+          "term": "Merge Conflict 合并冲突",
+          "definition": "两条分支改动同一处代码导致无法自动合并的情况。"
+        }
+      ]
+    },
+    {
+      "n": 116,
+      "summary": "继续把积压的 Pull Request 处理完毕。合并了若干修复与小功能改进，并对不符合架构方向的提交给出说明后关闭。Cherno 在过程中吐槽了一些常见的提交问题，如夹带无关格式化、破坏平台兼容性等。最后把主干重新编译验证并推送。",
+      "keyPoints": [
+        {
+          "title": "合并与拒绝",
+          "detail": "符合方向的改动合并，不符合的说明理由后关闭，保持项目一致性。"
+        },
+        {
+          "title": "常见提交问题",
+          "detail": "大范围重排版、引入不必要依赖、破坏其他平台构建是被拒的主要原因。"
+        },
+        {
+          "title": "合并后验证",
+          "detail": "每次合并后完整重新生成工程并编译运行，确保主干可用。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Code Review 代码评审",
+          "definition": "由他人检查代码改动质量与正确性的过程。"
+        },
+        {
+          "term": "Regression 回归缺陷",
+          "definition": "新改动导致原本正常功能失效的问题。"
+        }
+      ]
+    },
+    {
+      "n": 117,
+      "summary": "进入 C# 脚本之前的最后一次清理。整理编辑器代码中的重复逻辑，统一路径与资源目录处理，修正若干在多分辨率与视口缩放下的显示问题。Cherno 也补齐了一些遗漏的序列化字段。目的是让代码库处于一个干净的状态再动大手术。",
+      "keyPoints": [
+        {
+          "title": "编辑器代码整理",
+          "detail": "抽出重复的面板绘制与状态切换逻辑，减少 EditorLayer 的体积。"
+        },
+        {
+          "title": "序列化补齐",
+          "detail": "检查各组件字段与序列化代码是否一一对应，补上遗漏项。"
+        },
+        {
+          "title": "大改动前的准备",
+          "detail": "在引入脚本系统前把已有问题清空，避免新旧问题纠缠难以定位。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Housekeeping 代码整理",
+          "definition": "不新增功能、只改善代码状态的维护工作。"
+        },
+        {
+          "term": "Consistency 一致性",
+          "definition": "代码风格与行为在项目内保持统一的性质。"
+        }
+      ]
+    },
+    {
+      "n": 118,
+      "summary": "启动 C# 脚本系统。选择 Mono 作为嵌入式运行时，因为它成熟、可嵌入且对 C# 支持完善。ScriptEngine 负责初始化 Mono、创建 AppDomain、加载 Hazel-ScriptCore 程序集，并遍历其中的类型。Cherno 演示了从 C++ 侧查找类、创建对象实例并调用方法的完整流程。",
+      "keyPoints": [
+        {
+          "title": "Mono 嵌入",
+          "detail": "用 mono_jit_init 初始化运行时，设置程序集路径，创建应用域承载脚本。"
+        },
+        {
+          "title": "加载程序集",
+          "detail": "读取编译好的 dll 字节，用 mono_image_open_from_data 与 mono_assembly_load_from_full 加载。"
+        },
+        {
+          "title": "反射调用",
+          "detail": "通过 mono_class_from_name 找类、mono_object_new 创建实例、mono_runtime_invoke 调用方法。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Mono 运行时",
+          "definition": "可嵌入宿主程序的开源 .NET 运行时实现。"
+        },
+        {
+          "term": "Assembly 程序集",
+          "definition": ".NET 中编译产出的代码与元数据单元。"
+        },
+        {
+          "term": "App Domain 应用域",
+          "definition": "Mono 中隔离程序集加载与卸载的容器。"
+        }
+      ]
+    },
+    {
+      "n": 119,
+      "summary": "实现 C# 与 C++ 的双向调用。C# 侧用 MethodImpl(InternalCall) 声明外部方法，C++ 侧用 mono_add_internal_call 把名字绑定到本地函数指针，调用时零封送开销。Cherno 演示传递基础类型与 glm 向量结构体的注意事项，并用宏简化大量绑定的注册代码。",
+      "keyPoints": [
+        {
+          "title": "内部调用绑定",
+          "detail": "用 mono_add_internal_call 把 \"Namespace.Class::Method\" 字符串映射到 C++ 函数。"
+        },
+        {
+          "title": "类型封送",
+          "detail": "基础类型与布局兼容的结构体可直接按值传递，字符串与数组需要专门转换。"
+        },
+        {
+          "title": "宏批量注册",
+          "detail": "用宏拼接函数名与字符串，避免手写上百条注册语句时的拼写错误。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Internal Call 内部调用",
+          "definition": "C# 直接调用宿主提供的本地函数的机制。"
+        },
+        {
+          "term": "Marshalling 数据封送",
+          "definition": "在托管与本地代码之间转换数据表示的过程。"
+        },
+        {
+          "term": "Managed Code 托管代码",
+          "definition": "在 .NET 运行时中执行、由其管理内存的代码。"
+        }
+      ]
+    },
+    {
+      "n": 120,
+      "summary": "把 C# 脚本接入实体组件系统。新增 ScriptComponent 保存类名，运行开始时 ScriptEngine 为每个带该组件的实体创建对应 C# 对象，并把实体 UUID 传入构造。C# 侧提供 Entity 基类，用户脚本继承它并重写 OnCreate 与 OnUpdate，由引擎每帧统一调用。",
+      "keyPoints": [
+        {
+          "title": "ScriptComponent",
+          "detail": "仅保存脚本类的全名，属性面板可用下拉框在已加载类中选择。"
+        },
+        {
+          "title": "实例与实体绑定",
+          "detail": "创建 C# 实例时把实体 UUID 通过构造参数传入，脚本内可据此访问自身数据。"
+        },
+        {
+          "title": "生命周期调用",
+          "detail": "缓存 OnCreate 与 OnUpdate 的 MonoMethod 指针，运行时直接 invoke 减少查找开销。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Script Component 脚本组件",
+          "definition": "把某个脚本类关联到实体的组件。"
+        },
+        {
+          "term": "Script Instance 脚本实例",
+          "definition": "运行时为实体创建的托管对象。"
+        }
+      ]
+    },
+    {
+      "n": 121,
+      "summary": "让 C# 能读写 C++ 侧的引擎组件。为 TransformComponent 等提供内部调用的取值与设值函数，C# 端封装成属性，写法与原生对象一致。HasComponent 用泛型加类型到判定函数的字典实现：注册时用反射为每个组件类型建立映射，运行时按 typeof 查表调用。",
+      "keyPoints": [
+        {
+          "title": "组件属性封装",
+          "detail": "C# 的 Translation 属性内部调用 GetTranslation 与 SetTranslation 内部调用函数。"
+        },
+        {
+          "title": "泛型 HasComponent",
+          "detail": "用 Type 到委托的字典实现泛型组件判定，避免为每种组件写一个函数。"
+        },
+        {
+          "title": "注册表构建",
+          "detail": "启动时反射遍历 ScriptCore 中的组件类型，逐一登记到 C++ 侧的映射表。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Reflection 反射",
+          "definition": "运行时获取类型信息并动态操作对象的能力。"
+        },
+        {
+          "term": "Generic 泛型",
+          "definition": "以类型为参数编写可复用代码的语言特性。"
+        }
+      ]
+    },
+    {
+      "n": 122,
+      "summary": "把 C# 代码分成两层。Hazel-ScriptCore 是引擎提供的核心程序集，包含 Entity 基类、组件封装与输入等 API；Sandbox 项目则是用户的游戏代码程序集，引用核心程序集。ScriptEngine 分别加载这两个 dll，核心先加载以便解析用户程序集的依赖。这样引擎升级与游戏代码可以独立演进。",
+      "keyPoints": [
+        {
+          "title": "双程序集结构",
+          "detail": "核心程序集提供 API，应用程序集承载游戏逻辑，加载顺序为先核心后应用。"
+        },
+        {
+          "title": "类型扫描分离",
+          "detail": "只在应用程序集中扫描 Entity 的派生类作为可用脚本，核心类型不列入。"
+        },
+        {
+          "title": "构建输出约定",
+          "detail": "C# 工程编译输出到引擎可识别的固定目录，便于运行时定位加载。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Script Core 脚本核心库",
+          "definition": "引擎提供给脚本使用的基础 C# API 程序集。"
+        },
+        {
+          "term": "App Assembly 应用程序集",
+          "definition": "包含用户游戏逻辑的 C# 程序集。"
+        }
+      ]
+    },
+    {
+      "n": 123,
+      "summary": "实现在编辑器中查看与编辑 C# 脚本的公开字段。启动时用 mono_class_get_fields 反射出每个脚本类的字段及其类型与可见性，存入 ScriptField 描述表。编辑态下用 ScriptFieldInstance 保存用户设定的值并随场景序列化，运行时在实例创建后用 mono_field_set_value 写入。属性面板据字段类型渲染对应控件。",
+      "keyPoints": [
+        {
+          "title": "字段反射",
+          "detail": "遍历类字段读取名称、类型与访问标志，只暴露 public 或带 SerializeField 的字段。"
+        },
+        {
+          "title": "编辑态值存储",
+          "detail": "用 ScriptFieldInstance 以字节缓冲保存任意类型的值，随场景文件一起序列化。"
+        },
+        {
+          "title": "运行时注入",
+          "detail": "实例化脚本对象后遍历已保存字段，用 mono_field_set_value 写入初始值。"
+        }
+      ],
+      "terms": [
+        {
+          "term": "Script Field 脚本字段",
+          "definition": "脚本类中可在编辑器暴露与编辑的成员变量。"
+        },
+        {
+          "term": "Field Instance 字段实例值",
+          "definition": "针对某个实体保存的脚本字段具体取值。"
+        },
+        {
+          "term": "Serialize Field 序列化字段",
+          "definition": "标记私有字段也应被编辑器暴露与保存的特性。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1159 @@
+{
+  "courseId": "cs61b",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "UC Berkeley CS61B（Spring 2021，Josh Hug 主讲）是继 CS61A 之后的数据结构与算法课程，全程使用 Java，从语法与面向对象基础一路推进到链表、树、散列、堆、图、排序与压缩。课程强调「先自己造轮子、再理解标准库」：学生亲手实现 Deque、BST/红黑树、HashMap、图算法与 Gitlet（迷你版 Git）等硬核项目。除算法本身外，课程还穿插四讲软件工程内容，讨论复杂度管理、单元测试、代码规范与工程决策，是转码与打牢计算机基础的口碑之选。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "课程导论，介绍 CS61B 与 CS61A 的差别：61A 关注「如何写出能跑的程序」，61B 关注「如何写出高效、可维护的大型程序」。随后进入 Java 语法第一课，用 HelloWorld 演示 Java 的三大特征：所有代码必须写在类里、程序入口是 main 方法、每个变量与方法都要显式声明类型。讲解编译-运行两步流程（javac 生成 .class 字节码，java 执行）以及静态类型带来的编译期检查好处。最后介绍课程的作业结构（lab / homework / project）与学术诚信要求。",
+      "keyPoints": [
+        {
+          "title": "静态类型 vs 动态类型",
+          "detail": "Java 要求变量在声明时给出类型，类型错误在编译期就被发现；Python 则在运行时才暴露，代价是错误更晚被发现。"
+        },
+        {
+          "title": "一切皆在类中",
+          "detail": "Java 没有游离的函数或语句，任何代码都必须属于某个类；可执行类需要 public static void main(String[] args)。"
+        },
+        {
+          "title": "编译与运行两步走",
+          "detail": "javac HelloWorld.java 把源码编译成 JVM 字节码 HelloWorld.class，再由 java HelloWorld 载入执行。"
+        },
+        {
+          "title": "课程定位与工程观",
+          "detail": "本课的核心不是让程序跑起来，而是让程序在数据规模变大时仍然跑得快、改得动。"
+        }
+      ],
+      "terms": [
+        { "term": "Static Typing 静态类型", "definition": "变量类型在编译期确定并检查，类型不匹配无法通过编译。" },
+        { "term": "Bytecode 字节码", "definition": "Java 源码编译后的中间表示，由 JVM 解释或即时编译执行。" },
+        { "term": "JVM 虚拟机", "definition": "Java 虚拟机，负责加载并执行字节码，是 Java 跨平台的基础。" },
+        { "term": "Main Method 主方法", "definition": "Java 程序的执行入口，签名固定为 public static void main(String[] args)。" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "讲解如何定义并使用 Java 的类。先区分静态方法与实例方法：静态方法属于类本身、用类名调用，实例方法属于对象、需要先 new 出实例。接着介绍实例变量、构造器以及 new 关键字的对象创建流程。通过 Dog 类的例子演示对象数组、静态变量（全类共享）与 this 关键字的用法。最后讲解 public static void main(String[] args) 中命令行参数的传递，以及把类拆分成「客户端类」和「被使用的类」的组织方式。",
+      "keyPoints": [
+        {
+          "title": "实例变量与构造器",
+          "detail": "实例变量描述对象的状态，构造器与类同名、无返回值，在 new 时被调用来初始化这些状态。"
+        },
+        {
+          "title": "静态方法 vs 实例方法",
+          "detail": "静态方法用 ClassName.method() 调用且无法访问实例变量；实例方法用 object.method() 调用，可通过 this 访问自身状态。"
+        },
+        {
+          "title": "静态变量共享",
+          "detail": "static 变量属于类而非某个对象，所有实例看到同一份值，适合放物种名、计数器等全类共享信息。"
+        },
+        {
+          "title": "对象数组",
+          "detail": "new Dog[3] 只创建了三个 null 引用槽位，还需逐个 new Dog(...) 才真正有对象。"
+        }
+      ],
+      "terms": [
+        { "term": "Instance Variable 实例变量", "definition": "属于单个对象的字段，每个实例各有一份独立副本。" },
+        { "term": "Constructor 构造器", "definition": "与类同名、无返回类型的特殊方法，在 new 对象时执行初始化。" },
+        { "term": "Static Method 静态方法", "definition": "属于类而不属于实例的方法，通过类名直接调用。" },
+        { "term": "Instantiation 实例化", "definition": "用 new 在堆上创建对象并调用构造器的过程。" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "以「先测试再实现」的思路引入单元测试。用 Sort 排序练习作为例子，先写 testSort 明确期望行为，再让实现逐步通过测试。介绍 JUnit 框架：@Test 注解标记测试方法，assertEquals / assertArrayEquals 断言实际值与期望值一致，测试失败时给出可读的差异信息。讨论测试驱动开发（TDD）的取舍：TDD 能保证行为正确、便于重构，但过度测试会拖慢开发节奏。强调好的测试应当覆盖边界情况而非只跑「快乐路径」。",
+      "keyPoints": [
+        {
+          "title": "单元测试的价值",
+          "detail": "把「我觉得它对」变成「它每次都能被自动验证是对的」，重构时才敢大改代码。"
+        },
+        {
+          "title": "JUnit 基本用法",
+          "detail": "在测试方法上加 @Test，方法体内用 assertEquals(期望, 实际) 等断言，由测试运行器批量执行并汇报。"
+        },
+        {
+          "title": "测试驱动开发（TDD）",
+          "detail": "先写会失败的测试，再写最少的代码让它通过，最后重构；适合规格明确的模块。"
+        },
+        {
+          "title": "边界条件覆盖",
+          "detail": "空数组、单元素、已排序、全相同元素这些边界往往是 bug 的藏身处，必须显式测试。"
+        }
+      ],
+      "terms": [
+        { "term": "Unit Test 单元测试", "definition": "针对单个方法或类的自动化测试，验证其在给定输入下的行为。" },
+        { "term": "JUnit 单元测试框架", "definition": "Java 生态最常用的测试框架，提供注解与断言 API。" },
+        { "term": "Assertion 断言", "definition": "测试中声明「此处必须成立」的检查，不成立则测试失败。" },
+        { "term": "Test-Driven Development 测试驱动开发", "definition": "先写测试再写实现的开发流程，缩写 TDD。" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "本讲揭开 Java 变量的底层模型：基本类型变量直接装值，引用类型变量装的是对象地址（「盒子与箭头」模型）。由此解释赋值与参数传递一律是「按值传递」——传的是盒子里的比特，对引用类型来说传的是地址副本。随后用递归定义构造最简单的链表 IntList：一个值加上指向剩余部分的引用，并写出递归的 size 与 get。最后指出裸 IntList 极其难用，为后续封装成 SLList 埋下伏笔。",
+      "keyPoints": [
+        {
+          "title": "8 种基本类型",
+          "detail": "byte、short、int、long、float、double、boolean、char 直接存储数值本身，其余一切都是引用。"
+        },
+        {
+          "title": "Golden Rule of Equals",
+          "detail": "y = x 永远是把 x 盒子里的比特复制到 y，引用类型复制的是地址，因此两者指向同一个对象。"
+        },
+        {
+          "title": "按值传递",
+          "detail": "方法调用时实参的比特被复制给形参，方法内重新赋值形参不会影响调用方的变量。"
+        },
+        {
+          "title": "递归链表 IntList",
+          "detail": "IntList 由 first 与 rest 两个字段递归定义，size() 写成 1 + rest.size()，空引用是递归基准。"
+        }
+      ],
+      "terms": [
+        { "term": "Primitive Type 基本类型", "definition": "Java 中直接存储值而非引用的 8 种内置类型。" },
+        { "term": "Reference 引用", "definition": "指向堆上对象的地址值，Java 中除基本类型外的所有变量都是引用。" },
+        { "term": "Pass by Value 按值传递", "definition": "参数传递时复制变量内容的语义，引用类型复制的是地址。" },
+        { "term": "Recursion 递归", "definition": "方法调用自身、在更小规模上求解并靠基准情形终止的技术。" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "把裸链表 IntList 重构成用户友好的 SLList（单链表）。先引入「中间人」类：SLList 持有指向首个节点的 first 引用，把节点类 IntNode 变成私有嵌套类对用户隐藏。接着加入 size 缓存字段，把 size() 从 O(N) 降到 O(1)，体现「用空间换时间」的经典权衡。最后引入哨兵节点（sentinel node）消除 addLast 中「链表为空」的特判，让代码摆脱大量 null 检查，得到不变量清晰的实现。",
+      "keyPoints": [
+        {
+          "title": "嵌套私有类",
+          "detail": "把 IntNode 声明为 private static class 放进 SLList 内部，既组织了代码又阻止外部直接操作节点。"
+        },
+        {
+          "title": "缓存 size",
+          "detail": "维护一个 size 字段，每次增删同步更新，使 size() 从遍历整表的 O(N) 变为常数时间。"
+        },
+        {
+          "title": "哨兵节点",
+          "detail": "让 sentinel 永远存在且不存有效数据，first = sentinel.next，从此空表与非空表的代码路径完全统一。"
+        },
+        {
+          "title": "不变量",
+          "detail": "「sentinel 永不为 null」「size 恒等于真实节点数」这类不变量是写出正确链表代码的关键约束。"
+        }
+      ],
+      "terms": [
+        { "term": "Singly Linked List 单链表", "definition": "每个节点只持有指向下一节点引用的线性结构。" },
+        { "term": "Sentinel Node 哨兵节点", "definition": "不存储有效数据的占位节点，用于消除空表等边界特判。" },
+        { "term": "Nested Class 嵌套类", "definition": "定义在另一个类内部的类，可声明为 private 以隐藏实现细节。" },
+        { "term": "Invariant 不变量", "definition": "在数据结构的任意合法状态下都必须成立的条件。" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "为解决 SLList 尾部删除只能 O(N) 的问题，引入双向链表 DLList：每个节点同时持有 prev 与 next，并用「双哨兵」或「循环哨兵」两种方案统一首尾边界。随后把 DLList 泛型化，用类型参数 <T> 让链表能装任意对象类型。后半段转向数组：讲解数组的内存布局、new int[N] 的默认零值初始化、arraycopy 与 System.arraycopy 的复制方式，以及数组长度不可变这一根本限制，引出下一讲的 AList。",
+      "keyPoints": [
+        {
+          "title": "双向链表",
+          "detail": "节点同时保存前驱与后继引用，使 removeLast 从 O(N) 降为 O(1)，代价是每个节点多一个引用的空间。"
+        },
+        {
+          "title": "循环哨兵",
+          "detail": "让唯一的 sentinel 首尾相接构成环，sentinel.next 是头、sentinel.prev 是尾，边界代码彻底消失。"
+        },
+        {
+          "title": "泛型类",
+          "detail": "class DLList<T> 把元素类型抽象成参数，实例化时写 DLList<String>，避免为每种类型重写一遍链表。"
+        },
+        {
+          "title": "数组的固定长度",
+          "detail": "数组一旦创建长度不可更改，扩容只能新建更大的数组再复制，这是 AList 需要 resize 的根源。"
+        }
+      ],
+      "terms": [
+        { "term": "Doubly Linked List 双向链表", "definition": "每个节点同时持有前驱和后继引用的链表。" },
+        { "term": "Circular Sentinel 循环哨兵", "definition": "首尾相连的单个哨兵节点，使链表在逻辑上成环。" },
+        { "term": "Generic Type 泛型", "definition": "以类型为参数的类或方法，让同一份代码适用于多种元素类型。" },
+        { "term": "Array 数组", "definition": "内存中连续存放、长度固定、支持常数时间随机访问的容器。" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "用数组实现列表 AList，维护 items 数组与 size 两个字段，addLast 直接写入 items[size]。核心是扩容策略：每次「加常数个」空间会导致总代价 O(N²)，而每次「乘以常数倍」（如 ×2）才能让 N 次插入的总代价保持 O(N)，即摊还常数时间。同时讲解缩容与内存效率（usage ratio），避免删除大量元素后数组长期占用巨大空间。最后对比 AList 与 SLList：数组随机访问快、链表首尾增删稳定，没有绝对优胜者。",
+      "keyPoints": [
+        {
+          "title": "几何扩容",
+          "detail": "resize 时新容量取旧容量乘以常数因子（通常 2），使 N 次 addLast 的总复制次数为 O(N)。",
+          "formula": "1 + 2 + 4 + \\cdots + N < 2N"
+        },
+        {
+          "title": "摊还分析",
+          "detail": "单次扩容虽然是 O(N)，但把代价均摊到触发它的那一批插入上，平均每次插入仍是常数时间。"
+        },
+        {
+          "title": "内存使用率",
+          "detail": "定义 R = size / items.length，当 R 低于阈值（如 0.25）时缩容，防止空间浪费。",
+          "formula": "R = \\frac{\\text{size}}{\\text{items.length}}"
+        },
+        {
+          "title": "数组表与链表的取舍",
+          "detail": "AList 的 get(i) 是 O(1) 而 SLList 是 O(N)；链表在任意位置插入不需要搬移元素。"
+        }
+      ],
+      "terms": [
+        { "term": "Amortized Time 摊还时间", "definition": "把偶发的昂贵操作代价均摊到一系列操作上得到的平均代价。" },
+        { "term": "Resizing 扩容", "definition": "分配更大的新数组并复制原有元素以突破固定长度限制。" },
+        { "term": "Usage Ratio 使用率", "definition": "实际元素数与数组容量之比，用于决定是否缩容。" },
+        { "term": "Random Access 随机访问", "definition": "以常数时间读取任意下标元素的能力。" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "从「SLList 与 AList 都是列表」出发，引入接口继承。用 interface List61B<T> 声明一组方法签名，让 SLList 与 AList 通过 implements 承诺实现这些方法，从此可以用同一个 List61B 变量指代两种实现。讲解静态类型与动态类型的区别：编译器只看静态类型决定「能调用什么」，运行时按动态类型决定「实际执行谁」。最后介绍接口的 default 方法，让接口可以提供通用实现（如 print），子类可按需覆写。",
+      "keyPoints": [
+        {
+          "title": "接口继承",
+          "detail": "interface 只规定方法签名（is-a 契约），implements 的类必须实现全部方法，否则无法通过编译。"
+        },
+        {
+          "title": "静态类型与动态类型",
+          "detail": "List61B<String> lst = new SLList<>() 中静态类型是 List61B、动态类型是 SLList，前者决定编译期合法性。"
+        },
+        {
+          "title": "动态方法选择",
+          "detail": "调用被覆写的方法时，JVM 在运行时按对象的动态类型挑选实际执行的版本。"
+        },
+        {
+          "title": "default 方法",
+          "detail": "接口中带 default 关键字的方法自带实现，所有实现类免费继承，也可各自覆写。"
+        }
+      ],
+      "terms": [
+        { "term": "Interface 接口", "definition": "只声明方法签名的类型契约，实现类必须提供具体实现。" },
+        { "term": "Interface Inheritance 接口继承", "definition": "只继承方法签名而不继承实现的继承关系。" },
+        { "term": "Dynamic Method Selection 动态方法选择", "definition": "运行时依据对象实际类型决定调用哪个覆写版本。" },
+        { "term": "Default Method 默认方法", "definition": "接口中带有默认实现的方法，实现类可直接使用或覆写。" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "介绍实现继承 extends：子类自动获得父类的所有字段与方法，可用 super 调用父类构造器与被覆写的方法。用 VengefulSLList 继承 SLList 的例子说明构造器链（子类构造器隐式先调 super()）与覆写规则。接着讲类型转换（casting）：向下转型只是让编译器「相信你」，类型不符时运行时抛 ClassCastException。最后引入高阶函数思想：Java 没有函数值，只能把函数包在实现了某接口的对象里传递。",
+      "keyPoints": [
+        {
+          "title": "extends 与 super",
+          "detail": "子类通过 extends 复用父类实现，用 super() 调用父类构造器、super.method() 调用被覆写的父类版本。"
+        },
+        {
+          "title": "构造器链",
+          "detail": "若子类构造器没有显式写 super(...)，Java 会自动插入无参 super()，因此父类初始化总是先发生。"
+        },
+        {
+          "title": "类型转换",
+          "detail": "(Dog) o 只影响编译器对静态类型的判断，运行时若 o 并非 Dog 会抛 ClassCastException。"
+        },
+        {
+          "title": "高阶函数的接口模拟",
+          "detail": "定义 interface IntUnaryFunction { int apply(int x); }，把「函数」包装成对象传给另一个方法。"
+        }
+      ],
+      "terms": [
+        { "term": "Implementation Inheritance 实现继承", "definition": "子类继承父类的具体实现代码，用 extends 声明。" },
+        { "term": "Override 覆写", "definition": "子类重新定义父类同签名方法，运行时以子类版本为准。" },
+        { "term": "Casting 类型转换", "definition": "显式告知编译器把表达式视作另一类型，不改变对象本身。" },
+        { "term": "Higher Order Function 高阶函数", "definition": "接受函数作为参数或返回函数的函数。" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "对比两种「把行为参数化」的方式：高阶函数（把函数当参数传）与子类型多态（让对象自己知道该怎么做）。以 max 函数为例，Python 可以直接传比较函数，而 Java 更地道的做法是让元素类型实现 Comparable，由对象自身定义 compareTo。进一步引入 Comparator 与比较器对象，把「按什么排序」从类中抽出，实现同一批对象的多种排序规则。最后强调多态的本质是「调用方无需知道具体类型」。",
+      "keyPoints": [
+        {
+          "title": "子类型多态",
+          "detail": "调用方只面向接口编程，具体行为由运行时对象自行决定，无需 if-else 分支判断类型。"
+        },
+        {
+          "title": "Comparable 接口",
+          "detail": "实现 compareTo(T o)，约定返回负数/零/正数表示小于/等于/大于，赋予对象「天然顺序」。"
+        },
+        {
+          "title": "Comparator 接口",
+          "detail": "把比较逻辑独立成对象，实现 compare(T a, T b)，可为同一类型提供多套排序规则。"
+        },
+        {
+          "title": "两种范式的取舍",
+          "detail": "高阶函数灵活轻便，子类型多态则把行为与数据绑定、更利于大型系统的类型安全。"
+        }
+      ],
+      "terms": [
+        { "term": "Subtype Polymorphism 子类型多态", "definition": "同一接口引用在运行时表现出不同子类行为的能力。" },
+        { "term": "Comparable 可比较接口", "definition": "为类型定义自然顺序的接口，核心方法是 compareTo。" },
+        { "term": "Comparator 比较器", "definition": "封装外部比较规则的对象，可为同一类型定义多种排序。" },
+        { "term": "Callback 回调", "definition": "把待执行的行为交给别人在合适时机调用的编程手法。" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "讲三个让自定义类「像标准库一样好用」的主题。异常：用 throw 主动抛出、try-catch 捕获，区分受检异常与非受检异常，让错误在合适的层次被处理。迭代器：实现 Iterable 并提供 Iterator（hasNext / next），自定义类就能被增强 for 循环遍历。Object 方法：正确覆写 toString 让打印可读，覆写 equals 时必须处理 null、自比较与类型检查，并遵守自反、对称、传递三条契约，同时注意 == 比较的是引用而非内容。",
+      "keyPoints": [
+        {
+          "title": "异常机制",
+          "detail": "throw new IllegalArgumentException(...) 中断当前流程，沿调用栈上抛直到有 catch 处理或程序崩溃。"
+        },
+        {
+          "title": "Iterable 与 Iterator",
+          "detail": "类实现 Iterable<T> 返回一个带 hasNext()/next() 的迭代器后，即可用 for (T x : obj) 遍历。"
+        },
+        {
+          "title": "覆写 equals",
+          "detail": "先判 this == o，再判 o 是否为 null 或类型不符，最后逐字段比较；覆写 equals 通常也要覆写 hashCode。"
+        },
+        {
+          "title": "== 与 equals 的区别",
+          "detail": "== 比较引用地址是否相同，equals 比较逻辑内容是否相等，字符串比较尤其容易踩坑。"
+        }
+      ],
+      "terms": [
+        { "term": "Exception 异常", "definition": "表示程序运行中异常状况的对象，可被抛出与捕获。" },
+        { "term": "Iterator 迭代器", "definition": "提供 hasNext/next 逐个访问集合元素的对象。" },
+        { "term": "Enhanced For Loop 增强 for 循环", "definition": "对 Iterable 对象的语法糖遍历写法。" },
+        { "term": "Reference Equality 引用相等", "definition": "两个变量指向同一对象，用 == 判断，区别于内容相等。" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "转向工程工具链。命令行编程部分讲解如何用 args 接收参数、用标准输入输出与文件交互，以及如何脱离 IDE 直接 javac/java 运行程序。Git 部分从版本控制的动机讲起，介绍工作区、暂存区与提交历史三层模型，add / commit / log / checkout 的语义，以及分支与合并的概念。这些知识直接服务于 Project 2 Gitlet——用 Java 从零实现一个迷你版 Git，包括 blob、commit 对象与有向无环的提交图。",
+      "keyPoints": [
+        {
+          "title": "命令行参数",
+          "detail": "main(String[] args) 的 args 数组按空格切分接收命令行输入，是 CLI 程序的入口约定。"
+        },
+        {
+          "title": "Git 三区模型",
+          "detail": "工作区改动需先 git add 进入暂存区，再 git commit 形成一次不可变的历史快照。"
+        },
+        {
+          "title": "提交历史是 DAG",
+          "detail": "每个 commit 记录父提交指针，分支只是指向某个 commit 的可移动标签，合并会产生双亲提交。"
+        },
+        {
+          "title": "Gitlet 项目预览",
+          "detail": "用序列化把 blob 与 commit 持久化到 .gitlet 目录，用 SHA-1 内容哈希作为对象 id。"
+        }
+      ],
+      "terms": [
+        { "term": "Version Control 版本控制", "definition": "记录文件历史变更并支持回溯与协作的系统。" },
+        { "term": "Staging Area 暂存区", "definition": "Git 中介于工作区与仓库之间、用于组织下一次提交内容的区域。" },
+        { "term": "Commit 提交", "definition": "一次不可变的项目快照，携带指向父提交的引用。" },
+        { "term": "Serialization 序列化", "definition": "把内存对象转成字节流以便持久化或传输的过程。" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "渐进分析第一讲。以两段功能相同但效率悬殊的代码开场，指出真实计时受机器与输入影响，需要一种与硬件无关的效率度量。引入「统计最耗时操作的执行次数、只看最高阶项、忽略常数」的简化流程，并给出常见的求和公式。正式定义大 O 记号表示渐进上界，同时说明它只描述增长趋势，不能替代常数因子在实际工程中的意义。最后用嵌套循环与二分查找作为对比案例。",
+      "keyPoints": [
+        {
+          "title": "为什么要渐进分析",
+          "detail": "计时结果依赖机器与输入，而增长阶能刻画算法在 N 变大时的本质行为。"
+        },
+        {
+          "title": "简化规则",
+          "detail": "只保留增长最快的一项、丢掉乘性常数，例如 3N² + 100N + 7 简化为 N²。",
+          "formula": "3N^2 + 100N + 7 \\in O(N^2)"
+        },
+        {
+          "title": "常用求和公式",
+          "detail": "嵌套循环里 1+2+...+N 的三角形求和是 N² 量级的直接来源。",
+          "formula": "\\sum_{i=1}^{N} i = \\frac{N(N+1)}{2} \\in \\Theta(N^2)"
+        },
+        {
+          "title": "大 O 的定义",
+          "detail": "存在常数 c 与 N₀，使得当 N ≥ N₀ 时 f(N) ≤ c·g(N)，则称 f(N) 是 O(g(N))。",
+          "formula": "f(N) \\in O(g(N)) \\iff \\exists c, N_0 : \\forall N \\ge N_0,\\ f(N) \\le c \\cdot g(N)"
+        }
+      ],
+      "terms": [
+        { "term": "Asymptotic Analysis 渐进分析", "definition": "研究输入规模趋于无穷时算法代价增长阶的方法。" },
+        { "term": "Big O Notation 大 O 记号", "definition": "描述函数增长的渐进上界。" },
+        { "term": "Order of Growth 增长阶", "definition": "忽略常数后刻画运行时间随规模变化的函数类别。" },
+        { "term": "Runtime 运行时间", "definition": "算法执行所需的时间代价，通常以基本操作次数计。" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "以「判断两个元素是否连通」的动态连通性问题引入并查集。从最朴素的 ListOfSets 与 QuickFind（用数组记录集合编号，find 是 O(1) 但 union 要扫全表）出发，改进为 QuickUnion（用父指针森林表示集合，但可能退化成长链）。再引入按大小加权合并 WeightedQuickUnion，保证树高不超过 log N，最后加上路径压缩，使摊还代价接近常数。整讲是「逐步优化同一个 ADT」的经典范例。",
+      "keyPoints": [
+        {
+          "title": "QuickFind",
+          "detail": "用数组直接存所属集合 id，connected 查询 O(1)，但 union 需要遍历整个数组改 id，为 O(N)。"
+        },
+        {
+          "title": "QuickUnion",
+          "detail": "数组存父节点下标，union 只需把一棵树的根挂到另一棵根上，但最坏树高 N 使 find 退化为 O(N)。"
+        },
+        {
+          "title": "加权合并",
+          "detail": "总把较小的树挂到较大的树下，任何节点深度至多 log N，find 与 union 都变为 O(log N)。",
+          "formula": "\\text{depth}(x) \\le \\log_2 N"
+        },
+        {
+          "title": "路径压缩",
+          "detail": "find 时顺手把沿途节点直接指向根，配合加权后 M 次操作的摊还代价近似 O(α(N))，实践上是常数。"
+        }
+      ],
+      "terms": [
+        { "term": "Disjoint Sets 并查集", "definition": "维护不相交集合、支持合并与查询同属关系的数据结构。" },
+        { "term": "Union Find 并查操作", "definition": "并查集的两个核心操作：合并集合与查找代表元。" },
+        { "term": "Weighted Quick Union 加权快速合并", "definition": "按树大小决定合并方向以控制树高的优化。" },
+        { "term": "Path Compression 路径压缩", "definition": "查找时把路径上节点直接指向根以压平树结构的优化。" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "渐进分析进阶。介绍 Ω（下界）与 Θ（紧界）记号，说明为什么工程中常说的「O」其实多数指 Θ。讲解递归算法的分析方法：画递归树、统计每层工作量再求和，用 mergesort 与斐波那契两个例子对比 Θ(N log N) 与指数级增长。引入递推式与主定理式的直觉，并讨论最好、最坏与平均情况的区别，强调必须先说清楚「对哪一类输入」再谈复杂度。",
+      "keyPoints": [
+        {
+          "title": "Ω 与 Θ",
+          "detail": "Ω 给出渐进下界，Θ 表示上下界同阶，是对增长率最精确的刻画。",
+          "formula": "f(N) \\in \\Theta(g(N)) \\iff f \\in O(g) \\land f \\in \\Omega(g)"
+        },
+        {
+          "title": "递归树分析",
+          "detail": "把递归展开成树，第 k 层有 2^k 个规模 N/2^k 的子问题，每层总工作量乘以层数 log N 得到总代价。",
+          "formula": "T(N) = 2T(N/2) + \\Theta(N) \\Rightarrow T(N) = \\Theta(N \\log N)"
+        },
+        {
+          "title": "指数爆炸",
+          "detail": "朴素递归斐波那契的递归树近似满二叉树，代价约 Θ(φ^N)，是必须用记忆化的典型反例。"
+        },
+        {
+          "title": "最好/最坏/平均情况",
+          "detail": "同一算法在不同输入下阶数可能完全不同，例如快排最坏 Θ(N²)、平均 Θ(N log N)。"
+        }
+      ],
+      "terms": [
+        { "term": "Big Omega 大 Ω 记号", "definition": "描述函数增长的渐进下界。" },
+        { "term": "Big Theta 大 Θ 记号", "definition": "上界与下界同阶时的紧确渐进刻画。" },
+        { "term": "Recurrence Relation 递推式", "definition": "用更小规模表达算法代价的方程，如 T(N)=2T(N/2)+N。" },
+        { "term": "Worst Case 最坏情况", "definition": "在所有同规模输入中代价最大的那一种情形。" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "引入抽象数据类型（ADT）概念：只规定操作语义、不规定实现方式，Java 中用接口表达。介绍标准库的 Set、Map、List 三大 ADT 与它们的常见实现。随后讨论如何高效实现 Set：链表查找 O(N)、有序数组插入 O(N)，都不理想，从而引出二叉搜索树 BST。给出 BST 的定义（左子树全小于、右子树全大于）与 search/insert/delete（含 Hibbard 删除）的实现，指出随机插入下树高 Θ(log N)、有序插入则退化成链表。",
+      "keyPoints": [
+        {
+          "title": "抽象数据类型",
+          "detail": "ADT 由一组操作及其语义定义，用户只关心「能做什么」，实现者才关心「怎么做」。"
+        },
+        {
+          "title": "BST 性质",
+          "detail": "对任一节点，左子树所有键小于它、右子树所有键大于它，中序遍历得到有序序列。"
+        },
+        {
+          "title": "Hibbard 删除",
+          "detail": "删除有两个孩子的节点时，用其前驱或后继替换该节点，再递归删除那个替身。"
+        },
+        {
+          "title": "BST 的平衡问题",
+          "detail": "随机插入下期望树高 Θ(log N)，但按有序序列插入会退化成 Θ(N) 的链表，需要平衡树修正。",
+          "formula": "\\mathbb{E}[h] = \\Theta(\\log N)"
+        }
+      ],
+      "terms": [
+        { "term": "Abstract Data Type 抽象数据类型", "definition": "由操作语义定义、与具体实现无关的数据类型。" },
+        { "term": "Binary Search Tree 二叉搜索树", "definition": "满足左小右大有序性质的二叉树，缩写 BST。" },
+        { "term": "In-order Traversal 中序遍历", "definition": "左-根-右的遍历顺序，对 BST 产生有序输出。" },
+        { "term": "Map 映射", "definition": "存储键到值对应关系并支持按键查找的 ADT。" }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "为解决 BST 退化问题，引入 B 树思想：不再向下新建节点，而是把新键塞进已有叶节点，节点满了就向上分裂。以 2-3 树与 2-3-4 树为例讲解节点容纳 1~3 个键、拥有 2~4 个孩子的结构，以及自底向上的分裂与根节点升高过程。由于所有叶子始终位于同一层，B 树天然保持完美平衡，查找、插入均为 Θ(log N)。最后说明 B 树在数据库与文件系统中因贴合磁盘页读取而被广泛使用。",
+      "keyPoints": [
+        {
+          "title": "过量节点与分裂",
+          "detail": "插入总落在叶子；节点键数超限时把中间键上推给父节点，节点一分为二。"
+        },
+        {
+          "title": "全叶等深",
+          "detail": "只有根分裂才会让树整体长高一层，因此所有叶子永远处于同一深度，树高恒为 Θ(log N)。",
+          "formula": "h \\le \\log_2 N"
+        },
+        {
+          "title": "查找过程",
+          "detail": "在节点内顺序比较键决定走哪个孩子指针，每层比较次数有常数上限。"
+        },
+        {
+          "title": "工程意义",
+          "detail": "高扇出的 B 树把一个节点对应一个磁盘页，极大减少 I/O 次数，是数据库索引的标准结构。"
+        }
+      ],
+      "terms": [
+        { "term": "B-Tree B 树", "definition": "节点可存多个键、通过分裂保持全叶等深的平衡搜索树。" },
+        { "term": "2-3 Tree 2-3 树", "definition": "每个节点含 1 或 2 个键、有 2 或 3 个孩子的 B 树。" },
+        { "term": "Node Split 节点分裂", "definition": "节点键数超限时上推中间键并一分为二的操作。" },
+        { "term": "Balanced Tree 平衡树", "definition": "通过结构约束保证树高为对数级的搜索树。" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "把 2-3 树用二叉结构表示，得到左倾红黑树（LLRB）。核心思路是把 3-节点拆成一个黑节点加一条红色左链接，从而在保持 BST 形态的同时编码出 B 树的平衡性。讲解三条不变量：没有连续红链接、没有右倾红链接、任意根到叶路径黑高相同。插入时用左旋、右旋、颜色翻转三种局部操作恢复不变量，代码量远小于其他平衡树，而树高仍被限制在 2 log N 以内。",
+      "keyPoints": [
+        {
+          "title": "红链接即 3-节点",
+          "detail": "红色链接表示「这两个节点在 2-3 树里其实是同一个节点」，黑链接才是真正的树层。"
+        },
+        {
+          "title": "LLRB 不变量",
+          "detail": "红链接一律左倾、不允许两条红链接相连、每条根到叶路径经过的黑链接数相同。"
+        },
+        {
+          "title": "旋转与颜色翻转",
+          "detail": "rotateLeft 修右倾红链、rotateRight 拆连续红链、flipColors 相当于把中间键上推给父节点。"
+        },
+        {
+          "title": "高度保证",
+          "detail": "由黑高一致与无连续红链，最长路径至多是最短路径的两倍，故 h ≤ 2 log N。",
+          "formula": "h \\le 2\\log_2 N"
+        }
+      ],
+      "terms": [
+        { "term": "Red-Black Tree 红黑树", "definition": "用节点着色规则维持近似平衡的二叉搜索树。" },
+        { "term": "Left-Leaning Red-Black Tree 左倾红黑树", "definition": "限制红链接必须左倾的红黑树变体，缩写 LLRB。" },
+        { "term": "Rotation 旋转", "definition": "在保持中序顺序不变的前提下改变树局部结构的操作。" },
+        { "term": "Black Height 黑高", "definition": "从某节点到叶子路径上黑色链接的数量。" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "介绍散列表这一「用空间换查找速度」的思路。先从「把数据按首字母分桶」的朴素想法出发，推广为用 hashCode 把任意对象映射成整数、再取模得到桶下标。讲解链地址法处理冲突、负载因子与扩容 rehash 的必要性，指出在均匀散列假设下平均查找是 Θ(1)，最坏（全部冲突）退化为 Θ(N)。同时强调 hashCode 与 equals 的一致性契约，以及把可变对象作为键的危险。",
+      "keyPoints": [
+        {
+          "title": "哈希函数与取模",
+          "detail": "index = Math.floorMod(key.hashCode(), M)，把无限的键空间压缩到 M 个桶。",
+          "formula": "\\text{index} = h(\\text{key}) \\bmod M"
+        },
+        {
+          "title": "链地址法",
+          "detail": "每个桶挂一条链表（或树），冲突的键追加到同一桶内，查找时在桶内线性比较。"
+        },
+        {
+          "title": "负载因子与 rehash",
+          "detail": "当 N/M 超过阈值时把桶数翻倍并重新分配所有键，保证平均桶长为常数。",
+          "formula": "\\lambda = \\frac{N}{M}"
+        },
+        {
+          "title": "hashCode 与 equals 契约",
+          "detail": "相等的对象必须有相同的 hashCode；把可变对象当键后再修改它，会导致再也查不到该条目。"
+        }
+      ],
+      "terms": [
+        { "term": "Hash Table 散列表", "definition": "通过哈希函数把键映射到桶下标以实现平均常数查找的结构。" },
+        { "term": "Hash Function 哈希函数", "definition": "把任意键映射为整数的函数。" },
+        { "term": "Collision 冲突", "definition": "不同键被映射到同一个桶的现象。" },
+        { "term": "Load Factor 负载因子", "definition": "元素数与桶数之比，用于判断是否需要扩容。" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "讲优先队列 ADT 及其堆实现。优先队列只承诺高效取出最小（或最大）元素，不要求整体有序，因此可以比排序更省力。二叉堆是一棵完全二叉树，满足堆序性质（父节点不大于子节点），并用数组隐式存储，父子下标可直接计算。插入时 swim 上浮、删除堆顶时把末元素移到根再 sink 下沉，两者都是 Θ(log N)。最后对比堆与 BST、有序数组等实现的代价差异。",
+      "keyPoints": [
+        {
+          "title": "堆序性质",
+          "detail": "最小堆中任一节点的键都不大于其子节点的键，因此最小元素必在根。"
+        },
+        {
+          "title": "数组隐式表示",
+          "detail": "完全二叉树按层序放进数组（从下标 1 开始），父子关系可由下标算术直接得到。",
+          "formula": "\\text{parent}(k) = \\lfloor k/2 \\rfloor,\\quad \\text{children}(k) = 2k,\\ 2k+1"
+        },
+        {
+          "title": "swim 与 sink",
+          "detail": "插入放到末尾后与父节点比较上浮；删除堆顶后把末元素置根并与较小的孩子交换下沉。"
+        },
+        {
+          "title": "复杂度对比",
+          "detail": "堆的 insert 与 removeMin 都是 Θ(log N)，getMin 是 Θ(1)，优于有序数组的 Θ(N) 插入。"
+        }
+      ],
+      "terms": [
+        { "term": "Priority Queue 优先队列", "definition": "支持按优先级取出极值元素的抽象数据类型。" },
+        { "term": "Binary Heap 二叉堆", "definition": "满足堆序性质的完全二叉树，常用数组实现。" },
+        { "term": "Complete Binary Tree 完全二叉树", "definition": "除最后一层外全满且最后一层左对齐的二叉树。" },
+        { "term": "Sink 下沉", "definition": "把违反堆序的节点与较优的孩子反复交换直至合法的操作。" }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "先复习树的四种遍历：前序、中序、后序（三种深度优先）与层序（广度优先），说明它们对应递归调用的不同时机。随后把树推广到图：给出顶点、边、度、路径、环、连通分量等基本定义，区分有向图与无向图、简单图与多重图。以「s-t 连通性」问题为切入点，介绍深度优先搜索的递归框架与 marked 数组，说明为什么图搜索必须记录访问状态而树搜索不必。",
+      "keyPoints": [
+        {
+          "title": "树的三种 DFS 遍历",
+          "detail": "前序在访问孩子前处理当前节点，中序在处理完左子树后处理，后序在两棵子树都处理完后处理。"
+        },
+        {
+          "title": "层序遍历",
+          "detail": "用队列按距离根的层数逐层访问，是图上广度优先搜索的雏形。"
+        },
+        {
+          "title": "图的基本术语",
+          "detail": "图由顶点集与边集构成，路径是顶点序列，环是首尾相同的路径，无环连通图即为树。"
+        },
+        {
+          "title": "DFS 与 marked 数组",
+          "detail": "图中存在环，必须用 marked[] 记录已访问顶点，否则搜索会陷入无限循环。"
+        }
+      ],
+      "terms": [
+        { "term": "Depth First Search 深度优先搜索", "definition": "沿一条路径尽可能深入再回溯的图遍历策略，缩写 DFS。" },
+        { "term": "Breadth First Search 广度优先搜索", "definition": "按距起点的层数由近及远访问顶点的遍历策略，缩写 BFS。" },
+        { "term": "Preorder Traversal 前序遍历", "definition": "先处理当前节点再递归处理子树的遍历顺序。" },
+        { "term": "Connected Component 连通分量", "definition": "图中彼此可达顶点构成的极大子图。" }
+      ]
+    },
+    {
+      "n": 22,
+      "summary": "深入图遍历的实现与应用。BFS 用队列逐层扩展，天然给出无权图的最短路径与 edgeTo 前驱数组。讲解图的三种表示：邻接矩阵、边列表与邻接表，并比较各自在稠密图与稀疏图上的空间与遍历代价，说明为什么邻接表是通用首选。用 V 与 E 表达 DFS/BFS 的运行时间 Θ(V+E)。最后引入把遍历逻辑与业务逻辑解耦的做法，让同一份 DFS 代码服务于连通性、环检测、拓扑排序等多种问题。",
+      "keyPoints": [
+        {
+          "title": "BFS 求最短路",
+          "detail": "队列保证按层扩展，第一次访问某顶点时的路径就是无权图上边数最少的路径。"
+        },
+        {
+          "title": "邻接表表示",
+          "detail": "为每个顶点存一条邻居链表，空间 Θ(V+E)，遍历所有邻居的总代价与边数成正比。"
+        },
+        {
+          "title": "邻接矩阵",
+          "detail": "V×V 的布尔矩阵查边是 O(1)，但空间 Θ(V²)，稀疏图上浪费严重且遍历需 Θ(V²)。"
+        },
+        {
+          "title": "遍历的复杂度",
+          "detail": "在邻接表表示下，DFS 与 BFS 都恰好访问每个顶点与每条边常数次。",
+          "formula": "\\Theta(V + E)"
+        }
+      ],
+      "terms": [
+        { "term": "Adjacency List 邻接表", "definition": "为每个顶点存储其邻居列表的图表示法。" },
+        { "term": "Adjacency Matrix 邻接矩阵", "definition": "用 V×V 矩阵记录任意两点间是否有边的图表示法。" },
+        { "term": "Sparse Graph 稀疏图", "definition": "边数远小于顶点数平方的图。" },
+        { "term": "Topological Sort 拓扑排序", "definition": "有向无环图中满足所有边方向的顶点线性排列。" }
+      ]
+    },
+    {
+      "n": 23,
+      "summary": "研究带权图的单源最短路径问题。指出 BFS 在带权图上失效，引入 Dijkstra 算法：用优先队列按当前已知距离取出最近顶点，对其邻边做松弛操作更新距离。证明思路是「每次出队的顶点其最短距离已确定」，前提是边权非负。分析用二叉堆实现时的复杂度 O(E log V)。最后引入 A* 算法，用启发式函数 h(v) 引导搜索方向，在保证可采纳性时仍能给出最优解，是导航软件的实用做法。",
+      "keyPoints": [
+        {
+          "title": "松弛操作",
+          "detail": "若经由 v 到 w 的距离比已知的更短，就更新 distTo[w] 与 edgeTo[w]。",
+          "formula": "\\text{if } d[v] + w(v,u) < d[u] \\text{ then } d[u] \\leftarrow d[v] + w(v,u)"
+        },
+        {
+          "title": "Dijkstra 算法",
+          "detail": "维护一个按 distTo 排序的优先队列，反复取出最近未定顶点并松弛其所有出边。"
+        },
+        {
+          "title": "非负边权前提",
+          "detail": "存在负权边时「已出队即最优」的性质失效，Dijkstra 会给出错误结果。"
+        },
+        {
+          "title": "A* 启发式搜索",
+          "detail": "把优先级从 distTo[v] 改为 distTo[v] + h(v)，h 不高估真实剩余距离时结果仍最优。",
+          "formula": "f(v) = g(v) + h(v)"
+        }
+      ],
+      "terms": [
+        { "term": "Shortest Path 最短路径", "definition": "带权图中两顶点间权重之和最小的路径。" },
+        { "term": "Dijkstra's Algorithm 迪杰斯特拉算法", "definition": "非负权图上的单源最短路径贪心算法。" },
+        { "term": "Relaxation 松弛", "definition": "尝试用一条边改进已知最短距离估计的操作。" },
+        { "term": "Heuristic 启发式函数", "definition": "对剩余代价的估计，用于引导 A* 等搜索算法。" }
+      ]
+    },
+    {
+      "n": 24,
+      "summary": "讲最小生成树问题：在连通带权无向图中选出连接所有顶点且总权最小的边集。核心工具是切分定理——任意切分的最小横切边必属于某棵 MST。基于它推出两个算法：Prim 从一个顶点出发不断吸收最近的邻边，与 Dijkstra 结构极为相似；Kruskal 把所有边按权排序后依次尝试加入，用并查集判断是否成环。对比二者的复杂度与适用场景，并说明 MST 与最短路径树是不同的东西。",
+      "keyPoints": [
+        {
+          "title": "切分定理",
+          "detail": "把顶点任意分成两部分，横跨两部分的边中权重最小的那条一定在某棵最小生成树中。"
+        },
+        {
+          "title": "Prim 算法",
+          "detail": "从任一顶点开始，每次用优先队列选出连接「树内」与「树外」的最轻边加入，复杂度 O(E log V)。"
+        },
+        {
+          "title": "Kruskal 算法",
+          "detail": "边按权升序遍历，用并查集检测环，不成环就加入，复杂度 O(E log E)。"
+        },
+        {
+          "title": "MST ≠ 最短路径树",
+          "detail": "MST 最小化边权总和，最短路径树最小化从源点到各点的距离，二者通常不同。"
+        }
+      ],
+      "terms": [
+        { "term": "Minimum Spanning Tree 最小生成树", "definition": "连接图中所有顶点且边权之和最小的无环子图，缩写 MST。" },
+        { "term": "Cut Property 切分定理", "definition": "任意切分的最小横切边必属于某棵最小生成树的性质。" },
+        { "term": "Prim's Algorithm 普里姆算法", "definition": "从单点生长、每次吸收最轻横切边的 MST 算法。" },
+        { "term": "Kruskal's Algorithm 克鲁斯卡尔算法", "definition": "按边权排序并用并查集避环的 MST 算法。" }
+      ]
+    },
+    {
+      "n": 25,
+      "summary": "讨论多维数据的检索问题。先介绍范围查找（range search）与最近邻查找的需求，指出一维 BST 无法直接处理二维点集。引入四叉树：每个节点把平面分成四个象限，递归细分；再引入 k-d 树：逐层轮换比较维度（第一层比 x、第二层比 y），把 BST 思想推广到任意维度。讲解最近邻搜索的剪枝：若某子空间到查询点的最短可能距离已超过当前最优，就整棵子树跳过。这是 Project 3 中地图搜索的基础。",
+      "keyPoints": [
+        {
+          "title": "四叉树",
+          "detail": "每个节点按点的位置把区域切成四个象限，适合空间均匀分布的二维数据。"
+        },
+        {
+          "title": "k-d 树",
+          "detail": "按深度轮换选择比较维度，把 BST 推广到 k 维空间，构造与查找都类似二叉搜索。"
+        },
+        {
+          "title": "最近邻剪枝",
+          "detail": "先搜索查询点所在的「好」子树，再用当前最优距离判断另一侧子树能否被整体剪掉。"
+        },
+        {
+          "title": "先访问哪边很重要",
+          "detail": "优先进入查询点所在的一侧能尽快收紧上界，使剪枝更有效，顺序错了会退化为全遍历。"
+        }
+      ],
+      "terms": [
+        { "term": "Range Search 范围查找", "definition": "查询落在给定区域内所有数据点的操作。" },
+        { "term": "Quadtree 四叉树", "definition": "递归把平面划分为四个象限的空间索引结构。" },
+        { "term": "K-d Tree k 维树", "definition": "逐层轮换比较维度、把 BST 推广到多维空间的索引结构。" },
+        { "term": "Nearest Neighbor 最近邻", "definition": "距离查询点最近的数据点，或其查找问题。" }
+      ]
+    },
+    {
+      "n": 26,
+      "summary": "针对键为字符串的特殊场景，引入 Trie（前缀树）。Trie 把键沿路径逐字符拆开存储，节点本身不存整个键，查找代价只与键长 L 有关而与元素个数 N 无关。讲解三种子节点存储方式：定长数组（快但费空间）、HashMap（省空间）、三向搜索字典树 TST（折中）。Trie 的杀手锏是前缀操作：keysWithPrefix 可实现自动补全，longestPrefixOf 可做路由匹配，这些是散列表完全做不到的。",
+      "keyPoints": [
+        {
+          "title": "Trie 的结构",
+          "detail": "从根到某节点的路径拼出一个前缀，节点上的布尔标记表示该前缀是否是一个完整的键。"
+        },
+        {
+          "title": "与键数无关的查找",
+          "detail": "contains 只需沿字符走 L 步，复杂度 Θ(L)，与集合规模 N 无关。",
+          "formula": "\\Theta(L)"
+        },
+        {
+          "title": "前缀操作",
+          "detail": "找到前缀对应节点后收集其整棵子树的键，即可实现自动补全与前缀匹配。"
+        },
+        {
+          "title": "子节点表示的取舍",
+          "detail": "定长数组下标寻址最快但每节点占 R 个槽位；用 HashMap 或 TST 可显著降低空间开销。"
+        }
+      ],
+      "terms": [
+        { "term": "Trie 前缀树", "definition": "按字符逐层展开、以路径表示键的字符串索引结构。" },
+        { "term": "Prefix 前缀", "definition": "字符串开头的连续子串。" },
+        { "term": "Autocomplete 自动补全", "definition": "根据已输入前缀提示可能完整词条的功能。" },
+        { "term": "Ternary Search Trie 三向搜索字典树", "definition": "每节点有三个子指针、兼顾速度与空间的 Trie 变体，缩写 TST。" }
+      ]
+    },
+    {
+      "n": 27,
+      "summary": "软件工程系列第一讲，主题是复杂度管理。指出真实项目的主要成本不在写代码而在长期维护，复杂度会随模块耦合而累积。介绍两大症状：变更放大（改一处要动很多地方）与认知负担（读懂一段代码需要的背景太多）。给出应对策略：模块化设计、把深模块（接口简单实现丰富）优先于浅模块、用抽象隐藏实现细节。强调「战术编程」与「战略编程」的差别，鼓励为长期可维护性投入前期设计。",
+      "keyPoints": [
+        {
+          "title": "复杂度的两大症状",
+          "detail": "变更放大意味着一个需求要改动大量文件；认知负担意味着新人需要掌握太多细节才能动手。"
+        },
+        {
+          "title": "深模块优于浅模块",
+          "detail": "好模块的接口小而实现厚，用户用很少的知识就能获得很多功能。"
+        },
+        {
+          "title": "战术 vs 战略编程",
+          "detail": "战术编程只求当下能跑，长期累积成技术债；战略编程用少量额外时间换取结构清晰。"
+        },
+        {
+          "title": "抽象是主要武器",
+          "detail": "抽象的价值在于允许使用者安全地忽略实现细节，而不是单纯地把代码拆小。"
+        }
+      ],
+      "terms": [
+        { "term": "Complexity 复杂度", "definition": "此处指使系统难以理解与修改的一切结构性因素。" },
+        { "term": "Change Amplification 变更放大", "definition": "一个小需求变更引发大量代码改动的现象。" },
+        { "term": "Cognitive Load 认知负担", "definition": "开发者理解并安全修改某段代码所需的知识量。" },
+        { "term": "Modular Design 模块化设计", "definition": "把系统拆分为接口清晰、彼此独立的模块的设计方法。" }
+      ]
+    },
+    {
+      "n": 28,
+      "summary": "介绍归约（reduction）这一强大的问题求解范式：把新问题 A 转化成已解决的问题 B，用 B 的算法解出答案后再翻译回来。用「用 BFS 解迷宫」「用拓扑排序解最长路径」「用 DFS 求连通分量」等例子说明。归约不仅是解题技巧，也是复杂度理论的核心工具——若 A 能归约到 B，则 B 至少与 A 一样难。同时讲解分解（decomposition）：把大问题拆成可独立解决的子问题，与归约共同构成算法设计的两条主线。",
+      "keyPoints": [
+        {
+          "title": "归约的三步骤",
+          "detail": "把 A 的输入编码成 B 的输入，调用 B 的算法，再把 B 的输出解码成 A 的答案。"
+        },
+        {
+          "title": "复用而非重造",
+          "detail": "识别出「这其实是一个图问题」往往比自己发明新算法更快也更可靠。"
+        },
+        {
+          "title": "归约与难度",
+          "detail": "若 A 可在低代价内归约到 B，则解 B 的难度不低于解 A，这是 NP 完全性证明的基础。"
+        },
+        {
+          "title": "问题分解",
+          "detail": "把复杂任务切成边界清晰的子任务，各自独立实现与测试，再组合成完整解。"
+        }
+      ],
+      "terms": [
+        { "term": "Reduction 归约", "definition": "把一个问题转化为另一个已知问题以复用其算法的技术。" },
+        { "term": "Decomposition 分解", "definition": "把复杂问题拆分为若干可独立求解的子问题。" },
+        { "term": "Graph Modeling 图建模", "definition": "把实际问题抽象成顶点与边以套用图算法的过程。" },
+        { "term": "Abstraction Barrier 抽象屏障", "definition": "分隔实现与使用、限制细节泄漏的设计边界。" }
+      ]
+    },
+    {
+      "n": 29,
+      "summary": "排序专题开篇，先形式化定义排序问题与「逆序对」这一衡量无序程度的指标。依次讲解选择排序（每轮选最小放到前面，恒 Θ(N²) 比较）、堆排序（先建堆再反复取极值，Θ(N log N) 但缓存不友好）、插入排序（对基本有序的数组几乎线性，代价与逆序对数成正比）以及归并排序（分治、稳定、Θ(N log N) 但需要 Θ(N) 额外空间）。同时引入稳定性概念，说明它在多关键字排序中的重要性。",
+      "keyPoints": [
+        {
+          "title": "选择排序",
+          "detail": "每轮扫描剩余部分找最小值并交换到位，无论输入如何都要做 Θ(N²) 次比较。",
+          "formula": "\\Theta(N^2)"
+        },
+        {
+          "title": "插入排序",
+          "detail": "把每个元素插入前方已排好的部分，运行时间与逆序对数目 Θ(N + K) 成正比，近乎有序时极快。",
+          "formula": "\\Theta(N + K)"
+        },
+        {
+          "title": "归并排序",
+          "detail": "递归排好左右两半再线性归并，时间 Θ(N log N)、稳定，但需要与输入等长的辅助数组。"
+        },
+        {
+          "title": "稳定性",
+          "detail": "稳定排序保证相等键的相对次序不变，因而可以先按次关键字排、再按主关键字排。"
+        }
+      ],
+      "terms": [
+        { "term": "Selection Sort 选择排序", "definition": "每轮选出剩余最小元素放到已排序区末尾的排序算法。" },
+        { "term": "Insertion Sort 插入排序", "definition": "把元素逐个插入已排序前缀的排序算法。" },
+        { "term": "Merge Sort 归并排序", "definition": "分治后线性归并的稳定排序算法。" },
+        { "term": "Stability 稳定性", "definition": "排序后相等键元素保持原有相对次序的性质。" }
+      ]
+    },
+    {
+      "n": 30,
+      "summary": "讲解快速排序：选一个枢轴，把数组划分成「小于枢轴」「等于枢轴」「大于枢轴」三段，再递归处理两侧。指出快排的关键在于 partition 的实现方式（Hoare 双指针、三路划分等）以及枢轴的选择。平均情况下每次划分接近对半，得到 Θ(N log N)；但若每次都选到极值（例如对已排序数组取首元素为枢轴），递归树退化成链，代价升到 Θ(N²)。最后指出快排常数因子小、原地排序，是实践中最快的通用比较排序。",
+      "keyPoints": [
+        {
+          "title": "分区思想",
+          "detail": "partition 之后枢轴已处于最终位置，左右两侧可完全独立地递归排序。"
+        },
+        {
+          "title": "平均复杂度",
+          "detail": "随机数据下划分期望接近均分，递归深度 Θ(log N)，每层线性工作量。",
+          "formula": "T(N) \\approx 2T(N/2) + \\Theta(N) = \\Theta(N \\log N)"
+        },
+        {
+          "title": "最坏情况",
+          "detail": "每次枢轴都取到最小或最大值时，递归深度变成 N，总代价 Θ(N²)。",
+          "formula": "\\Theta(N^2)"
+        },
+        {
+          "title": "与归并排序对比",
+          "detail": "快排原地进行、常数因子更小、缓存友好，但不稳定且最坏情况更差。"
+        }
+      ],
+      "terms": [
+        { "term": "Quick Sort 快速排序", "definition": "以枢轴划分数组后递归排序两侧的分治排序算法。" },
+        { "term": "Pivot 枢轴", "definition": "快排中用来划分数组的基准元素。" },
+        { "term": "Partition 分区", "definition": "按枢轴把数组重排为小于/等于/大于三段的操作。" },
+        { "term": "In-place Sort 原地排序", "definition": "只使用常数级额外空间完成的排序。" }
+      ]
+    },
+    {
+      "n": 31,
+      "summary": "软件工程系列第二讲，聚焦接口设计与信息隐藏。讨论如何设计「通用而非特化」的接口：过早为特定调用方定制会导致接口膨胀。讲解信息泄漏的常见形式——两个模块都必须知道同一个实现细节时，它们实际上被隐性耦合了。介绍时序分解的陷阱（按执行顺序而非知识边界拆模块）与异常处理设计（尽量「定义掉」异常而不是让每个调用方都处理）。这些原则直接指导 Gitlet 等大项目的结构设计。",
+      "keyPoints": [
+        {
+          "title": "通用接口优先",
+          "detail": "略微通用的接口往往更简单也更好用，专为一个调用点定制的方法容易变成负担。"
+        },
+        {
+          "title": "信息泄漏",
+          "detail": "同一个设计决策被写死在多个模块里，就是泄漏；修改时必须同步改动多处。"
+        },
+        {
+          "title": "时序分解的陷阱",
+          "detail": "按「先做 A 再做 B」拆模块会让同一知识散落在多个类中，应按知识边界拆分。"
+        },
+        {
+          "title": "减少异常处理",
+          "detail": "最好的异常处理是通过接口设计让异常情况根本不存在，其次才是集中处理。"
+        }
+      ],
+      "terms": [
+        { "term": "Information Hiding 信息隐藏", "definition": "把设计决策封装在模块内部、不对外暴露的原则。" },
+        { "term": "Information Leakage 信息泄漏", "definition": "同一设计决策被多个模块共同依赖导致的隐性耦合。" },
+        { "term": "Temporal Decomposition 时序分解", "definition": "按执行先后而非知识边界划分模块的反模式。" },
+        { "term": "General-purpose Interface 通用接口", "definition": "不针对单一调用场景定制、适用面更广的接口设计。" }
+      ]
+    },
+    {
+      "n": 32,
+      "summary": "继续深挖快排的工程细节与整个排序体系的总结。讲解如何避免最坏情况：随机打乱输入、随机选枢轴、三数取中（median of three），以及用快速选择（quickselect）在 Θ(N) 期望时间内求中位数作为完美枢轴。介绍三路划分处理大量重复键的场景。最后给出排序算法总表，从时间、空间、稳定性、是否原地、对已排序数据的表现等维度横向对比，帮助在具体场景中做选择。",
+      "keyPoints": [
+        {
+          "title": "随机化",
+          "detail": "先随机打乱数组或随机选枢轴，使「对手输入」无法稳定触发最坏情况。"
+        },
+        {
+          "title": "三数取中",
+          "detail": "取首、中、尾三个元素的中位数作为枢轴，代价极低却能显著降低划分严重不均的概率。"
+        },
+        {
+          "title": "快速选择",
+          "detail": "只递归包含目标下标的那一侧，期望复杂度降为线性，可用于求第 k 小元素。",
+          "formula": "N + N/2 + N/4 + \\cdots = \\Theta(N)"
+        },
+        {
+          "title": "排序算法总表",
+          "detail": "归并稳定但费空间，快排最快但不稳定，堆排原地但缓存差，插入排序在小数组上反而最优。"
+        }
+      ],
+      "terms": [
+        { "term": "Quickselect 快速选择", "definition": "借助快排划分在期望线性时间内求第 k 小元素的算法。" },
+        { "term": "Median of Three 三数取中", "definition": "取三个候选元素的中位数作为枢轴的启发式策略。" },
+        { "term": "Randomization 随机化", "definition": "在算法中引入随机性以规避最坏输入的技术。" },
+        { "term": "Three-way Partitioning 三路划分", "definition": "把数组分成小于、等于、大于枢轴三段的划分方式。" }
+      ]
+    },
+    {
+      "n": 33,
+      "summary": "软件工程系列第三讲，主题是代码质量与可读性实践。讨论命名的重要性——名字是最廉价也最有效的注释；讨论什么时候该写注释：解释「为什么」而不是复述「做了什么」，并强调注释应描述接口契约而非实现步骤。介绍一致性原则：同一个概念在整个代码库中用同一种表达方式，降低阅读者的认知切换成本。同时讲代码审查与重构的工程实践，以及如何判断「什么时候该停止优化」。",
+      "keyPoints": [
+        {
+          "title": "命名即文档",
+          "detail": "精确的名字能让大部分注释变得多余；模糊的名字则会持续误导每一个读者。"
+        },
+        {
+          "title": "注释写为什么",
+          "detail": "好注释解释设计意图、约束与坑，复述代码字面含义的注释只会随代码腐化。"
+        },
+        {
+          "title": "一致性",
+          "detail": "统一的命名、结构与风格让读者可以按既有直觉快速推断陌生代码的行为。"
+        },
+        {
+          "title": "重构的时机",
+          "detail": "在功能已被测试覆盖时重构最安全；重构应保持外部行为不变、只改内部结构。"
+        }
+      ],
+      "terms": [
+        { "term": "Refactoring 重构", "definition": "在不改变外部行为的前提下改进代码内部结构。" },
+        { "term": "Code Review 代码审查", "definition": "由他人阅读并评审代码以发现缺陷与设计问题的实践。" },
+        { "term": "Readability 可读性", "definition": "代码被他人快速正确理解的难易程度。" },
+        { "term": "Technical Debt 技术债", "definition": "为求快而做出的次优设计在未来需偿还的额外成本。" }
+      ]
+    },
+    {
+      "n": 34,
+      "summary": "证明基于比较的排序存在信息论下界。用决策树模型建模：每次比较有两种结果，算法执行路径对应树上一条根到叶的路径，而叶子必须覆盖全部 N! 种可能排列。由此得出树高至少 log₂(N!)，再用斯特林近似推出 Ω(N log N)。这说明归并排序与堆排序在渐进意义上已经最优，也解释了为什么想要更快就必须放弃「只用比较」这一假设，从而引出下一讲的基数排序。",
+      "keyPoints": [
+        {
+          "title": "决策树模型",
+          "detail": "把比较排序算法看作一棵二叉决策树，每个内部节点是一次比较，每个叶子是一种输出排列。"
+        },
+        {
+          "title": "叶子数下界",
+          "detail": "算法必须能区分 N! 种输入排列，因此决策树至少有 N! 个叶子。",
+          "formula": "\\text{leaves} \\ge N!"
+        },
+        {
+          "title": "推出 N log N",
+          "detail": "高为 h 的二叉树至多 2^h 个叶子，故 h ≥ log₂(N!)，由斯特林公式得 Ω(N log N)。",
+          "formula": "\\log_2(N!) = \\Theta(N \\log N)"
+        },
+        {
+          "title": "下界的含义",
+          "detail": "该下界只约束「仅靠比较」的算法；利用键的内部结构（如逐位处理）可以突破它。"
+        }
+      ],
+      "terms": [
+        { "term": "Decision Tree 决策树", "definition": "把算法的比较分支建模成二叉树的分析工具。" },
+        { "term": "Lower Bound 下界", "definition": "任何算法解决该问题所需代价的最小值。" },
+        { "term": "Comparison Sort 比较排序", "definition": "只通过元素间两两比较获取顺序信息的排序算法。" },
+        { "term": "Stirling's Approximation 斯特林近似", "definition": "对阶乘的渐进估计，常用于推导 log(N!) 的阶。" }
+      ]
+    },
+    {
+      "n": 35,
+      "summary": "介绍不依赖比较的基数排序，通过逐位处理键来突破 N log N 下界。先讲计数排序：统计每个键值出现次数并直接算出输出位置，对键域有限的数据是线性时间且稳定。再讲 LSD 基数排序：从最低位到最高位反复做稳定计数排序，W 轮之后整体有序，复杂度 Θ(WN)。对比 MSD 基数排序的分桶递归方式与提前终止优势。最后讨论何时基数排序真正比快排快——键短、数据量大、字符集小的场合。",
+      "keyPoints": [
+        {
+          "title": "计数排序",
+          "detail": "对键域大小为 R 的数据，统计频次并求前缀和即可直接确定每个元素的最终下标。",
+          "formula": "\\Theta(N + R)"
+        },
+        {
+          "title": "LSD 基数排序",
+          "detail": "从最低有效位开始，对每一位做一次稳定的计数排序，W 位处理完即整体有序。",
+          "formula": "\\Theta(W(N + R))"
+        },
+        {
+          "title": "稳定性是前提",
+          "detail": "LSD 依赖每轮排序保持上一轮结果的相对次序，若不稳定则整个算法失效。"
+        },
+        {
+          "title": "MSD 基数排序",
+          "detail": "从最高位分桶后对每桶递归，桶内只剩一个元素即可提前终止，通常不必读完整个键。"
+        }
+      ],
+      "terms": [
+        { "term": "Radix Sort 基数排序", "definition": "按键的每一位分别排序、不做元素间比较的排序算法。" },
+        { "term": "Counting Sort 计数排序", "definition": "统计各键值频次并据此直接定位输出的线性排序。" },
+        { "term": "LSD 最低位优先", "definition": "从最低有效位开始逐位排序的基数排序策略。" },
+        { "term": "Alphabet Size 字符集大小", "definition": "键中每一位可能取值的数量，记为 R。" }
+      ]
+    },
+    {
+      "n": 36,
+      "summary": "对排序与数据结构两条主线做总结。排序方面横向对比比较排序与基数排序的适用边界，指出实际库实现常是混合策略（如小数组切到插入排序、Java 对对象用 TimSort、对基本类型用双枢轴快排）。数据结构方面回顾从数组、链表到 BST、平衡树、散列表、堆、Trie、图的整条脉络，用「操作代价表」串起全部内容，帮助面对新问题时快速判断该选哪种结构。同时强调排序与搜索数据结构之间存在归约关系。",
+      "keyPoints": [
+        {
+          "title": "混合排序策略",
+          "detail": "工业级实现在小规模子问题上切换到插入排序，并按数据类型选用不同主算法。"
+        },
+        {
+          "title": "数据结构选型表",
+          "detail": "按「需要有序遍历吗、需要极值吗、键是字符串吗、需要范围查询吗」逐步收敛到具体结构。"
+        },
+        {
+          "title": "排序与搜索的联系",
+          "detail": "把元素逐个插入平衡树再中序遍历即得排序，说明搜索结构与排序算法可互相归约。"
+        },
+        {
+          "title": "常数因子与缓存",
+          "detail": "渐进相同的算法在真实机器上可能差几倍，内存局部性是主要原因之一。"
+        }
+      ],
+      "terms": [
+        { "term": "Hybrid Sort 混合排序", "definition": "在不同规模或数据特征下切换算法的排序实现策略。" },
+        { "term": "TimSort 蒂姆排序", "definition": "利用已有有序段的归并类稳定排序，Java 对象排序的默认实现。" },
+        { "term": "Locality of Reference 局部性原理", "definition": "程序倾向访问邻近内存的规律，直接影响缓存命中率。" },
+        { "term": "Trade-off 权衡", "definition": "在时间、空间与实现复杂度之间做取舍的设计决策。" }
+      ]
+    },
+    {
+      "n": 37,
+      "summary": "软件工程系列第四讲，讨论更宏观的工程话题：如何在团队中构建可演化的系统。内容涉及测试策略的分层（单元测试、集成测试、端到端测试各自的成本与收益）、持续集成的价值，以及如何用性能剖析（profiling）而非猜测来定位瓶颈。还讨论了「过早优化」的风险与何时该真正优化，以及从课堂项目走向真实工程时最容易忽略的部分：文档、错误处理与向后兼容。",
+      "keyPoints": [
+        {
+          "title": "测试金字塔",
+          "detail": "大量快速的单元测试作底，少量集成与端到端测试作顶，兼顾覆盖率与运行速度。"
+        },
+        {
+          "title": "先测量后优化",
+          "detail": "用剖析工具找出真正的热点，人对性能瓶颈的直觉通常是错的。"
+        },
+        {
+          "title": "过早优化的代价",
+          "detail": "为未被证实的瓶颈牺牲可读性，往往既没提速又留下难以维护的代码。"
+        },
+        {
+          "title": "面向演化的设计",
+          "detail": "系统需求一定会变，设计目标是让未来的改动局部化，而不是一次性预测所有需求。"
+        }
+      ],
+      "terms": [
+        { "term": "Integration Test 集成测试", "definition": "验证多个模块协同工作是否正确的测试层级。" },
+        { "term": "Continuous Integration 持续集成", "definition": "频繁合并并自动构建测试代码的工程实践，缩写 CI。" },
+        { "term": "Profiling 性能剖析", "definition": "测量程序各部分实际耗时以定位瓶颈的方法。" },
+        { "term": "Premature Optimization 过早优化", "definition": "在瓶颈未被证实前牺牲可读性做的优化。" }
+      ]
+    },
+    {
+      "n": 38,
+      "summary": "从数据结构转向信息压缩。介绍无损压缩模型：编码器把比特流压小，解码器完整还原。讲解变长前缀码与前缀无歧义性质，用 Trie 表示码表使解码可以逐位下行。重点是 Huffman 编码：按符号频率自底向上用优先队列合并两个最小频次节点，构造出期望码长最优的前缀码。同时讨论码表本身也必须随数据一起传输，以及 LZW 等基于字典的自适应压缩思路。",
+      "keyPoints": [
+        {
+          "title": "前缀码",
+          "detail": "任何码字都不是另一个码字的前缀，因而比特流无需分隔符即可唯一解码。"
+        },
+        {
+          "title": "Huffman 构造",
+          "detail": "把每个符号作为叶子按频率入优先队列，反复取出两个最小的合并成新节点直到只剩一棵树。"
+        },
+        {
+          "title": "最优期望码长",
+          "detail": "Huffman 码在符号独立同分布假设下使平均码长最小。",
+          "formula": "L = \\sum_i p_i \\cdot \\text{len}(c_i)"
+        },
+        {
+          "title": "码表开销",
+          "detail": "解码端必须拿到码表，因此小文件压缩时码表本身可能抵消甚至超过压缩收益。"
+        }
+      ],
+      "terms": [
+        { "term": "Lossless Compression 无损压缩", "definition": "可完整还原原始数据的压缩方式。" },
+        { "term": "Prefix-free Code 前缀码", "definition": "任一码字都不是其他码字前缀的变长编码。" },
+        { "term": "Huffman Coding 霍夫曼编码", "definition": "按频率贪心构造最优前缀码的压缩算法。" },
+        { "term": "Codebook 码表", "definition": "符号与其编码之间的对应表。" }
+      ]
+    },
+    {
+      "n": 39,
+      "summary": "先证明「不存在能压缩任意输入的通用压缩算法」——用鸽巢原理说明若某算法能把所有 N 位串压短，则必有两个输入映射到同一输出，无法无损还原。由此引入柯尔莫哥洛夫复杂度的直觉。后半转向计算复杂度理论：定义 P 与 NP 两类问题，说明 NP 是「解可被快速验证」的问题，介绍归约与 NP 完全性，并以 3-SAT 与旅行商问题为例说明 P = NP 这一未解难题的意义与影响。",
+      "keyPoints": [
+        {
+          "title": "通用压缩不可能",
+          "detail": "长度不超过 N 的比特串共 2^(N+1)-1 个，无损映射必须单射，故不可能人人变短。",
+          "formula": "|\\{0,1\\}^N| = 2^N"
+        },
+        {
+          "title": "P 与 NP",
+          "detail": "P 是多项式时间可解的问题集合，NP 是给定候选解可在多项式时间内验证的问题集合。"
+        },
+        {
+          "title": "NP 完全",
+          "detail": "NP 中最难的一类问题，任一 NP 问题都可多项式归约到它；解决其中一个就解决了全部。"
+        },
+        {
+          "title": "现实影响",
+          "detail": "若 P = NP，现代基于计算困难性的公钥密码体系将全面失效；多数研究者相信 P ≠ NP。"
+        }
+      ],
+      "terms": [
+        { "term": "Kolmogorov Complexity 柯尔莫哥洛夫复杂度", "definition": "生成某字符串的最短程序长度，刻画其本质信息量。" },
+        { "term": "P Class 多项式时间类", "definition": "存在多项式时间算法可解的判定问题集合。" },
+        { "term": "NP Class 非确定多项式类", "definition": "候选解可在多项式时间内被验证的判定问题集合。" },
+        { "term": "NP-Complete NP 完全", "definition": "NP 中最难的问题类，所有 NP 问题都可归约到它。" }
+      ]
+    },
+    {
+      "n": 40,
+      "summary": "课程收官。回顾整学期从 Java 语法、面向对象设计，到链表、树、散列、堆、图、排序与压缩的完整脉络，并把这些内容组织成一张「问题 → 数据结构 → 算法 → 复杂度」的知识地图。讨论 CS61B 之后的方向：算法（CS170）、操作系统（CS162）、编译器（CS164）、数据库与机器学习各自需要哪些本课基础。最后 Josh Hug 分享学习方法与职业建议，鼓励继续动手写大型项目而非只刷题。",
+      "keyPoints": [
+        {
+          "title": "知识地图串联",
+          "detail": "遇到新问题时先问「需要什么操作、代价上限是多少」，再倒推该选哪种数据结构与算法。"
+        },
+        {
+          "title": "后续课程衔接",
+          "detail": "本课的图算法与复杂度分析直接通向 CS170，Java 与工程实践通向 CS162 与软件工程课。"
+        },
+        {
+          "title": "工程能力的养成",
+          "detail": "Gitlet、BYOW 这类大项目训练的是设计、调试与长期维护能力，比单点算法技巧更持久。"
+        },
+        {
+          "title": "持续学习",
+          "detail": "数据结构与算法是随时可复用的通用词汇表，理解本质比背诵实现更重要。"
+        }
+      ],
+      "terms": [
+        { "term": "Data Structure 数据结构", "definition": "组织数据以支持特定操作高效执行的方式。" },
+        { "term": "Algorithm 算法", "definition": "解决特定问题的有限步骤序列。" },
+        { "term": "Design Trade-off 设计权衡", "definition": "在多个互斥目标之间做出的取舍决策。" },
+        { "term": "Gitlet 迷你版本控制系统", "definition": "CS61B 的大作业项目，用 Java 实现 Git 的核心子集。" }
+      ]
+    }
+  ]
+}

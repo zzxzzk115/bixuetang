@@ -1,0 +1,1270 @@
+{
+  "courseId": "mit-18-01",
+  "generatedAt": "2026-08-02",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "MIT 18.01 单变量微积分是 MIT 数学主线的第一门课，由 David Jerison 讲授（2006 秋季版）。全课沿「极限 → 导数 → 微分应用 → 积分 → 积分技巧 → 级数」的主干推进，先用切线斜率与变化率把导数讲清楚，再系统训练求导法则、最值与作图等应用，随后通过微积分基本定理把导数与面积统一起来，最后落到积分技巧、反常积分与泰勒级数。它是后续多变量微积分、微分方程、物理与工程课程的共同地基。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "第一讲从「导数是什么」出发，用几何直观切入：导数就是曲线在某点切线的斜率。Jerison 先说明为什么不能直接用两点连线，而要让割线的第二个点无限趋近第一个点，从而引出差商的极限定义。课上用 y = 1/x 完整演算了一遍求导过程，并讨论了切线与坐标轴围成三角形的面积这一几何问题。最后归纳出幂函数 x^n 的求导公式，并强调导数同时具有「切线斜率」和「瞬时变化率」两重含义。",
+      "keyPoints": [
+        {
+          "title": "导数的几何定义",
+          "detail": "函数在某点的导数定义为曲线在该点切线的斜率，切线是割线在第二点趋近第一点时的极限位置。",
+          "formula": "f'(x_0) = \\lim_{\\Delta x \\to 0} \\frac{f(x_0 + \\Delta x) - f(x_0)}{\\Delta x}"
+        },
+        {
+          "title": "割线与差商",
+          "detail": "过 (x_0, f(x_0)) 与 (x_0+Δx, f(x_0+Δx)) 的割线斜率即差商 Δy/Δx，让 Δx 趋于 0 得到切线斜率。",
+          "formula": "\\frac{\\Delta y}{\\Delta x} = \\frac{f(x_0+\\Delta x)-f(x_0)}{\\Delta x}"
+        },
+        {
+          "title": "示例：y = 1/x 求导",
+          "detail": "按定义通分化简差商，可得 1/x 的导数为 -1/x²，是课上第一个完整的极限演算范例。",
+          "formula": "\\frac{d}{dx}\\left(\\frac{1}{x}\\right) = -\\frac{1}{x^2}"
+        },
+        {
+          "title": "幂函数求导公式",
+          "detail": "用二项式展开处理 (x+Δx)^n，只有一次项在极限中留下，得到幂法则。",
+          "formula": "\\frac{d}{dx}x^n = n x^{n-1}"
+        },
+        {
+          "title": "导数的两种读法",
+          "detail": "同一个极限既是几何上的切线斜率，也是物理上的瞬时变化率（如位移对时间求导得到速度）。"
+        },
+        {
+          "title": "记号约定",
+          "detail": "牛顿记号 f'(x) 与莱布尼茨记号 dy/dx 表示同一件事，后者在链式法则与换元中更方便。",
+          "formula": "f'(x) = \\frac{dy}{dx} = \\frac{df}{dx}"
+        }
+      ],
+      "terms": [
+        { "term": "Derivative 导数", "definition": "函数在一点处的瞬时变化率，等于该点切线的斜率。" },
+        { "term": "Tangent Line 切线", "definition": "与曲线在某点相切、斜率等于该点导数的直线。" },
+        { "term": "Secant Line 割线", "definition": "与曲线相交于两点的直线，其斜率是差商。" },
+        { "term": "Difference Quotient 差商", "definition": "函数增量与自变量增量之比 Δy/Δx，是导数定义的出发点。" },
+        { "term": "Rate of Change 变化率", "definition": "一个量相对另一个量变化的快慢，瞬时变化率即导数。" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "本讲把上一讲隐含使用的「极限」讲透。先区分左极限与右极限，指出函数在一点的极限与该点函数值无关。接着给出连续性的定义，并分类讨论跳跃间断、可去间断和无穷间断三种典型情形。课上证明了「可导必连续」，并用绝对值函数与阶跃函数说明反之不成立。最后利用重要极限推出正弦和余弦的导数。",
+      "keyPoints": [
+        {
+          "title": "左右极限",
+          "detail": "从左侧与右侧趋近可能得到不同结果，只有二者相等时极限才存在。",
+          "formula": "\\lim_{x \\to a^-} f(x) = \\lim_{x \\to a^+} f(x) = L"
+        },
+        {
+          "title": "连续的定义",
+          "detail": "函数在 a 点连续，要求极限存在、函数在该点有定义，且两者相等。",
+          "formula": "\\lim_{x \\to a} f(x) = f(a)"
+        },
+        {
+          "title": "间断点分类",
+          "detail": "跳跃间断（左右极限存在但不等）、可去间断（极限存在但不等于函数值）、无穷间断（趋于无穷）。"
+        },
+        {
+          "title": "可导蕴含连续",
+          "detail": "若 f 在 a 可导，则 Δy = (Δy/Δx)·Δx 在 Δx→0 时趋于 0，故必连续；反例 |x| 说明逆命题不成立。"
+        },
+        {
+          "title": "重要极限",
+          "detail": "sin θ/θ 与 (1-cos θ)/θ 的极限是推导三角函数导数的关键，可用单位圆的弧长与弦长比较得到。",
+          "formula": "\\lim_{\\theta \\to 0}\\frac{\\sin\\theta}{\\theta} = 1, \\quad \\lim_{\\theta \\to 0}\\frac{1-\\cos\\theta}{\\theta} = 0"
+        },
+        {
+          "title": "三角函数的导数",
+          "detail": "利用和角公式拆开 sin(x+Δx)，再代入两个重要极限，得到正弦与余弦的导数。",
+          "formula": "\\frac{d}{dx}\\sin x = \\cos x, \\quad \\frac{d}{dx}\\cos x = -\\sin x"
+        }
+      ],
+      "terms": [
+        { "term": "Limit 极限", "definition": "自变量趋于某值时函数值趋近的固定数值。" },
+        { "term": "One-sided Limit 单侧极限", "definition": "只从左侧或右侧趋近时的极限，记作 x→a⁻ 或 x→a⁺。" },
+        { "term": "Continuity 连续性", "definition": "函数在一点的极限值等于函数值的性质。" },
+        { "term": "Removable Discontinuity 可去间断点", "definition": "极限存在但与函数值不符（或无定义）的间断，可通过重定义一点修补。" },
+        { "term": "Jump Discontinuity 跳跃间断点", "definition": "左右极限都存在但不相等的间断点。" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "第三讲进入求导的「工具箱」阶段。先证明导数的线性性质，再用差商的加减配凑技巧证明乘积法则，强调它不是「导数相乘」。接着由乘积法则推出商法则。课上把已知的幂法则、三角函数导数与新法则组合起来，处理多项式与有理函数。最后介绍高阶导数记号及其含义。",
+      "keyPoints": [
+        {
+          "title": "线性法则",
+          "detail": "求导对加法与常数倍是线性的，这使多项式可以逐项求导。",
+          "formula": "(af + bg)' = af' + bg'"
+        },
+        {
+          "title": "乘积法则",
+          "detail": "证明的关键是在差商分子上加减 u(x+Δx)v(x) 这一中间项，把变化拆成两部分。",
+          "formula": "(uv)' = u'v + uv'"
+        },
+        {
+          "title": "商法则",
+          "detail": "把 u/v 看作 u·(1/v)，或对 u = (u/v)·v 两边用乘积法则反解，可得商法则。",
+          "formula": "\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}"
+        },
+        {
+          "title": "正切函数的导数",
+          "detail": "对 tan x = sin x / cos x 用商法则，可得 sec² x，是商法则的标准应用。",
+          "formula": "\\frac{d}{dx}\\tan x = \\sec^2 x"
+        },
+        {
+          "title": "高阶导数",
+          "detail": "反复求导得到二阶、三阶导数，记作 f''、f'''、f^(n) 或 d^n y/dx^n，二阶导数刻画凹凸与加速度。",
+          "formula": "f^{(n)}(x) = \\frac{d^n y}{dx^n}"
+        }
+      ],
+      "terms": [
+        { "term": "Product Rule 乘积法则", "definition": "两函数之积的导数等于 u'v + uv'。" },
+        { "term": "Quotient Rule 商法则", "definition": "两函数之商的导数公式 (u'v - uv')/v²。" },
+        { "term": "Higher Derivative 高阶导数", "definition": "对函数反复求导得到的二阶及以上导数。" },
+        { "term": "Linearity 线性性", "definition": "求导运算保持加法与数乘的性质。" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "本讲讲解复合函数求导的链式法则，这是整个微积分中使用频率最高的法则。Jerison 用莱布尼茨记号 dy/dx = (dy/du)(du/dx) 给出直观解释：变化率可以像分数一样相乘传递。课上给出多个嵌套例子，包括三角函数与幂函数的复合，并演示多层嵌套时如何由外向内逐层剥开。此外还给出了一个不依赖单位圆几何的余弦导数推导思路。",
+      "keyPoints": [
+        {
+          "title": "链式法则",
+          "detail": "复合函数的导数等于外函数在内函数处的导数乘以内函数的导数。",
+          "formula": "\\frac{dy}{dx} = \\frac{dy}{du}\\cdot\\frac{du}{dx}"
+        },
+        {
+          "title": "函数记号形式",
+          "detail": "写成 (f∘g)'(x) = f'(g(x))·g'(x)，注意外导数要在 g(x) 处取值，这是最常见的出错点。",
+          "formula": "(f \\circ g)'(x) = f'(g(x))\\, g'(x)"
+        },
+        {
+          "title": "多层嵌套",
+          "detail": "三层以上复合时链式法则可以连续使用，导数是各层导数的连乘，形如 dy/du·du/dv·dv/dx。"
+        },
+        {
+          "title": "典型例子",
+          "detail": "如 sin(x²) 与 (x³+1)^10 这类混合复合，说明先辨认「外层是谁」再动手。",
+          "formula": "\\frac{d}{dx}\\sin(x^2) = 2x\\cos(x^2)"
+        },
+        {
+          "title": "用平移导出余弦导数",
+          "detail": "由 cos x = sin(π/2 - x) 配合链式法则，可以从正弦的导数直接得到余弦的导数，避免重复几何论证。"
+        }
+      ],
+      "terms": [
+        { "term": "Chain Rule 链式法则", "definition": "复合函数求导法则：外导数乘内导数。" },
+        { "term": "Composite Function 复合函数", "definition": "由一个函数的输出作为另一个函数输入构成的函数 f(g(x))。" },
+        { "term": "Leibniz Notation 莱布尼茨记号", "definition": "用 dy/dx 表示导数的记号体系，便于链式法则与换元。" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "第五讲介绍隐函数求导：当 y 由方程 F(x, y) = 0 隐式确定、难以解出显式表达式时，直接对方程两边关于 x 求导，把 y 视为 x 的函数并用链式法则处理。课上用圆和更复杂的代数曲线做示范。随后把隐函数求导用于反函数：由 y = f⁻¹(x) 即 f(y) = x 求出反函数的导数公式，进而导出 arcsin、arctan 的导数，以及分数次幂 x^(p/q) 的求导公式。",
+      "keyPoints": [
+        {
+          "title": "隐函数求导",
+          "detail": "对方程两边同时关于 x 求导，凡遇到 y 都乘上 dy/dx，再解出 dy/dx。",
+          "formula": "x^2 + y^2 = 1 \\Rightarrow \\frac{dy}{dx} = -\\frac{x}{y}"
+        },
+        {
+          "title": "反函数求导",
+          "detail": "由 f(f⁻¹(x)) = x 两边求导，得到反函数导数是原函数导数的倒数（在对应点取值）。",
+          "formula": "(f^{-1})'(x) = \\frac{1}{f'(f^{-1}(x))}"
+        },
+        {
+          "title": "反正弦的导数",
+          "detail": "设 y = arcsin x 即 sin y = x，求导得 cos y·y' = 1，再用 cos y = √(1-x²)。",
+          "formula": "\\frac{d}{dx}\\arcsin x = \\frac{1}{\\sqrt{1-x^2}}"
+        },
+        {
+          "title": "反正切的导数",
+          "detail": "同法由 tan y = x 得 sec²y·y' = 1，代入 sec²y = 1 + x²。",
+          "formula": "\\frac{d}{dx}\\arctan x = \\frac{1}{1+x^2}"
+        },
+        {
+          "title": "分数次幂",
+          "detail": "对 y = x^(p/q) 写成 y^q = x^p 后隐函数求导，可把幂法则推广到有理指数。",
+          "formula": "\\frac{d}{dx}x^{p/q} = \\frac{p}{q}x^{p/q-1}"
+        }
+      ],
+      "terms": [
+        { "term": "Implicit Differentiation 隐函数求导", "definition": "不解出显式表达式，直接对方程两边求导以得到 dy/dx 的方法。" },
+        { "term": "Implicit Function 隐函数", "definition": "由方程 F(x,y)=0 隐式确定的函数关系。" },
+        { "term": "Inverse Function 反函数", "definition": "满足 f⁻¹(f(x)) = x 的函数，其图像是原函数关于 y=x 的镜像。" },
+        { "term": "Arcsine 反正弦", "definition": "正弦函数在 [-π/2, π/2] 上的反函数。" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "本讲系统处理指数函数与对数函数。先讨论 a^x 的导数必然正比于自身，比例常数 M(a) = 定义在 x=0 处的斜率；把这个常数取为 1 的底就是自然常数 e。由此得到 e^x 的导数仍是 e^x，以及自然对数的导数 1/x。课上介绍了对数求导法，用于处理幂指函数与多因子乘积。最后给出 e 的两种极限刻画。",
+      "keyPoints": [
+        {
+          "title": "指数函数的导数结构",
+          "detail": "a^x 的导数等于 M(a)·a^x，其中 M(a) 是曲线在 x=0 处的斜率；定义 e 使 M(e)=1。",
+          "formula": "\\frac{d}{dx}a^x = M(a)\\,a^x, \\quad M(e) = 1"
+        },
+        {
+          "title": "自然指数函数",
+          "detail": "e^x 是唯一（相差常数倍）导数等于自身的函数，这是它在微积分中地位特殊的原因。",
+          "formula": "\\frac{d}{dx}e^x = e^x"
+        },
+        {
+          "title": "自然对数的导数",
+          "detail": "由 y = ln x 即 e^y = x 隐函数求导得到，是后面积分 1/x 的依据。",
+          "formula": "\\frac{d}{dx}\\ln x = \\frac{1}{x}"
+        },
+        {
+          "title": "对数求导法",
+          "detail": "先取对数把乘除与指数变成加减与乘法，再求导，尤其适合 u(x)^{v(x)} 这类幂指函数。",
+          "formula": "\\frac{d}{dx}\\ln u = \\frac{u'}{u}"
+        },
+        {
+          "title": "e 的极限定义",
+          "detail": "由 ln 在 1 处导数为 1 可导出 e 的经典极限表达式，也是复利模型的极限形态。",
+          "formula": "e = \\lim_{n \\to \\infty}\\left(1+\\frac{1}{n}\\right)^n"
+        },
+        {
+          "title": "任意底的换算",
+          "detail": "把 a^x 写成 e^{x ln a}，一切底的指数与对数问题都归约到自然底。",
+          "formula": "\\frac{d}{dx}a^x = (\\ln a)\\,a^x"
+        }
+      ],
+      "terms": [
+        { "term": "Natural Logarithm 自然对数", "definition": "以 e 为底的对数函数 ln x，其导数为 1/x。" },
+        { "term": "Exponential Function 指数函数", "definition": "形如 a^x 的函数，自然指数 e^x 的导数等于自身。" },
+        { "term": "Logarithmic Differentiation 对数求导法", "definition": "先对函数取对数再求导以简化乘除与幂运算的技巧。" },
+        { "term": "Euler's Number 自然常数 e", "definition": "使指数函数在 x=0 处斜率为 1 的底数，约等于 2.71828。" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "第一次考试复习课。Jerison 梳理前六讲的主干：极限与连续、导数的定义与几何意义、四则运算法则、链式法则、隐函数与反函数求导、指数对数求导。课上强调按定义求导的题型仍会考，不能只会套公式。通过若干综合例题演示多种法则的混合使用，并提醒常见错误：链式法则漏内导数、商法则分子顺序写反、对 e^{f(x)} 求导忘乘 f'(x)。",
+      "keyPoints": [
+        {
+          "title": "定义法求导",
+          "detail": "考试常要求用差商极限直接求导，需熟练通分、有理化与配凑中间项等代数手法。",
+          "formula": "f'(a) = \\lim_{h \\to 0}\\frac{f(a+h)-f(a)}{h}"
+        },
+        {
+          "title": "求导法则清单",
+          "detail": "线性、乘积、商、链式四大法则，加上幂、三角、指数对数、反三角的基本导数表，构成完整工具箱。"
+        },
+        {
+          "title": "切线与法线",
+          "detail": "已知曲线上一点求切线方程是高频题：斜率取该点导数，法线斜率取其负倒数。",
+          "formula": "y - f(a) = f'(a)(x-a)"
+        },
+        {
+          "title": "分段函数的可导性",
+          "detail": "在分界点要同时检查连续性与左右导数是否相等，两者都满足才可导。"
+        },
+        {
+          "title": "典型陷阱",
+          "detail": "链式法则漏乘内层导数、隐函数求导忘记对 y 项乘 dy/dx，是最常见的失分点。"
+        }
+      ],
+      "terms": [
+        { "term": "Normal Line 法线", "definition": "过曲线上一点且垂直于该点切线的直线。" },
+        { "term": "Differentiability 可导性", "definition": "函数在一点差商极限存在的性质，比连续性更强。" },
+        { "term": "Piecewise Function 分段函数", "definition": "在不同区间用不同表达式定义的函数。" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "对应原课第 9 讲，讨论用多项式近似函数。线性近似即用切线代替曲线，误差在小范围内可忽略；二次近似再加上二阶项，能捕捉曲线的弯曲方向，精度显著提高。课上给出 sin x、cos x、e^x、ln(1+x)、(1+x)^r 在 0 附近的标准近似式，并说明这些正是后面泰勒级数的前几项。最后用物理与工程中的小角近似说明其实用价值。",
+      "keyPoints": [
+        {
+          "title": "线性近似",
+          "detail": "在 x 靠近 a 时用切线代替函数，是所有「微小扰动」分析的基础。",
+          "formula": "f(x) \\approx f(a) + f'(a)(x-a)"
+        },
+        {
+          "title": "二次近似",
+          "detail": "补上二阶项后近似曲线与原曲线在该点有相同的凹凸方向，误差阶数从 O(h²) 降到 O(h³)。",
+          "formula": "f(x) \\approx f(a) + f'(a)(x-a) + \\frac{f''(a)}{2}(x-a)^2"
+        },
+        {
+          "title": "常用基本近似",
+          "detail": "0 附近有 sin x ≈ x、cos x ≈ 1 - x²/2、e^x ≈ 1 + x + x²/2、ln(1+x) ≈ x - x²/2。",
+          "formula": "\\cos x \\approx 1 - \\frac{x^2}{2}"
+        },
+        {
+          "title": "二项近似",
+          "detail": "(1+x)^r ≈ 1 + rx 在工程估算中极常用，如 √(1+x) ≈ 1 + x/2。",
+          "formula": "(1+x)^r \\approx 1 + rx + \\frac{r(r-1)}{2}x^2"
+        },
+        {
+          "title": "近似的组合",
+          "detail": "复杂表达式可以先化成基本形式，再把已知近似代入并按 x 的幂次截断，比直接求高阶导数更快。"
+        }
+      ],
+      "terms": [
+        { "term": "Linear Approximation 线性近似", "definition": "用切线在一点附近代替函数的近似方法。" },
+        { "term": "Quadratic Approximation 二次近似", "definition": "保留到二阶导数项的多项式近似。" },
+        { "term": "Small Angle Approximation 小角近似", "definition": "角度很小时 sin θ ≈ θ、cos θ ≈ 1 的常用估算。" },
+        { "term": "Binomial Approximation 二项近似", "definition": "(1+x)^r ≈ 1 + rx 的一阶近似式。" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "对应原课第 10 讲，讲如何仅凭导数信息画出函数图像。一阶导数的符号决定单调增减，零点给出临界点；二阶导数的符号决定凹凸，符号改变处是拐点。课上给出完整的作图流程：定义域、间断点、渐近线、临界点、单调区间、凹凸区间、端点行为。并强调「临界点不一定是极值点」，要用一阶导数符号变化或二阶导数判定。",
+      "keyPoints": [
+        {
+          "title": "一阶导数与单调性",
+          "detail": "f' > 0 区间函数递增，f' < 0 区间递减，f' = 0 或不存在处为临界点。",
+          "formula": "f'(x) > 0 \\Rightarrow f \\text{ 递增}"
+        },
+        {
+          "title": "二阶导数与凹凸",
+          "detail": "f'' > 0 时图像下凸（concave up），f'' < 0 时上凸，符号改变处是拐点。",
+          "formula": "f''(x) > 0 \\Rightarrow \\text{凹向上}"
+        },
+        {
+          "title": "临界点判别",
+          "detail": "一阶导数由正变负给出极大值，由负变正给出极小值；二阶导数判别法在 f''≠0 时更快。"
+        },
+        {
+          "title": "渐近线",
+          "detail": "垂直渐近线来自分母零点，水平/斜渐近线来自 x→±∞ 时的行为，是勾勒整体形状的骨架。",
+          "formula": "\\lim_{x\\to\\infty}\\left(f(x)-(mx+b)\\right)=0"
+        },
+        {
+          "title": "作图流程",
+          "detail": "依次确定定义域与对称性、间断与渐近线、f' 零点与符号表、f'' 零点与符号表，最后连点成图。"
+        }
+      ],
+      "terms": [
+        { "term": "Critical Point 临界点", "definition": "导数为零或不存在的点，可能是极值点。" },
+        { "term": "Inflection Point 拐点", "definition": "二阶导数变号、凹凸方向改变的点。" },
+        { "term": "Concavity 凹凸性", "definition": "曲线弯曲方向的性质，由二阶导数符号决定。" },
+        { "term": "Asymptote 渐近线", "definition": "曲线在无穷远或间断点附近无限趋近的直线。" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "对应原课第 11 讲，讲最值问题。先区分局部极值与全局最值，并指出闭区间上连续函数的最值只可能出现在临界点或端点。随后进入应用题：把实际问题翻译成一个单变量目标函数，写清约束把变量消到一个，再求导找最值。课上做了经典的几何优化与「过河问题/最短路径」类例子，并强调最后要检验端点与定义域边界。",
+      "keyPoints": [
+        {
+          "title": "闭区间最值法",
+          "detail": "连续函数在闭区间上必有最大最小值，比较所有临界点与端点的函数值即可。"
+        },
+        {
+          "title": "局部与全局",
+          "detail": "局部极值只需邻域内最大/最小，全局最值要在整个定义域比较；开区间上可能不存在最值。"
+        },
+        {
+          "title": "建模三步",
+          "detail": "设变量写目标函数、用约束条件消元到单变量、求导定最值，是所有应用题的统一套路。"
+        },
+        {
+          "title": "几何优化例子",
+          "detail": "如给定周长求最大面积、给定体积求最小表面积，答案常呈现出对称的漂亮结构。",
+          "formula": "V = \\pi r^2 h,\\quad S = 2\\pi r^2 + 2\\pi r h"
+        },
+        {
+          "title": "边界与无界情形",
+          "detail": "定义域为无界区间时需考察 x→±∞ 的极限，确认最值确实被取到而非趋近。"
+        }
+      ],
+      "terms": [
+        { "term": "Global Maximum 全局最大值", "definition": "函数在整个定义域上的最大值。" },
+        { "term": "Local Extremum 局部极值", "definition": "在某点邻域内取到的最大或最小值。" },
+        { "term": "Optimization 最优化", "definition": "在约束条件下求目标函数最大或最小值的问题。" },
+        { "term": "Endpoint 端点", "definition": "闭区间的边界点，最值判定时必须一并比较。" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "对应原课第 12 讲，讲相关变化率。核心思想是：若两个量由一个方程联系，则它们对时间的变化率也由该方程隐式求导后的关系联系。课上强调解题顺序——先写出量之间的几何或物理关系式，再对时间求导（用链式法则），最后才代入某一时刻的具体数值。经典例子包括梯子下滑、气球膨胀、圆锥容器注水、两车相离等。",
+      "keyPoints": [
+        {
+          "title": "相关变化率思想",
+          "detail": "把所有量看作时间 t 的函数，对约束方程两边关于 t 求导，得到变化率之间的方程。",
+          "formula": "x^2+y^2=L^2 \\Rightarrow x\\frac{dx}{dt}+y\\frac{dy}{dt}=0"
+        },
+        {
+          "title": "先关系后代值",
+          "detail": "必须先建立恒成立的关系式再求导，若过早代入某时刻的数值会把变量误当常数。"
+        },
+        {
+          "title": "圆锥注水",
+          "detail": "利用相似三角形把半径用高表示，消元后再对 t 求导，是最典型的题型。",
+          "formula": "V = \\frac{1}{3}\\pi r^2 h,\\quad \\frac{r}{h}=\\text{const}"
+        },
+        {
+          "title": "球体膨胀",
+          "detail": "体积与半径的关系求导后给出 dV/dt 与 dr/dt 的联系，用于气球、液滴等模型。",
+          "formula": "\\frac{dV}{dt} = 4\\pi r^2 \\frac{dr}{dt}"
+        },
+        {
+          "title": "单位与符号",
+          "detail": "变化率的正负表示增大或减小，答案要带单位，物理意义要与题意自洽。"
+        }
+      ],
+      "terms": [
+        { "term": "Related Rates 相关变化率", "definition": "通过约束方程联系起来的多个量对时间变化率之间的关系。" },
+        { "term": "Constraint Equation 约束方程", "definition": "描述问题中各变量之间固定关系的方程。" },
+        { "term": "Similar Triangles 相似三角形", "definition": "对应角相等、边成比例的三角形，常用于消元。" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "对应原课第 13 讲，介绍牛顿法这一求方程数值解的迭代算法。思路是用切线代替曲线，把切线与 x 轴的交点作为下一个近似值，反复迭代快速逼近根。课上分析了收敛速度（每步有效数字大致翻倍，即二次收敛），也演示了初值选得不好时可能发散或跳到别的根的失败情形。此外还讨论了导数在其他数值应用中的角色。",
+      "keyPoints": [
+        {
+          "title": "牛顿迭代公式",
+          "detail": "从当前近似 x_n 作切线，与 x 轴交点即为 x_{n+1}，几何直观非常清晰。",
+          "formula": "x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}"
+        },
+        {
+          "title": "二次收敛",
+          "detail": "在单根附近且初值足够好时，误差近似平方衰减，正确位数每步翻倍。",
+          "formula": "|e_{n+1}| \\approx C|e_n|^2"
+        },
+        {
+          "title": "开平方应用",
+          "detail": "对 f(x) = x² - a 用牛顿法得到经典的求平方根迭代式，计算机内部常用此类算法。",
+          "formula": "x_{n+1} = \\frac{1}{2}\\left(x_n + \\frac{a}{x_n}\\right)"
+        },
+        {
+          "title": "失败情形",
+          "detail": "当 f'(x_n) 接近 0、初值离根太远或函数有多个根时，迭代可能发散、震荡或收敛到非预期的根。"
+        },
+        {
+          "title": "与线性近似的关系",
+          "detail": "牛顿法本质就是反复使用线性近似并求解近似方程的零点。"
+        }
+      ],
+      "terms": [
+        { "term": "Newton's Method 牛顿法", "definition": "用切线交点迭代逼近方程根的数值方法。" },
+        { "term": "Iteration 迭代", "definition": "反复应用同一规则逐步逼近解的过程。" },
+        { "term": "Quadratic Convergence 二次收敛", "definition": "误差按平方速率缩小的收敛速度。" },
+        { "term": "Root Finding 求根", "definition": "求解方程 f(x)=0 的数值问题。" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "对应原课第 14 讲，讲中值定理及其推论。中值定理断言：连续且可导的函数在区间上必存在一点，其瞬时变化率等于区间上的平均变化率。由此可以严格证明「导数恒为零则函数为常数」「导数为正则函数单调增」这些之前默认使用的事实。课上还用中值定理推导不等式估计，并引入微分 dy = f'(x)dx 的记号，为积分换元做准备。",
+      "keyPoints": [
+        {
+          "title": "中值定理",
+          "detail": "若 f 在 [a,b] 连续、(a,b) 可导，则存在 c 使割线斜率等于该点切线斜率。",
+          "formula": "\\frac{f(b)-f(a)}{b-a} = f'(c),\\quad a<c<b"
+        },
+        {
+          "title": "推论：导数决定单调性",
+          "detail": "由中值定理可严格证明 f' > 0 蕴含严格递增，弥补了作图一讲中的直觉论证。"
+        },
+        {
+          "title": "推论：常数判别",
+          "detail": "f' ≡ 0 则 f 为常数；两函数导数相同则相差常数，这正是不定积分「+C」的来源。"
+        },
+        {
+          "title": "不等式估计",
+          "detail": "利用 f'(c) 的上下界可直接得到函数值的估计，例如证明 e^x ≥ 1 + x。",
+          "formula": "e^x \\ge 1 + x"
+        },
+        {
+          "title": "微分记号",
+          "detail": "记 dy = f'(x)dx，把导数写成微分之比，是换元积分与物理建模的通用语言。",
+          "formula": "dy = f'(x)\\,dx"
+        }
+      ],
+      "terms": [
+        { "term": "Mean Value Theorem 中值定理", "definition": "存在一点其导数等于区间平均变化率的定理。" },
+        { "term": "Differential 微分", "definition": "线性主部 dy = f'(x)dx，表示自变量微小变化引起的函数近似变化。" },
+        { "term": "Monotonicity 单调性", "definition": "函数在区间上始终递增或始终递减的性质。" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "对应原课第 15 讲，反向操作导数——求原函数。先定义不定积分及积分常数的来源（由中值定理推论保证原函数只差常数）。课上给出基本积分表：幂函数、1/x、指数、三角、反三角对应的原函数，并强调 1/x 的原函数要写成 ln|x|。随后引入换元积分（substitution），把链式法则反过来用，配合若干由易到难的例子。",
+      "keyPoints": [
+        {
+          "title": "不定积分",
+          "detail": "F' = f 时称 F 为 f 的原函数，全体原函数写作 ∫f dx = F(x) + C。",
+          "formula": "\\int f(x)\\,dx = F(x) + C"
+        },
+        {
+          "title": "基本积分表",
+          "detail": "幂函数（n ≠ -1）、指数、正余弦等的原函数需要熟记，是所有积分技巧的起点。",
+          "formula": "\\int x^n dx = \\frac{x^{n+1}}{n+1}+C \\ (n \\neq -1)"
+        },
+        {
+          "title": "1/x 的原函数",
+          "detail": "必须写成 ln|x| + C，绝对值保证在 x < 0 时也成立。",
+          "formula": "\\int \\frac{dx}{x} = \\ln|x| + C"
+        },
+        {
+          "title": "换元积分",
+          "detail": "令 u = g(x)、du = g'(x)dx，把复合结构消掉，本质是链式法则的逆运算。",
+          "formula": "\\int f(g(x))g'(x)\\,dx = \\int f(u)\\,du"
+        },
+        {
+          "title": "反三角原函数",
+          "detail": "1/√(1-x²) 与 1/(1+x²) 的原函数分别为 arcsin x 与 arctan x，后面三角换元会反复用到。",
+          "formula": "\\int \\frac{dx}{1+x^2} = \\arctan x + C"
+        }
+      ],
+      "terms": [
+        { "term": "Antiderivative 原函数", "definition": "导数等于给定函数的函数。" },
+        { "term": "Indefinite Integral 不定积分", "definition": "函数全体原函数的集合，写作 ∫f dx + C。" },
+        { "term": "Substitution 换元法", "definition": "通过变量代换简化积分的技巧，是链式法则的逆用。" },
+        { "term": "Constant of Integration 积分常数", "definition": "不定积分中任意可加常数 C。" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "对应原课第 16 讲，讲最简单的微分方程与分离变量法。当方程能写成 dy/dx = f(x)g(y) 时，可以把 y 与 x 各归一边再两边积分。课上用指数增长与衰减模型（人口、放射性衰变、复利）说明 y' = ky 的解为 y = Ce^{kt}，并处理初值条件确定 C。还讨论了牛顿冷却定律等一阶线性模型，以及解的定性行为。",
+      "keyPoints": [
+        {
+          "title": "分离变量法",
+          "detail": "把含 y 的项移到左边、含 x 的项移到右边后分别积分，得到隐式通解。",
+          "formula": "\\frac{dy}{g(y)} = f(x)\\,dx"
+        },
+        {
+          "title": "指数增长与衰减",
+          "detail": "变化率正比于自身的模型，解为指数函数，k > 0 为增长、k < 0 为衰减。",
+          "formula": "\\frac{dy}{dt} = ky \\Rightarrow y = Ce^{kt}"
+        },
+        {
+          "title": "初值问题",
+          "detail": "给定 y(t₀) = y₀ 可确定常数 C，得到唯一的特解。",
+          "formula": "y(t) = y_0 e^{k(t-t_0)}"
+        },
+        {
+          "title": "半衰期",
+          "detail": "衰变模型中浓度减半所需时间只与 k 有关，与初始量无关。",
+          "formula": "t_{1/2} = \\frac{\\ln 2}{|k|}"
+        },
+        {
+          "title": "牛顿冷却定律",
+          "detail": "温差的变化率正比于温差本身，换元后仍归结为指数衰减。",
+          "formula": "\\frac{dT}{dt} = -k(T - T_{env})"
+        }
+      ],
+      "terms": [
+        { "term": "Differential Equation 微分方程", "definition": "含有未知函数及其导数的方程。" },
+        { "term": "Separation of Variables 分离变量法", "definition": "把两个变量各归一侧后分别积分求解的方法。" },
+        { "term": "Initial Value Problem 初值问题", "definition": "带有初始条件的微分方程求解问题。" },
+        { "term": "Exponential Decay 指数衰减", "definition": "变化率与自身成负比例时的衰减规律。" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "对应原课第 18 讲，从「曲线下面积」出发定义定积分。先用矩形分割做黎曼和逼近面积，取分割细化的极限得到定积分。课上手算了 x 与 x² 在 [0,b] 上的黎曼和，用求和公式导出精确面积，展示了直接按定义计算的繁琐——为下一讲的基本定理做铺垫。此外还给出定积分的基本性质：可加性、线性性和方向反转变号。",
+      "keyPoints": [
+        {
+          "title": "黎曼和",
+          "detail": "把区间分成 n 段，每段用矩形面积近似，求和后令 n→∞ 取极限。",
+          "formula": "\\sum_{i=1}^{n} f(c_i)\\,\\Delta x"
+        },
+        {
+          "title": "定积分定义",
+          "detail": "黎曼和的极限即定积分，几何上是带符号面积（x 轴下方计为负）。",
+          "formula": "\\int_a^b f(x)\\,dx = \\lim_{n\\to\\infty}\\sum_{i=1}^n f(c_i)\\Delta x"
+        },
+        {
+          "title": "直接求和示例",
+          "detail": "用 1²+2²+…+n² = n(n+1)(2n+1)/6 可算出 x² 在 [0,b] 上的积分为 b³/3。",
+          "formula": "\\int_0^b x^2 dx = \\frac{b^3}{3}"
+        },
+        {
+          "title": "积分的基本性质",
+          "detail": "线性性、区间可加性，以及交换上下限变号，是后续所有计算的规则。",
+          "formula": "\\int_a^b = \\int_a^c + \\int_c^b,\\quad \\int_a^b = -\\int_b^a"
+        },
+        {
+          "title": "带符号面积",
+          "detail": "定积分不等于「面积」而是「净面积」，若要几何面积需对 |f| 积分或分段处理。"
+        }
+      ],
+      "terms": [
+        { "term": "Definite Integral 定积分", "definition": "黎曼和在分割无限细化时的极限，表示带符号面积。" },
+        { "term": "Riemann Sum 黎曼和", "definition": "用有限个矩形面积之和近似曲线下面积。" },
+        { "term": "Partition 分割", "definition": "把积分区间划分成若干小段的方式。" },
+        { "term": "Signed Area 带符号面积", "definition": "x 轴上方计正、下方计负的面积。" }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "对应原课第 19 讲，微积分第一基本定理：若 F 是 f 的原函数，则 f 在 [a,b] 上的定积分等于 F(b) - F(a)。这条定理把繁琐的黎曼和计算变成了找原函数再代入求差，是整门课的转折点。课上给出基于中值定理的证明思路，并演示如何用它秒算前一讲费力得到的结果。同时讨论了积分的平均值概念。",
+      "keyPoints": [
+        {
+          "title": "第一基本定理",
+          "detail": "定积分等于任一原函数在两端点的取值之差，与选哪个原函数无关（常数抵消）。",
+          "formula": "\\int_a^b f(x)\\,dx = F(b) - F(a),\\quad F' = f"
+        },
+        {
+          "title": "记号约定",
+          "detail": "常写作 F(x) 竖线 a 到 b，即求值记号，计算时注意上限减下限的顺序。",
+          "formula": "\\left[F(x)\\right]_a^b = F(b)-F(a)"
+        },
+        {
+          "title": "证明思路",
+          "detail": "对分割的每个小区间用中值定理，把 F(b)-F(a) 写成裂项求和形式，恰好是一个黎曼和。"
+        },
+        {
+          "title": "函数平均值",
+          "detail": "积分除以区间长度给出函数在区间上的平均值，是概率与物理中的常用量。",
+          "formula": "\\bar{f} = \\frac{1}{b-a}\\int_a^b f(x)\\,dx"
+        },
+        {
+          "title": "定积分换元",
+          "detail": "换元时上下限必须一起换成新变量的对应值，否则结果错误。",
+          "formula": "\\int_a^b f(g(x))g'(x)dx = \\int_{g(a)}^{g(b)} f(u)\\,du"
+        }
+      ],
+      "terms": [
+        { "term": "Fundamental Theorem of Calculus 微积分基本定理", "definition": "连接微分与积分的核心定理，定积分可由原函数端点值之差求得。" },
+        { "term": "Evaluation 求值记号", "definition": "写作 [F(x)]ₐᵇ，表示 F(b)-F(a)。" },
+        { "term": "Average Value 平均值", "definition": "函数在区间上的积分除以区间长度。" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "对应原课第 20 讲，第二基本定理：由变上限积分定义的函数 G(x) = ∫ₐˣ f(t)dt 是 f 的一个原函数，即 G'(x) = f(x)。这保证了任何连续函数都有原函数，即使写不出初等表达式。课上用误差函数 erf 和对数积分等「非初等函数」举例，说明积分是构造新函数的手段。还讲了上下限为函数时如何配合链式法则求导。",
+      "keyPoints": [
+        {
+          "title": "第二基本定理",
+          "detail": "变上限积分对上限求导还原被积函数，说明连续函数必有原函数。",
+          "formula": "\\frac{d}{dx}\\int_a^x f(t)\\,dt = f(x)"
+        },
+        {
+          "title": "变限求导与链式法则",
+          "detail": "上限为 u(x) 时，需再乘上 u'(x)；上下限都是函数时拆成两段处理。",
+          "formula": "\\frac{d}{dx}\\int_a^{u(x)} f(t)dt = f(u(x))\\,u'(x)"
+        },
+        {
+          "title": "用积分定义新函数",
+          "detail": "许多重要函数（误差函数、对数积分）的原函数无法用初等函数表示，只能用积分定义。",
+          "formula": "\\mathrm{erf}(x) = \\frac{2}{\\sqrt{\\pi}}\\int_0^x e^{-t^2}dt"
+        },
+        {
+          "title": "哑变量",
+          "detail": "被积变量 t 与上限 x 必须区分开，混用是常见错误。"
+        },
+        {
+          "title": "两个基本定理的关系",
+          "detail": "第一定理讲「怎么算」，第二定理讲「原函数存在」，二者合起来把微分与积分互为逆运算这一事实说完整。"
+        }
+      ],
+      "terms": [
+        { "term": "Second Fundamental Theorem 第二基本定理", "definition": "变上限积分的导数等于被积函数的定理。" },
+        { "term": "Error Function 误差函数", "definition": "由 e^{-t²} 的积分定义的非初等函数，在概率论中核心。" },
+        { "term": "Dummy Variable 哑变量", "definition": "积分中可任意改名、不影响结果的积分变量。" },
+        { "term": "Elementary Function 初等函数", "definition": "由幂、指数、对数、三角及其反函数经有限次运算与复合构成的函数。" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "对应原课第 21 讲，把积分反用于对数与几何。可以把 ln x 定义为 1/t 从 1 到 x 的积分，由此重新推出对数的全部性质（乘法变加法、换底等），逻辑上比原先的做法更干净。课上还用积分估计对数与调和级数的大小关系。几何部分则讨论用积分求两曲线之间的面积，关键是判断上下位置关系与交点。",
+      "keyPoints": [
+        {
+          "title": "对数的积分定义",
+          "detail": "定义 ln x = ∫₁ˣ dt/t，由第二基本定理立即得到导数为 1/x。",
+          "formula": "\\ln x = \\int_1^x \\frac{dt}{t}"
+        },
+        {
+          "title": "对数律的积分证明",
+          "detail": "对 ln(ax) 用换元 t = au 可直接推出 ln(ab) = ln a + ln b，无需先定义指数函数。",
+          "formula": "\\ln(ab) = \\ln a + \\ln b"
+        },
+        {
+          "title": "调和级数估计",
+          "detail": "用 1/x 的积分夹逼部分和，说明 1+1/2+…+1/n 约等于 ln n，且发散。",
+          "formula": "\\sum_{k=1}^{n}\\frac{1}{k} \\approx \\ln n + \\gamma"
+        },
+        {
+          "title": "两曲线之间的面积",
+          "detail": "先求交点确定积分区间，再对「上函数减下函数」积分；若上下关系变化需分段。",
+          "formula": "A = \\int_a^b \\left(f(x)-g(x)\\right)dx"
+        },
+        {
+          "title": "对 y 积分",
+          "detail": "当区域用水平条带描述更方便时，可以把 x 表示为 y 的函数并对 y 积分。"
+        }
+      ],
+      "terms": [
+        { "term": "Harmonic Series 调和级数", "definition": "各项为 1/n 的级数，其部分和约为 ln n 且发散。" },
+        { "term": "Area Between Curves 曲线间面积", "definition": "两函数图像围成区域的面积，等于上下函数之差的积分。" },
+        { "term": "Change of Variable 变量代换", "definition": "在积分中用新变量替换原变量以简化计算。" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "对应原课第 22 讲，用积分求旋转体体积。两种主流方法：圆盘/圆环法把体积切成垂直于旋转轴的薄片，每片近似为圆盘；柱壳法把体积切成同轴的薄圆筒。课上强调选择方法的依据是「切片方向与旋转轴的关系」，选对了可以避免解反函数。给出球体体积、圆锥体积等经典结果的推导，并演示同一物体两种方法算出相同答案。",
+      "keyPoints": [
+        {
+          "title": "圆盘法",
+          "detail": "垂直于旋转轴切片，每片是半径为 f(x) 的圆盘，厚度 dx。",
+          "formula": "V = \\int_a^b \\pi \\left[f(x)\\right]^2 dx"
+        },
+        {
+          "title": "圆环法",
+          "detail": "旋转区域中间有空洞时，用外半径平方减内半径平方。",
+          "formula": "V = \\int_a^b \\pi\\left(R^2 - r^2\\right)dx"
+        },
+        {
+          "title": "柱壳法",
+          "detail": "平行于旋转轴切片，每片是周长 2πx、高 f(x)、厚 dx 的薄壳。",
+          "formula": "V = \\int_a^b 2\\pi x f(x)\\,dx"
+        },
+        {
+          "title": "球体体积",
+          "detail": "对半圆 y = √(R²-x²) 绕 x 轴用圆盘法积分，得到经典公式。",
+          "formula": "V = \\frac{4}{3}\\pi R^3"
+        },
+        {
+          "title": "方法选择",
+          "detail": "切片方向应使每片的截面容易表达；被积函数若需解反函数，通常换另一种方法更省事。"
+        }
+      ],
+      "terms": [
+        { "term": "Solid of Revolution 旋转体", "definition": "平面区域绕一条直线旋转所生成的立体。" },
+        { "term": "Disk Method 圆盘法", "definition": "用垂直于旋转轴的圆盘薄片累加求体积。" },
+        { "term": "Shell Method 柱壳法", "definition": "用同轴薄圆筒累加求体积的方法。" },
+        { "term": "Washer 圆环", "definition": "中间挖空的圆盘截面，用于带孔旋转体。" }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "对应原课第 23 讲，讲积分在物理与概率中的应用。物理部分：变力做功等于力对位移的积分，典型例子是弹簧压缩与把水抽出水箱（需按薄层计算重力做功）。概率部分：引入概率密度函数的概念，事件概率等于密度在区间上的积分，全空间积分为 1；期望值是 x 乘密度的积分。课上还回顾了函数平均值与加权平均的联系。",
+      "keyPoints": [
+        {
+          "title": "变力做功",
+          "detail": "力随位置变化时，功等于力沿路径的积分，而非简单的力乘距离。",
+          "formula": "W = \\int_a^b F(x)\\,dx"
+        },
+        {
+          "title": "弹簧与抽水",
+          "detail": "弹簧遵循胡克定律 F = kx；抽水问题要按深度分薄层，每层重量乘提升高度再积分。",
+          "formula": "W = \\int \\rho g\\, A(y)\\,(h-y)\\,dy"
+        },
+        {
+          "title": "概率密度函数",
+          "detail": "非负函数 p(x) 在全区间积分为 1，落在 [a,b] 的概率是密度在该区间的积分。",
+          "formula": "P(a \\le X \\le b) = \\int_a^b p(x)\\,dx"
+        },
+        {
+          "title": "期望值",
+          "detail": "连续随机变量的均值是 x 与密度乘积的积分，是加权平均的连续版本。",
+          "formula": "E[X] = \\int_{-\\infty}^{\\infty} x\\,p(x)\\,dx"
+        },
+        {
+          "title": "加权平均",
+          "detail": "把密度视为权重，函数平均值与期望值统一在同一个积分框架下。",
+          "formula": "\\bar{f} = \\frac{\\int f(x)w(x)dx}{\\int w(x)dx}"
+        }
+      ],
+      "terms": [
+        { "term": "Work 功", "definition": "力沿位移做的累积效果，等于力对位移的积分。" },
+        { "term": "Probability Density Function 概率密度函数", "definition": "描述连续随机变量分布的非负函数，全域积分为 1。" },
+        { "term": "Expected Value 期望值", "definition": "随机变量的加权平均，等于 x 乘密度的积分。" },
+        { "term": "Weighted Average 加权平均", "definition": "按权重函数对数值取平均的结果。" }
+      ]
+    },
+    {
+      "n": 22,
+      "summary": "对应原课第 24 讲，讨论当原函数写不出来时如何数值求积分。介绍三种方法：矩形法（左/右/中点）、梯形法与辛普森法。梯形法用直线段连接端点，辛普森法用抛物线拟合相邻三点，因此精度显著更高。课上比较了各方法的误差阶：梯形法约 O(h²)、辛普森法约 O(h⁴)，并说明为什么辛普森法要求区间数为偶数。",
+      "keyPoints": [
+        {
+          "title": "梯形法则",
+          "detail": "每段用梯形面积近似，等价于端点值取平均，两端权重为 1/2。",
+          "formula": "\\int_a^b f \\approx h\\left(\\frac{y_0}{2}+y_1+\\cdots+y_{n-1}+\\frac{y_n}{2}\\right)"
+        },
+        {
+          "title": "中点法则",
+          "detail": "用每段中点的函数值乘宽度，误差常比梯形法小一半且方向相反。",
+          "formula": "\\int_a^b f \\approx h\\sum f\\!\\left(\\frac{x_{i}+x_{i+1}}{2}\\right)"
+        },
+        {
+          "title": "辛普森法则",
+          "detail": "用抛物线拟合相邻三点，权重呈 1-4-2-4-…-4-1 模式，要求区间数 n 为偶数。",
+          "formula": "\\int_a^b f \\approx \\frac{h}{3}\\left(y_0+4y_1+2y_2+\\cdots+4y_{n-1}+y_n\\right)"
+        },
+        {
+          "title": "误差阶",
+          "detail": "梯形法误差 ~ O(h²)，辛普森法 ~ O(h⁴)，步长减半后后者误差降到 1/16。"
+        },
+        {
+          "title": "何时必须数值积分",
+          "detail": "e^{-x²}、sin x / x 等被积函数没有初等原函数，只能靠数值方法求值。"
+        }
+      ],
+      "terms": [
+        { "term": "Numerical Integration 数值积分", "definition": "用离散求和近似计算定积分的方法。" },
+        { "term": "Trapezoidal Rule 梯形法则", "definition": "用梯形面积逼近积分的数值方法。" },
+        { "term": "Simpson's Rule 辛普森法则", "definition": "用抛物线拟合的高精度数值积分方法。" },
+        { "term": "Truncation Error 截断误差", "definition": "由近似公式本身引入的误差，随步长按幂次衰减。" }
+      ]
+    },
+    {
+      "n": 23,
+      "summary": "对应原课第 25 讲，第三次考试复习。集中回顾定积分定义与两个基本定理、换元积分、面积与体积计算、功与概率应用、数值积分。Jerison 强调概念题与计算题的比例，提醒学生对变限积分求导、定积分换元换限、旋转体方法选择这几个高频考点务必熟练。课上通过综合例题串起整个积分板块的逻辑链条。",
+      "keyPoints": [
+        {
+          "title": "基本定理复盘",
+          "detail": "第一定理算值、第二定理保证原函数存在，二者是积分板块的两根支柱。"
+        },
+        {
+          "title": "换元的完整流程",
+          "detail": "定积分换元三步：换被积函数、换 dx、换上下限，三者缺一不可。"
+        },
+        {
+          "title": "面积与体积的统一套路",
+          "detail": "都是「切薄片—写出单片贡献—积分」，区别只在薄片的几何形状。"
+        },
+        {
+          "title": "变限积分求导",
+          "detail": "配合链式法则处理上下限为函数的情形，是概念题的常客。",
+          "formula": "\\frac{d}{dx}\\int_{u(x)}^{v(x)} f(t)dt = f(v)v' - f(u)u'"
+        },
+        {
+          "title": "估计与不等式",
+          "detail": "利用被积函数的上下界给出积分的粗略范围，常用于验算答案是否合理。",
+          "formula": "m(b-a) \\le \\int_a^b f \\le M(b-a)"
+        }
+      ],
+      "terms": [
+        { "term": "Integral Estimate 积分估计", "definition": "利用被积函数界限给出积分值范围的方法。" },
+        { "term": "Variable Limits 变限积分", "definition": "积分上下限为自变量函数的积分形式。" }
+      ]
+    },
+    {
+      "n": 24,
+      "summary": "对应原课第 27 讲，开启积分技巧专题，先处理三角函数积分。对 sinⁿx cosᵐx 型，若有一个奇次幂就拆出一个因子作为 du，配合恒等式 sin² + cos² = 1 换元；若全是偶次幂，则用倍角公式降幂。课上还讲了 secⁿx tanᵐx 型的处理，并总结出一张按奇偶分类的决策表。",
+      "keyPoints": [
+        {
+          "title": "奇次幂情形",
+          "detail": "cos 为奇次时拆一个 cos x 作 du，其余用 cos² = 1 - sin² 换成 sin 的多项式。",
+          "formula": "\\int \\sin^n x \\cos^{2k+1}x\\,dx,\\ u=\\sin x"
+        },
+        {
+          "title": "偶次幂降幂",
+          "detail": "两个都是偶次时用半角公式把幂次减半，可能需要反复使用。",
+          "formula": "\\sin^2 x = \\frac{1-\\cos 2x}{2},\\quad \\cos^2 x = \\frac{1+\\cos 2x}{2}"
+        },
+        {
+          "title": "正割与正切",
+          "detail": "对 secⁿ tanᵐ 型，利用 (tan x)' = sec²x 与 (sec x)' = sec x tan x 选取 u。",
+          "formula": "\\int \\sec^2 x\\,dx = \\tan x + C"
+        },
+        {
+          "title": "正割的积分",
+          "detail": "∫sec x dx 需乘以 (sec x + tan x)/(sec x + tan x) 这一技巧性配凑。",
+          "formula": "\\int \\sec x\\,dx = \\ln|\\sec x + \\tan x| + C"
+        },
+        {
+          "title": "三角换元预备",
+          "detail": "遇到 √(a²-x²) 等根式，令 x = a sin θ 可把根号化掉，为下一讲铺垫。",
+          "formula": "x = a\\sin\\theta \\Rightarrow \\sqrt{a^2-x^2} = a\\cos\\theta"
+        }
+      ],
+      "terms": [
+        { "term": "Trigonometric Integral 三角积分", "definition": "被积函数为三角函数幂次乘积的积分。" },
+        { "term": "Half-Angle Formula 半角公式", "definition": "用 cos 2x 表示 sin²x、cos²x 的降幂公式。" },
+        { "term": "Secant 正割", "definition": "余弦的倒数 sec x = 1/cos x。" },
+        { "term": "Pythagorean Identity 毕达哥拉斯恒等式", "definition": "sin²x + cos²x = 1 及其变体。" }
+      ]
+    },
+    {
+      "n": 25,
+      "summary": "对应原课第 28 讲，讲反向换元（三角换元）与配方法。当被积函数含 √(a²-x²)、√(a²+x²)、√(x²-a²) 时，分别令 x = a sinθ、a tanθ、a secθ，可把根号变成三角函数从而消掉。课上强调换回原变量时要借助直角三角形读出各三角比。配方法则把一般二次三项式化成上述标准形式，从而把更广的一类积分归约进来。",
+      "keyPoints": [
+        {
+          "title": "三种三角换元",
+          "detail": "根据根号形式选择 sin、tan 或 sec 换元，本质是让毕达哥拉斯恒等式消掉根号。",
+          "formula": "\\sqrt{a^2+x^2}:\\ x=a\\tan\\theta;\\quad \\sqrt{x^2-a^2}:\\ x=a\\sec\\theta"
+        },
+        {
+          "title": "换回原变量",
+          "detail": "画一个直角三角形标出对边、邻边、斜边，可直接读出 sinθ、tanθ 与 x 的关系。"
+        },
+        {
+          "title": "配方法",
+          "detail": "把 x² + bx + c 配成 (x + b/2)² + 常数，再平移换元归约到标准根式形式。",
+          "formula": "x^2+bx+c = \\left(x+\\frac{b}{2}\\right)^2 + c - \\frac{b^2}{4}"
+        },
+        {
+          "title": "典型结果",
+          "detail": "1/√(a²-x²) 与 1/(a²+x²) 的积分分别给出反正弦与反正切形式。",
+          "formula": "\\int\\frac{dx}{\\sqrt{a^2-x^2}} = \\arcsin\\frac{x}{a}+C"
+        },
+        {
+          "title": "定积分的换限",
+          "detail": "用三角换元处理定积分时，直接把上下限换成对应角度往往比换回原变量更快。"
+        }
+      ],
+      "terms": [
+        { "term": "Inverse Substitution 反向换元", "definition": "把原变量表示为新变量函数的换元方式，如 x = a sinθ。" },
+        { "term": "Trigonometric Substitution 三角换元", "definition": "用三角函数替换变量以消去根式的积分技巧。" },
+        { "term": "Completing the Square 配方法", "definition": "把二次式改写成完全平方加常数的形式。" }
+      ]
+    },
+    {
+      "n": 26,
+      "summary": "对应原课第 29 讲，讲有理函数积分的部分分式分解。基本流程是：先做多项式除法保证分子次数低于分母，再把分母因式分解，按不同重数与不可约二次因子拆成简单分式之和，最后逐项积分（结果通常是对数与反正切的组合）。课上演示了用「遮盖法」快速求单根对应的系数，也处理了重根与二次因子的情形。",
+      "keyPoints": [
+        {
+          "title": "预处理：多项式除法",
+          "detail": "分子次数不低于分母时，先做长除法分离出多项式部分，余项再做分解。"
+        },
+        {
+          "title": "单根分解",
+          "detail": "分母为互异一次因子之积时，拆成若干 A/(x - r) 之和。",
+          "formula": "\\frac{P(x)}{(x-a)(x-b)} = \\frac{A}{x-a} + \\frac{B}{x-b}"
+        },
+        {
+          "title": "遮盖法",
+          "detail": "把某个一次因子遮住后代入其根，可直接读出对应系数，比解方程组快得多。",
+          "formula": "A = \\left.\\frac{P(x)}{(x-b)}\\right|_{x=a}"
+        },
+        {
+          "title": "重根与二次因子",
+          "detail": "重根要拆到各次幂（A/(x-a) + B/(x-a)²）；不可约二次因子的分子写成一次式 (Cx+D)。",
+          "formula": "\\frac{Cx+D}{x^2+px+q}"
+        },
+        {
+          "title": "逐项积分结果",
+          "detail": "一次因子给出 ln|x-a|，二次因子给出 ln 与 arctan 的组合，配方法在此再次用到。",
+          "formula": "\\int\\frac{dx}{x-a} = \\ln|x-a| + C"
+        }
+      ],
+      "terms": [
+        { "term": "Partial Fractions 部分分式", "definition": "把有理函数分解为若干简单分式之和的方法。" },
+        { "term": "Rational Function 有理函数", "definition": "两个多项式之商形式的函数。" },
+        { "term": "Cover-up Method 遮盖法", "definition": "快速求单根系数的技巧：遮住因子后代入根。" },
+        { "term": "Irreducible Quadratic 不可约二次式", "definition": "在实数范围内无法再分解的二次因子。" }
+      ]
+    },
+    {
+      "n": 27,
+      "summary": "对应原课第 30 讲，讲分部积分及递推公式。分部积分是乘积法则的逆用，把 ∫u dv 转成 uv - ∫v du，适合被积函数是「两类不同函数之积」的情形。课上给出选 u 的经验顺序（对数、反三角优先），并演示 ∫ln x dx、∫x e^x dx 等标准例子。随后推导递推公式，把 sinⁿx 或 xⁿe^x 的积分降到更低次幂，反复使用直至可解。",
+      "keyPoints": [
+        {
+          "title": "分部积分公式",
+          "detail": "由乘积法则积分得到，本质是把难积的部分转移到导数一侧。",
+          "formula": "\\int u\\,dv = uv - \\int v\\,du"
+        },
+        {
+          "title": "u 的选取原则",
+          "detail": "优先选求导后变简单的（对数、反三角、多项式），dv 选易积分的部分。"
+        },
+        {
+          "title": "对数的积分",
+          "detail": "取 u = ln x、dv = dx，是分部积分最简洁的展示。",
+          "formula": "\\int \\ln x\\,dx = x\\ln x - x + C"
+        },
+        {
+          "title": "递推（降幂）公式",
+          "detail": "对 sinⁿx 分部一次可得到含 sin^{n-2}x 的关系式，反复递推直至 n = 0 或 1。",
+          "formula": "\\int \\sin^n x\\,dx = -\\frac{\\sin^{n-1}x\\cos x}{n} + \\frac{n-1}{n}\\int \\sin^{n-2}x\\,dx"
+        },
+        {
+          "title": "循环型积分",
+          "detail": "如 ∫e^x sin x dx 分部两次会回到原积分，移项即可解出，是一个常考技巧。",
+          "formula": "\\int e^x \\sin x\\,dx = \\frac{e^x(\\sin x - \\cos x)}{2}+C"
+        }
+      ],
+      "terms": [
+        { "term": "Integration by Parts 分部积分", "definition": "由乘积法则导出的积分方法 ∫u dv = uv - ∫v du。" },
+        { "term": "Reduction Formula 递推公式", "definition": "把高次幂积分化为低次幂积分的递推关系式。" }
+      ]
+    },
+    {
+      "n": 28,
+      "summary": "对应原课第 31 讲，引入参数方程描述曲线：x 与 y 都是参数 t 的函数，适合表示圆、摆线等无法写成 y = f(x) 的轨迹。课上给出参数曲线的切线斜率公式 dy/dx = (dy/dt)/(dx/dt)，并推导弧长微元 ds。随后把 ds 用于计算弧长与旋转曲面面积，摆线一拱的长度是经典例题。",
+      "keyPoints": [
+        {
+          "title": "参数方程",
+          "detail": "曲线写成 (x(t), y(t))，t 常代表时间，能自然表达运动轨迹与多值曲线。",
+          "formula": "x = x(t),\\quad y = y(t)"
+        },
+        {
+          "title": "参数曲线的斜率",
+          "detail": "由链式法则得到，dx/dt = 0 处对应垂直切线。",
+          "formula": "\\frac{dy}{dx} = \\frac{dy/dt}{dx/dt}"
+        },
+        {
+          "title": "弧长微元",
+          "detail": "ds 是勾股定理的微分版本，是弧长与曲面面积公式的共同起点。",
+          "formula": "ds = \\sqrt{(dx)^2+(dy)^2} = \\sqrt{\\left(\\frac{dx}{dt}\\right)^2+\\left(\\frac{dy}{dt}\\right)^2}\\,dt"
+        },
+        {
+          "title": "显式曲线的弧长",
+          "detail": "当曲线写成 y = f(x) 时，ds 化为含 f' 的标准形式。",
+          "formula": "L = \\int_a^b \\sqrt{1+\\left(f'(x)\\right)^2}\\,dx"
+        },
+        {
+          "title": "旋转曲面面积",
+          "detail": "把弧长微元乘以旋转半径的周长 2πy（或 2πx）后积分。",
+          "formula": "S = \\int 2\\pi y\\,ds"
+        },
+        {
+          "title": "摆线",
+          "detail": "圆沿直线滚动时圆周上一点的轨迹，其参数方程与一拱弧长是标准例题。",
+          "formula": "x = a(t-\\sin t),\\quad y = a(1-\\cos t)"
+        }
+      ],
+      "terms": [
+        { "term": "Parametric Equation 参数方程", "definition": "用参数分别表示坐标的曲线表示法。" },
+        { "term": "Arc Length 弧长", "definition": "曲线一段的长度，由弧长微元积分得到。" },
+        { "term": "Surface of Revolution 旋转曲面", "definition": "曲线绕轴旋转生成的曲面。" },
+        { "term": "Cycloid 摆线", "definition": "圆沿直线滚动时圆周上一点的轨迹。" }
+      ]
+    },
+    {
+      "n": 29,
+      "summary": "对应原课第 32 讲，引入极坐标：用到原点距离 r 与极角 θ 定位平面上的点。课上给出与直角坐标的互换公式，并画了几条经典极坐标曲线（圆、心形线、玫瑰线）。随后推导极坐标下的面积微元：不是矩形而是扇形，因此面积公式含 1/2 r² dθ。还讨论了极坐标下的弧长与切线斜率。",
+      "keyPoints": [
+        {
+          "title": "坐标互换",
+          "detail": "极坐标与直角坐标的双向转换是所有计算的前提，注意 θ 的象限判断。",
+          "formula": "x = r\\cos\\theta,\\quad y = r\\sin\\theta,\\quad r^2 = x^2+y^2"
+        },
+        {
+          "title": "极坐标面积",
+          "detail": "面积微元是半径 r、张角 dθ 的扇形，因此含系数 1/2。",
+          "formula": "A = \\frac{1}{2}\\int_{\\alpha}^{\\beta} r(\\theta)^2\\,d\\theta"
+        },
+        {
+          "title": "经典曲线",
+          "detail": "r = 2a cosθ 是过原点的圆，r = a(1 - cosθ) 是心形线，r = a cos(nθ) 是玫瑰线。",
+          "formula": "r = a(1-\\cos\\theta)"
+        },
+        {
+          "title": "极坐标弧长",
+          "detail": "把 x、y 视为 θ 的参数方程代入弧长微元即可得到。",
+          "formula": "L = \\int \\sqrt{r^2 + \\left(\\frac{dr}{d\\theta}\\right)^2}\\,d\\theta"
+        },
+        {
+          "title": "负 r 与多重表示",
+          "detail": "同一点可有多组 (r, θ)，且允许 r 为负，作图与求交点时必须留意。"
+        }
+      ],
+      "terms": [
+        { "term": "Polar Coordinates 极坐标", "definition": "用极径 r 与极角 θ 表示平面点位置的坐标系。" },
+        { "term": "Cardioid 心形线", "definition": "极坐标方程 r = a(1 ± cosθ) 描述的心形曲线。" },
+        { "term": "Sector 扇形", "definition": "圆心角所对的圆的一部分，是极坐标面积微元的形状。" },
+        { "term": "Pole 极点", "definition": "极坐标系的原点。" }
+      ]
+    },
+    {
+      "n": 30,
+      "summary": "对应原课第 33 讲，第四次考试复习，覆盖全部积分技巧与几何应用。Jerison 按「看到什么形式用什么方法」的思路整理决策流程：先看能否直接换元，其次判断是三角积分、三角换元、部分分式还是分部积分。几何部分回顾弧长、旋转曲面、参数与极坐标面积。课上还提醒学生检查答案的常用手段：求导验证与量纲/数量级估计。",
+      "keyPoints": [
+        {
+          "title": "积分方法决策树",
+          "detail": "简单换元 → 三角积分 → 三角换元（含根式）→ 部分分式（有理函数）→ 分部积分（异类之积）。"
+        },
+        {
+          "title": "根式的处理",
+          "detail": "先配方再三角换元，或用有理化换元 u = √(...)，把根号彻底消掉。"
+        },
+        {
+          "title": "几何量公式速查",
+          "detail": "面积、体积、弧长、旋转曲面面积都由「切片 + 微元」推出，记住微元比记住公式更稳。",
+          "formula": "A_{polar}=\\frac{1}{2}\\int r^2 d\\theta,\\quad L=\\int ds"
+        },
+        {
+          "title": "答案自检",
+          "detail": "对不定积分结果求导应还原被积函数；定积分可用数值估计粗查数量级与符号。"
+        },
+        {
+          "title": "常见失误",
+          "detail": "换元忘换限、部分分式漏掉重根项、三角换元后没有换回原变量，是三类高频错误。"
+        }
+      ],
+      "terms": [
+        { "term": "Rationalizing Substitution 有理化换元", "definition": "令 u 等于根式本身以消去根号的换元技巧。" },
+        { "term": "Integration Strategy 积分策略", "definition": "根据被积函数形式选择合适积分技巧的判断流程。" }
+      ]
+    },
+    {
+      "n": 31,
+      "summary": "对应原课第 35 讲，讲不定式与洛必达法则。当极限呈 0/0 或 ∞/∞ 形式时，可以对分子分母分别求导后再取极限。课上先用线性近似解释洛必达法则为何成立，再说明其他不定式（0·∞、∞-∞、1^∞、0⁰、∞⁰）如何通过取对数或通分转化成标准形式。最后比较了多项式、指数与对数在无穷远处的增长速度。",
+      "keyPoints": [
+        {
+          "title": "洛必达法则",
+          "detail": "在 0/0 或 ∞/∞ 型下，极限等于导数之比的极限（若后者存在）。",
+          "formula": "\\lim \\frac{f(x)}{g(x)} = \\lim \\frac{f'(x)}{g'(x)}"
+        },
+        {
+          "title": "适用前提",
+          "detail": "必须先确认是不定式；对非不定式套用会得到错误答案，且可能需要反复使用。"
+        },
+        {
+          "title": "其他不定式的转化",
+          "detail": "0·∞ 化为分式；1^∞、0⁰ 先取对数变成 0·∞ 再处理；∞-∞ 通分或有理化。",
+          "formula": "y = f^g \\Rightarrow \\ln y = g\\ln f"
+        },
+        {
+          "title": "增长速度比较",
+          "detail": "x→∞ 时任何正幂指数增长都压倒任何多项式，多项式又压倒任何对数。",
+          "formula": "\\lim_{x\\to\\infty}\\frac{x^n}{e^x}=0,\\quad \\lim_{x\\to\\infty}\\frac{\\ln x}{x^n}=0"
+        },
+        {
+          "title": "与线性近似的联系",
+          "detail": "在 f(a)=g(a)=0 时，分子分母各用切线近似，比值自然趋于 f'(a)/g'(a)。"
+        }
+      ],
+      "terms": [
+        { "term": "Indeterminate Form 不定式", "definition": "如 0/0、∞/∞ 等无法直接判断的极限形式。" },
+        { "term": "L'Hôpital's Rule 洛必达法则", "definition": "对不定式用导数之比求极限的法则。" },
+        { "term": "Growth Rate 增长速度", "definition": "函数在无穷远处增大的快慢，指数快于幂函数快于对数。" }
+      ]
+    },
+    {
+      "n": 32,
+      "summary": "对应原课第 36 讲，讲反常积分。两类情形：积分区间无界（第一类）和被积函数在区间内无界（第二类）。处理方法都是先在有限/避开奇点的区间上积分，再取极限，极限存在则称收敛。课上给出 p-积分的收敛判据，并介绍比较判别法：用已知收敛/发散的函数夹住被积函数。",
+      "keyPoints": [
+        {
+          "title": "无穷区间反常积分",
+          "detail": "定义为上限趋于无穷时定积分的极限，极限存在则收敛。",
+          "formula": "\\int_a^{\\infty} f\\,dx = \\lim_{b\\to\\infty}\\int_a^b f\\,dx"
+        },
+        {
+          "title": "被积函数无界",
+          "detail": "奇点在端点时从内侧取极限；奇点在区间内部必须先拆成两段分别判断。",
+          "formula": "\\int_0^1 \\frac{dx}{x^p} = \\lim_{\\epsilon\\to 0^+}\\int_{\\epsilon}^1 \\frac{dx}{x^p}"
+        },
+        {
+          "title": "p-积分判据",
+          "detail": "无穷端 p > 1 收敛，原点端 p < 1 收敛，p = 1 两端都发散，是最重要的参照。",
+          "formula": "\\int_1^{\\infty}\\frac{dx}{x^p}\\ \\text{收敛} \\iff p>1"
+        },
+        {
+          "title": "比较判别法",
+          "detail": "若 0 ≤ f ≤ g 且 ∫g 收敛，则 ∫f 收敛；反之若 ∫f 发散则 ∫g 发散。"
+        },
+        {
+          "title": "典型收敛例子",
+          "detail": "e^{-x} 与 e^{-x²} 在无穷区间上收敛，是概率论中正态分布的基础。",
+          "formula": "\\int_0^{\\infty} e^{-x}dx = 1"
+        }
+      ],
+      "terms": [
+        { "term": "Improper Integral 反常积分", "definition": "积分区间无界或被积函数无界的积分。" },
+        { "term": "Convergence 收敛", "definition": "极限存在且有限的性质。" },
+        { "term": "Divergence 发散", "definition": "极限不存在或为无穷的性质。" },
+        { "term": "Comparison Test 比较判别法", "definition": "通过与已知收敛性的函数比较判断收敛性的方法。" }
+      ]
+    },
+    {
+      "n": 33,
+      "summary": "对应原课第 37 讲，从反常积分过渡到无穷级数。级数收敛定义为部分和数列有极限。课上先讲几何级数这一最重要的例子及其求和公式，再给出发散的必要条件（通项不趋于 0 必发散），并强调通项趋于 0 并不保证收敛——调和级数就是反例。随后介绍积分判别法，把级数与反常积分的收敛性联系起来，得到 p-级数判据。",
+      "keyPoints": [
+        {
+          "title": "级数与部分和",
+          "detail": "无穷级数的和定义为部分和数列的极限，极限存在称收敛。",
+          "formula": "S = \\lim_{n\\to\\infty}\\sum_{k=0}^{n} a_k"
+        },
+        {
+          "title": "几何级数",
+          "detail": "公比绝对值小于 1 时收敛，是后面幂级数收敛半径讨论的原型。",
+          "formula": "\\sum_{n=0}^{\\infty} x^n = \\frac{1}{1-x},\\quad |x|<1"
+        },
+        {
+          "title": "发散的必要条件",
+          "detail": "若通项不趋于 0 则级数必发散；但通项趋于 0 只是必要非充分条件。",
+          "formula": "\\lim_{n\\to\\infty}a_n \\neq 0 \\Rightarrow \\text{发散}"
+        },
+        {
+          "title": "积分判别法",
+          "detail": "对正的递减函数，级数与对应反常积分同敛散，把级数问题化为积分问题。",
+          "formula": "\\sum_{n=1}^{\\infty} f(n) \\text{ 与 } \\int_1^{\\infty} f(x)dx \\text{ 同敛散}"
+        },
+        {
+          "title": "p-级数",
+          "detail": "由积分判别法立得 p > 1 收敛、p ≤ 1 发散；p = 1 即发散的调和级数。",
+          "formula": "\\sum_{n=1}^{\\infty}\\frac{1}{n^p}\\ \\text{收敛} \\iff p>1"
+        }
+      ],
+      "terms": [
+        { "term": "Infinite Series 无穷级数", "definition": "无穷多项相加的表达式，其和定义为部分和的极限。" },
+        { "term": "Geometric Series 几何级数", "definition": "各项成等比的级数，|x|<1 时和为 1/(1-x)。" },
+        { "term": "Partial Sum 部分和", "definition": "级数前 n 项之和。" },
+        { "term": "Integral Test 积分判别法", "definition": "用反常积分判断正项级数收敛性的方法。" },
+        { "term": "p-Series p-级数", "definition": "通项为 1/n^p 的级数，p>1 时收敛。" }
+      ]
+    },
+    {
+      "n": 34,
+      "summary": "对应原课第 38 讲，讲幂级数与泰勒级数——本课的高潮。思路是把函数展成无穷多项式，系数由各阶导数决定。课上推导系数公式 aₙ = f^(n)(a)/n!，给出 e^x、sin x、cos x、ln(1+x)、1/(1-x) 的标准展开，并讨论收敛半径与展开的有效范围。最后说明第 8 讲的线性、二次近似正是泰勒级数的截断。",
+      "keyPoints": [
+        {
+          "title": "泰勒系数公式",
+          "detail": "逐项求导后在展开点取值，可解出每个系数，n! 来自反复求导的阶乘因子。",
+          "formula": "a_n = \\frac{f^{(n)}(a)}{n!}"
+        },
+        {
+          "title": "泰勒级数",
+          "detail": "在 a 点展开的一般形式；a = 0 时称麦克劳林级数。",
+          "formula": "f(x) = \\sum_{n=0}^{\\infty}\\frac{f^{(n)}(a)}{n!}(x-a)^n"
+        },
+        {
+          "title": "标准展开式",
+          "detail": "e^x、sin x、cos x 的展开对所有 x 收敛，需要熟记以便组合使用。",
+          "formula": "e^x = \\sum_{n=0}^{\\infty}\\frac{x^n}{n!},\\quad \\sin x = \\sum_{n=0}^{\\infty}\\frac{(-1)^n x^{2n+1}}{(2n+1)!}"
+        },
+        {
+          "title": "收敛半径",
+          "detail": "幂级数在 |x - a| < R 内绝对收敛、在外发散，R 常由比值判别法求得。",
+          "formula": "R = \\lim_{n\\to\\infty}\\left|\\frac{a_n}{a_{n+1}}\\right|"
+        },
+        {
+          "title": "有限收敛的例子",
+          "detail": "ln(1+x) 与 1/(1+x²) 的展开半径都是 1，说明即使函数处处光滑级数也可能只在局部收敛。",
+          "formula": "\\ln(1+x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\cdots,\\ |x|<1"
+        },
+        {
+          "title": "级数的运算",
+          "detail": "已知展开可通过代入、求导、积分、相乘快速得到新展开，比逐阶求导省力得多。"
+        }
+      ],
+      "terms": [
+        { "term": "Taylor Series 泰勒级数", "definition": "用函数在一点各阶导数构造的幂级数展开。" },
+        { "term": "Maclaurin Series 麦克劳林级数", "definition": "在 x=0 处展开的泰勒级数。" },
+        { "term": "Power Series 幂级数", "definition": "形如 Σaₙ(x-a)ⁿ 的级数。" },
+        { "term": "Radius of Convergence 收敛半径", "definition": "幂级数绝对收敛的区间半径 R。" },
+        { "term": "Factorial 阶乘", "definition": "n! = 1·2·…·n，出现在泰勒系数分母中。" }
+      ]
+    },
+    {
+      "n": 35,
+      "summary": "期末复习课，把全学期串成一条主线：极限使导数有意义，导数给出近似、单调性与最值，微积分基本定理把导数与面积统一，积分技巧让计算落地，级数把函数还原成多项式。Jerison 强调本课真正要留下的不是公式表，而是「局部线性化」与「切片累加」两种思维方式。课上通过跨章节综合题演示各工具如何互相调用。",
+      "keyPoints": [
+        {
+          "title": "两条主线",
+          "detail": "微分是「把复杂局部换成直线」，积分是「把整体切成微元再累加」，全课所有技巧都挂在这两条线上。"
+        },
+        {
+          "title": "基本定理的枢纽地位",
+          "detail": "它把求面积的问题转化为求原函数，使前半学期的求导训练直接变成后半学期的计算能力。",
+          "formula": "\\int_a^b f'(x)\\,dx = f(b)-f(a)"
+        },
+        {
+          "title": "近似的层级",
+          "detail": "线性近似 → 二次近似 → 泰勒级数，是同一思想不断加精度的三个层级。"
+        },
+        {
+          "title": "跨章节综合题",
+          "detail": "典型题会把最值、微分方程、积分技巧与级数展开串在一道题里，考察工具间的衔接。"
+        },
+        {
+          "title": "通往下一门课",
+          "detail": "单变量的导数、积分、级数直接推广到多变量微积分与微分方程，是后续所有理工课程的语言基础。"
+        }
+      ],
+      "terms": [
+        { "term": "Local Linearity 局部线性性", "definition": "可导函数在微观尺度上近似为直线的性质，是微分学的核心直觉。" },
+        { "term": "Calculus 微积分", "definition": "研究变化率与累积量及其互逆关系的数学分支。" },
+        { "term": "Slicing 切片法", "definition": "把整体分成微元、写出单元贡献再积分的通用建模思路。" }
+      ]
+    }
+  ]
+}
