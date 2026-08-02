@@ -2,7 +2,7 @@
 // 用 window 事件而非组件状态——服务端 revalidation 会把动作按钮重渲染/卸载，
 // 但挂在 layout 的监听层不受影响，庆祝动画得以完整播放。
 
-export type CelebrationKind = "boss" | "level" | "promote";
+export type CelebrationKind = "boss" | "level" | "promote" | "quest";
 
 export interface Celebration {
   kind: CelebrationKind;

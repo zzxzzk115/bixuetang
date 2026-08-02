@@ -6,7 +6,25 @@ import { EpisodeList } from "@/components/episode-list";
 import { StatusButtons } from "@/components/status-buttons";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
+import type { LabId } from "@/lib/content/schema";
+import { LABS } from "@/lib/labs";
 import { getUserProgress } from "@/lib/progress/queries";
+
+function LabCard({ labId }: { labId: LabId }) {
+  const lab = LABS[labId];
+  return (
+    <Link
+      href={lab.href}
+      className="block rounded-lg border border-gold bg-amber-950/30 p-4 transition-colors hover:bg-amber-950/60"
+    >
+      <h3 className="flex items-center gap-1.5 text-sm font-bold text-gold">
+        {lab.icon} 附属实验室：{lab.title}
+      </h3>
+      <p className="mt-1 text-xs text-muted">{lab.description}</p>
+      <p className="mt-1.5 text-xs text-gold">进入实验室 →</p>
+    </Link>
+  );
+}
 
 export default async function CoursePage({
   params,
@@ -73,6 +91,7 @@ export default async function CoursePage({
       </div>
 
       <aside className="space-y-5">
+        {course.lab && <LabCard labId={course.lab} />}
         {prereqs.length > 0 && (
           <section className="rounded-lg border border-edge bg-panel p-4">
             <h3 className="mb-2 text-sm font-bold text-muted">⛓️ 前置副本</h3>

@@ -109,7 +109,9 @@ export function HackEditor({
   const viewRef = useRef<EditorView | null>(null);
   const langCompartment = useRef(new Compartment());
   const onChangeRef = useRef(onChange);
-  onChangeRef.current = onChange;
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   useEffect(() => {
     if (!hostRef.current) return;

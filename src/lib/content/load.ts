@@ -4,10 +4,13 @@ import { parse as parseYaml } from "yaml";
 import {
   CourseSchema,
   JobsSchema,
+  LabTasksSchema,
   PathSchema,
   SkillTreeSchema,
   type Course,
   type Job,
+  type LabId,
+  type LabTasks,
   type LearningPath,
   type SkillNode,
 } from "./schema";
@@ -21,6 +24,7 @@ export interface ContentIndex {
   skillById: Map<string, SkillNode>;
   jobs: Job[];
   jobById: Map<string, Job>;
+  labTasksById: Map<LabId, LabTasks>;
 }
 
 export class ContentError extends Error {
@@ -179,6 +183,28 @@ export function loadContent(): ContentIndex {
     }
   }
 
+  // ---- 实验室任务 ----
+  const labTasksById = new Map<LabId, LabTasks>();
+  for (const file of listYamlFiles(path.join(root, "labs"))) {
+    const parsed = LabTasksSchema.safeParse(readYaml(file));
+    if (!parsed.success) {
+      problems.push(
+        `labs/${rel(file)}: ${parsed.error.issues
+          .map((i) => `${i.path.join(".")} ${i.message}`)
+          .join("; ")}`,
+      );
+      continue;
+    }
+    const lab = parsed.data;
+    if (labTasksById.has(lab.lab)) problems.push(`实验室任务重复定义: ${lab.lab}`);
+    const seen = new Set<string>();
+    for (const t of lab.tasks) {
+      if (seen.has(t.id)) problems.push(`实验室 ${lab.lab} 任务 id 重复: ${t.id}`);
+      seen.add(t.id);
+    }
+    labTasksById.set(lab.lab, lab);
+  }
+
   if (problems.length > 0) throw new ContentError(problems);
 
   return {
@@ -190,6 +216,7 @@ export function loadContent(): ContentIndex {
     skillById,
     jobs,
     jobById,
+    labTasksById,
   };
 }
 

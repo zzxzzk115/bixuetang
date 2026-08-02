@@ -29,6 +29,25 @@ const slug = z
   .string()
   .regex(/^[a-z0-9][a-z0-9-]*$/, "id 须为小写字母/数字/连字符");
 
+// ---------- 实验室 ----------
+
+export const LAB_IDS = ["hack", "math"] as const;
+export type LabId = (typeof LAB_IDS)[number];
+
+export const LabTaskSchema = z.object({
+  id: slug,
+  title: z.string(),
+  xp: z.number().int().positive(),
+  description: z.string().optional(),
+});
+export type LabTask = z.infer<typeof LabTaskSchema>;
+
+export const LabTasksSchema = z.object({
+  lab: z.enum(LAB_IDS),
+  tasks: z.array(LabTaskSchema).min(1),
+});
+export type LabTasks = z.infer<typeof LabTasksSchema>;
+
 // ---------- 课程 ----------
 
 export const SourceSchema = z.object({
@@ -71,6 +90,8 @@ const CourseRawSchema = z
     episodes: z.array(EpisodeSchema).optional(),
     episodeCount: z.number().int().positive().optional(),
     notes: z.array(NoteLinkSchema).default([]),
+    /** 附属实验室（/lab/<id> 页面），如 nand2tetris → hack */
+    lab: z.enum(LAB_IDS).optional(),
   })
   .check((ctx) => {
     if (!ctx.value.episodes?.length && !ctx.value.episodeCount) {

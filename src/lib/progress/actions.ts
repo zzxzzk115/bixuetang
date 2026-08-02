@@ -58,6 +58,56 @@ export async function setCourseStatus(
   return { ok: true };
 }
 
+export interface LabTaskResult {
+  ok: boolean;
+  error?: string;
+  gained?: number;
+  taskTitle?: string;
+  levelUp?: boolean;
+  newLevel?: number;
+}
+
+/** 实验室成就打卡（v1 信任客户端触发，防重复靠幂等键） */
+export async function completeLabTask(
+  labId: string,
+  taskId: string,
+): Promise<LabTaskResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+
+  const lab = getContent().labTasksById.get(labId as "hack" | "math");
+  const task = lab?.tasks.find((t) => t.id === taskId);
+  if (!task) return { ok: false, error: "任务不存在" };
+
+  const before = getTotalXp(user.id);
+  const inserted = db
+    .insert(xpEvents)
+    .values({
+      userId: user.id,
+      amount: task.xp,
+      reason: "lab-task",
+      ref: `${labId}:${taskId}`,
+      createdAt: Date.now(),
+    })
+    .onConflictDoNothing()
+    .returning({ amount: xpEvents.amount })
+    .get();
+
+  const gained = inserted?.amount ?? 0;
+  if (gained > 0) {
+    revalidatePath(`/lab/${labId}`);
+    revalidatePath("/me");
+  }
+  const total = before + gained;
+  return {
+    ok: true,
+    gained,
+    taskTitle: task.title,
+    levelUp: levelFromXp(total) > levelFromXp(before),
+    newLevel: levelFromXp(total),
+  };
+}
+
 export async function toggleEpisode(
   courseId: string,
   episodeN: number,

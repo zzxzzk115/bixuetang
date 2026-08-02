@@ -15,6 +15,7 @@ export function courseBonusXp(episodeCount: number, level: Level): number {
 export const XP_REASON = {
   episode: "episode",
   courseDone: "course-done",
+  labTask: "lab-task",
 } as const;
 
 /** 幂等键 */

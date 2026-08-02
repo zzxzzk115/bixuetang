@@ -26,13 +26,24 @@ function langOf(name: string): HackLang {
   return "asm";
 }
 
-export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[] }) {
+export function HackLab({
+  supportedKinds,
+  onQuest,
+}: {
+  supportedKinds: ("asm" | "jack")[];
+  /** 成就钩子：成功运行时上报（run-asm / run-jack / own-code） */
+  onQuest?: (id: string) => void;
+}) {
   const [files, setFiles] = useState<BuildFile[]>(DEFAULT_FILES);
   const [activeFile, setActiveFile] = useState(0);
   const [errors, setErrors] = useState<BuildError[]>([]);
   const [running, setRunning] = useState(false);
   const [speed, setSpeed] = useState<Speed>("normal");
-  const [tick, setTick] = useState(0);
+  // 渲染快照：机器对象经 state 传给子组件（渲染期不碰 ref），seq 驱动重渲染
+  const [view, setView] = useState<{ m: HackMachine | null; seq: number }>({
+    m: null,
+    seq: 0,
+  });
   const [stages, setStages] = useState<{ vm?: string; asm?: string }>({});
   const [stageView, setStageView] = useState<"vm" | "asm" | null>(null);
 
@@ -43,12 +54,16 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
 
   const demos = HACK_DEMOS.filter((d) => supportedKinds.includes(d.kind));
 
+  const bump = useCallback(() => {
+    setView((v) => ({ m: machineRef.current, seq: v.seq + 1 }));
+  }, []);
+
   const compile = useCallback((): boolean => {
     const result = build(files);
     if (!result.ok) {
       setErrors(result.errors);
       machineRef.current = null;
-      setTick((t) => t + 1);
+      bump();
       return false;
     }
     setErrors([]);
@@ -56,9 +71,9 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
     romRef.current = result.rom;
     trapsRef.current = result.traps;
     machineRef.current = createMachine(result.rom);
-    setTick((t) => t + 1);
+    bump();
     return true;
-  }, [files]);
+  }, [files, bump]);
 
   // 运行主循环。用 setTimeout 而非 rAF：面板隐藏/后台标签页时 rAF 不触发，
   // 模拟器会假死；16ms 定时不依赖页面合成，行为一致。
@@ -71,7 +86,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
       const m = machineRef.current;
       if (!m || m.halted) {
         setRunning(false);
-        setTick((t) => t + 1);
+        bump();
         return;
       }
       const now = performance.now();
@@ -81,7 +96,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
         m.pendingWaitMs = 0;
       }
       if (now < waitUntilRef.current) {
-        setTick((t) => t + 1);
+        bump();
         timer = setTimeout(frame, 16);
         return;
       }
@@ -98,7 +113,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
         run(m, chunk, trapsRef.current);
         remaining -= chunk;
       }
-      setTick((t) => t + 1);
+      bump();
       timer = setTimeout(frame, 16);
     };
     timer = setTimeout(frame, 0);
@@ -106,7 +121,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [running, speed]);
+  }, [running, speed, bump]);
 
   const onRun = () => {
     if (!machineRef.current) {
@@ -116,6 +131,15 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
       machineRef.current = createMachine(romRef.current!);
     }
     setRunning(true);
+    // 成就上报
+    const kind = detectKind(files);
+    onQuest?.(kind === "jack" ? "run-jack" : "run-asm");
+    const isDemo = HACK_DEMOS.some(
+      (d) =>
+        d.files.length === files.length &&
+        d.files.every((df, i) => df.source === files[i]?.source),
+    );
+    if (!isDemo) onQuest?.("own-code");
   };
 
   const onCompile = () => {
@@ -128,7 +152,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
     const m = machineRef.current;
     if (m) {
       step(m, trapsRef.current);
-      setTick((t) => t + 1);
+      bump();
     }
   };
 
@@ -136,7 +160,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
     setRunning(false);
     if (romRef.current) {
       machineRef.current = createMachine(romRef.current);
-      setTick((t) => t + 1);
+      bump();
     }
   };
 
@@ -150,6 +174,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
     setStages({});
     setFiles(demo.files.map((f) => ({ ...f })));
     setActiveFile(0);
+    bump();
   };
 
   const current = files[activeFile];
@@ -190,6 +215,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
               );
               machineRef.current = null; // 源码变了需重新编译
               romRef.current = null;
+              bump();
             }}
           />
         </div>
@@ -234,7 +260,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
 
       {/* 右：屏幕 + 控制 + 寄存器 */}
       <div className="space-y-4">
-        <HackScreen machineRef={machineRef} tick={tick} />
+        <HackScreen machineRef={machineRef} seq={view.seq} />
         <HackControls
           running={running}
           canRun={true}
@@ -248,7 +274,7 @@ export function HackLab({ supportedKinds }: { supportedKinds: ("asm" | "jack")[]
           onLoadDemo={onLoadDemo}
         />
         <div className="rounded-lg border border-edge bg-panel p-3">
-          <HackRegisters machineRef={machineRef} tick={tick} />
+          <HackRegisters machine={view.m} />
         </div>
       </div>
     </div>

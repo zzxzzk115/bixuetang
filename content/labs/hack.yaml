@@ -1,0 +1,14 @@
+lab: hack
+tasks:
+  - id: run-asm
+    title: 初次点火
+    xp: 30
+    description: 成功运行一个 Hack 汇编程序
+  - id: run-jack
+    title: 全链路启动
+    xp: 60
+    description: 成功运行一个 Jack 程序（Jack → VM → 汇编 → 机器码）
+  - id: own-code
+    title: 改装工程师
+    xp: 80
+    description: 修改代码后编译运行自己的版本

@@ -11,15 +11,17 @@ export function embedFor(source: Source): Embed {
   if (source.platform === "bilibili") {
     // 支持 /video/BVxxxx（分 P 用 ?p=N）
     const bv = source.url.match(/\/video\/(BV[0-9A-Za-z]+)/)?.[1];
-    if (bv) {
+    const av = source.url.match(/\/video\/av(\d+)/)?.[1];
+    if (bv || av) {
       const p = source.url.match(/[?&]p=(\d+)/)?.[1];
       // high_quality=1: 游客默认拉到可用的最高清晰度（1080P 上限，大会员档位仍需登录）
       const params = new URLSearchParams({
-        bvid: bv,
         autoplay: "0",
         high_quality: "1",
         danmaku: "0",
       });
+      if (bv) params.set("bvid", bv);
+      else params.set("aid", av!);
       if (p) params.set("p", p);
       return {
         kind: "iframe",

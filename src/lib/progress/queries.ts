@@ -97,9 +97,28 @@ export function getXpLog(userId: number, limit = 20): XpLogEntry[] {
     } else if (r.reason === "course-done") {
       const title = content.coursesById.get(r.ref)?.title ?? r.ref;
       label = `Boss 讨伐：${title} 通关！`;
+    } else if (r.reason === "lab-task") {
+      const [labId, taskId] = r.ref.split(":");
+      const task = content.labTasksById
+        .get(labId as "hack" | "math")
+        ?.tasks.find((t) => t.id === taskId);
+      label = `实验室成就：${task?.title ?? r.ref}`;
     }
     return { ...r, label };
   });
+}
+
+/** 某实验室已完成的任务 id 集合（从 xp_events 的幂等键推导） */
+export function getLabTasksDone(userId: number, labId: string): Set<string> {
+  const rows = db
+    .select({ ref: xpEvents.ref })
+    .from(xpEvents)
+    .where(eq(xpEvents.userId, userId))
+    .all();
+  const prefix = `${labId}:`;
+  return new Set(
+    rows.filter((r) => r.ref.startsWith(prefix)).map((r) => r.ref.slice(prefix.length)),
+  );
 }
 
 /** 已完成（done）的课程集合 */

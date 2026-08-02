@@ -11,6 +11,7 @@ const KIND_ICON: Record<CelebrationKind, string> = {
   boss: "🏆",
   level: "🎉",
   promote: "⚜️",
+  quest: "🏅",
 };
 
 const DURATION_MS = 2600;

@@ -1,0 +1,43 @@
+id: nand2tetris
+title: 计算机系统要素：从与非门到俄罗斯方块
+code: "Nand2Tetris"
+institution: 希伯来大学
+instructor: Shimon Schocken / Noam Nisan
+subject: cs
+level: intermediate
+tags: [体系结构, 编译器, 自底向上, 造计算机]
+prerequisites: [cs61a]
+estimatedHours: 90
+description: >
+  从一个与非门出发，亲手搭出 ALU、CPU、汇编器、虚拟机、Jack 语言编译器
+  和操作系统，最后在自己造的计算机上跑俄罗斯方块。Part I（硬件）零基础可上，
+  Part II（软件栈）需要一定编程成熟度。本站的 Hack 实验室就是这门课的浏览器版。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/av63163361
+    uploader: 搬运
+    note: Part I 官方配套视频，中文字幕
+  - platform: other
+    url: https://www.coursera.org/learn/build-a-computer
+    note: Coursera 官方（Part I，可旁听）
+  - platform: other
+    url: https://www.nand2tetris.org/
+    note: 课程官网（全部课件 / 项目材料 / 工具下载）
+episodes:
+  - { n: 1, title: 布尔逻辑（Elementary Logic Gates） }
+  - { n: 2, title: 布尔运算与 ALU }
+  - { n: 3, title: 时序逻辑与存储 }
+  - { n: 4, title: 机器语言（Hack 汇编） }
+  - { n: 5, title: 计算机体系结构（CPU 与内存） }
+  - { n: 6, title: 汇编器 }
+  - { n: 7, title: 虚拟机 I：栈算术 }
+  - { n: 8, title: 虚拟机 II：程序控制 }
+  - { n: 9, title: 高级语言 Jack }
+  - { n: 10, title: 编译器 I：语法分析 }
+  - { n: 11, title: 编译器 II：代码生成 }
+  - { n: 12, title: 操作系统 }
+notes:
+  - title: CS 自学指南：Nand2Tetris 攻略
+    url: https://csdiy.wiki/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/N2T/
+    kind: site
+lab: hack

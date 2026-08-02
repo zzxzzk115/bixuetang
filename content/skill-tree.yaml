@@ -21,9 +21,9 @@ nodes:
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [csapp]
+    courses: [csapp, nand2tetris]
     rule: any
-    description: 理解程序在机器上如何真正运行。
+    description: 理解程序在机器上如何真正运行——自顶向下（CSAPP）或自底向上（Nand2Tetris）任选一条路。
   - id: algorithms
     title: 算法之刃
     subject: cs

@@ -35,7 +35,6 @@ function initGl(canvas: HTMLCanvasElement): GlState | null {
 
   const buf = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  // 单个覆盖全屏的大三角形
   gl.bufferData(
     gl.ARRAY_BUFFER,
     new Float32Array([-1, -1, 3, -1, -1, 3]),
@@ -78,10 +77,11 @@ function upload(state: GlState, ram: Int16Array) {
 
 export function HackScreen({
   machineRef,
-  tick,
+  seq,
 }: {
+  /** 模拟器可变状态经 ref 传递：只在 effect/事件回调中访问与修改 */
   machineRef: React.RefObject<HackMachine | null>;
-  tick: number;
+  seq: number;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const glRef = useRef<GlState | null>(null);
@@ -93,14 +93,14 @@ export function HackScreen({
   }, []);
 
   useEffect(() => {
-    const m = machineRef.current;
     const gl = glRef.current;
+    const m = machineRef.current;
     if (!m || !gl) return;
     if (m.screenDirty) {
       m.screenDirty = false;
       upload(gl, m.ram);
     }
-  }, [tick, machineRef]);
+  }, [seq, machineRef]);
 
   const setKey = (code: number) => {
     const m = machineRef.current;

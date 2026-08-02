@@ -20,18 +20,10 @@ function Cell({ label, value }: { label: string; value: number | string }) {
   );
 }
 
-export function HackRegisters({
-  machineRef,
-  tick,
-}: {
-  machineRef: React.RefObject<HackMachine | null>;
-  tick: number;
-}) {
+export function HackRegisters({ machine }: { machine: HackMachine | null }) {
   const [peekAddr, setPeekAddr] = useState("0");
-  const m = machineRef.current;
-  void tick; // tick 驱动重渲染
 
-  if (!m) {
+  if (!machine) {
     return (
       <p className="text-xs text-muted">编译并载入程序后显示寄存器状态</p>
     );
@@ -42,14 +34,14 @@ export function HackRegisters({
   return (
     <div className="space-y-3 text-sm">
       <div className="grid grid-cols-4 gap-1.5">
-        <Cell label="A" value={m.a} />
-        <Cell label="D" value={m.d} />
-        <Cell label="PC" value={m.pc} />
-        <Cell label="cycles" value={m.cycles.toLocaleString()} />
+        <Cell label="A" value={machine.a} />
+        <Cell label="D" value={machine.d} />
+        <Cell label="PC" value={machine.pc} />
+        <Cell label="cycles" value={machine.cycles.toLocaleString()} />
       </div>
       <div className="grid grid-cols-5 gap-1.5">
         {POINTERS.map((p) => (
-          <Cell key={p.label} label={p.label} value={m.ram[p.addr]} />
+          <Cell key={p.label} label={p.label} value={machine.ram[p.addr]} />
         ))}
       </div>
       <div>
@@ -65,12 +57,13 @@ export function HackRegisters({
         <div className="grid grid-cols-4 gap-1 font-mono text-xs">
           {Array.from({ length: 8 }, (_, i) => (
             <div key={i} className="rounded bg-background px-1.5 py-0.5">
-              <span className="text-muted">[{base + i}]</span> {m.ram[base + i]}
+              <span className="text-muted">[{base + i}]</span>{" "}
+              {machine.ram[base + i]}
             </div>
           ))}
         </div>
       </div>
-      {m.halted && (
+      {machine.halted && (
         <p className="text-xs text-gold">⏹ 程序已停机（检测到收尾自旋）</p>
       )}
     </div>
