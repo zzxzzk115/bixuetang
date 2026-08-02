@@ -1,0 +1,26 @@
+id: ee376a
+title: 信息论
+code: "EE376A"
+institution: Stanford
+subject: math
+level: advanced
+tags: [信息论, 熵, 信道编码, 数据压缩]
+prerequisites: [stat110]
+estimatedHours: 80
+description: >
+  斯坦福大学信息论课程（现编号 EE276），由 Tsachy Weissman 教授讲授。
+  从熵、互信息、KL 散度出发，讲到无损压缩、信道容量、率失真理论与通用压缩算法。
+  课程既有严格的数学推导，也强调在通信、机器学习与生物信息中的实际应用，
+  是理解「信息」这一概念定量本质的必修课。
+sources:
+  - platform: other
+    url: https://web.stanford.edu/class/ee376a/
+    note: 课程官网，含讲义、Scribe Notes 与作业
+  - platform: other
+    url: https://web.stanford.edu/class/ee276/index.html
+    note: 新编号 EE276 课程页
+episodeCount: 20
+notes:
+  - title: EE376A 讲义合集 PDF
+    url: https://web.stanford.edu/class/ee376a/files/scribes/lecture_notes.pdf
+    kind: site

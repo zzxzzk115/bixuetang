@@ -1,0 +1,23 @@
+id: cs50w
+title: 用 Python 和 JavaScript 做 Web 编程
+code: "CS50W"
+institution: Harvard
+subject: cs
+level: intermediate
+tags: [Web 开发, Django, JavaScript, React]
+prerequisites: [cs50]
+estimatedHours: 100
+description: >
+  哈佛 CS50 系列的 Web 开发进阶课，覆盖 HTML/CSS、Git、Python、Django、
+  SQL 与 ORM、JavaScript、React、用户界面设计、测试与持续集成、以及部署与扩展。
+  课程以六个真实项目驱动，学完可以独立从零搭建并上线一个全栈 Web 应用，
+  是 CS50 之后最自然的实战衔接。
+sources:
+  - platform: other
+    url: https://cs50.harvard.edu/web/
+    note: 课程官网（哈佛官方，含全部视频、讲义与项目要求）
+episodeCount: 10
+notes:
+  - title: CS 自学指南
+    url: https://csdiy.wiki/
+    kind: site

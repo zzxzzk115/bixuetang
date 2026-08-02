@@ -1,0 +1,22 @@
+id: cs223a
+title: 机器人学导论
+code: "CS223A"
+institution: Stanford
+subject: cs
+level: advanced
+tags: [机器人学, 运动学, 动力学, 控制]
+prerequisites: [mit-18-06]
+estimatedHours: 80
+description: >
+  斯坦福机器人实验室主任 Oussama Khatib 主讲的经典机器人学入门课，系统讲解空间描述与齐次变换、
+  正/逆运动学、雅可比矩阵与奇异性、机械臂动力学以及轨迹生成与力/位控制。
+  课程数学推导干净、板书清晰，是理解机械臂本体建模的最佳起点，学完可直接衔接运动规划与强化学习控制。
+sources:
+  - platform: other
+    url: https://see.stanford.edu/Course/CS223A
+    note: 课程官网（Stanford Engineering Everywhere，含全部讲座视频、讲义与作业）
+episodeCount: 16
+notes:
+  - title: CS 自学指南
+    url: https://csdiy.wiki/
+    kind: site

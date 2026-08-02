@@ -1,0 +1,42 @@
+id: essence-of-neural-networks
+title: 深度学习的本质：神经网络系列
+code: "3B1B-NN"
+institution: 3Blue1Brown
+subject: ai
+level: basic
+tags: [ 神经网络, 反向传播, Transformer, 可视化 ]
+prerequisites: []
+estimatedHours: 8
+description: >
+  3Blue1Brown 出品的神经网络可视化科普系列，从最基础的多层感知机识别手写数字讲起， 逐步深入梯度下降、反向传播的直觉与数学推导，并延伸到大语言模型中的 Transformer、 注意力机制。它不堆公式，而是用动画把"网络到底在算什么"画出来，是入门深度学习最好的直觉打底课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1szpFedEV2
+    uploader: 搬运（原作者：3Blue1Brown）
+    note: 中文配音深度学习系列 7 段（神经网络→反向传播→Transformer）
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1XKaUzsEhX
+    uploader: 搬运
+    note: 备用源，3B1B AI 全系列 39 段（含微积分/线代/概率，与本站另两门 3B1B 课重合）
+  - platform: other
+    url: https://www.3blue1brown.com/topics/neural-networks
+    note: 课程官网
+notes:
+  - title: CS自学指南 - 机器学习/深度学习
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 什么是神经网络？(But what is a neural network？)
+  - n: 2
+    title: 梯度下降，神经网络如何学习？(Gradient descent, how neural networks learn )
+  - n: 3
+    title: 反向传播到底在做什么？(What is backpropagation really doing？)
+  - n: 4
+    title: 反向传播演算（Backpropagation calculus ）
+  - n: 5
+    title: 但什么是GPT？关于Transformer的视觉介绍(But what is a GPT？Visual intro to transformers)
+  - n: 6
+    title: Transformers中的注意力机制，可视化解释（Attention in transformers, visually explained）
+  - n: 7
+    title: 大型语言模型如何存储事实信息？(How might LLMs store facts)

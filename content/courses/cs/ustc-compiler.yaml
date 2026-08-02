@@ -1,0 +1,22 @@
+id: ustc-compiler
+title: 编译原理
+code: "USTC-Compiler"
+institution: 中国科学技术大学
+subject: cs
+level: intermediate
+tags: [编译原理, 中文课程, 词法语法分析, 代码生成]
+prerequisites: [csapp]
+estimatedHours: 80
+description: >
+  中国科学技术大学的编译原理课程，用中文系统讲解从词法分析、语法分析到语义分析、
+  中间代码生成与优化的完整编译流程。相比英文课程更易入门，配套实验要求动手实现一个
+  完整的小型编译器，是把数据结构、汇编与体系结构知识串起来的关键一课。
+sources:
+  - platform: other
+    url: https://ustc-compiler.github.io/
+    note: 课程官网（含讲义与实验框架）
+episodeCount: 40
+notes:
+  - title: CS 自学指南 · 编译原理
+    url: https://csdiy.wiki/
+    kind: site

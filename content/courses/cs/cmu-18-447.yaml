@@ -1,0 +1,102 @@
+id: cmu-18-447
+title: 计算机体系结构
+code: "18-447"
+institution: Carnegie Mellon University
+subject: cs
+level: advanced
+tags: [ 计算机体系结构, 处理器设计, 存储系统 ]
+prerequisites: [ cs61c ]
+estimatedHours: 110
+description: >
+  CMU 由 Onur Mutlu 主讲的本科体系结构课程，从 ISA、单周期/流水线处理器一路讲到 乱序执行、分支预测、Cache 与 DRAM 内存系统、多核与一致性。讲授风格强调「为什么这样设计」 与前沿研究衔接，配套 Verilog 实现完整流水线 CPU 的实验，是打通软硬件边界的经典课程。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1xZ4y1M7N9
+    uploader: 搬运
+    note: CMU 2015 版完整合集，39 段
+  - platform: other
+    url: https://course.ece.cmu.edu/~ece447/s15/doku.php
+    note: 课程官网（讲义、录像、实验与作业）
+notes:
+  - title: CS自学指南 体系结构部分
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture 1. Introduction and Basics - Carnegie Mellon - Computer Architecture 201
+  - n: 2
+    title: Lecture 2. Fundamental Concepts and ISA - Carnegie Mellon - Computer Architectur
+  - n: 3
+    title: Lecture 3. ISA Tradeoffs - Carnegie Mellon - Computer Architecture 2015 - Onur
+  - n: 4
+    title: Lecture 4. ISA Tradeoffs & MIPS ISA - Carnegie Mellon - Computer Architecture 20
+  - n: 5
+    title: Review Session 1 - CMU - Computer Architecture 2014 - Onur Mutlu-Z1jsJKAlWjw
+  - n: 6
+    title: Lecture 5. Intro to Microarchitecture - Carnegie Mellon - Computer Architecture
+  - n: 7
+    title: Lecture 6. Microarchitecture II - Carnegie Mellon - Computer Architecture 2015 -
+  - n: 8
+    title: Lecture 7. Pipelining - Carnegie Mellon - Computer Architecture 2015 - Onur Mut
+  - n: 9
+    title: Lecture 8. Pipelining II - Data and Control Dependence Handling - CMU - Comp. Ar
+  - n: 10
+    title: Lecture 9. Branch Prediction I - Carnegie Mellon - Comp. Arch. 2015 - Onur Mutlu
+  - n: 11
+    title: Lecture 10. Branch Prediction II - Carnegie Mellon - Comp. Arch. 2015 - Onur Mut
+  - n: 12
+    title: Lecture 11. Precise Exceptions, State Maintenance_Recovery - CMU - Comp. Arch. 2
+  - n: 13
+    title: Lecture 12. Out of Order Execution - Carnegie Mellon - Comp. Arch. 2015 - Onur M
+  - n: 14
+    title: Lecture 13. Out of Order Execution II and Data Flow - CMU - Comp. Arch. 2015 - O
+  - n: 15
+    title: Lecture 14. SIMD (Vector Processors) - Carnegie Mellon - Comp. Arch. 2015 - Onur
+  - n: 16
+    title: Lecture 15. GPUs, VLIW, Execution Models - Carnegie Mellon - Computer Architectu
+  - n: 17
+    title: Lecture 16. Static Instruction Scheduling - Carnegie Mellon - Comp. Arch. 2015 -
+  - n: 18
+    title: Lecture 17. Memory Hierarchy and Caches - Carnegie Mellon - Comp. Arch. 2015 - O
+  - n: 19
+    title: Lecture 18. Caches - Carnegie Mellon - Comp. Arch. 2015 - Onur Mutlu-4_Z07m8tf6k
+  - n: 20
+    title: Lecture 19. High Performance Caches - Carnegie Mellon - Comp. Arch. 2015 - Onur
+  - n: 21
+    title: Lecture 20. Virtual Memory - Carnegie Mellon - Comp. Arch. 2015 - Onur Mutlu-2Rh
+  - n: 22
+    title: Recitation 3 - Carnegie Mellon - Comp. Arch. 2015 - Onur Mutlu-cIhExOjdFPI
+  - n: 23
+    title: Midterm 1 Review - Carnegie Mellon - Comp. Arch. 2015 - Onur Mutlu-tXIO8JNwCi0
+  - n: 24
+    title: Lecture 21 - Main Memory and the DRAM System - Carnegie Mellon - Comp. Arch. 201
+  - n: 25
+    title: Lecture 22 - Memory Controllers - Carnegie Mellon - Comp. Arch. 2015 - Onur Mutl
+  - n: 26
+    title: Lecture 23 - Memory Management - Carnegie Mellon - Comp. Arch. 2015 - Onur Mutlu
+  - n: 27
+    title: Lecture 24 - Simulation & Memory Latency Tolerance - Carnegie Mellon - Comp. Arc
+  - n: 28
+    title: Lecture 25 - Prefetching - Carnegie Mellon - Computer Architecture 2015 - Onur M
+  - n: 29
+    title: Lecture 26. More Prefetching and Emerging Memory Technologies - CMU - Comp. Arch
+  - n: 30
+    title: Lecture 27. Multiprocessors - Carnegie Mellon - Computer Architecture 2015 - Onu
+  - n: 31
+    title: Lecture 28. Memory Consistency and Cache Coherence - Carnegie Mellon - Comp. Arc
+  - n: 32
+    title: Lecture 29. Cache Coherence - Carnegie Mellon - Computer Architecture 2015 - Onu
+  - n: 33
+    title: Lecture 30. In-memory Processing - Carnegie Mellon - Computer Architecture 2015
+  - n: 34
+    title: Lecture 31. Predictable Performance - Carnegie Mellon - Computer Architecture 20
+  - n: 35
+    title: Lecture 32. Heterogeneous Systems - Carnegie Mellon - Computer Architecture 2015
+  - n: 36
+    title: Midterm 2 Review - Carnegie Mellon - Comp. Arch. 2015 - Onur Mutlu-B2PPyATuSvs
+  - n: 37
+    title: Lecture 33. Interconnection Networks - Carnegie Mellon - Computer Architecture 2
+  - n: 38
+    title: Review Session 2 - CMU - Computer Architecture 2014 - Onur Mutlu-y94DjKHPYVk
+  - n: 39
+    title: Final Review Session - Carnegie Mellon - Computer Architecture 2015 - Onur Mutlu

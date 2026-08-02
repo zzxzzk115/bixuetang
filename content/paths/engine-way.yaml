@@ -11,5 +11,7 @@ stages:
     courses: [games104]
   - title: 第四章 · 亲手铸造（百集长征）
     courses: [thecherno-engine]
-  - title: 第五章 · 玩法与实战
+  - title: 第五章 · 物理与动画
+    courses: [games103, games105]
+  - title: 第六章 · 玩法与实战
     courses: [cs50g]

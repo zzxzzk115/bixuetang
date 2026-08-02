@@ -1,0 +1,48 @@
+id: games103
+title: 基于物理的计算机动画入门
+code: "GAMES103"
+institution: GAMES (图形学与混合现实研讨会)
+subject: cs
+level: advanced
+tags: [ 物理仿真, 计算机动画, 图形学, 物理引擎 ]
+prerequisites: [ games101 ]
+estimatedHours: 40
+description: >
+  由王华民老师主讲的物理动画入门课程，系统讲解刚体、弹性体、布料与流体的数值仿真方法。 课程从数学与力学基础讲起，逐步推进到隐式积分、碰撞处理与有限元，是自己动手写物理引擎的最佳中文起点。 每章配有编程作业，用 Unity 从零实现各类仿真效果。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV12Q4y1S73g
+    uploader: GAMES-Webinar（官方）
+    note: 官方合集 12 讲，中文授课
+  - platform: other
+    url: http://games-cn.org/games103/
+    note: 课程官网
+notes:
+  - title: CS 自学指南 GAMES103 条目
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture 01 Intro to Physics-Based Animation
+  - n: 2
+    title: "Lecture 02 Math Background: Vector, Matrix and Tensor Calculus"
+  - n: 3
+    title: Lecture 03 Rigid Body Dynamics
+  - n: 4
+    title: Lecture 04 Rigid Body Contacts (Lab 1)
+  - n: 5
+    title: Lecture 05 Physics-based Cloth Simulation
+  - n: 6
+    title: "Lecture 06 Constrained Approaches: PBD, PD and others (Lab 2)"
+  - n: 7
+    title: Lecture 07 Other Constrained Methods and Finite Element Method I
+  - n: 8
+    title: Lecture 08 Finite Element Method II (Lab 3)
+  - n: 9
+    title: Lecture 09 Collision Handling
+  - n: 10
+    title: Lecture 10 Surface Waves （Lab 4）
+  - n: 11
+    title: Lecture 11 Incompressible Fluid Dynamics and Eulerian Fluids
+  - n: 12
+    title: Lecture 12 SPH and Position-Based Fluids

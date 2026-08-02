@@ -1,0 +1,23 @@
+id: cmu-16-385
+title: 计算机视觉
+code: "16-385"
+institution: CMU
+subject: ai
+level: advanced
+tags: [计算机视觉, 图像处理, 几何视觉, 传统视觉]
+prerequisites: [mit-18-06]
+estimatedHours: 90
+description: >
+  卡内基梅隆大学的经典计算机视觉课程，系统讲授图像滤波、边缘与特征检测、
+  相机模型与多视图几何、立体视觉、光流与运动估计、图像拼接与识别等内容。
+  区别于纯深度学习课程，它强调传统视觉的数学原理与几何直觉，
+  是理解现代视觉模型底层假设的最佳基础课。
+sources:
+  - platform: other
+    url: https://www.cs.cmu.edu/~16385/
+    note: 课程官网，含全部讲义、作业与阅读材料
+episodeCount: 24
+notes:
+  - title: CS 自学指南 - 计算机视觉
+    url: https://csdiy.wiki/
+    kind: site

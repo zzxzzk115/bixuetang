@@ -1,0 +1,54 @@
+id: ee364a
+title: 凸优化 I
+code: "EE364A"
+institution: Stanford University
+subject: math
+level: advanced
+tags: [ 凸优化, 数学建模, 数值算法 ]
+prerequisites: [ mit-18-06 ]
+estimatedHours: 90
+description: >
+  Stephen Boyd 主讲的斯坦福凸优化第一门课，从凸集、凸函数讲到对偶理论与内点法， 并覆盖大量工程建模实例。它是机器学习、控制、信号处理、金融工程共同的数学底座， 学完能把实际问题识别、改写成可高效求解的凸问题，并用 CVX/CVXPY 落地。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Pg4y187Ed
+    uploader: 搬运
+    note: Boyd 公开课中文字幕，13 段
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1nj421R71D
+    uploader: 搬运
+    note: 备用源，中英字幕版
+  - platform: other
+    url: https://web.stanford.edu/class/ee364a/
+    note: 课程官网（讲义、作业、录像与 CVX 工具链入口）
+notes:
+  - title: CS自学指南 数学与优化部分
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: L1_Introduction
+  - n: 2
+    title: L2_Convex sets
+  - n: 3
+    title: L3_Convex functions
+  - n: 4
+    title: L4_Convex optimization problems
+  - n: 5
+    title: L5_Duality
+  - n: 6
+    title: L6_Approximation and fitting
+  - n: 7
+    title: L7_Statistical estimation
+  - n: 8
+    title: L8_Geometric problems
+  - n: 9
+    title: L9_Numerical linear algebra background
+  - n: 10
+    title: L10_Unconstrained minimization
+  - n: 11
+    title: L11_Equality constrained minimization~1
+  - n: 12
+    title: L12_Interior point methods
+  - n: 13
+    title: L13_Conclusions

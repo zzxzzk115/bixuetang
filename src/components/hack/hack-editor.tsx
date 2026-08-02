@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react";
 import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirror/commands";
 import { StreamLanguage, syntaxHighlighting, HighlightStyle } from "@codemirror/language";
-import { Compartment, EditorState } from "@codemirror/state";
-import { EditorView, keymap, lineNumbers } from "@codemirror/view";
+import { Compartment, EditorState, StateEffect, StateField } from "@codemirror/state";
+import { Decoration, EditorView, keymap, lineNumbers, type DecorationSet } from "@codemirror/view";
 import { tags } from "@lezer/highlight";
 
 export type HackLang = "asm" | "jack" | "vm";
@@ -79,9 +79,36 @@ const darkTheme = EditorView.theme(
     "&.cm-focused": { outline: "none" },
     ".cm-activeLine": { backgroundColor: "rgba(245,197,66,0.05)" },
     ".cm-cursor": { borderLeftColor: "#f5c542" },
+    // 单步调试时 PC 指向的那一行
+    ".cm-hack-active": {
+      backgroundColor: "rgba(245,197,66,0.22)",
+      boxShadow: "inset 3px 0 0 #f5c542",
+    },
   },
   { dark: true },
 );
+
+// 单步调试：高亮 PC 当前指向的源码行
+const setActiveLine = StateEffect.define<number | null>();
+
+const activeLineMark = Decoration.line({ class: "cm-hack-active" });
+
+const activeLineField = StateField.define<DecorationSet>({
+  create: () => Decoration.none,
+  update(deco, tr) {
+    for (const e of tr.effects) {
+      if (!e.is(setActiveLine)) continue;
+      const line = e.value;
+      if (line === null || line < 1 || line > tr.state.doc.lines) {
+        return Decoration.none;
+      }
+      const pos = tr.state.doc.line(line).from;
+      return Decoration.set([activeLineMark.range(pos)]);
+    }
+    return deco.map(tr.changes);
+  },
+  provide: (f) => EditorView.decorations.from(f),
+});
 
 const highlight = syntaxHighlighting(
   HighlightStyle.define([
@@ -101,11 +128,14 @@ export function HackEditor({
   language,
   onChange,
   readOnly = false,
+  activeLine = null,
 }: {
   value: string;
   language: HackLang;
   onChange?: (v: string) => void;
   readOnly?: boolean;
+  /** 单步调试时高亮的源码行（1-based），null 表示不高亮 */
+  activeLine?: number | null;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
@@ -126,6 +156,7 @@ export function HackEditor({
           history(),
           keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),
           langCompartment.current.of(LANGS[language]),
+          activeLineField,
           highlight,
           darkTheme,
           EditorState.readOnly.of(readOnly),
@@ -157,6 +188,17 @@ export function HackEditor({
       effects: langCompartment.current.reconfigure(LANGS[language]),
     });
   }, [language]);
+
+  // 单步调试高亮：跟随 PC 移动并滚动到可视区
+  useEffect(() => {
+    const view = viewRef.current;
+    if (!view) return;
+    view.dispatch({ effects: setActiveLine.of(activeLine) });
+    if (activeLine !== null && activeLine >= 1 && activeLine <= view.state.doc.lines) {
+      const pos = view.state.doc.line(activeLine).from;
+      view.dispatch({ effects: EditorView.scrollIntoView(pos, { y: "center" }) });
+    }
+  }, [activeLine]);
 
   return <div ref={hostRef} className="h-full min-h-64 overflow-hidden" />;
 }

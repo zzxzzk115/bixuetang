@@ -1,0 +1,23 @@
+id: mit-9-40
+title: 计算神经科学导论
+code: "9.40"
+institution: MIT
+subject: ai
+level: advanced
+tags: [计算神经科学, 神经元模型, 信号处理, 线性代数应用]
+prerequisites: [mit-18-06]
+estimatedHours: 60
+description: >
+  MIT 大脑与认知科学系的计算神经科学入门课，从生物神经元的电学特性讲起，
+  逐步推进到 Hodgkin-Huxley 模型、突触整合、神经编码与解码、以及神经网络的
+  群体动力学。课程强调用线性代数与信号处理的数学工具定量刻画大脑计算，
+  是理解「生物智能」与人工神经网络渊源的最佳桥梁课程。
+sources:
+  - platform: other
+    url: https://ocw.mit.edu/courses/9-40-introduction-to-neural-computation-spring-2018/
+    note: 课程官网（MIT OCW，含全套讲义、作业与视频）
+episodeCount: 24
+notes:
+  - title: CS 自学指南
+    url: https://csdiy.wiki/
+    kind: site

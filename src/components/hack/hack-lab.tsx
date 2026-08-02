@@ -39,11 +39,12 @@ export function HackLab({
   const [errors, setErrors] = useState<BuildError[]>([]);
   const [running, setRunning] = useState(false);
   const [speed, setSpeed] = useState<Speed>("normal");
-  // 渲染快照：机器对象经 state 传给子组件（渲染期不碰 ref），seq 驱动重渲染
-  const [view, setView] = useState<{ m: HackMachine | null; seq: number }>({
-    m: null,
-    seq: 0,
-  });
+  // 渲染快照：机器对象与 sourceMap 经 state 传给子组件（渲染期不碰 ref），seq 驱动重渲染
+  const [view, setView] = useState<{
+    m: HackMachine | null;
+    seq: number;
+    sourceMap: Int32Array | null;
+  }>({ m: null, seq: 0, sourceMap: null });
   const [stages, setStages] = useState<{ vm?: string; asm?: string }>({});
   const [stageView, setStageView] = useState<"vm" | "asm" | null>(null);
 
@@ -51,11 +52,17 @@ export function HackLab({
   const trapsRef = useRef<TrapTable>(new Map());
   const romRef = useRef<Uint16Array | null>(null);
   const waitUntilRef = useRef(0);
+  // romAddr → 源码行（纯 asm 构建时可用），单步调试高亮用
+  const sourceMapRef = useRef<Int32Array | null>(null);
 
   const demos = HACK_DEMOS.filter((d) => supportedKinds.includes(d.kind));
 
   const bump = useCallback(() => {
-    setView((v) => ({ m: machineRef.current, seq: v.seq + 1 }));
+    setView((v) => ({
+      m: machineRef.current,
+      seq: v.seq + 1,
+      sourceMap: sourceMapRef.current,
+    }));
   }, []);
 
   const compile = useCallback((): boolean => {
@@ -70,6 +77,7 @@ export function HackLab({
     setStages(result.stages);
     romRef.current = result.rom;
     trapsRef.current = result.traps;
+    sourceMapRef.current = result.sourceMap;
     machineRef.current = createMachine(result.rom);
     bump();
     return true;
@@ -180,6 +188,12 @@ export function HackLab({
   const current = files[activeFile];
   const kind = detectKind(files);
 
+  // 只在暂停时高亮（运行中 PC 每帧变几万次，高亮无意义且抖动）
+  const activeLine =
+    !running && view.m && view.sourceMap
+      ? (view.sourceMap[view.m.pc] ?? null)
+      : null;
+
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_560px]">
       {/* 左：编辑器 */}
@@ -209,6 +223,7 @@ export function HackLab({
           <HackEditor
             value={current.source}
             language={langOf(current.name)}
+            activeLine={activeLine}
             onChange={(v) => {
               setFiles((fs) =>
                 fs.map((f, i) => (i === activeFile ? { ...f, source: v } : f)),

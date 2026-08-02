@@ -1,0 +1,22 @@
+id: mit-6-262
+title: 离散随机过程
+code: "6.262"
+institution: MIT
+subject: math
+level: advanced
+tags: [随机过程, 概率论, 马尔可夫链, 排队论]
+prerequisites: [stat110]
+estimatedHours: 120
+description: >
+  MIT 研究生层次的离散随机过程课程，由信息论泰斗 Robert Gallager 主讲。
+  内容涵盖泊松过程、更新过程、有限状态与可数状态马尔可夫链、鞅、随机游动与排队论。
+  讲授风格强调直观理解与严格推导并重，是进入信息论、通信、性能建模与强化学习理论的关键桥梁。
+sources:
+  - platform: other
+    url: https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/
+    note: 课程官网（MIT OCW，含全部视频、讲义与作业答案）
+episodeCount: 25
+notes:
+  - title: CS 自学指南
+    url: https://csdiy.wiki/
+    kind: site

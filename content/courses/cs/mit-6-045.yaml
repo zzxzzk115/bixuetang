@@ -1,0 +1,22 @@
+id: mit-6-045
+title: 自动机、可计算性与复杂性
+code: "6.045"
+institution: MIT
+subject: cs
+level: advanced
+tags: [计算理论, 自动机, 可计算性, 复杂性]
+prerequisites: [mit-18-404]
+estimatedHours: 100
+description: >
+  MIT 计算理论进阶课程，从有限自动机与正则语言出发，走过图灵机与不可判定性，
+  最终抵达 P/NP、空间复杂性、随机化与交互式证明等现代复杂性理论核心话题。
+  课程由 Sipser 教材体系支撑，是理解「什么问题可算、什么问题算得快」的必修课。
+sources:
+  - platform: other
+    url: https://ocw.mit.edu/courses/6-045j-automata-computability-and-complexity-spring-2011/
+    note: MIT OpenCourseWare 课程主页（讲义、作业与考试）
+episodeCount: 24
+notes:
+  - title: CS 自学指南 · 计算理论
+    url: https://csdiy.wiki/
+    kind: site

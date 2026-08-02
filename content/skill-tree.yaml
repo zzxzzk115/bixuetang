@@ -21,7 +21,7 @@ nodes:
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [csapp, nand2tetris, cs61c, nju-ics]
+    courses: [csapp, nand2tetris, cs61c, nju-ics, mit-6-004, cmu-18-447, digital-design]
     rule: any
     description: 理解程序在机器上如何真正运行——自顶向下（CSAPP）、自底向上（Nand2Tetris）或伯克利路线（CS61C）任选。
   - id: algorithms
@@ -38,7 +38,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [discrete-math]
-    courses: [mit-18-404]
+    courses: [mit-18-404, mit-6-045]
     rule: any
     description: 自动机、可计算性与 NP——什么问题机器永远解不了。
   - id: formal-verification
@@ -71,7 +71,7 @@ nodes:
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [fullstackopen, cs142]
+    courses: [fullstackopen, cs142, cs50w]
     rule: any
     description: 从 React 到 Node，把想法变成能上线的产品。
   - id: distributed-systems
@@ -92,6 +92,15 @@ nodes:
     courses: [games101, games202, cmu-15-462, games203, games204, games301, cmu-15-463]
     rule: any
     description: 三大浪漫之一：亲手渲染出一个世界。
+  - id: physics-animation
+    title: 仿真之律
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [computer-graphics]
+    courses: [games103, games105]
+    rule: any
+    description: 刚体、布料、流体与角色动画——让虚拟世界动起来。
   - id: game-dev
     title: 游戏之匠
     subject: cs
@@ -125,7 +134,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [computer-systems]
-    courses: [cs144]
+    courses: [cs144, ucb-cs168]
     rule: any
     description: 从比特流到 TCP——亲手实现一个协议栈。
   - id: databases
@@ -143,7 +152,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [computer-systems]
-    courses: [cs143, nju-sa, cmu-15-411]
+    courses: [cs143, nju-sa, cmu-15-411, ustc-compiler, llvm-tutorial]
     rule: any
     description: 三大浪漫之三：铸造属于自己的语言。
   - id: parallel-computing
@@ -152,7 +161,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [computer-systems]
-    courses: [cmu-15-418]
+    courses: [cmu-15-418, mit-6-172, mit-6-816]
     rule: any
     description: 多核、SIMD 与 GPU——榨干每一寸算力。
   - id: security
@@ -161,7 +170,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [computer-systems]
-    courses: [ucb-cs161, stanford-crypto]
+    courses: [ucb-cs161, stanford-crypto, mit-6-858]
     rule: any
     description: 攻防视角下的系统与密码学。
 
@@ -221,7 +230,7 @@ nodes:
     subject: math
     tier: 2
     requires: [calculus]
-    courses: [stat110, mit-6-041]
+    courses: [stat110, mit-6-041, mit-6-262]
     rule: any
     description: 用分布与期望描述不确定的世界。
   - id: differential-equations
@@ -275,7 +284,7 @@ nodes:
     subject: ai
     tier: 1
     requires: [linear-intuition]
-    courses: [andrew-ng-ml, cs188, mit-6-034]
+    courses: [andrew-ng-ml, cs188, mit-6-034, essence-of-neural-networks]
     rule: any
     description: 监督学习与经典 AI 的基本功。
   - id: data-science
@@ -286,6 +295,15 @@ nodes:
     courses: [berkeley-data100]
     rule: any
     description: 采集、清洗、可视化与推断——数据说话的完整链路。
+  - id: optimization
+    title: 最优之径
+    subject: math
+    tier: 3
+    cost: 2
+    requires: [linear-algebra]
+    courses: [ee364a]
+    rule: any
+    description: 凸集、对偶与内点法——把难题化成能高效求解的形状。
   - id: ml-theory
     title: 统计学习之理
     subject: ai
@@ -317,7 +335,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [deep-learning]
-    courses: [cs231n, eecs-498]
+    courses: [cs231n, eecs-498, cmu-16-385]
     rule: any
     description: 让机器看见世界。
   - id: nlp

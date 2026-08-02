@@ -1,0 +1,22 @@
+id: llvm-tutorial
+title: LLVM 编译器实践（Kaleidoscope 教程）
+code: "LLVM Tutorial"
+institution: LLVM Project
+subject: cs
+level: advanced
+tags: [编译器, LLVM, 代码生成, 系统编程]
+prerequisites: [cs143]
+estimatedHours: 60
+description: >
+  LLVM 官方的 Kaleidoscope 系列教程，手把手带你从零实现一门玩具语言：
+  词法分析、递归下降语法分析、AST、LLVM IR 生成、JIT 执行、SSA 与优化 Pass、调试信息。
+  这是把编译原理课上的理论真正落到工业级基础设施上的最短路径，学完可直接读懂 Clang/LLVM 源码结构。
+sources:
+  - platform: other
+    url: https://llvm.org/docs/tutorial/
+    note: 课程官网（LLVM 官方教程，含 C++ 与 OCaml 两套实现）
+episodeCount: 10
+notes:
+  - title: CS 自学指南
+    url: https://csdiy.wiki/
+    kind: site

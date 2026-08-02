@@ -121,7 +121,7 @@ jobs:
     parents: [render-mage]
     requires:
       minLevel: 18
-      skills: { allOf: [computer-graphics, game-engine], anyOf: [operating-systems, compilers, linear-algebra, game-dev, parallel-computing], minAnyOf: 1 }
+      skills: { allOf: [computer-graphics, game-engine], anyOf: [operating-systems, compilers, linear-algebra, game-dev, parallel-computing, physics-animation], minAnyOf: 1 }
     description: 渲染、引擎与系统合一，亲手铸造游戏引擎的传说职业。
   - id: machine-prophet
     title: 智械先知

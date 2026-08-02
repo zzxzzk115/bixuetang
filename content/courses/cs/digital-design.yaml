@@ -1,0 +1,22 @@
+id: digital-design
+title: 数字电路设计与 Verilog
+code: "CS150"
+institution: UC Berkeley
+subject: cs
+level: intermediate
+tags: [数字电路, Verilog, FPGA, 硬件设计]
+prerequisites: [nand2tetris]
+estimatedHours: 60
+description: >
+  伯克利的数字系统设计课，讲组合逻辑与时序逻辑、有限状态机、流水线、存储器与时序约束，
+  并用 Verilog 在 FPGA 上真刀真枪地实现。它把 nand2tetris 里"纸上搭机器"的抽象落到真实硬件，
+  是从软件视角迈向体系结构与芯片设计的关键一课。
+sources:
+  - platform: other
+    url: https://inst.eecs.berkeley.edu/~cs150/
+    note: 课程官网
+episodeCount: 26
+notes:
+  - title: CS自学指南 - 数字电路与体系结构
+    url: https://csdiy.wiki/
+    kind: site

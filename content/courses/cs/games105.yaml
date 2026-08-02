@@ -1,0 +1,50 @@
+id: games105
+title: 计算机角色动画基础
+code: "GAMES105"
+institution: GAMES (图形学与混合现实研讨会)
+subject: cs
+level: advanced
+tags: [ 角色动画, 动作捕捉, 图形学, 强化学习 ]
+prerequisites: [ games101 ]
+estimatedHours: 40
+description: >
+  由北京大学刘利斌老师主讲，讲解如何让虚拟角色自然地动起来。 内容涵盖骨骼蒙皮、正逆运动学、动作捕捉数据处理、动作图与动作匹配，直到基于物理的角色控制与强化学习方法。 课程配套 Python 作业框架，理论与实践结合紧密。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1GG4y1p7fF
+    uploader: GAMES-Webinar
+    note: 2022 年官方录播合集，中文讲授
+  - platform: other
+    url: https://games-105.github.io/
+    note: 课程官网
+notes:
+  - title: CS 自学指南 GAMES105 条目
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture01 Introduction to Character Animation
+  - n: 2
+    title: Lecture02 Math Background
+  - n: 3
+    title: "Lecture03 Character Kinematics: Forward and Inverse Kinematics"
+  - n: 4
+    title: Lecture04 Character Kinematics (cont.) & Keyframe Animation
+  - n: 5
+    title: Lecture05 Data-driven Character Animation
+  - n: 6
+    title: Lecture06 Learning-based Character Animation
+  - n: 7
+    title: Lecture06+ Learning-based Character Animation (cont.)
+  - n: 8
+    title: Lecture07 Skinning
+  - n: 9
+    title: Lecture08 Physics-based Simulation and Articulated Rigid Bodies
+  - n: 10
+    title: Lecture09 Actuating Simulated Character
+  - n: 11
+    title: Lecture10 Controlling Character
+  - n: 12
+    title: Lecture11 Learning to Walk
+  - n: 13
+    title: Lecture12 Optimal Control and Reinforcement Learning
