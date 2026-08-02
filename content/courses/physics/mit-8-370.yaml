@@ -1,0 +1,23 @@
+id: mit-8-370
+title: 量子计算
+code: "8.370/18.435"
+institution: MIT
+subject: physics
+level: advanced
+tags: [量子计算, 量子信息, 量子算法, 纠错码]
+prerequisites: [mit-8-05]
+estimatedHours: 120
+description: >
+  MIT 物理系与数学系合开的量子计算导论，由 Peter Shor 等人主讲。
+  从量子比特、纠缠与量子线路模型讲起，系统覆盖 Deutsch-Jozsa、Grover 搜索、
+  Shor 大数分解等核心算法，再到量子纠错码与容错计算。
+  课程以严格的线性代数语言展开，是从量子力学走向量子信息研究的标准入门通道。
+sources:
+  - platform: other
+    url: https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/
+    note: 课程官网
+episodeCount: 24
+notes:
+  - title: MIT OCW 讲义与习题
+    url: https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/pages/lecture-notes/
+    kind: site

@@ -1,0 +1,54 @@
+id: games301
+title: 曲面参数化
+code: "GAMES301"
+institution: 中国科学技术大学 / GAMES
+subject: cs
+level: advanced
+tags: [ 几何处理, 曲面参数化, 网格, 数值优化 ]
+prerequisites: [ games101 ]
+estimatedHours: 40
+description: >
+  GAMES 系列几何处理进阶课，系统讲解曲面参数化（Surface Parameterization）： 从调和映射、共形映射等经典理论，到无翻转、低畸变参数化的现代数值优化方法， 以及在纹理映射、重网格化、形状分析中的应用。中文授课，理论推导与代码作业并重， 是国内少有的成体系几何处理课程。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV18T411P7hT
+    uploader: GAMES-Webinar（官方）
+    note: 官方合集 15 讲，中文授课
+  - platform: other
+    url: https://games-cn.org/games301/
+    note: 课程官网
+notes:
+  - title: GAMES 系列课程主页
+    url: https://games-cn.org/
+    kind: site
+episodes:
+  - n: 1
+    title: Lecture 01 曲面参数化介绍
+  - n: 2
+    title: Lecture 02 面向离散网格的参数化概述
+  - n: 3
+    title: Lecture 03 无翻转参数化方法-初始存在翻转
+  - n: 4
+    title: Lecture 04 无翻转参数化方法-初始无翻转
+  - n: 5
+    title: Lecture 05 全局单射参数化方法
+  - n: 6
+    title: Lecture 06 参数化应用1 – Atlas生成、艺术设计
+  - n: 7
+    title: Lecture 07 参数化应用2-网格生成
+  - n: 8
+    title: Lecture 08 无翻转光滑映射
+  - n: 9
+    title: Lecture 09 基于调和映射的高质量形变
+  - n: 10
+    title: Lecture 10 共形参数化1-Spin变换、Circle填充&共轭调和函数
+  - n: 11
+    title: Lecture 11 共形参数化2-离散共形等价类、Möbius变换&曲率流
+  - n: 12
+    title: Lecture 12 锥奇异点参数化应用
+  - n: 13
+    title: Lecture 13 参数化应用3-曲面对应与高阶多项式映射
+  - n: 14
+    title: Lecture 14 参数化在产业中的应用(1)
+  - n: 15
+    title: Lecture 15 参数化在产业中的应用(2)

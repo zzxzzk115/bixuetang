@@ -1,0 +1,23 @@
+id: mit-6-858
+title: 计算机系统安全
+code: "6.858"
+institution: MIT
+subject: cs
+level: advanced
+tags: [系统安全, 攻防, 操作系统, Web安全]
+prerequisites: [mit-6-s081]
+estimatedHours: 100
+description: >
+  MIT 的系统安全课程，从攻击者与防御者双重视角剖析真实系统的安全设计。
+  内容包括缓冲区溢出与控制流劫持、权限隔离与沙箱、内核与浏览器安全模型、Web 攻击、
+  网络与移动端安全、以及安全相关的密码学应用。每节课围绕一篇经典论文展开，
+  实验要求亲手写出可用的漏洞利用并修补它，实战感极强。
+sources:
+  - platform: other
+    url: https://css.csail.mit.edu/6.858/2022/
+    note: 课程官网（含公开讲座录像与实验）
+episodeCount: 22
+notes:
+  - title: CS自学指南 6.858 攻略
+    url: https://csdiy.wiki/
+    kind: site

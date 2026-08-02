@@ -1,0 +1,71 @@
+id: cmu-15-721
+title: 高级数据库系统
+code: "CMU 15-721"
+institution: CMU
+instructor: Andy Pavlo
+subject: cs
+level: advanced
+tags: [ 数据库, 内存数据库, 查询优化, 分布式 ]
+prerequisites: [ cmu-15-445 ]
+estimatedHours: 80
+description: >
+  15-445 的进阶续作，聚焦现代内存数据库与 OLAP 系统的设计：多版本并发控制、列存与压缩、 向量化执行、查询编译、优化器与调度。课程以论文研讨加系统剖析为主，讲的是工业界真实数据库 （如 DuckDB、Snowflake、Postgres）如何做取舍，适合想深入数据库内核的人。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1cB421r7fR
+    uploader: 搬运
+    note: 2023 春季版，中英字幕 23 段
+  - platform: other
+    url: https://15721.courses.cs.cmu.edu/
+    note: 课程官网（讲义、论文清单与项目）
+notes:
+  - title: CMU Database Group 课程主页
+    url: https://db.cs.cmu.edu/
+    kind: site
+episodes:
+  - n: 1
+    title: 01 History of Databases
+  - n: 2
+    title: 02 Modern Analytical Database Systems
+  - n: 3
+    title: 03 Database Storage Models & Data Layout
+  - n: 4
+    title: 04 Analytical Database Indexes
+  - n: 5
+    title: 05 Database Compression
+  - n: 6
+    title: 06 Query Execution & Processing Models
+  - n: 7
+    title: 07 Query Scheduling
+  - n: 8
+    title: 08 Vectorized Query Execution with SIMD
+  - n: 9
+    title: 09 Query Compilation & JIT Code Generation
+  - n: 10
+    title: 10 Query Vectorization vs. Compilation
+  - n: 11
+    title: 11 Parallel Hash Join Algorithms
+  - n: 12
+    title: 12 Parallel Sort-Merge Join Algorithms
+  - n: 13
+    title: 13 Multi-Way Worst-Case Optimal Join Algorithms
+  - n: 14
+    title: 14 Server-side Logic Execution User-defined Functions
+  - n: 15
+    title: 15 Database Networking
+  - n: 16
+    title: 16 Query Optimizer Implementations 1
+  - n: 17
+    title: 17 Query Optimizer Implementations 2
+  - n: 18
+    title: 19 Google BigQuery Dremel
+  - n: 19
+    title: 20 Databricks Photon Spark SQL
+  - n: 20
+    title: 21 Snowflake Data Warehouse Internals
+  - n: 21
+    title: 22 DuckDB Internals
+  - n: 22
+    title: 23 Meta Velox
+  - n: 23
+    title: 24 Amazon Redshift Internals

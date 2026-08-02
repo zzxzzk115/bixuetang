@@ -14,6 +14,13 @@ export interface EmbedOptions {
   startSeconds?: number;
   /** 该集的独立 B 站稿件（ugc_season 合集课程），优先于 page */
   bvid?: string;
+  /**
+   * 原站模式：直接嵌 www.bilibili.com 视频页而非 player.html。
+   * B 站主站没有 X-Frame-Options，技术上可嵌；主站播放器有弹幕/画质/倍速完整 UI。
+   * 注意：B 站 cookie 未设 SameSite（浏览器按 Lax 处理），跨站 iframe 不会携带
+   * 登录态，所以清晰度仍是游客上限——要登录态高清只能用浏览器插件在原站看。
+   */
+  nativePage?: boolean;
 }
 
 export function embedFor(source: Source, opts: EmbedOptions = {}): Embed {
@@ -27,6 +34,17 @@ export function embedFor(source: Source, opts: EmbedOptions = {}): Embed {
       const p = opts.bvid
         ? undefined
         : (opts.page ?? source.url.match(/[?&]p=(\d+)/)?.[1]);
+
+      if (opts.nativePage && bv) {
+        const q = new URLSearchParams();
+        if (p) q.set("p", String(p));
+        if (opts.startSeconds) q.set("t", String(Math.floor(opts.startSeconds)));
+        const qs = q.toString();
+        return {
+          kind: "iframe",
+          src: `https://www.bilibili.com/video/${bv}/${qs ? `?${qs}` : ""}`,
+        };
+      }
       // high_quality=1: 游客默认拉到可用的最高清晰度（1080P 上限，大会员档位仍需登录）
       const params = new URLSearchParams({
         autoplay: "0",

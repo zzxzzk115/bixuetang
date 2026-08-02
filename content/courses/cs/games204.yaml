@@ -1,0 +1,105 @@
+id: games204
+title: 计算成像
+code: "GAMES204"
+institution: GAMES
+subject: cs
+level: advanced
+tags: [ 计算成像, 计算摄影, 图像处理, 光学 ]
+prerequisites: [ games101 ]
+estimatedHours: 40
+description: >
+  GAMES 系列进阶课，讲解计算成像（Computational Imaging）的原理与方法： 相机与光学成像模型、图像信号处理管线、去噪去模糊与超分、高动态范围与光场成像、 以及深度学习驱动的计算摄影。课程把光学、信号处理与图形学串在一起， 适合想从「渲染出图」走向「从真实世界采集图像」的同学。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV11N4y1g7Z8
+    uploader: GAMES-Webinar（官方）
+    note: 官方合集 27 讲，中文授课
+  - platform: other
+    url: https://games-cn.org/games204/
+    note: 课程官网
+notes:
+  - title: GAMES 系列课程主页
+    url: https://games-cn.org/
+    kind: site
+episodes:
+  - n: 1
+    title: 第一节：计算成像导论
+    bvid: BV11N4y1g7Z8
+  - n: 2
+    title: 第二节：色彩和人的视觉系统(I)
+    bvid: BV1ff4y1d7kq
+  - n: 3
+    title: 第三节：色彩和人的视觉系统(II)
+    bvid: BV1WU4y1i7m5
+  - n: 4
+    title: 第四节：相机系统
+    bvid: BV1gG4y1i7m5
+  - n: 5
+    title: 第五节：图像信号处理
+    bvid: BV1YB4y1b7VH
+  - n: 6
+    title: 第六节：高动态范围成像与手机摄影
+    bvid: BV1KS4y147tp
+  - n: 7
+    title: 第七节：VR/AR主流显示技术概要
+    bvid: BV18g411r7Fn
+  - n: 8
+    title: 嘉宾座谈：智能光学仪器中的感知与计算
+    bvid: BV19d4y1d7oo
+  - n: 9
+    title: 第八节：成像工具箱：透镜与像差 | GAMES204-计算成像
+    bvid: BV1md4y1G71q
+  - n: 10
+    title: 第九节：成像工具箱：波前分析/PSF/MTF和镜头组件 | GAMES204-计算成像
+    bvid: BV1de4y1C7st
+  - n: 11
+    title: 第十节：成像过程的噪声分析
+    bvid: BV1NV4y1u7xd
+  - n: 12
+    title: 第十一节：计算工具箱：成像梯度与处理 I
+    bvid: BV14B4y177Mv
+  - n: 13
+    title: 第十二节：计算工具箱：成像梯度与处理 II
+    bvid: BV1BP411E7sw
+  - n: 14
+    title: 第十三节：计算工具箱：图像模糊
+    bvid: BV1qe4y1v75r
+  - n: 15
+    title: 第十四节：去模糊与成像逆问题剖析
+    bvid: BV1Xd4y1C7v3
+  - n: 16
+    title: 第十五节：逆问题建模与ADMM算法求解
+    bvid: BV1j8411Y7zY
+  - n: 17
+    title: 第十六节：计算照明 (I)
+    bvid: BV1HP4y1U7QV
+  - n: 18
+    title: 显示技术补充：计算光场与全息显示
+    bvid: BV1YK411o7yS
+  - n: 19
+    title: 第十七节：计算照明 (II)
+    bvid: BV1B24y1y7K4
+  - n: 20
+    title: 第十八节：时域调制、飞行时间法
+    bvid: BV1se4y1g7zt
+  - n: 21
+    title: 第十九节：时域调制 (II)
+    bvid: BV1d8411V7ZT
+  - n: 22
+    title: 第二十节：时域调制 (III)
+    bvid: BV1T8411V7ne
+  - n: 23
+    title: 嘉宾座谈：Snap Research 的计算成像、摄影研究
+    bvid: BV16V4y1c74R
+  - n: 24
+    title: 第二十一节：时域调制 (IV)
+    bvid: BV1KM41117Ss
+  - n: 25
+    title: 第二十二节：时域调制 (V)
+    bvid: BV1cg411s7Cp
+  - n: 26
+    title: 第二十三节：空域调制
+    bvid: BV1a24y1h77A
+  - n: 27
+    title: 第二十四节：端到端相机设计
+    bvid: BV178411w7dC

@@ -1,0 +1,148 @@
+id: cs224w
+title: 图机器学习
+code: "CS224W"
+institution: 斯坦福大学
+subject: ai
+level: advanced
+tags: [ 图神经网络, 表示学习, 知识图谱, 深度学习 ]
+prerequisites: [ d2l ]
+estimatedHours: 70
+description: >
+  斯坦福 Jure Leskovec 主讲的图机器学习课程，从图论与网络性质讲起， 一路推进到节点嵌入、GNN、消息传递、图生成模型与知识图谱推理。 它是理解 GraphSAGE、GAT、PyG 等现代图学习工具的权威入口， 配套 Colab 作业可直接上手真实图数据。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1RZ4y1c7Co
+    uploader: 搬运
+    note: 2021 版双语字幕，60 段
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1pR4y1S7GA
+    uploader: 同济子豪兄
+    note: 中文精讲合集 23 讲（含知识图谱扩展）
+  - platform: other
+    url: http://web.stanford.edu/class/cs224w/
+    note: 课程官网（讲义、Colab 作业、阅读材料）
+notes:
+  - title: CS 自学指南
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 1 - Why Graphs
+  - n: 2
+    title: 1.2 - Applications of Graph ML
+  - n: 3
+    title: 1.3 - Choice of Graph Representation
+  - n: 4
+    title: 2.1 - Traditional Feature-based Methods- Node
+  - n: 5
+    title: 2.2 - Traditional Feature-based Methods- Link
+  - n: 6
+    title: 2.3 - Traditional Feature-based Methods- Graph
+  - n: 7
+    title: 3.1 - Node Embeddings
+  - n: 8
+    title: 3.2 - Random Walk Approaches for Node Embeddings
+  - n: 9
+    title: 3.3 - Embedding Entire Graphs
+  - n: 10
+    title: 4.1 - PageRank
+  - n: 11
+    title: 4.2 - PageRank- How to Solve?
+  - n: 12
+    title: 4.3 - Random Walk with Restarts
+  - n: 13
+    title: 4.4 - Matrix Factorizing and Node Embeddings
+  - n: 14
+    title: 5.1 - Message passing and Node Classification
+  - n: 15
+    title: 5.2 - Relational and Iterative Classification
+  - n: 16
+    title: 5.3 - Collective Classification
+  - n: 17
+    title: 6.1 - Graph Neural Networks Introduction
+  - n: 18
+    title: 6.2 - Basics of Deep Learning
+  - n: 19
+    title: 6.3 - Deep Learning for Graphs V2
+  - n: 20
+    title: 7.1 - A General Perspective on GNN
+  - n: 21
+    title: 7.2 - A Single Layer of a GNN
+  - n: 22
+    title: 7.3 - Stacking layers of a GNN
+  - n: 23
+    title: 8.1 - Graph Augmentation for GNNs
+  - n: 24
+    title: 8.2 - Training Graph Neural Networks
+  - n: 25
+    title: 8.3 - Setting up GNN Prediction Tasks
+  - n: 26
+    title: 9.1 - How Expressive are Graph Neural Networks
+  - n: 27
+    title: 9.2 - Designing the Most Powerful GNNs
+  - n: 28
+    title: 10.1-Heterogeneous & Knowledge Graph Embedding
+  - n: 29
+    title: 10.2 - Knowledge Graphs KG Completion
+  - n: 30
+    title: 10.3 - Knowledge Graph Completion
+  - n: 31
+    title: 11.1 - Reasoning in Knowledge Graphs
+  - n: 32
+    title: 11.2 - Answering Predictive Queries
+  - n: 33
+    title: 11.3 - Query2box Reasoning over KGs
+  - n: 34
+    title: 12.1 -Fast Neural Subgraph
+  - n: 35
+    title: 12.2 - Neural Subgraph Matching
+  - n: 36
+    title: 12.3 - Finding Frequent Subgraphs
+  - n: 37
+    title: 13.1 - Community Detection in Networks
+  - n: 38
+    title: 13.2 - Network Communities
+  - n: 39
+    title: 13.3 - Louvain Algorithm
+  - n: 40
+    title: 13.4 - Detecting Overlapping Communities
+  - n: 41
+    title: 14.1 - Generative Models for Graphs
+  - n: 42
+    title: 14.2 - Erdos Renyi Random Graphs V2
+  - n: 43
+    title: 14.3 - The Small World Model
+  - n: 44
+    title: 14.4 - Kronecker Graph Model
+  - n: 45
+    title: 15.1 - Deep Generative Models for Graphs
+  - n: 46
+    title: 15.2 - Graph RNN Generating Realistic Graphs
+  - n: 47
+    title: 15.3 - Scaling Up & Evaluating Graph Gen
+  - n: 48
+    title: 15.4 - Application of Deep Graph Generative
+  - n: 49
+    title: 16.1 - Limitations of Graph Neural Networks
+  - n: 50
+    title: 16.2 - Position aware Graph Neural Networks
+  - n: 51
+    title: 16.3 - Identity-Aware Graph Neural Networks
+  - n: 52
+    title: 16.4 - Robustness of Graph Neural Networks
+  - n: 53
+    title: 17.1 Scaling Up Graph Neural Networks to Large Graphs
+  - n: 54
+    title: 17.2 - GraphSAGE Neighbor Sampling
+  - n: 55
+    title: 17.3 - Cluster GCN Scaling up GNNs
+  - n: 56
+    title: 17.4 - Scaling up by Simplifying GNNs
+  - n: 57
+    title: 18 - GNNs in Computational Biology
+  - n: 58
+    title: 19.1 - Pre Training Graph Neural Networks
+  - n: 59
+    title: 19.2 - Hyperbolic Graph Embeddings
+  - n: 60
+    title: 19.3 - Design Space of Graph Neural Networks

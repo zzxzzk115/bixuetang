@@ -1,0 +1,104 @@
+id: software-foundations
+title: 软件基础（Coq 形式化验证）
+code: "Software Foundations"
+institution: 宾夕法尼亚大学
+subject: cs
+level: advanced
+tags: [ Coq, 形式化验证, 定理证明, 程序语言理论 ]
+prerequisites: [ cs3110 ]
+estimatedHours: 120
+description: >
+  由 Benjamin Pierce 领衔编写的形式化验证经典教材与配套课程，用 Coq 证明助手把逻辑、 函数式程序和程序语言语义讲成可机器检查的证明。全书每一章本身就是一个可编译的 Coq 文件， 读者边读边补全证明，是进入类型论与程序验证领域最扎实的入门路径。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1JEqhYQEMp
+    uploader: 搬运
+    note: 2022 版课程录像，中英双语字幕（AI 翻译）
+  - platform: other
+    url: https://softwarefoundations.cis.upenn.edu/
+    note: 课程官网，含 Logical Foundations 等全部分卷在线书与 Coq 源码
+notes:
+  - title: CS 自学指南 Software Foundations 条目
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: "[01]Welcome to Software Foundations in Coq.zh_en"
+  - n: 2
+    title: "[02]Imagine Yourself As a Programmer _"
+  - n: 3
+    title: "[03]Sources of Knowledge _"
+  - n: 4
+    title: "[04]The Software Crisis _"
+  - n: 5
+    title: "[05]Formal Methods _"
+  - n: 6
+    title: "[06]The Coq System _"
+  - n: 7
+    title: "[07]Recent Great Works in Formal Methods _"
+  - n: 8
+    title: "[08]Seven or Eight Myths _"
+  - n: 9
+    title: "[09]Coq IDEs _"
+  - n: 10
+    title: "[10]Our First Definition and Proof _"
+  - n: 11
+    title: "[11]Booleans"
+  - n: 12
+    title: "[12]Types and Pattern Matching _"
+  - n: 13
+    title: "[13]Naturals Part 1 _"
+  - n: 14
+    title: "[14]Naturals Part 2 _"
+  - n: 15
+    title: "[15]Naturals Part 3 _"
+  - n: 16
+    title: "[16]Intros _"
+  - n: 17
+    title: "[17]Rewrite _ S"
+  - n: 18
+    title: "[18]Destruct _"
+  - n: 19
+    title: "[19]Simpl vs Reflexivity _"
+  - n: 20
+    title: "[20]Exercises in Basics _"
+  - n: 21
+    title: "[21]Separate Compilation _"
+  - n: 22
+    title: "[22]First Proof by Induction _"
+  - n: 23
+    title: "[23]Example Proofs by Induction_"
+  - n: 24
+    title: "[24]Assert _"
+  - n: 25
+    title: "[25]Informal vs Formal Proofs _"
+  - n: 26
+    title: "[26]Exercises in Induction _"
+  - n: 27
+    title: "[27]Pairs _"
+  - n: 28
+    title: "[28]Lists _"
+  - n: 29
+    title: "[29]Proofs About Lists Part 1 _"
+  - n: 30
+    title: "[30]Proofs About Lists Part 2 _"
+  - n: 31
+    title: "[31]Options _"
+  - n: 32
+    title: "[32]Partial Maps _"
+  - n: 33
+    title: "[33]Exercises in Lists _"
+  - n: 34
+    title: "[34]Polymorphic Lists _"
+  - n: 35
+    title: "[35]Improved Polymorphic Syntax _"
+  - n: 36
+    title: "[36]Polymorphic Pairs and Options _"
+  - n: 37
+    title: "[37]Higher-Order Functions Part 1 _"
+  - n: 38
+    title: "[38]Higher-Order Functions Part 2"
+  - n: 39
+    title: "[39]Higher-Order Functions Part 3"
+  - n: 40
+    title: "[40]Exercises in Poly _"

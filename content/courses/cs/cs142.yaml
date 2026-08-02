@@ -1,0 +1,22 @@
+id: cs142
+title: Web 应用开发
+code: "Stanford CS142"
+institution: Stanford
+subject: cs
+level: intermediate
+tags: [ web开发, javascript, react, 全栈 ]
+prerequisites: [ cs61a ]
+estimatedHours: 60
+description: >
+  斯坦福的现代 Web 开发课，从 HTML/CSS/JavaScript 讲到 React、Node.js、Express 与 MongoDB，
+  最后覆盖 Web 安全与性能。特色是配套 8 个递进式项目，一路做完就能独立写出一个完整的前后端应用，
+  是从「会写程序」跨到「会做产品」的顺滑台阶。
+sources:
+  - platform: other
+    url: https://web.stanford.edu/class/cs142/
+    note: 课程官网（讲义、作业与 8 个项目）
+episodeCount: 20
+notes:
+  - title: CS 自学指南：CS142 攻略
+    url: https://csdiy.wiki/Web%E5%BC%80%E5%8F%91/CS142/
+    kind: site

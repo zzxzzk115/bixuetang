@@ -1,0 +1,68 @@
+id: mit-6-004
+title: 计算结构
+code: "6.004"
+institution: MIT
+subject: cs
+level: intermediate
+tags: [ 计算机组成, 数字电路, RISC-V, 体系结构 ]
+prerequisites: [ nand2tetris ]
+estimatedHours: 120
+description: >
+  MIT 经典的计算机系统底层课程，从 MOS 晶体管、组合与时序逻辑一路搭到完整的 RISC-V 流水线处理器，再讲到 Cache、虚拟内存、异常与并发同步。 它填补了「数字电路」与「操作系统」之间最关键的一段空白， 实验用 Minispec/BSV 硬件描述语言亲手实现处理器，学完能真正说清楚一条指令是怎么被执行的。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1cp4y1t7t1
+    uploader: 搬运
+    note: MIT 6.004 Fall 2019 版，中英双字幕合集
+  - platform: other
+    url: https://6004.mit.edu/
+    note: 课程官网
+notes:
+  - title: CS 自学指南 - MIT 6.004
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: L01 Introduction and Binary Representation
+  - n: 2
+    title: L02 Introduction to Assembly and RISC-V
+  - n: 3
+    title: L03 Compiling Code, Procedures, and Stacks
+  - n: 4
+    title: L04 Procedures, Stacks, and MMIO
+  - n: 5
+    title: L05 The Digital Abstraction
+  - n: 6
+    title: L06 Boolean Algebra and Logic Synthesis
+  - n: 7
+    title: L07 Combinational Logic and Introduction to Minispec
+  - n: 8
+    title: L08 Complex Combination Logic Implementation and Design Tradeoffs
+  - n: 9
+    title: L09 CMOS Technology
+  - n: 10
+    title: L11 Sequential Circuits in Minispec
+  - n: 11
+    title: L12 Introduction to Pipelining
+  - n: 12
+    title: L13 Design Tradeoffs in Sequential Logic
+  - n: 13
+    title: L14 Implementing RISC-V Processor in Hardware
+  - n: 14
+    title: L15 The Memory Hierarchy
+  - n: 15
+    title: L16 Caches
+  - n: 16
+    title: L17 Operating Systems Virtual Machines & Exceptions
+  - n: 17
+    title: L18 Virtual Memory
+  - n: 18
+    title: L19 Pipelined Processors
+  - n: 19
+    title: L20 Pipelined Processors Data and Control Hazards
+  - n: 20
+    title: L21 Synchronization
+  - n: 21
+    title: L22 Cache Coherence
+  - n: 22
+    title: L23 Modern Processor Architecture

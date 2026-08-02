@@ -45,3 +45,6 @@ next-env.d.ts
 
 # serve 运行目录（与构建产物分离，避免 EBUSY）
 /.runtime/
+
+# 抓取的字幕等中间产物（体积大且属于平台内容，只做本地分析用）
+/scratch/

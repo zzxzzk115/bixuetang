@@ -1,0 +1,46 @@
+id: essence-of-calculus
+title: 微积分的本质
+code: "Essence of Calculus"
+institution: 3Blue1Brown
+subject: math
+level: basic
+tags: [ 微积分, 数学直觉, 可视化, 导数与积分 ]
+prerequisites: []
+estimatedHours: 8
+description: >
+  3Blue1Brown 出品的微积分可视化系列，用动画把导数、积分、极限、泰勒展开 这些看似抽象的概念还原成几何直觉。它不教你怎么算，而是让你明白公式 「本来就该长这样」——是学微积分之前或之后都该看一遍的思维补课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1qW411N7FU
+    uploader: 3Blue1Brown
+    note: 官方账号双语字幕合集，共 12P
+  - platform: other
+    url: https://www.3blue1brown.com/topics/calculus
+    note: 课程官网
+notes:
+  - title: 3Blue1Brown 官方专题页
+    url: https://www.3blue1brown.com/topics/calculus
+    kind: site
+episodes:
+  - n: 1
+    title: "01"
+  - n: 2
+    title: 02 - 导数的悖论
+  - n: 3
+    title: 03 - 用几何来求导
+  - n: 4
+    title: 04 - 直观理解链式法则和乘积法则
+  - n: 5
+    title: 05 - 指数函数求导
+  - n: 6
+    title: 06 - 隐函数求导是怎么回事？
+  - n: 7
+    title: 07 - 极限
+  - n: 8
+    title: 08 - 积分与微积分基本定理
+  - n: 9
+    title: 09 - 面积和斜率有什么联系？
+  - n: 10
+    title: 09脚注 - 高阶导数
+  - n: 11
+    title: 10 - 泰勒级数

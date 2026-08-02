@@ -1,0 +1,22 @@
+id: cis194
+title: Haskell 函数式编程导论
+code: "CIS 194"
+institution: 宾夕法尼亚大学
+subject: cs
+level: intermediate
+tags: [Haskell, 函数式编程, 类型系统, 惰性求值]
+prerequisites: [cs3110]
+estimatedHours: 60
+description: >
+  宾夕法尼亚大学的 Haskell 入门课程，从代数数据类型、多态与高阶函数一路讲到 Monad、Functor
+  与并发编程。课程以每周讲义加习题的形式组织，习题设计精巧、循序渐进，是公认最适合自学的
+  Haskell 起步材料。Spring 2013 版讲义完整公开，配合 GHC 即可全程自测。
+sources:
+  - platform: other
+    url: https://www.seas.upenn.edu/~cis1940/spring13/
+    note: 课程官网，含全套讲义与每周习题（Spring 2013 版）
+episodeCount: 12
+notes:
+  - title: CS 自学指南 CIS194 条目
+    url: https://csdiy.wiki/
+    kind: site

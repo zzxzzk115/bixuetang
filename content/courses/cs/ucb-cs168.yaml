@@ -1,0 +1,22 @@
+id: ucb-cs168
+title: 互联网架构与协议
+code: "CS168"
+institution: UC Berkeley
+subject: cs
+level: intermediate
+tags: [计算机网络, 互联网协议, 路由, TCP/IP]
+prerequisites: [cs61b]
+estimatedHours: 100
+description: >
+  伯克利的计算机网络课程，由互联网架构的亲历者讲授，自顶向下梳理互联网的设计哲学：
+  分层与端到端原则、路由（距离向量/链路状态/BGP）、可靠传输与拥塞控制、DNS、CDN 与网络安全。
+  相比多数教材式网络课，它更强调「为什么互联网是今天这个样子」，配套编程作业会让你亲手实现路由算法与可靠传输协议。
+sources:
+  - platform: other
+    url: https://cs168.io/
+    note: 课程官网
+episodeCount: 26
+notes:
+  - title: CS 自学指南 - UCB CS168
+    url: https://csdiy.wiki/
+    kind: site

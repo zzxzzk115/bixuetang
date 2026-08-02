@@ -1,0 +1,25 @@
+id: cmu-15-463
+title: 计算摄影
+code: "15-463"
+institution: 卡内基梅隆大学 CMU
+subject: cs
+level: advanced
+tags: [计算摄影, 图像处理, 计算机视觉, 光学]
+prerequisites: [games101]
+estimatedHours: 60
+description: >
+  CMU 的经典计算摄影课程，讲解相机成像管线、去马赛克、HDR、去卷积、光场、
+  编码曝光与孔径等把光学、图像处理与计算结合起来的技术。课程强调动手：
+  作业要求你自己处理 RAW 数据、实现完整的图像重建流程，是从渲染走向真实成像的最佳桥梁。
+sources:
+  - platform: other
+    url: http://graphics.cs.cmu.edu/courses/15-463/
+    note: 课程官网（讲义、作业与课程录像入口）
+  - platform: other
+    url: https://www.youtube.com/playlist?list=PLmo64El8_gQV64Bbc6zqbFICfhsGoOeKt
+    note: Fall 2023 官方课程录像播放列表（英文）
+episodeCount: 20
+notes:
+  - title: CS 自学指南 计算摄影相关章节
+    url: https://csdiy.wiki/
+    kind: site

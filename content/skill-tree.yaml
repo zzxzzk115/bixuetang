@@ -29,9 +29,27 @@ nodes:
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [mit-6-006, cs61b, cs170, mit-6-046, cs106b]
+    courses: [mit-6-006, cs61b, cs170, mit-6-046, cs106b, cmu-15-451]
     rule: any
     description: 掌握核心数据结构与算法设计范式。
+  - id: theory-of-computation
+    title: 计算之界
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [discrete-math]
+    courses: [mit-18-404]
+    rule: any
+    description: 自动机、可计算性与 NP——什么问题机器永远解不了。
+  - id: formal-verification
+    title: 形式之证
+    subject: cs
+    tier: 3
+    cost: 2
+    requires: [prog-languages]
+    courses: [software-foundations]
+    rule: any
+    description: 用 Coq 证明程序正确，而不只是测试它。
   - id: software-engineering
     title: 工程之道
     subject: cs
@@ -45,15 +63,15 @@ nodes:
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [cs106l, cs110l, cs3110]
+    courses: [cs106l, cs110l, cs3110, cis194]
     rule: any
-    description: C++、Rust、OCaml——不同范式塑造不同的思维。
+    description: C++、Rust、OCaml、Haskell——不同范式塑造不同的思维。
   - id: web-fullstack
     title: 全栈之路
     subject: cs
     tier: 2
     requires: [programming-basics]
-    courses: [fullstackopen]
+    courses: [fullstackopen, cs142]
     rule: any
     description: 从 React 到 Node，把想法变成能上线的产品。
   - id: distributed-systems
@@ -71,7 +89,7 @@ nodes:
     tier: 3
     cost: 2
     requires: [programming-basics, linear-intuition]
-    courses: [games101, games202, cmu-15-462, games203]
+    courses: [games101, games202, cmu-15-462, games203, games204, games301, cmu-15-463]
     rule: any
     description: 三大浪漫之一：亲手渲染出一个世界。
   - id: game-dev

@@ -1,0 +1,79 @@
+id: mit-18-404
+title: 计算理论
+code: "18.404J/6.5400"
+institution: 麻省理工学院 MIT
+subject: cs
+level: advanced
+instructor: Michael Sipser
+tags: [ 计算理论, 自动机, 可计算性, 复杂度 ]
+prerequisites: [ mit-6-042j ]
+estimatedHours: 90
+description: >
+  由《计算理论导引》教材作者 Michael Sipser 本人主讲，从正则语言、上下文无关文法讲到 图灵机、可判定性、归约，再到时间/空间复杂度、NP 完全性与概率计算。板书推导清晰、 节奏从容，是理解「什么问题计算机根本算不了」这一命题最经典的一门课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1qL411s7mr
+    uploader: 搬运
+    note: 2020 秋季版，全 26 讲完结，含中文字幕
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1uq4y1N7Bg
+    uploader: 搬运
+    note: 备用源，MIT 18.404J 2020 秋合集
+  - platform: other
+    url: https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/
+    note: 课程官网
+notes:
+  - title: CS自学指南 - 计算理论
+    url: https://csdiy.wiki/
+    kind: site
+episodes:
+  - n: 1
+    title: 引言，有限自动机，正则表达式
+  - n: 2
+    title: Nondeterminism, Closure Properties, Conversion of Regular Expressions to FA (
+  - n: 3
+    title: Regular Pumping Lemma, Conversion of FA to Regular Expressions
+  - n: 4
+    title: Pushdown Automata, Conversion of CFG to PDA and Reverse Conversion
+  - n: 5
+    title: CF Pumping Lemma, Turing Machines
+  - n: 6
+    title: TM Variants, Church-Turing Thesis
+  - n: 7
+    title: Decision Problems for Automata and Grammars
+  - n: 8
+    title: Undecidability
+  - n: 9
+    title: Reducibility
+  - n: 10
+    title: Computation History Method
+  - n: 11
+    title: Recursion Theorem and Logic
+  - n: 12
+    title: Time Complexity
+  - n: 13
+    title: 14. P and NP, SAT, Poly-Time Reducibility
+  - n: 14
+    title: 15. NP-Completeness
+  - n: 15
+    title: 16. Cook-Levin Theorem
+  - n: 16
+    title: 17. Space Complexity, PSPACE, Savitch's Theorem
+  - n: 17
+    title: 18. PSPACE-Completeness
+  - n: 18
+    title: 19. Games, Generalized Geography
+  - n: 19
+    title: 20. L and NL, NL = coNL
+  - n: 20
+    title: 21. Hierarchy Theorems
+  - n: 21
+    title: 22. Provably Intractable Problems, Oracles
+  - n: 22
+    title: 23. Probabilistic Computation, BPP
+  - n: 23
+    title: 24. Probabilistic Computation (cont.)
+  - n: 24
+    title: 25. Interactive Proof Systems, IP
+  - n: 25
+    title: 26. coNP is a subset of IP

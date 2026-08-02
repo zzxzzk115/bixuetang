@@ -1,0 +1,22 @@
+id: cmu-15-451
+title: 算法设计与分析
+code: "15-451/651"
+institution: 卡内基梅隆大学 CMU
+subject: cs
+level: advanced
+tags: [算法, 数据结构, 随机算法, 摊还分析]
+prerequisites: [cs170]
+estimatedHours: 120
+description: >
+  CMU 面向高年级本科与研究生的算法进阶课，覆盖摊还分析、随机算法、哈希与指纹、
+  网络流与线性规划、近似算法、NP 完全性等主题。相比入门算法课，它更强调严谨的
+  证明与算法思想的推导过程，讲义与习题质量极高，是刷完 CS170 后自然的下一站。
+sources:
+  - platform: other
+    url: https://www.cs.cmu.edu/~15451/
+    note: 课程官网（讲义、作业、往年试题全部公开）
+episodeCount: 26
+notes:
+  - title: CS自学指南 - 算法进阶
+    url: https://csdiy.wiki/
+    kind: site
