@@ -68,6 +68,8 @@ export interface GameBootstrap {
   rpg: RpgDto;
   courses: CourseSummaryDto[];
   paths: PathSummaryDto[];
+  /** 连续学习天数（顶栏火焰） */
+  streak: number;
   /** 每学科最高通关层（G3 后填充） */
   trialBest: Partial<Record<Subject, number>>;
 }

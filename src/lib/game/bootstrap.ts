@@ -3,6 +3,7 @@ import "server-only";
 import { getContent } from "../content/load";
 import type { SessionUser } from "../auth/session";
 import { getUserProgress } from "../progress/queries";
+import { learningStreak } from "./achievements";
 import { getRpgProfile } from "./rpg-server";
 import { ZERO_STATS, type StatBlock } from "./relics";
 import type {
@@ -85,6 +86,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     },
     courses,
     paths,
+    streak: learningStreak(user.id),
     trialBest: {},
   };
 }

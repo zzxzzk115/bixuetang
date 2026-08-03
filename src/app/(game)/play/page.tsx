@@ -1,15 +1,15 @@
 import { redirect } from "next/navigation";
-import { GameShell } from "@/components/game/game-shell";
+import { RouteMap } from "@/components/app/route-map";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 
-export const metadata = { title: "公会大厅" };
+export const metadata = { title: "冒险地图" };
 
-// 全屏游戏入口。server component：鉴权 → 一次性注水 → 交给客户端 GameShell。
+// App 主界面：多邻国式路线地图。server 注水一次，客户端纯 DOM 渲染。
 export default async function PlayPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
 
   const bootstrap = getGameBootstrap(user);
-  return <GameShell bootstrap={bootstrap} />;
+  return <RouteMap bootstrap={bootstrap} />;
 }

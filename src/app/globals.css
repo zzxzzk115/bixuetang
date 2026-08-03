@@ -82,155 +82,372 @@ html {
   background: var(--background);
 }
 
-/* ---------- 全屏游戏壳（/play） ---------- */
-/* 脱离站点 820px 断点体系：撑满视口 + safe-area，Phaser 自己按 RESIZE 填满。 */
-.game-root {
+/* ---------- App 壳（/play，多邻国式移动端风格） ---------- */
+/* 设计令牌：明快饱和的品牌色 + 圆角卡片 + 按钮厚底（按下位移）。
+   亮暗两套跟随站点 data-theme。 */
+:root {
+  --app-bg: #ffffff;
+  --app-surface: #ffffff;
+  --app-line: #e5e5e5;
+  --app-text: #4b4b4b;
+  --app-strong: #3c3c3c;
+  --app-faint: #afafaf;
+  --app-green: #58cc02;
+  --app-blue: #1cb0f6;
+  --app-purple: #ce82ff;
+  --app-orange: #ff9600;
+  --app-gold: #ffc800;
+  --app-red: #ff4b4b;
+}
+:root[data-theme="dark"] {
+  --app-bg: #131f24;
+  --app-surface: #202f36;
+  --app-line: #37464f;
+  --app-text: #dce6ec;
+  --app-strong: #f1f7fb;
+  --app-faint: #6f8593;
+}
+
+.app-root {
   position: fixed;
   inset: 0;
-  width: 100dvw;
-  height: 100dvh;
-  overflow: hidden;
-  /* 大厅是横向的，竖屏 fit 后上下会留大片空。用径向渐变把留白做成
-     「大厅悬浮在幽暗地下」的氛围，而不是刺眼的纯黑边 */
-  background:
-    radial-gradient(
-      ellipse 80% 55% at 50% 42%,
-      #24201c 0%,
-      #14100e 45%,
-      #080605 100%
-    );
-  touch-action: none; /* 阻止移动端双指缩放/下拉刷新干扰游戏输入 */
-}
-.game-canvas {
-  width: 100%;
-  height: 100%;
-}
-.game-canvas canvas {
-  display: block;
-}
-.game-loading {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: #d4a64d;
-  font-family: "ArkPixel", monospace;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  pointer-events: none;
-}
-/* 游戏顶栏：路线切换 + 快捷入口（像素风 DOM 覆盖层） */
-.game-topbar {
-  position: absolute;
-  top: calc(10px + env(safe-area-inset-top));
-  right: 12px;
-  left: 12px;
-  z-index: 20;
   display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  pointer-events: none;
+  flex-direction: column;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
 }
-.game-topbar button {
-  pointer-events: auto;
+/* 桌面端整体限宽居中，两侧留白——保持移动端排版不散架 */
+.app-topbar,
+.app-content,
+.app-tabs {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+  border-bottom: 2px solid var(--app-line);
+}
+.app-route-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
   height: 44px;
   padding: 0 14px;
-  border: 2px solid #7e663a;
-  background: rgba(16, 20, 28, 0.92);
-  color: #e9ddba;
-  font-family: "ArkPixel", monospace;
-  font-size: 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+  color: var(--app-strong);
+  font-weight: 800;
+  font-size: 15px;
   cursor: pointer;
 }
-.game-topbar button:hover {
-  border-color: #d4a64d;
-  color: #f2cf7c;
+.app-route-pill:active {
+  transform: translateY(1px);
 }
-.game-topbar-route {
-  max-width: 60vw;
+.app-route-pill-title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.game-topbar-links {
+.app-topbar-stats {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  flex-shrink: 0;
 }
-/* 路线选择面板：全屏像素风列表 */
-.route-sheet {
-  position: absolute;
-  inset: 0;
-  z-index: 30;
+.app-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 800;
+  font-size: 15px;
+}
+.app-stat.streak {
+  color: var(--app-orange);
+}
+.app-stat.coins {
+  color: var(--app-gold);
+}
+
+.app-content {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.app-tabs {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 2px solid var(--app-line);
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--app-bg);
+}
+.app-tabs button {
   display: flex;
   flex-direction: column;
-  background: rgba(8, 11, 16, 0.96);
+  align-items: center;
+  gap: 2px;
+  padding: 8px 0 10px;
+  color: var(--app-faint);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
 }
-.route-sheet header {
+.app-tabs button.active {
+  color: var(--app-blue);
+}
+
+/* ---------- 路线地图 ---------- */
+.route-map {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden; /* 首帧滚动条挤压宽度时的瞬时横向溢出，直接裁掉 */
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-line) transparent;
+}
+.route-map-world {
+  position: relative;
+  width: 100%;
+}
+.route-map-trail {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.route-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  text-align: center;
+}
+.route-node-btn {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--app-line);
+  color: #fff;
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--app-line) 60%, #000);
+  cursor: pointer;
+  transition: transform 80ms ease;
+}
+.route-node-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+.route-node.locked .route-node-btn {
+  color: var(--app-faint);
+  cursor: default;
+}
+.route-node.current .route-node-btn {
+  animation: node-breathe 1.6s ease-in-out infinite;
+}
+@keyframes node-breathe {
+  0%,
+  100% {
+    outline: 6px solid color-mix(in srgb, var(--app-blue) 25%, transparent);
+    outline-offset: 4px;
+  }
+  50% {
+    outline: 10px solid color-mix(in srgb, var(--app-blue) 12%, transparent);
+    outline-offset: 8px;
+  }
+}
+.route-node-bubble {
+  margin-bottom: 8px;
+  padding: 6px 14px;
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  background: var(--app-surface);
+  color: var(--app-green);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  animation: bubble-bounce 1.4s ease-in-out infinite;
+}
+@keyframes bubble-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+.route-node-caption {
+  display: grid;
+  gap: 2px;
+  margin-top: 10px;
+}
+.route-node-caption b {
+  color: var(--app-strong);
+  font-size: 14px;
+  line-height: 1.35;
+}
+.route-node.locked .route-node-caption b {
+  color: var(--app-faint);
+}
+.route-node-caption small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.route-node.shake {
+  animation: node-shake 0.4s ease;
+}
+@keyframes node-shake {
+  0%,
+  100% {
+    margin-left: 0;
+  }
+  25% {
+    margin-left: -8px;
+  }
+  75% {
+    margin-left: 8px;
+  }
+}
+
+/* ---------- 底部弹层（路线选择等） ---------- */
+.app-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+}
+.app-sheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px;
+  max-height: 82dvh;
+  border-radius: 20px 20px 0 0;
+  background: var(--app-bg);
+  animation: sheet-rise 200ms ease-out;
+}
+@keyframes sheet-rise {
+  from {
+    transform: translateY(24px);
+    opacity: 0.4;
+  }
+}
+.app-sheet header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: calc(14px + env(safe-area-inset-top)) 18px 12px;
-  border-bottom: 2px solid #33405a;
-  color: #e9ddba;
-  font-family: "ArkPixel", monospace;
-  font-size: 24px;
+  padding: 16px 18px 12px;
+  border-bottom: 2px solid var(--app-line);
+  color: var(--app-strong);
+  font-size: 17px;
 }
-.route-sheet header button {
-  width: 44px;
-  height: 44px;
-  border: 2px solid #7e663a;
-  background: transparent;
-  color: #d4a64d;
-  font-size: 16px;
+.app-sheet header button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--app-faint);
   cursor: pointer;
 }
-.route-sheet-list {
+.app-sheet-list {
   overflow-y: auto;
   display: grid;
   gap: 10px;
-  padding: 14px 18px calc(20px + env(safe-area-inset-bottom));
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  padding: 14px 16px calc(18px + env(safe-area-inset-bottom));
 }
-.route-sheet-list > button {
+.app-route-card {
   display: grid;
   gap: 6px;
   padding: 12px 14px;
-  border: 2px solid #33405a;
-  background: #131a26;
-  color: #e9ddba;
-  font-family: "ArkPixel", monospace;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+  background: var(--app-surface);
   text-align: left;
   cursor: pointer;
 }
-.route-sheet-list > button:hover {
-  border-color: #d4a64d;
+.app-route-card.active {
+  border-color: var(--app-blue);
 }
-.route-sheet-list > button.active {
-  border-color: #d4a64d;
-  background: #1b2233;
-}
-.route-sheet-list .route-subject {
-  color: #8fa4c4;
+.app-route-card-subject {
+  color: var(--app-blue);
   font-size: 12px;
+  font-weight: 800;
 }
-.route-sheet-list .route-name {
-  font-size: 12px;
-  color: #f0e4c4;
+.app-route-card.subject-math .app-route-card-subject {
+  color: var(--app-purple);
 }
-.route-sheet-list .route-progress {
-  display: block;
-  height: 8px;
-  border: 1px solid #3a4658;
-  background: #0b0f16;
+.app-route-card.subject-physics .app-route-card-subject {
+  color: var(--app-orange);
 }
-.route-sheet-list .route-progress i {
+.app-route-card.subject-ai .app-route-card-subject {
+  color: var(--app-green);
+}
+.app-route-card-title {
+  color: var(--app-strong);
+  font-size: 15px;
+  font-weight: 800;
+}
+.app-route-card-bar {
+  height: 10px;
+  border-radius: 6px;
+  background: var(--app-line);
+  overflow: hidden;
+}
+.app-route-card-bar i {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, #8a6a34, #d4a64d);
+  border-radius: 6px;
+  background: var(--app-green);
 }
-.route-sheet-list small {
-  color: #7d8aa3;
+.app-route-card small {
+  color: var(--app-faint);
   font-size: 12px;
+  font-weight: 700;
+}
+
+/* ---------- 空态/占位 ---------- */
+.app-empty {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 64px 28px;
+  text-align: center;
+}
+.app-empty-icon {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--app-blue) 12%, transparent);
+  color: var(--app-blue);
+}
+.app-empty h1 {
+  color: var(--app-strong);
+  font-size: 20px;
+  font-weight: 800;
+}
+.app-empty p {
+  max-width: 360px;
+  color: var(--app-text);
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 body {
