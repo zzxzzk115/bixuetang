@@ -8,7 +8,7 @@ import Phaser from "phaser";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import { BootScene } from "./scenes/boot";
 import { PreloadScene } from "./scenes/preload";
-import { HallScene } from "./scenes/hall";
+import { MapScene } from "./scenes/map";
 
 export interface GameHandle {
   game: Phaser.Game;
@@ -39,7 +39,7 @@ export function createGame(
       default: "arcade",
       arcade: { debug: false },
     },
-    scene: [BootScene, PreloadScene, HallScene],
+    scene: [BootScene, PreloadScene, MapScene],
   });
 
   // registry 是场景间共享数据的地方；bootstrap 一次性放进去

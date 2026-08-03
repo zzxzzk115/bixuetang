@@ -42,12 +42,6 @@ export class PreloadScene extends Phaser.Scene {
     });
     this.load.atlas("hero", `${ROOT}/hero.png`, `${ROOT}/hero.json`);
 
-    // Glitch 手绘素材（CC0，见 public/assets/glitch/ATTRIBUTION.md）：
-    // 大厅的森林背景与星球表面装饰
-    this.load.image("glitchForest", "/assets/glitch/forest.png");
-    this.load.image("glitchTree", "/assets/glitch/tree.png");
-    this.load.image("glitchBush", "/assets/glitch/bush.png");
-
     // 据点用的装饰图标沿用旧 0x72 tileset（已在库）
     const icons: Record<string, string> = {
       column: "column.png",
@@ -56,6 +50,12 @@ export class PreloadScene extends Phaser.Scene {
       chestOpen: "chest_golden_open_full.png",
       torch: "torch_1.png",
       sage: "npc_sage.png",
+      floorStain: "floor_stain_1.png",
+      skeleton: "monster_skelet.png",
+      orc: "monster_orc.png",
+      zombie: "monster_zombie.png",
+      darkKnight: "monster_dark_knight.png",
+      demon: "monster_demon.png",
     };
     for (const [key, file] of Object.entries(icons)) {
       this.load.image(key, `/assets/pixel-dungeon/${file}`);
@@ -84,6 +84,6 @@ export class PreloadScene extends Phaser.Scene {
       });
     }
 
-    this.scene.start("hall");
+    this.scene.start("map");
   }
 }

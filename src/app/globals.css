@@ -119,6 +119,119 @@ html {
   letter-spacing: 0.1em;
   pointer-events: none;
 }
+/* 游戏顶栏：路线切换 + 快捷入口（像素风 DOM 覆盖层） */
+.game-topbar {
+  position: absolute;
+  top: calc(10px + env(safe-area-inset-top));
+  right: 12px;
+  left: 12px;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+}
+.game-topbar button {
+  pointer-events: auto;
+  height: 44px;
+  padding: 0 14px;
+  border: 2px solid #7e663a;
+  background: rgba(16, 20, 28, 0.92);
+  color: #e9ddba;
+  font-family: "ArkPixel", monospace;
+  font-size: 12px;
+  cursor: pointer;
+}
+.game-topbar button:hover {
+  border-color: #d4a64d;
+  color: #f2cf7c;
+}
+.game-topbar-route {
+  max-width: 60vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.game-topbar-links {
+  display: flex;
+  gap: 8px;
+}
+/* 路线选择面板：全屏像素风列表 */
+.route-sheet {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  background: rgba(8, 11, 16, 0.96);
+}
+.route-sheet header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(14px + env(safe-area-inset-top)) 18px 12px;
+  border-bottom: 2px solid #33405a;
+  color: #e9ddba;
+  font-family: "ArkPixel", monospace;
+  font-size: 24px;
+}
+.route-sheet header button {
+  width: 44px;
+  height: 44px;
+  border: 2px solid #7e663a;
+  background: transparent;
+  color: #d4a64d;
+  font-size: 16px;
+  cursor: pointer;
+}
+.route-sheet-list {
+  overflow-y: auto;
+  display: grid;
+  gap: 10px;
+  padding: 14px 18px calc(20px + env(safe-area-inset-bottom));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.route-sheet-list > button {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 2px solid #33405a;
+  background: #131a26;
+  color: #e9ddba;
+  font-family: "ArkPixel", monospace;
+  text-align: left;
+  cursor: pointer;
+}
+.route-sheet-list > button:hover {
+  border-color: #d4a64d;
+}
+.route-sheet-list > button.active {
+  border-color: #d4a64d;
+  background: #1b2233;
+}
+.route-sheet-list .route-subject {
+  color: #8fa4c4;
+  font-size: 12px;
+}
+.route-sheet-list .route-name {
+  font-size: 12px;
+  color: #f0e4c4;
+}
+.route-sheet-list .route-progress {
+  display: block;
+  height: 8px;
+  border: 1px solid #3a4658;
+  background: #0b0f16;
+}
+.route-sheet-list .route-progress i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #8a6a34, #d4a64d);
+}
+.route-sheet-list small {
+  color: #7d8aa3;
+  font-size: 12px;
+}
 
 body {
   position: relative;
