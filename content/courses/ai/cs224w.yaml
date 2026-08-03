@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1RZ4y1c7Co
     uploader: 搬运
     note: 2021 版双语字幕，60 段
+    title: 【双语字幕】斯坦福CS224W《图机器学习》课程(2021) by Jure Leskovec
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1pR4y1S7GA
     uploader: 同济子豪兄
     note: 中文精讲合集 23 讲（含知识图谱扩展）
+    title: 斯坦福CS224W图机器学习、图神经网络、知识图谱【同济子豪兄】
   - platform: other
     url: http://web.stanford.edu/class/cs224w/
     note: 课程官网（讲义、Colab 作业、阅读材料）

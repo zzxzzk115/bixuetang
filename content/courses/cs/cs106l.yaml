@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1Fz421q7oh
     uploader: 搬运
     note: 2019+2020 年版，中英双语字幕（AI 翻译）
+    title: "斯坦福大学《CS106L: C++编程| Stanford CS106L C++ Programming 2019+2020》中英字幕（豆包翻译"
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1K8411b7AU
     uploader: 搬运
     note: Special Edition 版本，中英双语字幕
+    title: "【中英双语🎉】CS106L: Standard C++ Programming, Special Edition"
   - platform: other
     url: https://web.stanford.edu/class/cs106l/
     note: 课程官网

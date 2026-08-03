@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1TJ411Y7So
     uploader: p3rry（搬运）
     note: 中科大华保健老师编译原理全 86 讲搬运
+    title: 中科大编译原理（华保健）
   - platform: other
     url: https://ustc-compiler.github.io/
     note: 课程官网（含讲义与实验框架）

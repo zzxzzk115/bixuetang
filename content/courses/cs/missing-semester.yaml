@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1rU4y1h7Qr
     uploader: 搬运
     note: 2020 版，英文原声可切中文字幕
+    title: "[搬运] 计算机教育中缺失的一课 [The Missing Semester of Your CS Education]"
   - platform: other
     url: https://missing-semester-cn.github.io/
     note: 官方讲义中文翻译站

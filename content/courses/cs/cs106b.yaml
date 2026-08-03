@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1XH4y1F7Dr
     uploader: 搬运
     note: Summer 2020 版本，中英双语字幕，约 30 讲合集
+    title: "斯坦福大学《CS106B: Programming Abstractions 2020|CS106B：抽象编程》中英字幕"
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1G7411k7jG
     uploader: 搬运
     note: Winter 2018 版本，中英字幕（机翻），完结 27 讲
+    title: 【斯坦福大学】CS106B C++中的抽象编程 · 2018年冬（完结·中英字幕·机翻）
   - platform: other
     url: https://web.stanford.edu/class/cs106b/
     note: 课程官网

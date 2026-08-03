@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1JEqhYQEMp
     uploader: 搬运
     note: 2022 版课程录像，中英双语字幕（AI 翻译）
+    title: 宾夕法尼亚大学《Coq中的软件基础|Software Foundations in Coq 2022》中英字幕（deepseek）
   - platform: other
     url: https://softwarefoundations.cis.upenn.edu/
     note: 课程官网，含 Logical Foundations 等全部分卷在线书与 Coq 源码

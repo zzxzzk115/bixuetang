@@ -1,7 +1,8 @@
 "use client";
 
+import { ExternalLink, Maximize2, MonitorPlay } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import type { Source } from "@/lib/content/schema";
+import type { Episode, Source } from "@/lib/content/schema";
 import { embedFor, PLATFORM_LABEL, type EmbedOptions } from "@/lib/embed";
 import { SEEK_EVENT, type SeekRequest } from "@/lib/seek";
 
@@ -22,16 +23,32 @@ const prefStore = {
   },
 };
 
-export function EmbedPlayer({ sources }: { sources: Source[] }) {
+export function EmbedPlayer({
+  sources,
+  courseTitle,
+  episodes,
+}: {
+  sources: Source[];
+  courseTitle: string;
+  episodes: Episode[];
+}) {
   const [active, setActive] = useState(0);
   const [options, setOptions] = useState<EmbedOptions>({});
-  const nativePage = useSyncExternalStore(prefStore.subscribe, prefStore.get, () => false);
+  const nativePage = useSyncExternalStore(
+    prefStore.subscribe,
+    prefStore.get,
+    () => false,
+  );
   const boxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onSeek = (event: Event) => {
       const request = (event as CustomEvent<SeekRequest>).detail;
-      setOptions({ page: request.page, startSeconds: request.seconds, bvid: request.bvid });
+      setOptions({
+        page: request.page,
+        startSeconds: request.seconds,
+        bvid: request.bvid,
+      });
     };
     window.addEventListener(SEEK_EVENT, onSeek);
     return () => window.removeEventListener(SEEK_EVENT, onSeek);
@@ -39,20 +56,58 @@ export function EmbedPlayer({ sources }: { sources: Source[] }) {
 
   const source = sources[active];
   const canNative = source.platform === "bilibili";
-  const embed = embedFor(source, { ...options, nativePage: nativePage && canNative });
+  const embed = embedFor(source, {
+    ...options,
+    nativePage: nativePage && canNative,
+  });
+  const currentEpisode =
+    episodes.find((episode) => episode.n === (options.page ?? 1)) ?? episodes[0];
+  const originalTitle = source.title || courseTitle;
 
   return (
-    <div>
+    <div className="player-module">
+      <div className="player-source-heading">
+        <div className="player-source-mark" aria-hidden>
+          <MonitorPlay size={18} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <span className="player-source-kicker">原视频标题</span>
+          <strong title={originalTitle}>{originalTitle}</strong>
+          <div className="player-source-meta">
+            <span>{PLATFORM_LABEL[source.platform]}</span>
+            {source.uploader && <span>上传者：{source.uploader}</span>}
+            <a
+              href={source.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              title="在原平台打开"
+            >
+              <ExternalLink aria-hidden size={12} />
+              原站
+            </a>
+          </div>
+        </div>
+        {currentEpisode && (
+          <div className="player-current-episode">
+            <span>当前分集 EP.{String(currentEpisode.n).padStart(2, "0")}</span>
+            <b title={currentEpisode.title}>{currentEpisode.title}</b>
+          </div>
+        )}
+      </div>
+
       <div className="player-toolbar">
         <div className="flex min-w-0 flex-wrap">
           {sources.map((item, index) => (
             <button
-              key={index}
+              key={item.url}
+              type="button"
+              aria-pressed={index === active}
               onClick={() => {
                 setActive(index);
                 setOptions({});
               }}
               className={`player-source ${index === active ? "active" : ""}`}
+              title={item.title || PLATFORM_LABEL[item.platform]}
             >
               {PLATFORM_LABEL[item.platform]}
               {item.uploader ? ` · ${item.uploader}` : ""}
@@ -62,20 +117,23 @@ export function EmbedPlayer({ sources }: { sources: Source[] }) {
         <div className="ml-auto flex items-center gap-1.5">
           {canNative && (
             <button
+              type="button"
               onClick={() => prefStore.set(!nativePage)}
               title="切换 B 站原站页面"
               className={`player-tool ${nativePage ? "active" : ""}`}
             >
-              原站
+              原站页
             </button>
           )}
           {embed.kind === "iframe" && (
             <button
+              type="button"
               onClick={() => void boxRef.current?.requestFullscreen?.()}
               title="全屏播放"
-              className="player-tool"
+              aria-label="全屏播放"
+              className="player-tool player-tool-icon"
             >
-              全屏
+              <Maximize2 aria-hidden size={15} />
             </button>
           )}
         </div>
@@ -86,6 +144,7 @@ export function EmbedPlayer({ sources }: { sources: Source[] }) {
           <iframe
             key={embed.src}
             src={embed.src}
+            title={`${originalTitle} 播放器`}
             className="aspect-video w-full"
             allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
@@ -99,7 +158,12 @@ export function EmbedPlayer({ sources }: { sources: Source[] }) {
         ) : (
           <div className="flex aspect-video w-full flex-col items-center justify-center gap-3 bg-panel">
             <p className="text-sm text-muted">该来源不支持内嵌播放</p>
-            <a href={embed.href} target="_blank" rel="noreferrer noopener" className="command-button">
+            <a
+              href={embed.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="command-button"
+            >
               前往 {PLATFORM_LABEL[source.platform]}
             </a>
           </div>

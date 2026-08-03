@@ -1,15 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+import {
+  BookOpenText,
+  Calculator,
+  ChevronDown,
+  Clock3,
+  Sparkles,
+  Waypoints,
+} from "lucide-react";
 import { useState } from "react";
 import type { CourseAnalysis, Episode } from "@/lib/content/schema";
 import { seekTo } from "@/lib/seek";
 
-function fmtTime(t: number): string {
-  const m = Math.floor(t / 60);
-  const s = Math.floor(t % 60);
-  return `${m}:${String(s).padStart(2, "0")}`;
+function fmtTime(time: number): string {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
 function RichText({
@@ -38,141 +45,189 @@ export function AnalysisPanel({
 }: {
   analysis: CourseAnalysis;
   episodes: Episode[];
-  /** 服务端用 KaTeX 预渲染好的公式：原始 LaTeX → HTML。渲染失败的不会进这张表 */
+  /** 服务端用 KaTeX 预渲染的公式：原始 LaTeX -> HTML。 */
   formulaHtml: Record<string, string>;
-  /** Escaped prose with server-rendered inline KaTeX fragments. */
+  /** 已转义正文以及服务端渲染的行内公式。 */
   richTextHtml: Record<string, string>;
 }) {
-  const [openEp, setOpenEp] = useState<number | null>(null);
-  const bvidOf = (n: number) => episodes.find((e) => e.n === n)?.bvid;
+  const [openEpisode, setOpenEpisode] = useState<number | null>(null);
+  const episodeByNumber = new Map(
+    episodes.map((episode) => [episode.n, episode]),
+  );
 
   return (
-    <section className="hud-panel mt-6">
-      <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-edge px-4 py-3">
-        <h2 className="combat-heading">知识点地图</h2>
-        <span className="inline-flex flex-wrap items-center gap-1 text-xs text-muted">
-          <Sparkles aria-hidden size={13} className="text-gold" /> 智能整理（{analysis.model}
+    <section className="hud-panel analysis-map mt-6">
+      <div className="analysis-map-head">
+        <div>
+          <span className="analysis-map-kicker">
+            <Waypoints aria-hidden size={13} />
+            COURSE KNOWLEDGE MAP
+          </span>
+          <h2 className="combat-heading">知识点地图</h2>
+        </div>
+        <span className="analysis-map-basis">
+          <Sparkles aria-hidden size={13} />
+          智能整理 · {analysis.model}
           {analysis.basis === "titles-only"
-            ? " · 基于集标题与公开资料，无时间轴"
+            ? " · 基于分集标题与公开资料，无时间轴"
             : " · 基于字幕逐集提炼"}
-          ）· 内容以视频为准
+          · 以视频原内容为准
         </span>
       </div>
 
       {analysis.overview && (
-        <p className="border-b border-edge px-4 py-3 text-sm leading-relaxed text-muted">
-          <RichText text={analysis.overview} html={richTextHtml} />
-        </p>
+        <div className="analysis-overview">
+          <BookOpenText aria-hidden size={16} />
+          <p>
+            <RichText text={analysis.overview} html={richTextHtml} />
+          </p>
+        </div>
       )}
 
-      <ul className="divide-y divide-edge">
-        {analysis.episodes.map((ep) => {
-          const open = openEp === ep.n;
-          const preview =
-            ep.summary.length > 48
-              ? ep.summary.slice(0, 48) + "…"
-              : ep.summary;
+      <ol className="analysis-episode-list">
+        {analysis.episodes.map((episodeAnalysis) => {
+          const open = openEpisode === episodeAnalysis.n;
+          const originalEpisode = episodeByNumber.get(episodeAnalysis.n);
+          const originalTitle =
+            originalEpisode?.title || `第 ${episodeAnalysis.n} 集`;
+
           return (
-            <li key={ep.n}>
+            <li key={episodeAnalysis.n} className={open ? "is-open" : ""}>
               <button
-                onClick={() => setOpenEp(open ? null : ep.n)}
-                className="flex w-full items-center justify-between px-4 py-2.5 text-left text-sm hover:bg-panel-hover"
+                type="button"
+                aria-expanded={open}
+                onClick={() =>
+                  setOpenEpisode(open ? null : episodeAnalysis.n)
+                }
+                className="analysis-episode-trigger"
               >
-                <span>
-                  <span className="mr-2 text-muted">#{ep.n}</span>
-                  <RichText text={preview} html={richTextHtml} />
+                <span className="analysis-episode-number">
+                  EP.{String(episodeAnalysis.n).padStart(2, "0")}
                 </span>
-                <span className="shrink-0 text-muted">{open ? "▾" : "▸"}</span>
+                <span className="analysis-episode-copy">
+                  <strong>{originalTitle}</strong>
+                  <span>
+                    <RichText
+                      text={episodeAnalysis.summary}
+                      html={richTextHtml}
+                    />
+                  </span>
+                </span>
+                <ChevronDown
+                  aria-hidden
+                  size={17}
+                  className="analysis-episode-chevron"
+                />
               </button>
+
               {open && (
-                <div className="space-y-3 bg-background/40 px-4 py-3">
-                  <p className="text-sm leading-relaxed">
-                    <RichText text={ep.summary} html={richTextHtml} />
-                  </p>
-                  {ep.keyPoints.length > 0 && (
-                    <ul className="space-y-1.5">
-                      {ep.keyPoints.map((kp, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm">
-                          {kp.t !== undefined ? (
-                            <button
-                              onClick={() =>
-                                seekTo({
-                                  page: ep.n,
-                                  seconds: kp.t,
-                                  bvid: bvidOf(ep.n),
-                                })
-                              }
-                              className="shrink-0 rounded bg-edge px-1.5 py-0.5 font-mono text-xs text-gold hover:bg-gold hover:text-background"
-                              title="跳转到该时间点"
-                            >
-                              ▶ {fmtTime(kp.t)}
-                            </button>
-                          ) : (
-                            <span className="shrink-0 text-gold">◆</span>
-                          )}
-                          <span className="min-w-0">
-                            <b>
-                              <RichText text={kp.title} html={richTextHtml} />
-                            </b>
-                            {kp.detail && (
-                              <span className="text-muted">
-                                {" — "}
+                <div className="analysis-episode-body">
+                  <section className="analysis-summary-block">
+                    <span className="analysis-section-label">本集概要</span>
+                    <p>
+                      <RichText
+                        text={episodeAnalysis.summary}
+                        html={richTextHtml}
+                      />
+                    </p>
+                  </section>
+
+                  {episodeAnalysis.keyPoints.length > 0 && (
+                    <section>
+                      <span className="analysis-section-label">
+                        时间轴与知识重点
+                      </span>
+                      <ol className="analysis-keypoint-list">
+                        {episodeAnalysis.keyPoints.map((keyPoint, index) => (
+                          <li key={index}>
+                            {keyPoint.t !== undefined ? (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  seekTo({
+                                    page: episodeAnalysis.n,
+                                    seconds: keyPoint.t,
+                                    bvid: originalEpisode?.bvid,
+                                  })
+                                }
+                                className="analysis-timestamp"
+                                title="跳转到该时间点"
+                              >
+                                <Clock3 aria-hidden size={12} />
+                                {fmtTime(keyPoint.t)}
+                              </button>
+                            ) : (
+                              <span className="analysis-keypoint-index">
+                                {String(index + 1).padStart(2, "0")}
+                              </span>
+                            )}
+
+                            <div className="analysis-keypoint-copy">
+                              <strong>
                                 <RichText
-                                  text={kp.detail}
+                                  text={keyPoint.title}
                                   html={richTextHtml}
                                 />
-                              </span>
-                            )}
-                            {kp.formula && (
-                              <span className="mt-1 flex items-center gap-2">
-                                {/* 公式可能比容器宽，单独给一层横向滚动，别把整页撑出横条 */}
-                                <span className="min-w-0 flex-1 overflow-x-auto overflow-y-hidden py-0.5">
-                                  {formulaHtml[kp.formula] ? (
-                                    <span
-                                      dangerouslySetInnerHTML={{
-                                        __html: formulaHtml[kp.formula],
-                                      }}
-                                    />
-                                  ) : (
-                                    // KaTeX 认不出来时退回原始 LaTeX，总比什么都不显示强
-                                    <code className="text-xs text-muted">
-                                      {kp.formula}
-                                    </code>
-                                  )}
-                                </span>
-                                <Link
-                                  href={`/lab/math?expr=${encodeURIComponent(kp.formula)}`}
-                                  className="shrink-0 text-xs text-mana hover:underline"
-                                  title="送入数学工坊"
-                                >
-                                  ⚗️
-                                </Link>
-                              </span>
-                            )}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
+                              </strong>
+                              {keyPoint.detail && (
+                                <p>
+                                  <RichText
+                                    text={keyPoint.detail}
+                                    html={richTextHtml}
+                                  />
+                                </p>
+                              )}
+                              {keyPoint.formula && (
+                                <div className="analysis-formula-row">
+                                  <div className="analysis-formula">
+                                    {formulaHtml[keyPoint.formula] ? (
+                                      <span
+                                        dangerouslySetInnerHTML={{
+                                          __html:
+                                            formulaHtml[keyPoint.formula],
+                                        }}
+                                      />
+                                    ) : (
+                                      <code>{keyPoint.formula}</code>
+                                    )}
+                                  </div>
+                                  <Link
+                                    href={`/lab/math?expr=${encodeURIComponent(
+                                      keyPoint.formula,
+                                    )}`}
+                                    className="analysis-formula-action"
+                                    title="送入数学工坊"
+                                    aria-label="送入数学工坊"
+                                  >
+                                    <Calculator aria-hidden size={14} />
+                                  </Link>
+                                </div>
+                              )}
+                            </div>
+                          </li>
+                        ))}
+                      </ol>
+                    </section>
                   )}
-                  {ep.terms.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5">
-                      {ep.terms.map((t, i) => (
-                        <span
-                          key={i}
-                          title={t.definition}
-                          className="cursor-help rounded border border-edge bg-panel px-1.5 py-0.5 text-xs text-muted"
-                        >
-                          {t.term}
-                        </span>
-                      ))}
-                    </div>
+
+                  {episodeAnalysis.terms.length > 0 && (
+                    <section>
+                      <span className="analysis-section-label">本集术语</span>
+                      <div className="analysis-term-list">
+                        {episodeAnalysis.terms.map((term, index) => (
+                          <span key={index} title={term.definition}>
+                            {term.term}
+                          </span>
+                        ))}
+                      </div>
+                    </section>
                   )}
                 </div>
               )}
             </li>
           );
         })}
-      </ul>
+      </ol>
     </section>
   );
 }

@@ -15,6 +15,7 @@ sources:
     url: https://www.bilibili.com/video/BV1f7411z7dw
     uploader: 搬运
     note: 2019 秋季版，中文翻译
+    title: 【2019年秋季版 CMU数据库15-445/645中文翻译版】
   - platform: other
     url: https://15445.courses.cs.cmu.edu/
     note: 课程官网（BusTub 项目）

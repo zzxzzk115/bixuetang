@@ -15,10 +15,12 @@ sources:
     url: https://www.bilibili.com/video/BV12G41137uj
     uploader: 搬运
     note: 全 35 讲完整合集，英文字幕
+    title: 哈佛大学公开课 | stat 110 这绝对是B站讲的最好的【概率论】课程！全35讲 [英文字幕] —人工智能/机器学习/高等数学
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1kE41157pa
     uploader: 搬运
     note: 备用源，中英双语字幕（21 段）
+    title: "Statistics 110: Probability 概率论 哈佛大学（中英）"
   - platform: other
     url: https://projects.iq.harvard.edu/stat110
     note: 课程官网

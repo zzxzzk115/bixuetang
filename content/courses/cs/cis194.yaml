@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1k24y1k7DA
     uploader: 十号线锅炉工
     note: 中文对应课程《Haskell 高级函数式编程》全 17 集，可配合 CIS 194 讲义与习题食用
+    title: Haskell高级函数式编程（全17集）
   - platform: other
     url: https://www.seas.upenn.edu/~cis1940/spring13/
     note: 课程官网，含全套讲义与每周习题（Spring 2013 版）

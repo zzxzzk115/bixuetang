@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1MwDSYWEKy
     uploader: 搬运
     note: 2020 春季版，精翻中文字幕、英文原声
+    title: 【CS162精翻·英文原声】伯克利大学《计算机操作系统》(2020)
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1yk4y1q7C6
     uploader: 搬运
     note: 2020 春季版，完结，中英双语字幕（机翻+人工校对）
+    title: 【加利福尼亚大学伯克利分校】CS162 操作系统 · 2020年春（完结·中英字幕·机翻·人工校对中）
   - platform: other
     url: https://cs162.org/
     note: 课程官网

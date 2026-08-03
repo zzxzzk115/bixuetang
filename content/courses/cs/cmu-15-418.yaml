@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1SM4y1j7XL
     uploader: 搬运
     note: 2023 春季版，45 段
+    title: CMU 15418 并行体系结构与编程 2023 Spring Parallel Computer Architecture and Programming
   - platform: bilibili
     url: https://www.bilibili.com/video/BV18b421J7cA
     uploader: 搬运
     note: 备用源，sp18 版 30 段
+    title: CMU《并行计算机架构与编程|CMU 15-418 Parallel Computer Architecture and Programming sp18》
   - platform: other
     url: https://www.cs.cmu.edu/~418/
     note: 课程官网（含全部讲义、录像与作业）

@@ -122,7 +122,11 @@ export default async function CoursePage({
         />
 
         <div id="course-player" className="player-frame">
-          <EmbedPlayer sources={course.sources} />
+          <EmbedPlayer
+            sources={course.sources}
+            courseTitle={course.title}
+            episodes={course.episodes}
+/>
         </div>
 
         {course.description && (

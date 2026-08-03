@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1YGbceREDs
     uploader: 搬运
     note: 2023 秋季版，27 讲，AI 翻译中文字幕（Claude-3.5）
+    title: UCB《计算机安全|CS 161 Fall 2023 | Computer Security at UC Berkeley》Calude-3.5翻译
   - platform: other
     url: https://fa23.cs161.org/
     note: 课程官网

@@ -15,10 +15,12 @@ sources:
     url: https://www.bilibili.com/video/BV1eM4y1g7De
     uploader: 搬运
     note: 2010 春季版，中英双语字幕，全 32 讲
+    title: 【微分方程】麻省理工学院 MIT 公开课（中英双语字幕）
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1Z7411e7Nz
     uploader: 搬运
     note: 备用源，纯英文字幕完结版
+    title: 【MIT公开课】1803 微分方程（完结·英文字幕）
   - platform: other
     url: https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/
     note: 课程官网

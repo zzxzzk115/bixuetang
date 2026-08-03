@@ -15,6 +15,7 @@ sources:
     url: https://www.bilibili.com/video/BV1oU4y1R7Km
     uploader: GAMES-Webinar（官方）
     note: 官方合集 37 讲（含 Piccolo 源码解读），点集数直接切换
+    title: 01.游戏引擎导论 | GAMES104-现代游戏引擎：从入门到实践
   - platform: other
     url: https://games104.boomingtech.com/
     note: 课程官网（Piccolo 引擎与作业）

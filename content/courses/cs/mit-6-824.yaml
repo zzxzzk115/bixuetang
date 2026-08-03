@@ -15,8 +15,10 @@ sources:
     url: https://www.bilibili.com/video/BV1iD4y1U7gu
     uploader: 搬运
     note: 2020 春季版，简体中文字幕
+    title: "MIT 6.824: 分布式系统 2020春（简体中文字幕）"
   - platform: youtube
     url: https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB
+    title: "MIT 6.824 Distributed Systems (Spring 2020)"
     note: 官方原版录像
 notes:
   - title: MIT 6.824 中文课程笔记（简中翻译）
@@ -27,42 +29,42 @@ notes:
     kind: site
 episodes:
   - n: 1
-    title: 1_Introduction
+    title: "1_Introduction"
   - n: 2
-    title: 2_RPC and Threads
+    title: "2_RPC and Threads"
   - n: 3
-    title: 3_GFS
+    title: "3_GFS"
   - n: 4
-    title: 4_Primary-Backup Replication
+    title: "4_Primary-Backup Replication"
   - n: 5
-    title: 5_Go, Threads, and Raft
+    title: "5_Go, Threads, and Raft"
   - n: 6
-    title: 6_Fault Tolerance-Raft (1)
+    title: "6_Fault Tolerance-Raft (1)"
   - n: 7
-    title: 7_Fault Tolerance-Raft (2)
+    title: "7_Fault Tolerance-Raft (2)"
   - n: 8
-    title: 8_Zookeeper
+    title: "8_Zookeeper"
   - n: 9
-    title: 9_More Replication, CRAQ
+    title: "9_More Replication, CRAQ"
   - n: 10
-    title: 10_Cloud Replicated DB, Aurora
+    title: "10_Cloud Replicated DB, Aurora"
   - n: 11
-    title: 11_Cache Consistency-Frangipani
+    title: "11_Cache Consistency-Frangipani"
   - n: 12
-    title: 12_Distributed Transactions
+    title: "12_Distributed Transactions"
   - n: 13
-    title: 13_Spanner
+    title: "13_Spanner"
   - n: 14
-    title: 14_Optimistic Concurrency Control
+    title: "14_Optimistic Concurrency Control"
   - n: 15
-    title: 15_Big Data-Spark
+    title: "15_Big Data-Spark"
   - n: 16
-    title: 16_Cache Consistency-Memcache at Facebook
+    title: "16_Cache Consistency-Memcache at Facebook"
   - n: 17
-    title: 17_COPS, Causal Consistency
+    title: "17_COPS, Causal Consistency"
   - n: 18
-    title: 18_Fork Consistency, Certificate Transparency
+    title: "18_Fork Consistency, Certificate Transparency"
   - n: 19
-    title: 19_Bitcoin
+    title: "19_Bitcoin"
   - n: 20
-    title: 20_Blockstack
+    title: "20_Blockstack"

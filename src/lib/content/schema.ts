@@ -53,6 +53,8 @@ export type LabTasks = z.infer<typeof LabTasksSchema>;
 export const SourceSchema = z.object({
   platform: z.enum(["bilibili", "youtube", "other"]),
   url: z.url(),
+  /** 平台上的原始视频或播放列表标题。 */
+  title: z.string().optional(),
   uploader: z.string().optional(),
   note: z.string().optional(),
 });

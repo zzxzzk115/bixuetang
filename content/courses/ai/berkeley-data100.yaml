@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1FT4y1A7eS
     uploader: 搬运
     note: Fall 2020 版本，分 P 众多的完整合集，含字幕
+    title: 加州大学伯克利分校 DATA 100 数据科学导论 Principles and Techniques of Data Science（Fall 2020）
   - platform: bilibili
     url: https://www.bilibili.com/video/BV19741117jR
     uploader: 搬运
     note: Summer 2019 版本，27 讲合集
+    title: 【加州大学伯克利分校 数据科学100 数据科学原理与技术】 Data Scienc 100 Summer 2019
   - platform: other
     url: https://ds100.org/
     note: 课程官网

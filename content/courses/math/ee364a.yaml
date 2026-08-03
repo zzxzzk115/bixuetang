@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1Pg4y187Ed
     uploader: 搬运
     note: Boyd 公开课中文字幕，13 段
+    title: "[凸优化-中文字幕]Boyd斯坦福公开课"
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1nj421R71D
     uploader: 搬运
     note: 备用源，中英字幕版
+    title: 斯坦福大学《凸优化|Stanford EE364A Convex Optimization I Stephen Boyd》中英字幕
   - platform: other
     url: https://web.stanford.edu/class/ee364a/
     note: 课程官网（讲义、作业、录像与 CVX 工具链入口）

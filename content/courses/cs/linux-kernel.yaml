@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1tQ4y1d7mo
     uploader: 孤雁寒窗（搬运）
     note: 《Linux 内核精讲》全 72 讲，涵盖内核中断架构、调度、内存与源码实现分析
+    title: 非常好的Linux内核视频 - Linux内核精讲
   - platform: other
     url: https://www.kernel.org/doc/html/latest/
     note: 课程官网（Linux 内核官方文档，含开发流程与子系统手册）

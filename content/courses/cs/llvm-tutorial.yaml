@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1HtRUYnEji
     uploader: Mindofuture（搬运）
     note: 全 25 讲 LLVM 入门教程中英字幕，涵盖 IR、Pass、分析与变换
+    title: LLVM入门教程 • 中英
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1h14y1J7Gm
     uploader: 十号线锅炉工（搬运）
     note: 全 20 集，用 LLVM 与 MLIR 从零构建一个编译器
+    title: 如何使用LLVM和MLIR来构建一个编译器？（全20集）
   - platform: other
     url: https://llvm.org/docs/tutorial/
     note: 课程官网（LLVM 官方教程，含 C++ 与 OCaml 两套实现）

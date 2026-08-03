@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1QE411p7z3
     uploader: 爱可可-爱生活（搬运）
     note: 李宏毅《深度学习人类语言处理》国语课程(2020)，全 33 讲，中文对应课程，覆盖语音识别、语音合成与语音表征
+    title: 李宏毅《深度学习人类语言处理》国语课程(2020)
   - platform: other
     url: https://web.stanford.edu/class/cs224s/
     note: 课程官网（含 syllabus、讲义与项目要求）

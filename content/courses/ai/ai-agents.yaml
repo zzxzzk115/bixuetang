@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1RsZPYsEtE
     uploader: GPT中英字幕课程资源（搬运）
     note: 全 12 讲中英字幕搬运（Claude-3.5-sonnet 翻译）
+    title: UCB《大语言模型智能体|UCB CS 194 294-196 (LLM Agents) 2024》中英字幕（Claude-3.5-sonnet翻译）
   - platform: other
     url: https://llmagents-learning.org/f24
     note: 课程官网（含全部讲座录像、Slides 与作业）

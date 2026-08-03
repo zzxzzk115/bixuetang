@@ -15,6 +15,7 @@ sources:
     url: https://www.bilibili.com/video/BV1Tx4y1s7sP
     uploader: 搬运
     note: 官方教材配套视频，中英双语字幕，200 个短视频合集
+    title: "康奈尔大学《OCaml编程|CS3110：OCaml Programming: Correct + Efficient + Beautiful》中英字幕"
   - platform: other
     url: https://cs3110.github.io/textbook/cover.html
     note: 课程官网 / 开源教材

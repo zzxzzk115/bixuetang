@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1sv411k7pS
     uploader: 搬运
     note: 2020/2021 秋季版本，英文字幕（可开自动翻译）
+    title: CMU计算机图形学英文字幕
   - platform: other
     url: http://15462.courses.cs.cmu.edu/
     note: 课程官网

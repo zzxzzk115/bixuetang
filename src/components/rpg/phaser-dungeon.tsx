@@ -9,10 +9,7 @@ import {
   Sparkles,
   Timer,
 } from "lucide-react";
-import {
-  ENCOUNTER_LABEL,
-  type EpisodeLoot,
-} from "@/lib/game/rpg";
+import { ENCOUNTER_LABEL, type EpisodeLoot } from "@/lib/game/rpg";
 import { RPG_LOOT_EVENT } from "@/lib/game/rpg-events";
 
 interface DungeonProfile {
@@ -25,6 +22,13 @@ interface DungeonProfile {
     power: number;
   };
 }
+
+const ASSET_ROOT = "/assets/pixel-dungeon";
+const MONSTERS = [
+  { key: "skeleton", file: "monster_skelet.png", title: "骸骨守卫" },
+  { key: "orc", file: "monster_orc.png", title: "兽人斥候" },
+  { key: "zombie", file: "monster_zombie.png", title: "遗忘学徒" },
+] as const;
 
 export function PhaserDungeon({
   courseCode,
@@ -42,6 +46,10 @@ export function PhaserDungeon({
   loggedIn: boolean;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
+  const encounterType = loot.encounterType;
+  const itemId = loot.item.id;
+  const itemTitle = loot.item.title;
+  const rewardCoins = loot.coins;
 
   useEffect(() => {
     let game: import("phaser").Game | undefined;
@@ -57,120 +65,195 @@ export function PhaserDungeon({
           super("guild-dungeon");
         }
 
+        preload() {
+          const assets = {
+            wall: "wall_center.png",
+            wallTop: "wall_top_center.png",
+            wallFront: "wall_front.png",
+            floor: "floor_plain.png",
+            floorStain: "floor_stain_1.png",
+            column: "column.png",
+            sage: "npc_sage.png",
+            skeleton: "monster_skelet.png",
+            orc: "monster_orc.png",
+            zombie: "monster_zombie.png",
+            elite: "monster_dark_knight.png",
+            boss: "monster_demon.png",
+            chest: "chest_golden_closed.png",
+            chestOpen: "chest_golden_open_full.png",
+            sword: "weapon_sword_golden.png",
+            torch1: "torch_1.png",
+            torch2: "torch_2.png",
+            torch3: "torch_3.png",
+            torch4: "torch_4.png",
+          };
+          for (const [key, file] of Object.entries(assets)) {
+            this.load.image(key, `${ASSET_ROOT}/${file}`);
+          }
+        }
+
         create() {
-          const width = 960;
-          const height = 340;
-          const palette = {
-            void: 0x070a08,
-            stone: 0x151b17,
-            mortar: 0x2a342d,
-            copper: 0xa96537,
-            gold: 0xd7aa50,
-            bone: 0xd8d1bd,
-            red: 0xa63f3b,
-            green: 0x426b4b,
-          };
+          const width = 480;
+          const height = 170;
 
-          const room = this.add.graphics();
-          room.fillStyle(palette.void, 1).fillRect(0, 0, width, height);
-          room.fillStyle(palette.stone, 1).fillRect(0, 36, width, 230);
-          for (let y = 42; y < 260; y += 38) {
-            room.lineStyle(1, palette.mortar, 0.72);
-            room.lineBetween(0, y, width, y);
-            const offset = y % 76 === 42 ? 0 : 48;
-            for (let x = offset; x < width; x += 96) room.lineBetween(x, y, x, y + 38);
-          }
-          room.fillStyle(0x0d120f, 1).fillRect(0, 266, width, 74);
-          room.lineStyle(2, 0x38443a, 0.8).lineBetween(0, 266, width, 266);
-          for (let x = 0; x < width; x += 96) {
-            room.lineStyle(1, 0x222b25, 0.75).lineBetween(x, 266, x - 42, height);
+          const wall = this.add
+            .tileSprite(0, 0, width, 116, "wall")
+            .setOrigin(0);
+          wall.tileScaleX = 2;
+          wall.tileScaleY = 2;
+
+          const wallTop = this.add
+            .tileSprite(0, 0, width, 20, "wallTop")
+            .setOrigin(0);
+          wallTop.tileScaleX = 2;
+          wallTop.tileScaleY = 2;
+
+          const floor = this.add
+            .tileSprite(0, 112, width, 58, "floor")
+            .setOrigin(0);
+          floor.tileScaleX = 2;
+          floor.tileScaleY = 2;
+
+          for (let x = 18; x < width; x += 82) {
+            this.add.image(x, 137, "floorStain").setScale(2);
           }
 
-          const arch = this.add.graphics();
-          arch.lineStyle(18, 0x0d120f, 1);
-          arch.strokeRoundedRect(675, 65, 210, 208, 96);
-          arch.lineStyle(2, 0x3d473f, 0.9);
-          arch.strokeRoundedRect(686, 76, 188, 198, 86);
+          this.add
+            .tileSprite(0, 104, width, 18, "wallFront")
+            .setOrigin(0)
+            .setScale(2, 1);
 
-          const addTorch = (x: number) => {
-            const torch = this.add.container(x, 105);
-            const metal = this.add.rectangle(0, 24, 6, 38, 0x55483a);
-            const glow = this.add.circle(0, 0, 27, palette.copper, 0.14);
-            const flame = this.add.triangle(0, 0, -7, 9, 0, -12, 7, 9, palette.gold);
-            torch.add([glow, metal, flame]);
-            this.tweens.add({
-              targets: [glow, flame],
-              scaleX: 1.12,
-              scaleY: 0.86,
-              alpha: { from: 0.72, to: 1 },
-              duration: 720,
-              yoyo: true,
-              repeat: -1,
-            });
-          };
-          addTorch(92);
-          addTorch(868);
+          this.add.image(30, 84, "column").setScale(2.5);
+          this.add.image(450, 84, "column").setScale(2.5);
 
-          const hero = this.add.container(225, 237);
-          const heroShadow = this.add.ellipse(0, 25, 92, 20, 0x000000, 0.45);
-          const cape = this.add.triangle(-17, -16, -38, 25, 15, 22, -10, -52, 0x263b30);
-          const body = this.add.rectangle(0, -14, 42, 70, 0x394f40);
-          body.setStrokeStyle(3, 0x9f7b3f);
-          const head = this.add.circle(0, -65, 22, palette.bone);
-          head.setStrokeStyle(4, 0x282f2a);
-          const visor = this.add.rectangle(3, -65, 39, 10, 0x1c2720);
-          const eye = this.add.rectangle(13, -65, 7, 3, palette.gold);
-          const shield = this.add.polygon(-27, -15, [0, 0, 22, 5, 18, 42, 0, 54, -18, 42, -22, 5], 0x27372d);
-          shield.setStrokeStyle(3, 0xb58a42);
-          const sword = this.add.rectangle(33, -26, 5, 76, 0xc8c7bd);
-          sword.setRotation(0.34);
-          const hilt = this.add.rectangle(22, 5, 27, 5, 0xb07b3c);
-          hilt.setRotation(0.34);
-          hero.add([heroShadow, cape, body, head, visor, eye, shield, sword, hilt]);
+          const torchLeft = this.add.image(48, 54, "torch1").setScale(2.1);
+          const torchRight = this.add.image(432, 54, "torch1").setScale(2.1);
+          const torchFrames = ["torch1", "torch2", "torch3", "torch4"];
+          let torchFrame = 0;
+          this.time.addEvent({
+            delay: 120,
+            loop: true,
+            callback: () => {
+              torchFrame = (torchFrame + 1) % torchFrames.length;
+              torchLeft.setTexture(torchFrames[torchFrame]);
+              torchRight.setTexture(torchFrames[torchFrame]);
+            },
+          });
+
+          this.add.rectangle(240, 85, width, height, 0x020403, 0.2);
+          this.add
+            .rectangle(240, 161, width, 18, 0x050806, 0.62)
+            .setStrokeStyle(1, 0x4a4535, 0.8);
+
+          const roomFrame = this.add.graphics();
+          roomFrame.lineStyle(1, 0x7e6a3d, 0.65);
+          roomFrame.strokeRect(5, 5, width - 10, height - 10);
+          roomFrame.lineStyle(1, 0x232c26, 0.8);
+          roomFrame.lineBetween(60, 119, 420, 119);
+
+          const heroShadow = this.add.ellipse(116, 133, 54, 10, 0x000000, 0.5);
+          const hero = this.add.image(116, 111, "sage").setScale(4.3);
+          hero.setOrigin(0.5, 0.75);
+          const sword = this.add
+            .image(145, 104, "sword")
+            .setScale(2.3)
+            .setRotation(0.45);
+          this.add
+            .text(116, 67, "学者", {
+              color: "#d9c58d",
+              fontFamily: "Microsoft YaHei, sans-serif",
+              fontSize: "7px",
+              fontStyle: "bold",
+            })
+            .setOrigin(0.5);
+
           this.tweens.add({
-            targets: hero,
-            y: 233,
-            duration: 1150,
+            targets: [hero, sword],
+            y: "-=2",
+            duration: 900,
+            ease: "Sine.InOut",
+            yoyo: true,
+            repeat: -1,
+          });
+          this.tweens.add({
+            targets: heroShadow,
+            scaleX: 0.9,
+            alpha: 0.36,
+            duration: 900,
             ease: "Sine.InOut",
             yoyo: true,
             repeat: -1,
           });
 
-          const enemy = this.add.container(735, 226);
-          const enemyShadow = this.add.ellipse(0, 34, 118, 23, 0x000000, 0.52);
-          enemy.add(enemyShadow);
+          const mob = MONSTERS[(episodeN - 1) % MONSTERS.length];
+          const enemyConfig =
+            encounterType === "cache"
+              ? { key: "chest", title: "补给宝箱", scale: 4.2 }
+              : encounterType === "boss"
+                ? { key: "boss", title: "课程首领", scale: 2.8 }
+                : encounterType === "elite"
+                  ? { key: "elite", title: "精英守关者", scale: 3.8 }
+                  : { key: mob.key, title: mob.title, scale: 4 };
 
-          if (loot.encounterType === "cache") {
-            const chest = this.add.rectangle(0, 1, 112, 63, 0x5f3d27);
-            chest.setStrokeStyle(4, palette.gold);
-            const lid = this.add.rectangle(0, -34, 116, 29, 0x74482b);
-            lid.setStrokeStyle(4, palette.gold);
-            const lock = this.add.rectangle(0, -5, 18, 23, palette.gold);
-            enemy.add([chest, lid, lock]);
-          } else {
-            const scale = loot.encounterType === "boss" ? 1.38 : loot.encounterType === "elite" ? 1.18 : 1;
-            const cloakColor = loot.encounterType === "boss" ? 0x532322 : loot.encounterType === "elite" ? 0x4b3828 : 0x2d3530;
-            const cloak = this.add.triangle(0, 0, -45, 42, 45, 42, 0, -74, cloakColor);
-            cloak.setStrokeStyle(3, loot.encounterType === "boss" ? palette.red : 0x69736b);
-            const skull = this.add.circle(0, -66, 24, 0xc8c1ac);
-            skull.setStrokeStyle(4, 0x252a26);
-            const eyeA = this.add.circle(-9, -68, 5, palette.red);
-            const eyeB = this.add.circle(9, -68, 5, palette.red);
-            const staff = this.add.rectangle(50, -17, 6, 112, 0x6b553a);
-            const crest = this.add.polygon(50, -78, [0, -17, 15, 0, 0, 17, -15, 0], loot.encounterType === "boss" ? palette.red : palette.copper);
-            enemy.add([cloak, skull, eyeA, eyeB, staff, crest]);
-            enemy.setScale(scale);
+          const enemyShadow = this.add.ellipse(
+            367,
+            134,
+            encounterType === "boss" ? 76 : 58,
+            11,
+            0x000000,
+            0.55,
+          );
+          const enemy = this.add
+            .image(367, 111, enemyConfig.key)
+            .setScale(enemyConfig.scale)
+            .setOrigin(0.5, 0.75);
+          this.add
+            .text(367, 65, enemyConfig.title, {
+              color: encounterType === "boss" ? "#e67f68" : "#c6bda5",
+              fontFamily: "Microsoft YaHei, sans-serif",
+              fontSize: "7px",
+              fontStyle: "bold",
+            })
+            .setOrigin(0.5);
+
+          if (encounterType !== "cache") {
+            const hpWidth =
+              encounterType === "boss" ? 76 : encounterType === "elite" ? 64 : 52;
+            this.add.rectangle(367, 76, hpWidth + 2, 5, 0x080a08, 0.95);
+            this.add
+              .rectangle(367 - hpWidth / 2, 76, hpWidth, 3, 0x9e493e, 1)
+              .setOrigin(0, 0.5);
+            this.tweens.add({
+              targets: enemy,
+              y: "-=2",
+              duration: encounterType === "boss" ? 1250 : 1080,
+              ease: "Sine.InOut",
+              yoyo: true,
+              repeat: -1,
+            });
           }
 
-          const slash = this.add.arc(455, 185, 68, 210, 345, false, palette.gold, 0);
-          slash.setStrokeStyle(8, palette.gold, 0);
+          const slash = this.add.arc(
+            237,
+            103,
+            38,
+            210,
+            345,
+            false,
+            0xe6b95d,
+            0,
+          );
+          slash.setStrokeStyle(5, 0xe6b95d, 0);
+
           const rewardText = this.add
-            .text(480, 95, "", {
-              color: "#e8bc62",
-              fontFamily: "monospace",
-              fontSize: "18px",
+            .text(240, 45, "", {
+              color: "#f0c665",
+              fontFamily: "Microsoft YaHei, monospace",
+              fontSize: "9px",
               fontStyle: "bold",
               align: "center",
+              stroke: "#080b09",
+              strokeThickness: 3,
             })
             .setOrigin(0.5)
             .setAlpha(0);
@@ -178,39 +261,56 @@ export function PhaserDungeon({
           const onLoot = (rawEvent: Event) => {
             const event = rawEvent as CustomEvent<EpisodeLoot>;
             const received = event.detail;
-            if (!received || received.item.id !== loot.item.id) return;
+            if (!received || received.item.id !== itemId) return;
+
             this.tweens.killTweensOf(hero);
+            this.tweens.killTweensOf(enemy);
             this.tweens.add({
-              targets: hero,
-              x: 400,
+              targets: [hero, sword],
+              x: "+=105",
               duration: 210,
               ease: "Quad.Out",
               yoyo: true,
-              hold: 90,
+              hold: 80,
             });
             this.tweens.add({
               targets: slash,
               alpha: { from: 0, to: 1 },
               duration: 100,
               yoyo: true,
-              delay: 130,
+              delay: 120,
             });
-            this.tweens.add({
-              targets: enemy,
-              x: 760,
-              angle: { from: -2, to: 3 },
-              alpha: 0.16,
-              duration: 390,
-              delay: 190,
-              ease: "Back.In",
-            });
-            rewardText.setText(`+${received.coins} COIN  ·  ${received.item.title}`);
+
+            if (encounterType === "cache") {
+              enemy.setTexture("chestOpen");
+              this.tweens.add({
+                targets: enemy,
+                y: "-=6",
+                duration: 180,
+                yoyo: true,
+                delay: 170,
+              });
+            } else {
+              this.tweens.add({
+                targets: [enemy, enemyShadow],
+                x: "+=18",
+                angle: { from: -2, to: 4 },
+                alpha: 0.12,
+                duration: 390,
+                delay: 170,
+                ease: "Back.In",
+              });
+            }
+
+            rewardText.setText(
+              `+${received.coins} 金币  ·  ${received.item.title}`,
+            );
             this.tweens.add({
               targets: rewardText,
-              y: 72,
+              y: 34,
               alpha: { from: 0, to: 1 },
               duration: 520,
-              delay: 430,
+              delay: 380,
               ease: "Cubic.Out",
             });
           };
@@ -220,35 +320,40 @@ export function PhaserDungeon({
             window.removeEventListener(RPG_LOOT_EVENT, onLoot);
           });
 
-          this.add
-            .text(22, 311, `FIXED ENCOUNTER · ${courseCode} / EP.${String(episodeN).padStart(2, "0")}`, {
-              color: "#748077",
+          this.add.text(
+            12,
+            157,
+            `FIXED ENCOUNTER · ${courseCode} / EP.${String(episodeN).padStart(2, "0")}`,
+            {
+              color: "#788078",
               fontFamily: "monospace",
-              fontSize: "10px",
-            });
+              fontSize: "5px",
+            },
+          );
           this.add
-            .text(938, 311, ENCOUNTER_LABEL[loot.encounterType].toUpperCase(), {
-              color: "#c79b4b",
-              fontFamily: "monospace",
-              fontSize: "10px",
+            .text(468, 157, ENCOUNTER_LABEL[encounterType], {
+              color: "#d4a94f",
+              fontFamily: "Microsoft YaHei, monospace",
+              fontSize: "6px",
               fontStyle: "bold",
             })
             .setOrigin(1, 0);
 
-          this.cameras.main.fadeIn(280, 5, 8, 6);
+          this.cameras.main.fadeIn(220, 4, 7, 5);
         }
       }
 
       game = new Phaser.Game({
         type: Phaser.AUTO,
         parent: hostRef.current,
-        width: 960,
-        height: 340,
+        width: 480,
+        height: 170,
         backgroundColor: "#070a08",
         transparent: false,
         render: {
-          antialias: true,
-          pixelArt: false,
+          antialias: false,
+          pixelArt: true,
+          roundPixels: true,
         },
         scale: {
           mode: Phaser.Scale.FIT,
@@ -263,7 +368,14 @@ export function PhaserDungeon({
       cancelled = true;
       game?.destroy(true);
     };
-  }, [courseCode, episodeN, loot.encounterType, loot.item.id]);
+  }, [
+    courseCode,
+    encounterType,
+    episodeN,
+    itemId,
+    itemTitle,
+    rewardCoins,
+  ]);
 
   const stats = [
     { label: "洞察", value: profile.stats.insight, icon: Eye },
@@ -276,13 +388,21 @@ export function PhaserDungeon({
     <section className="dungeon-chamber" aria-label="课程地下城遭遇">
       <div className="dungeon-chamber-head">
         <div>
-          <span className="dungeon-kicker">ACTIVE CHAMBER // FIXED REWARD</span>
-          <h2>{ENCOUNTER_LABEL[loot.encounterType]} · 第 {episodeN} 集</h2>
+          <span className="dungeon-kicker">
+            ACTIVE CHAMBER // FIXED REWARD
+          </span>
+          <h2>
+            {ENCOUNTER_LABEL[loot.encounterType]} · 第 {episodeN} 集
+          </h2>
           <p>{episodeTitle}</p>
         </div>
         <div className="dungeon-reward-preview">
-          <span><Coins aria-hidden size={15} /> {loot.coins}</span>
-          <b data-rarity={loot.item.rarity}><Sparkles aria-hidden size={15} /> {loot.item.title}</b>
+          <span>
+            <Coins aria-hidden size={15} /> {loot.coins}
+          </span>
+          <b data-rarity={loot.item.rarity}>
+            <Sparkles aria-hidden size={15} /> {loot.item.title}
+          </b>
         </div>
       </div>
 
@@ -296,14 +416,21 @@ export function PhaserDungeon({
       </div>
 
       <div className="dungeon-stat-strip">
-        <span className="dungeon-power">战力 <b>{profile.stats.power}</b></span>
+        <span className="dungeon-power">
+          战力 <b>{profile.stats.power}</b>
+        </span>
         {stats.map(({ label, value, icon: Icon }) => (
-          <span key={label}><Icon aria-hidden size={13} /> {label} <b>{value}</b></span>
+          <span key={label}>
+            <Icon aria-hidden size={13} /> {label} <b>{value}</b>
+          </span>
         ))}
-        <span className="dungeon-coins"><Coins aria-hidden size={13} /> 金币 <b>{profile.coins}</b></span>
+        <span className="dungeon-coins">
+          <Coins aria-hidden size={13} /> 金币 <b>{profile.coins}</b>
+        </span>
       </div>
       <p className="dungeon-rule-note">
-        公开规则：普通分集掉落学科材料；每 5 集为补给宝箱；每 10 集为精英；末集为课程首领。无随机数，无账号差异。
+        公开规则：普通分集掉落学科材料；每 5 集为补给宝箱；每 10
+        集为精英；末集为课程首领。无随机数，无账号差异。
       </p>
     </section>
   );

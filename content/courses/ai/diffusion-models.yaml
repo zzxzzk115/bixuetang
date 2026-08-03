@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1wh4y1k7Te
     uploader: 李宏毅（搬运）
     note: Diffusion Model 原理剖析全 6 讲，中文讲授
+    title: 【李宏毅】Diffusion models原理剖析
   - platform: other
     url: https://speech.ee.ntu.edu.tw/~hylee/ml/2023-spring.php
     note: 课程官网（生成式 AI / 扩散模型专题讲义与投影片）

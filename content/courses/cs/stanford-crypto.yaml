@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1yx411T78i
     uploader: 伊卡酱
     note: Coursera 版完结合集，全程精校中文译注
+    title: 【完结合集】Dan Boneh的密码学 第一季【伊卡酱全程译注】
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1eU4y1M7ad
     uploader: 搬运
     note: 斯坦福密码学中英双语字幕版，备选源
+    title: 【斯坦福】密码学-中英字幕
   - platform: other
     url: https://crypto.stanford.edu/~dabo/courses/OnlineCrypto/
     note: 课程官网

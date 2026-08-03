@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1kp411R74V
     uploader: 搬运
     note: GD50 完整合集（13 讲）
+    title: CS50's Introduction to Game Development
   - platform: other
     url: https://cs50.harvard.edu/games/
     note: 课程官网

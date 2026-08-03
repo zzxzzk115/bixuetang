@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1dy1BYxEUY
     uploader: itshare1024（搬运）
     note: 嵌入式 ARM Cortex-M4 开发实战，全 50 讲中文课程，与本课 Cortex-M 平台内容对应
+    title: 嵌入式ARM-Cortex-M4开发实战
   - platform: other
     url: https://users.ece.utexas.edu/~valvano/arm/outline1.htm
     note: 课程官网，含全套讲义、实验与仿真器

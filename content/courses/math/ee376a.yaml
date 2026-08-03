@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1HJaYzhEfZ
     uploader: GPT中英字幕课程资源（搬运）
     note: 剑桥 David MacKay《信息论、模式识别与神经网络》全 16 讲中英字幕，内容与 EE376A 高度重合
+    title: 剑桥|信息论、模式识别和神经网络Information Theory Pattern Recognition and Neural Networks 2014
   - platform: other
     url: https://web.stanford.edu/class/ee376a/
     note: 课程官网，含讲义、Scribe Notes 与作业

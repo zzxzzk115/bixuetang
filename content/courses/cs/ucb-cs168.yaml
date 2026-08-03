@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1ZJJjzGE5v
     uploader: Mindofuture（搬运）
     note: CS168 Spring 2025 全 24 讲搬运
+    title: 【UC 伯克利大学】计算机网络 | CS168 SP25 | UC Berkeley（spring 2025）
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1TktpzcEjk
     uploader: 常青藤中英字幕课程（搬运）
     note: CS168 2025 中英双语字幕版，含讨论课共 59P
+    title: 加州大学伯克利分校【中英⚡计算机网络|CS168 2025 Introduction to the Internet】
   - platform: other
     url: https://cs168.io/
     note: 课程官网

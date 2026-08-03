@@ -15,10 +15,12 @@ sources:
     url: https://www.bilibili.com/video/BV1qL411s7mr
     uploader: 搬运
     note: 2020 秋季版，全 26 讲完结，含中文字幕
+    title: 【MIT18.404】计算理论基础(完结)—理论研究或算法应用的基础课
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1uq4y1N7Bg
     uploader: 搬运
     note: 备用源，MIT 18.404J 2020 秋合集
+    title: 【搬运】【合集】MIT 18.404J 计算理论（2020年秋期）
   - platform: other
     url: https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/
     note: 课程官网

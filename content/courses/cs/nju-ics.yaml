@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1jE411874k
     uploader: 搬运
     note: 袁春风老师主讲，中文原声，理论课完整版
+    title: 南京大学 计算机系统基础(三)完整 主讲：袁春风老师
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1rb4y1V7A2
     uploader: 搬运
     note: 计算机系统基础实验课（ICS-PA）录像，中文原声
+    title: 南京大学-计算机系统基础实验课-W1开篇
   - platform: other
     url: https://ysyx.oscc.cc/docs/ics-pa/
     note: 课程官网

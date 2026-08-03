@@ -14,6 +14,7 @@ sources:
     url: https://www.bilibili.com/video/BV1pw411d7aS
     uploader: GAMES-Webinar
     note: GAMES 官方账号发布，中文授课全 14 讲合集
+    title: "GAMES203: 三维重建和理解"
   - platform: other
     url: https://www.cs.utexas.edu/~huangqx/Games_3D_Recons_Understanding.html
     note: 课程官网

@@ -2032,3 +2032,408 @@ body:has(.dungeon-chamber) .analysis-section {
 .encounter-row.encounter-boss{border-left:3px solid #c54a41;background:color-mix(in srgb,#c54a41 10%,var(--panel));box-shadow:inset 0 0 26px rgba(139,46,40,.08)}
 .encounter-code[data-kind="cache"]{color:#c49b4c}
 .encounter-code[data-kind="elite"],.encounter-code[data-kind="boss"]{color:#c26755}
+
+
+/* Source identity and episode-first knowledge map */
+.player-module {
+  border: 1px solid #465148;
+  background: #070a08;
+}
+
+.player-source-heading {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) minmax(180px, 34%);
+  align-items: center;
+  gap: 12px;
+  min-height: 82px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #384239;
+  background: #111713;
+  color: #e8e3d6;
+}
+
+.player-source-mark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid #75633d;
+  background: #0b100d;
+  color: #d4a951;
+}
+
+.player-source-kicker {
+  display: block;
+  margin-bottom: 4px;
+  color: #a96a3e;
+  font: 800 8px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .12em;
+}
+
+.player-source-heading strong {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #eee8da;
+  font-size: 14px;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.player-source-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+  margin-top: 5px;
+  color: #849087;
+  font-size: 9px;
+}
+
+.player-source-meta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #c79b4b;
+}
+
+.player-current-episode {
+  min-width: 0;
+  padding: 9px 11px;
+  border-left: 2px solid #a8473f;
+  background: #0b100d;
+}
+
+.player-current-episode span {
+  display: block;
+  margin-bottom: 4px;
+  color: #9d6a43;
+  font: 800 8px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.player-current-episode b {
+  overflow: hidden;
+  color: #cbd2cc;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-tool-icon {
+  display: grid;
+  width: 29px;
+  height: 27px;
+  padding: 0;
+  place-items: center;
+}
+
+.analysis-map {
+  overflow: hidden;
+  border-color: #3c493f;
+  background: #0d120f;
+}
+
+.analysis-map-head {
+  display: flex;
+  min-height: 74px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 13px 16px;
+  border-bottom: 1px solid #39443c;
+  background: #111713;
+}
+
+.analysis-map-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+  color: #b27243;
+  font: 800 8px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .1em;
+}
+
+.analysis-map-head h2 {
+  color: #eee7d8;
+}
+
+.analysis-map-basis {
+  display: inline-flex;
+  max-width: 62%;
+  align-items: center;
+  gap: 5px;
+  color: #828e86;
+  font-size: 9px;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.analysis-map-basis svg {
+  flex: 0 0 auto;
+  color: #c79b4b;
+}
+
+.analysis-overview {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 9px;
+  padding: 13px 16px;
+  border-bottom: 1px solid #303a33;
+  background: #0b100d;
+  color: #99a49c;
+}
+
+.analysis-overview > svg {
+  margin-top: 2px;
+  color: #b48a48;
+}
+
+.analysis-overview p {
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.analysis-episode-list > li {
+  border-bottom: 1px solid #303a33;
+  background: #0e1410;
+}
+
+.analysis-episode-list > li:last-child {
+  border-bottom: 0;
+}
+
+.analysis-episode-list > li.is-open {
+  box-shadow: inset 3px 0 0 #b58b46;
+}
+
+.analysis-episode-trigger {
+  display: grid;
+  width: 100%;
+  min-height: 70px;
+  grid-template-columns: 58px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 15px;
+  color: #dfe4df;
+  text-align: left;
+}
+
+.analysis-episode-trigger:hover {
+  background: #151c17;
+}
+
+.analysis-episode-number {
+  color: #b48345;
+  font: 900 10px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.analysis-episode-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.analysis-episode-copy > strong {
+  overflow: hidden;
+  color: #eee8db;
+  font-size: 12px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.analysis-episode-copy > span {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #808b83;
+  font-size: 9px;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.analysis-episode-chevron {
+  color: #78847b;
+  transition: transform 160ms ease;
+}
+
+.analysis-episode-list > li.is-open .analysis-episode-chevron {
+  color: #c79b4b;
+  transform: rotate(180deg);
+}
+
+.analysis-episode-body {
+  display: grid;
+  gap: 18px;
+  padding: 16px 18px 19px 85px;
+  border-top: 1px solid #303a33;
+  background: #090d0a;
+}
+
+.analysis-section-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #a76b42;
+  font: 800 8px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .1em;
+}
+
+.analysis-summary-block p {
+  color: #b4bdb6;
+  font-size: 11px;
+  line-height: 1.75;
+}
+
+.analysis-keypoint-list {
+  display: grid;
+  gap: 7px;
+}
+
+.analysis-keypoint-list > li {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #303a33;
+  background: #0e1410;
+}
+
+.analysis-timestamp,
+.analysis-keypoint-index {
+  display: inline-flex;
+  width: 52px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid #625239;
+  background: #11130e;
+  color: #d0a554;
+  font: 800 8px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.analysis-timestamp:hover {
+  border-color: #d0a554;
+  background: #292316;
+}
+
+.analysis-keypoint-index {
+  border-color: #354039;
+  color: #738077;
+}
+
+.analysis-keypoint-copy {
+  min-width: 0;
+}
+
+.analysis-keypoint-copy > strong {
+  color: #e4e7e3;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.analysis-keypoint-copy > p {
+  margin-top: 4px;
+  color: #89958d;
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.analysis-formula-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.analysis-formula {
+  min-width: 0;
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 10px;
+  border-left: 2px solid #607c78;
+  background: #080c09;
+  color: #dce5e0;
+}
+
+.analysis-formula code {
+  color: #9ca79f;
+  font-size: 10px;
+}
+
+.analysis-formula-action {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  place-items: center;
+  border: 1px solid #496764;
+  color: #77aaa6;
+}
+
+.analysis-formula-action:hover {
+  border-color: #77aaa6;
+  background: #12201e;
+}
+
+.analysis-term-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.analysis-term-list > span {
+  cursor: help;
+  border: 1px solid #344038;
+  padding: 4px 7px;
+  background: #0e1410;
+  color: #8f9b93;
+  font-size: 9px;
+}
+
+.dungeon-canvas canvas {
+  image-rendering: pixelated;
+}
+
+@media (max-width: 760px) {
+  .player-source-heading {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  .player-current-episode {
+    grid-column: 1 / -1;
+  }
+
+  .analysis-map-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .analysis-map-basis {
+    max-width: none;
+    text-align: left;
+  }
+
+  .analysis-episode-trigger {
+    grid-template-columns: 48px minmax(0, 1fr) 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .analysis-episode-body {
+    padding: 14px 11px;
+  }
+
+  .analysis-keypoint-list > li {
+    grid-template-columns: 50px minmax(0, 1fr);
+    padding: 8px;
+  }
+
+  .analysis-timestamp,
+  .analysis-keypoint-index {
+    width: 46px;
+  }
+}

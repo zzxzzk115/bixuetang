@@ -8,13 +8,13 @@ tags: [ 数值分析, 数值线性代数, 浮点运算, 科学计算 ]
 prerequisites: [ mit-18-06 ]
 estimatedHours: 100
 description: >
-  MIT 研究生层次的数值方法课程，核心是数值算法的精度与效率：浮点运算与舍入误差、 条件数与稳定性、后向误差分析，以及稠密与稀疏矩阵的线性方程组、最小二乘和特征值算法。 课程由 Steven G. Johnson 讲授，大量结合 Julia 实操，是把线性代数真正用起来的关键一课。
-  注意：本课无公开录像，以官网讲义与 Julia notebook 自学为主。
+  MIT 研究生层次的数值方法课程，核心是数值算法的精度与效率：浮点运算与舍入误差、 条件数与稳定性、后向误差分析，以及稠密与稀疏矩阵的线性方程组、最小二乘和特征值算法。 课程由 Steven G. Johnson 讲授，大量结合 Julia 实操，是把线性代数真正用起来的关键一课。 注意：本课无公开录像，以官网讲义与 Julia notebook 自学为主。
 sources:
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1Rt411i7yy
     uploader: 微小的公开课（搬运）
     note: MIT 18.086 工程数学方法 II 全 29 讲英文搬运，作为 18.335 无录像时的数值方法替代视频源
+    title: 麻省理工 工程数学方法 (MIT 18.086 Mathematical Methods for Engineers II)【英】
   - platform: other
     url: https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/
     note: 课程官网

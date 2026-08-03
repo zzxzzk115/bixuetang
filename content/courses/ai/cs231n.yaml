@@ -15,6 +15,7 @@ sources:
     url: https://www.bilibili.com/video/BV1E441187AC
     uploader: 搬运
     note: 2017 版全 16 讲，中英字幕
+    title: Stanford Computer Vision--CS231n 2017 中英字幕 斯坦福计算机视觉课程视频 李飞飞 Fei Fei-Li
   - platform: other
     url: https://cs231n.stanford.edu/
     note: 课程官网（作业框架）

@@ -14,10 +14,12 @@ sources:
     url: https://www.bilibili.com/video/BV1zW5yz1Eom
     uploader: 搬运
     note: Spring 2025 全集，中英双语字幕（DeepSeek-R1 精校）
+    title: 斯坦福大学《从零开始的语言模型|CS336 Language Modeling from Scratch Spring 2025》中英字幕(ds-R1)
   - platform: bilibili
     url: https://www.bilibili.com/video/BV1msTD6CE6j
     uploader: 搬运
     note: Spring 2026 最新版合集，中英字幕已完结
+    title: （中英字幕完结）斯坦福CS336：从零开始构建大模型 | 2026年春季
   - platform: other
     url: https://stanford-cs336.github.io/spring2025/
     note: 课程官网

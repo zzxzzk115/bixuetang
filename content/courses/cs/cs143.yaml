@@ -15,6 +15,7 @@ sources:
     url: https://www.bilibili.com/video/BV1NE411376V
     uploader: 搬运
     note: 中文字幕，127 段短视频（自学版切片）
+    title: CS143 斯坦福大学编译原理【中文字幕】
   - platform: other
     url: https://web.stanford.edu/class/cs143/
     note: 课程官网（讲义 / PA 实验）
