@@ -13,6 +13,7 @@
     "fetch:episodes": "tsx scripts/fetch-episodes.ts",
     "check:links": "tsx scripts/check-links.ts",
     "fetch:subtitles": "tsx scripts/fetch-subtitles.ts",
+    "merge:analysis": "tsx scripts/merge-analysis-parts.ts",
     "migrate": "tsx scripts/migrate.ts",
     "db:generate": "drizzle-kit generate"
   },
