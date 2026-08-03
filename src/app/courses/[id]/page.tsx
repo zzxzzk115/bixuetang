@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AnalysisPanel } from "@/components/analysis-panel";
 import { LevelBadge, SubjectBadge } from "@/components/badges";
 import { EmbedPlayer } from "@/components/embed-player";
+import { LearningSessionPanel } from "@/components/learning-session-panel";
 import { renderLatex } from "@/lib/math/render-latex";
 import { renderMathText } from "@/lib/math/render-math-text";
 import { EpisodeList } from "@/components/episode-list";
@@ -42,6 +43,7 @@ export default async function CoursePage({
   const progress = user ? getUserProgress(user.id) : null;
   const watched = progress?.watchedByCourse.get(id);
   const status = progress?.statusByCourse.get(id) ?? null;
+  const nextEpisode = course.episodes.find((episode) => !watched?.has(episode.n)) ?? course.episodes[0];
 
   const prereqs = course.prerequisites
     .map((p) => content.coursesById.get(p))
@@ -133,6 +135,12 @@ export default async function CoursePage({
       </div>
 
       <aside className="space-y-5">
+        <LearningSessionPanel
+          courseId={course.id}
+          episodes={course.episodes}
+          initialEpisode={nextEpisode.n}
+          loggedIn={!!user}
+        />
         {course.lab && <LabCard labId={course.lab} />}
         {prereqs.length > 0 && (
           <section className="hud-panel p-4">

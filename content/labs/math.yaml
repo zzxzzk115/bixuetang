@@ -1,0 +1,14 @@
+lab: math
+tasks:
+  - id: first-evaluation
+    title: 初次演算
+    xp: 25
+    description: 成功完成一次公式求值或化简
+  - id: symbolic-derivative
+    title: 符文求导
+    xp: 40
+    description: 成功完成一次符号求导
+  - id: function-plot
+    title: 绘制轨迹
+    xp: 35
+    description: 成功绘制一条函数曲线

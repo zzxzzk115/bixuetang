@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Sparkles } from "lucide-react";
 import { useState } from "react";
 import type { CourseAnalysis, Episode } from "@/lib/content/schema";
 import { seekTo } from "@/lib/seek";
@@ -49,8 +50,8 @@ export function AnalysisPanel({
     <section className="hud-panel mt-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-edge px-4 py-3">
         <h2 className="combat-heading">知识点地图</h2>
-        <span className="text-xs text-muted">
-          AI 生成（{analysis.model}
+        <span className="inline-flex flex-wrap items-center gap-1 text-xs text-muted">
+          <Sparkles aria-hidden size={13} className="text-gold" /> 智能整理（{analysis.model}
           {analysis.basis === "titles-only"
             ? " · 基于集标题与公开资料，无时间轴"
             : " · 基于字幕逐集提炼"}

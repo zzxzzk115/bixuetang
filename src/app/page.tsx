@@ -1,197 +1,177 @@
 import Link from "next/link";
-import { SubjectIcon } from "@/components/badges";
-import { XpBar } from "@/components/xp-bar";
+import {
+  ArrowRight,
+  BookOpenText,
+  FlaskConical,
+  Library,
+  Map,
+  Orbit,
+  ScrollText,
+  Shield,
+  Swords,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { DailyQuestBoard } from "@/components/daily-quest-board";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
-import { SUBJECT_LABEL, SUBJECTS } from "@/lib/content/schema";
+import { learningStreak, syncAchievements } from "@/lib/game/achievements";
+import { getDailyQuests } from "@/lib/game/quests";
 import { getUserProgress } from "@/lib/progress/queries";
 
-const BRANCH_CODE = {
-  cs: "BRANCH 01",
-  math: "BRANCH 02",
-  physics: "BRANCH 03",
-  ai: "BRANCH 04",
-} as const;
+interface SceneLocation {
+  href: string;
+  code: string;
+  title: string;
+  detail: string;
+  zone: string;
+  icon: LucideIcon;
+}
 
 export default async function HomePage() {
   const content = getContent();
   const user = await getCurrentUser();
-  const progress = user ? getUserProgress(user.id) : null;
+  const locations: SceneLocation[] = [
+    { href: "/courses", code: "ARCHIVE", title: "副本档案馆", detail: `${content.courses.length} 座知识副本`, zone: "archive", icon: Library },
+    { href: "/jobs", code: "CLASS HALL", title: "转职殿堂", detail: `${content.jobs.length} 条职业道路`, zone: "jobs", icon: Shield },
+    { href: "/paths", code: "WAR TABLE", title: "远征沙盘", detail: `${content.paths.length} 条冒险路线`, zone: "paths", icon: Map },
+    { href: "/lab", code: "WORKSHOP", title: "实验工坊", detail: "Hack · 数学演算", zone: "lab", icon: FlaskConical },
+    { href: "/skill-tree", code: "ASTROLABE", title: "技能星盘", detail: `${content.skillNodes.length} 个可唤醒节点`, zone: "skills", icon: Orbit },
+    { href: "/glossary", code: "LEXICON", title: "知识卷宗", detail: "中英术语与公式", zone: "glossary", icon: BookOpenText },
+  ];
 
-  const continueCourses = progress
-    ? [...progress.statusByCourse.entries()]
-        .filter(([, status]) => status === "learning")
-        .map(([id]) => content.coursesById.get(id))
-        .filter((course) => course !== undefined)
-        .slice(0, 3)
-    : [];
-
-  return (
-    <div className="page-stack">
-      <section className="guild-hero">
-        <div className="guild-hero-copy">
-          <p className="page-kicker text-[#d8ae5c]">
-            GUILD OPERATIONS // 理科学习远征
-          </p>
-          <h1>学者公会</h1>
-          <p className="hero-copy">
-            这里没有课程收藏夹。每门公开课是一座需要推进的地下城，每个分集是一场遭遇战；
-            通关课程、掌握技能、完成转职，让你的知识构筑真正改变下一条远征路线。
-          </p>
-          <div className="hero-actions">
-            <Link
-              href={user ? "/paths" : "/register"}
-              className="command-button"
-            >
-              {user ? "打开远征地图" : "建立角色档案"}
-            </Link>
-            <Link href="/courses" className="command-button secondary">
-              查阅副本档案
-            </Link>
-          </div>
-        </div>
-
-        <div className="hero-rail" aria-label="公会档案统计">
-          <div className="hero-stat">
-            <span>公开课副本</span>
-            <strong>{content.courses.length}</strong>
-          </div>
-          <div className="hero-stat">
-            <span>远征路线</span>
-            <strong>{content.paths.length}</strong>
-          </div>
-          <div className="hero-stat">
-            <span>可掌握技能</span>
-            <strong>{content.skillNodes.length}</strong>
-          </div>
-          <div className="hero-stat">
-            <span>转职方向</span>
-            <strong>{content.jobs.length}</strong>
-          </div>
-        </div>
-      </section>
-
-      {progress && user && (
-        <section className="hud-panel p-5">
-          <div className="grid gap-5 lg:grid-cols-[minmax(260px,0.7fr)_1.3fr]">
-            <div>
-              <p className="page-kicker">ADVENTURER STATUS</p>
-              <p className="mb-2 font-bold">
-                {user.displayName || user.username} · 当前战备
-              </p>
-              <XpBar level={progress.level} />
-            </div>
-            <div>
-              <div className="section-heading !mb-2 text-base">
-                <span>继续攻略</span>
-              </div>
-              {continueCourses.length > 0 ? (
-                <div className="grid gap-2">
-                  {continueCourses.map((course) => {
-                    const watched =
-                      progress.watchedByCourse.get(course.id)?.size ?? 0;
-                    const pct = Math.round(
-                      (watched / course.episodes.length) * 100,
-                    );
-                    return (
-                      <Link
-                        key={course.id}
-                        href={`/courses/${course.id}`}
-                        className="quest-row !min-h-14 !grid-cols-[1fr_auto] !px-3 !py-2"
-                      >
-                        <span>
-                          <b>{course.title}</b>
-                          <span className="ml-2 quest-meta">
-                            {watched}/{course.episodes.length} 遭遇
-                          </span>
-                        </span>
-                        <span className="font-mono text-xs text-gold">
-                          {pct}%
-                        </span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              ) : (
-                <Link href="/paths" className="text-sm text-gold">
-                  尚未部署远征，前往路径地图选择第一项任务 →
-                </Link>
-              )}
-            </div>
+  if (!user) {
+    return (
+      <GuildScene locations={locations} name="旅行者">
+        <section className="scene-entry-panel">
+          <p className="scene-panel-kicker">NEW ADVENTURER</p>
+          <h1>你的理科学术冒险，从公会登记开始</h1>
+          <p>选择据点查看真实课程、技能树与实验设施。建立角色后，遭遇、专注、复盘和 Boss 战都会转化为经验与职业进度。</p>
+          <div className="scene-panel-actions">
+            <Link href="/register" className="scene-primary-action">建立角色 <ArrowRight aria-hidden size={16} /></Link>
+            <Link href="/paths" className="scene-secondary-action">先查看远征地图</Link>
           </div>
         </section>
-      )}
+      </GuildScene>
+    );
+  }
 
-      <section>
-        <div className="section-heading">
-          <span>四大学术分部</span>
-        </div>
-        <div className="branch-grid">
-          {SUBJECTS.map((subject) => {
-            const count = content.courses.filter(
-              (course) => course.subject === subject,
-            ).length;
-            return (
-              <Link
-                key={subject}
-                href={`/courses?subject=${subject}`}
-                className="branch-tile"
-                data-subject={subject}
-              >
-                <div className="branch-code">{BRANCH_CODE[subject]}</div>
-                <div className="branch-symbol"><SubjectIcon subject={subject} /></div>
-                <div className="branch-name">{SUBJECT_LABEL[subject]}</div>
-                <div className="mt-1 text-xs text-muted">
-                  {count} 座可进入副本
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
+  const progress = getUserProgress(user.id);
+  const quests = getDailyQuests(user.id);
+  const achievements = syncAchievements(user.id);
+  const streak = learningStreak(user.id);
+  const activeCourse =
+    [...progress.statusByCourse.entries()]
+      .filter(([, status]) => status === "learning")
+      .map(([id]) => content.coursesById.get(id))
+      .find(Boolean) ??
+    content.coursesById.get(quests[0]?.courseId ?? "");
+  const watched = activeCourse
+    ? progress.watchedByCourse.get(activeCourse.id) ?? new Set<number>()
+    : new Set<number>();
+  const nextEpisode = activeCourse?.episodes.find((episode) => !watched.has(episode.n));
+  const percent = activeCourse
+    ? Math.round((watched.size / activeCourse.episodes.length) * 100)
+    : 0;
+  const activePath = activeCourse
+    ? content.paths.find((path) => path.stages.some((stage) => stage.courses.includes(activeCourse.id)))
+    : undefined;
+  const unlockedAchievements = achievements.filter((item) => item.unlocked).length;
 
-      <section>
-        <div className="section-heading">
-          <span>当前远征任务</span>
-          <Link href="/paths" className="font-sans text-xs text-gold">
-            查看完整战役地图 →
-          </Link>
+  return (
+    <GuildScene
+      locations={locations}
+      name={user.displayName || user.username}
+      status={`连续远征 ${streak} 天 · ${unlockedAchievements} 枚成就`}
+    >
+      <aside className="scene-orders-panel">
+        <div className="scene-panel-heading">
+          <span><ScrollText aria-hidden size={15} /> 每日委托</span>
+          <b>{quests.filter((quest) => quest.complete).length}/{quests.length}</b>
         </div>
-        <div className="quest-board">
-          {content.paths.slice(0, 8).map((path, index) => {
-            const dungeonCount = path.stages.reduce(
-              (sum, stage) => sum + stage.courses.length,
-              0,
-            );
-            return (
-              <Link
-                key={path.id}
-                href={`/paths/${path.id}`}
-                className="quest-row"
-              >
-                <span className="quest-index">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="min-w-0">
-                  <span className="flex items-center gap-2">
-                    <b className="truncate">{path.title}</b>
-                    <span className="quest-meta">
-                      <SubjectIcon subject={path.subject} />
-                    </span>
-                  </span>
-                  <span className="mt-1 block truncate text-xs text-muted">
-                    {path.description}
-                  </span>
-                  <span className="quest-meta mt-1 block">
-                    {path.stages.length} 章 · {dungeonCount} 座副本
-                  </span>
-                </span>
-                <span className="quest-arrow">›</span>
-              </Link>
-            );
-          })}
+        <DailyQuestBoard quests={quests} compact />
+      </aside>
+
+      <section className="scene-expedition-panel">
+        <div className="scene-panel-heading">
+          <span><Swords aria-hidden size={15} /> 当前战役</span>
+          {activePath && <Link href={`/paths/${activePath.id}`}>{activePath.title}</Link>}
         </div>
+        {activeCourse && nextEpisode ? (
+          <>
+            <div className="scene-battle-target">
+              <span className="scene-battle-rank">BOSS</span>
+              <div>
+                <small>{activeCourse.code}</small>
+                <h2>{activeCourse.title}</h2>
+                <p>下一遭遇 · EP.{String(nextEpisode.n).padStart(2, "0")} {nextEpisode.title}</p>
+              </div>
+            </div>
+            <div className="scene-boss-health">
+              <span><b>BOSS HP</b><small>{100 - percent}%</small></span>
+              <div><i style={{ width: `${Math.max(0, 100 - percent)}%` }} /></div>
+            </div>
+            <Link href={`/courses/${activeCourse.id}`} className="scene-deploy">
+              进入下一场遭遇 <ArrowRight aria-hidden size={16} />
+            </Link>
+          </>
+        ) : (
+          <div className="scene-empty-target">
+            <p>目前没有部署中的远征。</p>
+            <Link href="/paths" className="scene-primary-action">选择战役</Link>
+          </div>
+        )}
       </section>
+    </GuildScene>
+  );
+}
+
+function GuildScene({
+  locations,
+  name,
+  status,
+  children,
+}: {
+  locations: SceneLocation[];
+  name: string;
+  status?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="guild-hall-scene">
+      <div className="scene-atmosphere" aria-hidden />
+      <header className="scene-identity">
+        <p>SEVENTH ACADEMIC GUILD</p>
+        <h1>第七学术公会</h1>
+        <span>{name}，欢迎归队{status ? ` · ${status}` : ""}</span>
+      </header>
+
+      <div className="scene-locations" aria-label="公会据点">
+        <div className="scene-route-lines" aria-hidden />
+        {locations.map((location) => {
+          const Icon = location.icon;
+          return (
+            <Link
+              key={location.href}
+              href={location.href}
+              className="scene-location"
+              data-zone={location.zone}
+            >
+              <span className="scene-location-pulse" />
+              <span className="scene-location-icon"><Icon aria-hidden size={21} /></span>
+              <span className="scene-location-copy">
+                <small>{location.code}</small>
+                <b>{location.title}</b>
+                <em>{location.detail}</em>
+              </span>
+            </Link>
+          );
+        })}
+        <div className="scene-you-are-here">
+          <span>G</span>
+          <small>YOU ARE HERE</small>
+        </div>
+      </div>
+      {children}
     </div>
   );
 }

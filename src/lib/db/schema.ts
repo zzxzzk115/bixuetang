@@ -117,3 +117,79 @@ export const jobUnlocks = sqliteTable(
   },
   (t) => [primaryKey({ columns: [t.userId, t.jobId] })],
 );
+
+
+export const learningSessions = sqliteTable(
+  "learning_sessions",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    courseId: text("course_id").notNull(),
+    episodeN: integer("episode_n").notNull(),
+    focusMinutes: integer("focus_minutes").notNull().default(0),
+    summary: text("summary"),
+    startedAt: integer("started_at").notNull(),
+    updatedAt: integer("updated_at").notNull(),
+    completedAt: integer("completed_at"),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.courseId, t.episodeN] })],
+);
+
+export const checkpointAttempts = sqliteTable(
+  "checkpoint_attempts",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    courseId: text("course_id").notNull(),
+    episodeN: integer("episode_n").notNull(),
+    checkpointId: text("checkpoint_id").notNull(),
+    response: text("response").notNull(),
+    passed: integer("passed", { mode: "boolean" }).notNull(),
+    createdAt: integer("created_at").notNull(),
+    updatedAt: integer("updated_at").notNull(),
+  },
+  (t) => [
+    primaryKey({
+      columns: [t.userId, t.courseId, t.episodeN, t.checkpointId],
+    }),
+  ],
+);
+
+export const questInstances = sqliteTable(
+  "quest_instances",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    dateKey: text("date_key").notNull(),
+    kind: text("kind").notNull(),
+    courseId: text("course_id").notNull(),
+    episodeN: integer("episode_n").notNull(),
+    target: integer("target").notNull(),
+    rewardXp: integer("reward_xp").notNull(),
+    claimedAt: integer("claimed_at"),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [
+    uniqueIndex("quest_instances_user_date_kind").on(
+      t.userId,
+      t.dateKey,
+      t.kind,
+    ),
+  ],
+);
+
+export const achievementUnlocks = sqliteTable(
+  "achievement_unlocks",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    achievementId: text("achievement_id").notNull(),
+    unlockedAt: integer("unlocked_at").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.achievementId] })],
+);

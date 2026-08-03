@@ -1112,7 +1112,7 @@ math-field {
 .player-tool:hover,.player-tool.active{border-color:var(--gold);color:var(--gold)}
 .profile-layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:24px}
 .profile-sigil{display:grid;width:62px;height:62px;flex:0 0 62px;place-items:center;border:1px solid var(--gold);background:var(--panel-strong);color:var(--gold);font-family:Georgia,serif;font-size:25px;font-weight:900;clip-path:polygon(50% 0,92% 18%,92% 68%,50% 100%,8% 68%,8% 18%)}
-.profile-stats{display:grid;grid-template-columns:repeat(2,1fr);margin-top:16px;border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:16px;border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
 .profile-stats>div{display:flex;flex-direction:column;padding:12px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge)}
 .profile-stats strong{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:16px}
 .profile-stats span{color:var(--muted);font-size:10px}
@@ -1122,3 +1122,459 @@ math-field {
 .job-crest.active{border-color:var(--gold);background:var(--panel-strong);color:var(--gold)}
 @media(max-width:900px){.profile-layout{grid-template-columns:1fr}.profile-layout>aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.profile-layout>aside section:first-child{grid-column:1/-1}}
 @media(max-width:680px){.player-toolbar{align-items:center;flex-wrap:wrap;padding-bottom:5px}.player-toolbar>div:last-child{margin-left:0;padding:0 5px}.profile-layout>aside{display:block}.profile-layout>aside section{margin-bottom:12px}}
+
+
+/* M7 persistent guild application shell */
+.guild-app{min-height:100vh;background:var(--background)}
+.guild-rail{position:fixed;inset:0 auto 0 0;z-index:40;display:flex;width:188px;flex-direction:column;border-right:1px solid var(--edge);background:color-mix(in srgb,var(--panel-strong) 96%,transparent);box-shadow:8px 0 24px var(--shadow)}
+.guild-rail-brand{display:flex;height:74px;align-items:center;gap:11px;padding:0 17px;border-bottom:1px solid var(--edge)}
+.guild-rail-wordmark{display:flex;flex-direction:column;color:var(--foreground);font-family:"Songti SC",SimSun,serif;font-size:16px;font-weight:900}
+.guild-rail-wordmark small{margin-top:3px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;font-weight:600;letter-spacing:.12em}
+.guild-rail-links{display:flex;flex:1;flex-direction:column;gap:3px;padding:18px 10px}
+.guild-rail-link{position:relative;display:flex;height:42px;align-items:center;gap:11px;padding:0 11px;border:1px solid transparent;color:var(--muted);font-size:12px;font-weight:700;transition:150ms ease}
+.guild-rail-link::before{position:absolute;top:9px;bottom:9px;left:-11px;width:3px;background:transparent;content:""}
+.guild-rail-link:hover{border-color:var(--edge);background:var(--panel-hover);color:var(--foreground)}
+.guild-rail-link.active{border-color:var(--edge-strong);background:var(--background);color:var(--gold)}
+.guild-rail-link.active::before{background:var(--gold)}
+.guild-rail-tools{display:flex;align-items:center;gap:7px;padding:14px 16px;border-top:1px solid var(--edge)}
+.guild-workspace{min-height:100vh;margin-left:188px}
+.guild-topbar{position:sticky;top:0;z-index:35;display:flex;height:58px;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--edge);background:color-mix(in srgb,var(--background) 94%,transparent);backdrop-filter:blur(12px)}
+.guild-mobile-brand{display:none}
+.guild-signal{display:flex;align-items:center;gap:7px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;letter-spacing:.1em}
+.guild-signal b{color:var(--xp)}
+.signal-dot{width:6px;height:6px;background:var(--xp);box-shadow:0 0 9px color-mix(in srgb,var(--xp) 60%,transparent)}
+.guild-top-account{display:flex;align-items:center;gap:9px}
+.guild-streak{display:inline-flex;align-items:center;gap:4px;border-right:1px solid var(--edge);padding-right:11px;color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;font-weight:800}
+.guild-level{display:flex;align-items:center;gap:7px;color:var(--foreground);font-size:11px}
+.guild-level strong{border:1px solid var(--gold);padding:4px 6px;color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}
+.guild-stage-grid{display:grid;min-height:calc(100vh - 94px)}
+.guild-stage{min-width:0;padding:28px clamp(18px,3vw,44px) 56px}
+.guild-stage-grid.with-tracker{grid-template-columns:minmax(0,1fr)}
+.guild-quest-tracker{display:none}
+.guild-footer{display:flex;min-height:36px;align-items:center;justify-content:space-between;padding:0 24px;border-top:1px solid var(--edge);color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.guild-mobile-nav{display:none}
+
+@media(min-width:1480px){
+  .guild-stage-grid.with-tracker{grid-template-columns:minmax(0,1fr) 292px}
+  .guild-quest-tracker{position:sticky;top:58px;display:block;height:calc(100vh - 58px);overflow-y:auto;border-left:1px solid var(--edge);background:var(--panel);padding:22px 16px}
+  .tracker-heading{display:flex;flex-direction:column;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--edge)}
+  .tracker-heading span{color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;letter-spacing:.12em}
+  .tracker-heading b{margin-top:3px;font-family:"Songti SC",SimSun,serif;font-size:15px}
+  .tracker-link{display:block;margin-top:12px;color:var(--gold);font-size:10px}
+}
+
+/* Daily quest system */
+.daily-quests{display:grid;gap:7px}
+.daily-quest{display:flex;align-items:flex-start;gap:11px;padding:13px;border:1px solid var(--edge);background:var(--panel)}
+.daily-quest.complete{border-color:color-mix(in srgb,var(--gold) 65%,var(--edge));background:color-mix(in srgb,var(--gold) 5%,var(--panel))}
+.daily-quest-icon{display:grid;width:30px;height:30px;flex:0 0 30px;place-items:center;border:1px solid var(--edge-strong);color:var(--copper)}
+.daily-quest.complete .daily-quest-icon{border-color:var(--gold);color:var(--gold)}
+.daily-quest h3{font-size:12px;font-weight:800}
+.daily-quest p{margin-top:3px;color:var(--muted);font-size:10px;line-height:1.45}
+.quest-reward{flex:0 0 auto;color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;font-weight:800}
+.quest-count{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.quest-course{display:block;margin-top:6px;color:var(--gold);font-size:9px}
+.quest-claim{display:grid;width:30px;height:30px;flex:0 0 30px;place-items:center;border:1px solid var(--gold);color:var(--gold)}
+.quest-claim:hover{background:var(--gold);color:var(--background)}
+.daily-quests.compact .daily-quest{padding:10px 8px}
+.daily-quests.compact .daily-quest-icon{width:26px;height:26px;flex-basis:26px}
+.daily-quests.compact .daily-quest h3{font-size:10px}
+
+/* Dedicated workshop facilities */
+.facility-hero{display:flex;min-height:190px;align-items:flex-end;justify-content:space-between;gap:24px;padding:32px;border:1px solid var(--edge);background:var(--panel-strong);box-shadow:inset 4px 0 0 var(--copper)}
+.facility-hero-status{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
+.facility-hero-status span{display:flex;min-width:120px;flex-direction:column;padding:13px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.facility-hero-status b{color:var(--gold);font-size:17px}
+.section-status{color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;letter-spacing:.1em}
+.facility-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.facility-card{position:relative;display:flex;min-height:290px;flex-direction:column;border:1px solid var(--edge);background:var(--panel);transition:160ms ease}
+.facility-card::before{position:absolute;inset:0 auto 0 0;width:3px;background:var(--edge-strong);content:""}
+.facility-card[data-facility="hack"]::before{background:var(--copper)}
+.facility-card[data-facility="math"]::before{background:var(--mana)}
+.facility-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 16px 28px var(--shadow)}
+.facility-card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 17px;border-bottom:1px solid var(--edge)}
+.facility-code,.facility-status{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;font-weight:800;letter-spacing:.1em}
+.facility-code{color:var(--copper)}
+.facility-status{color:var(--xp)}
+.facility-card-body{display:grid;grid-template-columns:54px minmax(0,1fr);gap:15px;padding:22px 18px}
+.facility-icon{display:grid;width:52px;height:52px;place-items:center;border:1px solid var(--edge-strong);background:var(--background);color:var(--gold)}
+.facility-card h2{font-family:"Songti SC",SimSun,serif;font-size:20px;font-weight:900}
+.facility-card-body p{margin-top:7px;color:var(--muted);font-size:12px;line-height:1.7}
+.facility-progress{margin-top:auto;padding:0 18px 18px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.facility-card-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--edge);color:var(--muted);font-size:10px}
+.facility-card-foot strong{display:inline-flex;align-items:center;gap:5px;color:var(--gold)}
+.workshop-protocol{display:grid;grid-template-columns:220px minmax(0,1fr);gap:28px;padding:24px 0;border-top:1px solid var(--edge);border-bottom:1px solid var(--edge)}
+.workshop-protocol h2{font-family:"Songti SC",SimSun,serif;font-size:20px}
+.workshop-protocol ol{display:grid;grid-template-columns:repeat(3,1fr)}
+.workshop-protocol li{display:flex;gap:10px;padding:8px 18px;border-left:1px solid var(--edge);color:var(--muted);font-size:11px}
+.workshop-protocol li b{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+
+/* Focus session console */
+.session-console{border:1px solid var(--edge-strong);background:var(--panel);box-shadow:inset 3px 0 0 var(--mana)}
+.session-console-head{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-bottom:1px solid var(--edge)}
+.session-console-head span{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:10px;font-weight:800}
+.session-console-head b{color:var(--mana);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}
+.session-episode{overflow:hidden;padding:11px 13px 0;color:var(--foreground);font-size:11px;text-overflow:ellipsis;white-space:nowrap}
+
+.session-clock{padding:15px 13px 10px;color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:36px;font-weight:300;letter-spacing:.05em}
+.session-controls{display:flex;gap:6px;padding:0 13px 13px}
+.session-primary,.session-icon{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--edge-strong);padding:7px 10px;color:var(--foreground);font-size:10px;font-weight:800}
+.session-primary{flex:1}
+.session-primary:hover,.session-icon:hover{border-color:var(--gold);color:var(--gold)}
+.session-summary{display:block;padding:13px;border-top:1px solid var(--edge)}
+.session-summary>span{display:flex;align-items:center;gap:5px;margin-bottom:7px;color:var(--muted);font-size:9px;font-weight:800}
+.session-summary textarea{width:100%;resize:vertical;border:1px solid var(--edge);background:var(--background);padding:8px;color:var(--foreground);font-size:11px;line-height:1.5;outline:none}
+.session-summary textarea:focus{border-color:var(--mana)}
+.session-console>.command-button{margin:0 13px 13px;width:calc(100% - 26px)}
+.session-message{padding:0 13px 12px;color:var(--mana);font-size:9px}
+
+@media(max-width:920px){
+  .guild-rail{display:block;position:static;width:0;height:0;border:0;box-shadow:none}
+  .guild-rail-brand,.guild-rail-links,.guild-rail-tools{display:none}
+  .guild-workspace{margin-left:0}
+  .guild-topbar{height:54px;padding:0 12px}
+  .guild-mobile-brand{display:flex;align-items:center;gap:8px;font-family:"Songti SC",SimSun,serif}
+  .guild-mobile-brand .guild-sigil{width:28px;height:28px;font-size:15px}
+  .guild-signal,.guild-streak,.guild-top-account .guild-level span{display:none}
+  .guild-stage{padding:18px 12px 82px}
+  .guild-mobile-nav{position:fixed;right:0;bottom:0;left:0;z-index:60;display:grid;height:62px;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--edge);background:color-mix(in srgb,var(--panel-strong) 96%,transparent);backdrop-filter:blur(12px)}
+  .guild-mobile-nav a{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;color:var(--muted);font-size:8px}
+  .guild-mobile-nav a.active{color:var(--gold)}
+  .guild-footer{display:none}
+  .facility-hero{min-height:0;align-items:flex-start;flex-direction:column;padding:22px}
+  .facility-grid{grid-template-columns:1fr}
+  .workshop-protocol{grid-template-columns:1fr}
+  .workshop-protocol ol{grid-template-columns:1fr}
+  .workshop-protocol li{border-top:1px solid var(--edge);border-left:0;padding:10px 0}
+}
+
+@media(max-width:520px){
+  .guild-top-account .command-button.secondary{display:none}
+  .guild-top-account .command-button{padding:7px 9px;font-size:9px}
+  .facility-hero-status{width:100%}
+  .facility-hero-status span{min-width:0}
+  .facility-card{min-height:270px}
+  .facility-card-body{grid-template-columns:42px minmax(0,1fr)}
+  .facility-icon{width:40px;height:40px}
+}
+
+.hall-header{display:flex;min-height:132px;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:24px;border-bottom:1px solid var(--edge)}
+.hall-level{display:flex;align-items:flex-end;gap:12px}
+.hall-level span{width:72px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;line-height:1.4}
+.hall-level strong{color:var(--gold);font-family:Georgia,serif;font-size:52px;line-height:.85}
+.hall-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.65fr);gap:14px}
+.current-expedition,.character-brief{border:1px solid var(--edge);background:var(--panel)}
+.current-expedition{position:relative;display:flex;min-height:326px;flex-direction:column;box-shadow:inset 4px 0 0 var(--hp)}
+.current-expedition-head,.character-brief-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--edge)}
+.current-expedition-head>div>span{font-family:"Songti SC",SimSun,serif;font-size:16px;font-weight:900}
+.current-expedition-head>a{display:flex;align-items:center;gap:5px;color:var(--gold);font-size:9px}
+.expedition-core{display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;gap:18px;padding:28px 22px}
+.expedition-emblem{display:grid;width:70px;height:70px;place-items:center;border:1px solid var(--hp);background:var(--background);color:var(--hp);clip-path:polygon(50% 0,100% 22%,88% 78%,50% 100%,12% 78%,0 22%)}
+.expedition-core h2{margin-top:5px;font-family:"Songti SC",SimSun,serif;font-size:25px;font-weight:900}
+.expedition-core p{margin-top:6px;color:var(--muted);font-size:11px}
+.expedition-progress{margin-top:auto;padding:0 22px 18px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}
+.expedition-progress b{color:var(--foreground)}
+.expedition-deploy{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-top:1px solid var(--edge);color:var(--gold);font-size:11px;font-weight:900}
+.expedition-deploy:hover{background:var(--panel-hover)}
+.empty-expedition{display:flex;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--muted)}
+.character-brief{padding-bottom:17px;box-shadow:inset 0 3px 0 var(--gold)}
+.character-brief-head{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.character-brief-head a{color:var(--gold)}
+.character-rank{display:flex;align-items:center;gap:13px;padding:20px 17px}
+.character-rank>span{display:grid;width:54px;height:54px;place-items:center;border:1px solid var(--gold);color:var(--gold);font-family:Georgia,serif;font-size:23px;clip-path:polygon(50% 0,92% 18%,92% 68%,50% 100%,8% 68%,8% 18%)}
+.character-rank div{display:flex;flex-direction:column}
+.character-rank b{font-size:17px}
+.character-rank small{color:var(--gold);font-size:10px}
+.character-brief>.progress-track,.character-brief>[class*="progress"]{margin-right:17px;margin-left:17px}
+.character-brief>.mt-1{margin-right:17px;margin-left:17px}
+.character-stats{display:grid;grid-template-columns:repeat(3,1fr);margin:18px 17px 0;border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
+.character-stats div{display:flex;flex-direction:column;padding:10px 8px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge)}
+.character-stats b{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px}
+.character-stats span{color:var(--muted);font-size:8px}
+.achievement-strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
+.achievement-token{display:flex;min-height:72px;align-items:center;gap:10px;padding:13px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);color:var(--muted);opacity:.45}
+.achievement-token.unlocked{background:var(--panel);color:var(--gold);opacity:1}
+.achievement-token span{display:flex;min-width:0;flex-direction:column}
+.achievement-token b{color:var(--foreground);font-size:11px}
+.achievement-token small{margin-top:3px;color:var(--muted);font-size:8px}
+@media(max-width:980px){.hall-grid{grid-template-columns:1fr}.achievement-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.hall-header{min-height:0;align-items:flex-start;flex-direction:column}.hall-level{display:none}.expedition-core{grid-template-columns:50px minmax(0,1fr);padding:22px 16px}.expedition-emblem{width:50px;height:50px}.expedition-core h2{font-size:19px}.achievement-strip{grid-template-columns:1fr}}
+
+.facility-detail-head{display:flex;align-items:center;gap:18px;padding:22px;border:1px solid var(--edge);background:var(--panel);box-shadow:inset 4px 0 0 var(--gold)}
+.facility-detail-icon{display:grid;width:62px;height:62px;flex:0 0 62px;place-items:center;border:1px solid var(--edge-strong);background:var(--background);color:var(--gold)}
+.lab-task-panel{display:grid;grid-template-columns:170px minmax(0,1fr);gap:18px;padding:18px;border:1px solid var(--edge);background:var(--panel)}
+.lab-task-panel h2{font-family:"Songti SC",SimSun,serif;font-size:17px}
+.lab-task-panel ul{display:grid;gap:5px}
+.lab-task-panel li{display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--edge);color:var(--muted)}
+.lab-task-panel li.complete{border-color:color-mix(in srgb,var(--gold) 55%,var(--edge));color:var(--gold)}
+.lab-task-panel li span{display:flex;min-width:0;flex-direction:column}
+.lab-task-panel li b{color:var(--foreground);font-size:10px}
+.lab-task-panel li small{margin-top:2px;color:var(--muted);font-size:8px}
+.lab-task-panel li strong{color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.lab-login{grid-column:2;color:var(--gold);font-size:9px}
+@media(max-width:760px){.facility-detail-head{align-items:flex-start;flex-wrap:wrap}.facility-detail-head .command-button{margin-left:80px}.lab-task-panel{grid-template-columns:1fr}.lab-login{grid-column:1}}
+
+.world-map-head{display:flex;min-height:160px;align-items:flex-end;justify-content:space-between;padding:28px;border:1px solid var(--edge);background:var(--panel-strong);color:var(--foreground)}
+.world-map-head>svg{color:var(--gold);opacity:.65}
+.world-regions{display:grid;gap:22px}
+.world-region{border-top:3px solid var(--edge-strong)}
+.world-region[data-subject="cs"]{border-top-color:var(--copper)}
+.world-region[data-subject="math"]{border-top-color:var(--gold)}
+.world-region[data-subject="physics"]{border-top-color:var(--mana)}
+.world-region[data-subject="ai"]{border-top-color:var(--hp)}
+.region-heading{display:grid;grid-template-columns:58px minmax(0,1fr);gap:14px;padding:18px 0}
+.region-icon{display:grid;width:56px;height:56px;place-items:center;border:1px solid var(--edge-strong);background:var(--panel);color:var(--gold);font-size:22px}
+.region-heading h2{font-family:"Songti SC",SimSun,serif;font-size:20px}
+.region-heading>div>span{color:var(--muted);font-size:9px}
+.region-paths{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.region-path{display:flex;min-height:196px;flex-direction:column;padding:16px;border:1px solid var(--edge);background:var(--panel);transition:160ms ease}
+.region-path:hover{border-color:var(--gold);transform:translateY(-2px)}
+.region-path-top{display:flex;justify-content:space-between;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.region-path-top b{color:var(--gold)}
+.region-path h3{margin-top:12px;font-family:"Songti SC",SimSun,serif;font-size:16px}
+.region-path p{display:-webkit-box;overflow:hidden;margin-top:7px;color:var(--muted);font-size:10px;line-height:1.6;-webkit-box-orient:vertical;-webkit-line-clamp:3}
+.region-path-deploy{display:flex;align-items:center;justify-content:space-between;margin-top:9px;color:var(--gold);font-size:9px;font-weight:800}
+@media(max-width:1080px){.region-paths{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.world-map-head>svg{display:none}.region-paths{grid-template-columns:1fr}.region-path{min-height:170px}}
+
+@media(min-width:1480px){
+  body:has(.hall-header) .guild-stage-grid.with-tracker{grid-template-columns:minmax(0,1fr)}
+  body:has(.hall-header) .guild-quest-tracker{display:none}
+}
+
+
+/* M7.1 immersive game shell */
+.guild-app{min-height:100vh;background:var(--background)}
+.game-top-hud{position:fixed;z-index:80;top:0;right:0;left:0;display:grid;height:70px;grid-template-columns:minmax(230px,1fr) minmax(320px,560px) minmax(230px,1fr);align-items:center;border-bottom:1px solid rgba(214,189,130,.38);background:linear-gradient(180deg,rgba(8,11,9,.97),rgba(12,16,14,.9));color:#e8e2d2;box-shadow:0 14px 32px rgba(0,0,0,.38);backdrop-filter:blur(14px)}
+.game-top-hud::after{position:absolute;right:0;bottom:-3px;left:0;height:3px;background:linear-gradient(90deg,transparent 4%,rgba(212,166,77,.7) 30%,rgba(93,186,139,.55) 50%,rgba(212,166,77,.7) 70%,transparent 96%);content:"";opacity:.6}
+.game-brand{display:flex;height:100%;align-items:center;gap:11px;padding-left:20px;color:#e8e2d2}
+.game-brand .guild-sigil{border-color:#c8973f;background:#171b18;color:#e2b55d;box-shadow:inset 0 0 0 3px #090c0a,0 0 18px rgba(212,166,77,.18)}
+.game-brand-copy{display:flex;flex-direction:column}
+.game-brand-copy b{font-family:"Songti SC",SimSun,serif;font-size:17px}
+.game-brand-copy small{margin-top:2px;color:#8f998f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:7px;letter-spacing:.16em}
+.game-player-hud{justify-self:center;display:grid;width:min(100%,520px);height:54px;grid-template-columns:48px minmax(0,1fr);align-items:center;color:#e8e2d2}
+.game-avatar{position:relative;z-index:1;display:grid;width:46px;height:50px;place-items:center;border:1px solid #b98c3d;background:#141915;color:#d9aa51;font-family:Georgia,serif;font-size:20px;clip-path:polygon(50% 0,92% 18%,92% 70%,50% 100%,8% 70%,8% 18%)}
+.game-player-copy{display:grid;min-width:0;padding-left:11px}
+.game-player-copy>span:first-child{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.game-player-copy b{overflow:hidden;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
+.game-player-copy small{color:#a6afa7;font-size:8px}
+.game-xp-line{position:relative;display:block;height:7px;margin-top:6px;border:1px solid #3d4a41;background:#080b09;clip-path:polygon(0 0,100% 0,calc(100% - 6px) 100%,6px 100%)}
+.game-xp-line i{display:block;height:100%;background:linear-gradient(90deg,#356f54,#65b98d);box-shadow:0 0 10px rgba(93,186,139,.48)}
+.game-xp-label{margin-top:3px;color:#9da79f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:7px}
+.game-player-hud.guest{width:auto}
+.game-player-hud.guest .game-player-copy{display:flex;flex-direction:column}
+.game-resources{display:flex;height:100%;align-items:center;justify-content:flex-end;gap:8px;padding-right:20px}
+.game-resource{display:grid;height:38px;grid-template-columns:18px auto;grid-template-rows:1fr 1fr;align-items:center;padding:0 12px;border-right:1px solid #364038;color:#d4a64d}
+.game-resource svg{grid-row:1/3}
+.game-resource b{font:800 11px ui-monospace,SFMono-Regular,Consolas,monospace}
+.game-resource small{color:#8f998f;font-size:7px}
+.game-top-hud .hud-icon-button{border-color:#3b463e;background:#111612;color:#aeb8af}
+.game-top-hud .hud-icon-button:hover{border-color:#c8973f;color:#e0b35b}
+.game-auth-actions{display:flex;gap:7px}
+.guild-stage{min-height:100vh;padding:98px clamp(18px,3vw,46px) 112px}
+.guild-footer{display:none}
+
+.game-command-deck{position:fixed;z-index:85;right:0;bottom:14px;left:0;display:flex;justify-content:center;pointer-events:none}
+.game-command-slots{display:flex;align-items:flex-end;gap:4px;padding:7px 9px;border:1px solid rgba(214,189,130,.42);background:rgba(8,11,9,.94);box-shadow:0 12px 34px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.025);backdrop-filter:blur(14px);pointer-events:auto;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%,0 12px)}
+.game-command{position:relative;display:flex;width:72px;height:54px;align-items:center;justify-content:center;flex-direction:column;gap:2px;border:1px solid #39443c;background:linear-gradient(180deg,#171d18,#0e120f);color:#9ca69d;transition:transform 140ms ease,border-color 140ms ease,color 140ms ease}
+.game-command::after{position:absolute;right:4px;bottom:3px;left:4px;height:2px;background:transparent;content:""}
+.game-command:hover{z-index:1;border-color:#c8973f;color:#e1b45c;transform:translateY(-5px)}
+.game-command.active{border-color:#d0a34e;background:linear-gradient(180deg,#28271d,#131711);color:#e2b65c;box-shadow:0 0 16px rgba(212,166,77,.2)}
+.game-command.active::after{background:#d4a64d;box-shadow:0 0 8px rgba(212,166,77,.7)}
+.game-command-key{position:absolute;top:2px;right:4px;color:#657068;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
+.game-command-label{font-size:8px;font-weight:700}
+.guild-hall-scene{position:relative;min-height:100vh;overflow:hidden;background:#0b0e0c url("/assets/guild-campaign-map.jpg") center/cover no-repeat;color:#e6e1d4;isolation:isolate}
+.guild-hall-scene::before{position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 50% 43%,rgba(11,14,12,.04) 0,rgba(6,8,7,.2) 48%,rgba(3,5,4,.78) 100%),linear-gradient(180deg,rgba(2,4,3,.48) 0,transparent 28%,rgba(2,3,2,.68) 100%);content:""}
+.guild-hall-scene::after{position:absolute;z-index:-1;inset:70px 12px 84px;border:1px solid rgba(212,166,77,.16);content:"";pointer-events:none}
+body:has(.guild-hall-scene) .guild-stage{padding:0}
+body:has(.guild-hall-scene)::before{display:none}
+.scene-atmosphere{position:absolute;inset:0;background:linear-gradient(90deg,rgba(1,3,2,.62),transparent 28%,transparent 72%,rgba(1,3,2,.62));pointer-events:none}
+.scene-identity{position:absolute;z-index:3;top:94px;left:50%;width:min(520px,70vw);text-align:center;transform:translateX(-50%)}
+.scene-identity p{color:#ba8b45;font:8px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.2em}
+.scene-identity h1{margin-top:5px;color:#e9e1cd;font-family:"Songti SC",SimSun,serif;font-size:31px;font-weight:900;text-shadow:0 2px 12px #000}
+.scene-identity span{display:block;margin-top:5px;color:#9ba49c;font-size:9px}
+.scene-locations{position:absolute;z-index:2;inset:70px 0 84px}
+.scene-route-lines{position:absolute;top:48%;left:51%;width:470px;height:470px;border:1px solid rgba(203,160,78,.1);border-radius:50%;transform:translate(-50%,-50%)}
+.scene-route-lines::before,.scene-route-lines::after{position:absolute;border:1px solid rgba(203,160,78,.08);border-radius:50%;content:""}
+.scene-route-lines::before{inset:54px}
+.scene-route-lines::after{inset:125px}
+.scene-location{position:absolute;display:flex;align-items:center;gap:9px;color:#c6cec7;filter:drop-shadow(0 3px 8px #000);transition:160ms ease}
+.scene-location:hover{z-index:4;color:#f0c66f;transform:translateY(-4px)}
+.scene-location[data-zone="archive"]{top:24%;left:30%}
+.scene-location[data-zone="jobs"]{top:20%;left:55%}
+.scene-location[data-zone="paths"]{top:37%;left:67%}
+.scene-location[data-zone="lab"]{top:62%;left:66%}
+.scene-location[data-zone="skills"]{top:65%;left:48%}
+.scene-location[data-zone="glossary"]{top:51%;left:29%}
+.scene-location-pulse{position:absolute;top:50%;left:22px;width:54px;height:54px;border:1px solid rgba(212,166,77,.25);border-radius:50%;transform:translate(-50%,-50%);animation:scene-pulse 2.6s ease-out infinite}
+.scene-location-icon{position:relative;display:grid;width:44px;height:44px;flex:0 0 44px;place-items:center;border:1px solid #876b39;background:rgba(11,15,12,.88);color:#d5a64f;transform:rotate(45deg);box-shadow:inset 0 0 0 3px rgba(8,11,9,.9),0 0 18px rgba(212,166,77,.12)}
+.scene-location-icon svg{transform:rotate(-45deg)}
+.scene-location-copy{display:flex;min-width:128px;flex-direction:column;padding:7px 9px;border-left:1px solid rgba(212,166,77,.38);background:linear-gradient(90deg,rgba(5,8,6,.9),rgba(5,8,6,.25))}
+.scene-location-copy small{color:#8e7445;font:7px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.12em}
+.scene-location-copy b{margin-top:1px;color:inherit;font-family:"Songti SC",SimSun,serif;font-size:13px}
+.scene-location-copy em{margin-top:2px;color:#818b83;font-size:7px;font-style:normal}
+.scene-you-are-here{position:absolute;top:46%;left:51%;display:flex;align-items:center;flex-direction:column;transform:translate(-50%,-50%)}
+.scene-you-are-here>span{display:grid;width:50px;height:50px;place-items:center;border:1px solid #d4a64d;background:#151912;color:#e2b45c;font-family:Georgia,serif;font-size:20px;box-shadow:0 0 0 7px rgba(212,166,77,.07),0 0 28px rgba(212,166,77,.24);clip-path:polygon(50% 0,92% 18%,92% 70%,50% 100%,8% 70%,8% 18%)}
+.scene-you-are-here small{margin-top:8px;color:#b8914a;font:7px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em}
+.scene-orders-panel,.scene-expedition-panel,.scene-entry-panel{position:absolute;z-index:6;border:1px solid rgba(190,155,86,.52);background:rgba(9,13,10,.9);box-shadow:0 18px 42px rgba(0,0,0,.48);backdrop-filter:blur(12px)}
+.scene-orders-panel{top:102px;right:26px;width:300px;padding:13px}
+.scene-expedition-panel{right:50%;bottom:94px;width:min(520px,46vw);transform:translateX(50%)}
+.scene-entry-panel{bottom:104px;left:26px;width:min(480px,calc(100vw - 52px));padding:22px}
+.scene-panel-heading{display:flex;align-items:center;justify-content:space-between;min-height:28px;margin-bottom:8px;border-bottom:1px solid rgba(190,155,86,.25);padding-bottom:8px;color:#aeb7af;font-size:9px}
+.scene-panel-heading>span{display:flex;align-items:center;gap:6px;color:#d2a24b;font-weight:800}
+.scene-panel-heading>a,.scene-panel-heading>b{color:#a68b58;font:8px ui-monospace,SFMono-Regular,Consolas,monospace}
+.scene-orders-panel .daily-quests{gap:0}
+.scene-orders-panel .daily-quest{border:0;border-bottom:1px solid rgba(125,139,128,.22);background:transparent;color:#d9ddd8;padding:10px 4px}
+.scene-orders-panel .daily-quest:last-child{border-bottom:0}
+.scene-orders-panel .daily-quest.complete{background:linear-gradient(90deg,rgba(212,166,77,.1),transparent)}
+.scene-orders-panel .daily-quest-icon{border-color:#556057;background:#111611}
+.scene-orders-panel .daily-quest h3{font-size:10px}
+.scene-orders-panel .progress-track{border-color:#39443c;background:#070a08}
+.scene-battle-target{display:grid;grid-template-columns:52px minmax(0,1fr);align-items:center;gap:13px;padding:13px 16px}
+.scene-battle-rank{display:grid;width:48px;height:48px;place-items:center;border:1px solid #a84842;background:rgba(97,28,25,.22);color:#df6b5e;font:800 8px ui-monospace,SFMono-Regular,Consolas,monospace;clip-path:polygon(50% 0,100% 24%,88% 78%,50% 100%,12% 78%,0 24%)}
+.scene-battle-target small{color:#ac8a4e;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
+.scene-battle-target h2{margin-top:2px;overflow:hidden;color:#eee6d4;font-family:"Songti SC",SimSun,serif;font-size:17px;text-overflow:ellipsis;white-space:nowrap}
+.scene-battle-target p{margin-top:3px;overflow:hidden;color:#969f97;font-size:8px;text-overflow:ellipsis;white-space:nowrap}
+.scene-boss-health{padding:0 16px 12px}
+.scene-boss-health>span{display:flex;justify-content:space-between;margin-bottom:5px;color:#b9c0ba;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
+.scene-boss-health>span b{color:#d45d50}
+.scene-boss-health>div{height:8px;border:1px solid #55302c;background:#080907;clip-path:polygon(0 0,100% 0,calc(100% - 6px) 100%,6px 100%)}
+.scene-boss-health i{display:block;height:100%;background:linear-gradient(90deg,#8f322f,#d25c50);box-shadow:0 0 8px rgba(212,93,80,.4)}
+.scene-deploy{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-top:1px solid rgba(190,155,86,.3);background:linear-gradient(90deg,rgba(151,105,34,.24),transparent);color:#e5b758;font-size:10px;font-weight:900}
+.scene-deploy:hover{background:rgba(194,143,55,.2)}
+.scene-empty-target{display:flex;align-items:center;justify-content:space-between;padding:18px;color:#a3aca5;font-size:10px}
+.scene-panel-kicker{color:#b58b46;font:8px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em}
+.scene-entry-panel h1{margin-top:7px;color:#eee5d1;font-family:"Songti SC",SimSun,serif;font-size:24px}
+.scene-entry-panel>p:not(.scene-panel-kicker){margin-top:9px;color:#a9b1aa;font-size:11px;line-height:1.7}
+.scene-panel-actions{display:flex;align-items:center;gap:12px;margin-top:16px}
+.scene-primary-action,.scene-secondary-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;padding:0 13px;border:1px solid #a67b37;font-size:9px;font-weight:800}
+.scene-primary-action{background:#a17431;color:#0c0f0d}
+.scene-primary-action:hover{background:#c09242}
+.scene-secondary-action{border-color:#536056;color:#c0c7c1}
+@keyframes scene-pulse{0%{opacity:.75;transform:translate(-50%,-50%) scale(.75)}70%,100%{opacity:0;transform:translate(-50%,-50%) scale(1.35)}}
+
+@media(max-width:1100px){
+  .game-top-hud{grid-template-columns:190px minmax(280px,1fr) 190px}
+  .game-player-hud{width:min(100%,430px)}
+  .game-resource small{display:none}
+  .scene-location[data-zone="archive"]{left:27%}
+  .scene-location[data-zone="glossary"]{left:25%}
+  .scene-orders-panel{width:270px}
+}
+@media(max-width:820px){
+  .game-top-hud{height:58px;grid-template-columns:auto minmax(0,1fr) auto}
+  .game-brand{padding-left:10px}
+  .game-brand-copy{display:none}
+  .game-brand .guild-sigil{width:30px;height:34px;font-size:16px}
+  .game-player-hud{width:100%;height:46px;grid-template-columns:38px minmax(0,1fr);padding:0 8px}
+  .game-avatar{width:36px;height:40px;font-size:15px}
+  .game-player-copy{padding-left:7px}
+  .game-player-copy small{display:none}
+  .game-xp-line{height:5px;margin-top:4px}
+  .game-resources{gap:4px;padding-right:8px}
+  .game-resource{display:none}
+  .game-top-hud .hud-icon-button{width:32px;height:32px}
+  .game-auth-actions .secondary{display:none}
+  .game-auth-actions .command-button{padding:7px 8px;font-size:8px}
+  .guild-stage{padding:78px 12px 88px}
+  .game-command-deck{bottom:0}
+  .game-command-slots{width:100%;justify-content:space-around;gap:0;padding:4px 3px;border-right:0;border-bottom:0;border-left:0;clip-path:none}
+  .game-command{width:min(64px,14.1vw);height:55px;border-color:transparent;background:transparent}
+  .game-command:nth-child(n+6){display:none}
+  .game-command:hover{transform:none}
+  .game-command-key{display:none}
+  .guild-hall-scene{min-height:auto;padding:78px 12px 88px;background-position:43% center}
+  .guild-hall-scene::after{inset:64px 6px 68px}
+  .scene-identity{position:relative;top:auto;left:auto;width:auto;text-align:left;transform:none}
+  .scene-identity h1{font-size:24px}
+  .scene-locations{position:relative;inset:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:20px}
+  .scene-route-lines,.scene-you-are-here,.scene-location-pulse{display:none}
+  .scene-location{position:relative!important;top:auto!important;left:auto!important;min-height:78px;padding:10px;border:1px solid rgba(180,144,75,.32);background:rgba(8,11,9,.78);filter:none}
+  .scene-location:hover{transform:none}
+  .scene-location-icon{width:38px;height:38px;flex-basis:38px}
+  .scene-location-copy{min-width:0;padding:4px 0 4px 8px;background:none}
+  .scene-location-copy em{white-space:normal}
+  .scene-orders-panel,.scene-expedition-panel,.scene-entry-panel{position:relative;top:auto;right:auto;bottom:auto;left:auto;width:100%;margin-top:10px;transform:none}
+  .scene-orders-panel{padding:11px}
+  .scene-expedition-panel{margin-top:16px}
+  .scene-entry-panel{padding:18px}
+  .scene-atmosphere{position:fixed}
+}
+@media(max-width:440px){
+  .game-player-copy>span:first-child small{display:none}
+  .game-xp-label{font-size:6px}
+  .game-top-hud .theme-toggle-label{display:none}
+  .scene-locations{grid-template-columns:1fr}
+  .scene-location{min-height:68px}
+  .scene-orders-panel{display:none}
+  .scene-panel-actions{align-items:stretch;flex-direction:column}
+  .scene-secondary-action{min-height:32px}
+}
+
+
+/* Core game screens: campaign board, dungeon roster, and workshop bays */
+.scene-location[data-zone="skills"]{top:59%}
+.world-map-head{min-height:190px;border-color:#4f4734;background:linear-gradient(90deg,rgba(7,10,8,.94),rgba(8,11,9,.7)),url("/assets/guild-campaign-map.jpg") center 56%/cover;color:#e9e2d2;box-shadow:inset 4px 0 0 #a87936,0 18px 36px var(--shadow)}
+.world-map-head .page-title{color:#eee5d3}
+.world-map-head .page-lead{max-width:720px;color:#aab3ac}
+.world-map-head>svg{color:#d4a64d;filter:drop-shadow(0 0 12px rgba(212,166,77,.28));opacity:1}
+.world-regions{gap:16px}
+.world-region{position:relative;padding:0 16px 16px;border:1px solid #3b453d;border-top-width:3px;background:linear-gradient(135deg,rgba(13,18,14,.97),rgba(22,28,23,.95));color:#e1e6e1;box-shadow:0 12px 28px rgba(0,0,0,.22)}
+.region-heading{grid-template-columns:52px minmax(0,1fr);padding:14px 0}
+.region-icon{width:50px;height:50px;border-color:#68736b;background:#0b0f0c;color:#d2a24b}
+.region-heading h2{color:#e7e2d5}
+.region-heading>div>span{color:#929d95}
+.region-paths{gap:7px}
+.region-path{min-height:174px;border-color:#3e4941;background:linear-gradient(180deg,#181e19,#101511);color:#dde3dd;box-shadow:inset 0 -2px 0 rgba(212,166,77,.08)}
+.region-path::before{display:block;width:34px;height:2px;margin-bottom:8px;background:#7a643b;content:""}
+.region-path:hover{border-color:#b88940;background:#1c231d;box-shadow:0 10px 20px rgba(0,0,0,.3)}
+.region-path h3{color:#eee6d5}
+.region-path p{color:#96a098}
+.region-path-top{color:#7f8b82}
+.region-path-deploy{color:#d2a34d}
+
+.facility-hero{min-height:215px;border-color:#4b4738;background:linear-gradient(90deg,rgba(6,9,7,.94),rgba(11,15,12,.72)),url("/assets/guild-campaign-map.jpg") left 72%/cover;color:#e8e1d2;box-shadow:inset 4px 0 0 #b06c43,0 18px 36px var(--shadow)}
+.facility-hero .page-title{color:#eee6d5}
+.facility-hero .page-lead{color:#a7b0a9}
+.facility-hero-status{border-color:#4f5b52}
+.facility-hero-status span{border-color:#4f5b52;color:#94a097}
+.facility-hero-status b{color:#e0ae50}
+.facility-grid{gap:10px}
+.facility-card{min-height:300px;border-color:#414c43;background:linear-gradient(145deg,#19201a,#0f1410);color:#e3e8e2;box-shadow:0 14px 30px rgba(0,0,0,.24)}
+.facility-card::after{position:absolute;right:0;bottom:0;width:54px;height:54px;border-right:1px solid rgba(212,166,77,.25);border-bottom:1px solid rgba(212,166,77,.25);content:"";clip-path:polygon(100% 0,100% 100%,0 100%)}
+.facility-card:hover{background:linear-gradient(145deg,#202820,#111713);box-shadow:0 18px 34px rgba(0,0,0,.36),0 0 0 1px rgba(212,166,77,.18)}
+.facility-card-head,.facility-card-foot{border-color:#3b463e}
+.facility-card h2{color:#eee6d5}
+.facility-card-body p,.facility-card-foot,.facility-progress{color:#94a097}
+.facility-icon{border-color:#5f6b62;background:#0b0f0c;color:#d4a64d}
+.facility-card .progress-track{border-color:#3e4941;background:#080b09}
+.workshop-protocol{padding:22px;border:1px solid #3c473f;background:#111713;color:#dfe5df}
+.workshop-protocol li{border-color:#3c473f;color:#9ba69d}
+.workshop-protocol h2{color:#eee5d3}
+
+body:has(.dungeon-grid) .page-intro{min-height:190px;padding:28px;border:1px solid #4b4738;background:linear-gradient(90deg,rgba(6,9,7,.95),rgba(13,17,14,.7)),url("/assets/guild-campaign-map.jpg") right 36%/cover;color:#e8e1d2;box-shadow:inset 4px 0 0 #a64740}
+body:has(.dungeon-grid) .page-intro .page-title{color:#eee5d3}
+body:has(.dungeon-grid) .page-intro .page-lead{color:#a7b0a9}
+body:has(.dungeon-grid) .filter-console{border-color:#3f4a42;background:#111713;color:#dfe5df}
+body:has(.dungeon-grid) .filter-console input{background:#090d0a;color:#e0e5e0}
+body:has(.dungeon-grid) .filter-chip{border-color:#3c473f;color:#98a39b}
+body:has(.dungeon-grid) .filter-chip.active{border-color:#bd8e42;background:#28251b;color:#e1b35a}
+.dungeon-card{min-height:230px;border-color:#3e4941;background:linear-gradient(145deg,#181f1a,#0f1411);color:#dfe5df;box-shadow:inset 3px 0 0 #6d4936}
+.dungeon-card:hover{border-color:#b6873f;background:linear-gradient(145deg,#202820,#111713);box-shadow:0 14px 28px rgba(0,0,0,.32),inset 3px 0 0 #b6873f}
+.dungeon-card .dungeon-title{color:#eee6d5}
+.dungeon-card .text-muted,.dungeon-card .quest-meta{color:#95a098}
+.dungeon-card .bg-background\/50{background:#0b0f0c}
+.dungeon-card .progress-track{border-color:#3d4840;background:#080b09}
+
+@media(max-width:820px){
+  .scene-location[data-zone="skills"]{top:auto}
+  .world-map-head,.facility-hero,body:has(.dungeon-grid) .page-intro{min-height:0;padding:20px}
+  .world-region{padding:0 10px 10px}
+  .region-path{min-height:160px}
+  .facility-card{min-height:260px}
+  .workshop-protocol{padding:16px}
+}
+
+.scene-location[data-zone="paths"]{left:60%}
+.scene-location[data-zone="skills"]{top:62%;left:10%}
+@media(max-width:820px){.scene-location[data-zone="paths"],.scene-location[data-zone="skills"]{top:auto;left:auto}}

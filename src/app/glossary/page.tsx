@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getContent } from "@/lib/content/load";
 import { renderMathText } from "@/lib/math/render-math-text";
+import { splitBilingualTerm } from "@/lib/glossary/split-term";
 
 export const metadata = { title: "术语卷宗" };
 
@@ -8,19 +9,6 @@ interface GlossaryEntry {
   term: string;
   definitions: string[];
   sources: { courseId: string; courseTitle: string; episodes: number[] }[];
-}
-
-function splitTerm(term: string): { en: string; zh: string } {
-  const idx = term.search(/[一-龥぀-ヿ]/);
-  if (idx <= 0) return { en: term.trim(), zh: "" };
-  let en = term.slice(0, idx).trim();
-  let zh = term.slice(idx).trim();
-  const tail = en.match(/\s([A-Za-z0-9])$/);
-  if (tail) {
-    en = en.slice(0, -2).trim();
-    zh = `${tail[1]} ${zh}`;
-  }
-  return { en, zh };
 }
 
 function buildGlossary(): GlossaryEntry[] {
@@ -97,7 +85,7 @@ export default async function GlossaryPage({ searchParams }: { searchParams: Pro
               </div>
               <dl className="glossary-list">
                 {list.map((entry) => {
-                  const { en, zh } = splitTerm(entry.term);
+                  const { en, zh } = splitBilingualTerm(entry.term);
                   return (
                     <div key={entry.term} className="glossary-entry">
                       <dt className="glossary-term">

@@ -1,16 +1,17 @@
 "use client";
 
+import { MonitorCog, Moon, Sun } from "lucide-react";
 import { useEffect, useSyncExternalStore } from "react";
 
 type ThemePref = "auto" | "light" | "dark";
 
 const STORAGE_KEY = "guild-theme";
 const ORDER: ThemePref[] = ["auto", "light", "dark"];
-const ICON: Record<ThemePref, string> = {
-  auto: "A",
-  light: "☀",
-  dark: "☾",
-};
+const ICON = {
+  auto: MonitorCog,
+  light: Sun,
+  dark: Moon,
+} as const;
 const LABEL: Record<ThemePref, string> = {
   auto: "跟随系统",
   light: "日间卷宗",
@@ -33,9 +34,7 @@ function getSnapshot(): ThemePref {
 
 function resolve(pref: ThemePref): "light" | "dark" {
   if (pref !== "auto") return pref;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 function setThemePref(pref: ThemePref): void {
@@ -58,15 +57,16 @@ export function ThemeToggle() {
   }, [pref]);
 
   const next = ORDER[(ORDER.indexOf(pref) + 1) % ORDER.length];
+  const Icon = ICON[pref];
 
   return (
     <button
       onClick={() => setThemePref(next)}
       title={`当前主题：${LABEL[pref]}。切换为${LABEL[next]}`}
       aria-label={`切换主题，当前为${LABEL[pref]}`}
-      className="hud-icon-button font-mono text-xs"
+      className="hud-icon-button"
     >
-      {ICON[pref]}
+      <Icon aria-hidden size={16} />
     </button>
   );
 }

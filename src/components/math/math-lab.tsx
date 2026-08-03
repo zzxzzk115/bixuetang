@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import type { ComputeEngine } from "@cortex-js/compute-engine";
 import type { MathfieldElement } from "mathlive";
 import { compilePlot, OP_LABEL, runOp, type MathOp } from "@/lib/math/engine";
+import { completeLabTask } from "@/lib/progress/actions";
+import { celebrate } from "@/lib/celebrate";
 import { StaticMath } from "./static-math";
 import { FunctionPlot } from "./function-plot";
 
@@ -17,6 +19,7 @@ export function MathLab({ initialExpr }: { initialExpr?: string }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const mfRef = useRef<MathfieldElement | null>(null);
   const ceRef = useRef<ComputeEngine | null>(null);
+  const achievedRef = useRef(new Set<string>());
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
@@ -56,6 +59,20 @@ export function MathLab({ initialExpr }: { initialExpr?: string }) {
     };
   }, [initialExpr]);
 
+  const earnAchievement = (taskId: string) => {
+    if (achievedRef.current.has(taskId)) return;
+    achievedRef.current.add(taskId);
+    void completeLabTask("math", taskId).then((result) => {
+      if ((result.gained ?? 0) > 0) {
+        celebrate({
+          kind: "quest",
+          title: result.taskTitle ?? "设施目标完成",
+          subtitle: `实验奖励 +${result.gained} XP`,
+        });
+      }
+    });
+  };
+
   const currentLatex = () => mfRef.current?.value?.trim() ?? "";
 
   const doOp = (op: MathOp) => {
@@ -70,6 +87,7 @@ export function MathLab({ initialExpr }: { initialExpr?: string }) {
       return;
     }
     setHistory((h) => [{ input: latex, op, output: r.latex }, ...h].slice(0, 20));
+    earnAchievement(op === "derivative" ? "symbolic-derivative" : "first-evaluation");
   };
 
   const doPlot = () => {
@@ -83,6 +101,7 @@ export function MathLab({ initialExpr }: { initialExpr?: string }) {
       return;
     }
     setPlot({ sampler, latex });
+    earnAchievement("function-plot");
   };
 
   const btn =

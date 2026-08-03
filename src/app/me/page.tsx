@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { Award, Flame } from "lucide-react";
 import { StatusBadge, SubjectIcon } from "@/components/badges";
 import { XpBar } from "@/components/xp-bar";
 import { requireUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { SUBJECT_LABEL, SUBJECTS } from "@/lib/content/schema";
 import { skillPointsEarned } from "@/lib/game/level";
+import { learningStreak, syncAchievements } from "@/lib/game/achievements";
 import { spentPoints } from "@/lib/game/skills";
 import { getHeldJobs, getSubjectXp, getUserProgress, getXpLog } from "@/lib/progress/queries";
 
@@ -25,6 +27,8 @@ export default async function MePage() {
     heldJobs.find((job) => job.tier === 0)?.title ??
     "见习学者";
   const displayName = user.displayName || user.username;
+  const achievements = syncAchievements(user.id);
+  const streak = learningStreak(user.id);
   const activeCourses = [...progress.statusByCourse.entries()]
     .filter(([, status]) => status === "learning" || status === "done")
     .map(([id, status]) => ({ course: content.coursesById.get(id), status }))
@@ -59,6 +63,7 @@ export default async function MePage() {
             <div className="profile-stats">
               <div><strong>{progress.totalXp}</strong><span>总经验</span></div>
               <div><strong>{points}</strong><span>技能点</span></div>
+              <div><strong>{streak}</strong><span>连续天数</span></div>
             </div>
           </section>
 
@@ -125,6 +130,21 @@ export default async function MePage() {
                 })}
               </div>
             )}
+          </section>
+
+          <section>
+            <div className="section-heading">
+              <div><p className="page-kicker">ACHIEVEMENT VAULT</p><h2>公会成就</h2></div>
+              <span className="guild-streak"><Flame aria-hidden size={14} /> {streak} DAYS</span>
+            </div>
+            <div className="achievement-strip">
+              {achievements.map((achievement) => (
+                <div key={achievement.id} className={`achievement-token ${achievement.unlocked ? "unlocked" : ""}`}>
+                  <Award aria-hidden size={18} />
+                  <span><b>{achievement.title}</b><small>{achievement.description}</small></span>
+                </div>
+              ))}
+            </div>
           </section>
 
           <section>

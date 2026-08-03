@@ -1,17 +1,23 @@
 import type { LabId } from "./content/schema";
 
-/** 实验室注册表（代码侧路由与文案，任务清单在 content/labs/） */
-export const LABS: Record<LabId, { href: string; icon: string; title: string; description: string }> = {
+export interface LabDefinition {
+  href: string;
+  code: string;
+  title: string;
+  description: string;
+}
+
+export const LABS: Record<LabId, LabDefinition> = {
   hack: {
     href: "/lab/hack",
-    icon: "🔩",
-    title: "Hack 实验室",
-    description: "在浏览器里从汇编到 Jack 语言造一台计算机（Nand2Tetris 移植）",
+    code: "FAC-H01",
+    title: "Hack 计算机工坊",
+    description: "从汇编、CPU、VM 到 Jack，在浏览器里亲手构造一台完整计算机。",
   },
   math: {
     href: "/lab/math",
-    icon: "⚗️",
-    title: "数学工坊",
-    description: "公式演算、符号求导与函数图像",
+    code: "FAC-M02",
+    title: "数学演算设施",
+    description: "进行公式演算、符号求导、数值计算与函数图像实验。",
   },
 };

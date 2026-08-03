@@ -104,6 +104,17 @@ export function getXpLog(userId: number, limit = 20): XpLogEntry[] {
         ?.tasks.find((t) => t.id === taskId);
       label = `实验室成就：${task?.title ?? r.ref}`;
     }
+    if (r.reason === "focus-session") {
+      const [courseId, episodeN] = r.ref.split(":");
+      const title = content.coursesById.get(courseId)?.title ?? courseId;
+      label = `专注训练：${title} · 第 ${episodeN} 集`;
+    } else if (r.reason === "checkpoint") {
+      const [courseId, episodeN] = r.ref.split(":");
+      const title = content.coursesById.get(courseId)?.title ?? courseId;
+      label = `战后复述：${title} · 第 ${episodeN} 集`;
+    } else if (r.reason === "daily-quest") {
+      label = "每日委托结算";
+    }
     return { ...r, label };
   });
 }
