@@ -1,32 +1,19 @@
 import Phaser from "phaser";
 
-// 加载全部像素素材 + 进度条。素材复用课程页地下城那批 0x72 贴图（CC0）。
-// 角色行走帧（knight idle/run）在 G1 手动入库后加入这里。
+// 加载大厅素材 + 进度条，并建好角色行走动画。
+// 素材：DungeonTileset II（0x72，CC0）——tiles 图集切成 16×16 spritesheet，
+// hero 是带 side/down/up 三向奔跑动画的 atlas。
 
-const ASSET_ROOT = "/assets/pixel-dungeon";
+const ROOT = "/assets/dungeon-ii";
 
-/** 单帧贴图：key → 文件名 */
-const IMAGES: Record<string, string> = {
-  wall: "wall_center.png",
-  wallTop: "wall_top_center.png",
-  wallFront: "wall_front.png",
-  floor: "floor_plain.png",
-  floorStain: "floor_stain_1.png",
-  column: "column.png",
-  torch1: "torch_1.png",
-  torch2: "torch_2.png",
-  torch3: "torch_3.png",
-  torch4: "torch_4.png",
-  chestClosed: "chest_golden_closed.png",
-  chestOpen: "chest_golden_open_full.png",
-  sword: "weapon_sword_golden.png",
-  sage: "npc_sage.png",
-  skeleton: "monster_skelet.png",
-  orc: "monster_orc.png",
-  zombie: "monster_zombie.png",
-  darkKnight: "monster_dark_knight.png",
-  demon: "monster_demon.png",
-};
+function runFrames(scene: Phaser.Scene, dir: "down" | "side" | "up") {
+  return scene.anims.generateFrameNames("hero", {
+    prefix: `run-${dir}-`,
+    suffix: ".png",
+    start: 1,
+    end: 8,
+  });
+}
 
 export class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -49,12 +36,52 @@ export class PreloadScene extends Phaser.Scene {
       bar.destroy();
     });
 
-    for (const [key, file] of Object.entries(IMAGES)) {
-      this.load.image(key, `${ASSET_ROOT}/${file}`);
+    this.load.spritesheet("tiles", `${ROOT}/tiles.png`, {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.atlas("hero", `${ROOT}/hero.png`, `${ROOT}/hero.json`);
+
+    // 据点用的装饰图标沿用旧 0x72 tileset（已在库）
+    const icons: Record<string, string> = {
+      column: "column.png",
+      sword: "weapon_sword_golden.png",
+      chestClosed: "chest_golden_closed.png",
+      chestOpen: "chest_golden_open_full.png",
+      torch: "torch_1.png",
+      sage: "npc_sage.png",
+    };
+    for (const [key, file] of Object.entries(icons)) {
+      this.load.image(key, `/assets/pixel-dungeon/${file}`);
     }
   }
 
   create() {
+    // 三向奔跑 + 静止（idle 用单帧 walk-*-3）
+    this.anims.create({
+      key: "hero-down",
+      frames: runFrames(this, "down"),
+      frameRate: 12,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: "hero-side",
+      frames: runFrames(this, "side"),
+      frameRate: 12,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: "hero-up",
+      frames: runFrames(this, "up"),
+      frameRate: 12,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: "hero-idle",
+      frames: [{ key: "hero", frame: "walk-down-3.png" }],
+      frameRate: 1,
+    });
+
     this.scene.start("hall");
   }
 }

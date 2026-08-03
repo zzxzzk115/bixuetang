@@ -3,6 +3,7 @@ import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import {
   HALL_MAP,
   TILE,
+  TILE_IDX,
   cellCenter,
   parseHall,
   type Poi,
@@ -10,10 +11,9 @@ import {
 import { announceGame } from "@/lib/game/bridge";
 import { Player } from "../entities/player";
 
-// 俯视角公会大厅。角色可走动，走近据点浮出「进入」提示（DOM 层画）。
-// 相机跟随角色 + 整数倍缩放，竖屏横屏都无黑边。
+// 俯视角公会大厅。紧凑单屏——相机适配整间大厅、不跟随，所以一眼看全所有据点，
+// 不用走一会儿才发现内容。角色可走动，走近据点浮出「进入」提示（DOM 层画）。
 
-/** 据点走进去要做什么。窗口类走 DOM 弹窗，其余整页跳转（旧页面，G5 再窗口化） */
 const POI_ACTION: Record<
   Poi["kind"],
   | { mode: "window"; window: "inventory" | "glossary" | "quests" }
@@ -22,9 +22,8 @@ const POI_ACTION: Record<
   inventory: { mode: "window", window: "inventory" },
   glossary: { mode: "window", window: "glossary" },
   quests: { mode: "window", window: "quests" },
-  // G1：塔门先跳第一条路径的塔页，G4 换成 Phaser 塔场景
   tower: { mode: "route", href: (b) => `/paths/${b.paths[0]?.id ?? ""}` },
-  trial: { mode: "route", href: () => "/play/trial" }, // G3 占位
+  trial: { mode: "route", href: () => "/play/trial" },
   lab: { mode: "route", href: () => "/lab" },
 };
 
@@ -32,7 +31,7 @@ const POI_SPRITE: Record<Poi["kind"], string> = {
   tower: "column",
   trial: "sword",
   glossary: "chestClosed",
-  lab: "torch1",
+  lab: "torch",
   inventory: "chestOpen",
   quests: "sage",
 };
@@ -43,6 +42,8 @@ export class HallScene extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private wasd!: Record<"up" | "down" | "left" | "right" | "enter", Phaser.Input.Keyboard.Key>;
   private activePoi: Poi | null = null;
+  private worldW = 0;
+  private worldH = 0;
 
   constructor() {
     super("hall");
@@ -50,26 +51,20 @@ export class HallScene extends Phaser.Scene {
 
   create() {
     const layout = parseHall(HALL_MAP);
-    const worldW = layout.cols * TILE;
-    const worldH = layout.rows * TILE;
+    this.worldW = layout.cols * TILE;
+    this.worldH = layout.rows * TILE;
     this.pois = layout.pois;
 
-    this.drawFloor(layout.rows, layout.cols);
-    this.drawWalls();
+    this.drawRoom(layout.walkable, layout.rows, layout.cols);
     this.drawPois();
 
-    const bootstrap = this.registry.get("bootstrap") as GameBootstrap;
-    this.player = new Player(this, layout.walkable, layout.spawn, "sage");
-    void bootstrap;
+    this.player = new Player(this, layout.walkable, layout.spawn);
 
-    // 相机：整数倍缩放，跟随角色
-    const cam = this.cameras.main;
-    cam.setBounds(0, 0, worldW, worldH);
-    cam.startFollow(this.player.sprite, true, 0.12, 0.12);
-    this.applyZoom();
-    this.scale.on("resize", this.applyZoom, this);
+    // 相机：适配整间大厅、居中、不跟随——大厅小，尽收眼底。
+    // 不用 setBounds：内容小于视口时它会把相机 clamp 到左上角、无法居中。
+    this.fitCamera();
+    this.scale.on("resize", this.fitCamera, this);
 
-    // 键盘（桌面）
     const kb = this.input.keyboard!;
     this.cursors = kb.createCursorKeys();
     this.wasd = {
@@ -81,51 +76,42 @@ export class HallScene extends Phaser.Scene {
     };
     this.wasd.enter.on("down", () => this.enterActivePoi());
 
-    // DOM「进入」大按钮（移动端主通道）
     const onDomEnter = () => this.enterActivePoi();
     window.addEventListener("guild:poi-enter", onDomEnter);
 
     // 点击/触摸寻路
     this.input.on("pointerdown", (p: Phaser.Input.Pointer) => {
-      const world = cam.getWorldPoint(p.x, p.y);
+      const world = this.cameras.main.getWorldPoint(p.x, p.y);
       this.player.walkTo(world.x, world.y);
     });
 
-    // 离开场景时收掉 DOM 提示与监听，别残留
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       window.removeEventListener("guild:poi-enter", onDomEnter);
       window.dispatchEvent(new CustomEvent("guild:poi", { detail: null }));
-      this.scale.off("resize", this.applyZoom, this);
+      this.scale.off("resize", this.fitCamera, this);
     });
   }
 
-  private applyZoom = () => {
-    // 用 CSS 视口（DPR 无关）算，别用 scale.gameSize——它在 RESIZE 模式下含 DPR，
-    // 会让高分屏 zoom 偏大、只看到几格。目标：短边显示约 14 格。
+  /** 相机缩放到整间大厅刚好塞进视口（留一点边距），并居中 */
+  private fitCamera = () => {
     const w = typeof window !== "undefined" ? window.innerWidth : 800;
     const h = typeof window !== "undefined" ? window.innerHeight : 600;
-    const zoom = Math.max(2, Math.min(4, Math.floor(Math.min(w, h) / (14 * TILE))));
+    // 留 8% 边距，避免大厅顶到屏幕边缘
+    const zoom = Math.min(w / this.worldW, h / this.worldH) * 0.92;
     this.cameras.main.setZoom(zoom);
+    this.cameras.main.centerOn(this.worldW / 2, this.worldH / 2);
   };
 
-  private drawFloor(rows: number, cols: number) {
-    const floor = this.add
-      .tileSprite(0, 0, cols * TILE, rows * TILE, "floor")
-      .setOrigin(0)
-      .setDepth(0);
-    void floor;
-  }
-
-  private drawWalls() {
-    const layout = parseHall(HALL_MAP);
-    for (let row = 0; row < layout.rows; row++) {
-      for (let col = 0; col < layout.cols; col++) {
-        if (!layout.walkable[row][col]) {
-          const ch = HALL_MAP[row]?.[col] ?? " ";
-          if (ch === "#") {
-            const c = cellCenter(col, row);
-            this.add.image(c.x, c.y, "wall").setDepth(1);
-          }
+  private drawRoom(walkable: boolean[][], rows: number, cols: number) {
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const c = cellCenter(col, row);
+        if (walkable[row][col]) {
+          this.add.image(c.x, c.y, "tiles", TILE_IDX.floor).setDepth(0);
+        } else {
+          // 顶行用墙顶面，其余用墙身，做出一点立体感
+          const idx = row === 0 ? TILE_IDX.wallTop : TILE_IDX.wall;
+          this.add.image(c.x, c.y, "tiles", idx).setDepth(1);
         }
       }
     }
@@ -135,16 +121,15 @@ export class HallScene extends Phaser.Scene {
     for (const poi of this.pois) {
       const c = cellCenter(poi.col, poi.row);
       this.add.image(c.x, c.y, POI_SPRITE[poi.kind]).setDepth(2);
-      // 据点名（像素字，12px）
       this.add
-        .text(c.x, c.y - TILE * 0.9, poi.label, {
+        .text(c.x, c.y - TILE * 0.85, poi.label, {
           fontFamily: '"ArkPixel", monospace',
           fontSize: "12px",
-          color: "#e6dcc0",
+          color: "#f0e4c4",
         })
         .setOrigin(0.5)
-        .setDepth(3)
-        .setResolution(2);
+        .setDepth(6)
+        .setResolution(3);
     }
   }
 
@@ -173,7 +158,6 @@ export class HallScene extends Phaser.Scene {
   update(_time: number, delta: number) {
     this.player.update(delta, this.keyVec());
 
-    // 找最近的、在触发半径内的 POI
     let nearest: Poi | null = null;
     let nearestDist = Infinity;
     for (const poi of this.pois) {
@@ -186,7 +170,6 @@ export class HallScene extends Phaser.Scene {
     }
     if (nearest !== this.activePoi) {
       this.activePoi = nearest;
-      // 通知 DOM 层显示/隐藏「进入」大按钮
       window.dispatchEvent(
         new CustomEvent("guild:poi", {
           detail: nearest

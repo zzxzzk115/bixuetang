@@ -1,46 +1,30 @@
-// 公会大厅的俯视地图。用字符画而不是 Tiled tilemap：
-// 图很小、进代码库可 review、walkableGrid 直接能喂给 pathfind 单测，
-// 省掉 Tiled 编辑器与 JSON 资产管线。
+// 公会大厅的俯视地图。紧凑单屏设计——整间大厅一眼看全，不用走很久才发现据点。
+// 出生点在正中央，6 个据点对称环绕四周，走几步即可抵达任意一个。
 //
 // 图例：
-//   # 墙（不可走）      . 地板（可走）      空格 = 虚空（不可走，画黑）
-//   T 塔门·战争沙盘     A 试炼场门          G 卷宗·术语表
-//   L 工坊·实验室       B 库房·背包         Q 布告栏·每日委托
-//   @ 角色出生点（也是可走地板）
-//
-// 每个字母格都是一个 POI（据点），坐标由 parseHall 解析出来。
+//   # 墙   . 地板   @ 出生点（可走）
+//   T 战争沙盘   A 试炼场   G 卷宗·术语   L 实验工坊   B 库房·背包   Q 布告栏
 
 export const TILE = 16;
 
-/** 一格代表 16×16 像素。地图 30 宽 × 20 高。 */
 export const HALL_MAP: string[] = [
-  "##############################",
-  "#............................#",
-  "#..######............######..#",
-  "#..#....#....####....#....#..#",
-  "#..#..T.#....#..#....#.A..#..#",
-  "#..#....#....#..#....#....#..#",
-  "#..##..##....####....##..##..#",
-  "#............................#",
-  "#............####............#",
-  "#....G.......#..#.......L.....#",
-  "#............#..#.............#",
-  "#............####............#",
-  "#............................#",
-  "#..##..##....####....##..##..#",
-  "#..#....#....#..#....#....#..#",
-  "#..#.B..#....#.@#....#.Q..#..#",
-  "#..#....#....#..#....#....#..#",
-  "#..######............######..#",
-  "#............................#",
-  "##############################",
+  "###############",
+  "#.............#",
+  "#...T.....A...#",
+  "#.............#",
+  "#.............#",
+  "#.G....@....L.#",
+  "#.............#",
+  "#.............#",
+  "#..B.......Q..#",
+  "#.............#",
+  "###############",
 ];
 
 export type PoiKind = "tower" | "trial" | "glossary" | "lab" | "inventory" | "quests";
 
 export interface Poi {
   kind: PoiKind;
-  /** 格坐标（列、行） */
   col: number;
   row: number;
   label: string;
@@ -57,7 +41,6 @@ const POI_CHARS: Record<string, { kind: PoiKind; label: string }> = {
   Q: { kind: "quests", label: "布告栏" },
 };
 
-/** 出生点格坐标 */
 export interface HallLayout {
   cols: number;
   rows: number;
@@ -84,7 +67,7 @@ export function parseHall(map: string[] = HALL_MAP): HallLayout {
       if (ch === "@") spawn = { col, row };
       const poi = POI_CHARS[ch];
       if (poi) {
-        pois.push({ ...poi, col, row, radius: TILE * 1.5 });
+        pois.push({ ...poi, col, row, radius: TILE * 1.4 });
       }
     }
   }
@@ -92,7 +75,6 @@ export function parseHall(map: string[] = HALL_MAP): HallLayout {
   return { cols, rows, walkable, pois, spawn };
 }
 
-/** 供寻路用的可走网格（行优先，grid[row][col]） */
 export function walkableGrid(map: string[] = HALL_MAP): boolean[][] {
   return parseHall(map).walkable;
 }
@@ -106,3 +88,10 @@ export function cellCenter(col: number, row: number): { x: number; y: number } {
 export function pixelToCell(x: number, y: number): { col: number; row: number } {
   return { col: Math.floor(x / TILE), row: Math.floor(y / TILE) };
 }
+
+/** 图集里各类 tile 的索引（tiles.png 10 列，idx = row*10+col），由参考地图反推 */
+export const TILE_IDX = {
+  floor: 38,
+  wall: 12,
+  wallTop: 2,
+} as const;

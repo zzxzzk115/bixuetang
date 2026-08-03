@@ -90,7 +90,15 @@ html {
   width: 100dvw;
   height: 100dvh;
   overflow: hidden;
-  background: #0a0d0a;
+  /* 大厅是横向的，竖屏 fit 后上下会留大片空。用径向渐变把留白做成
+     「大厅悬浮在幽暗地下」的氛围，而不是刺眼的纯黑边 */
+  background:
+    radial-gradient(
+      ellipse 80% 55% at 50% 42%,
+      #24201c 0%,
+      #14100e 45%,
+      #080605 100%
+    );
   touch-action: none; /* 阻止移动端双指缩放/下拉刷新干扰游戏输入 */
 }
 .game-canvas {

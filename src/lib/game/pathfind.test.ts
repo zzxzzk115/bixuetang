@@ -24,12 +24,14 @@ test("绕过墙", () => {
     ".....",
   ]);
   const path = findPath(g, { col: 0, row: 1 }, { col: 4, row: 1 });
-  assert.ok(path);
+  if (!path) throw new Error("应有绕行路径");
   // 中间一排被墙堵，必须绕上或绕下，长度大于直线的 5
   assert.ok(path.length > 5);
   // 路径每一步都可走且四连通
   for (let i = 1; i < path.length; i++) {
-    const d = Math.abs(path[i].col - path[i - 1].col) + Math.abs(path[i].row - path[i - 1].row);
+    const d: number =
+      Math.abs(path[i].col - path[i - 1].col) +
+      Math.abs(path[i].row - path[i - 1].row);
     assert.equal(d, 1, "相邻步必须四连通");
     assert.ok(g[path[i].row][path[i].col], "每格必须可走");
   }
