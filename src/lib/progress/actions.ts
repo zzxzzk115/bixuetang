@@ -13,6 +13,8 @@ import {
   type CourseStatus,
 } from "../db/schema";
 import { levelFromXp } from "../game/level";
+import type { EpisodeLoot } from "../game/rpg";
+import { settleEpisodeLoot } from "../game/rpg-server";
 import { courseBonusXp, episodeRef, episodeXp, XP_REASON } from "../game/xp";
 import { getTotalXp } from "./queries";
 
@@ -28,6 +30,7 @@ export interface ToggleResult {
   newLevel?: number;
   totalXp?: number;
   courseDone?: boolean;
+  loot?: EpisodeLoot;
 }
 
 function upsertStatus(userId: number, courseId: string, status: CourseStatus) {
@@ -127,12 +130,18 @@ export async function toggleEpisode(
   const now = Date.now();
   let bossBonus = 0;
   let courseDone = false;
+  let loot: EpisodeLoot | undefined;
 
   if (watched) {
-    db.insert(episodeProgress)
+    const episodeInserted = db
+      .insert(episodeProgress)
       .values({ userId: user.id, courseId, episodeN, watchedAt: now })
       .onConflictDoNothing()
-      .run();
+      .returning({ episodeN: episodeProgress.episodeN })
+      .get();
+    if (episodeInserted) {
+      loot = settleEpisodeLoot(user.id, course, episodeN) ?? undefined;
+    }
     // (user, reason, ref) 唯一约束兜底幂等：重复勾选不重复得分
     db.insert(xpEvents)
       .values({
@@ -206,6 +215,7 @@ export async function toggleEpisode(
 
   revalidatePath(`/courses/${courseId}`);
   revalidatePath("/me");
+  revalidatePath("/");
 
   return {
     ok: true,
@@ -215,5 +225,6 @@ export async function toggleEpisode(
     newLevel,
     totalXp,
     courseDone,
+    loot,
   };
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Award, Flame } from "lucide-react";
+import { Award, Coins, Crosshair, Eye, Flame, Shield, Sparkles, Timer } from "lucide-react";
 import { StatusBadge, SubjectIcon } from "@/components/badges";
 import { XpBar } from "@/components/xp-bar";
 import { requireUser } from "@/lib/auth/session";
@@ -7,6 +7,7 @@ import { getContent } from "@/lib/content/load";
 import { SUBJECT_LABEL, SUBJECTS } from "@/lib/content/schema";
 import { skillPointsEarned } from "@/lib/game/level";
 import { learningStreak, syncAchievements } from "@/lib/game/achievements";
+import { getRpgProfile } from "@/lib/game/rpg-server";
 import { spentPoints } from "@/lib/game/skills";
 import { getHeldJobs, getSubjectXp, getUserProgress, getXpLog } from "@/lib/progress/queries";
 
@@ -29,6 +30,7 @@ export default async function MePage() {
   const displayName = user.displayName || user.username;
   const achievements = syncAchievements(user.id);
   const streak = learningStreak(user.id);
+  const rpg = getRpgProfile(user.id);
   const activeCourses = [...progress.statusByCourse.entries()]
     .filter(([, status]) => status === "learning" || status === "done")
     .map(([id, status]) => ({ course: content.coursesById.get(id), status }))
@@ -65,6 +67,41 @@ export default async function MePage() {
               <div><strong>{points}</strong><span>技能点</span></div>
               <div><strong>{streak}</strong><span>连续天数</span></div>
             </div>
+          </section>
+
+          <section className="hud-panel rpg-character-sheet p-5">
+            <div className="section-heading compact">
+              <div><p className="page-kicker">MIRRORED ATTRIBUTES</p><h2>冒险者属性</h2></div>
+              <span className="rpg-power-mark">战力 {rpg.stats.power}</span>
+            </div>
+            <div className="rpg-attribute-grid">
+              <div><Eye aria-hidden size={15} /><span>洞察</span><b>{rpg.stats.insight}</b></div>
+              <div><Timer aria-hidden size={15} /><span>专注</span><b>{rpg.stats.focus}</b></div>
+              <div><Crosshair aria-hidden size={15} /><span>精准</span><b>{rpg.stats.precision}</b></div>
+              <div><Shield aria-hidden size={15} /><span>意志</span><b>{rpg.stats.resolve}</b></div>
+            </div>
+            <div className="rpg-wallet"><Coins aria-hidden size={15} /><span>公会金币</span><b>{rpg.coins}</b></div>
+            <p className="rpg-sheet-note">属性只由已记录的学习、专注、复述与技能进度推导。</p>
+          </section>
+
+          <section className="hud-panel rpg-inventory p-5">
+            <div className="section-heading compact">
+              <div><p className="page-kicker">RELIC VAULT</p><h2>遗物背包</h2></div>
+              <Sparkles aria-hidden size={16} />
+            </div>
+            {rpg.relics.length === 0 ? (
+              <p className="text-xs text-muted">完成任意分集后，固定学科材料会在此归档。</p>
+            ) : (
+              <ul className="rpg-inventory-list">
+                {rpg.relics.map(({ item, quantity }) => (
+                  <li key={item.id} data-rarity={item.rarity}>
+                    <span className="rpg-item-glyph">{item.title.slice(0, 1)}</span>
+                    <span><b>{item.title}</b><small>{item.description}</small></span>
+                    <strong>×{quantity}</strong>
+                  </li>
+                ))}
+              </ul>
+            )}
           </section>
 
           <section className="hud-panel p-5">

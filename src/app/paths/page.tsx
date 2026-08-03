@@ -26,7 +26,7 @@ export default async function PathsPage() {
         <div>
           <p className="page-kicker">WORLD CAMPAIGN // 学科疆域</p>
           <h1 className="page-title">远征地图</h1>
-          <p className="page-lead">选择一条主线或支线。每条路线由多个章节和课程副本组成，并最终导向技能与职业构筑。</p>
+          <p className="page-lead">自主选择一条学习路线。路线内部严格按章节顺序由浅入深推进，并最终导向技能与职业构筑。</p>
         </div>
         <MapPinned aria-hidden size={54} strokeWidth={1.1} />
       </header>

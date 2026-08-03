@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpenText,
+  Coins,
   FlaskConical,
   Library,
   Map,
@@ -16,6 +17,7 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { learningStreak, syncAchievements } from "@/lib/game/achievements";
 import { getDailyQuests } from "@/lib/game/quests";
+import { ENCOUNTER_LABEL, lootForEpisode } from "@/lib/game/rpg";
 import { getUserProgress } from "@/lib/progress/queries";
 
 interface SceneLocation {
@@ -72,6 +74,9 @@ export default async function HomePage() {
   const percent = activeCourse
     ? Math.round((watched.size / activeCourse.episodes.length) * 100)
     : 0;
+  const activeLoot = activeCourse && nextEpisode
+    ? lootForEpisode(activeCourse.subject, activeCourse.level, nextEpisode.n, activeCourse.episodes.length)
+    : null;
   const activePath = activeCourse
     ? content.paths.find((path) => path.stages.some((stage) => stage.courses.includes(activeCourse.id)))
     : undefined;
@@ -99,11 +104,12 @@ export default async function HomePage() {
         {activeCourse && nextEpisode ? (
           <>
             <div className="scene-battle-target">
-              <span className="scene-battle-rank">BOSS</span>
+              <span className="scene-battle-rank">{activeLoot ? ENCOUNTER_LABEL[activeLoot.encounterType] : "READY"}</span>
               <div>
                 <small>{activeCourse.code}</small>
                 <h2>{activeCourse.title}</h2>
                 <p>下一遭遇 · EP.{String(nextEpisode.n).padStart(2, "0")} {nextEpisode.title}</p>
+                {activeLoot && <span className="scene-loot-preview"><Coins aria-hidden size={12} /> {activeLoot.coins} · {activeLoot.item.title}</span>}
               </div>
             </div>
             <div className="scene-boss-health">
@@ -140,8 +146,8 @@ function GuildScene({
     <div className="guild-hall-scene">
       <div className="scene-atmosphere" aria-hidden />
       <header className="scene-identity">
-        <p>SEVENTH ACADEMIC GUILD</p>
-        <h1>第七学术公会</h1>
+        <p>SCHOLAR GUILD</p>
+        <h1>学者公会</h1>
         <span>{name}，欢迎归队{status ? ` · ${status}` : ""}</span>
       </header>
 

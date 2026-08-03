@@ -193,3 +193,44 @@ export const achievementUnlocks = sqliteTable(
   },
   (t) => [primaryKey({ columns: [t.userId, t.achievementId] })],
 );
+
+
+export const rpgProfiles = sqliteTable("rpg_profiles", {
+  userId: integer("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  coins: integer("coins").notNull().default(0),
+  updatedAt: integer("updated_at").notNull(),
+});
+
+export const rpgLootEvents = sqliteTable(
+  "rpg_loot_events",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    courseId: text("course_id").notNull(),
+    episodeN: integer("episode_n").notNull(),
+    encounterType: text("encounter_type").notNull(),
+    coins: integer("coins").notNull(),
+    itemId: text("item_id"),
+    rarity: text("rarity"),
+    ruleVersion: integer("rule_version").notNull(),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.courseId, t.episodeN] })],
+);
+
+export const rpgInventory = sqliteTable(
+  "rpg_inventory",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    itemId: text("item_id").notNull(),
+    quantity: integer("quantity").notNull().default(0),
+    acquiredAt: integer("acquired_at").notNull(),
+    updatedAt: integer("updated_at").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.itemId] })],
+);

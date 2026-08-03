@@ -4,6 +4,7 @@ import { AnalysisPanel } from "@/components/analysis-panel";
 import { LevelBadge, SubjectBadge } from "@/components/badges";
 import { EmbedPlayer } from "@/components/embed-player";
 import { LearningSessionPanel } from "@/components/learning-session-panel";
+import { PhaserDungeon } from "@/components/rpg/phaser-dungeon";
 import { renderLatex } from "@/lib/math/render-latex";
 import { renderMathText } from "@/lib/math/render-math-text";
 import { EpisodeList } from "@/components/episode-list";
@@ -12,6 +13,8 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import type { LabId } from "@/lib/content/schema";
 import { LABS } from "@/lib/labs";
+import { lootForEpisode } from "@/lib/game/rpg";
+import { getRpgProfile } from "@/lib/game/rpg-server";
 import { getUserProgress } from "@/lib/progress/queries";
 
 function LabCard({ labId }: { labId: LabId }) {
@@ -44,6 +47,19 @@ export default async function CoursePage({
   const watched = progress?.watchedByCourse.get(id);
   const status = progress?.statusByCourse.get(id) ?? null;
   const nextEpisode = course.episodes.find((episode) => !watched?.has(episode.n)) ?? course.episodes[0];
+  const rpgProfile = user
+    ? getRpgProfile(user.id)
+    : {
+        coins: 0,
+        relics: [],
+        stats: { insight: 5, focus: 5, precision: 5, resolve: 5, power: 20 },
+      };
+  const nextLoot = lootForEpisode(
+    course.subject,
+    course.level,
+    nextEpisode.n,
+    course.episodes.length,
+  );
 
   const prereqs = course.prerequisites
     .map((p) => content.coursesById.get(p))
@@ -95,6 +111,15 @@ export default async function CoursePage({
             {course.estimatedHours ? ` · 约 ${course.estimatedHours} 小时` : ""}
           </p>
         </div>
+
+        <PhaserDungeon
+          courseCode={course.code ?? course.id}
+          episodeN={nextEpisode.n}
+          episodeTitle={nextEpisode.title}
+          loot={nextLoot}
+          profile={rpgProfile}
+          loggedIn={!!user}
+        />
 
         <div id="course-player" className="player-frame">
           <EmbedPlayer sources={course.sources} />

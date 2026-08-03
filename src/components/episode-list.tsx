@@ -2,6 +2,8 @@
 
 import { useRef, useState, useTransition } from "react";
 import { celebrate } from "@/lib/celebrate";
+import { announceRpgLoot } from "@/lib/game/rpg-events";
+import { ENCOUNTER_LABEL, encounterForEpisode } from "@/lib/game/rpg";
 import type { Episode } from "@/lib/content/schema";
 import { toggleEpisode, type ToggleResult } from "@/lib/progress/actions";
 import { seekTo } from "@/lib/seek";
@@ -48,6 +50,10 @@ export function EpisodeList({ courseId, episodes, watched, loggedIn }: {
         });
         pushToast(result.error ?? "行动未能记录");
         return;
+      }
+      if (next && result.loot) {
+        announceRpgLoot(result.loot);
+        pushToast(' +' + result.loot.coins + ' 金币 · ' + result.loot.item.title);
       }
       if (next && result.gained && result.gained > 0) {
         const episodeXp = result.gained - (result.bossBonus ?? 0);
@@ -114,13 +120,14 @@ export function EpisodeList({ courseId, episodes, watched, loggedIn }: {
         {visible.map((episode) => {
           const isWatched = watchedSet.has(episode.n);
           const isPlaying = playing === episode.n;
+          const encounterType = encounterForEpisode(episode.n, episodes.length);
           return (
-            <li key={episode.n} className={`encounter-row ${isPlaying ? "active" : ""} ${isWatched ? "cleared" : ""}`}>
+            <li key={episode.n} className={`encounter-row encounter-${encounterType} ${isPlaying ? "active" : ""} ${isWatched ? "cleared" : ""}`}>
               <button onClick={() => onToggle(episode.n)} disabled={!loggedIn} title={loggedIn ? (isWatched ? "撤销战果" : "记录战果") : "登录后可记录"} className="encounter-check">
                 {isWatched ? "✓" : ""}
               </button>
               <button onClick={() => play(episode)} className="min-w-0 flex-1 py-2.5 text-left">
-                <span className="encounter-code">ENCOUNTER {String(episode.n).padStart(2, "0")}</span>
+                <span className="encounter-code" data-kind={encounterType}>{ENCOUNTER_LABEL[encounterType]} · {String(episode.n).padStart(2, "0")}</span>
                 <span className={`encounter-title ${isWatched ? "line-through" : ""}`}>{episode.title}</span>
               </button>
               <span className="encounter-state">{isPlaying ? "PLAY" : isWatched ? "CLEAR" : "READY"}</span>

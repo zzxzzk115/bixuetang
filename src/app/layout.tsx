@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Flame, LogOut, Settings, ShieldCheck } from "lucide-react";
+import { Coins, Flame, LogOut, Settings, ShieldCheck } from "lucide-react";
 import "./globals.css";
 import { CelebrationLayer } from "@/components/celebration-layer";
 import { GuildNavigation } from "@/components/guild-navigation";
@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { logout } from "@/lib/auth/actions";
 import { getCurrentUser } from "@/lib/auth/session";
 import { learningStreak } from "@/lib/game/achievements";
+import { getRpgProfile } from "@/lib/game/rpg-server";
 import { getUserProgress } from "@/lib/progress/queries";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ async function GuildShell({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser();
   const progress = user ? getUserProgress(user.id) : null;
   const streak = user ? learningStreak(user.id) : 0;
+  const rpg = user ? getRpgProfile(user.id) : null;
 
   return (
     <div className="guild-app">
@@ -50,6 +52,13 @@ async function GuildShell({ children }: { children: React.ReactNode }) {
         )}
 
         <div className="game-resources">
+          {rpg && (
+            <span className="game-resource coin" title="固定规则结算的金币">
+              <Coins aria-hidden size={15} />
+              <b>{rpg.coins}</b>
+              <small>金币</small>
+            </span>
+          )}
           {user && (
             <span className="game-resource" title="连续学习天数">
               <Flame aria-hidden size={15} />
@@ -82,7 +91,7 @@ async function GuildShell({ children }: { children: React.ReactNode }) {
       <GuildNavigation loggedIn={!!user} />
 
       <footer className="guild-footer">
-        <span>GUILD ARCHIVE · BUILD M7</span>
+        <span>GUILD CAMPAIGN · BUILD M8</span>
         <span>学习记录已接入 · 视频版权归原平台与上传者所有</span>
       </footer>
     </div>
