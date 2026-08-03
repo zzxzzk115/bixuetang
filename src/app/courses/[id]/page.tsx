@@ -18,11 +18,10 @@ function LabCard({ labId }: { labId: LabId }) {
   return (
     <Link
       href={lab.href}
-      className="block rounded-lg border border-gold bg-amber-100/50 p-4 transition-colors hover:bg-amber-100 dark:bg-amber-950/30 dark:hover:bg-amber-950/60"
+      className="hud-panel block border-gold p-4 transition-colors hover:bg-panel-hover"
     >
-      <h3 className="flex items-center gap-1.5 text-sm font-bold text-gold">
-        {lab.icon} 附属实验室：{lab.title}
-      </h3>
+      <p className="page-kicker">FIELD PROTOCOL</p>
+      <h3 className="text-sm font-bold text-gold">{lab.title}</h3>
       <p className="mt-1 text-xs text-muted">{lab.description}</p>
       <p className="mt-1.5 text-xs text-gold">进入实验室 →</p>
     </Link>
@@ -78,9 +77,10 @@ export default async function CoursePage({
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
+    <div className="course-layout grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
       <div className="min-w-0">
-        <div className="mb-4">
+        <div className="hud-panel mb-5 p-5">
+          <p className="page-kicker">DUNGEON ACTIVE // {course.code}</p>
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-2xl font-bold">{course.title}</h1>
             <LevelBadge level={course.level} />
@@ -94,7 +94,7 @@ export default async function CoursePage({
           </p>
         </div>
 
-        <div id="course-player">
+        <div id="course-player" className="player-frame">
           <EmbedPlayer sources={course.sources} />
         </div>
 
@@ -111,7 +111,7 @@ export default async function CoursePage({
 
         <div className="mt-6">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-lg font-bold">⚔️ 讨伐小怪（集数清单）</h2>
+            <h2 className="combat-heading">遭遇战清单</h2>
             <StatusButtons courseId={id} current={status} loggedIn={!!user} />
           </div>
           <EpisodeList
@@ -135,8 +135,8 @@ export default async function CoursePage({
       <aside className="space-y-5">
         {course.lab && <LabCard labId={course.lab} />}
         {prereqs.length > 0 && (
-          <section className="rounded-lg border border-edge bg-panel p-4">
-            <h3 className="mb-2 text-sm font-bold text-muted">⛓️ 前置副本</h3>
+          <section className="hud-panel p-4">
+            <h3 className="mb-2 text-sm font-bold text-muted">前置副本</h3>
             <ul className="space-y-1.5">
               {prereqs.map((p) => {
                 const done = progress?.statusByCourse.get(p.id) === "done";
@@ -156,9 +156,9 @@ export default async function CoursePage({
         )}
 
         {course.notes.length > 0 && (
-          <section className="rounded-lg border border-edge bg-panel p-4">
+          <section className="hud-panel p-4">
             <h3 className="mb-2 text-sm font-bold text-muted">
-              📜 冒险者笔记（社区分享）
+              社区攻略笔记
             </h3>
             <ul className="space-y-1.5">
               {course.notes.map((n, i) => (
@@ -183,8 +183,8 @@ export default async function CoursePage({
         )}
 
         {relatedSkills.length > 0 && (
-          <section className="rounded-lg border border-edge bg-panel p-4">
-            <h3 className="mb-2 text-sm font-bold text-muted">✨ 可点亮技能</h3>
+          <section className="hud-panel p-4">
+            <h3 className="mb-2 text-sm font-bold text-muted">可解锁技能</h3>
             <ul className="space-y-1.5 text-sm">
               {relatedSkills.map((n) => (
                 <li key={n.id}>
@@ -205,8 +205,8 @@ export default async function CoursePage({
         )}
 
         {inPaths.length > 0 && (
-          <section className="rounded-lg border border-edge bg-panel p-4">
-            <h3 className="mb-2 text-sm font-bold text-muted">🗺️ 所属路径</h3>
+          <section className="hud-panel p-4">
+            <h3 className="mb-2 text-sm font-bold text-muted">所属远征路径</h3>
             <ul className="space-y-1.5">
               {inPaths.map((p) => (
                 <li key={p.id}>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getContent } from "@/lib/content/load";
 import { renderMathText } from "@/lib/math/render-math-text";
 
-export const metadata = { title: "术语对照表" };
+export const metadata = { title: "术语卷宗" };
 
 interface GlossaryEntry {
   term: string;
@@ -10,17 +10,11 @@ interface GlossaryEntry {
   sources: { courseId: string; courseTitle: string; episodes: number[] }[];
 }
 
-/**
- * 术语按「english 中文」的约定录入，展示时拆开——
- * 否则「A* Algorithm A 星算法」连成一片读不出边界。
- * 从第一个中日韩字符处切分；没有中文就整条当英文。
- */
 function splitTerm(term: string): { en: string; zh: string } {
   const idx = term.search(/[一-龥぀-ヿ]/);
   if (idx <= 0) return { en: term.trim(), zh: "" };
   let en = term.slice(0, idx).trim();
   let zh = term.slice(idx).trim();
-  // 「A* Algorithm A 星算法」——中文名开头的单字母会被切到英文侧，还给中文
   const tail = en.match(/\s([A-Za-z0-9])$/);
   if (tail) {
     en = en.slice(0, -2).trim();
@@ -29,130 +23,100 @@ function splitTerm(term: string): { en: string; zh: string } {
   return { en, zh };
 }
 
-/** 聚合全站 AI 分析里的术语（同名合并、按字母排序） */
 function buildGlossary(): GlossaryEntry[] {
   const content = getContent();
   const byKey = new Map<string, GlossaryEntry>();
-
   for (const [courseId, analysis] of content.analysisByCourse) {
     const courseTitle = content.coursesById.get(courseId)?.title ?? courseId;
-    for (const ep of analysis.episodes) {
-      for (const t of ep.terms) {
-        const key = t.term.trim().toLowerCase();
+    for (const episode of analysis.episodes) {
+      for (const term of episode.terms) {
+        const key = term.term.trim().toLowerCase();
         let entry = byKey.get(key);
         if (!entry) {
-          entry = { term: t.term.trim(), definitions: [], sources: [] };
+          entry = { term: term.term.trim(), definitions: [], sources: [] };
           byKey.set(key, entry);
         }
-        if (!entry.definitions.includes(t.definition)) {
-          entry.definitions.push(t.definition);
+        if (!entry.definitions.includes(term.definition)) entry.definitions.push(term.definition);
+        let source = entry.sources.find((item) => item.courseId === courseId);
+        if (!source) {
+          source = { courseId, courseTitle, episodes: [] };
+          entry.sources.push(source);
         }
-        let src = entry.sources.find((s) => s.courseId === courseId);
-        if (!src) {
-          src = { courseId, courseTitle, episodes: [] };
-          entry.sources.push(src);
-        }
-        if (!src.episodes.includes(ep.n)) src.episodes.push(ep.n);
+        if (!source.episodes.includes(episode.n)) source.episodes.push(episode.n);
       }
     }
   }
-
-  return [...byKey.values()].sort((a, b) =>
-    a.term.localeCompare(b.term, "en", { sensitivity: "base" }),
-  );
+  return [...byKey.values()].sort((a, b) => a.term.localeCompare(b.term, "en", { sensitivity: "base" }));
 }
 
-export default async function GlossaryPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string }>;
-}) {
+export default async function GlossaryPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const { q } = await searchParams;
   const needle = q?.trim().toLowerCase();
   const all = buildGlossary();
   const entries = needle
-    ? all.filter(
-        (e) =>
-          e.term.toLowerCase().includes(needle) ||
-          e.definitions.some((d) => d.toLowerCase().includes(needle)),
-      )
+    ? all.filter((entry) => entry.term.toLowerCase().includes(needle) || entry.definitions.some((definition) => definition.toLowerCase().includes(needle)))
     : all;
-
-  // 按首字母分组
   const groups = new Map<string, GlossaryEntry[]>();
-  for (const e of entries) {
-    const letter = /^[a-z]/i.test(e.term) ? e.term[0].toUpperCase() : "#";
+  for (const entry of entries) {
+    const letter = /^[a-z]/i.test(entry.term) ? entry.term[0].toUpperCase() : "#";
     if (!groups.has(letter)) groups.set(letter, []);
-    groups.get(letter)!.push(e);
+    groups.get(letter)!.push(entry);
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
-      <h1 className="text-2xl font-bold">📚 术语对照表</h1>
-      <p className="mt-1 text-sm text-muted">
-        由 AI 课程分析自动聚合的中英术语（共 {all.length} 条）。
-        点击来源可跳回对应课程复习。
-      </p>
+    <div className="page-stack mx-auto max-w-5xl">
+      <header className="page-intro">
+        <div>
+          <p className="page-kicker">LEXICON ARCHIVE // 知识索引</p>
+          <h1 className="page-title">术语卷宗</h1>
+          <p className="page-lead">从课程知识点中聚合中英术语、数学表达与出现位置，建立跨副本的统一索引。</p>
+        </div>
+        <div className="hero-stat">
+          <span className="hero-stat-value">{all.length}</span>
+          <span className="hero-stat-label">条已收录术语</span>
+        </div>
+      </header>
 
-      <form action="/glossary" method="get" className="mt-4 flex max-w-md gap-2">
-        <input
-          name="q"
-          defaultValue={q ?? ""}
-          placeholder="搜索术语或释义……"
-          className="w-full rounded border border-edge bg-panel px-3 py-1.5 text-sm outline-none focus:border-gold"
-        />
-        <button className="shrink-0 rounded border border-edge px-3 py-1.5 text-sm text-muted hover:border-gold hover:text-gold">
-          🔍
-        </button>
+      <form action="/glossary" method="get" className="filter-console">
+        <label className="min-w-0 flex-1">
+          <span className="page-kicker">ARCHIVE QUERY</span>
+          <input name="q" defaultValue={q ?? ""} placeholder="输入英文、中文或定义关键词" className="mt-2 w-full border border-edge bg-background px-3 py-2 text-sm outline-none focus:border-gold" />
+        </label>
+        <button className="command-button secondary shrink-0" type="submit">检索卷宗</button>
       </form>
 
       {entries.length === 0 ? (
-        <p className="mt-10 text-center text-sm text-muted">
-          {all.length === 0
-            ? "还没有术语——用 /analyze-course 技能给课程生成 AI 分析后，这里会自动聚合"
-            : "没有匹配的术语"}
-        </p>
+        <div className="hud-panel py-12 text-center text-sm text-muted">{all.length === 0 ? "术语卷宗尚未建立。" : "没有匹配的术语。"}</div>
       ) : (
-        <div className="mt-6 space-y-6">
+        <div className="space-y-8">
           {[...groups.entries()].map(([letter, list]) => (
             <section key={letter}>
-              <h2 className="mb-2 border-b border-edge pb-1 text-sm font-bold text-gold">
-                {letter}
-              </h2>
-              <dl className="space-y-3">
-                {list.map((e) => {
-                  const { en, zh } = splitTerm(e.term);
+              <div className="section-heading">
+                <div><p className="page-kicker">INDEX SECTOR</p><h2>{letter}</h2></div>
+                <span className="font-mono text-xs text-muted">{list.length} ENTRIES</span>
+              </div>
+              <dl className="glossary-list">
+                {list.map((entry) => {
+                  const { en, zh } = splitTerm(entry.term);
                   return (
-                  <div key={e.term} className="rounded-lg border border-edge bg-panel p-3">
-                    <dt className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-                      <span className="font-mono text-[15px] font-bold text-gold">
-                        {en}
-                      </span>
-                      {zh && (
-                        <span className="rounded border border-edge bg-panel-hover px-1.5 py-0.5 text-[13px] font-bold">
-                          {zh}
-                        </span>
-                      )}
-                    </dt>
-                    {e.definitions.map((d, i) => (
-                      <dd
-                        key={i}
-                        className="analysis-rich-text mt-1 text-sm text-muted"
-                        dangerouslySetInnerHTML={{ __html: renderMathText(d) }}
-                      />
-                    ))}
-                    <dd className="mt-1.5 flex flex-wrap gap-1.5">
-                      {e.sources.map((s) => (
-                        <Link
-                          key={s.courseId}
-                          href={`/courses/${s.courseId}`}
-                          className="rounded border border-edge bg-panel-hover px-1.5 py-0.5 text-xs text-muted hover:border-gold hover:text-gold"
-                        >
-                          {s.courseTitle} · 第 {s.episodes.join("/")} 集
-                        </Link>
-                      ))}
-                    </dd>
-                  </div>
+                    <div key={entry.term} className="glossary-entry">
+                      <dt className="glossary-term">
+                        <span className="glossary-en">{en}</span>
+                        {zh && <span className="glossary-zh">{zh}</span>}
+                      </dt>
+                      <div className="glossary-body">
+                        {entry.definitions.map((definition, index) => (
+                          <dd key={index} className="analysis-rich-text text-sm text-muted" dangerouslySetInnerHTML={{ __html: renderMathText(definition) }} />
+                        ))}
+                        <dd className="mt-3 flex flex-wrap gap-1.5">
+                          {entry.sources.map((source) => (
+                            <Link key={source.courseId} href={`/courses/${source.courseId}`} className="archive-source">
+                              {source.courseTitle} · 第 {source.episodes.join("/")} 集
+                            </Link>
+                          ))}
+                        </dd>
+                      </div>
+                    </div>
                   );
                 })}
               </dl>

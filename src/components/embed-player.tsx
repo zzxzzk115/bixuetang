@@ -7,37 +7,31 @@ import { SEEK_EVENT, type SeekRequest } from "@/lib/seek";
 
 const NATIVE_KEY = "guild-native-player";
 
-// 原站模式偏好存 localStorage，跨课程记住选择
 let prefListeners: (() => void)[] = [];
 const prefStore = {
-  subscribe(cb: () => void) {
-    prefListeners.push(cb);
+  subscribe(callback: () => void) {
+    prefListeners.push(callback);
     return () => {
-      prefListeners = prefListeners.filter((l) => l !== cb);
+      prefListeners = prefListeners.filter((listener) => listener !== callback);
     };
   },
   get: () => localStorage.getItem(NATIVE_KEY) === "1",
-  set(v: boolean) {
-    localStorage.setItem(NATIVE_KEY, v ? "1" : "0");
-    for (const l of prefListeners) l();
+  set(value: boolean) {
+    localStorage.setItem(NATIVE_KEY, value ? "1" : "0");
+    for (const listener of prefListeners) listener();
   },
 };
 
 export function EmbedPlayer({ sources }: { sources: Source[] }) {
   const [active, setActive] = useState(0);
-  const [opts, setOpts] = useState<EmbedOptions>({});
-  const nativePage = useSyncExternalStore(
-    prefStore.subscribe,
-    prefStore.get,
-    () => false,
-  );
+  const [options, setOptions] = useState<EmbedOptions>({});
+  const nativePage = useSyncExternalStore(prefStore.subscribe, prefStore.get, () => false);
   const boxRef = useRef<HTMLDivElement>(null);
 
-  // 分析面板的时间轴跳转：换 src 重载到指定分 P/时间点
   useEffect(() => {
-    const onSeek = (e: Event) => {
-      const req = (e as CustomEvent<SeekRequest>).detail;
-      setOpts({ page: req.page, startSeconds: req.seconds, bvid: req.bvid });
+    const onSeek = (event: Event) => {
+      const request = (event as CustomEvent<SeekRequest>).detail;
+      setOptions({ page: request.page, startSeconds: request.seconds, bvid: request.bvid });
     };
     window.addEventListener(SEEK_EVENT, onSeek);
     return () => window.removeEventListener(SEEK_EVENT, onSeek);
@@ -45,66 +39,49 @@ export function EmbedPlayer({ sources }: { sources: Source[] }) {
 
   const source = sources[active];
   const canNative = source.platform === "bilibili";
-  const embed = embedFor(source, {
-    ...opts,
-    nativePage: nativePage && canNative,
-  });
-
-  const toggleNative = () => prefStore.set(!nativePage);
+  const embed = embedFor(source, { ...options, nativePage: nativePage && canNative });
 
   return (
     <div>
-      <div className="flex flex-wrap items-end gap-2">
-        {sources.map((s, i) => (
-          <button
-            key={i}
-            onClick={() => {
-              setActive(i);
-              setOpts({});
-            }}
-            className={`rounded-t border border-b-0 px-3 py-1.5 text-sm transition-colors ${
-              i === active
-                ? "border-edge bg-panel text-gold"
-                : "border-transparent bg-transparent text-muted hover:text-foreground"
-            }`}
-          >
-            {PLATFORM_LABEL[s.platform]}
-            {s.uploader ? ` · ${s.uploader}` : ""}
-          </button>
-        ))}
-        <div className="ml-auto flex items-center gap-2 pb-1 text-xs">
+      <div className="player-toolbar">
+        <div className="flex min-w-0 flex-wrap">
+          {sources.map((item, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setActive(index);
+                setOptions({});
+              }}
+              className={`player-source ${index === active ? "active" : ""}`}
+            >
+              {PLATFORM_LABEL[item.platform]}
+              {item.uploader ? ` · ${item.uploader}` : ""}
+            </button>
+          ))}
+        </div>
+        <div className="ml-auto flex items-center gap-1.5">
           {canNative && (
             <button
-              onClick={toggleNative}
-              title={
-                nativePage
-                  ? "切回官方嵌入播放器（更轻量）"
-                  : "改用 B 站原站页面（弹幕/画质/倍速 UI 完整；注意跨站 iframe 拿不到登录态，清晰度仍是游客上限）"
-              }
-              className={`rounded border px-2 py-1 transition-colors ${
-                nativePage
-                  ? "border-gold text-gold"
-                  : "border-edge text-muted hover:border-gold hover:text-gold"
-              }`}
+              onClick={() => prefStore.set(!nativePage)}
+              title="切换 B 站原站页面"
+              className={`player-tool ${nativePage ? "active" : ""}`}
             >
-              {nativePage ? "🌐 原站模式" : "🌐 原站模式"}
+              原站
             </button>
           )}
           {embed.kind === "iframe" && (
             <button
               onClick={() => void boxRef.current?.requestFullscreen?.()}
-              title="全屏"
-              className="rounded border border-edge px-2 py-1 text-muted transition-colors hover:border-gold hover:text-gold"
+              title="全屏播放"
+              className="player-tool"
             >
-              ⛶ 全屏
+              全屏
             </button>
           )}
         </div>
       </div>
-      <div
-        ref={boxRef}
-        className="overflow-hidden rounded-b rounded-tr border border-edge bg-black"
-      >
+
+      <div ref={boxRef} className="overflow-hidden border border-edge bg-black">
         {embed.kind === "iframe" ? (
           <iframe
             key={embed.src}
@@ -113,7 +90,6 @@ export function EmbedPlayer({ sources }: { sources: Source[] }) {
             allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
             referrerPolicy="no-referrer"
-            // 原站页面需要更宽的能力（表单、弹窗、导航），官方 player 收紧
             sandbox={
               nativePage && canNative
                 ? "allow-scripts allow-same-origin allow-popups allow-forms allow-presentation allow-popups-to-escape-sandbox"
@@ -123,26 +99,18 @@ export function EmbedPlayer({ sources }: { sources: Source[] }) {
         ) : (
           <div className="flex aspect-video w-full flex-col items-center justify-center gap-3 bg-panel">
             <p className="text-sm text-muted">该来源不支持内嵌播放</p>
-            <a
-              href={embed.href}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="rounded border border-gold px-4 py-2 text-sm text-gold hover:bg-gold hover:text-background"
-            >
-              前往{PLATFORM_LABEL[source.platform]}观看 ↗
+            <a href={embed.href} target="_blank" rel="noreferrer noopener" className="command-button">
+              前往 {PLATFORM_LABEL[source.platform]}
             </a>
           </div>
         )}
       </div>
-      <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
-        {source.note && <span>📌 {source.note}</span>}
-        {nativePage && canNative && (
-          <span className="text-gold">
-            原站模式：跨站 iframe 不携带 B 站登录态，清晰度仍受游客限制；
-            想要登录态高清请用浏览器插件在原站观看（设置页有说明）
-          </span>
-        )}
-      </div>
+
+      {source.note && (
+        <div className="mt-1.5 border-l-2 border-hp pl-2 font-mono text-[10px] text-muted">
+          SOURCE NOTE // {source.note}
+        </div>
+      )}
     </div>
   );
 }

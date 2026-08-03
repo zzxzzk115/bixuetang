@@ -6,7 +6,7 @@ import { SUBJECT_LABEL } from "@/lib/content/schema";
 import { unlockSkill } from "@/lib/game/actions";
 import type { SkillState } from "@/lib/game/skills";
 import { HUB_R, NODE_H, NODE_W, type TreeLayout } from "@/lib/game/tree-layout";
-import { SUBJECT_ICON } from "./badges";
+import { SubjectIcon } from "./badges";
 
 export interface SkillNodeView {
   id: string;
@@ -21,9 +21,9 @@ export interface SkillNodeView {
 }
 
 const STATE_STYLE: Record<SkillState, string> = {
-  locked: "border-edge bg-panel opacity-55",
-  available: "border-gold bg-panel animate-glow cursor-pointer",
-  lit: "border-gold bg-amber-100 dark:bg-amber-950 cursor-pointer",
+  locked: "border-edge bg-panel opacity-75",
+  available: "border-xp bg-panel animate-glow cursor-pointer",
+  lit: "border-gold bg-panel-strong cursor-pointer",
 };
 
 const ZOOMS = [0.3, 0.45, 0.6, 0.8, 1];
@@ -47,7 +47,7 @@ export function SkillTree({
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [zoom, setZoom] = useState(0.45);
+  const [zoom, setZoom] = useState(0.8);
   const [pending, startTransition] = useTransition();
 
   const viewportRef = useRef<HTMLDivElement | null>(null);
@@ -107,14 +107,14 @@ export function SkillTree({
   };
 
   return (
-    <div>
-      <div className="mb-2 flex items-center justify-end gap-1.5">
+    <div className="min-w-0 w-full">
+      <div className="skill-toolbar flex max-w-full flex-wrap items-center justify-end gap-1.5 border border-edge bg-panel px-2 py-1.5">
         <span className="mr-1 text-xs text-muted">缩放</span>
         {ZOOMS.map((z) => (
           <button
             key={z}
             onClick={() => setZoom(z)}
-            className={`rounded border px-2 py-0.5 text-xs transition-colors ${
+            className={`border px-2 py-0.5 font-mono text-[10px] transition-colors ${
               zoom === z
                 ? "border-gold text-gold"
                 : "border-edge text-muted hover:border-gold hover:text-gold"
@@ -125,7 +125,7 @@ export function SkillTree({
         ))}
         <button
           onClick={recenter}
-          className="ml-1 rounded border border-edge px-2 py-0.5 text-xs text-muted hover:border-gold hover:text-gold"
+          className="ml-1 border border-edge px-2 py-0.5 font-mono text-[10px] text-muted hover:border-gold hover:text-gold"
         >
           回到中心
         </button>
@@ -136,7 +136,7 @@ export function SkillTree({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
-        className="h-[72vh] min-h-100 cursor-grab touch-none overflow-auto rounded-lg border border-edge bg-background/60 p-4 active:cursor-grabbing"
+        className="skill-viewport h-[72vh] min-h-100 cursor-grab touch-none overflow-auto p-4 active:cursor-grabbing"
       >
         {/* 外层按缩放后的尺寸占位，内层整体 scale——滚动条才对得上 */}
         <div
@@ -213,7 +213,7 @@ export function SkillTree({
 
           {/* 中心徽记 */}
           <div
-            className="absolute flex items-center justify-center rounded-full border-2 border-gold bg-panel text-center"
+            className="skill-hub absolute flex items-center justify-center border-2 border-gold bg-panel text-center"
             style={{
               left: layout.center.x - HUB_R,
               top: layout.center.y - HUB_R,
@@ -222,9 +222,9 @@ export function SkillTree({
             }}
           >
             <span className="text-xs font-bold text-gold">
-              学者
+              知识
               <br />
-              公会
+              核心
             </span>
           </div>
 
@@ -239,7 +239,7 @@ export function SkillTree({
                 transform: "translate(-50%, -50%)",
               }}
             >
-              {SUBJECT_ICON[s.subject]} {SUBJECT_LABEL[s.subject]}
+              <SubjectIcon subject={s.subject} /> {SUBJECT_LABEL[s.subject]}
             </div>
           ))}
 
@@ -256,7 +256,7 @@ export function SkillTree({
                   setSelectedId(isSelected ? null : node.id);
                   setError(null);
                 }}
-                className={`absolute overflow-hidden rounded-lg border px-2 py-1 text-left transition-all hover:z-10 hover:scale-110 ${STATE_STYLE[view.state]} ${
+                className={`skill-node absolute overflow-hidden border px-2 py-1 text-left transition-all hover:z-10 hover:scale-105 ${STATE_STYLE[view.state]} ${
                   isSelected ? "z-10 ring-2 ring-mana" : ""
                 }`}
                 style={{
@@ -273,7 +273,7 @@ export function SkillTree({
                       ? "◆"
                       : view.state === "available"
                         ? "✧"
-                        : "🔒"}
+                        : "×"}
                   </span>
                   <span
                     className={`truncate text-[13px] font-bold ${view.state === "lit" ? "text-gold" : ""}`}
@@ -300,7 +300,7 @@ export function SkillTree({
 
       {/* 详情面板 */}
       {selected && selectedView && (
-        <div className="mt-4 rounded-lg border border-edge bg-panel p-5">
+        <div className="hud-panel mt-4 p-5">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <h2 className="font-bold">
@@ -317,7 +317,7 @@ export function SkillTree({
               <button
                 onClick={() => onUnlock(selected.node.id)}
                 disabled={pending || points < selected.node.cost}
-                className="rounded border border-gold px-4 py-2 text-sm font-bold text-gold transition-colors hover:bg-gold hover:text-background disabled:cursor-not-allowed disabled:opacity-40"
+                className="command-button disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {pending
                   ? "点亮中……"
@@ -327,7 +327,7 @@ export function SkillTree({
               </button>
             )}
             {selectedView.state === "lit" && (
-              <span className="rounded bg-amber-100 px-3 py-1.5 text-sm text-gold dark:bg-amber-950">
+              <span className="border border-gold bg-background/50 px-3 py-1.5 font-mono text-xs text-gold">
                 已点亮
               </span>
             )}

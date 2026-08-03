@@ -46,9 +46,9 @@ export function AnalysisPanel({
   const bvidOf = (n: number) => episodes.find((e) => e.n === n)?.bvid;
 
   return (
-    <section className="mt-6 rounded-lg border border-edge bg-panel">
+    <section className="hud-panel mt-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-edge px-4 py-3">
-        <h2 className="font-bold">📖 知识点地图</h2>
+        <h2 className="combat-heading">知识点地图</h2>
         <span className="text-xs text-muted">
           AI 生成（{analysis.model}
           {analysis.basis === "titles-only"

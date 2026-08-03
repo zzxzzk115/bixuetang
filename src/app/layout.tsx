@@ -9,73 +9,75 @@ import { getUserProgress } from "@/lib/progress/queries";
 
 export const metadata: Metadata = {
   title: { default: "学者公会 Guild", template: "%s · 学者公会" },
-  description: "游戏闯关式理科自学网站：公开课副本、技能树与转职系统",
+  description:
+    "游戏闯关式理科自学网站：公开课副本、技能树、冒险路径与转职系统。",
 };
+
+const NAV_ITEMS = [
+  { href: "/paths", label: "远征路径" },
+  { href: "/courses", label: "副本档案" },
+  { href: "/skill-tree", label: "技能星盘" },
+  { href: "/jobs", label: "转职殿堂" },
+  { href: "/lab", label: "实验工坊" },
+  { href: "/glossary", label: "术语卷宗" },
+];
 
 async function Nav() {
   const user = await getCurrentUser();
   const progress = user ? getUserProgress(user.id) : null;
 
   return (
-    <header className="sticky top-0 z-20 border-b border-edge bg-background/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-6xl items-center gap-5 px-4 py-3 text-sm">
-        <Link href="/" className="flex items-center gap-1.5 font-bold text-gold">
-          🏰 学者公会
+    <header className="guild-header">
+      <nav className="guild-nav" aria-label="公会导航">
+        <Link href="/" className="guild-brand">
+          <span className="guild-sigil" aria-hidden="true">
+            G
+          </span>
+          <span>
+            <span className="guild-wordmark">学者公会</span>
+            <span className="guild-submark">SCHOLAR GUILD // M6</span>
+          </span>
         </Link>
-        <Link href="/paths" className="text-muted hover:text-foreground">
-          冒险路径
-        </Link>
-        <Link href="/courses" className="text-muted hover:text-foreground">
-          副本图鉴
-        </Link>
-        <Link href="/skill-tree" className="text-muted hover:text-foreground">
-          技能树
-        </Link>
-        <Link href="/jobs" className="text-muted hover:text-foreground">
-          转职殿堂
-        </Link>
-        <Link href="/lab" className="text-muted hover:text-foreground">
-          实验室
-        </Link>
-        <Link href="/glossary" className="text-muted hover:text-foreground">
-          术语表
-        </Link>
-        <div className="ml-auto flex items-center gap-3">
+
+        <div className="guild-links">
+          {NAV_ITEMS.map((item) => (
+            <Link key={item.href} href={item.href} className="guild-nav-link">
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <div className="guild-account">
           <ThemeToggle />
           {user && progress ? (
             <>
-              <Link
-                href="/me"
-                className="flex items-center gap-2 rounded border border-edge bg-panel px-2.5 py-1 hover:border-gold"
-              >
-                <span className="font-bold text-gold">
-                  Lv.{progress.level.level}
+              <Link href="/me" className="guild-level">
+                <strong>LV.{progress.level.level}</strong>
+                <span className="account-name">
+                  {user.displayName || user.username}
                 </span>
-                <span>{user.displayName || user.username}</span>
               </Link>
               <Link
                 href="/settings"
-                className="text-muted hover:text-foreground"
-                title="设置"
+                className="hud-icon-button"
+                title="角色设置"
+                aria-label="角色设置"
               >
-                ⚙️
+                ⚙
               </Link>
               <form action={logout}>
-                <button className="text-xs text-muted hover:text-foreground">
-                  登出
+                <button className="logout-button text-xs text-muted hover:text-foreground">
+                  离线
                 </button>
               </form>
             </>
           ) : (
             <>
-              <Link href="/login" className="text-muted hover:text-foreground">
+              <Link href="/login" className="account-name text-xs text-muted hover:text-foreground">
                 登录
               </Link>
-              <Link
-                href="/register"
-                className="rounded border border-gold px-3 py-1 text-gold hover:bg-gold hover:text-background"
-              >
-                创建角色
+              <Link href="/register" className="command-button">
+                建立档案
               </Link>
             </>
           )}
@@ -85,7 +87,6 @@ async function Nav() {
   );
 }
 
-// 首屏主题解析：在 hydration 前设置 data-theme，避免闪烁
 const THEME_SCRIPT = `(function(){try{var p=localStorage.getItem("guild-theme")||"auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.dataset.theme=d?"dark":"light";}catch(e){document.documentElement.dataset.theme="dark";}})();`;
 
 export default function RootLayout({
@@ -99,11 +100,12 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col">
         <CelebrationLayer />
         <Nav />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
-          {children}
-        </main>
-        <footer className="border-t border-edge py-6 text-center text-xs text-muted">
-          学者公会 Guild · 视频版权归原平台与上传者所有，本站仅做整理与外链
+        <main className="guild-main">{children}</main>
+        <footer className="guild-footer">
+          <div className="guild-footer-inner">
+            <span>GUILD ARCHIVE · BUILD M6 · 学习记录已接入</span>
+            <span>视频版权归原平台与上传者所有 · 本站仅整理与外链</span>
+          </div>
         </footer>
       </body>
     </html>

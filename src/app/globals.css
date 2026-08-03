@@ -1,41 +1,48 @@
 @import "tailwindcss";
-/* 知识点地图里的公式排版；KaTeX 只在服务端跑，客户端只用到这份 CSS 与字体 */
 @import "katex/dist/katex.min.css";
 
-/* 双主题：data-theme 由首屏脚本解析（auto 跟随系统 / 手动 light / dark），
-   Tailwind 的 dark: 变体也挂在 data-theme 上 */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* 白天（默认） */
 :root {
   color-scheme: light;
-  --background: #f4f5f8;
-  --panel: #ffffff;
-  --panel-hover: #eceff5;
-  --edge: #d9dee8;
-  --foreground: #1c2333;
-  --muted: #5c6577;
-  --gold: #a16207;
-  --xp: #059669;
-  --hp: #dc2626;
-  --mana: #2563eb;
-  --glow: rgba(161, 98, 7, 0.35);
+  --background: #e9ebe6;
+  --panel: #f7f6ef;
+  --panel-hover: #e1e5dd;
+  --panel-strong: #d2d8ce;
+  --edge: #aeb7ac;
+  --edge-strong: #707e73;
+  --foreground: #19211d;
+  --muted: #5b675f;
+  --gold: #8b5a12;
+  --gold-soft: #d6bd82;
+  --copper: #955b38;
+  --xp: #287a58;
+  --hp: #a23e38;
+  --mana: #356b72;
+  --glow: rgba(139, 90, 18, 0.35);
+  --map-opacity: 0.055;
+  --shadow: rgba(25, 33, 29, 0.15);
 }
 
-/* 黑夜（暗色奇幻） */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --background: #0b0e14;
-  --panel: #141a29;
-  --panel-hover: #1a2135;
-  --edge: #252d44;
-  --foreground: #e7e9f0;
-  --muted: #8b93a7;
-  --gold: #f5c542;
-  --xp: #34d399;
-  --hp: #f87171;
-  --mana: #60a5fa;
-  --glow: rgba(245, 197, 66, 0.45);
+  --background: #0c100e;
+  --panel: #151a17;
+  --panel-hover: #202822;
+  --panel-strong: #29332c;
+  --edge: #344039;
+  --edge-strong: #66756b;
+  --foreground: #e4e8e1;
+  --muted: #95a098;
+  --gold: #d4a64d;
+  --gold-soft: #816634;
+  --copper: #bc7650;
+  --xp: #5dba8b;
+  --hp: #d45d50;
+  --mana: #6ca4aa;
+  --glow: rgba(212, 166, 77, 0.42);
+  --map-opacity: 0.17;
+  --shadow: rgba(0, 0, 0, 0.42);
 }
 
 @theme inline {
@@ -51,22 +58,788 @@
   --color-mana: var(--mana);
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+}
+
 body {
+  position: relative;
+  min-width: 320px;
   background: var(--background);
   color: var(--foreground);
   font-family: ui-sans-serif, system-ui, "PingFang SC", "Microsoft YaHei",
     sans-serif;
+  letter-spacing: 0;
 }
 
-/* MathLive 默认黑字，暗色主题下强制跟随前景色 */
+body::before {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  background: url("/assets/guild-campaign-map.jpg") center / cover no-repeat;
+  content: "";
+  opacity: var(--map-opacity);
+  pointer-events: none;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--background);
+}
+
+a,
+button,
+input {
+  outline-color: var(--gold);
+}
+
+.guild-header {
+  position: sticky;
+  z-index: 30;
+  top: 0;
+  border-bottom: 1px solid var(--edge);
+  background: color-mix(in srgb, var(--background) 92%, transparent);
+  box-shadow: 0 8px 24px var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+.guild-nav {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: stretch;
+  width: min(100%, 1280px);
+  min-height: 64px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.guild-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 188px;
+  padding-right: 24px;
+  color: var(--foreground);
+}
+
+.guild-sigil {
+  display: grid;
+  width: 34px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid var(--gold);
+  background: var(--panel);
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 800;
+  box-shadow: inset 0 0 0 3px var(--background);
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+}
+
+.guild-wordmark {
+  display: block;
+  font-family: "Songti SC", SimSun, serif;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.guild-submark {
+  display: block;
+  margin-top: 1px;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.guild-links {
+  display: flex;
+  min-width: 0;
+  align-items: stretch;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.guild-links::-webkit-scrollbar {
+  display: none;
+}
+
+.guild-nav-link {
+  position: relative;
+  display: flex;
+  min-width: max-content;
+  align-items: center;
+  padding: 0 13px;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  color: var(--muted);
+  font-size: 13px;
+  transition: 160ms ease;
+}
+
+.guild-nav-link::after {
+  position: absolute;
+  right: 12px;
+  bottom: 9px;
+  left: 12px;
+  height: 2px;
+  background: transparent;
+  content: "";
+}
+
+.guild-nav-link:hover {
+  border-color: var(--edge);
+  background: var(--panel);
+  color: var(--foreground);
+}
+
+.guild-nav-link:hover::after {
+  background: var(--gold);
+}
+
+.guild-account {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: max-content;
+  padding-left: 16px;
+}
+
+.guild-level {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 138px;
+  padding: 7px 10px;
+  border: 1px solid var(--edge);
+  background: var(--panel);
+  color: var(--foreground);
+}
+
+.guild-level strong {
+  color: var(--gold);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.guild-main {
+  width: min(100%, 1280px);
+  flex: 1;
+  margin: 0 auto;
+  padding: 28px 20px 56px;
+}
+
+.guild-footer {
+  border-top: 1px solid var(--edge);
+  background: color-mix(in srgb, var(--background) 92%, transparent);
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 10px;
+}
+
+.guild-footer-inner {
+  display: flex;
+  width: min(100%, 1280px);
+  margin: 0 auto;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+}
+
+.hud-icon-button {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid var(--edge);
+  background: var(--panel);
+  color: var(--muted);
+}
+
+.hud-icon-button:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.command-button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: var(--background);
+  font-size: 13px;
+  font-weight: 800;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  transition: 160ms ease;
+}
+
+.command-button:hover {
+  background: var(--foreground);
+  color: var(--background);
+  transform: translateY(-1px);
+}
+
+.command-button.secondary {
+  background: transparent;
+  color: var(--gold);
+}
+
+.command-button.secondary:hover {
+  background: var(--panel);
+  color: var(--foreground);
+}
+
+.page-stack {
+  display: grid;
+  gap: 28px;
+}
+
+.page-intro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--edge);
+}
+
+.page-kicker {
+  margin-bottom: 5px;
+  color: var(--copper);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.page-title {
+  font-family: "Songti SC", SimSun, serif;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.page-lead {
+  max-width: 720px;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-family: "Songti SC", SimSun, serif;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.section-heading::after {
+  height: 1px;
+  flex: 1;
+  background: var(--edge);
+  content: "";
+}
+
+.hud-panel {
+  position: relative;
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  box-shadow: 0 12px 32px var(--shadow);
+}
+
+.hud-panel::before {
+  position: absolute;
+  top: -1px;
+  left: 18px;
+  width: 54px;
+  height: 2px;
+  background: var(--gold);
+  content: "";
+}
+
+.guild-hero {
+  position: relative;
+  display: grid;
+  min-height: 356px;
+  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
+  align-items: end;
+  gap: 36px;
+  overflow: hidden;
+  padding: 42px;
+  border: 1px solid #5f5138;
+  background: #101411 url("/assets/guild-campaign-map.jpg") center / cover no-repeat;
+  color: #f1eee4;
+  box-shadow: inset 0 0 0 1000px rgba(6, 9, 7, 0.48), 0 18px 42px var(--shadow);
+}
+
+.guild-hero::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: #b78a3f;
+  content: "";
+}
+
+.guild-hero-copy,
+.hero-rail {
+  position: relative;
+  z-index: 1;
+}
+
+.guild-hero h1 {
+  max-width: 720px;
+  font-family: "Songti SC", SimSun, serif;
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1.08;
+}
+
+.guild-hero .hero-copy {
+  max-width: 690px;
+  margin-top: 16px;
+  color: #c7cec7;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.hero-rail {
+  border-left: 1px solid rgba(214, 189, 130, 0.45);
+  background: rgba(11, 15, 12, 0.72);
+}
+
+.hero-stat {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(214, 189, 130, 0.22);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 11px;
+}
+
+.hero-stat:last-child {
+  border-bottom: 0;
+}
+
+.hero-stat strong {
+  color: #d8ae5c;
+  font-size: 16px;
+}
+
+.branch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--edge);
+  background: var(--panel);
+}
+
+.branch-tile {
+  position: relative;
+  min-height: 132px;
+  padding: 24px 20px 18px;
+  border-right: 1px solid var(--edge);
+  color: var(--foreground);
+  transition: 160ms ease;
+}
+
+.branch-tile:last-child {
+  border-right: 0;
+}
+
+.branch-tile::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: var(--edge-strong);
+  content: "";
+}
+
+.branch-tile[data-subject="cs"]::before {
+  background: var(--copper);
+}
+
+.branch-tile[data-subject="math"]::before {
+  background: var(--gold);
+}
+
+.branch-tile[data-subject="physics"]::before {
+  background: var(--mana);
+}
+
+.branch-tile[data-subject="ai"]::before {
+  background: var(--hp);
+}
+
+.branch-tile:hover {
+  z-index: 1;
+  background: var(--panel-hover);
+  box-shadow: inset 0 -3px 0 var(--gold);
+}
+
+.branch-code {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.branch-symbol {
+  margin-top: 12px;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.branch-name {
+  margin-top: 5px;
+  font-weight: 800;
+}
+
+.quest-board {
+  border: 1px solid var(--edge);
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+}
+
+.quest-row {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  min-height: 92px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--edge);
+  color: var(--foreground);
+  transition: 160ms ease;
+}
+
+.quest-row:last-child {
+  border-bottom: 0;
+}
+
+.quest-row:hover {
+  background: var(--panel-hover);
+  box-shadow: inset 4px 0 0 var(--gold);
+}
+
+.quest-index {
+  color: var(--gold);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.quest-meta {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 10px;
+}
+
+.quest-arrow {
+  color: var(--gold);
+  font-size: 22px;
+}
+
+.filter-console {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--edge);
+  background: var(--panel);
+}
+
+.filter-console input {
+  min-height: 40px;
+  border: 1px solid var(--edge);
+  border-radius: 0;
+  background: var(--background);
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.filter-chip {
+  padding: 5px 9px;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.filter-chip:hover,
+.filter-chip.active {
+  border-color: var(--gold);
+  background: var(--panel-hover);
+  color: var(--gold);
+}
+
+.dungeon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.dungeon-card {
+  position: relative;
+  display: flex;
+  min-height: 168px;
+  flex-direction: column;
+  padding: 18px;
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  background: var(--panel);
+  color: var(--foreground);
+  transition: 160ms ease;
+}
+
+.dungeon-card::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--edge-strong);
+  content: "";
+}
+
+.dungeon-card:hover {
+  border-color: var(--gold);
+  background: var(--panel-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px var(--shadow);
+}
+
+.dungeon-card:hover::before {
+  background: var(--gold);
+}
+
+.dungeon-code {
+  color: var(--copper);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.dungeon-title {
+  margin-top: 8px;
+  font-family: "Songti SC", SimSun, serif;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.dungeon-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 18px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.progress-track {
+  height: 5px;
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  background: var(--background);
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--hp);
+  transition: width 500ms ease;
+}
+
+.progress-fill.complete {
+  background: var(--gold);
+}
+
+.tier-stack {
+  display: grid;
+  gap: 34px;
+}
+
+.tier-heading {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.tier-rank {
+  display: grid;
+  height: 48px;
+  place-items: center;
+  border: 1px solid var(--gold);
+  background: var(--panel);
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-weight: 800;
+  clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
+}
+
+.tier-label {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--edge);
+  font-family: "Songti SC", SimSun, serif;
+  font-weight: 800;
+}
+
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.job-card {
+  position: relative;
+  display: flex;
+  min-height: 218px;
+  flex-direction: column;
+  padding: 18px;
+  border: 1px solid var(--edge);
+  background: var(--panel);
+}
+
+.job-card[data-held="true"] {
+  border-color: var(--gold);
+  box-shadow: inset 0 3px 0 var(--gold);
+}
+
+.job-card[data-ready="true"] {
+  border-color: var(--xp);
+}
+
+.job-status {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.job-card h3 {
+  margin-top: 7px;
+  font-family: "Songti SC", SimSun, serif;
+  font-size: 17px;
+}
+
+.path-map {
+  overflow-x: auto;
+  border: 1px solid var(--edge);
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  box-shadow: inset 0 0 60px var(--shadow);
+}
+
+.combat-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Songti SC", SimSun, serif;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.combat-heading::before {
+  width: 4px;
+  height: 22px;
+  background: var(--hp);
+  content: "";
+}
+
+.encounter-row {
+  border: 1px solid var(--edge);
+  border-radius: 0;
+  background: var(--panel);
+}
+
+.encounter-row:hover {
+  border-color: var(--gold);
+  background: var(--panel-hover);
+}
+
+.skill-viewport {
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--background) 76%, transparent);
+  box-shadow: inset 0 0 90px var(--shadow);
+}
+
+.skill-node {
+  border-radius: 2px;
+  box-shadow: 0 5px 14px var(--shadow);
+}
+
+.skill-hub {
+  box-shadow: 0 0 0 10px color-mix(in srgb, var(--gold) 10%, transparent), 0 0 32px var(--glow);
+}
+
+
+.path-stage {
+  border-radius: 0;
+  box-shadow: 0 5px 14px var(--shadow);
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+
+.path-node {
+  border-radius: 0;
+  box-shadow: 0 6px 16px var(--shadow);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.path-course-card {
+  border-radius: 2px;
+  box-shadow: 0 8px 18px var(--shadow);
+}
+
+.path-course-card:hover {
+  background: var(--panel-hover);
+  transform: translateY(-1px);
+}
+
 math-field {
   color: var(--foreground);
   --caret-color: var(--gold);
-  --selection-background-color: rgba(96, 165, 250, 0.25);
+  --selection-background-color: rgba(108, 164, 170, 0.25);
   --placeholder-color: var(--muted);
 }
 
-/* Chinese prose and KaTeX share the same baseline in summaries and glossary entries. */
 .analysis-rich-text .analysis-inline-math {
   display: inline;
   white-space: nowrap;
@@ -89,7 +862,6 @@ math-field {
   text-align: left;
 }
 
-/* XP 飘字动画 */
 @keyframes float-up {
   0% {
     opacity: 0;
@@ -107,32 +879,32 @@ math-field {
     transform: translateY(-14px);
   }
 }
+
 .animate-float-up {
   animation: float-up 1.6s ease-out forwards;
 }
 
-/* 全屏庆祝：弹入 → 悬停 → 淡出 */
 @keyframes celebrate-pop {
   0% {
     opacity: 0;
-    transform: scale(0.6);
+    transform: scale(0.84);
   }
-  12% {
+  14% {
     opacity: 1;
-    transform: scale(1.06);
+    transform: scale(1.02);
   }
-  18% {
+  20% {
     transform: scale(1);
   }
-  85% {
+  86% {
     opacity: 1;
-    transform: scale(1);
   }
   100% {
     opacity: 0;
-    transform: scale(1.04) translateY(-8px);
+    transform: translateY(-8px);
   }
 }
+
 .animate-celebrate {
   animation: celebrate-pop 2.6s ease-out forwards;
 }
@@ -140,12 +912,213 @@ math-field {
 @keyframes glow-pulse {
   0%,
   100% {
-    box-shadow: 0 0 6px var(--glow);
+    box-shadow: 0 0 0 1px var(--gold), 0 0 7px var(--glow);
   }
   50% {
-    box-shadow: 0 0 16px var(--glow);
+    box-shadow: 0 0 0 1px var(--gold), 0 0 18px var(--glow);
   }
 }
+
 .animate-glow {
   animation: glow-pulse 2s ease-in-out infinite;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .guild-nav {
+    grid-template-columns: auto auto;
+    padding: 0 14px;
+  }
+
+  .guild-brand {
+    min-width: 0;
+    padding-right: 10px;
+  }
+
+  .guild-links {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    border-top: 1px solid var(--edge);
+  }
+
+  .guild-nav-link {
+    min-height: 40px;
+    padding: 0 14px;
+  }
+
+  .guild-account {
+    grid-column: 2;
+    grid-row: 1;
+    min-height: 58px;
+  }
+
+  .guild-level {
+    min-width: auto;
+  }
+
+  .guild-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-rail {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(214, 189, 130, 0.45);
+    border-left: 0;
+  }
+
+  .hero-stat {
+    grid-template-columns: 1fr;
+    border-right: 1px solid rgba(214, 189, 130, 0.22);
+    border-bottom: 0;
+  }
+
+  .dungeon-grid,
+  .job-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .guild-nav {
+    padding: 0 10px;
+  }
+
+  .guild-wordmark {
+    font-size: 14px;
+  }
+
+  .guild-submark,
+  .guild-account .account-name,
+  .guild-account .logout-button {
+    display: none;
+  }
+
+  .guild-account {
+    gap: 6px;
+    padding-left: 6px;
+  }
+
+  .guild-main {
+    padding: 18px 12px 40px;
+  }
+
+  .guild-footer-inner {
+    display: block;
+    padding: 16px 12px;
+  }
+
+  .guild-footer-inner span:last-child {
+    display: none;
+  }
+
+  .guild-hero {
+    min-height: 480px;
+    padding: 28px 22px;
+    background-position: 62% center;
+  }
+
+  .guild-hero h1 {
+    font-size: 34px;
+  }
+
+  .hero-rail {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .branch-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .branch-tile:nth-child(2) {
+    border-right: 0;
+  }
+
+  .branch-tile:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--edge);
+  }
+
+  .quest-row {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .quest-arrow {
+    display: none;
+  }
+
+  .dungeon-grid,
+  .job-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-intro {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+}
+
+.player-frame{position:relative;padding:6px;border:1px solid var(--edge-strong);background:#050706;box-shadow:0 16px 36px var(--shadow),inset 0 0 0 1px rgba(255,255,255,.035)}
+.player-frame::after{position:absolute;right:10px;bottom:-1px;width:72px;height:3px;background:var(--hp);content:""}
+.progress-fill.hp{background:var(--hp)}
+.progress-fill.gold{background:var(--gold)}
+.encounter-list{display:grid;gap:5px}
+.encounter-row{display:flex;min-height:52px;align-items:center;gap:10px;padding:0 12px;transition:border-color 160ms ease,background 160ms ease,transform 160ms ease}
+.encounter-row:hover{transform:translateX(3px)}
+.encounter-row.active{border-color:var(--gold);box-shadow:inset 3px 0 0 var(--gold)}
+.encounter-row.cleared{background:color-mix(in srgb,var(--xp) 7%,var(--panel))}
+.encounter-check{display:grid;width:25px;height:25px;flex:0 0 25px;place-items:center;border:1px solid var(--edge-strong);color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:900}
+.encounter-check:disabled{opacity:.45}
+.encounter-code{display:block;color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;font-weight:700;letter-spacing:.08em}
+.encounter-title{display:block;overflow:hidden;margin-top:2px;color:var(--foreground);font-size:13px;text-overflow:ellipsis;white-space:nowrap}
+.encounter-state{min-width:38px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;font-weight:800;text-align:right}
+.celebration-panel{display:grid;width:min(520px,100%);grid-template-columns:86px minmax(0,1fr);align-items:center;gap:22px;padding:28px;border:1px solid var(--gold);background:var(--background);box-shadow:0 0 0 5px color-mix(in srgb,var(--background) 82%,transparent),0 0 64px color-mix(in srgb,var(--gold) 40%,transparent);clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.celebration-mark{display:grid;width:76px;height:76px;place-items:center;border:1px solid var(--gold);color:var(--gold);font-family:Georgia,serif;font-size:36px;font-weight:900;transform:rotate(45deg)}
+.celebration-mark{line-height:1}
+.glossary-list{border-top:1px solid var(--edge)}
+.glossary-entry{display:grid;grid-template-columns:minmax(220px,.72fr) minmax(0,1.5fr);border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);border-left:1px solid var(--edge);background:var(--panel)}
+.glossary-term{display:flex;min-width:0;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:18px;border-right:1px solid var(--edge);background:var(--panel-strong)}
+.glossary-en{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:14px;font-weight:800;overflow-wrap:anywhere}
+.glossary-zh{padding-top:8px;border-top:1px solid var(--edge-strong);color:var(--foreground);font-family:"Songti SC",SimSun,serif;font-size:14px;font-weight:800}
+.glossary-body{min-width:0;padding:16px 18px}
+.archive-source{border:1px solid var(--edge);padding:3px 6px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}
+.archive-source:hover{border-color:var(--gold);color:var(--gold)}
+@media(max-width:680px){.celebration-panel{grid-template-columns:58px minmax(0,1fr);gap:16px;padding:22px 18px}.celebration-mark{width:52px;height:52px;font-size:25px}.glossary-entry{grid-template-columns:1fr}.glossary-term{border-right:0;border-bottom:1px solid var(--edge)}.encounter-state{display:none}}
+
+.skill-toolbar{min-width:0}
+.skill-viewport{width:100%;max-width:100%;--foreground:#e9e5da;--muted:#a8ada4;--panel:#111512;--panel-strong:#171d19;--edge:#465148;--edge-strong:#68766b;--shadow:rgba(0,0,0,.62);--glow:rgba(200,153,61,.28);background:#0b0e0c;box-shadow:inset 0 0 90px rgba(0,0,0,.7)}
+.skill-viewport .skill-node{color:var(--foreground)}
+.skill-viewport .skill-node:hover{border-color:var(--gold);box-shadow:0 0 0 2px rgba(200,153,61,.14),0 8px 22px rgba(0,0,0,.6)}
+.skill-viewport .skill-hub{background:#17140e}
+
+.player-toolbar{display:flex;min-height:36px;align-items:end;gap:8px;border-bottom:1px solid var(--edge);background:#050706}
+.player-source{max-width:240px;overflow:hidden;border:1px solid transparent;border-bottom:0;padding:7px 11px;color:#858d85;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.player-source:hover{color:#e8e5dc}
+.player-source.active{border-color:var(--edge-strong);background:#111512;color:var(--gold)}
+.player-tool{border:1px solid #4a534b;padding:4px 8px;color:#a5ada6;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;font-weight:700}
+.player-tool:hover,.player-tool.active{border-color:var(--gold);color:var(--gold)}
+.profile-layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:24px}
+.profile-sigil{display:grid;width:62px;height:62px;flex:0 0 62px;place-items:center;border:1px solid var(--gold);background:var(--panel-strong);color:var(--gold);font-family:Georgia,serif;font-size:25px;font-weight:900;clip-path:polygon(50% 0,92% 18%,92% 68%,50% 100%,8% 68%,8% 18%)}
+.profile-stats{display:grid;grid-template-columns:repeat(2,1fr);margin-top:16px;border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
+.profile-stats>div{display:flex;flex-direction:column;padding:12px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge)}
+.profile-stats strong{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:16px}
+.profile-stats span{color:var(--muted);font-size:10px}
+.section-heading.compact{margin-bottom:12px}
+.section-heading.compact h2{font-size:15px}
+.job-crest{border:1px solid var(--edge);padding:5px 7px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}
+.job-crest.active{border-color:var(--gold);background:var(--panel-strong);color:var(--gold)}
+@media(max-width:900px){.profile-layout{grid-template-columns:1fr}.profile-layout>aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.profile-layout>aside section:first-child{grid-column:1/-1}}
+@media(max-width:680px){.player-toolbar{align-items:center;flex-wrap:wrap;padding-bottom:5px}.player-toolbar>div:last-child{margin-left:0;padding:0 5px}.profile-layout>aside{display:block}.profile-layout>aside section{margin-bottom:12px}}

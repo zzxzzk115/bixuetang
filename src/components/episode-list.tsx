@@ -6,18 +6,9 @@ import type { Episode } from "@/lib/content/schema";
 import { toggleEpisode, type ToggleResult } from "@/lib/progress/actions";
 import { seekTo } from "@/lib/seek";
 
-interface Toast {
-  id: number;
-  text: string;
-  kind: "xp" | "boss" | "level";
-}
+interface Toast { id: number; text: string }
 
-export function EpisodeList({
-  courseId,
-  episodes,
-  watched,
-  loggedIn,
-}: {
+export function EpisodeList({ courseId, episodes, watched, loggedIn }: {
   courseId: string;
   episodes: Episode[];
   watched: number[];
@@ -31,50 +22,41 @@ export function EpisodeList({
   const [, startTransition] = useTransition();
   const toastSeq = useRef(0);
 
-  const pushToast = (text: string, kind: Toast["kind"]) => {
+  const pushToast = (text: string) => {
     const id = ++toastSeq.current;
-    setToasts((t) => [...t, { id, text, kind }]);
-    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 1800);
+    setToasts((items) => [...items, { id, text }]);
+    setTimeout(() => setToasts((items) => items.filter((item) => item.id !== id)), 1800);
   };
 
-  const onToggle = (n: number) => {
+  const onToggle = (episode: number) => {
     if (!loggedIn) return;
-    const next = !watchedSet.has(n);
-    // 乐观更新，失败再回滚
-    setWatchedSet((s) => {
-      const copy = new Set(s);
-      if (next) copy.add(n);
-      else copy.delete(n);
+    const next = !watchedSet.has(episode);
+    setWatchedSet((current) => {
+      const copy = new Set(current);
+      if (next) copy.add(episode);
+      else copy.delete(episode);
       return copy;
     });
     startTransition(async () => {
-      const res: ToggleResult = await toggleEpisode(courseId, n, next);
-      if (!res.ok) {
-        setWatchedSet((s) => {
-          const copy = new Set(s);
-          if (next) copy.delete(n);
-          else copy.add(n);
+      const result: ToggleResult = await toggleEpisode(courseId, episode, next);
+      if (!result.ok) {
+        setWatchedSet((current) => {
+          const copy = new Set(current);
+          if (next) copy.delete(episode);
+          else copy.add(episode);
           return copy;
         });
-        pushToast(res.error ?? "操作失败", "xp");
+        pushToast(result.error ?? "行动未能记录");
         return;
       }
-      if (next && res.gained && res.gained > 0) {
-        const episodePart = res.gained - (res.bossBonus ?? 0);
-        if (episodePart > 0) pushToast(`+${episodePart} XP`, "xp");
-        if (res.bossBonus && res.bossBonus > 0) {
-          celebrate({
-            kind: "boss",
-            title: "副本通关！",
-            subtitle: `Boss 讨伐奖励 +${res.bossBonus} XP`,
-          });
+      if (next && result.gained && result.gained > 0) {
+        const episodeXp = result.gained - (result.bossBonus ?? 0);
+        if (episodeXp > 0) pushToast(`+${episodeXp} XP`);
+        if (result.bossBonus && result.bossBonus > 0) {
+          celebrate({ kind: "boss", title: "副本通关", subtitle: `首领讨伐奖励 +${result.bossBonus} XP` });
         }
-        if (res.levelUp) {
-          celebrate({
-            kind: "level",
-            title: `升级！Lv.${res.newLevel}`,
-            subtitle: "获得 1 技能点，前往技能树加点吧",
-          });
+        if (result.levelUp) {
+          celebrate({ kind: "level", title: `升至 Lv.${result.newLevel}`, subtitle: "获得 1 技能点，可前往技能星盘加点" });
         }
       }
     });
@@ -82,161 +64,74 @@ export function EpisodeList({
 
   const done = watchedSet.size;
   const total = episodes.length;
-  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
-
-  const play = (ep: Episode) => {
-    setPlaying(ep.n);
-    seekTo({ page: ep.n, bvid: ep.bvid });
-    document
-      .getElementById("course-player")
-      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+  const play = (episode: Episode) => {
+    setPlaying(episode.n);
+    seekTo({ page: episode.n, bvid: episode.bvid });
+    document.getElementById("course-player")?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
-  // 长课（动辄一两百集）默认折叠，避免淹没页面；搜索时展示全部命中
-  const COLLAPSED_LIMIT = 24;
+  const collapsedLimit = 24;
   const needle = query.trim().toLowerCase();
   const filtered = needle
-    ? episodes.filter(
-        (e) =>
-          e.title.toLowerCase().includes(needle) || String(e.n) === needle,
-      )
+    ? episodes.filter((episode) => episode.title.toLowerCase().includes(needle) || String(episode.n) === needle)
     : episodes;
-  const collapsible = !needle && filtered.length > COLLAPSED_LIMIT;
-  const visible = collapsible && !expanded ? filtered.slice(0, COLLAPSED_LIMIT) : filtered;
-  const nextUp = episodes.find((e) => !watchedSet.has(e.n));
+  const collapsible = !needle && filtered.length > collapsedLimit;
+  const visible = collapsible && !expanded ? filtered.slice(0, collapsedLimit) : filtered;
+  const nextUp = episodes.find((episode) => !watchedSet.has(episode.n));
 
   return (
     <div className="relative">
-      {/* 飘字通知 */}
-      <div className="pointer-events-none absolute -top-2 right-0 z-10 flex flex-col items-end gap-1">
-        {toasts.map((t) => (
-          <span
-            key={t.id}
-            className={`animate-float-up rounded px-2 py-1 text-sm font-bold ${
-              t.kind === "boss"
-                ? "bg-amber-100 text-gold dark:bg-amber-950"
-                : t.kind === "level"
-                  ? "bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300"
-                  : "text-xp"
-            }`}
-          >
-            {t.text}
+      <div className="pointer-events-none absolute -top-3 right-0 z-10 flex flex-col items-end gap-1">
+        {toasts.map((toast) => (
+          <span key={toast.id} className="animate-float-up border border-xp bg-background px-2 py-1 font-mono text-xs font-bold text-xp">
+            {toast.text}
           </span>
         ))}
       </div>
 
-      {/* 副本血条：击破进度 */}
-      <div className="mb-3">
-        <div className="flex justify-between text-xs text-muted">
-          <span>
-            讨伐进度 {done} / {total}
-          </span>
-          <span>{pct}%</span>
+      <div className="mb-4">
+        <div className="mb-1.5 flex justify-between font-mono text-[10px] font-bold text-muted">
+          <span>攻略完成度 {done} / {total}</span>
+          <span>{percent}%</span>
         </div>
-        <div className="mt-1 h-2.5 overflow-hidden rounded-full bg-edge">
-          <div
-            className={`h-full rounded-full transition-all duration-500 ${
-              pct >= 100 ? "bg-gold" : "bg-hp"
-            }`}
-            style={{ width: `${pct}%` }}
-          />
+        <div className="progress-track">
+          <div className={`progress-fill ${percent >= 100 ? "gold" : "hp"}`} style={{ width: `${percent}%` }} />
         </div>
       </div>
 
-      {/* 工具条：继续下一集 + 集内搜索 */}
-      <div className="mb-2 flex flex-wrap items-center gap-2">
-        {nextUp && (
-          <button
-            onClick={() => play(nextUp)}
-            className="rounded border border-gold px-3 py-1 text-xs font-bold text-gold hover:bg-gold hover:text-background"
-          >
-            ▶ 继续第 {nextUp.n} 集
-          </button>
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        {nextUp && <button onClick={() => play(nextUp)} className="command-button secondary">继续遭遇 {String(nextUp.n).padStart(2, "0")}</button>}
+        {episodes.length > collapsedLimit && (
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`检索 ${episodes.length} 场遭遇`} className="min-w-44 flex-1 border border-edge bg-background px-3 py-2 text-xs outline-none focus:border-gold" />
         )}
-        {episodes.length > COLLAPSED_LIMIT && (
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={`在 ${episodes.length} 集中搜索…`}
-            className="min-w-40 flex-1 rounded border border-edge bg-panel px-2.5 py-1 text-xs outline-none focus:border-gold"
-          />
-        )}
-        <span className="text-xs text-muted">
-          点标题播放，点左侧方框标记已看
-          {!loggedIn && (
-            <>
-              （
-              <a href="/login" className="text-gold underline">
-                登录
-              </a>
-              后记录进度）
-            </>
-          )}
-        </span>
+        {!loggedIn && <a href="/login" className="command-button secondary ml-auto">登录后记录战果</a>}
       </div>
 
-      {needle && (
-        <p className="mb-1.5 text-xs text-muted">
-          匹配 {filtered.length} 集
-          {filtered.length === 0 && "——换个关键词试试"}
-        </p>
-      )}
+      {needle && <p className="mb-2 font-mono text-[10px] text-muted">QUERY RESULT // {filtered.length} ENCOUNTERS</p>}
 
-      <ol className="grid grid-cols-1 gap-1.5">
-        {visible.map((ep) => {
-          const isWatched = watchedSet.has(ep.n);
-          const isPlaying = playing === ep.n;
+      <ol className="encounter-list">
+        {visible.map((episode) => {
+          const isWatched = watchedSet.has(episode.n);
+          const isPlaying = playing === episode.n;
           return (
-            <li
-              key={ep.n}
-              className={`flex items-center gap-1.5 rounded border transition-colors ${
-                isPlaying
-                  ? "border-gold bg-panel-hover"
-                  : isWatched
-                    ? "border-edge bg-panel"
-                    : "border-edge bg-panel-hover hover:border-gold"
-              }`}
-            >
-              {/* 勾选：击破小怪 */}
-              <button
-                onClick={() => onToggle(ep.n)}
-                disabled={!loggedIn}
-                title={loggedIn ? (isWatched ? "取消标记" : "标记为已看") : "登录后可记录"}
-                className={`shrink-0 py-1.5 pl-2.5 ${loggedIn ? "cursor-pointer" : "cursor-default"}`}
-              >
-                <span
-                  className={`flex h-4 w-4 items-center justify-center rounded-sm border text-[10px] ${
-                    isWatched ? "border-xp bg-xp text-background" : "border-muted"
-                  }`}
-                >
-                  {isWatched ? "✓" : ""}
-                </span>
+            <li key={episode.n} className={`encounter-row ${isPlaying ? "active" : ""} ${isWatched ? "cleared" : ""}`}>
+              <button onClick={() => onToggle(episode.n)} disabled={!loggedIn} title={loggedIn ? (isWatched ? "撤销战果" : "记录战果") : "登录后可记录"} className="encounter-check">
+                {isWatched ? "✓" : ""}
               </button>
-              {/* 标题：点击跳转播放该集 */}
-              <button
-                onClick={() => play(ep)}
-                title="播放这一集"
-                className={`min-w-0 flex-1 py-1.5 pr-2.5 text-left text-sm ${
-                  isWatched ? "text-muted" : "text-foreground"
-                }`}
-              >
-                <span className="mr-1.5 text-muted">{ep.n}.</span>
-                <span className={isWatched ? "line-through" : ""}>{ep.title}</span>
-                {isPlaying && <span className="ml-1.5 text-xs text-gold">▶ 播放中</span>}
+              <button onClick={() => play(episode)} className="min-w-0 flex-1 py-2.5 text-left">
+                <span className="encounter-code">ENCOUNTER {String(episode.n).padStart(2, "0")}</span>
+                <span className={`encounter-title ${isWatched ? "line-through" : ""}`}>{episode.title}</span>
               </button>
+              <span className="encounter-state">{isPlaying ? "PLAY" : isWatched ? "CLEAR" : "READY"}</span>
             </li>
           );
         })}
       </ol>
 
       {collapsible && (
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="mt-2 w-full rounded border border-dashed border-edge py-2 text-xs text-muted transition-colors hover:border-gold hover:text-gold"
-        >
-          {expanded
-            ? "▲ 收起"
-            : `▼ 展开剩余 ${filtered.length - COLLAPSED_LIMIT} 集（共 ${filtered.length} 集）`}
+        <button onClick={() => setExpanded(!expanded)} className="mt-2 w-full border border-dashed border-edge py-2 font-mono text-[10px] font-bold text-muted hover:border-gold hover:text-gold">
+          {expanded ? "收起遭遇清单" : `展开其余 ${filtered.length - collapsedLimit} 场遭遇`}
         </button>
       )}
     </div>

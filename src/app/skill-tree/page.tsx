@@ -6,7 +6,7 @@ import { computeSkillViews, spentPoints } from "@/lib/game/skills";
 import { layoutTree } from "@/lib/game/tree-layout";
 import { doneCourseIds, getUserProgress } from "@/lib/progress/queries";
 
-export const metadata = { title: "技能树" };
+export const metadata = { title: "技能星盘" };
 
 export default async function SkillTreePage() {
   const content = getContent();
@@ -22,69 +22,70 @@ export default async function SkillTreePage() {
 
   const layout = layoutTree(content.skillNodes);
   const views: Record<string, SkillNodeView> = {};
-  for (const v of computeSkillViews(content.skillNodes, done, lit)) {
-    views[v.node.id] = {
-      id: v.node.id,
-      state: v.state,
-      coursesMet: v.coursesMet,
-      requiresMet: v.requiresMet,
-      courses: v.node.courses.map((cid) => ({
-        id: cid,
-        title: content.coursesById.get(cid)?.title ?? cid,
-        done: done.has(cid),
+  for (const view of computeSkillViews(content.skillNodes, done, lit)) {
+    views[view.node.id] = {
+      id: view.node.id,
+      state: view.state,
+      coursesMet: view.coursesMet,
+      requiresMet: view.requiresMet,
+      courses: view.node.courses.map((courseId) => ({
+        id: courseId,
+        title: content.coursesById.get(courseId)?.title ?? courseId,
+        done: done.has(courseId),
       })),
-      requires: v.node.requires.map((rid) => ({
-        id: rid,
-        title: content.skillById.get(rid)?.title ?? rid,
-        lit: lit.has(rid),
+      requires: view.node.requires.map((requiredId) => ({
+        id: requiredId,
+        title: content.skillById.get(requiredId)?.title ?? requiredId,
+        lit: lit.has(requiredId),
       })),
-      // 这个节点出现在哪些职业的晋升条件里——把技能树和转职殿堂串起来
       jobs: content.jobs
-        .filter((j) => {
-          const s = j.requires.skills;
+        .filter((job) => {
+          const skills = job.requires.skills;
           return (
-            !!s && (s.allOf.includes(v.node.id) || s.anyOf.includes(v.node.id))
+            !!skills &&
+            (skills.allOf.includes(view.node.id) ||
+              skills.anyOf.includes(view.node.id))
           );
         })
-        .map((j) => ({
-          id: j.id,
-          title: j.title,
-          tier: j.tier,
-          required: !!j.requires.skills?.allOf.includes(v.node.id),
+        .map((job) => ({
+          id: job.id,
+          title: job.title,
+          tier: job.tier,
+          required: !!job.requires.skills?.allOf.includes(view.node.id),
         })),
     };
   }
 
-  const litCount = lit.size;
-
   return (
-    <div>
-      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+    <div className="page-stack">
+      <header className="page-intro">
         <div>
-          <h1 className="text-2xl font-bold">技能树</h1>
-          <p className="mt-1 text-sm text-muted">
-            通关关联课程解锁资格，再花技能点点亮——每升 1 级获得 1 点。
+          <p className="page-kicker">MASTERY CONSTELLATION</p>
+          <h1 className="page-title">技能星盘</h1>
+          <p className="page-lead">
+            课程通关只代表获得学习资格。把有限技能点投入节点，才能形成你的职业构筑；
+            中心向外依次是基础能力、专业分支与高阶专精。
           </p>
         </div>
         {user && (
-          <div className="flex gap-2 text-sm">
-            <span className="rounded border border-edge bg-panel px-3 py-1.5">
-              已点亮 <b className="text-gold">{litCount}</b> /{" "}
+          <div className="flex gap-2 font-mono text-xs">
+            <span className="border border-edge bg-panel px-3 py-2">
+              MASTERED <b className="text-gold">{lit.size}</b> /{" "}
               {content.skillNodes.length}
             </span>
-            <span className="rounded border border-edge bg-panel px-3 py-1.5">
-              技能点 <b className="text-mana">{points}</b>
+            <span className="border border-edge bg-panel px-3 py-2">
+              SKILL POINTS <b className="text-mana">{points}</b>
             </span>
           </div>
         )}
-      </div>
+      </header>
 
       {!user && (
-        <p className="mb-4 rounded border border-edge bg-panel px-4 py-3 text-sm text-muted">
+        <p className="hud-panel px-4 py-3 text-sm text-muted">
           <a href="/login" className="text-gold underline">
-            登录
+            登录角色档案
           </a>
-          后可查看自己的点亮进度并加点
+          ，即可查看可点亮节点、投入技能点并保存职业构筑。
         </p>
       )}
 

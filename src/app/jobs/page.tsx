@@ -8,10 +8,10 @@ import type { Job } from "@/lib/content/schema";
 export const metadata = { title: "转职殿堂" };
 
 const TIER_TITLE = [
-  "0 转 · 起点",
-  "1 转 · 学徒",
-  "2 转 · 大师与兼修",
-  "3 转 · 传说",
+  "起始档案",
+  "一转 · 学徒职业",
+  "二转 · 大师与兼修",
+  "三转 · 传奇职业",
 ];
 
 function RequirementList({
@@ -34,8 +34,11 @@ function RequirementList({
   const req = job.requires;
   const items: { ok: boolean; text: string }[] = [];
 
-  for (const p of job.parents) {
-    items.push({ ok: held.has(p), text: `持有「${jobTitle(p)}」` });
+  for (const parent of job.parents) {
+    items.push({
+      ok: held.has(parent),
+      text: `持有「${jobTitle(parent)}」`,
+    });
   }
   if (req.minLevel) {
     items.push({
@@ -43,25 +46,37 @@ function RequirementList({
       text: `等级 ≥ ${req.minLevel}（当前 Lv.${level}）`,
     });
   }
-  for (const s of req.skills?.allOf ?? []) {
-    items.push({ ok: litSkills.has(s), text: `点亮「${skillTitle(s)}」` });
+  for (const skill of req.skills?.allOf ?? []) {
+    items.push({
+      ok: litSkills.has(skill),
+      text: `掌握「${skillTitle(skill)}」`,
+    });
   }
   if (req.skills && req.skills.anyOf.length > 0) {
-    const hit = req.skills.anyOf.filter((s) => litSkills.has(s)).length;
+    const hit = req.skills.anyOf.filter((skill) =>
+      litSkills.has(skill),
+    ).length;
     items.push({
       ok: hit >= req.skills.minAnyOf,
-      text: `「${req.skills.anyOf.map(skillTitle).join(" / ")}」中点亮 ${req.skills.minAnyOf} 个（已 ${hit}）`,
+      text: `候选技能中掌握 ${req.skills.minAnyOf} 个（当前 ${hit}）`,
     });
   }
 
   if (items.length === 0) {
-    return <p className="text-xs text-muted">无条件，注册即持有</p>;
+    return <p className="text-xs text-muted">无条件 · 建立角色后自动持有</p>;
   }
+
   return (
-    <ul className="space-y-1 text-xs">
-      {items.map((it, i) => (
-        <li key={i} className={it.ok ? "text-foreground" : "text-muted"}>
-          {verdict === null ? "·" : it.ok ? "✅" : "⬜"} {it.text}
+    <ul className="space-y-1.5 text-xs">
+      {items.map((item, index) => (
+        <li
+          key={index}
+          className={item.ok ? "text-foreground" : "text-muted"}
+        >
+          <span className={item.ok ? "text-xp" : "text-muted"}>
+            {verdict === null ? "·" : item.ok ? "✓" : "□"}
+          </span>{" "}
+          {item.text}
         </li>
       ))}
     </ul>
@@ -74,27 +89,41 @@ export default async function JobsPage() {
   const progress = user ? getUserProgress(user.id) : null;
   const held = user ? getHeldJobs(user.id) : new Set<string>();
 
-  const skillTitle = (id: string) => content.skillById.get(id)?.title ?? id;
+  const skillTitle = (id: string) =>
+    content.skillById.get(id)?.title ?? id;
   const jobTitle = (id: string) => content.jobById.get(id)?.title ?? id;
 
-  const tiers = [0, 1, 2, 3].map((t) =>
-    content.jobs.filter((j) => j.tier === t),
+  const tiers = [0, 1, 2, 3].map((tier) =>
+    content.jobs.filter((job) => job.tier === tier),
   );
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">转职殿堂</h1>
-      <p className="mt-1 text-sm text-muted">
-        条件达成后手动转职。可同时持有多个职业——多前置的复合职业代表兼修之路。
-      </p>
+    <div className="page-stack">
+      <header className="page-intro">
+        <div>
+          <p className="page-kicker">CLASS ASCENSION</p>
+          <h1 className="page-title">转职殿堂</h1>
+          <p className="page-lead">
+            职业不是装饰称号，而是你已经完成的知识构筑。达到等级、点亮技能并持有前置职业，
+            才能进行一转、二转与三转；兼修职业要求同时走通多个分支。
+          </p>
+        </div>
+        <div className="font-mono text-xs text-muted">
+          CLASSES <b className="text-gold">{content.jobs.length}</b>
+        </div>
+      </header>
 
-      <div className="mt-6 space-y-8">
+      <div className="tier-stack">
         {tiers.map((jobs, tier) => (
           <section key={tier}>
-            <h2 className="mb-3 border-b border-edge pb-2 font-bold text-muted">
-              {TIER_TITLE[tier]}
-            </h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="tier-heading">
+              <div className="tier-rank">{tier}</div>
+              <div className="tier-label">
+                <span className="page-kicker">ASCENSION TIER</span>
+                {TIER_TITLE[tier]}
+              </div>
+            </div>
+            <div className="job-grid">
               {jobs.map((job) => {
                 const isHeld = held.has(job.id);
                 const verdict =
@@ -106,34 +135,37 @@ export default async function JobsPage() {
                       })
                     : null;
                 const isCompound = job.parents.length > 1;
+
                 return (
-                  <div
+                  <article
                     key={job.id}
-                    className={`flex flex-col rounded-lg border p-4 ${
-                      isHeld
-                        ? "border-gold bg-amber-100/60 dark:bg-amber-950/40"
-                        : verdict?.ok
-                          ? "border-gold bg-panel"
-                          : "border-edge bg-panel opacity-90"
-                    }`}
+                    className="job-card"
+                    data-held={isHeld ? "true" : "false"}
+                    data-ready={verdict?.ok ? "true" : "false"}
                   >
-                    <div className="flex items-start justify-between gap-2">
-                      <h3 className={`font-bold ${isHeld ? "text-gold" : ""}`}>
-                        {isHeld ? "⚜️ " : ""}
-                        {job.title}
-                      </h3>
+                    <div className="flex items-start justify-between gap-3">
+                      <span className="job-status">
+                        {isHeld
+                          ? "CLASS ACQUIRED"
+                          : verdict?.ok
+                            ? "ASCENSION READY"
+                            : "REQUIREMENTS LOCKED"}
+                      </span>
                       {isCompound && (
-                        <span className="shrink-0 rounded bg-purple-100 px-1.5 py-0.5 text-[10px] text-purple-700 dark:bg-purple-950 dark:text-purple-300">
-                          兼修
+                        <span className="border border-mana/60 px-1.5 py-0.5 font-mono text-[9px] text-mana">
+                          HYBRID
                         </span>
                       )}
                     </div>
+                    <h3 className={isHeld ? "text-gold" : ""}>
+                      {job.title}
+                    </h3>
                     {job.description && (
-                      <p className="mt-1 text-xs text-muted">
+                      <p className="mt-1 text-xs leading-relaxed text-muted">
                         {job.description}
                       </p>
                     )}
-                    <div className="mt-3 flex-1">
+                    <div className="mt-4 flex-1 border-t border-edge pt-3">
                       <RequirementList
                         job={job}
                         verdict={verdict}
@@ -145,7 +177,7 @@ export default async function JobsPage() {
                       />
                     </div>
                     {user && (
-                      <div className="mt-3">
+                      <div className="mt-4">
                         {isHeld ? (
                           <TitleButton
                             jobId={job.id}
@@ -156,13 +188,13 @@ export default async function JobsPage() {
                         ) : verdict?.ok ? (
                           <PromoteButton jobId={job.id} title={job.title} />
                         ) : (
-                          <span className="block w-full rounded border border-edge py-2 text-center text-xs text-muted">
+                          <span className="block w-full border border-edge py-2 text-center font-mono text-[10px] text-muted">
                             条件未达成
                           </span>
                         )}
                       </div>
                     )}
-                  </div>
+                  </article>
                 );
               })}
             </div>

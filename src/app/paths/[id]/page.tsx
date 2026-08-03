@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { LevelBadge, StatusBadge, SUBJECT_ICON } from "@/components/badges";
+import { LevelBadge, StatusBadge } from "@/components/badges";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
-import type { Course } from "@/lib/content/schema";
+import { SUBJECT_LABEL, type Course } from "@/lib/content/schema";
 import { getUserProgress, type UserProgress } from "@/lib/progress/queries";
 
 // 关卡地图布局常量
@@ -92,18 +92,17 @@ export default async function PathPage({
     : 0;
 
   return (
-    <div className="mx-auto max-w-3xl">
-      <div className="flex flex-wrap items-end justify-between gap-3">
+    <div className="page-stack mx-auto max-w-4xl">
+      <header className="page-intro">
         <div>
-          <div className="flex items-center gap-2 text-2xl font-bold">
-            {SUBJECT_ICON[path.subject]} {path.title}
-          </div>
+          <p className="page-kicker">CAMPAIGN MAP // {SUBJECT_LABEL[path.subject]}</p>
+          <h1 className="page-title">{path.title}</h1>
           {path.description && (
             <p className="mt-1.5 text-sm text-muted">{path.description}</p>
           )}
         </div>
         {progress && (
-          <span className="rounded border border-edge bg-panel px-3 py-1.5 text-sm">
+          <span className="border border-edge bg-panel px-3 py-1.5 font-mono text-xs">
             通关{" "}
             <b className={doneCount === courseRows.length ? "text-gold" : ""}>
               {doneCount}
@@ -111,9 +110,9 @@ export default async function PathPage({
             / {courseRows.length}
           </span>
         )}
-      </div>
+      </header>
 
-      <div className="mt-6 overflow-x-auto rounded-lg border border-edge bg-panel/40 py-6">
+      <div className="path-map py-6">
         <div className="relative mx-auto" style={{ width: W, height }}>
           {/* 蜿蜒道路 */}
           <svg className="absolute inset-0" width={W} height={height}>
@@ -147,20 +146,15 @@ export default async function PathPage({
                   className="absolute flex w-full justify-center"
                   style={{ top: row.y - 14 }}
                 >
-                  <span className="rounded-full border border-edge bg-panel px-4 py-1 text-sm font-bold text-muted">
+                  <span className="path-stage border border-edge bg-panel px-4 py-1 font-mono text-xs font-bold text-muted">
                     {row.title}
                   </span>
                 </div>
               );
             }
             const s = nodeState(row.course, progress, currentId);
-            const icon = s.done
-              ? "✓"
-              : row.isFinal
-                ? "👑"
-                : s.isCurrent
-                  ? "⚔️"
-                  : "🗺️";
+            const sequence = courseRows.findIndex((item) => item.course.id === row.course.id) + 1;
+            const icon = s.done ? "✓" : row.isFinal ? "B" : String(sequence).padStart(2, "0");
             const cardLeft = row.x === LEFT_X ? LEFT_X + NODE_R + 18 : 16;
             const cardWidth = W - NODE_R * 2 - 110 - 40;
             return (
@@ -168,7 +162,7 @@ export default async function PathPage({
                 {/* 关卡节点 */}
                 <Link
                   href={`/courses/${row.course.id}`}
-                  className={`absolute flex items-center justify-center rounded-full border-2 text-xl transition-transform hover:scale-110 ${
+                  className={`path-node absolute flex items-center justify-center border-2 font-mono text-[10px] font-bold transition-transform hover:scale-110 ${
                     s.done
                       ? "border-gold bg-amber-100 text-gold dark:bg-amber-950"
                       : s.isCurrent
@@ -187,7 +181,7 @@ export default async function PathPage({
                 {/* 课程卡 */}
                 <Link
                   href={`/courses/${row.course.id}`}
-                  className={`absolute block rounded-lg border p-3 transition-colors hover:border-gold ${
+                  className={`path-course-card absolute block border p-3 transition-colors hover:border-gold ${
                     s.isCurrent
                       ? "border-gold bg-panel"
                       : "border-edge bg-panel"

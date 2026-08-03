@@ -1,19 +1,14 @@
 import Link from "next/link";
-import { StatusBadge, SUBJECT_ICON } from "@/components/badges";
+import { StatusBadge, SubjectIcon } from "@/components/badges";
 import { XpBar } from "@/components/xp-bar";
 import { requireUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { SUBJECT_LABEL, SUBJECTS } from "@/lib/content/schema";
 import { skillPointsEarned } from "@/lib/game/level";
 import { spentPoints } from "@/lib/game/skills";
-import {
-  getHeldJobs,
-  getSubjectXp,
-  getUserProgress,
-  getXpLog,
-} from "@/lib/progress/queries";
+import { getHeldJobs, getSubjectXp, getUserProgress, getXpLog } from "@/lib/progress/queries";
 
-export const metadata = { title: "角色面板" };
+export const metadata = { title: "角色档案" };
 
 export default async function MePage() {
   const user = await requireUser();
@@ -22,173 +17,138 @@ export default async function MePage() {
   const subjectXp = getSubjectXp(progress);
   const xpLog = getXpLog(user.id, 20);
   const maxSubjectXp = Math.max(1, ...Object.values(subjectXp));
-
-  const points =
-    skillPointsEarned(progress.level.level) -
-    spentPoints(content.skillNodes, progress.litSkills);
-
+  const points = skillPointsEarned(progress.level.level) - spentPoints(content.skillNodes, progress.litSkills);
   const held = getHeldJobs(user.id);
-  const heldJobs = content.jobs.filter((j) => held.has(j.id));
+  const heldJobs = content.jobs.filter((job) => held.has(job.id));
   const activeTitle =
     content.jobById.get(user.activeJobId ?? "")?.title ??
-    heldJobs.find((j) => j.tier === 0)?.title ??
-    "冒险者";
-
+    heldJobs.find((job) => job.tier === 0)?.title ??
+    "见习学者";
+  const displayName = user.displayName || user.username;
   const activeCourses = [...progress.statusByCourse.entries()]
-    .filter(([, s]) => s === "learning" || s === "done")
+    .filter(([, status]) => status === "learning" || status === "done")
     .map(([id, status]) => ({ course: content.coursesById.get(id), status }))
-    .filter((e) => e.course !== undefined);
+    .filter((entry) => entry.course !== undefined);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
-      {/* 角色状态窗 */}
-      <aside className="space-y-5">
-        <section className="rounded-lg border border-edge bg-panel p-5">
-          <div className="text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold bg-panel-hover text-3xl">
-              🧙
-            </div>
-            <h1 className="mt-2 text-lg font-bold">
-              {user.displayName || user.username}
-            </h1>
-            <p className="text-xs text-gold">{activeTitle}</p>
-          </div>
-          <div className="mt-4">
-            <XpBar level={progress.level} />
-          </div>
-          <div className="mt-4 grid grid-cols-2 gap-2 text-center text-sm">
-            <div className="rounded bg-panel-hover p-2">
-              <div className="font-bold text-gold">{progress.totalXp}</div>
-              <div className="text-xs text-muted">总经验</div>
-            </div>
-            <div className="rounded bg-panel-hover p-2">
-              <div className="font-bold text-mana">{points}</div>
-              <div className="text-xs text-muted">技能点</div>
-            </div>
-          </div>
-        </section>
+    <div className="page-stack mx-auto max-w-6xl">
+      <header className="page-intro">
+        <div>
+          <p className="page-kicker">ADVENTURER DOSSIER // 角色状态</p>
+          <h1 className="page-title">角色档案</h1>
+          <p className="page-lead">追踪等级、职业构筑、学科修为与正在攻略的副本。</p>
+        </div>
+        <div className="hero-stat">
+          <span className="hero-stat-value">Lv.{progress.level.level}</span>
+          <span className="hero-stat-label">{activeTitle}</span>
+        </div>
+      </header>
 
-        <section className="rounded-lg border border-edge bg-panel p-5">
-          <h2 className="mb-3 text-sm font-bold text-muted">⚜️ 职业徽章</h2>
-          <div className="flex flex-wrap gap-1.5">
-            {heldJobs.map((j) => (
-              <span
-                key={j.id}
-                className={`rounded border px-2 py-1 text-xs ${
-                  (user.activeJobId ?? heldJobs[0]?.id) === j.id
-                    ? "border-gold bg-amber-100 text-gold dark:bg-amber-950"
-                    : "border-edge bg-panel-hover text-muted"
-                }`}
-              >
-                {j.title}
-              </span>
-            ))}
-          </div>
-          <Link
-            href="/jobs"
-            className="mt-3 inline-block text-xs text-gold hover:underline"
-          >
-            前往转职殿堂 →
-          </Link>
-        </section>
-
-        <section className="rounded-lg border border-edge bg-panel p-5">
-          <h2 className="mb-3 text-sm font-bold text-muted">四维修为</h2>
-          <div className="space-y-2.5">
-            {SUBJECTS.map((s) => (
-              <div key={s}>
-                <div className="flex justify-between text-xs">
-                  <span>
-                    {SUBJECT_ICON[s]} {SUBJECT_LABEL[s]}
-                  </span>
-                  <span className="text-muted">{subjectXp[s]}</span>
-                </div>
-                <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-edge">
-                  <div
-                    className="h-full rounded-full bg-mana"
-                    style={{
-                      width: `${(subjectXp[s] / maxSubjectXp) * 100}%`,
-                    }}
-                  />
-                </div>
+      <div className="profile-layout">
+        <aside className="space-y-4">
+          <section className="hud-panel p-5">
+            <div className="flex items-center gap-4">
+              <div className="profile-sigil">{displayName.slice(0, 1).toUpperCase()}</div>
+              <div className="min-w-0">
+                <p className="page-kicker">ACTIVE SCHOLAR</p>
+                <h2 className="truncate text-lg font-black">{displayName}</h2>
+                <p className="text-xs font-bold text-gold">{activeTitle}</p>
               </div>
-            ))}
-          </div>
-        </section>
-      </aside>
-
-      <div className="space-y-6">
-        <section>
-          <h2 className="mb-3 text-lg font-bold">⚔️ 我的副本</h2>
-          {activeCourses.length === 0 ? (
-            <p className="rounded-lg border border-edge bg-panel p-6 text-center text-sm text-muted">
-              还没有进行中的副本，去{" "}
-              <Link href="/courses" className="text-gold underline">
-                副本图鉴
-              </Link>{" "}
-              挑一个开刷吧
-            </p>
-          ) : (
-            <div className="grid gap-3 sm:grid-cols-2">
-              {activeCourses.map(({ course, status }) => {
-                const c = course!;
-                const watched = progress.watchedByCourse.get(c.id)?.size ?? 0;
-                const pct = Math.round((watched / c.episodes.length) * 100);
-                return (
-                  <Link
-                    key={c.id}
-                    href={`/courses/${c.id}`}
-                    className="rounded-lg border border-edge bg-panel p-4 transition-colors hover:border-gold"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-bold">{c.title}</span>
-                      <StatusBadge status={status} />
-                    </div>
-                    <div className="mt-2 flex items-center justify-between text-xs text-muted">
-                      <span>
-                        {watched} / {c.episodes.length} 集
-                      </span>
-                      <span>{pct}%</span>
-                    </div>
-                    <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-edge">
-                      <div
-                        className={`h-full ${pct >= 100 ? "bg-gold" : "bg-hp"}`}
-                        style={{ width: `${pct}%` }}
-                      />
-                    </div>
-                  </Link>
-                );
-              })}
             </div>
-          )}
-        </section>
+            <div className="mt-5"><XpBar level={progress.level} /></div>
+            <div className="profile-stats">
+              <div><strong>{progress.totalXp}</strong><span>总经验</span></div>
+              <div><strong>{points}</strong><span>技能点</span></div>
+            </div>
+          </section>
 
-        <section>
-          <h2 className="mb-3 text-lg font-bold">📜 冒险日志</h2>
-          {xpLog.length === 0 ? (
-            <p className="rounded-lg border border-edge bg-panel p-6 text-center text-sm text-muted">
-              日志空空如也——击败第一只小怪后这里会记下你的战绩
-            </p>
-          ) : (
-            <ul className="space-y-1.5">
-              {xpLog.map((e, i) => (
-                <li
-                  key={i}
-                  className="flex items-center justify-between rounded border border-edge bg-panel px-3 py-2 text-sm"
-                >
-                  <span
-                    className={e.reason === "course-done" ? "text-gold" : ""}
-                  >
-                    {e.label}
-                  </span>
-                  <span className="shrink-0 font-bold text-xp">
-                    +{e.amount} XP
-                  </span>
-                </li>
+          <section className="hud-panel p-5">
+            <div className="section-heading compact">
+              <div><p className="page-kicker">CLASS CRESTS</p><h2>职业徽章</h2></div>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {heldJobs.map((job) => (
+                <span key={job.id} className={`job-crest ${(user.activeJobId ?? heldJobs[0]?.id) === job.id ? "active" : ""}`}>
+                  T{job.tier} · {job.title}
+                </span>
               ))}
-            </ul>
-          )}
-        </section>
+            </div>
+            <Link href="/jobs" className="mt-4 inline-block font-mono text-[10px] font-bold text-gold">前往转职殿堂 →</Link>
+          </section>
+
+          <section className="hud-panel p-5">
+            <div className="section-heading compact">
+              <div><p className="page-kicker">DISCIPLINES</p><h2>四维修为</h2></div>
+            </div>
+            <div className="space-y-3">
+              {SUBJECTS.map((subject) => (
+                <div key={subject}>
+                  <div className="flex justify-between text-xs">
+                    <span className="font-bold"><SubjectIcon subject={subject} /> {SUBJECT_LABEL[subject]}</span>
+                    <span className="font-mono text-muted">{subjectXp[subject]} XP</span>
+                  </div>
+                  <div className="progress-track mt-1.5">
+                    <div className="progress-fill" style={{ width: `${(subjectXp[subject] / maxSubjectXp) * 100}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </aside>
+
+        <div className="space-y-8">
+          <section>
+            <div className="section-heading">
+              <div><p className="page-kicker">ACTIVE DUNGEONS</p><h2>我的副本</h2></div>
+              <Link href="/courses" className="font-mono text-[10px] font-bold text-gold">副本档案 →</Link>
+            </div>
+            {activeCourses.length === 0 ? (
+              <div className="hud-panel py-10 text-center text-sm text-muted">尚未部署任何副本远征。</div>
+            ) : (
+              <div className="dungeon-grid">
+                {activeCourses.map(({ course, status }) => {
+                  const item = course!;
+                  const watched = progress.watchedByCourse.get(item.id)?.size ?? 0;
+                  const percent = Math.round((watched / item.episodes.length) * 100);
+                  return (
+                    <Link key={item.id} href={`/courses/${item.id}`} className="dungeon-card">
+                      <div className="dungeon-card-topline"><span>{item.code}</span><StatusBadge status={status} /></div>
+                      <h3 className="dungeon-title">{item.title}</h3>
+                      <div className="mt-auto pt-5">
+                        <div className="mb-1.5 flex justify-between font-mono text-[9px] text-muted">
+                          <span>{watched} / {item.episodes.length} ENCOUNTERS</span><span>{percent}%</span>
+                        </div>
+                        <div className="progress-track"><div className={`progress-fill ${percent >= 100 ? "gold" : "hp"}`} style={{ width: `${percent}%` }} /></div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+
+          <section>
+            <div className="section-heading">
+              <div><p className="page-kicker">COMBAT LOG</p><h2>冒险日志</h2></div>
+            </div>
+            {xpLog.length === 0 ? (
+              <div className="hud-panel py-10 text-center text-sm text-muted">战斗日志尚无记录。</div>
+            ) : (
+              <ul className="quest-board">
+                {xpLog.map((entry, index) => (
+                  <li key={index} className="quest-row">
+                    <span className="quest-number">{String(index + 1).padStart(2, "0")}</span>
+                    <div className="min-w-0">
+                      <p className="font-bold">{entry.label}</p>
+                      <p className="font-mono text-[9px] text-muted">{entry.reason.toUpperCase()}</p>
+                    </div>
+                    <strong className="text-xp">+{entry.amount} XP</strong>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        </div>
       </div>
     </div>
   );
