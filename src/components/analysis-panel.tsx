@@ -11,15 +11,36 @@ function fmtTime(t: number): string {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
+function RichText({
+  text,
+  html,
+}: {
+  text: string;
+  html: Record<string, string>;
+}) {
+  const rendered = html[text];
+  return rendered ? (
+    <span
+      className="analysis-rich-text"
+      dangerouslySetInnerHTML={{ __html: rendered }}
+    />
+  ) : (
+    text
+  );
+}
+
 export function AnalysisPanel({
   analysis,
   episodes,
   formulaHtml,
+  richTextHtml,
 }: {
   analysis: CourseAnalysis;
   episodes: Episode[];
   /** 服务端用 KaTeX 预渲染好的公式：原始 LaTeX → HTML。渲染失败的不会进这张表 */
   formulaHtml: Record<string, string>;
+  /** Escaped prose with server-rendered inline KaTeX fragments. */
+  richTextHtml: Record<string, string>;
 }) {
   const [openEp, setOpenEp] = useState<number | null>(null);
   const bvidOf = (n: number) => episodes.find((e) => e.n === n)?.bvid;
@@ -39,13 +60,17 @@ export function AnalysisPanel({
 
       {analysis.overview && (
         <p className="border-b border-edge px-4 py-3 text-sm leading-relaxed text-muted">
-          {analysis.overview}
+          <RichText text={analysis.overview} html={richTextHtml} />
         </p>
       )}
 
       <ul className="divide-y divide-edge">
         {analysis.episodes.map((ep) => {
           const open = openEp === ep.n;
+          const preview =
+            ep.summary.length > 48
+              ? ep.summary.slice(0, 48) + "…"
+              : ep.summary;
           return (
             <li key={ep.n}>
               <button
@@ -54,15 +79,15 @@ export function AnalysisPanel({
               >
                 <span>
                   <span className="mr-2 text-muted">#{ep.n}</span>
-                  {ep.summary.length > 48
-                    ? ep.summary.slice(0, 48) + "…"
-                    : ep.summary}
+                  <RichText text={preview} html={richTextHtml} />
                 </span>
                 <span className="shrink-0 text-muted">{open ? "▾" : "▸"}</span>
               </button>
               {open && (
                 <div className="space-y-3 bg-background/40 px-4 py-3">
-                  <p className="text-sm leading-relaxed">{ep.summary}</p>
+                  <p className="text-sm leading-relaxed">
+                    <RichText text={ep.summary} html={richTextHtml} />
+                  </p>
                   {ep.keyPoints.length > 0 && (
                     <ul className="space-y-1.5">
                       {ep.keyPoints.map((kp, i) => (
@@ -85,14 +110,22 @@ export function AnalysisPanel({
                             <span className="shrink-0 text-gold">◆</span>
                           )}
                           <span className="min-w-0">
-                            <b>{kp.title}</b>
+                            <b>
+                              <RichText text={kp.title} html={richTextHtml} />
+                            </b>
                             {kp.detail && (
-                              <span className="text-muted"> — {kp.detail}</span>
+                              <span className="text-muted">
+                                {" — "}
+                                <RichText
+                                  text={kp.detail}
+                                  html={richTextHtml}
+                                />
+                              </span>
                             )}
                             {kp.formula && (
                               <span className="mt-1 flex items-center gap-2">
                                 {/* 公式可能比容器宽，单独给一层横向滚动，别把整页撑出横条 */}
-                                <span className="min-w-0 flex-1 overflow-x-auto py-0.5">
+                                <span className="min-w-0 flex-1 overflow-x-auto overflow-y-hidden py-0.5">
                                   {formulaHtml[kp.formula] ? (
                                     <span
                                       dangerouslySetInnerHTML={{

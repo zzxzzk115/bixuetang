@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getContent } from "@/lib/content/load";
+import { renderMathText } from "@/lib/math/render-math-text";
 
 export const metadata = { title: "术语对照表" };
 
@@ -134,9 +135,11 @@ export default async function GlossaryPage({
                       )}
                     </dt>
                     {e.definitions.map((d, i) => (
-                      <dd key={i} className="mt-1 text-sm text-muted">
-                        {d}
-                      </dd>
+                      <dd
+                        key={i}
+                        className="analysis-rich-text mt-1 text-sm text-muted"
+                        dangerouslySetInnerHTML={{ __html: renderMathText(d) }}
+                      />
                     ))}
                     <dd className="mt-1.5 flex flex-wrap gap-1.5">
                       {e.sources.map((s) => (

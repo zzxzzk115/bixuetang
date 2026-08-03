@@ -66,6 +66,29 @@ math-field {
   --placeholder-color: var(--muted);
 }
 
+/* Chinese prose and KaTeX share the same baseline in summaries and glossary entries. */
+.analysis-rich-text .analysis-inline-math {
+  display: inline;
+  white-space: nowrap;
+}
+
+.analysis-rich-text .analysis-inline-math .katex {
+  font-size: 1em;
+}
+
+.analysis-rich-text .analysis-display-math {
+  display: block;
+  max-width: 100%;
+  margin: 0.5rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.analysis-rich-text .katex-display {
+  margin: 0;
+  text-align: left;
+}
+
 /* XP 飘字动画 */
 @keyframes float-up {
   0% {

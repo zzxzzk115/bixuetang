@@ -4,6 +4,7 @@ import { AnalysisPanel } from "@/components/analysis-panel";
 import { LevelBadge, SubjectBadge } from "@/components/badges";
 import { EmbedPlayer } from "@/components/embed-player";
 import { renderLatex } from "@/lib/math/render-latex";
+import { renderMathText } from "@/lib/math/render-math-text";
 import { EpisodeList } from "@/components/episode-list";
 import { StatusButtons } from "@/components/status-buttons";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -56,8 +57,20 @@ export default async function CoursePage({
   // 公式在服务端排版好再传下去——KaTeX 因此不会进客户端包，
   // 课程页只需要多加载 KaTeX 的 CSS 与字体
   const formulaHtml: Record<string, string> = {};
+  const richTextHtml: Record<string, string> = {};
+  const addRichText = (text: string | undefined) => {
+    if (text && !richTextHtml[text]) richTextHtml[text] = renderMathText(text);
+  };
+  addRichText(course.description);
+  addRichText(analysis?.overview);
   for (const ep of analysis?.episodes ?? []) {
+    addRichText(ep.summary);
+    addRichText(
+      ep.summary.length > 48 ? ep.summary.slice(0, 48) + "…" : ep.summary,
+    );
     for (const kp of ep.keyPoints) {
+      addRichText(kp.title);
+      addRichText(kp.detail);
       if (!kp.formula || formulaHtml[kp.formula]) continue;
       const html = renderLatex(kp.formula);
       if (html) formulaHtml[kp.formula] = html;
@@ -87,7 +100,12 @@ export default async function CoursePage({
 
         {course.description && (
           <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-muted">
-            {course.description}
+            <span
+              className="analysis-rich-text"
+              dangerouslySetInnerHTML={{
+                __html: richTextHtml[course.description],
+              }}
+            />
           </p>
         )}
 
@@ -109,6 +127,7 @@ export default async function CoursePage({
             analysis={analysis}
             episodes={course.episodes}
             formulaHtml={formulaHtml}
+            richTextHtml={richTextHtml}
           />
         )}
       </div>
