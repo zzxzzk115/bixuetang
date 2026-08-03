@@ -4,7 +4,9 @@ import { Coins, Flame, LogOut, Settings, ShieldCheck } from "lucide-react";
 import "./globals.css";
 import { CelebrationLayer } from "@/components/celebration-layer";
 import { GuildNavigation } from "@/components/guild-navigation";
+import { GuildSigil } from "@/components/guild-sigil";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { UserAvatar } from "@/components/user-avatar";
 import { logout } from "@/lib/auth/actions";
 import { getCurrentUser } from "@/lib/auth/session";
 import { learningStreak } from "@/lib/game/achievements";
@@ -26,7 +28,7 @@ async function GuildShell({ children }: { children: React.ReactNode }) {
     <div className="guild-app">
       <header className="game-top-hud">
         <Link href="/" className="game-brand" aria-label="返回学者公会">
-          <span className="guild-sigil">G</span>
+          <GuildSigil size={34} className="guild-sigil" />
           <span className="game-brand-copy">
             <b>学者公会</b>
             <small>ACADEMIC ADVENTURE</small>
@@ -35,7 +37,11 @@ async function GuildShell({ children }: { children: React.ReactNode }) {
 
         {user && progress ? (
           <Link href="/me" className="game-player-hud">
-            <span className="game-avatar">{(user.displayName || user.username).slice(0, 1).toUpperCase()}</span>
+            <UserAvatar
+              userId={user.id}
+              avatar={user.avatar}
+              name={user.displayName || user.username}
+            />
             <span className="game-player-copy">
               <span><b>{user.displayName || user.username}</b><small>见习学者</small></span>
               <span className="game-xp-line">

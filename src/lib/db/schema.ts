@@ -14,6 +14,10 @@ export const users = sqliteTable("users", {
   username: text("username").notNull().unique(),
   passwordHash: text("password_hash").notNull(),
   displayName: text("display_name"),
+  // 头像：`preset:<id>` 指向内置像素头像，`upload:<版本号>` 指向 <数据目录>/avatars/<userId>.png。
+  // 版本号用于给 <img> 加 query 破缓存——文件名固定为 userId，换图后 URL 不变。
+  // 空值回退到用户名首字母色块。
+  avatar: text("avatar"),
   activeJobId: text("active_job_id"),
   createdAt: integer("created_at").notNull(),
 });

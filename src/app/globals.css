@@ -126,19 +126,13 @@ input {
   color: var(--foreground);
 }
 
+/* 徽记本身就是盾形像素画（见 src/lib/brand/sigil.ts），
+   不再需要外框与 clip-path 去伪造盾形 */
 .guild-sigil {
-  display: grid;
+  display: block;
+  flex-shrink: 0;
   width: 34px;
-  height: 38px;
-  place-items: center;
-  border: 1px solid var(--gold);
-  background: var(--panel);
-  color: var(--gold);
-  font-family: Georgia, serif;
-  font-size: 20px;
-  font-weight: 800;
-  box-shadow: inset 0 0 0 3px var(--background);
-  clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+  height: 34px;
 }
 
 .guild-wordmark {
@@ -1234,7 +1228,7 @@ math-field {
   .guild-workspace{margin-left:0}
   .guild-topbar{height:54px;padding:0 12px}
   .guild-mobile-brand{display:flex;align-items:center;gap:8px;font-family:"Songti SC",SimSun,serif}
-  .guild-mobile-brand .guild-sigil{width:28px;height:28px;font-size:15px}
+  .guild-mobile-brand .guild-sigil{width:28px;height:28px}
   .guild-signal,.guild-streak,.guild-top-account .guild-level span{display:none}
   .guild-stage{padding:18px 12px 82px}
   .guild-mobile-nav{position:fixed;right:0;bottom:0;left:0;z-index:60;display:grid;height:62px;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--edge);background:color-mix(in srgb,var(--panel-strong) 96%,transparent);backdrop-filter:blur(12px)}
@@ -1348,12 +1342,13 @@ math-field {
 .game-top-hud{position:fixed;z-index:80;top:0;right:0;left:0;display:grid;height:70px;grid-template-columns:minmax(230px,1fr) minmax(320px,560px) minmax(230px,1fr);align-items:center;border-bottom:1px solid rgba(214,189,130,.38);background:linear-gradient(180deg,rgba(8,11,9,.97),rgba(12,16,14,.9));color:#e8e2d2;box-shadow:0 14px 32px rgba(0,0,0,.38);backdrop-filter:blur(14px)}
 .game-top-hud::after{position:absolute;right:0;bottom:-3px;left:0;height:3px;background:linear-gradient(90deg,transparent 4%,rgba(212,166,77,.7) 30%,rgba(93,186,139,.55) 50%,rgba(212,166,77,.7) 70%,transparent 96%);content:"";opacity:.6}
 .game-brand{display:flex;height:100%;align-items:center;gap:11px;padding-left:20px;color:#e8e2d2}
-.game-brand .guild-sigil{border-color:#c8973f;background:#171b18;color:#e2b55d;box-shadow:inset 0 0 0 3px #090c0a,0 0 18px rgba(212,166,77,.18)}
 .game-brand-copy{display:flex;flex-direction:column}
 .game-brand-copy b{font-family:"Songti SC",SimSun,serif;font-size:17px}
 .game-brand-copy small{margin-top:2px;color:#8f998f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:7px;letter-spacing:.16em}
 .game-player-hud{justify-self:center;display:grid;width:min(100%,520px);height:54px;grid-template-columns:48px minmax(0,1fr);align-items:center;color:#e8e2d2}
 .game-avatar{position:relative;z-index:1;display:grid;width:46px;height:50px;place-items:center;border:1px solid #b98c3d;background:#141915;color:#d9aa51;font-family:Georgia,serif;font-size:20px;clip-path:polygon(50% 0,92% 18%,92% 70%,50% 100%,8% 70%,8% 18%)}
+/* 图片头像沿用同一块盾形裁切，但要填满而不是文字居中 */
+.game-avatar-img{display:block;padding:0;object-fit:cover}
 .game-player-copy{display:grid;min-width:0;padding-left:11px}
 .game-player-copy>span:first-child{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .game-player-copy b{overflow:hidden;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
@@ -1465,7 +1460,7 @@ body:has(.guild-hall-scene)::before{display:none}
   .game-top-hud{height:58px;grid-template-columns:auto minmax(0,1fr) auto}
   .game-brand{padding-left:10px}
   .game-brand-copy{display:none}
-  .game-brand .guild-sigil{width:30px;height:34px;font-size:16px}
+  .game-brand .guild-sigil{width:30px;height:30px}
   .game-player-hud{width:100%;height:46px;grid-template-columns:38px minmax(0,1fr);padding:0 8px}
   .game-avatar{width:36px;height:40px;font-size:15px}
   .game-player-copy{padding-left:7px}
@@ -2458,7 +2453,6 @@ body:has(.dungeon-chamber) .analysis-section {
 }
 :root[data-theme="light"] .game-brand,
 :root[data-theme="light"] .game-player-hud { color: var(--foreground); }
-:root[data-theme="light"] .game-brand .guild-sigil,
 :root[data-theme="light"] .game-avatar {
   border-color: var(--gold);
   background: var(--panel-strong);
