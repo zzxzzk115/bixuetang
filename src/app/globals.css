@@ -2499,14 +2499,18 @@ body:has(.dungeon-chamber) .analysis-section {
 :root[data-theme="light"] .game-command-key { color: var(--edge-strong); }
 
 /* Campaign hall */
-:root[data-theme="light"] .guild-hall-scene { background-color: #dfe4dc; color: var(--foreground); }
+:root[data-theme="light"] .guild-hall-scene {
+  background-color: #e7e3d8;
+  background-image: url("/assets/guild-campaign-map-light.jpg");
+  color: var(--foreground);
+}
 :root[data-theme="light"] .guild-hall-scene::before {
   background:
-    radial-gradient(circle at 50% 43%, rgba(247,246,239,.2), rgba(233,235,230,.62) 52%, rgba(223,228,220,.9) 100%),
-    linear-gradient(180deg, rgba(247,246,239,.66), rgba(233,235,230,.42) 38%, rgba(223,228,220,.88));
+    radial-gradient(circle at 50% 43%, transparent 0, rgba(25,33,29,.04) 58%, rgba(25,33,29,.18) 100%),
+    linear-gradient(180deg, rgba(247,246,239,.08), transparent 36%, rgba(25,33,29,.08));
 }
 :root[data-theme="light"] .scene-atmosphere {
-  background: linear-gradient(90deg, rgba(233,235,230,.66), transparent 30%, transparent 70%, rgba(233,235,230,.66));
+  background: linear-gradient(90deg, rgba(25,33,29,.1), transparent 24%, transparent 76%, rgba(25,33,29,.1));
 }
 :root[data-theme="light"] .scene-identity h1 {
   color: var(--foreground);
@@ -2555,8 +2559,8 @@ body:has(.dungeon-chamber) .analysis-section {
 :root[data-theme="light"] body:has(.dungeon-grid) .page-intro,
 :root[data-theme="light"] .tower-run-header {
   border-color: var(--edge);
-  background: linear-gradient(90deg, rgba(247,246,239,.94), rgba(233,235,230,.84)),
-    url("/assets/guild-campaign-map.jpg") center / cover;
+  background: linear-gradient(90deg, rgba(247,246,239,.9), rgba(247,246,239,.58)),
+    url("/assets/guild-campaign-map-light.jpg") center / cover;
   color: var(--foreground);
 }
 :root[data-theme="light"] .world-map-head .page-title,
@@ -2635,7 +2639,8 @@ body:has(.dungeon-chamber) .analysis-section {
 :root[data-theme="light"] .tower-run-status small { color: var(--muted); }
 :root[data-theme="light"] .tower-viewport {
   border-color: var(--edge);
-  background-color: #dfe5dc;
+  background-color: #e7e3d8;
+  background-image: url("/assets/guild-campaign-map-light.jpg");
   color: var(--foreground);
   scrollbar-color: var(--gold-soft) var(--panel-strong);
 }
@@ -2659,8 +2664,8 @@ body:has(.dungeon-chamber) .analysis-section {
 /* Course dungeon shell */
 :root[data-theme="light"] body:has(.dungeon-chamber) { background: var(--background); }
 :root[data-theme="light"] body:has(.dungeon-chamber)::before {
-  background: linear-gradient(rgba(233,235,230,.92), rgba(233,235,230,.97)),
-    url("/assets/guild-campaign-map.jpg") center / cover;
+  background: linear-gradient(rgba(233,235,230,.8), rgba(233,235,230,.9)),
+    url("/assets/guild-campaign-map-light.jpg") center / cover;
 }
 :root[data-theme="light"] body:has(.dungeon-chamber) .guild-stage {
   background: transparent;
