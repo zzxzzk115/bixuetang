@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState, useTransition } from "react";
 import { celebrate } from "@/lib/celebrate";
@@ -97,7 +97,7 @@ export function EpisodeList({ courseId, episodes, watched, loggedIn }: {
       </div>
 
       <div className="mb-4">
-        <div className="mb-1.5 flex justify-between font-mono text-[10px] font-bold text-muted">
+        <div className="mb-1.5 flex justify-between font-mono text-[12px] font-bold text-muted">
           <span>攻略完成度 {done} / {total}</span>
           <span>{percent}%</span>
         </div>
@@ -114,7 +114,7 @@ export function EpisodeList({ courseId, episodes, watched, loggedIn }: {
         {!loggedIn && <a href="/login" className="command-button secondary ml-auto">登录后记录战果</a>}
       </div>
 
-      {needle && <p className="mb-2 font-mono text-[10px] text-muted">QUERY RESULT // {filtered.length} ENCOUNTERS</p>}
+      {needle && <p className="mb-2 font-mono text-[12px] text-muted">QUERY RESULT // {filtered.length} ENCOUNTERS</p>}
 
       <ol className="encounter-list">
         {visible.map((episode) => {
@@ -137,7 +137,7 @@ export function EpisodeList({ courseId, episodes, watched, loggedIn }: {
       </ol>
 
       {collapsible && (
-        <button onClick={() => setExpanded(!expanded)} className="mt-2 w-full border border-dashed border-edge py-2 font-mono text-[10px] font-bold text-muted hover:border-gold hover:text-gold">
+        <button onClick={() => setExpanded(!expanded)} className="mt-2 w-full border border-dashed border-edge py-2 font-mono text-[12px] font-bold text-muted hover:border-gold hover:text-gold">
           {expanded ? "收起遭遇清单" : `展开其余 ${filtered.length - collapsedLimit} 场遭遇`}
         </button>
       )}

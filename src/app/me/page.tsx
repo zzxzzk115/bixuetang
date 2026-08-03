@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Award, Coins, Crosshair, Eye, Flame, Shield, Sparkles, Timer } from "lucide-react";
 import { StatusBadge, SubjectIcon } from "@/components/badges";
 import { XpBar } from "@/components/xp-bar";
@@ -115,7 +115,7 @@ export default async function MePage() {
                 </span>
               ))}
             </div>
-            <Link href="/jobs" className="mt-4 inline-block font-mono text-[10px] font-bold text-gold">前往转职殿堂 →</Link>
+            <Link href="/jobs" className="mt-4 inline-block font-mono text-[12px] font-bold text-gold">前往转职殿堂 →</Link>
           </section>
 
           <section className="hud-panel p-5">
@@ -142,7 +142,7 @@ export default async function MePage() {
           <section>
             <div className="section-heading">
               <div><p className="page-kicker">ACTIVE DUNGEONS</p><h2>我的副本</h2></div>
-              <Link href="/courses" className="font-mono text-[10px] font-bold text-gold">副本档案 →</Link>
+              <Link href="/courses" className="font-mono text-[12px] font-bold text-gold">副本档案 →</Link>
             </div>
             {activeCourses.length === 0 ? (
               <div className="hud-panel py-10 text-center text-sm text-muted">尚未部署任何副本远征。</div>
@@ -157,7 +157,7 @@ export default async function MePage() {
                       <div className="dungeon-card-topline"><span>{item.code}</span><StatusBadge status={status} /></div>
                       <h3 className="dungeon-title">{item.title}</h3>
                       <div className="mt-auto pt-5">
-                        <div className="mb-1.5 flex justify-between font-mono text-[9px] text-muted">
+                        <div className="mb-1.5 flex justify-between font-mono text-[11px] text-muted">
                           <span>{watched} / {item.episodes.length} ENCOUNTERS</span><span>{percent}%</span>
                         </div>
                         <div className="progress-track"><div className={`progress-fill ${percent >= 100 ? "gold" : "hp"}`} style={{ width: `${percent}%` }} /></div>
@@ -197,7 +197,7 @@ export default async function MePage() {
                     <span className="quest-number">{String(index + 1).padStart(2, "0")}</span>
                     <div className="min-w-0">
                       <p className="font-bold">{entry.label}</p>
-                      <p className="font-mono text-[9px] text-muted">{entry.reason.toUpperCase()}</p>
+                      <p className="font-mono text-[11px] text-muted">{entry.reason.toUpperCase()}</p>
                     </div>
                     <strong className="text-xp">+{entry.amount} XP</strong>
                   </li>

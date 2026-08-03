@@ -15,6 +15,7 @@
     "fetch:subtitles": "tsx scripts/fetch-subtitles.ts",
     "merge:analysis": "tsx scripts/merge-analysis-parts.ts",
     "brand:gen": "tsx scripts/gen-brand.ts",
+    "font:gen": "node scripts/gen-pixel-font.mjs",
     "migrate": "tsx scripts/migrate.ts",
     "db:generate": "drizzle-kit generate"
   },

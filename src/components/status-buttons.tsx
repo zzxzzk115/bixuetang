@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useTransition } from "react";
 import type { CourseStatus } from "@/lib/db/schema";
@@ -28,7 +28,7 @@ export function StatusButtons({ courseId, current, loggedIn }: {
               if (!result.ok) setStatus(current);
             });
           }}
-          className={`border px-2.5 py-1 font-mono text-[10px] font-bold uppercase transition-colors ${
+          className={`border px-2.5 py-1 font-mono text-[12px] font-bold uppercase transition-colors ${
             status === item
               ? "border-gold bg-panel-strong text-gold"
               : "border-transparent bg-transparent text-muted hover:border-edge hover:text-foreground"

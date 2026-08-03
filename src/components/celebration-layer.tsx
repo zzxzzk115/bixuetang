@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CELEBRATE_EVENT, type Celebration, type CelebrationKind } from "@/lib/celebrate";
@@ -43,7 +43,7 @@ export function CelebrationLayer() {
       <div key={current.title + current.subtitle} className="celebration-panel animate-celebrate">
         <div className="celebration-mark" aria-hidden="true">{meta.mark}</div>
         <div className="min-w-0">
-          <div className="font-mono text-[10px] font-bold tracking-[0.18em] text-gold">{meta.code}</div>
+          <div className="font-mono text-[12px] font-bold tracking-[0.18em] text-gold">{meta.code}</div>
           <div className="mt-1 text-[11px] font-bold text-muted">{meta.label}</div>
           <div className="mt-3 text-2xl font-black text-foreground">{current.title}</div>
           {current.subtitle && <div className="mt-1.5 text-sm text-muted">{current.subtitle}</div>}

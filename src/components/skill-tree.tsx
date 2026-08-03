@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useCallback, useRef, useState, useTransition } from "react";
@@ -114,7 +114,7 @@ export function SkillTree({
           <button
             key={z}
             onClick={() => setZoom(z)}
-            className={`border px-2 py-0.5 font-mono text-[10px] transition-colors ${
+            className={`border px-2 py-0.5 font-mono text-[12px] transition-colors ${
               zoom === z
                 ? "border-gold text-gold"
                 : "border-edge text-muted hover:border-gold hover:text-gold"
@@ -125,7 +125,7 @@ export function SkillTree({
         ))}
         <button
           onClick={recenter}
-          className="ml-1 border border-edge px-2 py-0.5 font-mono text-[10px] text-muted hover:border-gold hover:text-gold"
+          className="ml-1 border border-edge px-2 py-0.5 font-mono text-[12px] text-muted hover:border-gold hover:text-gold"
         >
           回到中心
         </button>
@@ -281,7 +281,7 @@ export function SkillTree({
                     {node.title}
                   </span>
                 </div>
-                <div className="truncate text-[10px] text-muted">
+                <div className="truncate text-[12px] text-muted">
                   T{node.tier} ·{" "}
                   {view.state === "lit"
                     ? "已点亮"

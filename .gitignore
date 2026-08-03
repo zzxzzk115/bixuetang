@@ -48,3 +48,6 @@ next-env.d.ts
 
 # 鎶撳彇鐨勫瓧骞曠瓑涓棿浜х墿锛堜綋绉ぇ涓斿睘浜庡钩鍙板唴瀹癸紝鍙仛鏈湴鍒嗘瀽鐢級
 /scratch/
+
+# 字体子集化的原始素材缓存（3.6 MB，由 scripts/gen-pixel-font.mjs 按需下载）
+/.cache/

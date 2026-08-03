@@ -1,4 +1,4 @@
-import type { LevelProgress } from "@/lib/game/level";
+﻿import type { LevelProgress } from "@/lib/game/level";
 
 export function XpBar({
   level,
@@ -10,7 +10,7 @@ export function XpBar({
   const pct = Math.round(level.ratio * 100);
   return (
     <div className={compact ? "w-36" : "w-full"}>
-      <div className="flex items-baseline justify-between font-mono text-[10px] text-muted">
+      <div className="flex items-baseline justify-between font-mono text-[12px] text-muted">
         <span className="font-bold text-gold">LEVEL {level.level}</span>
         {!compact && (
           <span>

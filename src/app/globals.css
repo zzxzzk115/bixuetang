@@ -3,6 +3,22 @@
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+/* 方舟像素字体子集（OFL-1.1，见 public/fonts/README.md）。
+   只给游戏化的界面零件用——HUD、徽章、画布文字；正文仍走系统字体，
+   像素字体读长段中文太累。
+   字号必须是 12 的整数倍，否则像素会被重采样、重新变糊。 */
+@font-face {
+  font-family: "ArkPixel";
+  src: url("/fonts/ark-pixel-12px-subset.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-pixel: "ArkPixel", ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
 :root {
   color-scheme: light;
   --background: #e9ebe6;
@@ -147,7 +163,7 @@ input {
   margin-top: 1px;
   color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 0.12em;
 }
 
@@ -233,7 +249,7 @@ input {
   background: color-mix(in srgb, var(--background) 92%, transparent);
   color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .guild-footer-inner {
@@ -309,7 +325,7 @@ input {
   margin-bottom: 5px;
   color: var(--copper);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -499,7 +515,7 @@ input {
 .branch-code {
   color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.12em;
 }
 
@@ -552,7 +568,7 @@ input {
 .quest-meta {
   color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .quest-arrow {
@@ -645,7 +661,7 @@ input {
 .dungeon-code {
   color: var(--copper);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.08em;
 }
 
@@ -744,7 +760,7 @@ input {
 .job-status {
   color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 0.12em;
 }
 
@@ -1076,9 +1092,9 @@ math-field {
 .encounter-row.cleared{background:color-mix(in srgb,var(--xp) 7%,var(--panel))}
 .encounter-check{display:grid;width:25px;height:25px;flex:0 0 25px;place-items:center;border:1px solid var(--edge-strong);color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:900}
 .encounter-check:disabled{opacity:.45}
-.encounter-code{display:block;color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;font-weight:700;letter-spacing:.08em}
+.encounter-code{display:block;color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:700;letter-spacing:.08em}
 .encounter-title{display:block;overflow:hidden;margin-top:2px;color:var(--foreground);font-size:13px;text-overflow:ellipsis;white-space:nowrap}
-.encounter-state{min-width:38px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;font-weight:800;text-align:right}
+.encounter-state{min-width:38px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:800;text-align:right}
 .celebration-panel{display:grid;width:min(520px,100%);grid-template-columns:86px minmax(0,1fr);align-items:center;gap:22px;padding:28px;border:1px solid var(--gold);background:var(--background);box-shadow:0 0 0 5px color-mix(in srgb,var(--background) 82%,transparent),0 0 64px color-mix(in srgb,var(--gold) 40%,transparent);clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
 .celebration-mark{display:grid;width:76px;height:76px;place-items:center;border:1px solid var(--gold);color:var(--gold);font-family:Georgia,serif;font-size:36px;font-weight:900;transform:rotate(45deg)}
 .celebration-mark{line-height:1}
@@ -1088,7 +1104,7 @@ math-field {
 .glossary-en{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:14px;font-weight:800;overflow-wrap:anywhere}
 .glossary-zh{padding-top:8px;border-top:1px solid var(--edge-strong);color:var(--foreground);font-family:"Songti SC",SimSun,serif;font-size:14px;font-weight:800}
 .glossary-body{min-width:0;padding:16px 18px}
-.archive-source{border:1px solid var(--edge);padding:3px 6px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}
+.archive-source{border:1px solid var(--edge);padding:3px 6px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .archive-source:hover{border-color:var(--gold);color:var(--gold)}
 @media(max-width:680px){.celebration-panel{grid-template-columns:58px minmax(0,1fr);gap:16px;padding:22px 18px}.celebration-mark{width:52px;height:52px;font-size:25px}.glossary-entry{grid-template-columns:1fr}.glossary-term{border-right:0;border-bottom:1px solid var(--edge)}.encounter-state{display:none}}
 
@@ -1099,20 +1115,20 @@ math-field {
 .skill-viewport .skill-hub{background:#17140e}
 
 .player-toolbar{display:flex;min-height:36px;align-items:end;gap:8px;border-bottom:1px solid var(--edge);background:#050706}
-.player-source{max-width:240px;overflow:hidden;border:1px solid transparent;border-bottom:0;padding:7px 11px;color:#858d85;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.player-source{max-width:240px;overflow:hidden;border:1px solid transparent;border-bottom:0;padding:7px 11px;color:#858d85;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px;text-overflow:ellipsis;white-space:nowrap}
 .player-source:hover{color:#e8e5dc}
 .player-source.active{border-color:var(--edge-strong);background:#111512;color:var(--gold)}
-.player-tool{border:1px solid #4a534b;padding:4px 8px;color:#a5ada6;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;font-weight:700}
+.player-tool{border:1px solid #4a534b;padding:4px 8px;color:#a5ada6;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:700}
 .player-tool:hover,.player-tool.active{border-color:var(--gold);color:var(--gold)}
 .profile-layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:24px}
 .profile-sigil{display:grid;width:62px;height:62px;flex:0 0 62px;place-items:center;border:1px solid var(--gold);background:var(--panel-strong);color:var(--gold);font-family:Georgia,serif;font-size:25px;font-weight:900;clip-path:polygon(50% 0,92% 18%,92% 68%,50% 100%,8% 68%,8% 18%)}
 .profile-stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:16px;border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
 .profile-stats>div{display:flex;flex-direction:column;padding:12px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge)}
 .profile-stats strong{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:16px}
-.profile-stats span{color:var(--muted);font-size:10px}
+.profile-stats span{color:var(--muted);font-size:13px}
 .section-heading.compact{margin-bottom:12px}
 .section-heading.compact h2{font-size:15px}
-.job-crest{border:1px solid var(--edge);padding:5px 7px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}
+.job-crest{border:1px solid var(--edge);padding:5px 7px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .job-crest.active{border-color:var(--gold);background:var(--panel-strong);color:var(--gold)}
 @media(max-width:900px){.profile-layout{grid-template-columns:1fr}.profile-layout>aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.profile-layout>aside section:first-child{grid-column:1/-1}}
 @media(max-width:680px){.player-toolbar{align-items:center;flex-wrap:wrap;padding-bottom:5px}.player-toolbar>div:last-child{margin-left:0;padding:0 5px}.profile-layout>aside{display:block}.profile-layout>aside section{margin-bottom:12px}}
@@ -1123,7 +1139,7 @@ math-field {
 .guild-rail{position:fixed;inset:0 auto 0 0;z-index:40;display:flex;width:188px;flex-direction:column;border-right:1px solid var(--edge);background:color-mix(in srgb,var(--panel-strong) 96%,transparent);box-shadow:8px 0 24px var(--shadow)}
 .guild-rail-brand{display:flex;height:74px;align-items:center;gap:11px;padding:0 17px;border-bottom:1px solid var(--edge)}
 .guild-rail-wordmark{display:flex;flex-direction:column;color:var(--foreground);font-family:"Songti SC",SimSun,serif;font-size:16px;font-weight:900}
-.guild-rail-wordmark small{margin-top:3px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;font-weight:600;letter-spacing:.12em}
+.guild-rail-wordmark small{margin-top:3px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:600;letter-spacing:.12em}
 .guild-rail-links{display:flex;flex:1;flex-direction:column;gap:3px;padding:18px 10px}
 .guild-rail-link{position:relative;display:flex;height:42px;align-items:center;gap:11px;padding:0 11px;border:1px solid transparent;color:var(--muted);font-size:12px;font-weight:700;transition:150ms ease}
 .guild-rail-link::before{position:absolute;top:9px;bottom:9px;left:-11px;width:3px;background:transparent;content:""}
@@ -1134,27 +1150,27 @@ math-field {
 .guild-workspace{min-height:100vh;margin-left:188px}
 .guild-topbar{position:sticky;top:0;z-index:35;display:flex;height:58px;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--edge);background:color-mix(in srgb,var(--background) 94%,transparent);backdrop-filter:blur(12px)}
 .guild-mobile-brand{display:none}
-.guild-signal{display:flex;align-items:center;gap:7px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;letter-spacing:.1em}
+.guild-signal{display:flex;align-items:center;gap:7px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;letter-spacing:.1em}
 .guild-signal b{color:var(--xp)}
 .signal-dot{width:6px;height:6px;background:var(--xp);box-shadow:0 0 9px color-mix(in srgb,var(--xp) 60%,transparent)}
 .guild-top-account{display:flex;align-items:center;gap:9px}
-.guild-streak{display:inline-flex;align-items:center;gap:4px;border-right:1px solid var(--edge);padding-right:11px;color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;font-weight:800}
+.guild-streak{display:inline-flex;align-items:center;gap:4px;border-right:1px solid var(--edge);padding-right:11px;color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:800}
 .guild-level{display:flex;align-items:center;gap:7px;color:var(--foreground);font-size:11px}
-.guild-level strong{border:1px solid var(--gold);padding:4px 6px;color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}
+.guild-level strong{border:1px solid var(--gold);padding:4px 6px;color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .guild-stage-grid{display:grid;min-height:calc(100vh - 94px)}
 .guild-stage{min-width:0;padding:28px clamp(18px,3vw,44px) 56px}
 .guild-stage-grid.with-tracker{grid-template-columns:minmax(0,1fr)}
 .guild-quest-tracker{display:none}
-.guild-footer{display:flex;min-height:36px;align-items:center;justify-content:space-between;padding:0 24px;border-top:1px solid var(--edge);color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.guild-footer{display:flex;min-height:36px;align-items:center;justify-content:space-between;padding:0 24px;border-top:1px solid var(--edge);color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .guild-mobile-nav{display:none}
 
 @media(min-width:1480px){
   .guild-stage-grid.with-tracker{grid-template-columns:minmax(0,1fr) 292px}
   .guild-quest-tracker{position:sticky;top:58px;display:block;height:calc(100vh - 58px);overflow-y:auto;border-left:1px solid var(--edge);background:var(--panel);padding:22px 16px}
   .tracker-heading{display:flex;flex-direction:column;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--edge)}
-  .tracker-heading span{color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;letter-spacing:.12em}
+  .tracker-heading span{color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;letter-spacing:.12em}
   .tracker-heading b{margin-top:3px;font-family:"Songti SC",SimSun,serif;font-size:15px}
-  .tracker-link{display:block;margin-top:12px;color:var(--gold);font-size:10px}
+  .tracker-link{display:block;margin-top:12px;color:var(--gold);font-size:13px}
 }
 
 /* Daily quest system */
@@ -1164,22 +1180,22 @@ math-field {
 .daily-quest-icon{display:grid;width:30px;height:30px;flex:0 0 30px;place-items:center;border:1px solid var(--edge-strong);color:var(--copper)}
 .daily-quest.complete .daily-quest-icon{border-color:var(--gold);color:var(--gold)}
 .daily-quest h3{font-size:12px;font-weight:800}
-.daily-quest p{margin-top:3px;color:var(--muted);font-size:10px;line-height:1.45}
-.quest-reward{flex:0 0 auto;color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;font-weight:800}
-.quest-count{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
-.quest-course{display:block;margin-top:6px;color:var(--gold);font-size:9px}
+.daily-quest p{margin-top:3px;color:var(--muted);font-size:13px;line-height:1.45}
+.quest-reward{flex:0 0 auto;color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:800}
+.quest-count{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
+.quest-course{display:block;margin-top:6px;color:var(--gold);font-size:12px}
 .quest-claim{display:grid;width:30px;height:30px;flex:0 0 30px;place-items:center;border:1px solid var(--gold);color:var(--gold)}
 .quest-claim:hover{background:var(--gold);color:var(--background)}
 .daily-quests.compact .daily-quest{padding:10px 8px}
 .daily-quests.compact .daily-quest-icon{width:26px;height:26px;flex-basis:26px}
-.daily-quests.compact .daily-quest h3{font-size:10px}
+.daily-quests.compact .daily-quest h3{font-size:13px}
 
 /* Dedicated workshop facilities */
 .facility-hero{display:flex;min-height:190px;align-items:flex-end;justify-content:space-between;gap:24px;padding:32px;border:1px solid var(--edge);background:var(--panel-strong);box-shadow:inset 4px 0 0 var(--copper)}
 .facility-hero-status{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
-.facility-hero-status span{display:flex;min-width:120px;flex-direction:column;padding:13px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.facility-hero-status span{display:flex;min-width:120px;flex-direction:column;padding:13px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .facility-hero-status b{color:var(--gold);font-size:17px}
-.section-status{color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;letter-spacing:.1em}
+.section-status{color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;letter-spacing:.1em}
 .facility-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .facility-card{position:relative;display:flex;min-height:290px;flex-direction:column;border:1px solid var(--edge);background:var(--panel);transition:160ms ease}
 .facility-card::before{position:absolute;inset:0 auto 0 0;width:3px;background:var(--edge-strong);content:""}
@@ -1187,15 +1203,15 @@ math-field {
 .facility-card[data-facility="math"]::before{background:var(--mana)}
 .facility-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 16px 28px var(--shadow)}
 .facility-card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 17px;border-bottom:1px solid var(--edge)}
-.facility-code,.facility-status{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;font-weight:800;letter-spacing:.1em}
+.facility-code,.facility-status{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:800;letter-spacing:.1em}
 .facility-code{color:var(--copper)}
 .facility-status{color:var(--xp)}
 .facility-card-body{display:grid;grid-template-columns:54px minmax(0,1fr);gap:15px;padding:22px 18px}
 .facility-icon{display:grid;width:52px;height:52px;place-items:center;border:1px solid var(--edge-strong);background:var(--background);color:var(--gold)}
 .facility-card h2{font-family:"Songti SC",SimSun,serif;font-size:20px;font-weight:900}
 .facility-card-body p{margin-top:7px;color:var(--muted);font-size:12px;line-height:1.7}
-.facility-progress{margin-top:auto;padding:0 18px 18px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
-.facility-card-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--edge);color:var(--muted);font-size:10px}
+.facility-progress{margin-top:auto;padding:0 18px 18px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
+.facility-card-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--edge);color:var(--muted);font-size:13px}
 .facility-card-foot strong{display:inline-flex;align-items:center;gap:5px;color:var(--gold)}
 .workshop-protocol{display:grid;grid-template-columns:220px minmax(0,1fr);gap:28px;padding:24px 0;border-top:1px solid var(--edge);border-bottom:1px solid var(--edge)}
 .workshop-protocol h2{font-family:"Songti SC",SimSun,serif;font-size:20px}
@@ -1206,21 +1222,21 @@ math-field {
 /* Focus session console */
 .session-console{border:1px solid var(--edge-strong);background:var(--panel);box-shadow:inset 3px 0 0 var(--mana)}
 .session-console-head{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-bottom:1px solid var(--edge)}
-.session-console-head span{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:10px;font-weight:800}
-.session-console-head b{color:var(--mana);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}
+.session-console-head span{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:800}
+.session-console-head b{color:var(--mana);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .session-episode{overflow:hidden;padding:11px 13px 0;color:var(--foreground);font-size:11px;text-overflow:ellipsis;white-space:nowrap}
 
 .session-clock{padding:15px 13px 10px;color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:36px;font-weight:300;letter-spacing:.05em}
 .session-controls{display:flex;gap:6px;padding:0 13px 13px}
-.session-primary,.session-icon{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--edge-strong);padding:7px 10px;color:var(--foreground);font-size:10px;font-weight:800}
+.session-primary,.session-icon{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--edge-strong);padding:7px 10px;color:var(--foreground);font-size:13px;font-weight:800}
 .session-primary{flex:1}
 .session-primary:hover,.session-icon:hover{border-color:var(--gold);color:var(--gold)}
 .session-summary{display:block;padding:13px;border-top:1px solid var(--edge)}
-.session-summary>span{display:flex;align-items:center;gap:5px;margin-bottom:7px;color:var(--muted);font-size:9px;font-weight:800}
+.session-summary>span{display:flex;align-items:center;gap:5px;margin-bottom:7px;color:var(--muted);font-size:12px;font-weight:800}
 .session-summary textarea{width:100%;resize:vertical;border:1px solid var(--edge);background:var(--background);padding:8px;color:var(--foreground);font-size:11px;line-height:1.5;outline:none}
 .session-summary textarea:focus{border-color:var(--mana)}
 .session-console>.command-button{margin:0 13px 13px;width:calc(100% - 26px)}
-.session-message{padding:0 13px 12px;color:var(--mana);font-size:9px}
+.session-message{padding:0 13px 12px;color:var(--mana);font-size:12px}
 
 @media(max-width:920px){
   .guild-rail{display:block;position:static;width:0;height:0;border:0;box-shadow:none}
@@ -1232,7 +1248,7 @@ math-field {
   .guild-signal,.guild-streak,.guild-top-account .guild-level span{display:none}
   .guild-stage{padding:18px 12px 82px}
   .guild-mobile-nav{position:fixed;right:0;bottom:0;left:0;z-index:60;display:grid;height:62px;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--edge);background:color-mix(in srgb,var(--panel-strong) 96%,transparent);backdrop-filter:blur(12px)}
-  .guild-mobile-nav a{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;color:var(--muted);font-size:8px}
+  .guild-mobile-nav a{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;color:var(--muted);font-size:12px}
   .guild-mobile-nav a.active{color:var(--gold)}
   .guild-footer{display:none}
   .facility-hero{min-height:0;align-items:flex-start;flex-direction:column;padding:22px}
@@ -1244,7 +1260,7 @@ math-field {
 
 @media(max-width:520px){
   .guild-top-account .command-button.secondary{display:none}
-  .guild-top-account .command-button{padding:7px 9px;font-size:9px}
+  .guild-top-account .command-button{padding:7px 9px;font-size:12px}
   .facility-hero-status{width:100%}
   .facility-hero-status span{min-width:0}
   .facility-card{min-height:270px}
@@ -1254,43 +1270,43 @@ math-field {
 
 .hall-header{display:flex;min-height:132px;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:24px;border-bottom:1px solid var(--edge)}
 .hall-level{display:flex;align-items:flex-end;gap:12px}
-.hall-level span{width:72px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;line-height:1.4}
+.hall-level span{width:72px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.4}
 .hall-level strong{color:var(--gold);font-family:Georgia,serif;font-size:52px;line-height:.85}
 .hall-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.65fr);gap:14px}
 .current-expedition,.character-brief{border:1px solid var(--edge);background:var(--panel)}
 .current-expedition{position:relative;display:flex;min-height:326px;flex-direction:column;box-shadow:inset 4px 0 0 var(--hp)}
 .current-expedition-head,.character-brief-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--edge)}
 .current-expedition-head>div>span{font-family:"Songti SC",SimSun,serif;font-size:16px;font-weight:900}
-.current-expedition-head>a{display:flex;align-items:center;gap:5px;color:var(--gold);font-size:9px}
+.current-expedition-head>a{display:flex;align-items:center;gap:5px;color:var(--gold);font-size:12px}
 .expedition-core{display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;gap:18px;padding:28px 22px}
 .expedition-emblem{display:grid;width:70px;height:70px;place-items:center;border:1px solid var(--hp);background:var(--background);color:var(--hp);clip-path:polygon(50% 0,100% 22%,88% 78%,50% 100%,12% 78%,0 22%)}
 .expedition-core h2{margin-top:5px;font-family:"Songti SC",SimSun,serif;font-size:25px;font-weight:900}
 .expedition-core p{margin-top:6px;color:var(--muted);font-size:11px}
-.expedition-progress{margin-top:auto;padding:0 22px 18px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}
+.expedition-progress{margin-top:auto;padding:0 22px 18px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .expedition-progress b{color:var(--foreground)}
 .expedition-deploy{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-top:1px solid var(--edge);color:var(--gold);font-size:11px;font-weight:900}
 .expedition-deploy:hover{background:var(--panel-hover)}
 .empty-expedition{display:flex;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--muted)}
 .character-brief{padding-bottom:17px;box-shadow:inset 0 3px 0 var(--gold)}
-.character-brief-head{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.character-brief-head{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .character-brief-head a{color:var(--gold)}
 .character-rank{display:flex;align-items:center;gap:13px;padding:20px 17px}
 .character-rank>span{display:grid;width:54px;height:54px;place-items:center;border:1px solid var(--gold);color:var(--gold);font-family:Georgia,serif;font-size:23px;clip-path:polygon(50% 0,92% 18%,92% 68%,50% 100%,8% 68%,8% 18%)}
 .character-rank div{display:flex;flex-direction:column}
 .character-rank b{font-size:17px}
-.character-rank small{color:var(--gold);font-size:10px}
+.character-rank small{color:var(--gold);font-size:13px}
 .character-brief>.progress-track,.character-brief>[class*="progress"]{margin-right:17px;margin-left:17px}
 .character-brief>.mt-1{margin-right:17px;margin-left:17px}
 .character-stats{display:grid;grid-template-columns:repeat(3,1fr);margin:18px 17px 0;border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
 .character-stats div{display:flex;flex-direction:column;padding:10px 8px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge)}
 .character-stats b{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px}
-.character-stats span{color:var(--muted);font-size:8px}
+.character-stats span{color:var(--muted);font-size:12px}
 .achievement-strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
 .achievement-token{display:flex;min-height:72px;align-items:center;gap:10px;padding:13px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);color:var(--muted);opacity:.45}
 .achievement-token.unlocked{background:var(--panel);color:var(--gold);opacity:1}
 .achievement-token span{display:flex;min-width:0;flex-direction:column}
 .achievement-token b{color:var(--foreground);font-size:11px}
-.achievement-token small{margin-top:3px;color:var(--muted);font-size:8px}
+.achievement-token small{margin-top:3px;color:var(--muted);font-size:12px}
 @media(max-width:980px){.hall-grid{grid-template-columns:1fr}.achievement-strip{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.hall-header{min-height:0;align-items:flex-start;flex-direction:column}.hall-level{display:none}.expedition-core{grid-template-columns:50px minmax(0,1fr);padding:22px 16px}.expedition-emblem{width:50px;height:50px}.expedition-core h2{font-size:19px}.achievement-strip{grid-template-columns:1fr}}
 
@@ -1302,10 +1318,10 @@ math-field {
 .lab-task-panel li{display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--edge);color:var(--muted)}
 .lab-task-panel li.complete{border-color:color-mix(in srgb,var(--gold) 55%,var(--edge));color:var(--gold)}
 .lab-task-panel li span{display:flex;min-width:0;flex-direction:column}
-.lab-task-panel li b{color:var(--foreground);font-size:10px}
-.lab-task-panel li small{margin-top:2px;color:var(--muted);font-size:8px}
-.lab-task-panel li strong{color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
-.lab-login{grid-column:2;color:var(--gold);font-size:9px}
+.lab-task-panel li b{color:var(--foreground);font-size:13px}
+.lab-task-panel li small{margin-top:2px;color:var(--muted);font-size:12px}
+.lab-task-panel li strong{color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
+.lab-login{grid-column:2;color:var(--gold);font-size:12px}
 @media(max-width:760px){.facility-detail-head{align-items:flex-start;flex-wrap:wrap}.facility-detail-head .command-button{margin-left:80px}.lab-task-panel{grid-template-columns:1fr}.lab-login{grid-column:1}}
 
 .world-map-head{display:flex;min-height:160px;align-items:flex-end;justify-content:space-between;padding:28px;border:1px solid var(--edge);background:var(--panel-strong);color:var(--foreground)}
@@ -1319,15 +1335,15 @@ math-field {
 .region-heading{display:grid;grid-template-columns:58px minmax(0,1fr);gap:14px;padding:18px 0}
 .region-icon{display:grid;width:56px;height:56px;place-items:center;border:1px solid var(--edge-strong);background:var(--panel);color:var(--gold);font-size:22px}
 .region-heading h2{font-family:"Songti SC",SimSun,serif;font-size:20px}
-.region-heading>div>span{color:var(--muted);font-size:9px}
+.region-heading>div>span{color:var(--muted);font-size:12px}
 .region-paths{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .region-path{display:flex;min-height:196px;flex-direction:column;padding:16px;border:1px solid var(--edge);background:var(--panel);transition:160ms ease}
 .region-path:hover{border-color:var(--gold);transform:translateY(-2px)}
-.region-path-top{display:flex;justify-content:space-between;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px}
+.region-path-top{display:flex;justify-content:space-between;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .region-path-top b{color:var(--gold)}
 .region-path h3{margin-top:12px;font-family:"Songti SC",SimSun,serif;font-size:16px}
-.region-path p{display:-webkit-box;overflow:hidden;margin-top:7px;color:var(--muted);font-size:10px;line-height:1.6;-webkit-box-orient:vertical;-webkit-line-clamp:3}
-.region-path-deploy{display:flex;align-items:center;justify-content:space-between;margin-top:9px;color:var(--gold);font-size:9px;font-weight:800}
+.region-path p{display:-webkit-box;overflow:hidden;margin-top:7px;color:var(--muted);font-size:13px;line-height:1.6;-webkit-box-orient:vertical;-webkit-line-clamp:3}
+.region-path-deploy{display:flex;align-items:center;justify-content:space-between;margin-top:9px;color:var(--gold);font-size:12px;font-weight:800}
 @media(max-width:1080px){.region-paths{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.world-map-head>svg{display:none}.region-paths{grid-template-columns:1fr}.region-path{min-height:170px}}
 
@@ -1344,25 +1360,28 @@ math-field {
 .game-brand{display:flex;height:100%;align-items:center;gap:11px;padding-left:20px;color:#e8e2d2}
 .game-brand-copy{display:flex;flex-direction:column}
 .game-brand-copy b{font-family:"Songti SC",SimSun,serif;font-size:17px}
-.game-brand-copy small{margin-top:2px;color:#8f998f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:7px;letter-spacing:.16em}
+.game-brand-copy small{margin-top:2px;color:#8f998f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px;letter-spacing:.16em}
 .game-player-hud{justify-self:center;display:grid;width:min(100%,520px);height:54px;grid-template-columns:48px minmax(0,1fr);align-items:center;color:#e8e2d2}
-.game-avatar{position:relative;z-index:1;display:grid;width:46px;height:50px;place-items:center;border:1px solid #b98c3d;background:#141915;color:#d9aa51;font-family:Georgia,serif;font-size:20px;clip-path:polygon(50% 0,92% 18%,92% 70%,50% 100%,8% 70%,8% 18%)}
-/* 图片头像沿用同一块盾形裁切，但要填满而不是文字居中 */
-.game-avatar-img{display:block;padding:0;object-fit:cover}
+/* 方框，不做盾形裁切：六边形 mask 会把用户上传的头像切掉四角，
+   像素头像更是直接被削掉像素、边缘出现锯齿。 */
+.game-avatar{position:relative;z-index:1;display:grid;width:46px;height:46px;place-items:center;border:1px solid #b98c3d;background:#141915;color:#d9aa51;font-family:Georgia,serif;font-size:20px}
+/* contain 而不是 cover：素材不都是正方形（比如金剑是竖长条），
+   cover 会裁掉两端，固定宽高又会溢出容器 */
+.game-avatar-img{display:block;padding:2px;object-fit:contain}
 .game-player-copy{display:grid;min-width:0;padding-left:11px}
 .game-player-copy>span:first-child{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .game-player-copy b{overflow:hidden;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
-.game-player-copy small{color:#a6afa7;font-size:8px}
+.game-player-copy small{color:#a6afa7;font-size:12px}
 .game-xp-line{position:relative;display:block;height:7px;margin-top:6px;border:1px solid #3d4a41;background:#080b09;clip-path:polygon(0 0,100% 0,calc(100% - 6px) 100%,6px 100%)}
 .game-xp-line i{display:block;height:100%;background:linear-gradient(90deg,#356f54,#65b98d);box-shadow:0 0 10px rgba(93,186,139,.48)}
-.game-xp-label{margin-top:3px;color:#9da79f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:7px}
+.game-xp-label{margin-top:3px;color:#9da79f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px}
 .game-player-hud.guest{width:auto}
 .game-player-hud.guest .game-player-copy{display:flex;flex-direction:column}
 .game-resources{display:flex;height:100%;align-items:center;justify-content:flex-end;gap:8px;padding-right:20px}
 .game-resource{display:grid;height:38px;grid-template-columns:18px auto;grid-template-rows:1fr 1fr;align-items:center;padding:0 12px;border-right:1px solid #364038;color:#d4a64d}
 .game-resource svg{grid-row:1/3}
 .game-resource b{font:800 11px ui-monospace,SFMono-Regular,Consolas,monospace}
-.game-resource small{color:#8f998f;font-size:7px}
+.game-resource small{color:#8f998f;font-size:11px}
 .game-top-hud .hud-icon-button{border-color:#3b463e;background:#111612;color:#aeb8af}
 .game-top-hud .hud-icon-button:hover{border-color:#c8973f;color:#e0b35b}
 .game-auth-actions{display:flex;gap:7px}
@@ -1377,7 +1396,7 @@ math-field {
 .game-command.active{border-color:#d0a34e;background:linear-gradient(180deg,#28271d,#131711);color:#e2b65c;box-shadow:0 0 16px rgba(212,166,77,.2)}
 .game-command.active::after{background:#d4a64d;box-shadow:0 0 8px rgba(212,166,77,.7)}
 .game-command-key{position:absolute;top:2px;right:4px;color:#657068;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
-.game-command-label{font-size:8px;font-weight:700}
+.game-command-label{font-size:12px;font-weight:700}
 .guild-hall-scene{position:relative;min-height:100vh;overflow:hidden;background:#0b0e0c url("/assets/guild-campaign-map.jpg") center/cover no-repeat;color:#e6e1d4;isolation:isolate}
 .guild-hall-scene::before{position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 50% 43%,rgba(11,14,12,.04) 0,rgba(6,8,7,.2) 48%,rgba(3,5,4,.78) 100%),linear-gradient(180deg,rgba(2,4,3,.48) 0,transparent 28%,rgba(2,3,2,.68) 100%);content:""}
 .guild-hall-scene::after{position:absolute;z-index:-1;inset:70px 12px 84px;border:1px solid rgba(212,166,77,.16);content:"";pointer-events:none}
@@ -1387,35 +1406,37 @@ body:has(.guild-hall-scene)::before{display:none}
 .scene-identity{position:absolute;z-index:3;top:94px;left:50%;width:min(520px,70vw);text-align:center;transform:translateX(-50%)}
 .scene-identity p{color:#ba8b45;font:8px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.2em}
 .scene-identity h1{margin-top:5px;color:#e9e1cd;font-family:"Songti SC",SimSun,serif;font-size:31px;font-weight:900;text-shadow:0 2px 12px #000}
-.scene-identity span{display:block;margin-top:5px;color:#9ba49c;font-size:9px}
+.scene-identity span{display:block;margin-top:5px;color:#9ba49c;font-size:12px}
 .scene-locations{position:absolute;z-index:2;inset:70px 0 84px}
-.scene-route-lines{position:absolute;top:48%;left:51%;width:470px;height:470px;border:1px solid rgba(203,160,78,.1);border-radius:50%;transform:translate(-50%,-50%)}
-.scene-route-lines::before,.scene-route-lines::after{position:absolute;border:1px solid rgba(203,160,78,.08);border-radius:50%;content:""}
-.scene-route-lines::before{inset:54px}
-.scene-route-lines::after{inset:125px}
-.scene-location{position:absolute;display:flex;align-items:center;gap:9px;color:#c6cec7;filter:drop-shadow(0 3px 8px #000);transition:160ms ease}
-.scene-location:hover{z-index:4;color:#f0c66f;transform:translateY(-4px)}
-.scene-location[data-zone="archive"]{top:24%;left:30%}
-.scene-location[data-zone="jobs"]{top:20%;left:55%}
-.scene-location[data-zone="paths"]{top:37%;left:67%}
-.scene-location[data-zone="lab"]{top:62%;left:66%}
-.scene-location[data-zone="skills"]{top:65%;left:48%}
-.scene-location[data-zone="glossary"]{top:51%;left:29%}
+/* 通往各据点的路线。原先是三个 0.08 透明度的同心圆，几乎不可见，
+   也不连接任何东西——看不出这是张地图。改成从公会中心真实拉到每个据点的弧线，
+   走马灯式的虚线流动暗示「可前往」。 */
+.scene-routes{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+/* non-scaling-stroke 是必需的：容器不是正方形且 preserveAspectRatio=none，
+   不加的话线宽会被横竖不等地拉伸。代价是这些数值全部按屏幕像素算，
+   不能再用 viewBox 的 0-100 尺度去估。 */
+.scene-route{fill:none;stroke:rgba(212,166,77,.5);stroke-width:1.5px;stroke-dasharray:7 7;stroke-linecap:round;vector-effect:non-scaling-stroke;animation:scene-route-flow 3.4s linear infinite}
+@keyframes scene-route-flow{to{stroke-dashoffset:-28}}
+@media (prefers-reduced-motion:reduce){.scene-route{animation:none}}
+/* 定位由 page.tsx 的 ZONE_POS 写进 style，这里只负责把自己拉回锚点中心 */
+.scene-location{position:absolute;display:flex;align-items:center;gap:9px;color:#c6cec7;filter:drop-shadow(0 3px 8px #000);transform:translate(-22px,-50%);transition:160ms ease}
+.scene-location:hover{z-index:4;color:#f0c66f;transform:translate(-22px,calc(-50% - 4px))}
 .scene-location-pulse{position:absolute;top:50%;left:22px;width:54px;height:54px;border:1px solid rgba(212,166,77,.25);border-radius:50%;transform:translate(-50%,-50%);animation:scene-pulse 2.6s ease-out infinite}
 .scene-location-icon{position:relative;display:grid;width:44px;height:44px;flex:0 0 44px;place-items:center;border:1px solid #876b39;background:rgba(11,15,12,.88);color:#d5a64f;transform:rotate(45deg);box-shadow:inset 0 0 0 3px rgba(8,11,9,.9),0 0 18px rgba(212,166,77,.12)}
 .scene-location-icon svg{transform:rotate(-45deg)}
 .scene-location-copy{display:flex;min-width:128px;flex-direction:column;padding:7px 9px;border-left:1px solid rgba(212,166,77,.38);background:linear-gradient(90deg,rgba(5,8,6,.9),rgba(5,8,6,.25))}
 .scene-location-copy small{color:#8e7445;font:7px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.12em}
 .scene-location-copy b{margin-top:1px;color:inherit;font-family:"Songti SC",SimSun,serif;font-size:13px}
-.scene-location-copy em{margin-top:2px;color:#818b83;font-size:7px;font-style:normal}
-.scene-you-are-here{position:absolute;top:46%;left:51%;display:flex;align-items:center;flex-direction:column;transform:translate(-50%,-50%)}
-.scene-you-are-here>span{display:grid;width:50px;height:50px;place-items:center;border:1px solid #d4a64d;background:#151912;color:#e2b45c;font-family:Georgia,serif;font-size:20px;box-shadow:0 0 0 7px rgba(212,166,77,.07),0 0 28px rgba(212,166,77,.24);clip-path:polygon(50% 0,92% 18%,92% 70%,50% 100%,8% 70%,8% 18%)}
+.scene-location-copy em{margin-top:2px;color:#818b83;font-size:11px;font-style:normal}
+/* 定位同样来自 ZONE_POS/HUB，这里只做居中 */
+.scene-you-are-here{position:absolute;z-index:3;display:flex;align-items:center;flex-direction:column;transform:translate(-50%,-50%)}
+.scene-you-are-here>span{display:grid;width:50px;height:50px;place-items:center;border:1px solid #d4a64d;background:#151912;box-shadow:0 0 0 7px rgba(212,166,77,.07),0 0 28px rgba(212,166,77,.24)}
 .scene-you-are-here small{margin-top:8px;color:#b8914a;font:7px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em}
 .scene-orders-panel,.scene-expedition-panel,.scene-entry-panel{position:absolute;z-index:6;border:1px solid rgba(190,155,86,.52);background:rgba(9,13,10,.9);box-shadow:0 18px 42px rgba(0,0,0,.48);backdrop-filter:blur(12px)}
 .scene-orders-panel{top:102px;right:26px;width:300px;padding:13px}
 .scene-expedition-panel{right:50%;bottom:94px;width:min(520px,46vw);transform:translateX(50%)}
 .scene-entry-panel{bottom:104px;left:26px;width:min(480px,calc(100vw - 52px));padding:22px}
-.scene-panel-heading{display:flex;align-items:center;justify-content:space-between;min-height:28px;margin-bottom:8px;border-bottom:1px solid rgba(190,155,86,.25);padding-bottom:8px;color:#aeb7af;font-size:9px}
+.scene-panel-heading{display:flex;align-items:center;justify-content:space-between;min-height:28px;margin-bottom:8px;border-bottom:1px solid rgba(190,155,86,.25);padding-bottom:8px;color:#aeb7af;font-size:12px}
 .scene-panel-heading>span{display:flex;align-items:center;gap:6px;color:#d2a24b;font-weight:800}
 .scene-panel-heading>a,.scene-panel-heading>b{color:#a68b58;font:8px ui-monospace,SFMono-Regular,Consolas,monospace}
 .scene-orders-panel .daily-quests{gap:0}
@@ -1423,26 +1444,26 @@ body:has(.guild-hall-scene)::before{display:none}
 .scene-orders-panel .daily-quest:last-child{border-bottom:0}
 .scene-orders-panel .daily-quest.complete{background:linear-gradient(90deg,rgba(212,166,77,.1),transparent)}
 .scene-orders-panel .daily-quest-icon{border-color:#556057;background:#111611}
-.scene-orders-panel .daily-quest h3{font-size:10px}
+.scene-orders-panel .daily-quest h3{font-size:13px}
 .scene-orders-panel .progress-track{border-color:#39443c;background:#070a08}
 .scene-battle-target{display:grid;grid-template-columns:52px minmax(0,1fr);align-items:center;gap:13px;padding:13px 16px}
 .scene-battle-rank{display:grid;width:48px;height:48px;place-items:center;border:1px solid #a84842;background:rgba(97,28,25,.22);color:#df6b5e;font:800 8px ui-monospace,SFMono-Regular,Consolas,monospace;clip-path:polygon(50% 0,100% 24%,88% 78%,50% 100%,12% 78%,0 24%)}
 .scene-battle-target small{color:#ac8a4e;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
 .scene-battle-target h2{margin-top:2px;overflow:hidden;color:#eee6d4;font-family:"Songti SC",SimSun,serif;font-size:17px;text-overflow:ellipsis;white-space:nowrap}
-.scene-battle-target p{margin-top:3px;overflow:hidden;color:#969f97;font-size:8px;text-overflow:ellipsis;white-space:nowrap}
+.scene-battle-target p{margin-top:3px;overflow:hidden;color:#969f97;font-size:12px;text-overflow:ellipsis;white-space:nowrap}
 .scene-boss-health{padding:0 16px 12px}
 .scene-boss-health>span{display:flex;justify-content:space-between;margin-bottom:5px;color:#b9c0ba;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
 .scene-boss-health>span b{color:#d45d50}
 .scene-boss-health>div{height:8px;border:1px solid #55302c;background:#080907;clip-path:polygon(0 0,100% 0,calc(100% - 6px) 100%,6px 100%)}
 .scene-boss-health i{display:block;height:100%;background:linear-gradient(90deg,#8f322f,#d25c50);box-shadow:0 0 8px rgba(212,93,80,.4)}
-.scene-deploy{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-top:1px solid rgba(190,155,86,.3);background:linear-gradient(90deg,rgba(151,105,34,.24),transparent);color:#e5b758;font-size:10px;font-weight:900}
+.scene-deploy{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-top:1px solid rgba(190,155,86,.3);background:linear-gradient(90deg,rgba(151,105,34,.24),transparent);color:#e5b758;font-size:13px;font-weight:900}
 .scene-deploy:hover{background:rgba(194,143,55,.2)}
-.scene-empty-target{display:flex;align-items:center;justify-content:space-between;padding:18px;color:#a3aca5;font-size:10px}
+.scene-empty-target{display:flex;align-items:center;justify-content:space-between;padding:18px;color:#a3aca5;font-size:13px}
 .scene-panel-kicker{color:#b58b46;font:8px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em}
 .scene-entry-panel h1{margin-top:7px;color:#eee5d1;font-family:"Songti SC",SimSun,serif;font-size:24px}
 .scene-entry-panel>p:not(.scene-panel-kicker){margin-top:9px;color:#a9b1aa;font-size:11px;line-height:1.7}
 .scene-panel-actions{display:flex;align-items:center;gap:12px;margin-top:16px}
-.scene-primary-action,.scene-secondary-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;padding:0 13px;border:1px solid #a67b37;font-size:9px;font-weight:800}
+.scene-primary-action,.scene-secondary-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;padding:0 13px;border:1px solid #a67b37;font-size:12px;font-weight:800}
 .scene-primary-action{background:#a17431;color:#0c0f0d}
 .scene-primary-action:hover{background:#c09242}
 .scene-secondary-action{border-color:#536056;color:#c0c7c1}
@@ -1470,7 +1491,7 @@ body:has(.guild-hall-scene)::before{display:none}
   .game-resource{display:none}
   .game-top-hud .hud-icon-button{width:32px;height:32px}
   .game-auth-actions .secondary{display:none}
-  .game-auth-actions .command-button{padding:7px 8px;font-size:8px}
+  .game-auth-actions .command-button{padding:7px 8px;font-size:12px}
   .guild-stage{padding:78px 12px 88px}
   .game-command-deck{bottom:0}
   .game-command-slots{width:100%;justify-content:space-around;gap:0;padding:4px 3px;border-right:0;border-bottom:0;border-left:0;clip-path:none}
@@ -1497,7 +1518,7 @@ body:has(.guild-hall-scene)::before{display:none}
 }
 @media(max-width:440px){
   .game-player-copy>span:first-child small{display:none}
-  .game-xp-label{font-size:6px}
+  .game-xp-label{font-size:11px}
   .game-top-hud .theme-toggle-label{display:none}
   .scene-locations{grid-template-columns:1fr}
   .scene-location{min-height:68px}
@@ -1590,12 +1611,12 @@ body:has(.dungeon-grid) .filter-chip.active{border-color:#bd8e42;background:#282
 .tower-dossier-title span{display:flex;flex-direction:column}
 .tower-dossier-title small{font:7px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.12em}
 .tower-dossier-title b{margin-top:2px;color:#e6dfcf;font-family:"Songti SC",SimSun,serif;font-size:16px}
-.tower-dossier>p{margin:13px 0;color:#98a39b;font-size:10px;line-height:1.7}
+.tower-dossier>p{margin:13px 0;color:#98a39b;font-size:13px;line-height:1.7}
 .tower-dossier dl{display:grid}
 .tower-dossier dl>div{padding:9px 0;border-top:1px solid #303a33}
-.tower-dossier dt{display:flex;align-items:center;gap:7px;color:#d7ddd7;font-size:10px;font-weight:800}
-.tower-dossier dd{margin-top:3px;padding-left:22px;color:#7f8b82;font-size:8px}
-.tower-register{display:block;margin-top:13px;border:1px solid #a57a38;padding:9px;color:#dbae56;text-align:center;font-size:9px}
+.tower-dossier dt{display:flex;align-items:center;gap:7px;color:#d7ddd7;font-size:13px;font-weight:800}
+.tower-dossier dd{margin-top:3px;padding-left:22px;color:#7f8b82;font-size:12px}
+.tower-register{display:block;margin-top:13px;border:1px solid #a57a38;padding:9px;color:#dbae56;text-align:center;font-size:12px}
 .tower-viewport{position:relative;height:min(74vh,790px);min-height:610px;overflow:auto;border:1px solid #3d493f;background:#080c09 url("/assets/guild-campaign-map.jpg") center/cover fixed;color:#e1e5e0;scrollbar-color:#85683a #101511;overscroll-behavior:contain}
 .tower-viewport::before{position:sticky;z-index:1;top:0;display:block;height:38px;background:linear-gradient(#080b09,transparent);content:"";pointer-events:none}
 .tower-map{position:relative;min-width:760px;margin:-38px auto 0;background:linear-gradient(90deg,rgba(4,7,5,.65),rgba(7,10,8,.28) 35%,rgba(7,10,8,.28) 65%,rgba(4,7,5,.65))}
@@ -1618,14 +1639,14 @@ body:has(.dungeon-grid) .filter-chip.active{border-color:#bd8e42;background:#282
 .tower-encounter-label{position:absolute;z-index:2;display:flex;width:224px;align-items:center;flex-direction:column;color:#adb7af;text-align:center;text-shadow:0 2px 5px #000}
 .tower-encounter-label small{color:#78837b;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
 .tower-encounter-label b{display:block;overflow:hidden;width:100%;margin-top:2px;color:#dce2dc;font-family:"Songti SC",SimSun,serif;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
-.tower-encounter-label em{margin-top:3px;color:#d3a44e;font-size:7px;font-style:normal}
+.tower-encounter-label em{margin-top:3px;color:#d3a44e;font-size:11px;font-style:normal}
 .tower-support-node{position:absolute;z-index:4;display:grid;width:48px;height:48px;place-items:center;border:1px solid #79643c;background:#111711;color:#b9904d;transform:rotate(45deg);box-shadow:inset 0 0 0 3px #090c0a}
 .tower-support-node:hover{border-color:#d4a64d;color:#e0b157;filter:drop-shadow(0 0 10px rgba(212,166,77,.25))}
 .tower-support-node svg{transform:rotate(-45deg)}
-.tower-support-node span{position:absolute;top:48px;left:50%;width:140px;color:#8e998f;font-size:7px;text-align:center;transform:translateX(-50%) rotate(-45deg)}
+.tower-support-node span{position:absolute;top:48px;left:50%;width:140px;color:#8e998f;font-size:11px;text-align:center;transform:translateX(-50%) rotate(-45deg)}
 .tower-base{position:absolute;left:50%;display:flex;align-items:center;flex-direction:column;color:#aab4ac;transform:translateX(-50%)}
 .tower-base span{display:grid;width:42px;height:42px;place-items:center;border:1px solid #7e663a;background:#111611;color:#d4a64d;font-family:Georgia,serif;clip-path:polygon(50% 0,92% 18%,92% 70%,50% 100%,8% 70%,8% 18%)}
-.tower-base b{margin-top:5px;font-family:"Songti SC",SimSun,serif;font-size:10px}
+.tower-base b{margin-top:5px;font-family:"Songti SC",SimSun,serif;font-size:13px}
 @keyframes tower-current{0%,100%{filter:drop-shadow(0 0 4px rgba(212,166,77,.2))}50%{filter:drop-shadow(0 0 15px rgba(212,166,77,.6))}}
 
 @media(max-width:900px){
@@ -1656,14 +1677,14 @@ body:has(.dungeon-grid) .filter-chip.active{border-color:#bd8e42;background:#282
 .glossary-index-items{display:grid;width:100%;min-height:0;flex:1;grid-auto-rows:minmax(13px,1fr)}
 .glossary-index-items button{display:grid;min-height:0;place-items:center;color:#8e9991;font:700 8px ui-monospace,SFMono-Regular,Consolas,monospace;line-height:1}
 .glossary-index-items button:hover,.glossary-index-items button.active{background:#2b261a;color:#e2b158}
-.glossary-index-items button:first-child{font-size:6px}
+.glossary-index-items button:first-child{font-size:11px}
 .glossary-index-indicator{position:absolute;top:50%;right:44px;display:grid;min-width:42px;height:42px;place-items:center;border:1px solid #a77c3a;background:#111611;color:#e0ae50;font:800 14px ui-monospace,SFMono-Regular,Consolas,monospace;box-shadow:0 8px 18px rgba(0,0,0,.36);opacity:0;pointer-events:none;transform:translateY(-50%)}
 .glossary-index-rail:active .glossary-index-indicator{opacity:1}
 @media(max-width:680px){
   .glossary-page{padding-right:22px}
   .glossary-index-rail{top:62px;right:0;bottom:64px;width:30px}
   .glossary-index-caption{display:none}
-  .glossary-index-items button{font-size:7px}
+  .glossary-index-items button{font-size:11px}
   .glossary-index-indicator{right:35px}
 }
 
@@ -1776,7 +1797,7 @@ body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child::a
   border: 1px solid #3e493f;
   background: #0b100d;
   color: #d8aa50;
-  font-size: 10px;
+  font-size: 13px;
 }
 .dungeon-reward-preview b[data-rarity="rare"] { border-color: #6c704a; color: #d8c06a; }
 .dungeon-reward-preview b[data-rarity="legendary"] { border-color: #9d493e; color: #ef876c; }
@@ -1829,7 +1850,7 @@ body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child::a
   gap: 6px;
   border-right: 1px solid #2f3831;
   color: #8f9b93;
-  font-size: 10px;
+  font-size: 13px;
 }
 .dungeon-stat-strip > span:last-child { border-right: 0; }
 .dungeon-stat-strip b { color: #d9ded9; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
@@ -1845,7 +1866,7 @@ body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child::a
   padding: 9px 18px 10px;
   background: #0b100d;
   color: #758078;
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1.5;
   text-align: center;
 }
@@ -1970,7 +1991,7 @@ body:has(.dungeon-chamber) .analysis-section {
   border-right: 1px solid #354038;
   border-bottom: 1px solid #354038;
   color: #87938b;
-  font-size: 9px;
+  font-size: 12px;
 }
 .rpg-attribute-grid b {
   color: #e1e5e1;
@@ -1987,10 +2008,10 @@ body:has(.dungeon-chamber) .analysis-section {
   border: 1px solid #5a482d;
   background: #0b0f0c;
   color: #c99d4a;
-  font-size: 9px;
+  font-size: 12px;
 }
 .rpg-wallet b { font: 900 14px ui-monospace, SFMono-Regular, Consolas, monospace; }
-.rpg-sheet-note { margin-top: 8px; color: #758078; font-size: 8px; line-height: 1.45; }
+.rpg-sheet-note { margin-top: 8px; color: #758078; font-size: 12px; line-height: 1.45; }
 .rpg-inventory-list { display: grid; gap: 6px; }
 .rpg-inventory-list li {
   display: grid;
@@ -2016,8 +2037,8 @@ body:has(.dungeon-chamber) .analysis-section {
   clip-path: polygon(50% 0, 100% 24%, 88% 82%, 50% 100%, 12% 82%, 0 24%);
 }
 .rpg-inventory-list li > span:nth-child(2) { display: flex; min-width: 0; flex-direction: column; }
-.rpg-inventory-list b { color: #dce1dc; font-size: 10px; }
-.rpg-inventory-list small { overflow: hidden; margin-top: 2px; color: #758078; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.rpg-inventory-list b { color: #dce1dc; font-size: 13px; }
+.rpg-inventory-list small { overflow: hidden; margin-top: 2px; color: #758078; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .rpg-inventory-list strong { color: #c79c4a; font: 800 10px ui-monospace, SFMono-Regular, Consolas, monospace; }
 
 .scene-loot-preview{display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:4px 7px;border:1px solid rgba(199,155,75,.34);background:rgba(7,11,8,.56);color:#d3a64e;font:800 8px ui-monospace,SFMono-Regular,Consolas,monospace}
@@ -2081,7 +2102,7 @@ body:has(.dungeon-chamber) .analysis-section {
   gap: 5px 12px;
   margin-top: 5px;
   color: #849087;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .player-source-meta a {
@@ -2108,7 +2129,7 @@ body:has(.dungeon-chamber) .analysis-section {
 .player-current-episode b {
   overflow: hidden;
   color: #cbd2cc;
-  font-size: 10px;
+  font-size: 13px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -2158,7 +2179,7 @@ body:has(.dungeon-chamber) .analysis-section {
   align-items: center;
   gap: 5px;
   color: #828e86;
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1.45;
   text-align: right;
 }
@@ -2242,7 +2263,7 @@ body:has(.dungeon-chamber) .analysis-section {
   display: -webkit-box;
   overflow: hidden;
   color: #808b83;
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1.5;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -2331,7 +2352,7 @@ body:has(.dungeon-chamber) .analysis-section {
 .analysis-keypoint-copy > p {
   margin-top: 4px;
   color: #89958d;
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.65;
 }
 
@@ -2356,7 +2377,7 @@ body:has(.dungeon-chamber) .analysis-section {
 
 .analysis-formula code {
   color: #9ca79f;
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .analysis-formula-action {
@@ -2386,7 +2407,7 @@ body:has(.dungeon-chamber) .analysis-section {
   padding: 4px 7px;
   background: #0e1410;
   color: #8f9b93;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .dungeon-canvas canvas {

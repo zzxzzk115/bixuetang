@@ -1,4 +1,4 @@
-import { PromoteButton, TitleButton } from "@/components/job-actions";
+﻿import { PromoteButton, TitleButton } from "@/components/job-actions";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { canPromote, type PromoteVerdict } from "@/lib/game/jobs";
@@ -152,7 +152,7 @@ export default async function JobsPage() {
                             : "REQUIREMENTS LOCKED"}
                       </span>
                       {isCompound && (
-                        <span className="border border-mana/60 px-1.5 py-0.5 font-mono text-[9px] text-mana">
+                        <span className="border border-mana/60 px-1.5 py-0.5 font-mono text-[11px] text-mana">
                           HYBRID
                         </span>
                       )}
@@ -188,7 +188,7 @@ export default async function JobsPage() {
                         ) : verdict?.ok ? (
                           <PromoteButton jobId={job.id} title={job.title} />
                         ) : (
-                          <span className="block w-full border border-edge py-2 text-center font-mono text-[10px] text-muted">
+                          <span className="block w-full border border-edge py-2 text-center font-mono text-[12px] text-muted">
                             条件未达成
                           </span>
                         )}

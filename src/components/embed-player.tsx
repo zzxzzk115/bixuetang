@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { ExternalLink, Maximize2, MonitorPlay } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
@@ -171,7 +171,7 @@ export function EmbedPlayer({
       </div>
 
       {source.note && (
-        <div className="mt-1.5 border-l-2 border-hp pl-2 font-mono text-[10px] text-muted">
+        <div className="mt-1.5 border-l-2 border-hp pl-2 font-mono text-[12px] text-muted">
           SOURCE NOTE // {source.note}
         </div>
       )}

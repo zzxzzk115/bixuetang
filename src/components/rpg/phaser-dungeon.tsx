@@ -24,6 +24,15 @@ interface DungeonProfile {
 }
 
 const ASSET_ROOT = "/assets/pixel-dungeon";
+
+// 方舟像素字体（见 public/fonts/README.md）。
+// 画布里的中文原先用微软雅黑画在 6-7px，矢量字体在这个尺寸下笔画糊成一团，
+// 再被 Phaser 的 FIT 缩放放大就更糊。像素字体必须按设计尺寸 12px 用，
+// 换成别的数值会重新引入重采样模糊。
+// 也不能加 fontStyle:"bold"——像素字体没有粗体字重，浏览器会做合成加粗，
+// 那等于把每个笔画横向涂抹一次，前功尽弃。
+const PIXEL_FONT = '"ArkPixel", ui-monospace, monospace';
+const PIXEL_FONT_SIZE = "12px";
 const MONSTERS = [
   { key: "skeleton", file: "monster_skelet.png", title: "骸骨守卫" },
   { key: "orc", file: "monster_orc.png", title: "兽人斥候" },
@@ -56,6 +65,14 @@ export function PhaserDungeon({
     let cancelled = false;
 
     async function mount() {
+      // 必须先把像素字体加载完再建场景：Phaser 建 Text 时会立刻量字并烘成贴图，
+      // 字体没就位就会用回退字体量错宽度，之后换字也不会重排。
+      try {
+        await document.fonts.load(`${PIXEL_FONT_SIZE} ${PIXEL_FONT}`);
+        await document.fonts.ready;
+      } catch {
+        // 字体加载失败就让它退回等宽字体，不该因此把整个地下城拦下
+      }
       const PhaserModule = await import("phaser");
       if (cancelled || !hostRef.current) return;
       const Phaser = PhaserModule.default;
@@ -159,11 +176,10 @@ export function PhaserDungeon({
             .setScale(2.3)
             .setRotation(0.45);
           this.add
-            .text(116, 67, "学者", {
+            .text(116, 62, "学者", {
               color: "#d9c58d",
-              fontFamily: "Microsoft YaHei, sans-serif",
-              fontSize: "7px",
-              fontStyle: "bold",
+              fontFamily: PIXEL_FONT,
+              fontSize: PIXEL_FONT_SIZE,
             })
             .setOrigin(0.5);
 
@@ -208,11 +224,10 @@ export function PhaserDungeon({
             .setScale(enemyConfig.scale)
             .setOrigin(0.5, 0.75);
           this.add
-            .text(367, 65, enemyConfig.title, {
+            .text(367, 60, enemyConfig.title, {
               color: encounterType === "boss" ? "#e67f68" : "#c6bda5",
-              fontFamily: "Microsoft YaHei, sans-serif",
-              fontSize: "7px",
-              fontStyle: "bold",
+              fontFamily: PIXEL_FONT,
+              fontSize: PIXEL_FONT_SIZE,
             })
             .setOrigin(0.5);
 
@@ -248,9 +263,8 @@ export function PhaserDungeon({
           const rewardText = this.add
             .text(240, 45, "", {
               color: "#f0c665",
-              fontFamily: "Microsoft YaHei, monospace",
-              fontSize: "9px",
-              fontStyle: "bold",
+              fontFamily: PIXEL_FONT,
+              fontSize: PIXEL_FONT_SIZE,
               align: "center",
               stroke: "#080b09",
               strokeThickness: 3,
@@ -320,24 +334,25 @@ export function PhaserDungeon({
             window.removeEventListener(RPG_LOOT_EVENT, onLoot);
           });
 
-          this.add.text(
-            12,
-            157,
-            `FIXED ENCOUNTER · ${courseCode} / EP.${String(episodeN).padStart(2, "0")}`,
-            {
-              color: "#788078",
-              fontFamily: "monospace",
-              fontSize: "5px",
-            },
-          );
           this.add
-            .text(468, 157, ENCOUNTER_LABEL[encounterType], {
+            .text(
+              12,
+              161,
+              `${courseCode} / EP.${String(episodeN).padStart(2, "0")}`,
+              {
+                color: "#9aa39a",
+                fontFamily: PIXEL_FONT,
+                fontSize: PIXEL_FONT_SIZE,
+              },
+            )
+            .setOrigin(0, 0.5);
+          this.add
+            .text(468, 161, ENCOUNTER_LABEL[encounterType], {
               color: "#d4a94f",
-              fontFamily: "Microsoft YaHei, monospace",
-              fontSize: "6px",
-              fontStyle: "bold",
+              fontFamily: PIXEL_FONT,
+              fontSize: PIXEL_FONT_SIZE,
             })
-            .setOrigin(1, 0);
+            .setOrigin(1, 0.5);
 
           this.cameras.main.fadeIn(220, 4, 7, 5);
         }

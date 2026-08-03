@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useTransition } from "react";
 import { celebrate } from "@/lib/celebrate";
@@ -52,7 +52,7 @@ export function TitleButton({
   const [pending, startTransition] = useTransition();
   if (isActive) {
     return (
-      <span className="block w-full border border-gold bg-background/50 py-2 text-center font-mono text-[10px] text-gold">
+      <span className="block w-full border border-gold bg-background/50 py-2 text-center font-mono text-[12px] text-gold">
         ACTIVE TITLE
       </span>
     );

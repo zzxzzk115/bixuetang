@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import type { HackMachine } from "@/lib/hack/cpu/machine";
@@ -14,7 +14,7 @@ const POINTERS: { label: string; addr: number }[] = [
 function Cell({ label, value }: { label: string; value: number | string }) {
   return (
     <div className="rounded bg-panel-hover px-2 py-1 text-center">
-      <div className="text-[10px] text-muted">{label}</div>
+      <div className="text-[12px] text-muted">{label}</div>
       <div className="font-mono text-sm">{value}</div>
     </div>
   );

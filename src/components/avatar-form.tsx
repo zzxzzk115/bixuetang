@@ -51,13 +51,14 @@ export function AvatarForm({ avatar }: { avatar: string | null }) {
                   : "border-edge bg-panel hover:border-gold"
               }`}
             >
-              {/* 16px 像素画，必须 pixelated 才不糊 */}
+              {/* 素材不都是正方形（金剑是 16×32 的竖长条），写死等宽高会溢出按钮，
+                  所以只限制最大边并用 contain 等比缩放。
+                  16px 像素画必须 pixelated 才不糊。 */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={p.src}
                 alt={p.label}
-                width={36}
-                height={36}
+                className="max-h-9 max-w-9 object-contain"
                 style={{ imageRendering: "pixelated" }}
               />
             </button>

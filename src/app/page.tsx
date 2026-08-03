@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { DailyQuestBoard } from "@/components/daily-quest-board";
+import { GuildSigil } from "@/components/guild-sigil";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { learningStreak, syncAchievements } from "@/lib/game/achievements";
@@ -28,6 +29,21 @@ interface SceneLocation {
   zone: string;
   icon: LucideIcon;
 }
+
+/**
+ * 据点在地图上的位置（百分比）。
+ * 放在这里而不是 CSS 里，是因为连接中心与据点的路径线要用同一组坐标——
+ * 分散在两处早晚会对不上。
+ */
+const HUB = { x: 51, y: 46 };
+const ZONE_POS: Record<string, { x: number; y: number }> = {
+  archive: { x: 31, y: 25 },
+  jobs: { x: 56, y: 21 },
+  paths: { x: 68, y: 38 },
+  lab: { x: 67, y: 63 },
+  skills: { x: 49, y: 66 },
+  glossary: { x: 30, y: 52 },
+};
 
 export default async function HomePage() {
   const content = getContent();
@@ -152,15 +168,39 @@ function GuildScene({
       </header>
 
       <div className="scene-locations" aria-label="公会据点">
-        <div className="scene-route-lines" aria-hidden />
+        {/* 从公会中心通往各据点的路线。preserveAspectRatio=none 让 viewBox 的
+            0-100 直接当百分比用，和据点的定位共用同一套坐标系。 */}
+        <svg
+          className="scene-routes"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          {locations.map((location) => {
+            const p = ZONE_POS[location.zone];
+            if (!p) return null;
+            // 中点往外顶一点，让路线是弧线而不是直线，更像手绘地图
+            const mx = (HUB.x + p.x) / 2 + (p.y - HUB.y) * 0.12;
+            const my = (HUB.y + p.y) / 2 - (p.x - HUB.x) * 0.12;
+            return (
+              <path
+                key={location.zone}
+                d={`M ${HUB.x} ${HUB.y} Q ${mx} ${my} ${p.x} ${p.y}`}
+                className="scene-route"
+              />
+            );
+          })}
+        </svg>
         {locations.map((location) => {
           const Icon = location.icon;
+          const p = ZONE_POS[location.zone];
           return (
             <Link
               key={location.href}
               href={location.href}
               className="scene-location"
               data-zone={location.zone}
+              style={p ? { left: `${p.x}%`, top: `${p.y}%` } : undefined}
             >
               <span className="scene-location-pulse" />
               <span className="scene-location-icon"><Icon aria-hidden size={21} /></span>
@@ -172,8 +212,11 @@ function GuildScene({
             </Link>
           );
         })}
-        <div className="scene-you-are-here">
-          <span>G</span>
+        <div
+          className="scene-you-are-here"
+          style={{ left: `${HUB.x}%`, top: `${HUB.y}%` }}
+        >
+          <span><GuildSigil size={34} /></span>
           <small>YOU ARE HERE</small>
         </div>
       </div>
