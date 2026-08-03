@@ -2437,3 +2437,405 @@ body:has(.dungeon-chamber) .analysis-section {
     width: 46px;
   }
 }
+
+
+/* Light theme game surfaces. The pixel dungeon itself remains dark by design. */
+:root[data-theme="light"] {
+  --game-surface: #f7f6ef;
+  --game-surface-2: #ecefe8;
+  --game-surface-3: #dfe5dc;
+  --game-ink: #19211d;
+  --game-muted: #5b675f;
+  --game-line: #aeb7ac;
+}
+
+/* Persistent game shell */
+:root[data-theme="light"] .game-top-hud {
+  border-bottom-color: rgba(139, 90, 18, .34);
+  background: color-mix(in srgb, var(--panel) 95%, transparent);
+  color: var(--foreground);
+  box-shadow: 0 10px 26px rgba(25, 33, 29, .16);
+}
+:root[data-theme="light"] .game-brand,
+:root[data-theme="light"] .game-player-hud { color: var(--foreground); }
+:root[data-theme="light"] .game-brand .guild-sigil,
+:root[data-theme="light"] .game-avatar {
+  border-color: var(--gold);
+  background: var(--panel-strong);
+  color: var(--gold);
+  box-shadow: inset 0 0 0 3px var(--panel), 0 0 14px rgba(139, 90, 18, .12);
+}
+:root[data-theme="light"] .game-brand-copy small,
+:root[data-theme="light"] .game-player-copy small,
+:root[data-theme="light"] .game-xp-label,
+:root[data-theme="light"] .game-resource small { color: var(--muted); }
+:root[data-theme="light"] .game-xp-line {
+  border-color: var(--edge-strong);
+  background: var(--panel-strong);
+}
+:root[data-theme="light"] .game-resource { border-color: var(--edge); color: var(--gold); }
+:root[data-theme="light"] .game-top-hud .hud-icon-button {
+  border-color: var(--edge);
+  background: var(--panel);
+  color: var(--foreground);
+}
+:root[data-theme="light"] .game-command-slots {
+  border-color: rgba(139, 90, 18, .38);
+  background: color-mix(in srgb, var(--panel) 95%, transparent);
+  box-shadow: 0 10px 28px rgba(25, 33, 29, .22), inset 0 0 0 1px rgba(255, 255, 255, .6);
+}
+:root[data-theme="light"] .game-command {
+  border-color: var(--edge);
+  background: linear-gradient(180deg, var(--panel), var(--panel-strong));
+  color: var(--muted);
+}
+:root[data-theme="light"] .game-command:hover { border-color: var(--gold); color: var(--gold); }
+:root[data-theme="light"] .game-command.active {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #fbf3dc, #e6dfc8);
+  color: var(--gold);
+  box-shadow: 0 0 12px rgba(139, 90, 18, .14);
+}
+:root[data-theme="light"] .game-command-key { color: var(--edge-strong); }
+
+/* Campaign hall */
+:root[data-theme="light"] .guild-hall-scene { background-color: #dfe4dc; color: var(--foreground); }
+:root[data-theme="light"] .guild-hall-scene::before {
+  background:
+    radial-gradient(circle at 50% 43%, rgba(247,246,239,.2), rgba(233,235,230,.62) 52%, rgba(223,228,220,.9) 100%),
+    linear-gradient(180deg, rgba(247,246,239,.66), rgba(233,235,230,.42) 38%, rgba(223,228,220,.88));
+}
+:root[data-theme="light"] .scene-atmosphere {
+  background: linear-gradient(90deg, rgba(233,235,230,.66), transparent 30%, transparent 70%, rgba(233,235,230,.66));
+}
+:root[data-theme="light"] .scene-identity h1 {
+  color: var(--foreground);
+  text-shadow: 0 2px 8px rgba(247,246,239,.9);
+}
+:root[data-theme="light"] .scene-identity span,
+:root[data-theme="light"] .scene-location-copy em,
+:root[data-theme="light"] .scene-panel-heading,
+:root[data-theme="light"] .scene-orders-panel .daily-quest,
+:root[data-theme="light"] .scene-boss-health > span,
+:root[data-theme="light"] .scene-entry-panel > p:not(.scene-panel-kicker),
+:root[data-theme="light"] .scene-empty-target { color: var(--muted); }
+:root[data-theme="light"] .scene-location {
+  color: var(--foreground);
+  filter: drop-shadow(0 3px 5px rgba(247,246,239,.9));
+}
+:root[data-theme="light"] .scene-location-icon,
+:root[data-theme="light"] .scene-you-are-here > span {
+  border-color: var(--gold);
+  background: var(--panel);
+  color: var(--gold);
+  box-shadow: inset 0 0 0 3px var(--panel-strong), 0 0 14px rgba(139,90,18,.14);
+}
+:root[data-theme="light"] .scene-location-copy {
+  background: linear-gradient(90deg, rgba(247,246,239,.96), rgba(247,246,239,.45));
+}
+:root[data-theme="light"] .scene-orders-panel,
+:root[data-theme="light"] .scene-expedition-panel,
+:root[data-theme="light"] .scene-entry-panel {
+  border-color: rgba(139,90,18,.42);
+  background: rgba(247,246,239,.94);
+  color: var(--foreground);
+  box-shadow: 0 16px 36px rgba(25,33,29,.18);
+}
+:root[data-theme="light"] .scene-orders-panel .daily-quest { border-color: var(--edge); }
+:root[data-theme="light"] .scene-orders-panel .daily-quest-icon,
+:root[data-theme="light"] .scene-orders-panel .progress-track,
+:root[data-theme="light"] .scene-boss-health > div { background: var(--panel-strong); }
+:root[data-theme="light"] .scene-battle-target h2,
+:root[data-theme="light"] .scene-entry-panel h1 { color: var(--foreground); }
+:root[data-theme="light"] .scene-secondary-action { border-color: var(--edge-strong); color: var(--foreground); }
+
+/* Campaign map, course roster, workshop, and tower chrome */
+:root[data-theme="light"] .world-map-head,
+:root[data-theme="light"] .facility-hero,
+:root[data-theme="light"] body:has(.dungeon-grid) .page-intro,
+:root[data-theme="light"] .tower-run-header {
+  border-color: var(--edge);
+  background: linear-gradient(90deg, rgba(247,246,239,.94), rgba(233,235,230,.84)),
+    url("/assets/guild-campaign-map.jpg") center / cover;
+  color: var(--foreground);
+}
+:root[data-theme="light"] .world-map-head .page-title,
+:root[data-theme="light"] .facility-hero .page-title,
+:root[data-theme="light"] body:has(.dungeon-grid) .page-intro .page-title,
+:root[data-theme="light"] .tower-run-header h1 { color: var(--foreground); }
+:root[data-theme="light"] .world-map-head .page-lead,
+:root[data-theme="light"] .facility-hero .page-lead,
+:root[data-theme="light"] body:has(.dungeon-grid) .page-intro .page-lead,
+:root[data-theme="light"] .tower-run-header > div > p:last-child { color: var(--muted); }
+:root[data-theme="light"] .world-region,
+:root[data-theme="light"] .region-path,
+:root[data-theme="light"] .facility-card,
+:root[data-theme="light"] .workshop-protocol,
+:root[data-theme="light"] body:has(.dungeon-grid) .filter-console,
+:root[data-theme="light"] .dungeon-card,
+:root[data-theme="light"] .tower-dossier {
+  border-color: var(--edge);
+  background: var(--panel);
+  color: var(--foreground);
+  box-shadow: 0 10px 24px rgba(25,33,29,.1);
+}
+:root[data-theme="light"] .region-path:hover,
+:root[data-theme="light"] .facility-card:hover,
+:root[data-theme="light"] .dungeon-card:hover {
+  border-color: var(--gold);
+  background: var(--panel-hover);
+  box-shadow: 0 12px 26px rgba(25,33,29,.14);
+}
+:root[data-theme="light"] .region-icon,
+:root[data-theme="light"] .facility-icon,
+:root[data-theme="light"] .dungeon-card .bg-background\/50 {
+  border-color: var(--edge);
+  background: var(--panel-strong);
+  color: var(--gold);
+}
+:root[data-theme="light"] .region-heading h2,
+:root[data-theme="light"] .region-path h3,
+:root[data-theme="light"] .facility-card h2,
+:root[data-theme="light"] .workshop-protocol h2,
+:root[data-theme="light"] .dungeon-card .dungeon-title,
+:root[data-theme="light"] .tower-dossier-title b { color: var(--foreground); }
+:root[data-theme="light"] .region-heading > div > span,
+:root[data-theme="light"] .region-path p,
+:root[data-theme="light"] .region-path-top,
+:root[data-theme="light"] .facility-card-body p,
+:root[data-theme="light"] .facility-card-foot,
+:root[data-theme="light"] .facility-progress,
+:root[data-theme="light"] .workshop-protocol li,
+:root[data-theme="light"] .dungeon-card .text-muted,
+:root[data-theme="light"] .dungeon-card .quest-meta,
+:root[data-theme="light"] .tower-dossier > p,
+:root[data-theme="light"] .tower-dossier dd { color: var(--muted); }
+:root[data-theme="light"] .facility-card-head,
+:root[data-theme="light"] .facility-card-foot,
+:root[data-theme="light"] .workshop-protocol li,
+:root[data-theme="light"] .tower-dossier-title,
+:root[data-theme="light"] .tower-dossier dl > div { border-color: var(--edge); }
+:root[data-theme="light"] .facility-card .progress-track,
+:root[data-theme="light"] .dungeon-card .progress-track {
+  border-color: var(--edge);
+  background: var(--panel-strong);
+}
+:root[data-theme="light"] body:has(.dungeon-grid) .filter-console input {
+  background: var(--background);
+  color: var(--foreground);
+}
+:root[data-theme="light"] body:has(.dungeon-grid) .filter-chip { border-color: var(--edge); color: var(--muted); }
+:root[data-theme="light"] body:has(.dungeon-grid) .filter-chip.active {
+  border-color: var(--gold);
+  background: #efe6cf;
+  color: var(--gold);
+}
+:root[data-theme="light"] .tower-run-status,
+:root[data-theme="light"] .tower-run-status span { border-color: var(--edge); }
+:root[data-theme="light"] .tower-run-status small { color: var(--muted); }
+:root[data-theme="light"] .tower-viewport {
+  border-color: var(--edge);
+  background-color: #dfe5dc;
+  color: var(--foreground);
+  scrollbar-color: var(--gold-soft) var(--panel-strong);
+}
+:root[data-theme="light"] .tower-map {
+  background: linear-gradient(90deg, rgba(247,246,239,.82), rgba(233,235,230,.52) 35%, rgba(233,235,230,.52) 65%, rgba(247,246,239,.82));
+}
+:root[data-theme="light"] .tower-encounter,
+:root[data-theme="light"] .tower-support-node,
+:root[data-theme="light"] .tower-base span,
+:root[data-theme="light"] .tower-crown {
+  background: var(--panel);
+  color: var(--gold);
+  box-shadow: inset 0 0 0 4px var(--panel-strong), 0 0 0 6px rgba(25,33,29,.08);
+}
+:root[data-theme="light"] .tower-encounter-label {
+  color: var(--muted);
+  text-shadow: 0 1px 4px var(--panel);
+}
+:root[data-theme="light"] .tower-encounter-label b { color: var(--foreground); }
+
+/* Course dungeon shell */
+:root[data-theme="light"] body:has(.dungeon-chamber) { background: var(--background); }
+:root[data-theme="light"] body:has(.dungeon-chamber)::before {
+  background: linear-gradient(rgba(233,235,230,.92), rgba(233,235,230,.97)),
+    url("/assets/guild-campaign-map.jpg") center / cover;
+}
+:root[data-theme="light"] body:has(.dungeon-chamber) .guild-stage {
+  background: transparent;
+  color: var(--foreground);
+}
+:root[data-theme="light"] body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child {
+  border-color: var(--edge);
+  background: var(--panel);
+  box-shadow: inset 4px 0 0 var(--hp), 0 10px 26px rgba(25,33,29,.09);
+}
+:root[data-theme="light"] body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child::after {
+  color: var(--panel-strong);
+}
+:root[data-theme="light"] body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child h1 {
+  color: var(--foreground);
+}
+:root[data-theme="light"] body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child .text-muted {
+  color: var(--muted);
+}
+:root[data-theme="light"] .dungeon-chamber {
+  border-color: var(--edge-strong);
+  background: var(--panel);
+  color: var(--foreground);
+  box-shadow: 0 18px 38px rgba(25,33,29,.16), inset 0 0 0 1px rgba(255,255,255,.5);
+}
+:root[data-theme="light"] .dungeon-chamber-head {
+  border-color: var(--edge);
+  background: var(--panel);
+}
+:root[data-theme="light"] .dungeon-chamber-head h2 { color: var(--foreground); }
+:root[data-theme="light"] .dungeon-chamber-head p { color: var(--muted); }
+:root[data-theme="light"] .dungeon-reward-preview span,
+:root[data-theme="light"] .dungeon-reward-preview b {
+  border-color: var(--edge);
+  background: var(--panel-strong);
+  color: var(--gold);
+}
+:root[data-theme="light"] .dungeon-stat-strip {
+  border-color: var(--edge);
+  background: var(--panel);
+}
+:root[data-theme="light"] .dungeon-stat-strip > span {
+  border-color: var(--edge);
+  color: var(--muted);
+}
+:root[data-theme="light"] .dungeon-stat-strip b { color: var(--foreground); }
+:root[data-theme="light"] .dungeon-rule-note {
+  background: var(--panel-strong);
+  color: var(--muted);
+}
+:root[data-theme="light"] body:has(.dungeon-chamber) .course-layout aside .hud-panel,
+:root[data-theme="light"] body:has(.dungeon-chamber) .session-console,
+:root[data-theme="light"] body:has(.dungeon-chamber) .analysis-panel,
+:root[data-theme="light"] body:has(.dungeon-chamber) .analysis-section {
+  border-color: var(--edge);
+  background: var(--panel);
+  color: var(--foreground);
+}
+:root[data-theme="light"] body:has(.dungeon-chamber) .session-console-head,
+:root[data-theme="light"] body:has(.dungeon-chamber) .session-summary { border-color: var(--edge); }
+:root[data-theme="light"] body:has(.dungeon-chamber) .session-episode,
+:root[data-theme="light"] body:has(.dungeon-chamber) .session-summary span { color: var(--foreground); }
+:root[data-theme="light"] body:has(.dungeon-chamber) .session-summary textarea {
+  border-color: var(--edge);
+  background: var(--background);
+  color: var(--foreground);
+}
+:root[data-theme="light"] body:has(.dungeon-chamber) .session-controls button { border-color: var(--edge-strong); }
+:root[data-theme="light"] body:has(.dungeon-chamber) .encounter-row {
+  border-color: var(--edge);
+  background: var(--panel);
+}
+:root[data-theme="light"] body:has(.dungeon-chamber) .encounter-row:hover {
+  border-color: var(--gold);
+  background: var(--panel-hover);
+}
+
+/* Player, course analysis, and character sheet */
+:root[data-theme="light"] .player-frame,
+:root[data-theme="light"] .player-module {
+  border-color: var(--edge-strong);
+  background: var(--panel);
+  box-shadow: 0 14px 30px rgba(25,33,29,.14);
+}
+:root[data-theme="light"] .player-source-heading,
+:root[data-theme="light"] .player-toolbar {
+  border-color: var(--edge);
+  background: var(--panel);
+  color: var(--foreground);
+}
+:root[data-theme="light"] .player-source-mark {
+  border-color: var(--gold);
+  background: var(--panel-strong);
+  color: var(--gold);
+}
+:root[data-theme="light"] .player-source-heading strong,
+:root[data-theme="light"] .player-current-episode b { color: var(--foreground); }
+:root[data-theme="light"] .player-source-meta { color: var(--muted); }
+:root[data-theme="light"] .player-current-episode { background: var(--panel-strong); }
+:root[data-theme="light"] .player-source { color: var(--muted); }
+:root[data-theme="light"] .player-source:hover { color: var(--foreground); }
+:root[data-theme="light"] .player-source.active {
+  border-color: var(--edge-strong);
+  background: var(--panel-strong);
+  color: var(--gold);
+}
+:root[data-theme="light"] .player-tool { border-color: var(--edge-strong); color: var(--foreground); }
+:root[data-theme="light"] .analysis-map {
+  border-color: var(--edge);
+  background: var(--panel);
+}
+:root[data-theme="light"] .analysis-map-head,
+:root[data-theme="light"] .analysis-overview,
+:root[data-theme="light"] .analysis-episode-list > li,
+:root[data-theme="light"] .analysis-episode-body {
+  border-color: var(--edge);
+  background: var(--panel);
+}
+:root[data-theme="light"] .analysis-map-head h2,
+:root[data-theme="light"] .analysis-episode-trigger,
+:root[data-theme="light"] .analysis-episode-copy > strong,
+:root[data-theme="light"] .analysis-keypoint-copy > strong { color: var(--foreground); }
+:root[data-theme="light"] .analysis-map-basis,
+:root[data-theme="light"] .analysis-overview,
+:root[data-theme="light"] .analysis-episode-copy > span,
+:root[data-theme="light"] .analysis-summary-block p,
+:root[data-theme="light"] .analysis-keypoint-copy > p { color: var(--muted); }
+:root[data-theme="light"] .analysis-episode-trigger:hover,
+:root[data-theme="light"] .analysis-keypoint-list > li { background: var(--panel-hover); }
+:root[data-theme="light"] .analysis-keypoint-list > li { border-color: var(--edge); }
+:root[data-theme="light"] .analysis-timestamp,
+:root[data-theme="light"] .analysis-keypoint-index { background: var(--panel-strong); }
+:root[data-theme="light"] .analysis-timestamp:hover { background: #efe6cf; }
+:root[data-theme="light"] .analysis-formula { background: #edf4f0; color: var(--foreground); }
+:root[data-theme="light"] .analysis-formula code { color: var(--muted); }
+:root[data-theme="light"] .analysis-formula-action:hover { background: #dcebe6; }
+:root[data-theme="light"] .analysis-term-list > span {
+  border-color: var(--edge);
+  background: var(--panel-strong);
+  color: var(--foreground);
+}
+:root[data-theme="light"] .rpg-character-sheet,
+:root[data-theme="light"] .rpg-inventory {
+  border-color: var(--edge);
+  background: var(--panel);
+}
+:root[data-theme="light"] .rpg-attribute-grid,
+:root[data-theme="light"] .rpg-attribute-grid > div { border-color: var(--edge); }
+:root[data-theme="light"] .rpg-attribute-grid > div,
+:root[data-theme="light"] .rpg-sheet-note,
+:root[data-theme="light"] .rpg-inventory-list small { color: var(--muted); }
+:root[data-theme="light"] .rpg-attribute-grid b,
+:root[data-theme="light"] .rpg-inventory-list b { color: var(--foreground); }
+:root[data-theme="light"] .rpg-wallet,
+:root[data-theme="light"] .rpg-inventory-list li {
+  border-color: var(--edge);
+  background: var(--panel-strong);
+}
+
+/* Glossary rail */
+:root[data-theme="light"] .glossary-index-rail {
+  border-color: rgba(139,90,18,.42);
+  background: color-mix(in srgb, var(--panel) 95%, transparent);
+  color: var(--muted);
+  box-shadow: 0 8px 22px rgba(25,33,29,.18);
+}
+:root[data-theme="light"] .glossary-index-items button { color: var(--muted); }
+:root[data-theme="light"] .glossary-index-items button:hover,
+:root[data-theme="light"] .glossary-index-items button.active {
+  background: #efe6cf;
+  color: var(--gold);
+}
+:root[data-theme="light"] .glossary-index-indicator {
+  border-color: var(--gold);
+  background: var(--panel);
+  color: var(--gold);
+  box-shadow: 0 8px 18px rgba(25,33,29,.18);
+}
