@@ -3,165 +3,310 @@
   "generatedAt": "2026-08-02",
   "model": "claude-opus-5",
   "sourceIndex": 0,
-  "basis": "titles-only",
-  "overview": "斯坦福 CS224n 是自然语言处理领域的标准入门课，由 Christopher Manning 主讲。课程从词向量与分布式语义出发，依次讲透神经网络反向传播、依存句法分析、循环神经网络与 LSTM、机器翻译与注意力机制，再到自注意力、Transformer 与大规模预训练。后半程覆盖问答、文本生成、共指消解、知识注入、模型分析与社会伦理，是通往大语言模型时代的正门。",
+  "basis": "subtitles",
+  "overview": "斯坦福 CS224n（2021 冬季版）由 Christopher Manning 主讲，是自然语言处理方向的标准课。课程从词向量与分布式语义讲起，依次推进到反向传播、依存句法分析、循环神经网络与 LSTM、机器翻译中的注意力机制，再到自注意力、Transformer 与大规模预训练模型。后半程覆盖问答、文本生成、共指消解、T5 与大语言模型、知识注入、模型可解释性与社会伦理，是从传统 NLP 通往大模型时代的完整路径。",
   "episodes": [
     {
       "n": 1,
-      "summary": "开篇讲清 NLP 的核心问题：如何让计算机表示「词义」。先回顾 WordNet 这类人工同义词典的局限——难以维护、缺少细粒度相似度、无法自动更新。接着引出分布式语义假设：一个词的含义由它出现的上下文决定，从而把词表示成稠密向量而非离散的 one-hot 符号。最后详细推导 word2vec 的 Skip-gram 模型：用中心词预测窗口内的上下文词，通过最大化对数似然、对向量求梯度并做随机梯度下降来学习。课程还展示了训练好的词向量在类比任务上的惊人表现。",
+      "summary": "开场先用十分钟交代课程目标与人类语言的特殊性，强调语言是人类构建出来的沟通系统，并以 GPT-3 的少样本文本续写、自然语言转 SQL 为例展示 NLP 的当下能力。随后切入正题：计算机怎样表示「词义」。Manning 先批评 WordNet 这类人工同义词库与 one-hot 局部表示的缺陷——任意两个词向量正交，无法度量相似度。接着引入分布式语义假设，把词表示成稠密向量，并完整推导 word2vec 的 Skip-gram 模型：用中心词预测窗口内上下文词，以 softmax 定义条件概率，对目标函数求偏导得到梯度并做随机梯度下降。课堂最后用 Jupyter 演示了训练好的词向量在类比任务上的表现。",
       "keyPoints": [
         {
-          "title": "WordNet 与离散符号表示的局限",
-          "detail": "传统方法把词当作独立的原子符号（one-hot），任意两个词向量正交，无法表达相似性；人工构建的同义词网络又难以覆盖新词与语境细微差别。"
+          "t": 900,
+          "title": "词义如何被计算机表示",
+          "detail": "语言学上「意义」可以用指称语义（denotational semantics）刻画，但集合式的定义无法在计算机里直接操作，需要一种可计算的数值表示。"
         },
         {
+          "t": 1080,
+          "title": "WordNet 与 one-hot 局部表示的局限",
+          "detail": "人工同义词库难以维护、覆盖不全且无法表达细粒度相似度；把词编码成 one-hot 向量则使任意两词正交，点积恒为零，相似性信息彻底丢失。",
+          "formula": "w_{motel}^\\top w_{hotel} = 0"
+        },
+        {
+          "t": 1260,
           "title": "分布式语义假设",
-          "detail": "「You shall know a word by the company it keeps」——用大量语料中一个词的上下文分布来刻画它的含义，这是所有词嵌入方法的理论基础。"
+          "detail": "Firth 的名言「一个词的含义由与它同现的词决定」是所有词嵌入方法的理论基础——用中心词周围窗口内出现的词的分布来刻画它的语义。同时区分 type（词型）与 token（词例）两种意义上的「词」。"
         },
         {
-          "title": "word2vec Skip-gram 目标函数",
-          "detail": "遍历语料每个位置 t，用中心词 w_t 预测窗口半径 m 内的上下文词，最小化平均负对数似然。",
-          "formula": "J(\\theta) = -\\frac{1}{T}\\sum_{t=1}^{T}\\sum_{-m \\le j \\le m,\\, j \\ne 0} \\log P(w_{t+j} \\mid w_t; \\theta)"
+          "t": 1890,
+          "title": "Skip-gram 的似然与目标函数",
+          "detail": "遍历语料每个位置，把该位置词作为中心词，最大化窗口内所有上下文词的条件概率之积；取负对数并按语料长度归一化，得到要最小化的平均负对数似然。",
+          "formula": "J(\\theta) = -\\frac{1}{T}\\sum_{t=1}^{T}\\sum_{-m \\le j \\le m,\\, j \\ne 0} \\log P(w_{t+j} \\mid w_t;\\theta)"
         },
         {
-          "title": "用 Softmax 定义条件概率",
-          "detail": "每个词有中心词向量 v 与上下文词向量 u 两套表示，条件概率由两者内积经 softmax 归一化得到。",
-          "formula": "P(o \\mid c) = \\frac{\\exp(u_o^{\\top} v_c)}{\\sum_{w \\in V} \\exp(u_w^{\\top} v_c)}"
+          "t": 2070,
+          "title": "用点积加 softmax 定义条件概率",
+          "detail": "每个词学两套向量：作中心词时用 v，作上下文词时用 u。两者点积衡量相似度，取指数保证为正，再除以全词表求和做归一化，即得 softmax 概率分布。",
+          "formula": "P(o \\mid c) = \\frac{\\exp(u_o^\\top v_c)}{\\sum_{w \\in V} \\exp(u_w^\\top v_c)}"
         },
         {
-          "title": "梯度推导与随机梯度下降",
-          "detail": "对中心词向量求偏导后得到「观测值减期望值」的优雅形式，说明模型在把预测分布往真实上下文拉。",
-          "formula": "\\frac{\\partial J}{\\partial v_c} = u_o - \\sum_{w \\in V} P(w \\mid c)\\, u_w"
+          "t": 2340,
+          "title": "对中心词向量求梯度",
+          "detail": "把对数拆成分子减分母两部分，分子部分直接得到 u_o；分母部分用链式法则求导，指数与求和交换后自然还原出 softmax 概率，需要注意换掉求和的哑指标以免与外层变量冲突。"
         },
         {
-          "title": "词向量空间的语义结构",
-          "detail": "训练结果中方向本身携带语义，经典类比 king - man + woman ≈ queen 表明线性子结构编码了性别、时态、国家—首都等关系。"
+          "t": 3330,
+          "title": "梯度 = 观察值减期望值",
+          "detail": "推导结果是「实际出现的上下文词向量」减去「模型按当前概率加权的期望上下文词向量」。所有 softmax 型模型都呈现这个形式：模型预测得越准，梯度越接近零。",
+          "formula": "\\frac{\\partial}{\\partial v_c}\\log P(o \\mid c) = u_o - \\sum_{x \\in V} P(x \\mid c)\\, u_x"
+        },
+        {
+          "t": 3600,
+          "title": "词向量空间中的类比运算",
+          "detail": "训练好的向量支持有意义的算术：king 减 man 加 woman 后最近邻是 queen，国家与首都、公司与 CEO 等关系也能通过向量差捕捉，说明纯粹从共现统计中涌现出了结构化的语义信息。",
+          "formula": "v_{king} - v_{man} + v_{woman} \\approx v_{queen}"
         }
       ],
       "terms": [
-        { "term": "Word Vector 词向量", "definition": "把一个词映射成的稠密实数向量，几何上的邻近关系反映语义相似度。" },
-        { "term": "Distributional Semantics 分布式语义", "definition": "认为词义可以由它在语料中的上下文分布来刻画的语言学假设。" },
-        { "term": "Skip-gram 跳字模型", "definition": "word2vec 的一种训练形式，用中心词去预测窗口内的上下文词。" },
-        { "term": "One-hot Vector 独热向量", "definition": "只有一个分量为 1、其余为 0 的稀疏向量，用于表示离散符号但无法编码相似性。" },
-        { "term": "Stochastic Gradient Descent 随机梯度下降", "definition": "每次只用一个或一小批样本估计梯度并更新参数的优化方法。" }
+        {
+          "term": "Word Vector 词向量",
+          "definition": "把一个词表示成稠密实数向量，使语义相近的词在向量空间中彼此靠近。"
+        },
+        {
+          "term": "Distributional Semantics 分布式语义",
+          "definition": "用一个词在语料中出现的上下文分布来刻画其含义的语义学观点。"
+        },
+        {
+          "term": "Skip-gram 跳字模型",
+          "definition": "word2vec 的一种形式，以中心词为输入去预测窗口内的上下文词。"
+        },
+        {
+          "term": "Softmax 归一化指数函数",
+          "definition": "把任意实数分数向量映射为和为一的概率分布，放大最大项的同时保留全体信息。"
+        },
+        {
+          "term": "Stochastic Gradient Descent 随机梯度下降",
+          "definition": "每次只用一个样本或小批量估计梯度并更新参数的优化算法，是神经网络训练的标准做法。"
+        }
       ]
     },
     {
       "n": 2,
-      "summary": "本讲把 word2vec 讲完并推广到更广的词向量家族。先补充 CBOW 与 Skip-gram 的对偶关系，再说明朴素 softmax 因归一化项遍历整个词表而代价高昂，引出负采样这一高效近似。随后转向基于计数的方法：共现矩阵、SVD 降维，以及把两条路线统一起来的 GloVe——它直接对共现比值建模，用加权最小二乘拟合对数共现次数。最后讨论词向量的评估，区分内在评估（类比、相似度打分）与外在评估（下游任务），并指出一词多义带来的表示困难。",
+      "summary": "先补完 word2vec 的训练流程：随机小值初始化向量，用随机梯度下降在语料上反复迭代。因为每个窗口只涉及少数词，梯度极度稀疏，工程上应只更新用到的那几行。接着讲论文实际采用的负采样目标函数——用 sigmoid 把「真实上下文词」推高、把若干随机采样的噪声词压低，并说明采样分布要对词频取 3/4 次幂以提升低频词的被采样概率。第二半转向基于计数的方法：共现矩阵、SVD 降维及其缩放技巧，然后引出 GloVe——它抓住「共现概率的比值才编码线性语义成分」这一洞察，直接在全局统计上做加权最小二乘。最后讨论词向量的内在评估（类比、相似度打分）与外在评估（命名实体识别），并以 pike 一词讨论多义词：单个向量其实是各词义向量按频率加权的叠加。",
       "keyPoints": [
         {
-          "title": "负采样替代完整 Softmax",
-          "detail": "把多分类问题转成一系列二分类：区分真实上下文词与从噪声分布采出的 k 个负样本，避免对全词表求和。",
-          "formula": "J_{neg}(o,c) = -\\log \\sigma(u_o^{\\top} v_c) - \\sum_{k=1}^{K} \\log \\sigma(-u_k^{\\top} v_c)"
+          "t": 540,
+          "title": "随机梯度下降取代全量梯度下降",
+          "detail": "语料动辄数十亿词，算一次完整梯度就要扫全库，慢到不可行。因此几乎所有神经网络训练都用 SGD：每采一个窗口就更新一次。它不只是性能技巧，噪声本身还有助于跳出较差的局部解。",
+          "formula": "\\theta^{new} = \\theta^{old} - \\alpha \\nabla_{\\theta} J_t(\\theta)"
         },
         {
-          "title": "噪声分布的 3/4 次幂修正",
-          "detail": "负样本按词频的 0.75 次方采样，既压低高频虚词的主导地位，又不至于让低频词被完全忽略。",
-          "formula": "P_n(w) = \\frac{U(w)^{3/4}}{Z}"
+          "t": 990,
+          "title": "负采样目标函数",
+          "detail": "softmax 分母要遍历整个词表，代价过高。负采样改为二分类：让中心词与真实上下文词的点积经 sigmoid 后接近 1，同时让它与 K 个随机采样词的点积接近 0，利用 sigmoid 的对称性把负例写成取负号的形式。",
+          "formula": "J_{neg}(u_o, v_c) = -\\log\\sigma(u_o^\\top v_c) - \\sum_{k=1}^{K}\\log\\sigma(-u_k^\\top v_c)"
         },
         {
-          "title": "共现矩阵与 SVD",
-          "detail": "统计窗口内或全文档级别的词共现计数得到稀疏高维矩阵，再用奇异值分解降到低维稠密向量，这是 LSA 一脉的经典做法。"
+          "t": 1260,
+          "title": "3/4 次幂的采样分布",
+          "detail": "若按原始词频采负例，the、of 这类虚词会淹没一切；若用均匀分布，又采不到有信息量的常见词。取词频的 3/4 次幂再归一化，恰好压低高频词、抬高低频词，实践中效果最好。",
+          "formula": "P(w) = \\frac{U(w)^{3/4}}{Z}"
         },
         {
-          "title": "GloVe：计数派与预测派的统一",
-          "detail": "核心洞察是共现概率的比值才编码语义关系，于是让向量内积去拟合对数共现次数，并用权重函数抑制极端高频词对。",
-          "formula": "J = \\sum_{i,j=1}^{V} f(X_{ij})\\left(w_i^{\\top}\\tilde{w}_j + b_i + \\tilde{b}_j - \\log X_{ij}\\right)^2"
+          "t": 1440,
+          "title": "共现计数矩阵",
+          "detail": "另一条技术路线是直接统计词与词的共现次数。窗口取小（如 1-5 词）能捕捉句法与细粒度语义；窗口取整篇文档则得到文档-词矩阵，那是信息检索里潜在语义分析的做法。矩阵天然对称。"
         },
         {
-          "title": "内在评估与外在评估",
-          "detail": "内在评估直接测类比准确率或与人工相似度打分的相关系数，快速但间接；外在评估把词向量接入命名实体识别等真实任务，慢但可信。"
+          "t": 1980,
+          "title": "SVD 降维与缩放技巧",
+          "detail": "对共现矩阵做奇异值分解、只保留前 k 个奇异值，就能把高维稀疏计数压成低维稠密向量。但直接对原始计数做 SVD 效果很差，需要先对计数取对数或做频次截断，压制极高频词的主导作用。",
+          "formula": "X = U \\Sigma V^\\top"
         },
         {
-          "title": "一词多义问题",
-          "detail": "静态词向量给每个词形只分配一个向量，实际得到的是各个义项按频率加权的叠加，这也为后来的上下文相关表示埋下伏笔。"
+          "t": 2520,
+          "title": "共现概率的比值编码线性语义",
+          "detail": "GloVe 的核心洞察：单看 P(solid|ice) 意义不大，但 P(solid|ice)/P(solid|steam) 约为 10，P(gas|ice)/P(gas|steam) 约为 1/10，而 water、fashion 这类词的比值都接近 1。正是这个比值把「固态-气态」这一语义维度线性地暴露出来。",
+          "formula": "\\frac{P(k \\mid ice)}{P(k \\mid steam)}"
+        },
+        {
+          "t": 2790,
+          "title": "GloVe 的加权最小二乘目标",
+          "detail": "要让向量点积对应共现概率的对数，就得到一个双线性对数模型。加上两个偏置项吸收词频基线，再乘一个上限截断的权重函数 f 防止极高频词主导，即可在全局共现统计上一次性优化。",
+          "formula": "J = \\sum_{i,j} f(X_{ij})\\left(w_i^\\top \\tilde w_j + b_i + \\tilde b_j - \\log X_{ij}\\right)^2"
+        },
+        {
+          "t": 4230,
+          "title": "多义词与向量叠加",
+          "detail": "pike 有中世纪长矛、鱼、道路等多种词义。虽然可以为每个词义单独训练向量，但实践表明单个向量其实是各词义向量按出现频率的加权平均；由于高维空间的稀疏性，这个叠加向量竟可用稀疏编码近似还原出各个分量。",
+          "formula": "v_{pike} = \\alpha_1 v_{pike_1} + \\alpha_2 v_{pike_2} + \\alpha_3 v_{pike_3}"
         }
       ],
       "terms": [
-        { "term": "Negative Sampling 负采样", "definition": "用少量随机采样的负例近似完整 softmax 归一化的训练技巧。" },
-        { "term": "Co-occurrence Matrix 共现矩阵", "definition": "记录词与词在给定窗口内共同出现次数的统计矩阵。" },
-        { "term": "GloVe 全局词向量", "definition": "基于全局共现统计、用加权最小二乘拟合对数共现次数的词向量模型。" },
-        { "term": "Singular Value Decomposition 奇异值分解", "definition": "把矩阵分解为三个矩阵乘积的线性代数工具，常用于低秩降维。" },
-        { "term": "Polysemy 一词多义", "definition": "同一词形承载多个不同义项的语言现象。" }
+        {
+          "term": "Negative Sampling 负采样",
+          "definition": "用少量随机采样的噪声词替代全词表 softmax 归一化的高效训练技巧。"
+        },
+        {
+          "term": "Co-occurrence Matrix 共现矩阵",
+          "definition": "统计词对在给定窗口或文档内同时出现次数所构成的矩阵。"
+        },
+        {
+          "term": "Singular Value Decomposition 奇异值分解",
+          "definition": "把任意矩阵分解为正交矩阵、对角奇异值矩阵与正交矩阵之积，可用于低秩降维。"
+        },
+        {
+          "term": "GloVe 全局词向量",
+          "definition": "斯坦福提出的词嵌入模型，直接在全局共现统计上做加权最小二乘拟合。"
+        },
+        {
+          "term": "Intrinsic Evaluation 内在评估",
+          "definition": "在类比、相似度等直接子任务上给表示打分的评估方式，快速但未必与下游性能一致。"
+        }
       ]
     },
     {
       "n": 3,
-      "summary": "本讲用命名实体识别的窗口分类任务串起前馈神经网络的完整训练机制。先搭一个「取窗口词向量拼接 → 隐藏层 → 打分」的简单模型，说明神经网络相比线性分类器的优势在于能学到非线性决策边界。核心内容是矩阵微积分：雅可比矩阵、链式法则，以及如何按形状约定把梯度整理成与参数同形的矩阵。接着介绍计算图视角下的反向传播——前向传播算值、反向传播沿边分发上游梯度，并强调重复子表达式只算一次。最后给出实践要点：梯度检查、非线性激活函数选择、参数初始化与 Adam 优化器、正则化与 Dropout。",
+      "summary": "本讲把神经网络训练背后的数学彻底讲透。先用命名实体识别的窗口分类器作为具体载体：把窗口内五个词向量拼接成长向量，经一层仿射变换加非线性得到隐层，再与一个向量点积得到分数。然后从单变量导数复习起，引入雅可比矩阵与多元链式法则，逐个推出各基本模块的雅可比——逐元素非线性对应对角阵，仿射层对 x 的雅可比就是权重矩阵。推导中揭示反向传播的核心思想：对 b 与对 W 的梯度共享前两项，把它抽出来记作局部误差信号 delta 就能避免重复计算。随后讨论「雅可比形式 vs 形状约定」这一实践中的困惑点。后半程转向计算图：前向传播沿边计算值，反向传播沿反向边把上游梯度乘以局部梯度得到下游梯度，加法节点分发梯度、max 节点做路由、分支节点的多路梯度相加。最后讲拓扑排序驱动的自动求导实现，以及用中心差分做梯度检查。",
       "keyPoints": [
         {
-          "title": "窗口分类做命名实体识别",
-          "detail": "把中心词及其左右各若干个词的向量拼成一个长向量送入分类器，让上下文帮助判断中心词的实体类别，解决歧义与未登录词问题。"
+          "t": 360,
+          "title": "窗口分类器做命名实体识别",
+          "detail": "判断 Paris 是地名还是人名必须看上下文。做法是取目标词左右各两个词，把五个词向量拼接成一个长向量喂进分类器，输出该位置是否为某类实体。",
+          "formula": "s = u^\\top h,\\quad h = f(Wx + b),\\quad x = [x_{t-2};x_{t-1};x_t;x_{t+1};x_{t+2}]"
         },
         {
-          "title": "雅可比矩阵与链式法则",
-          "detail": "多元函数的导数是雅可比矩阵，复合函数的导数即雅可比矩阵连乘，这是反向传播的数学本体。",
-          "formula": "\\left(\\frac{\\partial \\mathbf{h}}{\\partial \\mathbf{z}}\\right)_{ij} = \\frac{\\partial h_i}{\\partial z_j}"
+          "t": 1080,
+          "title": "雅可比矩阵：多元函数的导数",
+          "detail": "当函数接受 n 维输入产生 m 维输出时，导数推广为 m×n 的雅可比矩阵，第 i 行第 j 列是第 i 个输出对第 j 个输入的偏导。所有神经网络层的梯度计算都归结为写出各层的雅可比。",
+          "formula": "\\left(\\frac{\\partial f}{\\partial x}\\right)_{ij} = \\frac{\\partial f_i}{\\partial x_j}"
         },
         {
-          "title": "形状约定",
-          "detail": "工程上约定梯度与参数保持相同形状，便于直接做参数更新；推导时可先用雅可比形式算清楚再转置整形。",
-          "formula": "\\frac{\\partial J}{\\partial W} = \\delta^{\\top} \\mathbf{x}^{\\top}"
+          "t": 1170,
+          "title": "多元链式法则与基本模块的雅可比",
+          "detail": "复合函数的雅可比等于各层雅可比相乘。两个关键结论：逐元素非线性的雅可比是以 f'(z) 为对角元的对角阵；仿射层 z = Wx + b 对 x 的雅可比就是 W 本身，对 b 的雅可比是单位阵。",
+          "formula": "\\frac{\\partial h}{\\partial x} = \\frac{\\partial h}{\\partial z}\\,\\frac{\\partial z}{\\partial x} = \\mathrm{diag}(f'(z))\\, W"
         },
         {
-          "title": "计算图与反向传播",
-          "detail": "节点是运算、边是张量；反向时每个节点把上游梯度乘以自己的局部梯度传给下游，加法节点分发梯度、乘法节点交换输入、max 节点路由梯度。"
+          "t": 2070,
+          "title": "局部误差信号 delta 与梯度复用",
+          "detail": "求 s 对 b 与 s 对 W 的梯度时，前两项完全相同。把这段公共部分抽出来记作 delta，就只需算一次再分别乘各自的最后一项——这正是反向传播避免指数级重复计算的关键。",
+          "formula": "\\delta = \\frac{\\partial s}{\\partial z} = u \\circ f'(z),\\qquad \\frac{\\partial s}{\\partial W} = \\delta\\, x^\\top"
         },
         {
-          "title": "梯度检查",
-          "detail": "用中心差分数值梯度与解析梯度比对，是手写反向传播时定位 bug 的可靠手段，但太慢不能用于训练。",
+          "t": 2250,
+          "title": "雅可比形式与形状约定的取舍",
+          "detail": "严格按雅可比定义，标量对矩阵 W 的梯度是一个超长行向量；但 SGD 要求梯度与参数同形才能相减。实践中采用形状约定：把结果重塑成与 W 相同的矩阵形状，作业答案也按这个约定给出。",
+          "formula": "\\theta^{new} = \\theta^{old} - \\alpha \\nabla_{\\theta} J,\\quad \\nabla_W J \\in \\mathbb{R}^{n \\times m}"
+        },
+        {
+          "t": 2880,
+          "title": "计算图",
+          "detail": "把神经网络表示成有向图：源节点是输入与参数，内部节点是运算，边传递中间结果。沿边正向求值即前向传播，这为系统化的自动求导提供了统一框架。"
+        },
+        {
+          "t": 3240,
+          "title": "下游梯度 = 上游梯度 × 局部梯度",
+          "detail": "反向传播的单节点规则：每个节点只需知道自己的局部梯度，乘上从后面传来的上游梯度就得到往前传的下游梯度。加法节点把梯度原样分发给两个输入，max 节点只把梯度路由给取到最大值的那一支，分支节点则把多条上游梯度相加。",
+          "formula": "\\frac{\\partial s}{\\partial x} = \\frac{\\partial s}{\\partial z}\\,\\frac{\\partial z}{\\partial x}"
+        },
+        {
+          "t": 4500,
+          "title": "自动求导的实现与拓扑排序",
+          "detail": "现代框架不做符号求导，而是让每个层实现 forward 与 backward 两个方法：前向时缓存需要的中间值，反向时按图的逆拓扑序依次调用 backward。正确实现的反向传播与前向传播是同一个大 O 复杂度。"
+        },
+        {
+          "t": 4680,
+          "title": "用中心差分做梯度检查",
+          "detail": "把某个参数加减一个极小量 h，用差商近似导数，与解析梯度比对即可发现实现错误。双边中心差分的误差是 h 的二阶，远比单边差分精确，因此调试时应当用它。",
           "formula": "f'(x) \\approx \\frac{f(x+h) - f(x-h)}{2h}"
-        },
-        {
-          "title": "训练实践要点",
-          "detail": "隐藏层默认用 ReLU，权重用 Xavier 初始化打破对称并稳定方差，优化器优先选 Adam，配合 L2 正则与 Dropout 抑制过拟合。"
         }
       ],
       "terms": [
-        { "term": "Named Entity Recognition 命名实体识别", "definition": "从文本中找出人名、地名、机构名等实体并归类的序列标注任务。" },
-        { "term": "Backpropagation 反向传播", "definition": "在计算图上按链式法则自输出向输入逐层传递梯度的高效求导算法。" },
-        { "term": "Jacobian Matrix 雅可比矩阵", "definition": "向量值函数所有一阶偏导数排成的矩阵。" },
-        { "term": "Xavier Initialization Xavier 初始化", "definition": "按输入输出维度设定权重初始方差，使各层激活值方差保持稳定的初始化方案。" },
-        { "term": "Dropout 随机失活", "definition": "训练时随机屏蔽部分神经元以防止共适应、提升泛化的正则化方法。" }
+        {
+          "term": "Backpropagation 反向传播",
+          "definition": "在计算图上按逆拓扑序复用链式法则、高效计算全部参数梯度的算法。"
+        },
+        {
+          "term": "Jacobian Matrix 雅可比矩阵",
+          "definition": "多输入多输出函数的一阶偏导数矩阵，是多元链式法则的运算单元。"
+        },
+        {
+          "term": "Chain Rule 链式法则",
+          "definition": "复合函数的导数等于各层导数之积，向量情形下即各层雅可比矩阵相乘。"
+        },
+        {
+          "term": "Computation Graph 计算图",
+          "definition": "把模型的运算表示成有向图，节点为算子、边传递张量，是自动求导的基础结构。"
+        },
+        {
+          "term": "Gradient Check 梯度检查",
+          "definition": "用数值差分近似导数并与解析梯度比对，用来验证反向传播实现是否正确。"
+        }
       ]
     },
     {
       "n": 4,
-      "summary": "本讲讨论句子的句法结构以及如何自动分析它。先对比两种句法观：短语结构语法用嵌套的成分刻画层级，依存语法则用词与词之间的二元支配关系构成一棵有向树。通过介词短语附着等经典例子说明句法歧义的组合爆炸（卡塔兰数）以及正确分析对语义理解的价值。随后介绍宾州树库与通用依存标注体系的意义，讲解基于转移的依存分析：用栈、缓冲区和 SHIFT/LEFT-ARC/RIGHT-ARC 三类动作把解析变成序列决策，贪心解码即可达到线性时间。重点讲 Chen & Manning 的神经依存分析器——用稠密特征替代千万维稀疏指示特征，既快又准。最后给出 UAS/LAS 评价指标并提及基于图的最大生成树方法。",
+      "summary": "本讲转向语言学与句法。先介绍两种描述句子结构的框架：以短语结构为核心的成分文法（形式上即上下文无关文法），以及现代 NLP 更常用的依存文法——把结构表示成词与词之间带类型的二元不对称关系。接着用大量真实例句展示句法歧义的严重性：介词短语附着、并列范围、形容词与副词修饰等，并指出以 k 个介词短语结尾的句子其附着方式数目由卡特兰数给出，呈指数增长。随后回顾依存文法两千五百年的历史（可上溯至 Panini 的梵语语法）以及树库（尤其是通用依存 Universal Dependencies）对现代 NLP 的意义。最后讲解基于转移的依存分析：用栈、缓冲区和弧集三元组，通过 shift、left-arc、right-arc 三类动作线性时间地构造依存树，用分类器贪心地在每步选择动作，并以 UAS/LAS 作为评价指标。传统方法依赖百万量级的稀疏指示特征，这正是下一讲引入神经网络的动机。",
       "keyPoints": [
         {
-          "title": "短语结构 vs 依存结构",
-          "detail": "前者用上下文无关文法把词组织成嵌套成分，后者直接标注中心词与其从属词的箭头关系，形成一棵以根节点为顶的依存树。"
+          "t": 810,
+          "title": "成分文法与上下文无关文法",
+          "detail": "成分文法把词组织成越来越大的短语单元：限定词加名词构成名词短语，介词加名词短语构成介词短语，再层层嵌套。其形式化对应编译原理里熟悉的上下文无关文法，由产生式规则与词典组成。"
         },
         {
-          "title": "附着歧义与卡塔兰数",
-          "detail": "n 个介词短语的附着方式数量按卡塔兰数指数增长，说明纯枚举不可行，必须用统计或神经模型消歧。",
-          "formula": "C_n = \\frac{1}{n+1}\\binom{2n}{n}"
+          "t": 1170,
+          "title": "依存文法：词与词的二元不对称关系",
+          "detail": "不再建短语节点，而是直接画从中心词（head）到修饰词（dependent）的有向箭头，并标注关系类型如主语、宾语、名词修饰语。整个句子构成一棵树，通常再加一个 ROOT 伪节点作为树根，好让每个词恰好有一个中心词。"
         },
         {
+          "t": 1530,
+          "title": "介词短语附着歧义",
+          "detail": "「警察用刀杀了那个人」中的介词短语既可以修饰动词也可以修饰宾语名词，两种挂法对应完全不同的解释。人类靠语境与常识消歧，程序则必须做概率判断。不同语言的歧义模式不同——汉语因修饰动词的介词短语前置，往往不产生这类歧义。"
+        },
+        {
+          "t": 1890,
+          "title": "卡特兰数与歧义的指数爆炸",
+          "detail": "当句子末尾连续出现 k 个介词短语时，可能的附着方式数目由卡特兰数给出，这是一个指数增长的序列，广泛出现在各类树形结构的计数问题中。这说明穷举所有分析根本不可行。",
+          "formula": "C_n = \\frac{1}{n+1}\\binom{2n}{n} = \\frac{(2n)!}{(n+1)!\\,n!}"
+        },
+        {
+          "t": 2610,
+          "title": "依存结构的形式定义与历史",
+          "detail": "依存结构是词对之间带类型标签的二元不对称关系集合，构成一棵以 ROOT 为根的有向树。这一思路可上溯到公元前的 Panini 梵语语法，比二十世纪中叶才出现的成分文法与上下文无关文法古老得多；对语序自由、依靠格标记的语言，依存表示往往更自然。"
+        },
+        {
+          "t": 3060,
+          "title": "树库的价值",
+          "detail": "上世纪八九十年代起，研究者开始人工标注大规模句法树库。相比手写语法规则，树库可复用、覆盖真实语言分布、自带频次统计，还提供了统一的评测基准。Universal Dependencies 项目已覆盖约六十种语言，用同一套标签体系跨语言标注。"
+        },
+        {
+          "t": 3690,
+          "title": "投影性与非投影结构",
+          "detail": "若把词按语序排成一行、所有依存弧都画在上方且互不交叉，则称该分析是投影的。英语疑问句中的介词前置、成分移位等现象会产生非投影结构，而基于转移的标准算法只能产出投影树，需要额外机制处理。"
+        },
+        {
+          "t": 3960,
           "title": "基于转移的依存分析",
-          "detail": "维护栈与缓冲区，每步在移进、左弧、右弧中选一个动作，把解析转化为分类问题；每个词恰好被处理常数次，整体线性时间。"
+          "detail": "Nivre 提出的 shift-reduce 式解析器：状态由栈、缓冲区和已建弧集三部分构成，起始时栈里只有 ROOT、所有词在缓冲区。每步选择 shift（把缓冲区首词压栈）、left-arc 或 right-arc（在栈顶两词间建弧并弹出被支配的那个）之一，线性步数即可完成解析。用分类器在每个状态贪心选动作，传统做法依赖百万量级的稀疏指示特征。"
         },
         {
-          "title": "神经依存分析器",
-          "detail": "Chen & Manning 用栈顶/缓冲区若干位置的词、词性、已建弧标签的嵌入拼接后过一层隐藏层预测动作，摆脱了传统百万维稀疏特征模板。"
-        },
-        {
-          "title": "UAS 与 LAS 评价",
-          "detail": "无标签依存准确率只看中心词是否指对，带标签依存准确率还要求关系标签也正确，后者更严格。"
-        },
-        {
-          "title": "基于图的方法",
-          "detail": "为每一对词打分构成完全有向图，用最大生成树算法（Chu-Liu/Edmonds）全局求最优依存树，精度更高但复杂度也更高。"
+          "t": 4770,
+          "title": "UAS 与 LAS 评价指标",
+          "detail": "把系统输出的依存弧与人工标注的黄金树逐条比对：只看中心词是否找对得到无标签依存正确率 UAS，同时要求关系标签也正确则得到带标签依存正确率 LAS。因为每个词恰有一条入弧，分母就是句子词数。",
+          "formula": "\\mathrm{UAS} = \\frac{\\#\\{\\text{head 正确的词}\\}}{\\#\\{\\text{词}\\}}"
         }
       ],
       "terms": [
-        { "term": "Dependency Parsing 依存句法分析", "definition": "分析句子中词与词之间支配—从属关系并构建依存树的任务。" },
-        { "term": "Constituency Grammar 短语结构语法", "definition": "用上下文无关规则把词组合成嵌套短语成分的语法体系。" },
-        { "term": "Treebank 树库", "definition": "由语言学家人工标注句法结构的语料库，如宾州树库与通用依存树库。" },
-        { "term": "Transition-based Parsing 基于转移的分析", "definition": "通过一系列栈操作动作增量构建句法树的解析范式。" },
-        { "term": "Labeled Attachment Score 带标签依存准确率", "definition": "同时要求中心词与依存关系标签都预测正确的解析评价指标。" }
+        {
+          "term": "Dependency Parsing 依存句法分析",
+          "definition": "为句子构建词与词之间带类型有向关系树的句法分析任务。"
+        },
+        {
+          "term": "Constituency Grammar 成分文法",
+          "definition": "用嵌套短语单元描述句子结构的文法，形式上对应上下文无关文法。"
+        },
+        {
+          "term": "Treebank 树库",
+          "definition": "人工标注了句法结构的大规模语料库，是统计与神经句法分析的训练与评测基础。"
+        },
+        {
+          "term": "Transition-based Parsing 基于转移的句法分析",
+          "definition": "用栈、缓冲区与一组转移动作，以线性步数增量构造句法树的解析范式。"
+        },
+        {
+          "term": "Unlabeled Attachment Score 无标签依存正确率",
+          "definition": "只考察中心词是否预测正确的依存分析评价指标，加上关系标签要求即为 LAS。"
+        }
       ]
     },
     {
@@ -199,11 +344,26 @@
         }
       ],
       "terms": [
-        { "term": "Language Model 语言模型", "definition": "为词序列分配概率、可逐词预测下一个词的模型。" },
-        { "term": "n-gram n 元语法", "definition": "由连续 n 个词构成的片段，也指基于其计数的统计语言模型。" },
-        { "term": "Recurrent Neural Network 循环神经网络", "definition": "在时间维度上重复使用同一组权重、通过隐藏状态传递历史信息的网络结构。" },
-        { "term": "Perplexity 困惑度", "definition": "语言模型的标准评价指标，等于每词交叉熵的指数。" },
-        { "term": "Teacher Forcing 教师强制", "definition": "训练序列模型时用真实标签而非模型自身输出作为下一步输入的做法。" }
+        {
+          "term": "Language Model 语言模型",
+          "definition": "为词序列分配概率、可逐词预测下一个词的模型。"
+        },
+        {
+          "term": "n-gram n 元语法",
+          "definition": "由连续 n 个词构成的片段，也指基于其计数的统计语言模型。"
+        },
+        {
+          "term": "Recurrent Neural Network 循环神经网络",
+          "definition": "在时间维度上重复使用同一组权重、通过隐藏状态传递历史信息的网络结构。"
+        },
+        {
+          "term": "Perplexity 困惑度",
+          "definition": "语言模型的标准评价指标，等于每词交叉熵的指数。"
+        },
+        {
+          "term": "Teacher Forcing 教师强制",
+          "definition": "训练序列模型时用真实标签而非模型自身输出作为下一步输入的做法。"
+        }
       ]
     },
     {
@@ -240,11 +400,26 @@
         }
       ],
       "terms": [
-        { "term": "Vanishing Gradient 梯度消失", "definition": "反向传播中梯度随层数或时间步指数衰减，导致远距离依赖无法被学习的现象。" },
-        { "term": "Gradient Clipping 梯度裁剪", "definition": "对超过阈值的梯度范数做等比缩放以稳定训练的技巧。" },
-        { "term": "Long Short-Term Memory 长短期记忆网络", "definition": "通过细胞状态与三个门控实现长程信息保持的循环网络结构。" },
-        { "term": "Gated Recurrent Unit 门控循环单元", "definition": "只含更新门与重置门的简化门控循环网络。" },
-        { "term": "Bidirectional RNN 双向循环网络", "definition": "同时用正向与反向两条 RNN 编码序列并拼接其表示的结构。" }
+        {
+          "term": "Vanishing Gradient 梯度消失",
+          "definition": "反向传播中梯度随层数或时间步指数衰减，导致远距离依赖无法被学习的现象。"
+        },
+        {
+          "term": "Gradient Clipping 梯度裁剪",
+          "definition": "对超过阈值的梯度范数做等比缩放以稳定训练的技巧。"
+        },
+        {
+          "term": "Long Short-Term Memory 长短期记忆网络",
+          "definition": "通过细胞状态与三个门控实现长程信息保持的循环网络结构。"
+        },
+        {
+          "term": "Gated Recurrent Unit 门控循环单元",
+          "definition": "只含更新门与重置门的简化门控循环网络。"
+        },
+        {
+          "term": "Bidirectional RNN 双向循环网络",
+          "definition": "同时用正向与反向两条 RNN 编码序列并拼接其表示的结构。"
+        }
       ]
     },
     {
@@ -281,11 +456,26 @@
         }
       ],
       "terms": [
-        { "term": "Neural Machine Translation 神经机器翻译", "definition": "用单个端到端神经网络直接完成源语言到目标语言映射的翻译范式。" },
-        { "term": "Sequence-to-Sequence 序列到序列", "definition": "由编码器读入变长输入、解码器生成变长输出的通用架构。" },
-        { "term": "Attention 注意力机制", "definition": "让解码器在每一步动态加权关注编码器不同位置表示的机制。" },
-        { "term": "Beam Search 集束搜索", "definition": "解码时保留 k 条最优部分假设逐步扩展的近似搜索算法。" },
-        { "term": "BLEU Score BLEU 分数", "definition": "基于 n-gram 重合度与长度惩罚的机器翻译自动评价指标。" }
+        {
+          "term": "Neural Machine Translation 神经机器翻译",
+          "definition": "用单个端到端神经网络直接完成源语言到目标语言映射的翻译范式。"
+        },
+        {
+          "term": "Sequence-to-Sequence 序列到序列",
+          "definition": "由编码器读入变长输入、解码器生成变长输出的通用架构。"
+        },
+        {
+          "term": "Attention 注意力机制",
+          "definition": "让解码器在每一步动态加权关注编码器不同位置表示的机制。"
+        },
+        {
+          "term": "Beam Search 集束搜索",
+          "definition": "解码时保留 k 条最优部分假设逐步扩展的近似搜索算法。"
+        },
+        {
+          "term": "BLEU Score BLEU 分数",
+          "definition": "基于 n-gram 重合度与长度惩罚的机器翻译自动评价指标。"
+        }
       ]
     },
     {
@@ -318,10 +508,22 @@
         }
       ],
       "terms": [
-        { "term": "Baseline 基线模型", "definition": "作为对照的简单方法，用于判断新方法是否真的带来提升。" },
-        { "term": "Development Set 验证集", "definition": "用于调参与模型选择、不参与训练也不作为最终评测的数据划分。" },
-        { "term": "Overfitting 过拟合", "definition": "模型过度拟合训练数据的噪声导致在新数据上表现下降的现象。" },
-        { "term": "Error Analysis 误差分析", "definition": "人工检查并归类模型错误样本以指导改进方向的方法。" }
+        {
+          "term": "Baseline 基线模型",
+          "definition": "作为对照的简单方法，用于判断新方法是否真的带来提升。"
+        },
+        {
+          "term": "Development Set 验证集",
+          "definition": "用于调参与模型选择、不参与训练也不作为最终评测的数据划分。"
+        },
+        {
+          "term": "Overfitting 过拟合",
+          "definition": "模型过度拟合训练数据的噪声导致在新数据上表现下降的现象。"
+        },
+        {
+          "term": "Error Analysis 误差分析",
+          "definition": "人工检查并归类模型错误样本以指导改进方向的方法。"
+        }
       ]
     },
     {
@@ -358,11 +560,26 @@
         }
       ],
       "terms": [
-        { "term": "Self-Attention 自注意力", "definition": "序列内部每个位置对所有位置计算注意力并聚合信息的机制。" },
-        { "term": "Query Key Value 查询—键—值", "definition": "自注意力中由输入线性投影得到的三组向量，分别用于发问、被匹配和被聚合。" },
-        { "term": "Positional Encoding 位置编码", "definition": "为无序的注意力机制注入词序信息的向量表示。" },
-        { "term": "Multi-Head Attention 多头注意力", "definition": "在多个子空间并行执行注意力并拼接结果的结构。" },
-        { "term": "Layer Normalization 层归一化", "definition": "在特征维度上对单个样本做均值方差归一化以稳定训练的技术。" }
+        {
+          "term": "Self-Attention 自注意力",
+          "definition": "序列内部每个位置对所有位置计算注意力并聚合信息的机制。"
+        },
+        {
+          "term": "Query Key Value 查询—键—值",
+          "definition": "自注意力中由输入线性投影得到的三组向量，分别用于发问、被匹配和被聚合。"
+        },
+        {
+          "term": "Positional Encoding 位置编码",
+          "definition": "为无序的注意力机制注入词序信息的向量表示。"
+        },
+        {
+          "term": "Multi-Head Attention 多头注意力",
+          "definition": "在多个子空间并行执行注意力并拼接结果的结构。"
+        },
+        {
+          "term": "Layer Normalization 层归一化",
+          "definition": "在特征维度上对单个样本做均值方差归一化以稳定训练的技术。"
+        }
       ]
     },
     {
@@ -396,11 +613,26 @@
         }
       ],
       "terms": [
-        { "term": "Byte Pair Encoding 字节对编码", "definition": "通过反复合并高频相邻符号对构建子词词表的分词算法。" },
-        { "term": "Masked Language Model 掩码语言模型", "definition": "遮盖输入中部分词并让模型根据双向上下文还原的预训练目标。" },
-        { "term": "Pretraining 预训练", "definition": "在大规模无标注语料上先学习通用语言表示的训练阶段。" },
-        { "term": "Fine-tuning 微调", "definition": "在预训练模型基础上用下游任务标注数据继续训练以适配具体任务。" },
-        { "term": "Contextual Representation 上下文相关表示", "definition": "同一词形在不同上下文中得到不同向量的动态词表示。" }
+        {
+          "term": "Byte Pair Encoding 字节对编码",
+          "definition": "通过反复合并高频相邻符号对构建子词词表的分词算法。"
+        },
+        {
+          "term": "Masked Language Model 掩码语言模型",
+          "definition": "遮盖输入中部分词并让模型根据双向上下文还原的预训练目标。"
+        },
+        {
+          "term": "Pretraining 预训练",
+          "definition": "在大规模无标注语料上先学习通用语言表示的训练阶段。"
+        },
+        {
+          "term": "Fine-tuning 微调",
+          "definition": "在预训练模型基础上用下游任务标注数据继续训练以适配具体任务。"
+        },
+        {
+          "term": "Contextual Representation 上下文相关表示",
+          "definition": "同一词形在不同上下文中得到不同向量的动态词表示。"
+        }
       ]
     },
     {
@@ -434,11 +666,26 @@
         }
       ],
       "terms": [
-        { "term": "Reading Comprehension 阅读理解", "definition": "给定文段与问题，从中找出或生成答案的任务。" },
-        { "term": "Extractive QA 抽取式问答", "definition": "答案必须是原文中一个连续片段的问答形式。" },
-        { "term": "Open-domain QA 开放域问答", "definition": "不预先给定文段、需从大规模语料中检索证据再作答的问答形式。" },
-        { "term": "Dense Passage Retrieval 稠密段落检索", "definition": "用神经编码器把问题与段落映射到同一向量空间并按内积检索的方法。" },
-        { "term": "Exact Match 精确匹配率", "definition": "预测答案与参考答案在规范化后完全一致的比例。" }
+        {
+          "term": "Reading Comprehension 阅读理解",
+          "definition": "给定文段与问题，从中找出或生成答案的任务。"
+        },
+        {
+          "term": "Extractive QA 抽取式问答",
+          "definition": "答案必须是原文中一个连续片段的问答形式。"
+        },
+        {
+          "term": "Open-domain QA 开放域问答",
+          "definition": "不预先给定文段、需从大规模语料中检索证据再作答的问答形式。"
+        },
+        {
+          "term": "Dense Passage Retrieval 稠密段落检索",
+          "definition": "用神经编码器把问题与段落映射到同一向量空间并按内积检索的方法。"
+        },
+        {
+          "term": "Exact Match 精确匹配率",
+          "definition": "预测答案与参考答案在规范化后完全一致的比例。"
+        }
       ]
     },
     {
@@ -477,11 +724,26 @@
         }
       ],
       "terms": [
-        { "term": "Natural Language Generation 自然语言生成", "definition": "让模型产出连贯自然文本的任务总称。" },
-        { "term": "Nucleus Sampling 核采样", "definition": "按累积概率阈值动态截断候选集再采样的解码策略，又称 top-p 采样。" },
-        { "term": "Temperature 温度", "definition": "缩放 logits 以控制生成分布尖锐程度的超参数。" },
-        { "term": "Exposure Bias 曝光偏差", "definition": "训练用真实前缀而推理用自生成前缀所造成的分布不匹配。" },
-        { "term": "ROUGE Score ROUGE 分数", "definition": "基于 n-gram 召回率衡量摘要与参考文本重合度的自动指标。" }
+        {
+          "term": "Natural Language Generation 自然语言生成",
+          "definition": "让模型产出连贯自然文本的任务总称。"
+        },
+        {
+          "term": "Nucleus Sampling 核采样",
+          "definition": "按累积概率阈值动态截断候选集再采样的解码策略，又称 top-p 采样。"
+        },
+        {
+          "term": "Temperature 温度",
+          "definition": "缩放 logits 以控制生成分布尖锐程度的超参数。"
+        },
+        {
+          "term": "Exposure Bias 曝光偏差",
+          "definition": "训练用真实前缀而推理用自生成前缀所造成的分布不匹配。"
+        },
+        {
+          "term": "ROUGE Score ROUGE 分数",
+          "definition": "基于 n-gram 召回率衡量摘要与参考文本重合度的自动指标。"
+        }
       ]
     },
     {
@@ -515,11 +777,26 @@
         }
       ],
       "terms": [
-        { "term": "Coreference Resolution 共指消解", "definition": "把文本中指向同一实体的所有提及聚成同一簇的任务。" },
-        { "term": "Mention 提及", "definition": "文本中指称某个实体的语言片段，可以是代词、专名或名词短语。" },
-        { "term": "Anaphora 回指", "definition": "后出现的表达其解释依赖于前文某个表达的现象。" },
-        { "term": "Antecedent 先行词", "definition": "回指表达所指向的、在前文中出现的那个表达。" },
-        { "term": "Winograd Schema 威诺格拉德模式", "definition": "需要常识推理才能确定代词指向的精心设计测试句对。" }
+        {
+          "term": "Coreference Resolution 共指消解",
+          "definition": "把文本中指向同一实体的所有提及聚成同一簇的任务。"
+        },
+        {
+          "term": "Mention 提及",
+          "definition": "文本中指称某个实体的语言片段，可以是代词、专名或名词短语。"
+        },
+        {
+          "term": "Anaphora 回指",
+          "definition": "后出现的表达其解释依赖于前文某个表达的现象。"
+        },
+        {
+          "term": "Antecedent 先行词",
+          "definition": "回指表达所指向的、在前文中出现的那个表达。"
+        },
+        {
+          "term": "Winograd Schema 威诺格拉德模式",
+          "definition": "需要常识推理才能确定代词指向的精心设计测试句对。"
+        }
       ]
     },
     {
@@ -552,11 +829,26 @@
         }
       ],
       "terms": [
-        { "term": "Text-to-Text Framework 文本到文本框架", "definition": "把所有任务统一表述为字符串输入到字符串输出的建模范式。" },
-        { "term": "Span Corruption 片段破坏", "definition": "遮盖连续文本片段并让模型还原的预训练目标。" },
-        { "term": "In-context Learning 上下文学习", "definition": "不更新参数、仅通过提示中的示例让模型完成新任务的能力。" },
-        { "term": "Closed-book QA 闭卷问答", "definition": "不提供外部证据、完全依靠模型参数中存储知识作答的问答设置。" },
-        { "term": "Ablation Study 消融实验", "definition": "逐一去掉或替换某个组件以量化其贡献的对照实验方法。" }
+        {
+          "term": "Text-to-Text Framework 文本到文本框架",
+          "definition": "把所有任务统一表述为字符串输入到字符串输出的建模范式。"
+        },
+        {
+          "term": "Span Corruption 片段破坏",
+          "definition": "遮盖连续文本片段并让模型还原的预训练目标。"
+        },
+        {
+          "term": "In-context Learning 上下文学习",
+          "definition": "不更新参数、仅通过提示中的示例让模型完成新任务的能力。"
+        },
+        {
+          "term": "Closed-book QA 闭卷问答",
+          "definition": "不提供外部证据、完全依靠模型参数中存储知识作答的问答设置。"
+        },
+        {
+          "term": "Ablation Study 消融实验",
+          "definition": "逐一去掉或替换某个组件以量化其贡献的对照实验方法。"
+        }
       ]
     },
     {
@@ -590,11 +882,26 @@
         }
       ],
       "terms": [
-        { "term": "Knowledge Graph 知识图谱", "definition": "以实体为节点、关系为边组织事实的结构化知识库。" },
-        { "term": "Entity Linking 实体链接", "definition": "把文本中的提及对应到知识库中特定实体的任务。" },
-        { "term": "Retrieval-Augmented Generation 检索增强生成", "definition": "在生成前检索外部文档并将其作为上下文的建模方式。" },
-        { "term": "Knowledge Probing 知识探针", "definition": "用完形填空等方式测量预训练模型内部存储了多少事实知识的评估手段。" },
-        { "term": "Catastrophic Forgetting 灾难性遗忘", "definition": "模型在学习新内容时大幅丢失原有能力的现象。" }
+        {
+          "term": "Knowledge Graph 知识图谱",
+          "definition": "以实体为节点、关系为边组织事实的结构化知识库。"
+        },
+        {
+          "term": "Entity Linking 实体链接",
+          "definition": "把文本中的提及对应到知识库中特定实体的任务。"
+        },
+        {
+          "term": "Retrieval-Augmented Generation 检索增强生成",
+          "definition": "在生成前检索外部文档并将其作为上下文的建模方式。"
+        },
+        {
+          "term": "Knowledge Probing 知识探针",
+          "definition": "用完形填空等方式测量预训练模型内部存储了多少事实知识的评估手段。"
+        },
+        {
+          "term": "Catastrophic Forgetting 灾难性遗忘",
+          "definition": "模型在学习新内容时大幅丢失原有能力的现象。"
+        }
       ]
     },
     {
@@ -627,11 +934,26 @@
         }
       ],
       "terms": [
-        { "term": "Algorithmic Bias 算法偏见", "definition": "模型对特定群体产生系统性不利或刻板输出的现象。" },
-        { "term": "Representational Harm 表征性伤害", "definition": "系统贬损或固化某群体形象所造成的伤害。" },
-        { "term": "Model Card 模型卡片", "definition": "记录模型用途、性能分组表现与已知局限的标准化文档。" },
-        { "term": "Debiasing 去偏", "definition": "试图从模型表示或输出中移除不良社会偏见的一类方法。" },
-        { "term": "Dual Use 双重用途", "definition": "同一技术既可用于正当目的也可被恶意利用的属性。" }
+        {
+          "term": "Algorithmic Bias 算法偏见",
+          "definition": "模型对特定群体产生系统性不利或刻板输出的现象。"
+        },
+        {
+          "term": "Representational Harm 表征性伤害",
+          "definition": "系统贬损或固化某群体形象所造成的伤害。"
+        },
+        {
+          "term": "Model Card 模型卡片",
+          "definition": "记录模型用途、性能分组表现与已知局限的标准化文档。"
+        },
+        {
+          "term": "Debiasing 去偏",
+          "definition": "试图从模型表示或输出中移除不良社会偏见的一类方法。"
+        },
+        {
+          "term": "Dual Use 双重用途",
+          "definition": "同一技术既可用于正当目的也可被恶意利用的属性。"
+        }
       ]
     },
     {
@@ -664,11 +986,26 @@
         }
       ],
       "terms": [
-        { "term": "Probing Classifier 探针分类器", "definition": "在冻结的模型表示上训练的简单分类器，用于检测某语言属性是否被编码。" },
-        { "term": "Adversarial Example 对抗样本", "definition": "经过微小扰动即可让模型出错、而人类判断不变的输入。" },
-        { "term": "Behavioral Testing 行为测试", "definition": "用精心构造的输入检验模型是否满足预期行为规范的评估方法。" },
-        { "term": "Saliency Map 显著性图", "definition": "用梯度等方式标出各输入部分对预测贡献大小的可视化。" },
-        { "term": "Interpretability 可解释性", "definition": "让模型的内部机制与预测理由能被人理解的研究方向。" }
+        {
+          "term": "Probing Classifier 探针分类器",
+          "definition": "在冻结的模型表示上训练的简单分类器，用于检测某语言属性是否被编码。"
+        },
+        {
+          "term": "Adversarial Example 对抗样本",
+          "definition": "经过微小扰动即可让模型出错、而人类判断不变的输入。"
+        },
+        {
+          "term": "Behavioral Testing 行为测试",
+          "definition": "用精心构造的输入检验模型是否满足预期行为规范的评估方法。"
+        },
+        {
+          "term": "Saliency Map 显著性图",
+          "definition": "用梯度等方式标出各输入部分对预测贡献大小的可视化。"
+        },
+        {
+          "term": "Interpretability 可解释性",
+          "definition": "让模型的内部机制与预测理由能被人理解的研究方向。"
+        }
       ]
     },
     {
@@ -701,11 +1038,26 @@
         }
       ],
       "terms": [
-        { "term": "Scaling Law 缩放定律", "definition": "描述模型性能随参数量、数据量与算力按幂律变化的经验规律。" },
-        { "term": "Compositional Generalization 组合泛化", "definition": "把已知成分以新方式组合后仍能正确处理的能力。" },
-        { "term": "Grounding 落地", "definition": "把语言符号与感知、动作或真实世界指称联系起来的过程。" },
-        { "term": "Knowledge Distillation 知识蒸馏", "definition": "用大模型的输出训练小模型以压缩能力的技术。" },
-        { "term": "Benchmark Saturation 基准饱和", "definition": "评测集被模型刷到接近上限而丧失区分度的现象。" }
+        {
+          "term": "Scaling Law 缩放定律",
+          "definition": "描述模型性能随参数量、数据量与算力按幂律变化的经验规律。"
+        },
+        {
+          "term": "Compositional Generalization 组合泛化",
+          "definition": "把已知成分以新方式组合后仍能正确处理的能力。"
+        },
+        {
+          "term": "Grounding 落地",
+          "definition": "把语言符号与感知、动作或真实世界指称联系起来的过程。"
+        },
+        {
+          "term": "Knowledge Distillation 知识蒸馏",
+          "definition": "用大模型的输出训练小模型以压缩能力的技术。"
+        },
+        {
+          "term": "Benchmark Saturation 基准饱和",
+          "definition": "评测集被模型刷到接近上限而丧失区分度的现象。"
+        }
       ]
     }
   ]

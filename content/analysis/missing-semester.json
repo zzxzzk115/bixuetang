@@ -3,142 +3,207 @@
   "generatedAt": "2026-08-02",
   "model": "claude-opus-5",
   "sourceIndex": 0,
-  "basis": "titles-only",
-  "overview": "MIT《计算机教育中缺失的一课》用 11 讲把「计算机系学生天天要用、课堂却从不教」的工具链一次性补齐：Shell 与脚本、Vim、数据处理、命令行环境、Git、调试与性能分析、元编程、安全与密码学，最后以杂项专题和答疑收尾。课程不追求语言语法的深度，而是训练「把电脑当成可编程工具」的思维——用管道把小工具串成流水线，用版本控制与自动化把重复劳动交给机器。每讲约一小时并配有练习，越早学收益越大，是投入产出比极高的一门通识工具课。",
+  "basis": "subtitles",
+  "overview": "MIT《计算机教育中缺失的一课》用 11 讲把「计算机系学生天天要用、课堂却从不教」的工具链一次补齐：Shell 与脚本、Vim、数据处理、命令行环境、Git、调试与性能分析、元编程、安全与密码学，最后以杂项专题和答疑收尾。课程不追求语法深度，而是训练「把电脑当成可编程工具」的思维——用管道把小工具串成流水线，用版本控制和自动化把重复劳动交给机器。每讲约一小时并配练习，是投入产出比极高的一门通识工具课。",
   "episodes": [
     {
       "n": 1,
-      "summary": "开篇说明这门课要补的是「工具素养」这块空白：会写算法但不会用命令行、不会版本控制，会让日常效率打骨折。随后从 Shell 讲起，解释 shell 是接受文本命令、解释执行并返回结果的程序，bash 是最常见的一种。课程演示了提示符的含义、命令与参数（flag/option）的写法、程序如何通过 PATH 被找到，以及绝对路径与相对路径的区别。最后介绍 Unix 的核心哲学：每个程序只读标准输入、写标准输出，再用重定向与管道把它们自由组合。结尾用修改屏幕亮度的例子说明 root 权限与 sudo 的必要性。",
+      "summary": "开场先解释这门课为什么存在：课程教算法和理论，却几乎没人系统教「怎么用好你的电脑」，而工具素养的差距会在日常里被放大成巨大的效率差。随后从 Shell 讲起，说明 shell 是一个读取文本命令、解析执行并把结果打印回来的程序，bash 是最常见的一种。讲师现场演示了提示符的构成、命令与参数（flag/option）的写法、shell 如何沿 PATH 搜索可执行文件、绝对路径与相对路径的区别，以及 ls -l 输出里的权限位怎么读。后半段进入 Unix 的核心哲学：每个程序都有标准输入和标准输出，用 > < >> 重定向、用 | 管道把小工具串成流水线。最后以修改屏幕亮度的 /sys 文件为例，讲清 root、sudo，以及为什么 sudo echo > file 会失败。",
       "keyPoints": [
         {
-          "title": "Shell 是什么",
-          "detail": "Shell 是一个读取文本命令、解析并执行、再把结果打印回来的程序；相比 GUI，它能被组合、被脚本化、被自动化，这是它不可替代的原因。"
+          "t": 0,
+          "title": "这门课要补的空白",
+          "detail": "大学课程教算法、体系结构、编译原理，却默认你已经会用命令行、会版本控制、会调试。这门课就是把这块被跳过的「工具素养」单独拎出来教。"
         },
         {
-          "title": "命令查找与 PATH",
-          "detail": "输入命令时 shell 按 PATH 环境变量里的目录顺序搜索同名可执行文件，`which` 可以查出实际用的是哪一个；理解这一点才能解释「明明装了却找不到」。"
+          "t": 360,
+          "title": "Shell 与提示符",
+          "detail": "Shell 是一个不断循环「读命令—解析—执行—打印结果」的程序。提示符通常显示用户名、主机名和当前工作目录，它出现就代表 shell 在等你输入。"
         },
         {
-          "title": "参数、flag 与引号",
-          "detail": "命令后跟的空格分隔词就是参数，`-l` 这类短横线开头的是 flag；含空格的参数必须加引号或反斜杠转义，否则会被拆成多个参数。"
+          "t": 540,
+          "title": "PATH 与命令查找",
+          "detail": "输入一个不带斜杠的命令时，shell 会按 PATH 环境变量里冒号分隔的目录顺序逐个查找同名可执行文件，找到第一个就执行。which 能查出实际命中的是哪一个。"
         },
         {
-          "title": "路径与目录导航",
-          "detail": "以 `/` 开头的是绝对路径，其余是相对当前工作目录的相对路径；`.` 是当前目录，`..` 是上级，`~` 是家目录，`cd -` 回到上一个目录。"
+          "t": 720,
+          "title": "绝对路径与相对路径",
+          "detail": "以 / 开头的是绝对路径；其余都相对于当前工作目录。. 表示当前目录，.. 表示上级，~ 表示家目录，cd - 回到上一个目录。Unix 把所有设备挂载在同一个根命名空间下，不像 Windows 每个盘符各有一棵树。"
         },
         {
-          "title": "文件权限位",
-          "detail": "`ls -l` 输出的 rwx 三组分别对应属主、属组、其他人；目录上的 x 表示「可进入/可搜索」而非可执行，r 才是「可列出内容」。"
+          "t": 1170,
+          "title": "ls -l 与文件权限位",
+          "detail": "长格式输出开头的十个字符表示类型和 rwx 三组权限，依次对应属主、属组、其他人。目录的 x 位表示「能否进入」，w 位表示「能否在其中新建、重命名、删除文件」——所以对文件有写权限但对目录没有时，你能清空它却删不掉它。"
         },
         {
-          "title": "输入输出流与重定向",
-          "detail": "每个程序默认有 stdin 与 stdout，`< file` 改输入、`> file` 改输出并覆盖、`>> file` 追加，把程序从终端解耦出来。"
+          "t": 1620,
+          "title": "用 man 查手册",
+          "detail": "man 接受另一个程序名作为参数，显示它的手册页，比 --help 更完整也更好翻阅。学会查手册比记住所有 flag 重要得多。"
         },
         {
-          "title": "管道把小工具串成流水线",
-          "detail": "`a | b` 把 a 的标准输出接到 b 的标准输入，这是 Unix 组合哲学的核心；`ls -l / | tail -n1` 这类链式写法可以无限延伸。"
+          "t": 1890,
+          "title": "重定向与管道",
+          "detail": "每个程序默认从终端读标准输入、往终端写标准输出。> 把输出改写到文件，>> 追加，< 把文件接到输入；| 则把左边程序的标准输出直接接到右边程序的标准输入，让互不知情的小工具组合成流水线。"
         },
         {
-          "title": "root 与 sudo",
-          "detail": "root（uid 0）不受权限检查约束，`sudo` 让普通用户临时以 root 身份执行；注意 `sudo echo x > /sys/...` 会失败，因为重定向由当前 shell 完成而非被提权的命令。"
+          "t": 2340,
+          "title": "root、sudo 与重定向陷阱",
+          "detail": "root 是可以无视权限检查的超级用户，平时不应长期使用。关键坑在于重定向是 shell 自己做的、不是被调用的程序做的，所以 sudo echo 1 > /sys/... 里的写文件动作仍以普通用户身份执行而失败，正确做法是 echo 1 | sudo tee 文件。"
         }
       ],
       "terms": [
-        { "term": "Shell 外壳", "definition": "接受文本命令、解释并执行、把结果返回给用户的程序，如 bash、zsh。" },
-        { "term": "Environment Variable 环境变量", "definition": "由 shell 维护并传给子进程的键值对，如决定命令搜索路径的 PATH。" },
-        { "term": "Absolute Path 绝对路径", "definition": "从根目录 `/` 开始完整书写的路径，与当前工作目录无关。" },
-        { "term": "Redirection 重定向", "definition": "把程序的标准输入或标准输出改接到文件上的机制，写作 `<`、`>`、`>>`。" },
-        { "term": "Pipe 管道", "definition": "用 `|` 把前一个程序的标准输出直接接到后一个程序的标准输入。" }
+        {
+          "term": "Shell 命令行解释器",
+          "definition": "读取文本命令、解析并执行、再返回结果的交互式程序，bash、zsh 都是它的具体实现。"
+        },
+        {
+          "term": "PATH 环境变量",
+          "definition": "一串冒号分隔的目录，shell 按顺序在其中搜索你输入的命令名对应的可执行文件。"
+        },
+        {
+          "term": "Pipe 管道",
+          "definition": "把前一个程序的标准输出直接接到后一个程序标准输入的运算符，写作 |。"
+        },
+        {
+          "term": "Standard Stream 标准流",
+          "definition": "程序默认拥有的标准输入、标准输出和标准错误三条数据通道。"
+        },
+        {
+          "term": "Superuser 超级用户",
+          "definition": "即 root，不受文件权限检查约束的特权账户，通过 sudo 临时借用。"
+        }
       ]
     },
     {
       "n": 2,
-      "summary": "这一讲把 shell 从「敲命令」升级为「写程序」。先讲 bash 的变量赋值（等号两边不能有空格）、单引号与双引号的区别、函数定义与特殊变量 `$0 $1 $? $$ $_ !!`。接着讲命令替换 `$(cmd)` 与进程替换 `<(cmd)`，以及 `&&`、`||` 这类基于退出码的短路控制流。第二半场转向「找东西」：用 glob 与花括号展开批量生成参数，用 find/fd 按条件找文件，用 grep/ripgrep 在代码里找内容，用 history 与 fzf 找历史命令，用 tree、autojump 之类工具加速目录导航。最后强调 shebang、shellcheck 和 man/tldr 的用法。",
+      "summary": "第二讲把 shell 从「敲命令」推进到「写程序」。先讲 bash 的语法怪癖：赋值必须写成 foo=bar 不能有空格，双引号会做变量展开而单引号不会。接着介绍特殊变量（$0、$1..$9、$@、$#、$?、$_、!!）和退出码，以及基于退出码短路的 && 与 ||。命令替换 $(cmd) 把输出变成字符串，进程替换 <(cmd) 把输出变成临时文件路径，两者是拼装管道的关键。随后是通配符展开与花括号展开，能把成组的相似命令压缩成一行。讲师强调脚本不必用 bash 写，加上 #! 行（配合 env 查找解释器）就能用任意语言，并推荐 shellcheck 静态检查。最后是一批查找工具：find 按名字/类型/时间筛文件并 -exec 批量处理，grep 和 ripgrep 搜内容，fzf 模糊搜索历史命令，tree 之类工具做目录浏览。",
       "keyPoints": [
         {
-          "title": "bash 变量与引号",
-          "detail": "`foo=bar` 中间不能有空格（`foo = bar` 会被当成调用命令 foo）；双引号内会展开变量，单引号内是纯字面量。"
+          "t": 90,
+          "title": "bash 的赋值与引号规则",
+          "detail": "空格是参数分隔符，所以赋值必须紧挨着写成 foo=bar，写成 foo = bar 会被当成执行 foo 命令。双引号内会展开变量，单引号内则原样保留字符串。"
         },
         {
-          "title": "特殊变量与退出码",
-          "detail": "`$0` 脚本名、`$1..$9` 位置参数、`$@` 全部参数、`$?` 上条命令退出码、`$$` 当前进程 PID、`!!` 上一条完整命令（常配 `sudo !!`）。"
+          "t": 540,
+          "title": "退出码与短路运算",
+          "detail": "每个命令返回一个退出码，0 代表成功、非 0 代表各种失败，存在 $? 里。a && b 只在 a 成功时执行 b，a || b 只在 a 失败时执行 b，这是脚本里最常用的条件写法。"
         },
         {
-          "title": "短路控制流",
-          "detail": "`cmd1 && cmd2` 仅在前者退出码为 0 时执行后者，`||` 反之；这是 shell 里最常用的条件写法，比 if 更紧凑。"
-        },
-        {
+          "t": 630,
           "title": "命令替换与进程替换",
-          "detail": "`$(cmd)` 把命令输出当字符串嵌入；`<(cmd)` 把输出伪装成一个临时文件路径，让只接受文件名的程序（如 `diff <(ls a) <(ls b)`）也能吃流。"
+          "detail": "$(cmd) 先执行 cmd 再把它的输出替换到当前位置，常用来把结果塞进变量或字符串；<(cmd) 则把输出包装成一个临时文件路径，让只接受文件参数的程序（如 diff）也能吃管道数据。"
         },
         {
-          "title": "glob 与花括号展开",
-          "detail": "`*` 匹配任意长度、`?` 匹配单字符；`{a,b}` 做笛卡尔式展开，`convert image.{png,jpg}` 会展开成两个参数。"
+          "t": 1170,
+          "title": "通配符与花括号展开",
+          "detail": "* 匹配任意长度、? 匹配单个字符，由 shell 在调用程序前完成展开。花括号 {a,b,c} 会做笛卡尔积展开，把 convert image.{png,jpg} 或 touch project/{foo,bar}/{a..j} 这类重复命令压成一行。"
         },
         {
-          "title": "shebang 与可移植性",
-          "detail": "脚本首行 `#!/usr/bin/env python3` 借助 env 在 PATH 中查找解释器，比写死 `/usr/bin/python3` 更可移植。"
+          "t": 1350,
+          "title": "shebang 与语言无关的脚本",
+          "detail": "文件首行的 #! 指定解释器，让脚本可以用 Python 等任意语言写。硬编码 #!/usr/local/bin/python 不可移植，推荐 #!/usr/bin/env python 让系统按 PATH 去找，这也是 env 命令的常见用法。"
         },
         {
-          "title": "查找工具三件套",
-          "detail": "`find`（按名字/类型/时间/大小找文件，可 `-exec` 批处理）、`grep -R` 或 `rg`（按内容找代码）、`history | grep` 或 fzf（找用过的命令）。"
+          "t": 1890,
+          "title": "find：按属性查文件",
+          "detail": "find 递归遍历目录，可按 -name、-type、-mtime、-size 等条件筛选，再用 -exec 对每个结果执行命令（例如批量删除 .tmp 文件）。fd 是它更快、默认忽略 .gitignore 的现代替代品。"
         },
         {
-          "title": "shellcheck 与文档",
-          "detail": "shell 的坑多在引号与空格，`shellcheck` 能静态揪出大部分；查文档用 `man`，想直接看例子用 `tldr`。"
+          "t": 2160,
+          "title": "grep 与 ripgrep：按内容查文件",
+          "detail": "grep -R 递归搜索目录里匹配正则的行，-C 显示上下文，-v 反选，--stats 给统计。ripgrep（rg）默认跳过版本控制忽略的文件、支持类型过滤和彩色输出，在大仓库上快得多。"
+        },
+        {
+          "t": 2610,
+          "title": "fzf 与历史模糊搜索",
+          "detail": "Ctrl-R 可以反向搜索历史命令；接上 fzf 后变成交互式模糊匹配，不用写精确子串或正则就能捞出以前敲过的长命令，是提升日常效率最直接的一招。"
         }
       ],
       "terms": [
-        { "term": "Shebang 解释器声明行", "definition": "脚本首行的 `#!` 加解释器路径，告诉内核该用哪个程序运行此文件。" },
-        { "term": "Glob 通配符展开", "definition": "由 shell 在执行前把 `*`、`?`、`[]` 等模式展开成匹配的文件名列表。" },
-        { "term": "Command Substitution 命令替换", "definition": "`$(cmd)` 语法，把命令的标准输出替换到原位置作为字符串使用。" },
-        { "term": "Process Substitution 进程替换", "definition": "`<(cmd)` 语法，把命令输出包装成一个临时文件描述符路径供他人读取。" },
-        { "term": "Exit Status 退出状态码", "definition": "程序结束时返回的整数，0 表示成功、非 0 表示失败，是 shell 判断条件的依据。" }
+        {
+          "term": "Exit Code 退出码",
+          "definition": "程序结束时返回给 shell 的整数，0 表示成功，非 0 表示不同类型的失败。"
+        },
+        {
+          "term": "Command Substitution 命令替换",
+          "definition": "$(cmd) 语法，先运行 cmd 并把它的标准输出替换到原位置。"
+        },
+        {
+          "term": "Process Substitution 进程替换",
+          "definition": "<(cmd) 语法，把命令输出伪装成一个临时文件路径供别的程序读取。"
+        },
+        {
+          "term": "Shebang 释伴",
+          "definition": "脚本首行的 #! 加解释器路径，告诉内核该用哪个程序来运行这个文件。"
+        },
+        {
+          "term": "Globbing 通配符展开",
+          "definition": "shell 在执行命令前把 *、? 等模式替换成实际匹配文件名列表的过程。"
+        }
       ]
     },
     {
       "n": 3,
-      "summary": "本讲讲「为什么程序员该认真学一个编辑器」，并选 Vim 作为范例。核心思想是模态编辑：因为写代码的大部分时间在读和改而非输入，所以把键盘在不同模式下赋予不同含义是划算的。课程介绍普通、插入、可视、替换、命令行五种模式，以及缓冲区、窗口、标签页的三层组织关系。随后把 Vim 的按键当成一门「编辑语言」来讲：动词（d/c/y）加数量加名词（移动或文本对象）可以自由组合造句，`ci(`、`d2w` 都是句子。最后覆盖搜索替换、`.vimrc` 配置、插件生态，以及在 shell、浏览器等其他程序里复用 Vim 键位的方法。",
+      "summary": "这一讲讲编辑器，主张既然程序员大量时间花在编辑文本上，就值得认真学一个强力编辑器；换到 Vim 大约二十小时后能回到原速度，之后是净赚。Vim 的第一个核心思想是模态编辑：普通、插入、可视（含可视行、可视块）、替换、命令行等模式各有一套键位，因为编辑代码的时间远多于输入代码。讲师建议把 Caps Lock 重绑定成 Esc，并从推荐的 vimrc 起步。第二个核心思想是「界面本身是一门编程语言」：动词（d/c/y）加上移动或文本对象（w、$、^、f/t、i(、i{）组合成语句，前面还能加计数（如 3w、8j），少量原语组合出海量操作。最后用一段有 bug 的 FizzBuzz 现场演示如何用极少按键完成修改，并提到 vim golf、以及各种程序里的 Vim 模式。",
       "keyPoints": [
         {
-          "title": "模态编辑的理由",
-          "detail": "编程时输入远少于阅读与修改，Vim 因此把「普通模式」设为默认，让所有字母键都变成命令，避免频繁的组合键与移手。"
+          "t": 270,
+          "title": "模态编辑",
+          "detail": "Vim 把「输入文本」和「操作文本」分成不同模式：普通模式下所有字母键都是命令，插入模式才真正打字。因为读改代码的时间远多于敲新代码，默认停在普通模式是合理的设计。"
         },
         {
-          "title": "五种模式",
-          "detail": "Normal（移动与操作）、Insert（输入文本）、Visual（选中，含行选与块选）、Replace（覆写）、Command-line（`:` 开头的 ex 命令）；`Esc` 或 `Ctrl-[` 随时回到 Normal。"
+          "t": 540,
+          "title": "Esc 键位与起步配置",
+          "detail": "Esc 要频繁按却离手指很远，讲师建议在系统层把 Caps Lock 重绑定成 Esc。Vim 裸配置很朴素，从课程讲义给的 vimrc（行号、语法高亮、状态栏等）开始能少走弯路。"
         },
         {
-          "title": "缓冲区、窗口与标签页",
-          "detail": "打开的文件是 buffer，显示它的视口是 window，多个 window 组成 tab；一个 buffer 可以被多个 window 同时显示，这与常见编辑器的「标签=文件」模型不同。"
+          "t": 1170,
+          "title": "界面即编程语言",
+          "detail": "Vim 的普通模式不是一堆快捷键，而是有语法的语言：动词 + 名词。d（删除）、c（修改）、y（复制）是动词，移动命令和文本对象是名词，二者自由组合，学会原语就自动获得所有组合。"
         },
         {
-          "title": "移动即名词",
-          "detail": "`hjkl` 逐字符、`w/b/e` 按词、`0/^/$` 行首行尾、`Ctrl-U/Ctrl-D` 翻页、`gg/G` 文件首尾、`f/t/F/T` 行内查找、`%` 匹配括号。"
+          "t": 1260,
+          "title": "移动是名词",
+          "detail": "hjkl 移动光标，w/b/e 按词跳，0 到行首、^ 到首个非空白字符、$ 到行尾，{ } 按段落，Ctrl-U/Ctrl-D 翻半屏，gg/G 到文件首尾。手不离主键区是设计初衷。"
         },
         {
-          "title": "动词 + 数量 + 名词的组合语法",
-          "detail": "`d`（删）、`c`（改）、`y`（复制）后接移动或文本对象即可造句：`d2w` 删两个词、`ci(` 改括号内内容、`da'` 连引号一起删。"
+          "t": 1620,
+          "title": "动词与移动的组合",
+          "detail": "dw 删一个词、d$ 删到行尾、cw 改一个词并进入插入模式、dd 删整行、cc 改整行、x 删一个字符。u 撤销、Ctrl-R 重做；一次插入模式的全部输入算作一步撤销。"
         },
         {
-          "title": "重复与宏",
-          "detail": "`.` 重复上一次修改是 Vim 的杀手锏；更复杂的重复用 `q<字母>` 录宏、`@<字母>` 回放、`<数字>@<字母>` 批量回放。"
+          "t": 1980,
+          "title": "计数前缀",
+          "detail": "在命令前加数字表示重复次数：8j 下移八行、3w 前进三个词、7dw 删七个词。与其按住 j 不放，不如先看行号差再一次跳到位。"
         },
         {
-          "title": "配置与插件",
-          "detail": "行为写在 `~/.vimrc`（如 `set number`、`set ignorecase`），插件放 `~/.vim/pack/*/start/`；建议从少量插件（模糊查找、Git 集成、语言支持）起步。"
+          "t": 2160,
+          "title": "文本对象",
+          "detail": "i 和 a 引出「内部/包含」文本对象：ci( 改括号内的内容、ci{ 改花括号块、di\" 删引号里的字符串、ca( 连括号一起改。它让编辑单位从字符行升级到语法结构。"
         },
         {
-          "title": "到处都是 Vim 键位",
-          "detail": "shell 可 `set -o vi`，VS Code / JetBrains / 浏览器（Vimium）都有 Vim 模式，学一次键位可以在多处复用。"
+          "t": 2790,
+          "title": "Vim 模式的外溢",
+          "detail": "太多人习惯这套键位，以至于 VS Code、IntelliJ、shell 的 readline、Python REPL、浏览器插件都提供 Vim 模式。学会一次，几乎所有编辑场景都能复用。"
         }
       ],
       "terms": [
-        { "term": "Modal Editing 模态编辑", "definition": "编辑器按当前模式赋予同一按键不同含义的交互范式，Vim 的核心设计。" },
-        { "term": "Buffer 缓冲区", "definition": "内存中打开的一份文件内容，与显示它的窗口相互独立。" },
-        { "term": "Motion 移动动作", "definition": "如 `w`、`$`、`gg` 等描述光标位移的命令，可作为操作符的作用范围。" },
-        { "term": "Text Object 文本对象", "definition": "如 `i(`、`a\"`、`ip` 等以语义单位（括号内、引号内、段落）指定范围的名词。" },
-        { "term": "Macro 宏", "definition": "录制一串按键并保存到寄存器，之后可整体回放以批量重复编辑。" }
+        {
+          "term": "Modal Editing 模态编辑",
+          "definition": "编辑器按模式区分按键含义，普通模式执行命令、插入模式输入文本。"
+        },
+        {
+          "term": "Text Object 文本对象",
+          "definition": "把括号内、引号内、一个词、一段落等语法结构作为一个可操作单位的选择方式。"
+        },
+        {
+          "term": "Buffer 缓冲区",
+          "definition": "Vim 中被打开文件在内存里的内容，可同时显示在多个窗口里。"
+        },
+        {
+          "term": "Macro 宏",
+          "definition": "用 q 录制一串按键并反复回放，把重复编辑批量化的机制。"
+        }
       ]
     },
     {
@@ -179,11 +244,26 @@
         }
       ],
       "terms": [
-        { "term": "Data Wrangling 数据整理", "definition": "把数据从一种格式清洗、抽取、变换为另一种可用格式的过程。" },
-        { "term": "Regular Expression 正则表达式", "definition": "用元字符描述字符串模式的语言，是文本抽取与替换的通用工具。" },
-        { "term": "Capture Group 捕获组", "definition": "正则中用括号圈出的子模式，可在替换串或后续匹配中以 `\\1`、`$1` 引用。" },
-        { "term": "Greedy Matching 贪婪匹配", "definition": "量词默认尽可能多地吞掉字符的行为，加 `?` 变为非贪婪。" },
-        { "term": "Stream Editor 流编辑器", "definition": "以行为单位读入、按脚本变换后输出的编辑程序，代表是 sed。" }
+        {
+          "term": "Data Wrangling 数据整理",
+          "definition": "把数据从一种格式清洗、抽取、变换为另一种可用格式的过程。"
+        },
+        {
+          "term": "Regular Expression 正则表达式",
+          "definition": "用元字符描述字符串模式的语言，是文本抽取与替换的通用工具。"
+        },
+        {
+          "term": "Capture Group 捕获组",
+          "definition": "正则中用括号圈出的子模式，可在替换串或后续匹配中以 `\\1`、`$1` 引用。"
+        },
+        {
+          "term": "Greedy Matching 贪婪匹配",
+          "definition": "量词默认尽可能多地吞掉字符的行为，加 `?` 变为非贪婪。"
+        },
+        {
+          "term": "Stream Editor 流编辑器",
+          "definition": "以行为单位读入、按脚本变换后输出的编辑程序，代表是 sed。"
+        }
       ]
     },
     {
@@ -224,11 +304,26 @@
         }
       ],
       "terms": [
-        { "term": "Signal 信号", "definition": "操作系统向进程发送的异步通知，用于中断、暂停、终止等进程控制。" },
-        { "term": "Job Control 作业控制", "definition": "shell 提供的前台/后台切换、挂起与恢复进程的机制。" },
-        { "term": "Terminal Multiplexer 终端复用器", "definition": "在一个终端里管理多个持久会话与分屏的程序，如 tmux、screen。" },
-        { "term": "Dotfiles 配置文件集", "definition": "家目录下以点开头的各类程序配置文件，通常统一版本控制管理。" },
-        { "term": "Port Forwarding 端口转发", "definition": "通过 SSH 隧道把某台机器的端口映射到另一台机器上访问。" }
+        {
+          "term": "Signal 信号",
+          "definition": "操作系统向进程发送的异步通知，用于中断、暂停、终止等进程控制。"
+        },
+        {
+          "term": "Job Control 作业控制",
+          "definition": "shell 提供的前台/后台切换、挂起与恢复进程的机制。"
+        },
+        {
+          "term": "Terminal Multiplexer 终端复用器",
+          "definition": "在一个终端里管理多个持久会话与分屏的程序，如 tmux、screen。"
+        },
+        {
+          "term": "Dotfiles 配置文件集",
+          "definition": "家目录下以点开头的各类程序配置文件，通常统一版本控制管理。"
+        },
+        {
+          "term": "Port Forwarding 端口转发",
+          "definition": "通过 SSH 隧道把某台机器的端口映射到另一台机器上访问。"
+        }
       ]
     },
     {
@@ -269,11 +364,26 @@
         }
       ],
       "terms": [
-        { "term": "Commit 提交", "definition": "一次带元信息的项目快照，指向一棵目录树并记录父提交。" },
-        { "term": "Directed Acyclic Graph 有向无环图", "definition": "Git 用来表示提交历史的结构：有方向、无环，允许分叉与汇合。" },
-        { "term": "Staging Area 暂存区", "definition": "工作区与提交之间的中间层，用于挑选本次提交要包含的改动。" },
-        { "term": "Rebase 变基", "definition": "把一串提交依次重放到另一个基底提交之上，从而得到线性历史。" },
-        { "term": "Detached HEAD 分离头指针", "definition": "HEAD 直接指向某个提交而非分支时的状态，此时新提交不属于任何分支。" }
+        {
+          "term": "Commit 提交",
+          "definition": "一次带元信息的项目快照，指向一棵目录树并记录父提交。"
+        },
+        {
+          "term": "Directed Acyclic Graph 有向无环图",
+          "definition": "Git 用来表示提交历史的结构：有方向、无环，允许分叉与汇合。"
+        },
+        {
+          "term": "Staging Area 暂存区",
+          "definition": "工作区与提交之间的中间层，用于挑选本次提交要包含的改动。"
+        },
+        {
+          "term": "Rebase 变基",
+          "definition": "把一串提交依次重放到另一个基底提交之上，从而得到线性历史。"
+        },
+        {
+          "term": "Detached HEAD 分离头指针",
+          "definition": "HEAD 直接指向某个提交而非分支时的状态，此时新提交不属于任何分支。"
+        }
       ]
     },
     {
@@ -314,11 +424,26 @@
         }
       ],
       "terms": [
-        { "term": "Debugger 调试器", "definition": "可暂停程序、逐步执行并检查内部状态的工具，如 gdb、pdb。" },
-        { "term": "Breakpoint 断点", "definition": "在指定位置暂停程序执行的标记，便于观察当时的变量与调用栈。" },
-        { "term": "Static Analysis 静态分析", "definition": "不实际运行程序、仅通过分析源码发现潜在错误的技术。" },
-        { "term": "Sampling Profiler 采样式性能分析器", "definition": "按固定频率抓取调用栈以统计各处耗时占比的性能工具，开销低。" },
-        { "term": "Flame Graph 火焰图", "definition": "把调用栈采样结果按层级堆叠、宽度表示耗时占比的可视化图表。" }
+        {
+          "term": "Debugger 调试器",
+          "definition": "可暂停程序、逐步执行并检查内部状态的工具，如 gdb、pdb。"
+        },
+        {
+          "term": "Breakpoint 断点",
+          "definition": "在指定位置暂停程序执行的标记，便于观察当时的变量与调用栈。"
+        },
+        {
+          "term": "Static Analysis 静态分析",
+          "definition": "不实际运行程序、仅通过分析源码发现潜在错误的技术。"
+        },
+        {
+          "term": "Sampling Profiler 采样式性能分析器",
+          "definition": "按固定频率抓取调用栈以统计各处耗时占比的性能工具，开销低。"
+        },
+        {
+          "term": "Flame Graph 火焰图",
+          "definition": "把调用栈采样结果按层级堆叠、宽度表示耗时占比的可视化图表。"
+        }
       ]
     },
     {
@@ -359,11 +484,26 @@
         }
       ],
       "terms": [
-        { "term": "Build System 构建系统", "definition": "根据依赖关系自动决定并执行构建步骤的工具，如 make、bazel。" },
-        { "term": "Semantic Versioning 语义化版本", "definition": "major.minor.patch 的版本号约定，用编号变化表达兼容性变化。" },
-        { "term": "Lock File 依赖锁文件", "definition": "记录本次安装的确切依赖版本，使构建在不同机器上可复现。" },
-        { "term": "Continuous Integration 持续集成", "definition": "代码变更时自动运行构建与测试的实践，及早发现集成问题。" },
-        { "term": "Regression Test 回归测试", "definition": "针对已修复缺陷编写的测试，用于防止同类问题再次出现。" }
+        {
+          "term": "Build System 构建系统",
+          "definition": "根据依赖关系自动决定并执行构建步骤的工具，如 make、bazel。"
+        },
+        {
+          "term": "Semantic Versioning 语义化版本",
+          "definition": "major.minor.patch 的版本号约定，用编号变化表达兼容性变化。"
+        },
+        {
+          "term": "Lock File 依赖锁文件",
+          "definition": "记录本次安装的确切依赖版本，使构建在不同机器上可复现。"
+        },
+        {
+          "term": "Continuous Integration 持续集成",
+          "definition": "代码变更时自动运行构建与测试的实践，及早发现集成问题。"
+        },
+        {
+          "term": "Regression Test 回归测试",
+          "definition": "针对已修复缺陷编写的测试，用于防止同类问题再次出现。"
+        }
       ]
     },
     {
@@ -405,11 +545,26 @@
         }
       ],
       "terms": [
-        { "term": "Entropy 熵", "definition": "衡量不确定性的量，用比特表示口令或密钥被猜中的难度。" },
-        { "term": "Cryptographic Hash Function 密码学散列函数", "definition": "把任意长输入映射为定长摘要，且满足抗原像与抗碰撞性质的函数。" },
-        { "term": "Key Derivation Function 密钥派生函数", "definition": "把口令等低熵输入经加盐与慢速计算拉伸成密钥的函数，如 PBKDF2。" },
-        { "term": "Symmetric Cryptography 对称加密", "definition": "加密与解密使用同一把密钥的加密体制，代表算法是 AES。" },
-        { "term": "Digital Signature 数字签名", "definition": "用私钥对消息生成、可用公钥验证的凭据，提供来源认证与完整性保证。" }
+        {
+          "term": "Entropy 熵",
+          "definition": "衡量不确定性的量，用比特表示口令或密钥被猜中的难度。"
+        },
+        {
+          "term": "Cryptographic Hash Function 密码学散列函数",
+          "definition": "把任意长输入映射为定长摘要，且满足抗原像与抗碰撞性质的函数。"
+        },
+        {
+          "term": "Key Derivation Function 密钥派生函数",
+          "definition": "把口令等低熵输入经加盐与慢速计算拉伸成密钥的函数，如 PBKDF2。"
+        },
+        {
+          "term": "Symmetric Cryptography 对称加密",
+          "definition": "加密与解密使用同一把密钥的加密体制，代表算法是 AES。"
+        },
+        {
+          "term": "Digital Signature 数字签名",
+          "definition": "用私钥对消息生成、可用公钥验证的凭据，提供来源认证与完整性保证。"
+        }
       ]
     },
     {
@@ -450,11 +605,26 @@
         }
       ],
       "terms": [
-        { "term": "Daemon 守护进程", "definition": "在后台长期运行、通常无终端交互的系统服务进程。" },
-        { "term": "FUSE 用户空间文件系统", "definition": "允许在用户态实现文件系统的机制，sshfs、rclone 等据此工作。" },
-        { "term": "Incremental Backup 增量备份", "definition": "只保存自上次备份以来变化部分的备份方式，省空间且可回溯版本。" },
-        { "term": "Tiling Window Manager 平铺式窗口管理器", "definition": "自动把窗口不重叠地铺满屏幕、以键盘操作为主的窗口管理程序。" },
-        { "term": "OAuth 开放授权", "definition": "让第三方应用在不获取用户密码的前提下取得受限访问权限的授权协议。" }
+        {
+          "term": "Daemon 守护进程",
+          "definition": "在后台长期运行、通常无终端交互的系统服务进程。"
+        },
+        {
+          "term": "FUSE 用户空间文件系统",
+          "definition": "允许在用户态实现文件系统的机制，sshfs、rclone 等据此工作。"
+        },
+        {
+          "term": "Incremental Backup 增量备份",
+          "definition": "只保存自上次备份以来变化部分的备份方式，省空间且可回溯版本。"
+        },
+        {
+          "term": "Tiling Window Manager 平铺式窗口管理器",
+          "definition": "自动把窗口不重叠地铺满屏幕、以键盘操作为主的窗口管理程序。"
+        },
+        {
+          "term": "OAuth 开放授权",
+          "definition": "让第三方应用在不获取用户密码的前提下取得受限访问权限的授权协议。"
+        }
       ]
     },
     {
@@ -487,11 +657,24 @@
         }
       ],
       "terms": [
-        { "term": "Container 容器", "definition": "共享宿主内核、以命名空间与 cgroup 隔离的轻量运行环境，如 Docker。" },
-        { "term": "Virtual Machine 虚拟机", "definition": "由虚拟化层模拟完整硬件、运行独立操作系统的隔离环境。" },
-        { "term": "Alias 别名", "definition": "为常用命令定义的简短替代名，由 shell 在执行前展开。" },
-        { "term": "Package Manager 包管理器", "definition": "负责安装、升级、卸载软件及其依赖的工具，如 apt、pip、npm。" }
+        {
+          "term": "Container 容器",
+          "definition": "共享宿主内核、以命名空间与 cgroup 隔离的轻量运行环境，如 Docker。"
+        },
+        {
+          "term": "Virtual Machine 虚拟机",
+          "definition": "由虚拟化层模拟完整硬件、运行独立操作系统的隔离环境。"
+        },
+        {
+          "term": "Alias 别名",
+          "definition": "为常用命令定义的简短替代名，由 shell 在执行前展开。"
+        },
+        {
+          "term": "Package Manager 包管理器",
+          "definition": "负责安装、升级、卸载软件及其依赖的工具，如 apt、pip、npm。"
+        }
       ]
     }
-  ]
+  ],
+  "note": "placeholder"
 }
