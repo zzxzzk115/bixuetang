@@ -66,6 +66,11 @@ export class HallScene extends Phaser.Scene {
   private dragLastT = 0;
   private dragMoved = 0;
   private bobPhase = 0;
+  /** 上一帧的转角，用于算「有效转速」（拖拽/惯性/吸附一视同仁地驱动动画与颠簸） */
+  private lastRot = 0;
+  private snapTween?: Phaser.Tweens.Tween;
+  /** 背景层（远山等），行走颠簸抖它而不是相机 */
+  private bgLayer?: Phaser.GameObjects.Container;
 
   constructor() {
     super("hall");
@@ -88,9 +93,13 @@ export class HallScene extends Phaser.Scene {
     // 不清空的话 poiNodes 会越积越多（旧显示对象已销毁但引用还在）
     this.poiNodes = [];
     this.rot = 0;
+    this.lastRot = 0;
     this.omega = 0;
     this.dragging = false;
     this.bobPhase = 0;
+    this.snapTween?.stop();
+    this.snapTween = undefined;
+    this.bgLayer = undefined;
 
     const { width: W, height: H } = this.scale.gameSize;
     this.minDim = Math.min(W, H);
@@ -108,14 +117,17 @@ export class HallScene extends Phaser.Scene {
     this.drawPlanetSurface();
     this.buildPois();
 
-    // 角色固定站在球顶偏左，面朝洞口——转到面前的据点在他身旁，不被挡住
+    // 角色固定站在球顶偏左，面朝洞口——转到面前的据点在他身旁，不被挡住。
+    // 脚底 y 按圆弧精确算（球面在偏离顶点处会往下弯，写死 topY 会悬空），
+    // 再往下沉 0.4 格让脚陷进草里一点
+    const heroDx = -this.minDim * 0.11;
+    const heroX = this.center.x + heroDx;
+    const footY =
+      this.center.y -
+      Math.sqrt(this.planetR * this.planetR - heroDx * heroDx) +
+      this.minDim * 0.011;
     this.hero = this.add
-      .sprite(
-        this.center.x - this.minDim * 0.11,
-        topY + this.minDim * 0.012,
-        "hero",
-        "walk-down-3.png",
-      )
+      .sprite(heroX, footY, "hero", "walk-down-3.png")
       .setOrigin(0.5, 1)
       .setScale(this.minDim * 0.008)
       .setDepth(30);
@@ -181,7 +193,12 @@ export class HallScene extends Phaser.Scene {
   }
 
   private drawMountains(W: number, topY: number) {
-    const g = this.add.graphics().setDepth(2);
+    // 装进容器：行走颠簸抖的是这层背景，不是相机（贪婪洞窟的做法）
+    this.bgLayer = this.add.container(0, 0).setDepth(2);
+
+    // 远山剪影垫底
+    const g = this.add.graphics();
+    this.bgLayer.add(g);
     for (const L of [
       { color: 0x232a44, amp: this.minDim * 0.09, base: topY - this.minDim * 0.01 },
       { color: 0x1a2136, amp: this.minDim * 0.14, base: topY + this.minDim * 0.03 },
@@ -194,6 +211,19 @@ export class HallScene extends Phaser.Scene {
       }
       pts.push(new Phaser.Math.Vector2(W, topY + this.minDim));
       g.fillPoints(pts, true);
+    }
+
+    // 手绘松树林（Glitch，CC0）左右各一丛框住星球，压暗融进夜色。
+    // 树根埋到地平线下一点，避免「贴」在山上的悬浮感
+    const h = this.minDim * 0.52;
+    for (const side of [-1, 1]) {
+      const forest = this.add
+        .image(W / 2 + side * W * 0.38, topY + this.minDim * 0.06, "glitchForest")
+        .setOrigin(0.5, 1)
+        .setFlipX(side > 0)
+        .setTint(0x93a3c8);
+      forest.setScale(h / forest.height);
+      this.bgLayer.add(forest);
     }
   }
 
@@ -243,6 +273,23 @@ export class HallScene extends Phaser.Scene {
       rocks.fillCircle(Math.sin(a) * rr, -Math.cos(a) * rr, this.minDim * (0.006 + Math.random() * 0.008));
     }
     this.planet.add(rocks);
+
+    // 手绘枯树与花丛（Glitch，CC0）种在据点之间的球面上，随球转动——
+    // 拖拽时它们掠过视野，旋转反馈比纯色块强得多
+    const count = HALL_MAP.length;
+    for (let i = 0; i < count; i++) {
+      const between = ((i + 0.5) / count) * Math.PI * 2;
+      const key = i % 2 === 0 ? "glitchTree" : "glitchBush";
+      const size = this.minDim * (key === "glitchTree" ? 0.16 : 0.07);
+      const prop = this.add
+        .image(Math.sin(between) * R, -Math.cos(between) * R, key)
+        .setOrigin(0.5, 0.96)
+        .setRotation(between)
+        .setFlipX(i % 4 >= 2)
+        .setTint(0xaab6d2);
+      prop.setScale(size / prop.height);
+      this.planet.add(prop);
+    }
   }
 
   /** 6 个据点钉在球面：theta 均分整圈，容器旋转 = 据点绕球走 */
@@ -313,6 +360,9 @@ export class HallScene extends Phaser.Scene {
 
   private setupDrag() {
     this.input.on("pointerdown", (p: Phaser.Input.Pointer) => {
+      // 吸附进行中再次按下：立刻接管，别跟插值抢方向盘
+      this.snapTween?.stop();
+      this.snapTween = undefined;
       this.dragging = true;
       this.dragLastX = p.x;
       this.dragLastT = performance.now();
@@ -341,8 +391,13 @@ export class HallScene extends Phaser.Scene {
       if (wasTap) {
         this.omega = 0;
         this.tapAt(p.x, p.y);
+        return;
       }
-      // 非 tap：保留 omega 惯性，update 里衰减
+      // 慢速松手（没有值得滑行的惯性）直接吸附；快速松手先滑行，update 里衰减到位再吸附
+      if (Math.abs(this.omega) <= 0.25) {
+        this.omega = 0;
+        this.startSnap();
+      }
     });
   }
 
@@ -374,38 +429,77 @@ export class HallScene extends Phaser.Scene {
     this.planet.setRotation(this.rot);
   }
 
-  // ---------- 主循环：惯性、动画、颠簸、聚焦高亮 ----------
+  /** 距球顶最近的据点及其偏角（wrap 到 ±π） */
+  private nearestPoi(): { pn: PoiNode; off: number } | null {
+    let best: { pn: PoiNode; off: number } | null = null;
+    for (const pn of this.poiNodes) {
+      const off = Phaser.Math.Angle.Wrap(pn.theta + this.rot);
+      if (!best || Math.abs(off) < Math.abs(best.off)) best = { pn, off };
+    }
+    return best;
+  }
+
+  /** 松手减速后插值吸附到最近据点（贪婪洞窟手感） */
+  private startSnap() {
+    const nearest = this.nearestPoi();
+    if (!nearest || Math.abs(nearest.off) < 0.01) return;
+    const target = this.rot - nearest.off;
+    this.snapTween = this.tweens.add({
+      targets: this,
+      rot: target,
+      duration: 320 + Math.abs(nearest.off) * 400,
+      ease: "Cubic.Out",
+      onUpdate: () => this.applyRotation(),
+      onComplete: () => {
+        this.snapTween = undefined;
+      },
+    });
+  }
+
+  // ---------- 主循环：惯性→吸附、动画、背景颠簸、聚焦高亮 ----------
 
   update(_time: number, delta: number) {
-    // 惯性：松手后角速度指数衰减
-    if (!this.dragging && Math.abs(this.omega) > 0.015) {
-      this.rot += this.omega * (delta / 1000);
-      this.omega *= Math.exp(-delta / INERTIA_TAU);
-      this.applyRotation();
-    } else if (!this.dragging) {
-      this.omega = 0;
+    const snapping = !!this.snapTween?.isPlaying();
+
+    // 惯性：松手后角速度指数衰减；降到吸附阈值就交给吸附插值
+    if (!this.dragging && !snapping) {
+      if (Math.abs(this.omega) > 0.25) {
+        this.rot += this.omega * (delta / 1000);
+        this.omega *= Math.exp(-delta / INERTIA_TAU);
+        this.applyRotation();
+      } else if (this.omega !== 0) {
+        this.omega = 0;
+        this.startSnap();
+      }
     }
 
+    // 有效转速 = 本帧实际转过的角度 / 时间。拖拽、惯性、吸附插值一视同仁，
+    // 吸附的最后一段角色也会自然地走两步停下
+    const eff = (this.rot - this.lastRot) / Math.max(delta / 1000, 0.001);
+    this.lastRot = this.rot;
+    const speed = Math.abs(eff);
+
     // 角色动画随转速：世界在脚下转 = 人在走。方向 = 逆着地面运动的方向
-    const speed = Math.abs(this.omega);
     if (speed < WALK_W) {
       this.hero.play("hero-idle-down", true);
     } else {
       const anim = speed >= RUN_W ? "hero-run-side" : "hero-walk-side";
-      this.hero.setFlipX(this.omega > 0);
+      this.hero.setFlipX(eff > 0);
       this.hero.play(anim, true);
     }
 
-    // 行走颠簸：速度越快频率越高、幅度越大（run 更明显）
-    if (speed >= WALK_W) {
-      this.bobPhase += delta * 0.012 * (1 + speed);
-      const amp = this.minDim * (speed >= RUN_W ? 0.006 : 0.003);
-      this.cameras.main.setScroll(
-        Math.sin(this.bobPhase * 1.7) * amp * 0.4,
-        -Math.abs(Math.sin(this.bobPhase)) * amp,
-      );
-    } else {
-      this.cameras.main.setScroll(0, 0);
+    // 行走颠簸：抖背景层，不抖相机（相机会连角色和据点一起晃，观感是错的）
+    if (this.bgLayer) {
+      if (speed >= WALK_W) {
+        this.bobPhase += delta * 0.012 * (1 + speed);
+        const amp = this.minDim * (speed >= RUN_W ? 0.008 : 0.004);
+        this.bgLayer.y = Math.abs(Math.sin(this.bobPhase)) * amp;
+        this.bgLayer.x = Math.sin(this.bobPhase * 1.7) * amp * 0.35;
+      } else {
+        // 停下时缓和归位，避免猛地跳回
+        this.bgLayer.y *= 0.85;
+        this.bgLayer.x *= 0.85;
+      }
     }
 
     // 转到正前方（球顶）的据点高亮

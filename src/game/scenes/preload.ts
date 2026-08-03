@@ -42,6 +42,12 @@ export class PreloadScene extends Phaser.Scene {
     });
     this.load.atlas("hero", `${ROOT}/hero.png`, `${ROOT}/hero.json`);
 
+    // Glitch 手绘素材（CC0，见 public/assets/glitch/ATTRIBUTION.md）：
+    // 大厅的森林背景与星球表面装饰
+    this.load.image("glitchForest", "/assets/glitch/forest.png");
+    this.load.image("glitchTree", "/assets/glitch/tree.png");
+    this.load.image("glitchBush", "/assets/glitch/bush.png");
+
     // 据点用的装饰图标沿用旧 0x72 tileset（已在库）
     const icons: Record<string, string> = {
       column: "column.png",
