@@ -57,30 +57,26 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    // 三向奔跑 + 静止（idle 用单帧 walk-*-3）
-    this.anims.create({
-      key: "hero-down",
-      frames: runFrames(this, "down"),
-      frameRate: 12,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: "hero-side",
-      frames: runFrames(this, "side"),
-      frameRate: 12,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: "hero-up",
-      frames: runFrames(this, "up"),
-      frameRate: 12,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: "hero-idle",
-      frames: [{ key: "hero", frame: "walk-down-3.png" }],
-      frameRate: 1,
-    });
+    // 三态 × 三向：idle 用单帧，walk/run 复用同一组 run 帧、只差帧率。
+    for (const dir of ["down", "side", "up"] as const) {
+      this.anims.create({
+        key: `hero-walk-${dir}`,
+        frames: runFrames(this, dir),
+        frameRate: 8,
+        repeat: -1,
+      });
+      this.anims.create({
+        key: `hero-run-${dir}`,
+        frames: runFrames(this, dir),
+        frameRate: 15,
+        repeat: -1,
+      });
+      this.anims.create({
+        key: `hero-idle-${dir}`,
+        frames: [{ key: "hero", frame: `walk-${dir}-3.png` }],
+        frameRate: 1,
+      });
+    }
 
     this.scene.start("hall");
   }

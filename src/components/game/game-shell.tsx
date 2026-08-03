@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import { GAME_EVENT, type GameToReact } from "@/lib/game/bridge";
-import { PoiPrompt } from "./poi-prompt";
 
 // 全屏游戏的 React 外壳。职责：
 //   1. 字体先行 + 动态 import phaser + 建 Game（沿用 phaser-dungeon.tsx 验证过的模式）
@@ -62,7 +61,6 @@ export function GameShell({ bootstrap }: { bootstrap: GameBootstrap }) {
     <div className="game-root">
       <div ref={hostRef} className="game-canvas" />
       {!ready && <div className="game-loading">进入公会……</div>}
-      <PoiPrompt />
     </div>
   );
 }

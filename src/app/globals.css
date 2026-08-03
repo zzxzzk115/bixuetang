@@ -119,54 +119,6 @@ html {
   letter-spacing: 0.1em;
   pointer-events: none;
 }
-/* 走近据点浮出的「进入」大按钮：拇指区、safe-area 之上、≥52px */
-.poi-prompt {
-  position: absolute;
-  right: 16px;
-  bottom: calc(20px + env(safe-area-inset-bottom));
-  left: 16px;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  height: 54px;
-  margin: 0 auto;
-  max-width: 420px;
-  border: 2px solid #d4a64d;
-  background: rgba(21, 26, 19, 0.94);
-  color: #edbf61;
-  font-family: "ArkPixel", monospace;
-  font-size: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 18px rgba(212, 166, 77, 0.25);
-  animation: poi-rise 160ms ease-out;
-}
-.poi-prompt:active {
-  background: rgba(37, 34, 25, 0.98);
-}
-.poi-prompt-key {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border: 1px solid #7e663a;
-  color: #d4a64d;
-}
-@keyframes poi-rise {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-}
-/* 桌面端隐藏 E 键徽标由 JS 控制；小屏（无键盘）本就该看按钮 */
-@media (pointer: fine) and (min-width: 821px) {
-  .poi-prompt {
-    left: auto;
-    max-width: none;
-    width: auto;
-    padding: 0 20px;
-  }
-}
 
 body {
   position: relative;
