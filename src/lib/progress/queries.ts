@@ -114,6 +114,16 @@ export function getXpLog(userId: number, limit = 20): XpLogEntry[] {
       label = `战后复述：${title} · 第 ${episodeN} 集`;
     } else if (r.reason === "daily-quest") {
       label = "每日委托结算";
+    } else if (r.reason === "quiz") {
+      const [courseId, idx] = r.ref.split(":");
+      const title = content.coursesById.get(courseId)?.title ?? courseId;
+      label = `阶段测验通过：${title} · 第 ${Number(idx) + 1} 场`;
+    } else if (r.reason === "chest") {
+      const [courseId] = r.ref.split(":");
+      const title = content.coursesById.get(courseId)?.title ?? courseId;
+      label = `开启宝箱：${title}`;
+    } else if (r.reason === "trial") {
+      label = `无限试炼：${r.ref} 每日结算`;
     }
     return { ...r, label };
   });

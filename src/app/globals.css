@@ -117,13 +117,27 @@ html {
   color: var(--app-text);
   font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
 }
-/* 桌面端整体限宽居中，两侧留白——保持移动端排版不散架 */
-.app-topbar,
-.app-content,
-.app-tabs {
+/* 移动端：内容列限宽居中；桌面端由下方 media query 变成三栏占满全屏 */
+.app-main {
+  order: 1;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 560px;
   margin: 0 auto;
+}
+.app-tabs {
+  order: 2;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+/* 品牌区与右侧统计栏是桌面零件 */
+.app-brand,
+.app-rail {
+  display: none;
 }
 
 .app-topbar {
@@ -202,6 +216,125 @@ html {
 }
 .app-tabs button.active {
   color: var(--app-blue);
+}
+
+/* ---------- 桌面端：左导航 + 中内容列 + 右统计栏，占满全屏 ---------- */
+@media (min-width: 1024px) {
+  .app-root {
+    flex-direction: row;
+  }
+  .app-tabs {
+    order: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    width: 224px;
+    max-width: none;
+    margin: 0;
+    padding: 20px 14px;
+    border-top: none;
+    border-right: 2px solid var(--app-line);
+  }
+  .app-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px 22px;
+    color: var(--app-green);
+    font-size: 19px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+  }
+  .app-tabs button {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    font-size: 15px;
+  }
+  .app-tabs button.active {
+    background: color-mix(in srgb, var(--app-blue) 14%, transparent);
+    outline: 2px solid color-mix(in srgb, var(--app-blue) 40%, transparent);
+  }
+  .app-main {
+    max-width: 720px;
+    padding: 0 24px;
+  }
+  .app-topbar {
+    border-bottom: none;
+    padding-top: 18px;
+  }
+  /* 顶栏资源徽章在桌面由右栏承担 */
+  .app-topbar-stats {
+    display: none;
+  }
+}
+@media (min-width: 1280px) {
+  .app-rail {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 320px;
+    padding: 24px 24px 24px 0;
+  }
+  .app-rail-card {
+    display: grid;
+    gap: 8px;
+    padding: 16px 18px;
+    border: 2px solid var(--app-line);
+    border-radius: 16px;
+  }
+  .app-rail-card h3 {
+    color: var(--app-strong);
+    font-size: 15px;
+    font-weight: 800;
+  }
+  .app-rail-card small {
+    color: var(--app-faint);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .app-rail-bar {
+    height: 12px;
+    border-radius: 8px;
+    background: var(--app-line);
+    overflow: hidden;
+  }
+  .app-rail-bar i {
+    display: block;
+    height: 100%;
+    border-radius: 8px;
+    background: var(--app-gold);
+  }
+  .app-rail-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .app-rail-row .app-stat {
+    font-size: 18px;
+  }
+  .app-rail-row .app-stat small {
+    margin-left: 2px;
+  }
+  .app-rail-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .app-rail-stats span {
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    padding: 8px 0;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--app-blue) 8%, transparent);
+  }
+  .app-rail-stats b {
+    color: var(--app-strong);
+    font-size: 16px;
+  }
 }
 
 /* ---------- 路线地图 ---------- */
@@ -319,6 +452,411 @@ html {
   75% {
     margin-left: 8px;
   }
+}
+
+/* 单元横幅：一门课一条，学科色底 */
+.route-banner {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 3px;
+  width: min(92%, 460px);
+  padding: 12px 18px;
+  border-radius: 16px;
+  color: #fff;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.22);
+}
+.route-banner b {
+  font-size: 15px;
+  line-height: 1.35;
+}
+.route-banner small {
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+/* 宝箱节点：金色圆角方块，和圆形课程节点区分 */
+.route-node.kind-chest .route-node-btn {
+  border-radius: 22px;
+}
+.route-node.current.kind-chest .route-node-btn {
+  animation-name: node-breathe-gold;
+}
+@keyframes node-breathe-gold {
+  0%,
+  100% {
+    outline: 6px solid color-mix(in srgb, var(--app-gold) 30%, transparent);
+    outline-offset: 4px;
+  }
+  50% {
+    outline: 10px solid color-mix(in srgb, var(--app-gold) 14%, transparent);
+    outline-offset: 8px;
+  }
+}
+
+/* 开宝箱弹窗 */
+.chest-pop {
+  align-items: center;
+}
+.chest-card {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  width: min(88%, 340px);
+  padding: 28px 24px;
+  border-radius: 20px;
+  background: var(--app-bg);
+  text-align: center;
+  animation: sheet-rise 200ms ease-out;
+}
+.chest-card-icon {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--app-gold) 18%, transparent);
+  color: var(--app-gold);
+}
+.chest-card h2 {
+  color: var(--app-strong);
+  font-size: 20px;
+  font-weight: 800;
+}
+.chest-card p {
+  font-size: 16px;
+}
+.chest-card b {
+  color: var(--app-gold);
+}
+
+/* ---------- 通用厚底按钮 ---------- */
+.app-btn-primary,
+.app-btn-plain {
+  display: inline-grid;
+  place-items: center;
+  min-height: 50px;
+  padding: 0 28px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 80ms ease;
+}
+.app-btn-primary {
+  background: var(--app-green);
+  color: #fff;
+  box-shadow: 0 5px 0 color-mix(in srgb, var(--app-green) 65%, #000);
+}
+.app-btn-plain {
+  border: 2px solid var(--app-line);
+  background: var(--app-surface);
+  color: var(--app-strong);
+  box-shadow: 0 5px 0 var(--app-line);
+}
+.app-btn-primary:active,
+.app-btn-plain:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+.app-btn-primary:disabled {
+  opacity: 0.6;
+}
+
+/* ---------- 答题会话（全屏，课程测验 + 无限试炼共用） ---------- */
+.quiz-root {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+.quiz-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: calc(12px + env(safe-area-inset-top)) 16px 8px;
+}
+.quiz-close {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: var(--app-faint);
+  cursor: pointer;
+}
+.quiz-progress {
+  flex: 1;
+  height: 14px;
+  border-radius: 8px;
+  background: var(--app-line);
+  overflow: hidden;
+}
+.quiz-progress i {
+  display: block;
+  height: 100%;
+  border-radius: 8px;
+  background: var(--app-green);
+  transition: width 300ms ease;
+}
+.quiz-trial-hud {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.quiz-score {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--app-gold);
+  font-size: 17px;
+  font-weight: 800;
+}
+.quiz-combo {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--app-orange);
+  font-size: 15px;
+  font-weight: 800;
+  animation: bubble-bounce 0.9s ease-in-out infinite;
+}
+.quiz-hearts {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+  color: var(--app-red);
+}
+.quiz-hearts .empty {
+  color: var(--app-line);
+}
+.quiz-timer {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.quiz-timer i {
+  display: block;
+  height: 6px;
+  border-radius: 4px;
+  background: var(--app-blue);
+  animation: quiz-countdown linear forwards;
+  transform-origin: left;
+}
+@keyframes quiz-countdown {
+  from {
+    transform: scaleX(1);
+    background: var(--app-blue);
+  }
+  70% {
+    background: var(--app-blue);
+  }
+  85% {
+    background: var(--app-red);
+  }
+  to {
+    transform: scaleX(0);
+    background: var(--app-red);
+  }
+}
+.quiz-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 18px 20px calc(20px + env(safe-area-inset-bottom));
+}
+.quiz-kind {
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 800;
+}
+.quiz-prompt {
+  margin: 8px 0 18px;
+  color: var(--app-strong);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+.quiz-options {
+  display: grid;
+  gap: 10px;
+  margin-top: auto;
+}
+.quiz-option {
+  min-height: 54px;
+  padding: 12px 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  box-shadow: 0 4px 0 var(--app-line);
+  font-size: 14px;
+  line-height: 1.45;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 80ms ease;
+}
+.quiz-option:not(:disabled):active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--app-line);
+}
+.quiz-option.right {
+  border-color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 14%, var(--app-surface));
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--app-green) 55%, #000);
+  color: var(--app-strong);
+}
+.quiz-option.wrong {
+  border-color: var(--app-red);
+  background: color-mix(in srgb, var(--app-red) 12%, var(--app-surface));
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--app-red) 55%, #000);
+  animation: node-shake 0.4s ease;
+}
+.quiz-option.dim {
+  opacity: 0.55;
+}
+.quiz-timeout {
+  margin-top: 12px;
+  color: var(--app-red);
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* 结算页 */
+.quiz-result {
+  margin: auto;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 32px 24px;
+  text-align: center;
+}
+.quiz-result-icon {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+}
+.quiz-result-icon.pass {
+  background: color-mix(in srgb, var(--app-green) 15%, transparent);
+  color: var(--app-green);
+}
+.quiz-result-icon.fail {
+  background: color-mix(in srgb, var(--app-red) 13%, transparent);
+  color: var(--app-red);
+}
+.quiz-result h1 {
+  color: var(--app-strong);
+  font-size: 24px;
+  font-weight: 800;
+}
+.quiz-result-stats {
+  display: flex;
+  gap: 18px;
+}
+.quiz-result-stats > div {
+  display: grid;
+  gap: 2px;
+  min-width: 92px;
+  padding: 12px 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+}
+.quiz-result-stats b {
+  color: var(--app-strong);
+  font-size: 22px;
+}
+.quiz-result-stats small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.quiz-result-note {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+.quiz-result-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* ---------- 试炼首页 ---------- */
+.trial-home {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 48px 28px;
+  text-align: center;
+}
+.trial-home-icon {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--app-red) 12%, transparent);
+  color: var(--app-red);
+}
+.trial-home h1 {
+  color: var(--app-strong);
+  font-size: 22px;
+  font-weight: 800;
+}
+.trial-home > p {
+  max-width: 340px;
+  font-size: 14px;
+}
+.trial-rules {
+  display: grid;
+  gap: 10px;
+  margin: 6px 0;
+  text-align: left;
+}
+.trial-rules li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.trial-rules li svg {
+  color: var(--app-blue);
+  flex-shrink: 0;
+}
+.trial-claimed {
+  padding: 6px 14px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--app-gold) 15%, transparent);
+  color: var(--app-gold);
+  font-size: 13px;
+  font-weight: 800;
+}
+.trial-error {
+  color: var(--app-red);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 /* ---------- 底部弹层（路线选择等） ---------- */

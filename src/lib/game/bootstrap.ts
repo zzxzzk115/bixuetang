@@ -1,9 +1,14 @@
 import "server-only";
 
+import { and, eq, inArray } from "drizzle-orm";
 import { getContent } from "../content/load";
 import type { SessionUser } from "../auth/session";
+import { db } from "../db/client";
+import { xpEvents } from "../db/schema";
 import { getUserProgress } from "../progress/queries";
 import { learningStreak } from "./achievements";
+import { dailyDateKey } from "./quests";
+import { courseHasQuiz } from "./quiz-bank";
 import { getRpgProfile } from "./rpg-server";
 import { ZERO_STATS, type StatBlock } from "./relics";
 import type {
@@ -48,16 +53,41 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     quantity: r.quantity,
   }));
 
-  const courses: CourseSummaryDto[] = content.courses.map((c) => ({
-    id: c.id,
-    title: c.title,
-    code: c.code,
-    subject: c.subject,
-    level: c.level,
-    episodeCount: c.episodes.length,
-    watchedCount: progress.watchedByCourse.get(c.id)?.size ?? 0,
-    status: progress.statusByCourse.get(c.id) ?? null,
-  }));
+  const courses: CourseSummaryDto[] = content.courses.map((c) => {
+    const watchedSet = progress.watchedByCourse.get(c.id);
+    return {
+      id: c.id,
+      title: c.title,
+      code: c.code,
+      subject: c.subject,
+      level: c.level,
+      episodeCount: c.episodes.length,
+      watchedCount: watchedSet?.size ?? 0,
+      status: progress.statusByCourse.get(c.id) ?? null,
+      episodeNs: c.episodes.map((e) => e.n),
+      watched: watchedSet ? [...watchedSet] : [],
+      hasQuiz: courseHasQuiz(c.id),
+    };
+  });
+
+  // 测验/宝箱/今日试炼的领取记录都在 xp_events 里（幂等键即完成标记）
+  const claimRows = db
+    .select({ reason: xpEvents.reason, ref: xpEvents.ref })
+    .from(xpEvents)
+    .where(
+      and(
+        eq(xpEvents.userId, user.id),
+        inArray(xpEvents.reason, ["quiz", "chest", "trial"]),
+      ),
+    )
+    .all();
+  const quizDone = claimRows.filter((r) => r.reason === "quiz").map((r) => r.ref);
+  const chestDone = claimRows
+    .filter((r) => r.reason === "chest")
+    .map((r) => r.ref);
+  const trialClaimedToday = claimRows.some(
+    (r) => r.reason === "trial" && r.ref === dailyDateKey(),
+  );
 
   const paths: PathSummaryDto[] = content.paths.map((p) => ({
     id: p.id,
@@ -88,5 +118,8 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     paths,
     streak: learningStreak(user.id),
     trialBest: {},
+    quizDone,
+    chestDone,
+    trialClaimedToday,
   };
 }

@@ -53,6 +53,12 @@ export interface CourseSummaryDto {
   episodeCount: number;
   watchedCount: number;
   status: "planned" | "learning" | "done" | "dropped" | null;
+  /** 各集的 n 值（地图拆节点用，保持内容顺序） */
+  episodeNs: number[];
+  /** 已看集的 n 值 */
+  watched: number[];
+  /** 是否有测验题库（决定地图上是否有测验节点） */
+  hasQuiz: boolean;
 }
 
 export interface PathSummaryDto {
@@ -72,4 +78,10 @@ export interface GameBootstrap {
   streak: number;
   /** 每学科最高通关层（G3 后填充） */
   trialBest: Partial<Record<Subject, number>>;
+  /** 已通过的测验节点 ref（`courseId:index`） */
+  quizDone: string[];
+  /** 已开过的宝箱 ref（`courseId:index`） */
+  chestDone: string[];
+  /** 今天的试炼奖励是否已领 */
+  trialClaimedToday: boolean;
 }
