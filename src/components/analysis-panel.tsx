@@ -14,9 +14,12 @@ function fmtTime(t: number): string {
 export function AnalysisPanel({
   analysis,
   episodes,
+  formulaHtml,
 }: {
   analysis: CourseAnalysis;
   episodes: Episode[];
+  /** 服务端用 KaTeX 预渲染好的公式：原始 LaTeX → HTML。渲染失败的不会进这张表 */
+  formulaHtml: Record<string, string>;
 }) {
   const [openEp, setOpenEp] = useState<number | null>(null);
   const bvidOf = (n: number) => episodes.find((e) => e.n === n)?.bvid;
@@ -81,19 +84,36 @@ export function AnalysisPanel({
                           ) : (
                             <span className="shrink-0 text-gold">◆</span>
                           )}
-                          <span>
+                          <span className="min-w-0">
                             <b>{kp.title}</b>
                             {kp.detail && (
                               <span className="text-muted"> — {kp.detail}</span>
                             )}
                             {kp.formula && (
-                              <Link
-                                href={`/lab/math?expr=${encodeURIComponent(kp.formula)}`}
-                                className="ml-1.5 text-xs text-mana hover:underline"
-                                title="送入数学工坊"
-                              >
-                                ⚗️ 公式
-                              </Link>
+                              <span className="mt-1 flex items-center gap-2">
+                                {/* 公式可能比容器宽，单独给一层横向滚动，别把整页撑出横条 */}
+                                <span className="min-w-0 flex-1 overflow-x-auto py-0.5">
+                                  {formulaHtml[kp.formula] ? (
+                                    <span
+                                      dangerouslySetInnerHTML={{
+                                        __html: formulaHtml[kp.formula],
+                                      }}
+                                    />
+                                  ) : (
+                                    // KaTeX 认不出来时退回原始 LaTeX，总比什么都不显示强
+                                    <code className="text-xs text-muted">
+                                      {kp.formula}
+                                    </code>
+                                  )}
+                                </span>
+                                <Link
+                                  href={`/lab/math?expr=${encodeURIComponent(kp.formula)}`}
+                                  className="shrink-0 text-xs text-mana hover:underline"
+                                  title="送入数学工坊"
+                                >
+                                  ⚗️
+                                </Link>
+                              </span>
                             )}
                           </span>
                         </li>

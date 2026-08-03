@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* 知识点地图里的公式排版；KaTeX 只在服务端跑，客户端只用到这份 CSS 与字体 */
+@import "katex/dist/katex.min.css";
 
 /* 双主题：data-theme 由首屏脚本解析（auto 跟随系统 / 手动 light / dark），
    Tailwind 的 dark: 变体也挂在 data-theme 上 */

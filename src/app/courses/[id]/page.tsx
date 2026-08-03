@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AnalysisPanel } from "@/components/analysis-panel";
 import { LevelBadge, SubjectBadge } from "@/components/badges";
 import { EmbedPlayer } from "@/components/embed-player";
+import { renderLatex } from "@/lib/math/render-latex";
 import { EpisodeList } from "@/components/episode-list";
 import { StatusButtons } from "@/components/status-buttons";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -52,6 +53,16 @@ export default async function CoursePage({
     n.courses.includes(id),
   );
   const analysis = content.analysisByCourse.get(id);
+  // 公式在服务端排版好再传下去——KaTeX 因此不会进客户端包，
+  // 课程页只需要多加载 KaTeX 的 CSS 与字体
+  const formulaHtml: Record<string, string> = {};
+  for (const ep of analysis?.episodes ?? []) {
+    for (const kp of ep.keyPoints) {
+      if (!kp.formula || formulaHtml[kp.formula]) continue;
+      const html = renderLatex(kp.formula);
+      if (html) formulaHtml[kp.formula] = html;
+    }
+  }
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
@@ -94,7 +105,11 @@ export default async function CoursePage({
         </div>
 
         {analysis && (
-          <AnalysisPanel analysis={analysis} episodes={course.episodes} />
+          <AnalysisPanel
+            analysis={analysis}
+            episodes={course.episodes}
+            formulaHtml={formulaHtml}
+          />
         )}
       </div>
 
