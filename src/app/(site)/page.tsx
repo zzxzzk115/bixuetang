@@ -2,24 +2,17 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpenText,
-  Coins,
   FlaskConical,
   Library,
   Map,
   Orbit,
-  ScrollText,
   Shield,
-  Swords,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { DailyQuestBoard } from "@/components/daily-quest-board";
+import { redirect } from "next/navigation";
 import { GuildSigil } from "@/components/guild-sigil";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
-import { learningStreak, syncAchievements } from "@/lib/game/achievements";
-import { getDailyQuests } from "@/lib/game/quests";
-import { ENCOUNTER_LABEL, lootForEpisode } from "@/lib/game/rpg";
-import { getUserProgress } from "@/lib/progress/queries";
 
 interface SceneLocation {
   href: string;
@@ -48,6 +41,8 @@ const ZONE_POS: Record<string, { x: number; y: number }> = {
 export default async function HomePage() {
   const content = getContent();
   const user = await getCurrentUser();
+  // 登录用户直接进全屏游戏；未登录留在这张伪 Phaser 大厅当宣传页
+  if (user) redirect("/play");
   const locations: SceneLocation[] = [
     { href: "/courses", code: "ARCHIVE", title: "副本档案馆", detail: `${content.courses.length} 座知识副本`, zone: "archive", icon: Library },
     { href: "/jobs", code: "CLASS HALL", title: "转职殿堂", detail: `${content.jobs.length} 条职业道路`, zone: "jobs", icon: Shield },
@@ -57,91 +52,17 @@ export default async function HomePage() {
     { href: "/glossary", code: "LEXICON", title: "知识卷宗", detail: "中英术语与公式", zone: "glossary", icon: BookOpenText },
   ];
 
-  if (!user) {
-    return (
-      <GuildScene locations={locations} name="旅行者">
-        <section className="scene-entry-panel">
-          <p className="scene-panel-kicker">NEW ADVENTURER</p>
-          <h1>你的理科学术冒险，从公会登记开始</h1>
-          <p>选择据点查看真实课程、技能树与实验设施。建立角色后，遭遇、专注、复盘和 Boss 战都会转化为经验与职业进度。</p>
-          <div className="scene-panel-actions">
-            <Link href="/register" className="scene-primary-action">建立角色 <ArrowRight aria-hidden size={16} /></Link>
-            <Link href="/paths" className="scene-secondary-action">先查看远征地图</Link>
-          </div>
-        </section>
-      </GuildScene>
-    );
-  }
-
-  const progress = getUserProgress(user.id);
-  const quests = getDailyQuests(user.id);
-  const achievements = syncAchievements(user.id);
-  const streak = learningStreak(user.id);
-  const activeCourse =
-    [...progress.statusByCourse.entries()]
-      .filter(([, status]) => status === "learning")
-      .map(([id]) => content.coursesById.get(id))
-      .find(Boolean) ??
-    content.coursesById.get(quests[0]?.courseId ?? "");
-  const watched = activeCourse
-    ? progress.watchedByCourse.get(activeCourse.id) ?? new Set<number>()
-    : new Set<number>();
-  const nextEpisode = activeCourse?.episodes.find((episode) => !watched.has(episode.n));
-  const percent = activeCourse
-    ? Math.round((watched.size / activeCourse.episodes.length) * 100)
-    : 0;
-  const activeLoot = activeCourse && nextEpisode
-    ? lootForEpisode(activeCourse.subject, activeCourse.level, nextEpisode.n, activeCourse.episodes.length)
-    : null;
-  const activePath = activeCourse
-    ? content.paths.find((path) => path.stages.some((stage) => stage.courses.includes(activeCourse.id)))
-    : undefined;
-  const unlockedAchievements = achievements.filter((item) => item.unlocked).length;
-
+  // 登录用户已在上面 redirect 到 /play，这里只剩未登录宣传页。
   return (
-    <GuildScene
-      locations={locations}
-      name={user.displayName || user.username}
-      status={`连续远征 ${streak} 天 · ${unlockedAchievements} 枚成就`}
-    >
-      <aside className="scene-orders-panel">
-        <div className="scene-panel-heading">
-          <span><ScrollText aria-hidden size={15} /> 每日委托</span>
-          <b>{quests.filter((quest) => quest.complete).length}/{quests.length}</b>
+    <GuildScene locations={locations} name="旅行者">
+      <section className="scene-entry-panel">
+        <p className="scene-panel-kicker">NEW ADVENTURER</p>
+        <h1>你的理科学术冒险，从公会登记开始</h1>
+        <p>建立角色后登录，即可进入全屏公会大厅——走动、探索据点、挑战试炼、爬塔通关。遭遇、专注、复盘都会转化为经验与职业进度。</p>
+        <div className="scene-panel-actions">
+          <Link href="/register" className="scene-primary-action">建立角色 <ArrowRight aria-hidden size={16} /></Link>
+          <Link href="/login" className="scene-secondary-action">已有角色，登录</Link>
         </div>
-        <DailyQuestBoard quests={quests} compact />
-      </aside>
-
-      <section className="scene-expedition-panel">
-        <div className="scene-panel-heading">
-          <span><Swords aria-hidden size={15} /> 当前战役</span>
-          {activePath && <Link href={`/paths/${activePath.id}`}>{activePath.title}</Link>}
-        </div>
-        {activeCourse && nextEpisode ? (
-          <>
-            <div className="scene-battle-target">
-              <span className="scene-battle-rank">{activeLoot ? ENCOUNTER_LABEL[activeLoot.encounterType] : "READY"}</span>
-              <div>
-                <small>{activeCourse.code}</small>
-                <h2>{activeCourse.title}</h2>
-                <p>下一遭遇 · EP.{String(nextEpisode.n).padStart(2, "0")} {nextEpisode.title}</p>
-                {activeLoot && <span className="scene-loot-preview"><Coins aria-hidden size={12} /> {activeLoot.coins} · {activeLoot.item.title}</span>}
-              </div>
-            </div>
-            <div className="scene-boss-health">
-              <span><b>BOSS HP</b><small>{100 - percent}%</small></span>
-              <div><i style={{ width: `${Math.max(0, 100 - percent)}%` }} /></div>
-            </div>
-            <Link href={`/courses/${activeCourse.id}`} className="scene-deploy">
-              进入下一场遭遇 <ArrowRight aria-hidden size={16} />
-            </Link>
-          </>
-        ) : (
-          <div className="scene-empty-target">
-            <p>目前没有部署中的远征。</p>
-            <Link href="/paths" className="scene-primary-action">选择战役</Link>
-          </div>
-        )}
       </section>
     </GuildScene>
   );

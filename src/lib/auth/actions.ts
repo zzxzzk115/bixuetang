@@ -48,7 +48,7 @@ export async function register(
     .get();
 
   await createSession(inserted.id);
-  redirect("/me");
+  redirect("/play");
 }
 
 export async function login(
@@ -76,7 +76,7 @@ export async function login(
   }
 
   await createSession(user.id);
-  redirect("/me");
+  redirect("/play");
 }
 
 export async function logout(): Promise<void> {

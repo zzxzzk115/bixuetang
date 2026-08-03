@@ -82,6 +82,84 @@ html {
   background: var(--background);
 }
 
+/* ---------- 全屏游戏壳（/play） ---------- */
+/* 脱离站点 820px 断点体系：撑满视口 + safe-area，Phaser 自己按 RESIZE 填满。 */
+.game-root {
+  position: fixed;
+  inset: 0;
+  width: 100dvw;
+  height: 100dvh;
+  overflow: hidden;
+  background: #0a0d0a;
+  touch-action: none; /* 阻止移动端双指缩放/下拉刷新干扰游戏输入 */
+}
+.game-canvas {
+  width: 100%;
+  height: 100%;
+}
+.game-canvas canvas {
+  display: block;
+}
+.game-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #d4a64d;
+  font-family: "ArkPixel", monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+}
+/* 走近据点浮出的「进入」大按钮：拇指区、safe-area 之上、≥52px */
+.poi-prompt {
+  position: absolute;
+  right: 16px;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  left: 16px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 54px;
+  margin: 0 auto;
+  max-width: 420px;
+  border: 2px solid #d4a64d;
+  background: rgba(21, 26, 19, 0.94);
+  color: #edbf61;
+  font-family: "ArkPixel", monospace;
+  font-size: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 18px rgba(212, 166, 77, 0.25);
+  animation: poi-rise 160ms ease-out;
+}
+.poi-prompt:active {
+  background: rgba(37, 34, 25, 0.98);
+}
+.poi-prompt-key {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #7e663a;
+  color: #d4a64d;
+}
+@keyframes poi-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+/* 桌面端隐藏 E 键徽标由 JS 控制；小屏（无键盘）本就该看按钮 */
+@media (pointer: fine) and (min-width: 821px) {
+  .poi-prompt {
+    left: auto;
+    max-width: none;
+    width: auto;
+    padding: 0 20px;
+  }
+}
+
 body {
   position: relative;
   min-width: 320px;
@@ -1615,11 +1693,15 @@ body:has(.dungeon-grid) .filter-chip.active{border-color:#bd8e42;background:#282
 .tower-dossier dl{display:grid}
 .tower-dossier dl>div{padding:9px 0;border-top:1px solid #303a33}
 .tower-dossier dt{display:flex;align-items:center;gap:7px;color:#d7ddd7;font-size:13px;font-weight:800}
+.tower-legend dt img{width:22px;height:22px;object-fit:contain}
 .tower-dossier dd{margin-top:3px;padding-left:22px;color:#7f8b82;font-size:12px}
 .tower-register{display:block;margin-top:13px;border:1px solid #a57a38;padding:9px;color:#dbae56;text-align:center;font-size:12px}
-.tower-viewport{position:relative;height:min(74vh,790px);min-height:610px;overflow:auto;border:1px solid #3d493f;background:#080c09 url("/assets/guild-campaign-map.jpg") center/cover fixed;color:#e1e5e0;scrollbar-color:#85683a #101511;overscroll-behavior:contain}
+/* 塔内视口：深色石室，不再铺羊皮纸地图——爬塔发生在塔里，不是桌面上。
+   砖墙纹理直接平铺 0x72 的墙砖，image-rendering 保持像素硬边。 */
+.tower-viewport{position:relative;height:min(74vh,790px);min-height:610px;overflow:auto;border:1px solid #3d493f;background:#0a0d0a url("/assets/pixel-dungeon/wall_center.png");background-size:64px 64px;image-rendering:pixelated;color:#e1e5e0;scrollbar-color:#85683a #101511;overscroll-behavior:contain}
 .tower-viewport::before{position:sticky;z-index:1;top:0;display:block;height:38px;background:linear-gradient(#080b09,transparent);content:"";pointer-events:none}
-.tower-map{position:relative;min-width:760px;margin:-38px auto 0;background:linear-gradient(90deg,rgba(4,7,5,.65),rgba(7,10,8,.28) 35%,rgba(7,10,8,.28) 65%,rgba(4,7,5,.65))}
+/* 压暗砖墙、给中路留光——视线跟着塔心走 */
+.tower-map{position:relative;min-width:760px;margin:-38px auto 0;background:linear-gradient(90deg,rgba(3,5,4,.88),rgba(6,9,7,.55) 35%,rgba(6,9,7,.55) 65%,rgba(3,5,4,.88))}
 .tower-spire{position:absolute;top:56px;bottom:74px;left:50%;width:1px;background:linear-gradient(transparent,#6f5b35 8%,#38443b 92%,transparent);box-shadow:0 0 34px rgba(212,166,77,.16)}
 .tower-crown{position:absolute;top:37px;left:50%;display:grid;width:54px;height:54px;place-items:center;border:1px solid #b18139;background:#16170f;color:#e0ae51;transform:translateX(-50%) rotate(45deg);box-shadow:0 0 24px rgba(212,166,77,.24)}
 .tower-crown svg{transform:rotate(-45deg)}
@@ -1627,22 +1709,35 @@ body:has(.dungeon-grid) .filter-chip.active{border-color:#bd8e42;background:#282
 .tower-act-marker{position:absolute;left:14px;display:flex;width:184px;align-items:center;gap:9px;border-bottom:1px solid #4a554d;padding:0 0 5px;color:#9da79f}
 .tower-act-marker span{color:#a47d40;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
 .tower-act-marker b{overflow:hidden;font-family:"Songti SC",SimSun,serif;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
-.tower-encounter{position:absolute;z-index:3;display:grid;width:70px;height:70px;place-items:center;border:2px solid #58645b;background:#111712;color:#aab4ac;box-shadow:0 0 0 6px rgba(0,0,0,.2),inset 0 0 0 4px #090c0a;clip-path:polygon(50% 0,90% 16%,100% 54%,75% 92%,25% 92%,0 54%,10% 16%);transition:transform 150ms ease,filter 150ms ease}
-.tower-encounter:hover{z-index:6;border-color:#d0a14b;color:#e1b157;filter:drop-shadow(0 0 12px rgba(212,166,77,.32));transform:translateY(-4px)}
-.tower-encounter small{position:absolute;right:0;bottom:7px;left:0;color:#78837b;font:6px ui-monospace,SFMono-Regular,Consolas,monospace;text-align:center}
-.tower-encounter.current{border-color:#d4a64d;background:#252219;color:#edbf61;animation:tower-current 2s ease-in-out infinite}
-.tower-encounter.done{border-color:#4d9b73;background:#12221a;color:#66bd8e}
-.tower-encounter.elite{border-color:#a7643f;color:#d08458}
-.tower-encounter.boss{border-color:#b8443e;background:#281310;color:#e56b60;box-shadow:0 0 0 7px rgba(128,37,31,.15),0 0 24px rgba(187,68,61,.22)}
-.tower-encounter.future{opacity:.62}
-.tower-progress-ring{position:absolute;inset:-5px;z-index:-1;border-radius:50%;mask:radial-gradient(transparent 65%,#000 67%)}
+/* 楼层遭遇：不再是七边形徽章卡，而是站在石台上的怪物精灵——
+   跟课程页里的 Phaser 战斗场景同一批 0x72 素材，塔和战斗才像同一个世界。 */
+.tower-encounter{position:absolute;z-index:3;display:grid;width:70px;height:70px;place-items:center;transition:transform 150ms ease,filter 150ms ease}
+/* 站台：一块简单的石头投影，精灵踩在上面 */
+.tower-encounter::after{position:absolute;bottom:2px;left:50%;width:52px;height:12px;border-radius:50%;background:rgba(0,0,0,.55);content:"";transform:translateX(-50%)}
+.tower-sprite{position:relative;z-index:1;width:52px;height:52px;object-fit:contain}
+.tower-encounter:hover{z-index:6;filter:drop-shadow(0 0 12px rgba(212,166,77,.4));transform:translateY(-4px)}
+.tower-encounter small{position:absolute;top:-4px;right:0;left:0;z-index:2;color:#b9944d;font-family:var(--font-pixel);font-size:12px;text-align:center;text-shadow:0 2px 3px #000}
+/* 当前层：金光呼吸，示意「你在这」 */
+.tower-encounter.current .tower-sprite{animation:tower-current 2s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(212,166,77,.65))}
+/* 已讨伐：灰化并横倒，压上红叉 */
+.tower-encounter.done .tower-sprite{filter:grayscale(1) brightness(.6);transform:rotate(90deg) translateY(6px)}
+.tower-slain{position:absolute;z-index:2;color:#d45d50;font-family:var(--font-pixel);font-size:24px;text-shadow:0 0 6px #000}
+.tower-encounter.boss .tower-sprite{width:64px;height:64px;filter:drop-shadow(0 0 14px rgba(187,68,61,.5))}
+/* 战争迷雾：没打到的层只有剪影 */
+.tower-encounter.future .tower-sprite{filter:brightness(0) opacity(.55)}
+.tower-encounter.future:hover .tower-sprite{filter:brightness(.35)}
+/* 血条：横在怪头顶，宽度=剩余集数占比 */
+.tower-hp-bar{position:absolute;top:10px;left:50%;z-index:2;width:48px;height:5px;border:1px solid #080a08;background:#31201d;transform:translateX(-50%)}
+.tower-hp-bar::before{display:block;width:var(--hp);height:100%;background:#9e493e;content:""}
 .tower-encounter-label{position:absolute;z-index:2;display:flex;width:224px;align-items:center;flex-direction:column;color:#adb7af;text-align:center;text-shadow:0 2px 5px #000}
-.tower-encounter-label small{color:#78837b;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
+.tower-encounter-label small{color:#8e998f;font-family:var(--font-pixel);font-size:12px}
 .tower-encounter-label b{display:block;overflow:hidden;width:100%;margin-top:2px;color:#dce2dc;font-family:"Songti SC",SimSun,serif;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
 .tower-encounter-label em{margin-top:3px;color:#d3a44e;font-size:11px;font-style:normal}
-.tower-support-node{position:absolute;z-index:4;display:grid;width:48px;height:48px;place-items:center;border:1px solid #79643c;background:#111711;color:#b9904d;transform:rotate(45deg);box-shadow:inset 0 0 0 3px #090c0a}
-.tower-support-node:hover{border-color:#d4a64d;color:#e0b157;filter:drop-shadow(0 0 10px rgba(212,166,77,.25))}
-.tower-support-node svg{transform:rotate(-45deg)}
+/* 整备侧路：宝箱精灵 + 右下角一个小图标区分种类（工坊/卷宗/星盘） */
+.tower-support-node{position:absolute;z-index:4;display:grid;width:48px;height:48px;place-items:center}
+.tower-support-node img{width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.6))}
+.tower-support-kind{position:absolute;right:-2px;bottom:-2px;color:#e0b157;background:#111711;border:1px solid #79643c;padding:1px}
+.tower-support-node:hover{filter:drop-shadow(0 0 10px rgba(212,166,77,.4))}
 .tower-support-node span{position:absolute;top:48px;left:50%;width:140px;color:#8e998f;font-size:11px;text-align:center;transform:translateX(-50%) rotate(-45deg)}
 .tower-base{position:absolute;left:50%;display:flex;align-items:center;flex-direction:column;color:#aab4ac;transform:translateX(-50%)}
 .tower-base span{display:grid;width:42px;height:42px;place-items:center;border:1px solid #7e663a;background:#111611;color:#d4a64d;font-family:Georgia,serif;clip-path:polygon(50% 0,92% 18%,92% 70%,50% 100%,8% 70%,8% 18%)}
@@ -2652,29 +2747,9 @@ body:has(.dungeon-chamber) .analysis-section {
 :root[data-theme="light"] .tower-run-status,
 :root[data-theme="light"] .tower-run-status span { border-color: var(--edge); }
 :root[data-theme="light"] .tower-run-status small { color: var(--muted); }
-:root[data-theme="light"] .tower-viewport {
-  border-color: var(--edge);
-  background-color: #e7e3d8;
-  background-image: url("/assets/guild-campaign-map-light.jpg");
-  color: var(--foreground);
-  scrollbar-color: var(--gold-soft) var(--panel-strong);
-}
-:root[data-theme="light"] .tower-map {
-  background: linear-gradient(90deg, rgba(247,246,239,.82), rgba(233,235,230,.52) 35%, rgba(233,235,230,.52) 65%, rgba(247,246,239,.82));
-}
-:root[data-theme="light"] .tower-encounter,
-:root[data-theme="light"] .tower-support-node,
-:root[data-theme="light"] .tower-base span,
-:root[data-theme="light"] .tower-crown {
-  background: var(--panel);
-  color: var(--gold);
-  box-shadow: inset 0 0 0 4px var(--panel-strong), 0 0 0 6px rgba(25,33,29,.08);
-}
-:root[data-theme="light"] .tower-encounter-label {
-  color: var(--muted);
-  text-shadow: 0 1px 4px var(--panel);
-}
-:root[data-theme="light"] .tower-encounter-label b { color: var(--foreground); }
+/* 塔内不做亮色适配：地下城内部就该是暗的，火把与精灵的配色都建立在深底之上。
+   页面外壳（标题、侧栏）继续跟随主题，但视口这块「窗户」永远看进黑暗。 */
+:root[data-theme="light"] .tower-viewport { border-color: var(--edge); }
 
 /* Course dungeon shell */
 :root[data-theme="light"] body:has(.dungeon-chamber) { background: var(--background); }
