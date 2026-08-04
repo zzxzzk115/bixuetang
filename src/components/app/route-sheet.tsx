@@ -9,9 +9,11 @@ import { PATH_TIER_LABEL, type PathTier } from "@/lib/content/schema";
 
 const TIER_ORDER: PathTier[] = ["basic", "intermediate", "advanced"];
 
+// 中高级线的解锁只看它自己首课的前置，不是「整条初级线走完」——
+// 文案别写成后者，否则用户会以为要把一整条线刷满
 const TIER_HINT: Record<PathTier, string> = {
   basic: "没有任何前置，现在就能开始",
-  intermediate: "走完一条初级线之后开启",
+  intermediate: "学完对应的前置课后开启",
   advanced: "需要相当的基础，慢慢来",
 };
 
@@ -114,7 +116,7 @@ export function RouteSheet({
               ) : (
                 <small className="app-route-card-lock">
                   {path.missingPrereqs.length > 0
-                    ? `先学过半「${path.missingPrereqs.map((p) => p.title).join("、")}」`
+                    ? `先学完「${path.missingPrereqs.map((p) => p.title).join("、")}」`
                     : "完成前置课程后开启"}
                 </small>
                   )}

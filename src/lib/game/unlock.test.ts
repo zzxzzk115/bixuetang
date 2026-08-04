@@ -39,7 +39,7 @@ describe("computeUnlocks", () => {
     assert.equal(states.get("intro")!.unlocked, true);
   });
 
-  it("前置没过半时锁住，并列出缺哪几门", () => {
+  it("前置没学完就锁住，并列出缺哪几门", () => {
     const states = computeUnlocks([
       course("base", [], 2), // 20%
       course("next", ["base"]),
@@ -48,9 +48,25 @@ describe("computeUnlocks", () => {
     assert.deepEqual(states.get("next")!.missing, ["base"]);
   });
 
-  it("前置刚好到阈值就放行", () => {
+  it("前置学到只差一集也还是锁着——门槛就是学完", () => {
+    const states = computeUnlocks([
+      course("base", [], 9, 10),
+      course("next", ["base"]),
+    ]);
+    assert.equal(states.get("next")!.unlocked, false);
+  });
+
+  it("前置全部学完才放行", () => {
     const states = computeUnlocks([
       course("base", [], UNLOCK_RATIO * 10),
+      course("next", ["base"]),
+    ]);
+    assert.equal(states.get("next")!.unlocked, true);
+  });
+
+  it("前置标记为 done 也算过关，不必逐集勾", () => {
+    const states = computeUnlocks([
+      course("base", [], 0, 10, true),
       course("next", ["base"]),
     ]);
     assert.equal(states.get("next")!.unlocked, true);

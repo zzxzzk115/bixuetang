@@ -520,7 +520,7 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
                 <small className="route-pop-lockhint">
                   {pop.node.course.missingPrereqs.length > 0
                     ? // 整门课被前置挡着，说清楚挡在哪，别让人干瞪眼
-                      `先学过半「${pop.node.course.missingPrereqs
+                      `先学完「${pop.node.course.missingPrereqs
                         .map((p) => p.title)
                         .join("、")}」才能开这门课`
                     : "完成前面的小节即可解锁"}

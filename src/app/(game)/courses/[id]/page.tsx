@@ -66,7 +66,7 @@ export default async function CoursePage({
                 <Link href={`/courses/${p.id}`}>《{p.title}》</Link>
               </span>
             ))}
-            学过半，再回来开这门。
+            学完，再回来开这门。
           </p>
           <Link className="app-btn-primary" href="/play">
             <MapIcon size={16} aria-hidden /> 回到地图
