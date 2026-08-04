@@ -4,17 +4,13 @@ import { parse as parseYaml } from "yaml";
 import {
   CourseAnalysisSchema,
   CourseSchema,
-  JobsSchema,
   LabTasksSchema,
   PathSchema,
-  SkillTreeSchema,
   type Course,
   type CourseAnalysis,
-  type Job,
   type LabId,
   type LabTasks,
   type LearningPath,
-  type SkillNode,
 } from "./schema";
 
 export interface ContentIndex {
@@ -22,10 +18,6 @@ export interface ContentIndex {
   coursesById: Map<string, Course>;
   paths: LearningPath[];
   pathsById: Map<string, LearningPath>;
-  skillNodes: SkillNode[];
-  skillById: Map<string, SkillNode>;
-  jobs: Job[];
-  jobById: Map<string, Job>;
   labTasksById: Map<LabId, LabTasks>;
   analysisByCourse: Map<string, CourseAnalysis>;
 }
@@ -110,82 +102,6 @@ export function loadContent(): ContentIndex {
     }
   }
 
-  // ---- 技能树 ----
-  let skillNodes: SkillNode[] = [];
-  const treeFile = path.join(root, "skill-tree.yaml");
-  if (fs.existsSync(treeFile)) {
-    const parsed = SkillTreeSchema.safeParse(readYaml(treeFile));
-    if (parsed.success) skillNodes = parsed.data.nodes;
-    else
-      problems.push(
-        `skill-tree.yaml: ${parsed.error.issues
-          .map((i) => `${i.path.join(".")} ${i.message}`)
-          .join("; ")}`,
-      );
-  }
-  const skillById = new Map<string, SkillNode>();
-  for (const n of skillNodes) {
-    if (skillById.has(n.id)) problems.push(`技能节点 id 重复: ${n.id}`);
-    skillById.set(n.id, n);
-  }
-  for (const n of skillNodes) {
-    for (const r of n.requires) {
-      if (!skillById.has(r))
-        problems.push(`技能节点 ${n.id} 的前置节点不存在: ${r}`);
-    }
-    for (const cid of n.courses) {
-      if (!coursesById.has(cid))
-        problems.push(`技能节点 ${n.id} 引用了不存在的课程: ${cid}`);
-    }
-  }
-  // DAG 环检测（三色 DFS）
-  {
-    const color = new Map<string, 0 | 1 | 2>();
-    const visit = (id: string, trail: string[]): void => {
-      const c = color.get(id) ?? 0;
-      if (c === 1) {
-        problems.push(`技能树存在环: ${[...trail, id].join(" → ")}`);
-        return;
-      }
-      if (c === 2) return;
-      color.set(id, 1);
-      for (const r of skillById.get(id)?.requires ?? []) {
-        if (skillById.has(r)) visit(r, [...trail, id]);
-      }
-      color.set(id, 2);
-    };
-    for (const n of skillNodes) visit(n.id, []);
-  }
-
-  // ---- 职业 ----
-  let jobs: Job[] = [];
-  const jobsFile = path.join(root, "jobs.yaml");
-  if (fs.existsSync(jobsFile)) {
-    const parsed = JobsSchema.safeParse(readYaml(jobsFile));
-    if (parsed.success) jobs = parsed.data.jobs;
-    else
-      problems.push(
-        `jobs.yaml: ${parsed.error.issues
-          .map((i) => `${i.path.join(".")} ${i.message}`)
-          .join("; ")}`,
-      );
-  }
-  const jobById = new Map<string, Job>();
-  for (const j of jobs) {
-    if (jobById.has(j.id)) problems.push(`职业 id 重复: ${j.id}`);
-    jobById.set(j.id, j);
-  }
-  for (const j of jobs) {
-    for (const p of j.parents) {
-      if (!jobById.has(p)) problems.push(`职业 ${j.id} 的 parent 不存在: ${p}`);
-    }
-    const s = j.requires.skills;
-    for (const id of [...(s?.allOf ?? []), ...(s?.anyOf ?? [])]) {
-      if (!skillById.has(id))
-        problems.push(`职业 ${j.id} 引用了不存在的技能节点: ${id}`);
-    }
-  }
-
   // ---- 实验室任务 ----
   const labTasksById = new Map<LabId, LabTasks>();
   for (const file of listYamlFiles(path.join(root, "labs"))) {
@@ -263,10 +179,6 @@ export function loadContent(): ContentIndex {
     coursesById,
     paths: paths.sort((a, b) => a.id.localeCompare(b.id)),
     pathsById,
-    skillNodes,
-    skillById,
-    jobs,
-    jobById,
     labTasksById,
     analysisByCourse,
   };

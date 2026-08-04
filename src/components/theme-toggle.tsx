@@ -14,8 +14,8 @@ const ICON = {
 } as const;
 const LABEL: Record<ThemePref, string> = {
   auto: "跟随系统",
-  light: "日间卷宗",
-  dark: "夜间远征",
+  light: "浅色",
+  dark: "深色",
 };
 
 let listeners: (() => void)[] = [];

@@ -12,7 +12,6 @@ import {
   rpgInventory,
   rpgLootEvents,
   rpgProfiles,
-  skillUnlocks,
   xpEvents,
 } from "../db/schema";
 import { levelFromXp } from "./level";
@@ -158,11 +157,6 @@ export function getRpgProfile(userId: number): RpgProfile {
     .from(episodeProgress)
     .where(eq(episodeProgress.userId, userId))
     .all().length;
-  const skillCount = db
-    .select({ id: skillUnlocks.skillId })
-    .from(skillUnlocks)
-    .where(eq(skillUnlocks.userId, userId))
-    .all().length;
   const passedCount = db
     .select({ id: checkpointAttempts.checkpointId })
     .from(checkpointAttempts)
@@ -184,7 +178,8 @@ export function getRpgProfile(userId: number): RpgProfile {
     .where(eq(xpEvents.userId, userId))
     .get();
 
-  const insight = 5 + levelFromXp(Number(xpRow?.total ?? 0)) * 2 + skillCount;
+  // 技能树退役后洞察只看等级：原本还加技能点数，那套加点玩法已经删了
+  const insight = 5 + levelFromXp(Number(xpRow?.total ?? 0)) * 2;
   const focus = 5 + Math.floor(Number(focusRow?.total ?? 0) / 30);
   const precision = 5 + Math.floor(episodeCount / 5);
   const resolve = 5 + passedCount * 2;

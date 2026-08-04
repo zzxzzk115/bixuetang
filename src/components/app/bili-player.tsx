@@ -89,6 +89,36 @@ interface Track {
 /** 续播提示的反悔窗口（秒） */
 const RESUME_SECONDS = 5;
 
+/**
+ * 全屏时把手机转成横屏。
+ *
+ * Screen Orientation 的 lock() 只在支持的浏览器（Chrome/Edge 安卓端等）
+ * 有效，iOS Safari 至今没实现；桌面调用会直接抛错。一律静默失败，
+ * 让不支持的平台退回「用户自己转屏」。
+ */
+type OrientationLock = ScreenOrientation & {
+  lock?: (o: "landscape") => Promise<void>;
+};
+
+async function lockLandscape(): Promise<void> {
+  // 只在窄屏（手机、竖持平板）上锁，桌面全屏不该被强制横过来
+  if (typeof window === "undefined" || window.innerWidth > 900) return;
+  const o = screen.orientation as OrientationLock | undefined;
+  try {
+    await o?.lock?.("landscape");
+  } catch {
+    // 不支持或被拒绝：保持原样
+  }
+}
+
+function unlockOrientation(): void {
+  try {
+    screen.orientation?.unlock?.();
+  } catch {
+    // 同上
+  }
+}
+
 function fmt(sec: number): string {
   if (!Number.isFinite(sec)) return "0:00";
   const m = Math.floor(sec / 60);
@@ -613,6 +643,8 @@ export function BiliPlayer({
     const el = wrapRef.current;
     if (!el) return;
     if (document.fullscreenElement) {
+      // 退全屏时解除锁定，否则整个页面会一直被按在横屏里
+      unlockOrientation();
       await document.exitFullscreen().catch(() => {});
       return;
     }
@@ -622,6 +654,9 @@ export function BiliPlayer({
     }
     try {
       await el.requestFullscreen();
+      // 手机全屏就该横过来看。Safari 至今不支持 lock()，
+      // 那边只能靠用户自己转手机——所以失败一律静默
+      await lockLandscape();
     } catch {
       setCinema(true);
     }

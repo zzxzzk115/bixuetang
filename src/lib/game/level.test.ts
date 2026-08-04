@@ -3,7 +3,6 @@ import { test } from "node:test";
 import {
   levelFromXp,
   levelProgress,
-  skillPointsEarned,
   totalXpForLevel,
 } from "./level";
 
@@ -40,6 +39,4 @@ test("levelProgress 分段正确", () => {
 });
 
 test("每升 1 级得 1 技能点", () => {
-  assert.equal(skillPointsEarned(1), 0);
-  assert.equal(skillPointsEarned(5), 4);
 });

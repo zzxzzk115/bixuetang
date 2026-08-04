@@ -1,99 +1,84 @@
+<div align="center">
+
 # 必学堂
 
-游戏闯关式理科自学网站：把 bilibili / YouTube 上的世界名校公开课整理成「副本」，
-看完一集击败一只小怪，通关一门课讨伐 Boss，升级攒技能点、点亮技能树、转职换称号。
-面向中文母语学习者。课程来源以 [csdiy.wiki](https://csdiy.wiki/) 与 MIT OCW / GAMES 系列为主。
+**把公开课学成通关**
 
-**当前内容量**：116 门课程 · 18 条冒险路径 · 58 个技能节点 · 31 个职业。
+一个游戏化的公开课自学工具。把 bilibili / YouTube 上的世界名校公开课
+整理成有先后顺序的学习路线，看完一集打一个勾，攒经验、开新线、解锁词条。
 
-## 玩法概念
+面向中文母语学习者。课程索引主要来自 [csdiy.wiki](https://csdiy.wiki/)。
 
-| 游戏概念 | 对应现实 |
-|---|---|
-| 副本 | 一门公开课（多视频源：bilibili / YouTube） |
-| 小怪 | 一集视频，勾选即击败，+XP |
-| Boss | 整课全部集数看完，触发通关结算奖励 |
-| 冒险路径 | 由浅入深的学习路线（分章节） |
-| 技能树 | 放射式天赋盘：学科分扇区、tier 分圈层，完成课程 + 花技能点点亮 |
-| 转职 | 一转选学徒方向，二转细分/兼修，三转传说职业 |
+[![License](https://img.shields.io/badge/license-GPL--3.0-blue)](./LICENSE)
 
-## 附属系统
+</div>
 
-- **Hack 实验室**（`/lab/hack`）：nand2tetris 全链路浏览器移植——Jack 编译器 →
-  VM 翻译器 → 汇编器 → CPU 模拟器 + WebGL 屏幕。OS 有两种模式：原生模式走 CPU
-  级 trap 由 TS 实现（快），**纯血模式**把 Jack 写的 OS 一起编译进 ROM，
-  乘除法/内存分配/绘图全部真跑在模拟 CPU 上。
-- **数学工坊**（`/lab/math`）：MathLive 公式输入 + compute-engine 求值/化简/求导 + 函数图像。
-- **术语对照表**（`/glossary`）：聚合各课 AI 分析产出的中英术语，可搜索、可跳回原课。
+---
 
-## 本地开发
+## 它解决什么问题
 
-```bash
-npm install
-npm run dev        # 启动时自动建库迁移，DB 在 ./data/dev.db
-```
+公开课资源从来不缺，缺的是**顺序**和**坚持**。
 
-访问 http://localhost:3000。需要配置时把 `.env.example` 复制为 `.env.local`，
-不配也能跑（全部有默认值）。
+- **顺序**：116 门课按前置关系连成 21 条路线，分初级/中级/高级。前置课没学完，
+  后续课就锁着——不是为了刁难，是因为跳过去也看不懂。三条初级线的首课没有任何前置，
+  任何人打开就能学。
+- **坚持**：每集打卡给经验，连续学习有连胜，看完一集会弹出这一集新解锁的术语。
+  进度按「实际看了视频的百分之多少」自动记，不靠手动勾选。
+
+## 主要功能
+
+### 自研 bilibili 播放器
+
+绑定 bilibili 账号后视频在站内直接播放，不跳转、不套 iframe：
+
+- DASH 画音分离双轨同步，清晰度取决于你自己的账号权限
+- 弹幕在 canvas 自绘，可调不透明度 / 字号 / 速度 / 显示区域 / 分类屏蔽
+- CC 字幕多语言叠加（中英对照），可调字号、位置、描边样式，还能按视频校准时间轴
+- 点赞 / 投币 / 收藏 / 评论，未登录时禁用并提示
+- 键盘全套快捷键；手机上横滑快退快进、纵滑调音量、双击暂停、长按 2 倍速
+- 观看覆盖率 ≥90% 自动打卡，跳着看也算——学习不是考勤
+
+### 学习进度
+
+- **路线地图**：一门课拆成「看视频 / 阶段测验 / 宝箱」多个节点，每 4 集一个节点
+- **术语卷宗**：看完哪一集就解锁哪一集的术语；一个词出现在多门课里时，
+  只标注你已经看过的那些出处
+- **答题与试炼**：课程测验用课程自己的知识点出题，试炼是无限限时挑战
+- **PWA**：可以添加到主屏，当 App 用
+
+### 附属工具（桌面端）
+
+- **Hack 实验室**：nand2tetris 全链路浏览器移植——Jack 编译器 → VM 翻译器 →
+  汇编器 → CPU 模拟器 + WebGL 屏幕
+- **数学工坊**：公式求值、化简、符号求导与函数图像，全部在本地算
+
+这两个工具依赖键盘和大屏，窄屏下不提供入口。
 
 ## 部署
+
+只需要 Docker。用户数据是一个 SQLite 文件，整目录拷走就是完整备份。
+
+```bash
+git clone https://github.com/zzxzzk115/bixuetang.git
+cd bixuetang
+docker compose up -d --build
+```
+
+访问 `http://<你的地址>:3000`。
 
 ### 环境变量
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|
-| `DATABASE_PATH` | `./data/dev.db`（镜像内 `/data/bixuetang.db`） | SQLite 文件路径。上传的头像存在同目录的 `avatars/` 下 |
-| `COOKIE_SECURE` | `0` | 会话 cookie 是否仅在 HTTPS 下发送。**生产必须设为 `1`** |
-| `PORT` / `HOSTNAME` | `3000` / `0.0.0.0` | 监听地址，镜像里已设好 |
-| `BILI_SESSDATA` | 空 | 仅内容维护脚本抓字幕用，站点运行不需要 |
+| `DATABASE_PATH` | 镜像内 `/data/bixuetang.db` | SQLite 路径，上传的头像存同目录的 `avatars/` |
+| `COOKIE_SECURE` | `0` | 会话 cookie 是否仅走 HTTPS。**生产必须设为 `1`** |
+| `PORT` / `HOSTNAME` | `3000` / `0.0.0.0` | 监听地址 |
 
-迁移由 `instrumentation.ts` 在服务启动时自动执行，不用手动跑。
-
-### 方式一：Docker Compose（推荐）
-
-```bash
-docker compose up -d --build
-```
-
-访问 http://localhost:3000。数据持久化在 `bixuetang-data` 卷。
-**反代终止 TLS 时**，把 `docker-compose.yml` 里的 `COOKIE_SECURE` 改成 `"1"` 再重启，
-否则登录 cookie 会以明文传输。
-
-### 方式二：裸机 Node
-
-需要 Node 22+。构建产物是 Next.js standalone，`npm run serve` 会把它连同
-`content/`、`drizzle/`、静态资源一起装配到 `.runtime/` 再启动
-（装配到独立目录是为了避开旧进程占用 `.next` 导致的 EBUSY）。
-
-```bash
-npm ci
-npm run build
-DATABASE_PATH=/var/lib/bixuetang/bixuetang.db COOKIE_SECURE=1 npm run serve
-```
-
-配合 systemd 常驻：
-
-```ini
-[Unit]
-Description=bixuetang
-After=network.target
-
-[Service]
-WorkingDirectory=/srv/bixuetang
-Environment=NODE_ENV=production
-Environment=DATABASE_PATH=/var/lib/bixuetang/bixuetang.db
-Environment=COOKIE_SECURE=1
-ExecStart=/usr/bin/npm run serve
-Restart=always
-User=bixuetang
-
-[Install]
-WantedBy=multi-user.target
-```
+数据库迁移在服务启动时自动执行，不用手动跑。
 
 ### 反向代理
 
-应用不自己处理 TLS，前面挂 Caddy 或 Nginx。Caddy 两行搞定：
+应用不处理 TLS，前面挂 Caddy 或 Nginx。Caddy 两行：
 
 ```caddyfile
 bixuetang.example.com {
@@ -101,99 +86,104 @@ bixuetang.example.com {
 }
 ```
 
-Nginx 需要注意上传头像的体积上限（默认 1 MB 够用，但别设成 0）：
+**挂上 HTTPS 后记得把 `COOKIE_SECURE` 改成 `1`**，否则登录 cookie 明文传输。
 
-```nginx
-server {
-    server_name bixuetang.example.com;
-    client_max_body_size 2m;
-    location / {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-}
+### 更新
+
+```bash
+./scripts/deploy.sh
 ```
 
-### 备份与升级
+拉代码 → 重建镜像 → 滚动重启 → 清理旧层。小内存机器（1G）要先开 2G swap，
+否则 `next build` 会 OOM。
 
-用户数据只有一个 SQLite 文件和同目录的 `avatars/`，整个目录拷走就是完整备份。
-SQLite 开了 WAL，**别直接 `cp` 正在写的库**，用官方备份命令：
+### 备份
 
 ```bash
 docker compose exec bixuetang sh -c 'sqlite3 /data/bixuetang.db ".backup /data/backup.db"'
-docker compose cp bixuetang:/data/backup.db ./bixuetang-backup.db
-docker compose cp bixuetang:/data/avatars ./avatars-backup
+docker compose cp bixuetang:/data/backup.db ./backup.db
 ```
 
-升级就是重新构建镜像——内容即代码，课程改动随镜像发布：
+SQLite 开了 WAL，**别直接 cp 正在写的库**。
+
+## 本地开发
+
+需要 Node 22+。
 
 ```bash
-git pull && docker compose up -d --build
+npm install
+npm run dev        # 启动时自动建库迁移，DB 在 ./data/dev.db
 ```
 
-数据库迁移在启动时自动执行，无需停机手动操作。回滚到旧镜像前请确认
-新版本没有引入不兼容的迁移（`drizzle/` 下的 SQL 只增不改字段时可安全回滚）。
+| 命令 | 作用 |
+|---|---|
+| `npm test` | 纯函数单测（解锁规则、XP、题库、Hack 工具链、数学引擎） |
+| `npm run validate` | 校验 `content/`（Zod + 引用完整性） |
+| `npm run fetch:episodes` | 从 bilibili 拉真实分集标题写回 YAML |
+| `npm run check:links -- --bili` | 体检所有视频源是否还活着 |
+| `npm run brand:gen` | 由 `src/lib/brand/sigil.ts` 重新生成 favicon 与 OG 图 |
+| `npm run db:generate` | 改完 `src/lib/db/schema.ts` 后生成迁移 |
 
-## 常用命令
+## 贡献内容
 
-```bash
-npm test              # 纯函数单测（游戏机制 + Hack 工具链 + 数学引擎）
-npm run validate      # 校验 content/（Zod + 引用完整性 + DAG 环检测）
-npm run fetch:episodes  # 从 bilibili API 拉取各课真实分集标题写回 YAML
-npm run check:links -- --bili   # 体检所有视频源是否还活着
-npm run brand:gen     # 由 src/lib/brand/sigil.ts 的像素网格重新生成 favicon 与 OG 图
-npm run db:generate   # 修改 src/lib/db/schema.ts 后生成迁移
-```
+**内容即代码**：课程、路线全部是 `content/` 下的 YAML，改动经 PR 合并、
+重新构建镜像后生效，数据库只存用户数据。
 
-## 添加课程
-
-在 `content/courses/<subject>/` 下新建 YAML（字段见 `src/lib/content/schema.ts`），
-跑 `npm run validate` 通过即可。原则：
-
-- 视频源优先官方账号（3B1B、跟李沐学AI 等），搬运号标注 `uploader`，`note` 写字幕质量与版本年份
-- **BV 号必须核实**：写进 YAML 前用 `https://api.bilibili.com/x/web-interface/view?bvid=<BV>`
-  确认标题与课程对得上。搜索结果里的 BV 号张冠李戴很常见，宁可没有源也不要挂错课。
-- 找不到原课录像时，可以挂**同主题替代课或中文对应课**，但 `note` 里必须写明它不是原课搬运
-- 一门课至少一个 `sources`；bilibili `/video/BVxxx` 与 YouTube watch/playlist 链接可内嵌播放，其他链接自动降级为外链卡片
-- 笔记外链放 `notes`，学习路径在 `content/paths/`，技能树 `content/skill-tree.yaml`，职业 `content/jobs.yaml`
-- 分集标题不用手写，`npm run fetch:episodes` 会从 bilibili 拉真实的（多 P 与合集两种结构都支持）
-
-内容即代码：改动经 PR 审阅合并，重新构建镜像后生效。数据库只存用户数据。
+字段规范、写作原则和提交流程见 **[CONTRIBUTING.md](./CONTRIBUTING.md)**——
+那份文档同时写给人和 AI agent 看，照着填就能加课。
 
 ## 技术栈
 
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 ·
-SQLite (better-sqlite3 + Drizzle ORM) · argon2id + cookie session ·
-CodeMirror 6（Hack 实验室编辑器）· MathLive + compute-engine（数学工坊）
+SQLite (better-sqlite3 + Drizzle ORM) · argon2id + cookie session
 
-播放器、弹幕渲染与二维码编码都是本仓库自己实现的，没有引入第三方播放器/QR 依赖。
+播放器、弹幕渲染、二维码编码都是本仓库自己实现的，没有引入第三方播放器或 QR 依赖。
 
-全站支持亮/暗双主题，跟随系统并可在 `/settings` 手动覆盖。
+全站支持亮/暗双主题，跟随系统并可在设置里手动覆盖。
 
 ## 致谢
 
+这个项目站在很多人的工作之上：
+
 - **[wiliwili](https://github.com/xfangfang/wiliwili)**（GPL-3.0）——第三方 bilibili 客户端。
-  本站的「绑定 bilibili 账号 → 官方接口取播放地址与弹幕 → 自己渲染播放器 → 拿到真实观看
-  进度」这条路线，思路来自 wiliwili 的实现。感谢 xfangfang 与其贡献者。
+  本站「绑定账号 → 官方接口取播放地址与弹幕 → 自己渲染播放器 → 拿到真实观看进度」
+  这条路线，思路完全来自 wiliwili 的实现。感谢 xfangfang 与其贡献者。
   本项目未使用其代码，仅参考其对公开接口的用法。
-- 课程索引主要来自 [csdiy.wiki](https://csdiy.wiki/)。
-- 像素字体：[方舟像素字体](https://github.com/TakWolf/ark-pixel-font)（OFL-1.1）。
-  美术素材授权见 `public/assets/ATTRIBUTION.md`。
+- **[csdiy.wiki](https://csdiy.wiki/)**——课程索引的主要来源。这个项目某种意义上
+  就是给 csdiy 的课程表加了一套进度追踪和播放器。感谢 PKUFlyingPig 与所有编者。
+- **[nand2tetris](https://www.nand2tetris.org/)**（Noam Nisan & Shimon Schocken）——
+  Hack 实验室的全部理论与规范来自这门课。
+- **[3Blue1Brown](https://www.3blue1brown.com/)**——「直觉先行」这条初级线就是他的三部曲。
+
+用到的开源项目：
+
+| 项目 | 用途 |
+|---|---|
+| [Next.js](https://nextjs.org/) | 应用框架 |
+| [Drizzle ORM](https://orm.drizzle.team/) · [better-sqlite3](https://github.com/WiseLibs/better-sqlite3) | 数据层 |
+| [MathLive](https://cortexjs.io/mathlive/) · [compute-engine](https://cortexjs.io/compute-engine/) | 数学工坊的公式输入与符号计算 |
+| [KaTeX](https://katex.org/) | 知识点里的公式排版 |
+| [CodeMirror 6](https://codemirror.net/) | Hack 实验室的代码编辑器 |
+| [lucide](https://lucide.dev/) | 图标 |
+| [Zod](https://zod.dev/) | 内容 schema 校验 |
+| [@node-rs/argon2](https://github.com/napi-rs/node-rs) | 密码哈希 |
 
 ## 许可与免责声明
 
 本项目以 [GNU General Public License v3.0](./LICENSE) 开源——与思路来源
 [wiliwili](https://github.com/xfangfang/wiliwili) 保持一致的许可与免责立场。
 
-- **非商业、无盈利**：本站不售卖课程内容，不提供付费会员，站内「金币 / 药水 / 商店」
-  全部是学习进度换算出的游戏化数值，与真实货币无关。若未来接受赞助，赞助仅用于
-  服务器与域名开销，不解锁任何内容特权。
+- **非商业、无盈利**：本站不售卖课程内容，不提供付费会员。站内「金币 / 药水 / 商店」
+  全部是学习进度换算出的虚拟数值，不能充值、不能提现、与真实货币无关。
+  若未来接受赞助，赞助仅用于服务器与域名开销，不解锁任何内容特权。
 - **不托管视频**：所有课程视频均来自 bilibili / YouTube 等平台的公开地址，
   本站不存储、不转码、不二次分发视频文件。绑定账号后的播放走用户自己的账号凭据，
-  等同于用户在原平台观看；凭据只保存在本站服务端，用户可随时解绑删除。
-- **接口用途**：与 bilibili 相关的接口调用仅为满足本人学习进度记录之需要，
-  请勿用于批量抓取、绕过平台限制或任何商业用途。因使用者违规使用造成的后果自负。
-- 课程内容版权归原作者与原平台所有。若权利人认为本站的索引方式不妥，
+  等同于用户在原平台观看；凭据只保存在本站服务端，可随时解绑删除。
+- **与 bilibili 无关**：本站与 bilibili 无任何隶属、合作或授权关系，
+  「bilibili」「哔哩哔哩」及相关标识为其权利人所有。
+  与其相关的接口调用仅为满足个人学习进度记录之需要，
+  **请勿用于批量抓取、绕过平台限制或任何商业用途**，因违规使用造成的后果由使用者自负。
+- **按现状提供**：不对可用性与准确性作任何担保。视频源失效、平台接口变更、
+  字幕（尤其是平台自动生成的 AI 字幕）内容错误等情况可能随时发生。
+- **版权**：课程内容版权归原作者与原平台所有。若权利人认为本站的索引方式不妥，
   请提 issue，我们会立即移除对应条目。

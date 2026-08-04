@@ -34,11 +34,33 @@ export async function GET(request: NextRequest) {
     }
     const play = await fetchPlayUrl(bvid, target.cid, sessdata);
 
-    // 同一清晰度可能有多种编码，每档只留码率最高的一路
+    // 同一清晰度 bilibili 会给 AVC / HEVC / AV1 三种编码。
+    //
+    // 挑码率最高的那一路是个陷阱：AV1 在 iPhone 上到 A17 Pro 才有硬解，
+    // 之前的机型只能软解——表现就是「解码特别慢」，画面卡成幻灯片。
+    // AVC(H.264) 是唯一在所有设备上都硬解的编码，同画质码率高一些，
+    // 但流畅度比省那点流量重要得多。
+    const codecRank = (codecs: string): number => {
+      const c = codecs.toLowerCase();
+      if (c.startsWith("avc1") || c.startsWith("avc3")) return 0;
+      if (c.startsWith("hev1") || c.startsWith("hvc1")) return 1;
+      if (c.startsWith("av01")) return 2;
+      return 3;
+    };
+    const better = (
+      a: (typeof play.video)[number],
+      b: (typeof play.video)[number],
+    ) => {
+      const ra = codecRank(a.codecs);
+      const rb = codecRank(b.codecs);
+      // 先按编码兼容性，同编码内才比码率
+      if (ra !== rb) return ra < rb;
+      return a.bandwidth > b.bandwidth;
+    };
     const byQuality = new Map<number, (typeof play.video)[number]>();
     for (const stream of play.video) {
       const cur = byQuality.get(stream.id);
-      if (!cur || stream.bandwidth > cur.bandwidth) byQuality.set(stream.id, stream);
+      if (!cur || better(stream, cur)) byQuality.set(stream.id, stream);
     }
     const qualities = [...byQuality.values()]
       .sort((a, b) => b.id - a.id)

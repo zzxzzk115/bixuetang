@@ -55,7 +55,6 @@ export function syncAchievements(userId: number): AchievementView[] {
     "first-encounter": reasons.has("episode"),
     "first-checkpoint": reasons.has("checkpoint"),
     "dungeon-clear": reasons.has("course-done"),
-    "skill-awakened": progress.litSkills.size > 0,
     "workshop-initiate": reasons.has("lab-task"),
     polymath: Object.values(subjectXp).every((value) => value > 0),
   };

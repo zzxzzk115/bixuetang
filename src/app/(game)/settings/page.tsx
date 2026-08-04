@@ -1,4 +1,5 @@
 import { AppShell } from "@/components/app/app-shell";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { BiliBind } from "@/components/app/bili-bind";
 import { getBiliBinding } from "@/lib/bili/account";
 import { AvatarForm } from "@/components/app/avatar-form";
@@ -49,6 +50,17 @@ export default async function SettingsPage() {
               biliNickname={binding?.nickname ?? null}
               username={user.username}
             />
+          </div>
+        </section>
+
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>外观</h2>
+          </div>
+          {/* 主题切换随旧壳一起下线了，但功能本身还在——新壳得给回入口 */}
+          <div className="settings-theme">
+            <span>配色</span>
+            <ThemeToggle />
           </div>
         </section>
 

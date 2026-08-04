@@ -7,16 +7,8 @@
    只给游戏化的界面零件用——HUD、徽章、画布文字；正文仍走系统字体，
    像素字体读长段中文太累。
    字号必须是 12 的整数倍，否则像素会被重采样、重新变糊。 */
-@font-face {
-  font-family: "ArkPixel";
-  src: url("/fonts/ark-pixel-12px-subset.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
-  --font-pixel: "ArkPixel", ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 
 :root {
@@ -3861,12 +3853,12 @@ body:has(.dungeon-grid) .filter-chip.active{border-color:#bd8e42;background:#282
 .tower-encounter::after{position:absolute;bottom:2px;left:50%;width:52px;height:12px;border-radius:50%;background:rgba(0,0,0,.55);content:"";transform:translateX(-50%)}
 .tower-sprite{position:relative;z-index:1;width:52px;height:52px;object-fit:contain}
 .tower-encounter:hover{z-index:6;filter:drop-shadow(0 0 12px rgba(212,166,77,.4));transform:translateY(-4px)}
-.tower-encounter small{position:absolute;top:-4px;right:0;left:0;z-index:2;color:#b9944d;font-family:var(--font-pixel);font-size:12px;text-align:center;text-shadow:0 2px 3px #000}
+.tower-encounter small{position:absolute;top:-4px;right:0;left:0;z-index:2;color:#b9944d;font-size:12px;text-align:center;text-shadow:0 2px 3px #000}
 /* 当前层：金光呼吸，示意「你在这」 */
 .tower-encounter.current .tower-sprite{animation:tower-current 2s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(212,166,77,.65))}
 /* 已讨伐：灰化并横倒，压上红叉 */
 .tower-encounter.done .tower-sprite{filter:grayscale(1) brightness(.6);transform:rotate(90deg) translateY(6px)}
-.tower-slain{position:absolute;z-index:2;color:#d45d50;font-family:var(--font-pixel);font-size:24px;text-shadow:0 0 6px #000}
+.tower-slain{position:absolute;z-index:2;color:#d45d50;font-size:24px;text-shadow:0 0 6px #000}
 .tower-encounter.boss .tower-sprite{width:64px;height:64px;filter:drop-shadow(0 0 14px rgba(187,68,61,.5))}
 /* 战争迷雾：没打到的层只有剪影 */
 .tower-encounter.future .tower-sprite{filter:brightness(0) opacity(.55)}
@@ -3875,7 +3867,7 @@ body:has(.dungeon-grid) .filter-chip.active{border-color:#bd8e42;background:#282
 .tower-hp-bar{position:absolute;top:10px;left:50%;z-index:2;width:48px;height:5px;border:1px solid #080a08;background:#31201d;transform:translateX(-50%)}
 .tower-hp-bar::before{display:block;width:var(--hp);height:100%;background:#9e493e;content:""}
 .tower-encounter-label{position:absolute;z-index:2;display:flex;width:224px;align-items:center;flex-direction:column;color:#adb7af;text-align:center;text-shadow:0 2px 5px #000}
-.tower-encounter-label small{color:#8e998f;font-family:var(--font-pixel);font-size:12px}
+.tower-encounter-label small{color:#8e998f;font-size:12px}
 .tower-encounter-label b{display:block;overflow:hidden;width:100%;margin-top:2px;color:#dce2dc;font-family:"Songti SC",SimSun,serif;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
 .tower-encounter-label em{margin-top:3px;color:#d3a44e;font-size:11px;font-style:normal}
 /* 整备侧路：宝箱精灵 + 右下角一个小图标区分种类（工坊/卷宗/星盘） */
@@ -7334,4 +7326,17 @@ body:has(.dungeon-chamber) .analysis-section {
 .lab-switch a:hover {
   border-color: var(--app-blue);
   color: var(--app-blue);
+}
+
+.settings-theme {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 2px;
+}
+.settings-theme > span {
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 800;
 }

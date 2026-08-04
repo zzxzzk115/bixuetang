@@ -4,8 +4,6 @@ import { db } from "../db/client";
 import {
   courseProgress,
   episodeProgress,
-  jobUnlocks,
-  skillUnlocks,
   xpEvents,
   type CourseStatus,
 } from "../db/schema";
@@ -21,7 +19,6 @@ export interface UserProgress {
   watchedByCourse: Map<string, Set<number>>;
   totalXp: number;
   level: LevelProgress;
-  litSkills: Set<string>;
 }
 
 export function getUserProgress(userId: number): UserProgress {
@@ -34,11 +31,6 @@ export function getUserProgress(userId: number): UserProgress {
     .select()
     .from(episodeProgress)
     .where(eq(episodeProgress.userId, userId))
-    .all();
-  const litRows = db
-    .select()
-    .from(skillUnlocks)
-    .where(eq(skillUnlocks.userId, userId))
     .all();
 
   const statusByCourse = new Map<string, CourseStatus>();
@@ -57,7 +49,6 @@ export function getUserProgress(userId: number): UserProgress {
     watchedByCourse,
     totalXp,
     level: levelProgress(totalXp),
-    litSkills: new Set(litRows.map((r) => r.skillId)),
   };
 }
 
@@ -149,23 +140,6 @@ export function doneCourseIds(progress: UserProgress): Set<string> {
       .filter(([, s]) => s === "done")
       .map(([id]) => id),
   );
-}
-
-/** 已持有职业：job_unlocks 记录 ∪ 无条件的 0 转职业（注册即持有，不落库） */
-export function getHeldJobs(userId: number): Set<string> {
-  const content = getContent();
-  const held = new Set(
-    db
-      .select({ jobId: jobUnlocks.jobId })
-      .from(jobUnlocks)
-      .where(eq(jobUnlocks.userId, userId))
-      .all()
-      .map((r) => r.jobId),
-  );
-  for (const j of content.jobs) {
-    if (j.tier === 0) held.add(j.id);
-  }
-  return held;
 }
 
 /** 学科修为（M2 版）：按已看集数折算的各学科 XP */

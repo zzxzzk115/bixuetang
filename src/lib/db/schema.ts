@@ -85,31 +85,6 @@ export const xpEvents = sqliteTable(
   ],
 );
 
-// 加点动作记录，同时是技能点扣费凭证（已花费 = 该表行数的 cost 之和）
-export const skillUnlocks = sqliteTable(
-  "skill_unlocks",
-  {
-    userId: integer("user_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    skillId: text("skill_id").notNull(),
-    unlockedAt: integer("unlocked_at").notNull(),
-  },
-  (t) => [primaryKey({ columns: [t.userId, t.skillId] })],
-);
-
-export const jobUnlocks = sqliteTable(
-  "job_unlocks",
-  {
-    userId: integer("user_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    jobId: text("job_id").notNull(),
-    attainedAt: integer("attained_at").notNull(),
-  },
-  (t) => [primaryKey({ columns: [t.userId, t.jobId] })],
-);
-
 
 export const learningSessions = sqliteTable(
   "learning_sessions",
