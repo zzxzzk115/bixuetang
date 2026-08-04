@@ -11,6 +11,7 @@ import { getActiveBoost } from "./boosts";
 import { dailyDateKey } from "./quests";
 import { courseHasQuiz } from "./quiz-bank";
 import { getRpgProfile } from "./rpg-server";
+import { getUserState } from "./user-state";
 import type { StatBlock } from "./relics";
 import type {
   CourseSummaryDto,
@@ -43,6 +44,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
   const content = getContent();
   const progress = getUserProgress(user.id);
   const rpg = getRpgProfile(user.id);
+  const state = getUserState(user.id);
 
   const relics: RelicDto[] = rpg.relics.map((r) => ({
     id: r.item.id,
@@ -127,5 +129,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     chestDone,
     trialClaimedToday,
     boost: getActiveBoost(user.id),
+    routeId: state.routeId,
+    lastWatched: state.last,
   };
 }

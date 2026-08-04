@@ -86,4 +86,13 @@ export interface GameBootstrap {
   trialClaimedToday: boolean;
   /** 生效中的经验加成（药水），无则 null */
   boost: { multiplierPct: number; episodesLeft: number } | null;
+  /** 当前选中的冒险路线（存库，跨设备一致） */
+  routeId: string | null;
+  /** 上次学到哪一集（存库） */
+  lastWatched: {
+    courseId: string;
+    episodeN: number;
+    positionSec: number;
+    ratioPct: number;
+  } | null;
 }

@@ -23,6 +23,7 @@ export function CoursePlayer({
   episodes,
   initialEpisode,
   resumeByEpisode,
+  serverPrefs,
 }: {
   courseId: string;
   sources: Source[];
@@ -30,6 +31,7 @@ export function CoursePlayer({
   episodes: Episode[];
   initialEpisode: number;
   resumeByEpisode: Record<number, { positionSec: number; ratioPct: number }>;
+  serverPrefs: string | null;
 }) {
   const router = useRouter();
   const [episodeN, setEpisodeN] = useState(initialEpisode);
@@ -81,6 +83,7 @@ export function CoursePlayer({
         courseId={courseId}
         episodeN={episode.n}
         resumeAt={resumeByEpisode[episode.n]?.positionSec ?? 0}
+        serverPrefs={serverPrefs}
         onCompleted={() => router.refresh()}
         onLoaded={onLoaded}
       />

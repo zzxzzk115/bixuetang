@@ -6257,3 +6257,122 @@ body:has(.dungeon-chamber) .analysis-section {
   font-size: 11px;
   font-weight: 700;
 }
+
+/* ==== 登录页（扫码为主） ==== */
+.auth-page {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 24px 16px;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+.auth-card {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 380px;
+  padding: 28px 24px;
+  border: 2px solid var(--app-line);
+  border-radius: 20px;
+  background: var(--app-surface);
+  text-align: center;
+}
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--app-green);
+  font-size: 18px;
+  font-weight: 900;
+}
+.auth-card h1 {
+  color: var(--app-strong);
+  font-size: 22px;
+  font-weight: 900;
+}
+.auth-lead {
+  color: var(--app-text);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.auth-alt {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 2px solid var(--app-line);
+}
+.auth-alt-link {
+  color: var(--app-blue);
+  font-size: 13px;
+  font-weight: 700;
+}
+.auth-divider {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.auth-note {
+  color: var(--app-faint);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.bili-auth {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+.bili-auth-tip {
+  color: var(--app-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+.bili-auth-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 200px;
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+}
+.bili-auth .app-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 14px;
+}
+
+/* ==== 续播提示（3 秒内可取消） ==== */
+.biliplayer-resume {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  animation: sheet-rise 200ms ease-out;
+}
+.biliplayer-resume button {
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.biliplayer-resume button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

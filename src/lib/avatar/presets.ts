@@ -31,16 +31,24 @@ export function presetById(id: string): AvatarPreset | undefined {
 export type AvatarRef =
   | { kind: "preset"; preset: AvatarPreset }
   | { kind: "upload"; version: string }
+  | { kind: "remote"; url: string }
   | { kind: "none" };
 
 export function parseAvatar(value: string | null | undefined): AvatarRef {
   if (!value) return { kind: "none" };
-  const [kind, rest] = value.split(":", 2);
+  const sep = value.indexOf(":");
+  if (sep < 0) return { kind: "none" };
+  const kind = value.slice(0, sep);
+  const rest = value.slice(sep + 1);
   if (kind === "preset" && rest) {
     const preset = presetById(rest);
     return preset ? { kind: "preset", preset } : { kind: "none" };
   }
   if (kind === "upload" && rest) return { kind: "upload", version: rest };
+  // 扫码登录带回来的 B 站头像：只认 https 的 B 站图床，别变成任意图片代理
+  if (kind === "bili" && /^https:\/\/[\w.-]*hdslb\.com\//.test(rest)) {
+    return { kind: "remote", url: rest };
+  }
   return { kind: "none" };
 }
 
@@ -52,5 +60,6 @@ export function avatarSrc(
   const ref = parseAvatar(value);
   if (ref.kind === "preset") return ref.preset.src;
   if (ref.kind === "upload") return `/avatars/${userId}?v=${ref.version}`;
+  if (ref.kind === "remote") return ref.url;
   return null;
 }

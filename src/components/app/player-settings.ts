@@ -29,6 +29,8 @@ export interface CcSettings {
 }
 
 export interface PlayerPrefs {
+  /** 默认值版本：改默认值时 +1，让老用户存的偏好跟着更新 */
+  v: number;
   volume: number;
   muted: boolean;
   rate: number;
@@ -38,12 +40,16 @@ export interface PlayerPrefs {
   qualityId: number | null;
 }
 
+export const PREFS_VERSION = 2;
+
 export const DEFAULT_PREFS: PlayerPrefs = {
+  v: PREFS_VERSION,
   volume: 1,
   muted: false,
   rate: 1,
   danmaku: {
-    on: true,
+    // 默认关：学习场景弹幕更多是干扰，想看再开
+    on: false,
     opacity: 0.9,
     scale: 1,
     speed: 1,
@@ -53,7 +59,8 @@ export const DEFAULT_PREFS: PlayerPrefs = {
     blockBottom: false,
   },
   cc: {
-    on: true,
+    // 默认关：B 站的 AI 字幕经常不准，别默认糊在画面上
+    on: false,
     lan: "",
     scale: 1,
     bottom: 0.06,
@@ -70,6 +77,8 @@ function read(): PlayerPrefs {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return DEFAULT_PREFS;
     const parsed = JSON.parse(raw) as Partial<PlayerPrefs>;
+    // 默认值版本变了就重置（否则老用户永远拿不到新默认）
+    if (parsed.v !== PREFS_VERSION) return DEFAULT_PREFS;
     return {
       ...DEFAULT_PREFS,
       ...parsed,
@@ -83,8 +92,12 @@ function read(): PlayerPrefs {
 
 // 外部存储式偏好：useSyncExternalStore 订阅，SSR 走默认值不会水合失配；
 // 弹幕渲染循环也能直接 get() 到最新设置，不必额外挂 ref。
+//
+// 权威在数据库（跨设备一致），localStorage 只是首帧缓存——
+// 页面挂载时用服务端值 hydrate 一次，之后每次改动同步写两边。
 let cache: PlayerPrefs | null = null;
 let listeners: (() => void)[] = [];
+let persist: ((json: string) => void) | null = null;
 
 export const prefsStore = {
   subscribe(listener: () => void) {
@@ -100,14 +113,42 @@ export const prefsStore = {
   getServerSnapshot(): PlayerPrefs {
     return DEFAULT_PREFS;
   },
+  /** 注册落库回调（由播放器在挂载时接上 server action） */
+  bindPersist(fn: (json: string) => void) {
+    persist = fn;
+  },
+  /** 用服务端存的偏好初始化（登录后首次挂载调用一次） */
+  hydrate(json: string | null) {
+    if (!json) return;
+    try {
+      const parsed = JSON.parse(json) as Partial<PlayerPrefs>;
+      if (parsed.v !== PREFS_VERSION) return;
+      cache = {
+        ...DEFAULT_PREFS,
+        ...parsed,
+        danmaku: { ...DEFAULT_PREFS.danmaku, ...(parsed.danmaku ?? {}) },
+        cc: { ...DEFAULT_PREFS.cc, ...(parsed.cc ?? {}) },
+      };
+      try {
+        window.localStorage.setItem(KEY, JSON.stringify(cache));
+      } catch {
+        // 隐私模式无所谓，库里那份才是权威
+      }
+      for (const listener of listeners) listener();
+    } catch {
+      // 坏数据忽略
+    }
+  },
   set(patch: Partial<PlayerPrefs>) {
     const next = { ...prefsStore.get(), ...patch };
     cache = next;
+    const json = JSON.stringify(next);
     try {
-      window.localStorage.setItem(KEY, JSON.stringify(next));
+      window.localStorage.setItem(KEY, json);
     } catch {
       // 隐私模式存不了就算了
     }
+    persist?.(json);
     for (const listener of listeners) listener();
   },
 };

@@ -16,6 +16,8 @@ const eslintConfig = defineConfig([
     "extension/**",
     // serve 的运行目录是构建产物的拷贝
     ".runtime/**",
+    // 临时诊断脚本（gitignored，不进产物）
+    "scratch/**",
   ]),
 ]);
 

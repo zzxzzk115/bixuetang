@@ -38,6 +38,7 @@ export function UserAvatar({
       height={size}
       className={`game-avatar game-avatar-img ${className}`}
       style={pixelated ? { imageRendering: "pixelated" } : undefined}
+      referrerPolicy="no-referrer"
     />
   );
 }

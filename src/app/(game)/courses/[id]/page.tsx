@@ -12,6 +12,7 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { getActiveBoost } from "@/lib/game/boosts";
+import { getUserState } from "@/lib/game/user-state";
 import { getWatchProgress } from "@/lib/game/watch-actions";
 import { boostedXp, episodeXp } from "@/lib/game/xp";
 import { buildLessonTrack, findTrackNode } from "@/lib/game/lesson-track";
@@ -115,6 +116,7 @@ export default async function CoursePage({
 
   // 播放进度（续播 + 已看百分比）与本段第一集未看的集
   const watchProgress = await getWatchProgress(id);
+  const playerPrefs = getUserState(user.id).playerPrefs;
   const firstUnwatched = episodes.find((e) => !watched?.has(e.n));
 
   // 每集可得 XP（含药水加成）——学习前就让玩家看到收益
@@ -176,6 +178,7 @@ export default async function CoursePage({
             episodes={episodes}
             initialEpisode={firstUnwatched?.n ?? episodes[0]?.n ?? 1}
             resumeByEpisode={watchProgress}
+            serverPrefs={playerPrefs}
           />
         </div>
 

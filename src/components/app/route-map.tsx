@@ -13,6 +13,7 @@ import {
   openChestNode,
   type ChestResult,
 } from "@/lib/game/quiz-actions";
+import { saveRouteChoice } from "@/lib/game/user-state-actions";
 import { AppShell } from "./app-shell";
 import { RouteSheet } from "./route-sheet";
 
@@ -20,7 +21,6 @@ import { RouteSheet } from "./route-sheet";
 // 单元横幅（课程名+进度）下面挂一串小节——看视频（若干集打包）、阶段测验、
 // 宝箱。节点线性推进：第一个未完成的是当前节点，之后锁定。
 
-const ROUTE_KEY = "guild-route";
 const NODE_SPACING = 132;
 const BANNER_SPACING = 140;
 const BOTTOM_PAD = 140;
@@ -117,19 +117,14 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [width, setWidth] = useState(0);
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [routeId, setRouteId] = useState(() => {
-    // 注意用 window 守卫：Node 22 起 SSR 里也有全局 localStorage，
-    // 但没配存储文件时 getItem 直接抛 TypeError
-    if (typeof window !== "undefined") {
-      try {
-        const saved = window.localStorage.getItem(ROUTE_KEY);
-        if (saved && bootstrap.paths.some((p) => p.id === saved)) return saved;
-      } catch {
-        // 隐私模式读不了就算了
-      }
-    }
-    return bootstrap.paths[0]?.id ?? "";
-  });
+  // 路线选择属于「这个人的学习状态」，存库跨设备一致（原来在 localStorage）
+  const [routeId, setRouteId] = useState(
+    () =>
+      (bootstrap.routeId &&
+      bootstrap.paths.some((p) => p.id === bootstrap.routeId)
+        ? bootstrap.routeId
+        : bootstrap.paths[0]?.id) ?? "",
+  );
   const [shakeKey, setShakeKey] = useState<string | null>(null);
   const [chestOpening, setChestOpening] = useState(false);
   const [chestReward, setChestReward] = useState<ChestResult | null>(null);
@@ -255,11 +250,7 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
     setRouteId(id);
     setSheetOpen(false);
     scrolledOnce.current = false;
-    try {
-      localStorage.setItem(ROUTE_KEY, id);
-    } catch {
-      // 隐私模式存不了就算了
-    }
+    void saveRouteChoice(id);
   };
 
   const shake = (key: string) => {

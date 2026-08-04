@@ -64,6 +64,20 @@
       "when": 1785830000000,
       "tag": "0008_bili_and_episode_boosts",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1785840000000,
+      "tag": "0009_user_state",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1785841000000,
+      "tag": "0010_player_prefs",
+      "breakpoints": true
     }
   ]
 }

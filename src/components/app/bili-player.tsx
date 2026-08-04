@@ -25,6 +25,7 @@ import {
   VolumeX,
 } from "lucide-react";
 import { reportWatchProgress } from "@/lib/game/watch-actions";
+import { savePlayerPrefs } from "@/lib/game/user-state-actions";
 import { RATES, prefsStore, type PlayerPrefs } from "./player-settings";
 
 // 自研 B 站播放器（思路参考 wiliwili，MIT）：
@@ -93,6 +94,7 @@ export function BiliPlayer({
   courseId,
   episodeN,
   resumeAt = 0,
+  serverPrefs = null,
   onCompleted,
   onLoaded,
 }: {
@@ -101,6 +103,8 @@ export function BiliPlayer({
   courseId: string;
   episodeN: number;
   resumeAt?: number;
+  /** 服务端存的播放偏好 JSON（权威值，跨设备一致） */
+  serverPrefs?: string | null;
   onCompleted?: () => void;
   onLoaded?: (info: { aid: number; cid: number }) => void;
 }) {
@@ -119,6 +123,10 @@ export function BiliPlayer({
   const [ratioPct, setRatioPct] = useState(0);
   const [cinema, setCinema] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  /** 续播提示里待跳转的秒数；null = 不提示（初值直接由 props 推导，不在 effect 里 set） */
+  const [resumeTip, setResumeTip] = useState<number | null>(
+    resumeAt > 5 ? resumeAt : null,
+  );
   /** 打开的设置面板 */
   const [panel, setPanel] = useState<"none" | "danmaku" | "cc" | "rate" | "quality">(
     "none",
@@ -135,6 +143,12 @@ export function BiliPlayer({
   const activeRef = useRef<Track[]>([]);
   const seenRef = useRef<Set<number>>(new Set());
   const completedRef = useRef(false);
+
+  // 偏好：库里那份是权威，挂载时 hydrate 一次；之后每次改动落库
+  useEffect(() => {
+    prefsStore.bindPersist((json) => void savePlayerPrefs(json));
+    prefsStore.hydrate(serverPrefs);
+  }, [serverPrefs]);
 
   const update = useCallback(
     (patch: Partial<PlayerPrefs>) => prefsStore.set(patch),
@@ -433,7 +447,8 @@ export function BiliPlayer({
         onCompleted?.();
       }
     };
-    const timer = setInterval(send, 15000);
+    // 10 秒一次：进度落库要够密，否则「上次看到哪」会差一截
+    const timer = setInterval(send, 10000);
     const onHide = () => {
       if (document.visibilityState === "hidden") void send();
     };
@@ -445,16 +460,25 @@ export function BiliPlayer({
     };
   }, [payload, courseId, episodeN, onCompleted]);
 
-  // 续播
+  // 续播：不静默跳，给 3 秒反悔窗口；超时没点「从头开始」就跳过去
   useEffect(() => {
-    const v = videoRef.current;
-    if (!v || !payload || resumeAt <= 0) return;
-    const onReady = () => {
-      if (v.currentTime < 1) v.currentTime = Math.min(resumeAt, v.duration - 5);
-    };
-    v.addEventListener("loadedmetadata", onReady, { once: true });
-    return () => v.removeEventListener("loadedmetadata", onReady);
-  }, [payload, resumeAt]);
+    if (resumeTip === null || !payload) return;
+    const total = payload.durationSec || 0;
+    // 离结尾太近等于看完了，不必续播
+    if (total > 0 && resumeTip > total - 10) {
+      const drop = setTimeout(() => setResumeTip(null), 0);
+      return () => clearTimeout(drop);
+    }
+    const timer = setTimeout(() => {
+      const video = videoRef.current;
+      if (video && video.currentTime < 2) {
+        video.currentTime = Math.min(resumeTip, (video.duration || total) - 5);
+        if (audioRef.current) audioRef.current.currentTime = video.currentTime;
+      }
+      setResumeTip(null);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [payload, resumeTip]);
 
   // 全屏（被拒则影院模式）
   const toggleFullscreen = useCallback(async () => {
@@ -559,6 +583,24 @@ export function BiliPlayer({
             style={{ bottom: `${prefs.cc.bottom * 100}%` }}
           >
             <span style={{ fontSize: `${prefs.cc.scale * 100}%` }}>{cue}</span>
+          </div>
+        )}
+        {resumeTip !== null && (
+          <div
+            className="biliplayer-resume"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span>
+              上次看到 {fmt(resumeTip)}，即将跳转
+            </span>
+            <button
+              onClick={() => {
+                // 取消 = 从头看
+                setResumeTip(null);
+              }}
+            >
+              从头开始
+            </button>
           </div>
         )}
         {!playing && (

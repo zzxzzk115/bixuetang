@@ -237,6 +237,21 @@ export const xpBoosts = sqliteTable("xp_boosts", {
   updatedAt: integer("updated_at").notNull(),
 });
 
+// 用户的学习状态（跨设备该一致的东西）：当前选的冒险路线、最后学的那一集。
+// 划分原则：属于「这个人的学习状态」→ 数据库；属于「这台设备的观看偏好」
+// （音量/倍速/弹幕字幕样式）→ localStorage。
+export const userState = sqliteTable("user_state", {
+  userId: integer("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  routeId: text("route_id"),
+  lastCourseId: text("last_course_id"),
+  lastEpisodeN: integer("last_episode_n"),
+  /** 播放器偏好 JSON（音量/倍速/弹幕/字幕/清晰度）——换设备也跟着走 */
+  playerPrefs: text("player_prefs"),
+  updatedAt: integer("updated_at").notNull(),
+});
+
 // B 站账号绑定（扫码登录换取的凭据）。凭据只在服务端使用，不下发客户端。
 export const biliAccounts = sqliteTable("bili_accounts", {
   userId: integer("user_id")
