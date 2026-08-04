@@ -5141,3 +5141,276 @@ body:has(.dungeon-chamber) .analysis-section {
   font: 800 15px ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
+
+/* ==== 商店 / 消耗品 / 经验加成 ==== */
+.shop-root {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  grid-auto-rows: max-content;
+  color: var(--app-text);
+  font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+.shop-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.shop-head h1 {
+  color: var(--app-strong);
+  font-size: 22px;
+  font-weight: 900;
+}
+.shop-coins {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--app-gold);
+  font-size: 17px;
+  font-weight: 800;
+}
+.shop-active {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--app-purple) 14%, transparent);
+  color: var(--app-purple);
+  font-size: 13px;
+  font-weight: 800;
+}
+.shop-msg {
+  color: var(--app-green);
+  font-size: 13px;
+  font-weight: 800;
+}
+.shop-card {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+  background: var(--app-surface);
+}
+.shop-card-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+}
+.shop-card.potion-x15 .shop-card-icon {
+  background: color-mix(in srgb, var(--app-blue) 14%, transparent);
+  color: var(--app-blue);
+}
+.shop-card.potion-x3 .shop-card-icon {
+  background: color-mix(in srgb, var(--app-purple) 16%, transparent);
+  color: var(--app-purple);
+}
+.shop-card-body {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.shop-card-body h2 {
+  color: var(--app-strong);
+  font-size: 16px;
+  font-weight: 800;
+}
+.shop-card-body p {
+  font-size: 13px;
+}
+.shop-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+.shop-card-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 13px;
+}
+.shop-card-actions button:disabled {
+  opacity: 0.5;
+}
+.shop-note {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.app-stat.boost {
+  color: var(--app-purple);
+}
+.app-topbar-stats button.app-stat {
+  cursor: pointer;
+}
+
+.bag-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bag-shop-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-gold) 16%, transparent);
+  color: var(--app-gold);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.bag-boost {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-purple);
+  font-size: 13px;
+  font-weight: 800;
+}
+.bag-potions {
+  display: grid;
+  gap: 8px;
+}
+.bag-potion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+}
+.bag-potion-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--app-purple) 14%, transparent);
+  color: var(--app-purple);
+}
+.bag-potion-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.bag-potion-body b {
+  color: var(--app-strong);
+  font-size: 14px;
+}
+.bag-potion-body small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.bag-potion .app-btn-primary {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 13px;
+}
+
+/* 经验药水生效：药水感——紫色氛围罩 + 上浮气泡（进度环紫色在组件里换色） */
+.route-node.boosted .route-node-btnwrap::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 128px;
+  height: 128px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--app-purple) 30%, transparent) 0%,
+    color-mix(in srgb, var(--app-purple) 12%, transparent) 45%,
+    transparent 70%
+  );
+  animation: boost-aura 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes boost-aura {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+}
+.boost-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.boost-bubbles i {
+  position: absolute;
+  bottom: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--app-purple) 75%, #fff);
+  opacity: 0;
+  animation: boost-bubble 2.4s ease-in infinite;
+}
+.boost-bubbles i:nth-child(1) {
+  left: 8px;
+  animation-delay: 0s;
+}
+.boost-bubbles i:nth-child(2) {
+  left: 62px;
+  width: 5px;
+  height: 5px;
+  animation-delay: 0.7s;
+}
+.boost-bubbles i:nth-child(3) {
+  left: 30px;
+  width: 6px;
+  height: 6px;
+  animation-delay: 1.3s;
+}
+.boost-bubbles i:nth-child(4) {
+  left: 50px;
+  width: 4px;
+  height: 4px;
+  animation-delay: 1.9s;
+}
+@keyframes boost-bubble {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.8);
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-58px) scale(1.15);
+  }
+}
+.route-node.boosted .route-node-bubble {
+  border-color: var(--app-purple);
+  color: var(--app-purple);
+}
+
+/* ==== 播放器白板中和（压轴：旧亮色主题规则特异性高） ==== */
+:root .course-player .player-module,
+:root[data-theme="light"] .course-player .player-module,
+:root[data-theme="dark"] .course-player .player-module {
+  border: none;
+  background: none;
+  padding: 0;
+  box-shadow: none;
+}

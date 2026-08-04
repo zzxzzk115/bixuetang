@@ -118,7 +118,8 @@ export default async function CoursePage({
       : Math.round((watchedCount / episodes.length) * 100);
 
   return (
-    <AppShell bootstrap={bootstrap} routeTitle={course.title}>
+    // 不传 routeTitle：课程名在 Hero 里，顶栏不再出现假按钮胶囊
+    <AppShell bootstrap={bootstrap}>
       <div className="app-page app-course">
         {/* 学科色 Hero（同地图单元横幅一脉）；分段时标明当前小节 */}
         <header className="course-hero" style={{ background: color }}>

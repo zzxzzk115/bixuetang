@@ -57,10 +57,19 @@ function arcPath(r: number, startDeg: number, endDeg: number): string {
   return `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2}`;
 }
 
-/** N 等分进度环：filled 段金色、未完成段灰 */
-function NodeRing({ total, done }: { total: number; done: number }) {
+/** N 等分进度环：filled 段金色（药水生效时变紫）、未完成段灰 */
+function NodeRing({
+  total,
+  done,
+  boosted,
+}: {
+  total: number;
+  done: number;
+  boosted?: boolean;
+}) {
   const gap = total === 1 ? 4 : 16; // 单段近乎整圆
   const span = 360 / total;
+  const fill = boosted ? "var(--app-purple)" : "var(--app-gold)";
   return (
     <svg className="route-node-ring" viewBox="0 0 106 106" aria-hidden>
       {Array.from({ length: total }, (_, i) => (
@@ -68,7 +77,7 @@ function NodeRing({ total, done }: { total: number; done: number }) {
           key={i}
           d={arcPath(48, i * span + gap / 2, (i + 1) * span - gap / 2)}
           fill="none"
-          stroke={i < done ? "var(--app-gold)" : "var(--app-line)"}
+          stroke={i < done ? fill : "var(--app-line)"}
           strokeWidth={6}
           strokeLinecap="round"
         />
@@ -106,6 +115,8 @@ function captionFor(node: LessonNode, isLastQuiz: boolean): string {
 export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  // 渲染期不许 Date.now()：挂载快照判断药水是否生效
+  const [mountedAt] = useState(() => Date.now());
   const [width, setWidth] = useState(0);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [routeId, setRouteId] = useState(() => {
@@ -374,6 +385,11 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
           })}
 
           {nodes.map((n) => {
+            // 经验药水生效中：当前节点罩紫色光效
+            const boosted =
+              n.state === "current" &&
+              bootstrap.boost &&
+              bootstrap.boost.expiresAt > mountedAt;
             const color =
               n.node.kind === "chest"
                 ? "var(--app-gold)"
@@ -394,7 +410,7 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
             return (
               <div
                 key={n.key}
-                className={`route-node ${n.state} kind-${n.node.kind} ${shakeKey === n.key ? "shake" : ""}`}
+                className={`route-node ${n.state} kind-${n.node.kind} ${boosted ? "boosted" : ""} ${shakeKey === n.key ? "shake" : ""}`}
                 style={{ left: n.x, top: n.y }}
               >
                 {n.state === "current" && (
@@ -407,8 +423,20 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
                   </span>
                 )}
                 <span className="route-node-btnwrap">
+                  {boosted && (
+                    <span className="boost-bubbles" aria-hidden>
+                      <i />
+                      <i />
+                      <i />
+                      <i />
+                    </span>
+                  )}
                   {n.node.kind === "video" && n.state === "current" && (
-                    <NodeRing total={n.node.eps.length} done={n.ringDone ?? 0} />
+                    <NodeRing
+                      total={n.node.eps.length}
+                      done={n.ringDone ?? 0}
+                      boosted={!!boosted}
+                    />
                   )}
                   <button
                     className="route-node-btn"

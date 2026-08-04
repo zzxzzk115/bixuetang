@@ -1,9 +1,20 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Heart, Lightbulb, Plus, Timer, Zap } from "lucide-react";
+import { useRouter } from "next/navigation";
+import {
+  FlaskRound,
+  Heart,
+  Lightbulb,
+  Plus,
+  ShoppingBag,
+  Timer,
+  Zap,
+} from "lucide-react";
 import type { GameBootstrap, RelicDto } from "@/lib/game/bootstrap-types";
+import type { PotionKind } from "@/lib/game/boosts";
 import { equipRelic, unequipRelic } from "@/lib/game/equipment-actions";
+import { drinkPotion } from "@/lib/game/shop-actions";
 import type { StatBlock } from "@/lib/game/relics";
 import {
   EQUIP_SLOTS,
@@ -38,7 +49,24 @@ interface EquipVm {
   itemId: string;
 }
 
-export function BagHome({ bootstrap }: { bootstrap: GameBootstrap }) {
+const POTION_LABEL: Record<PotionKind, { title: string; blurb: string }> = {
+  x15: { title: "经验药水 ×1.5", blurb: "30 分钟 XP ×1.5" },
+  x3: { title: "浓缩经验药水 ×3", blurb: "30 分钟 XP ×3" },
+};
+
+export function BagHome({
+  bootstrap,
+  potions: initialPotions,
+}: {
+  bootstrap: GameBootstrap;
+  potions: Record<PotionKind, number>;
+}) {
+  const router = useRouter();
+  // 渲染期不许碰 Date.now()（react-hooks/purity）——挂载时刻快照足够
+  const [now] = useState(() => Date.now());
+  const [potions, setPotions] = useState(initialPotions);
+  const [boost, setBoost] = useState(bootstrap.boost);
+  const [drinking, setDrinking] = useState(false);
   const relics = bootstrap.rpg.relics;
   const byId = useMemo(
     () => new Map(relics.map((r) => [r.id, r])),
@@ -118,9 +146,73 @@ export function BagHome({ bootstrap }: { bootstrap: GameBootstrap }) {
     );
   }, [relics]);
 
+  const drink = async (kind: PotionKind) => {
+    if (drinking) return;
+    setDrinking(true);
+    try {
+      const r = await drinkPotion(kind);
+      if (r.ok) {
+        setPotions(r.potions ?? potions);
+        setBoost(r.boost ?? null);
+        router.refresh(); // 顶栏加成徽章
+      }
+    } finally {
+      setDrinking(false);
+    }
+  };
+
+  const potionEntries = (Object.keys(POTION_LABEL) as PotionKind[]).filter(
+    (k) => potions[k] > 0,
+  );
+
   return (
     <AppShell bootstrap={bootstrap}>
       <div className="bag-root">
+        <section className="bag-card">
+          <div className="bag-card-head">
+            <h2>消耗品</h2>
+            <button
+              className="bag-shop-link"
+              onClick={() => router.push("/play/shop")}
+            >
+              <ShoppingBag size={15} aria-hidden /> 商店
+            </button>
+          </div>
+          {boost && boost.expiresAt > now && (
+            <p className="bag-boost">
+              <Zap size={15} aria-hidden /> 经验 ×{boost.multiplierPct / 100}{" "}
+              生效中 · 剩余{" "}
+              {Math.max(0, Math.round((boost.expiresAt - now) / 60000))} 分钟
+            </p>
+          )}
+          {potionEntries.length === 0 ? (
+            <p className="bag-tip">背包里没有药水——去商店逛逛</p>
+          ) : (
+            <div className="bag-potions">
+              {potionEntries.map((k) => (
+                <div key={k} className="bag-potion">
+                  <span className="bag-potion-icon">
+                    <FlaskRound size={22} aria-hidden />
+                  </span>
+                  <div className="bag-potion-body">
+                    <b>{POTION_LABEL[k].title}</b>
+                    <small>
+                      {POTION_LABEL[k].blurb} · ×{potions[k]}
+                    </small>
+                  </div>
+                  <button
+                    className="app-btn-primary"
+                    disabled={drinking}
+                    onClick={() => drink(k)}
+                  >
+                    使用
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
         <section className="bag-card">
           <h2>装备栏</h2>
           <div className="bag-slots">

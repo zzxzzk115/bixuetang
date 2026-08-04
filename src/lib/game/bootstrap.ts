@@ -7,6 +7,7 @@ import { db } from "../db/client";
 import { xpEvents } from "../db/schema";
 import { getUserProgress } from "../progress/queries";
 import { learningStreak } from "./achievements";
+import { getActiveBoost } from "./boosts";
 import { dailyDateKey } from "./quests";
 import { courseHasQuiz } from "./quiz-bank";
 import { getRpgProfile } from "./rpg-server";
@@ -125,5 +126,6 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     quizDone,
     chestDone,
     trialClaimedToday,
+    boost: getActiveBoost(user.id),
   };
 }

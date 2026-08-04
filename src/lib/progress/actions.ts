@@ -12,6 +12,7 @@ import {
   xpEvents,
   type CourseStatus,
 } from "../db/schema";
+import { boostXp } from "../game/boosts";
 import { levelFromXp } from "../game/level";
 import type { EpisodeLoot } from "../game/rpg";
 import { settleEpisodeLoot } from "../game/rpg-server";
@@ -146,7 +147,8 @@ export async function toggleEpisode(
     db.insert(xpEvents)
       .values({
         userId: user.id,
-        amount: episodeXp(course.level),
+        // 经验药水在写入时结算（流水只追加，存实际入账值）
+        amount: boostXp(user.id, episodeXp(course.level)),
         reason: XP_REASON.episode,
         ref: episodeRef(courseId, episodeN),
         createdAt: now,
@@ -186,7 +188,10 @@ export async function toggleEpisode(
         .insert(xpEvents)
         .values({
           userId: user.id,
-          amount: courseBonusXp(course.episodes.length, course.level),
+          amount: boostXp(
+            user.id,
+            courseBonusXp(course.episodes.length, course.level),
+          ),
           reason: XP_REASON.courseDone,
           ref: courseId,
           createdAt: now,

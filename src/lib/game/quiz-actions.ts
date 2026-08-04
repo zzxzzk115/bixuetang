@@ -3,6 +3,7 @@
 import { sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "../auth/session";
+import { boostXp } from "./boosts";
 import { getContent } from "../content/load";
 import { LEVEL_FACTOR } from "../content/schema";
 import type { Subject } from "../content/schema";
@@ -154,8 +155,9 @@ export async function submitQuizNode(
   if (!passed) return { ok: true, passed: false, gained: 0 };
 
   // 快答每题 +1 底分——精准属性放宽快答窗口，让「又快又准」有回报
-  const amount = Math.round(
-    (6 + correct * 3 + fast) * LEVEL_FACTOR[found.course.level],
+  const amount = boostXp(
+    user.id,
+    Math.round((6 + correct * 3 + fast) * LEVEL_FACTOR[found.course.level]),
   );
   const before = getTotalXp(user.id);
   const inserted = db
@@ -219,7 +221,7 @@ export async function openChestNode(
     chestIndex ===
       found.track.filter((n) => n.kind === "chest").length - 1;
   const coins = Math.round((isFinal ? 60 : 25) * factor);
-  const xp = Math.round((isFinal ? 20 : 10) * factor);
+  const xp = boostXp(user.id, Math.round((isFinal ? 20 : 10) * factor));
 
   const inserted = db
     .insert(xpEvents)
@@ -303,7 +305,7 @@ export async function settleTrialRun(
   if (correct === 0) return { ok: true, gained: 0, coins: 0 };
 
   const now = Date.now();
-  const xp = Math.min(correct * 2 + fast, 60);
+  const xp = boostXp(user.id, Math.min(correct * 2 + fast, 60));
   const coins = Math.min(correct, 30);
   const inserted = db
     .insert(xpEvents)

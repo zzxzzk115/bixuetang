@@ -225,6 +225,17 @@ export const rpgLootEvents = sqliteTable(
   (t) => [primaryKey({ columns: [t.userId, t.courseId, t.episodeN] })],
 );
 
+// 经验加成（药水）：每人同时只有一个生效中的加成。
+// multiplier_pct：150=x1.5、300=x3；过期行为读时视为无加成。
+export const xpBoosts = sqliteTable("xp_boosts", {
+  userId: integer("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  multiplierPct: integer("multiplier_pct").notNull(),
+  expiresAt: integer("expires_at").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+});
+
 // 幽灵对战的对局记录：seed 决定题目（题库稳定时可复现），outcomes 是逐题
 // 时间线 JSON [{c:0|1, t:毫秒}]——别人挑战我时回放这条时间线当「幽灵」。
 export const pkRuns = sqliteTable("pk_runs", {

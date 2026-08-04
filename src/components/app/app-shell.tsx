@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
   Backpack,
@@ -10,6 +11,7 @@ import {
   Shield,
   Swords,
   User,
+  Zap,
 } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 
@@ -46,6 +48,8 @@ export function AppShell({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  // 渲染期不许 Date.now()：挂载快照判断加成是否还在生效
+  const [now] = useState(() => Date.now());
 
   return (
     <div className="app-root">
@@ -83,17 +87,31 @@ export function AppShell({
               <span aria-hidden>▾</span>
             </button>
           ) : (
-            <span className="app-route-pill-title">学者公会</span>
+            // 非地图页左侧留空（品牌字只在桌面侧栏出现）
+            <span aria-hidden />
           )}
           <div className="app-topbar-stats">
+            {bootstrap.boost && bootstrap.boost.expiresAt > now && (
+              <span
+                className="app-stat boost"
+                title={`经验加成 ×${bootstrap.boost.multiplierPct / 100} 生效中`}
+              >
+                <Zap aria-hidden size={18} />×
+                {bootstrap.boost.multiplierPct / 100}
+              </span>
+            )}
             <span className="app-stat streak" title="连续学习天数">
               <Flame aria-hidden size={18} />
               {bootstrap.streak}
             </span>
-            <span className="app-stat coins" title="金币">
+            <button
+              className="app-stat coins"
+              title="金币 · 点击进商店"
+              onClick={() => router.push("/play/shop")}
+            >
               <Coins aria-hidden size={18} />
               {bootstrap.rpg.coins}
-            </span>
+            </button>
           </div>
         </header>
 
