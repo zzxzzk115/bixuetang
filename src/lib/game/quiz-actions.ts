@@ -79,6 +79,37 @@ export async function getCourseQuiz(
   };
 }
 
+export interface NodeEpisodesPayload {
+  ok: boolean;
+  error?: string;
+  episodes?: { n: number; title: string; watched: boolean }[];
+}
+
+/** 地图视频节点气泡：按需取该节点覆盖各集的标题与打卡状态（不塞注水） */
+export async function getVideoNodeEpisodes(
+  courseId: string,
+  videoIndex: number,
+): Promise<NodeEpisodesPayload> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+
+  const found = lessonTrackFor(courseId);
+  const node = found && findTrackNode(found.track, "video", videoIndex);
+  if (!found || !node) return { ok: false, error: "节点不存在" };
+
+  const { getUserProgress } = await import("../progress/queries");
+  const watched = getUserProgress(user.id).watchedByCourse.get(courseId);
+  const byN = new Map(found.course.episodes.map((e) => [e.n, e.title]));
+  return {
+    ok: true,
+    episodes: node.eps.map((n) => ({
+      n,
+      title: byN.get(n) ?? `第 ${n} 讲`,
+      watched: watched?.has(n) ?? false,
+    })),
+  };
+}
+
 export interface QuizSettleResult {
   ok: boolean;
   error?: string;

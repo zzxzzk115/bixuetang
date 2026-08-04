@@ -8,7 +8,11 @@ import type {
   GameBootstrap,
 } from "@/lib/game/bootstrap-types";
 import { buildLessonTrack, type LessonNode } from "@/lib/game/lesson-track";
-import { openChestNode, type ChestResult } from "@/lib/game/quiz-actions";
+import {
+  getVideoNodeEpisodes,
+  openChestNode,
+  type ChestResult,
+} from "@/lib/game/quiz-actions";
 import { AppShell } from "./app-shell";
 import { RouteSheet } from "./route-sheet";
 
@@ -120,6 +124,11 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
   const [shakeKey, setShakeKey] = useState<string | null>(null);
   const [chestOpening, setChestOpening] = useState(false);
   const [chestReward, setChestReward] = useState<ChestResult | null>(null);
+  // 视频节点气泡：点节点先看这节覆盖哪些集，再进入
+  const [pop, setPop] = useState<{
+    node: MapNode;
+    episodes: { n: number; title: string; watched: boolean }[] | null;
+  } | null>(null);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -247,12 +256,23 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
   };
 
   const onNode = async (n: MapNode) => {
-    if (n.state === "locked") return shake(n.key);
     if (n.node.kind === "video") {
-      // 带上分段号：课程页只呈现该节点覆盖的集
-      router.push(`/courses/${n.course.id}?seg=${n.node.index}`);
+      // 多邻国式：先弹气泡预览这节覆盖的各集标题，再进入。
+      // 锁定节点也能看灰色预览，只是没有开始按钮
+      if (pop?.node.key === n.key) {
+        setPop(null);
+        return;
+      }
+      setPop({ node: n, episodes: null });
+      const r = await getVideoNodeEpisodes(n.course.id, n.node.index);
+      if (r.ok && r.episodes) {
+        setPop((cur) =>
+          cur?.node.key === n.key ? { node: n, episodes: r.episodes! } : cur,
+        );
+      }
       return;
     }
+    if (n.state === "locked") return shake(n.key);
     if (n.node.kind === "quiz") {
       router.push(`/play/quiz/${n.course.id}/${n.node.index}`);
       return;
@@ -426,8 +446,57 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
               </div>
             );
           })}
+
+          {/* 视频节点气泡：各集标题 + 打卡状态 + 进入按钮 */}
+          {pop && (
+            <div
+              className={`route-pop ${pop.node.state === "locked" ? "locked" : ""}`}
+              style={{
+                left: Math.min(Math.max(pop.node.x, 150), Math.max(width - 150, 150)),
+                top: pop.node.y + 66,
+              }}
+            >
+              <b>{captionFor(pop.node.node, false)}</b>
+              {pop.episodes === null ? (
+                <small className="route-pop-loading">加载中…</small>
+              ) : (
+                <ul>
+                  {pop.episodes.map((e) => (
+                    <li key={e.n} className={e.watched ? "watched" : undefined}>
+                      <i>{e.watched ? "✓" : "○"}</i>
+                      <span>{e.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {pop.node.state === "locked" ? (
+                <small className="route-pop-lockhint">
+                  完成前面的小节即可解锁
+                </small>
+              ) : (
+                <button
+                  className="app-btn-primary"
+                  onClick={() =>
+                    router.push(
+                      `/courses/${pop.node.course.id}?seg=${pop.node.node.index}`,
+                    )
+                  }
+                >
+                  {pop.node.state === "done" ? "复习" : "开始学习"}
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
+
+      {pop && (
+        <div
+          className="route-pop-backdrop"
+          onClick={() => setPop(null)}
+          aria-hidden
+        />
+      )}
 
       {sheetOpen && path && (
         <RouteSheet

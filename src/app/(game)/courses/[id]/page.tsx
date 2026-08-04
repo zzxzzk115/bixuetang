@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { FlaskConical, GitBranch, Map as MapIcon, NotebookPen, Sparkles } from "lucide-react";
+import { FlaskConical, Map as MapIcon, Sparkles } from "lucide-react";
 import { AnalysisPanel } from "@/components/analysis-panel";
 import { AppEpisodeList } from "@/components/app/app-episode-list";
 import { AppShell } from "@/components/app/app-shell";
 import { Fold } from "@/components/app/fold";
 import { EmbedPlayer } from "@/components/embed-player";
-import { LearningSessionPanel } from "@/components/learning-session-panel";
 import { renderLatex } from "@/lib/math/render-latex";
 import { renderMathText } from "@/lib/math/render-math-text";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -73,17 +72,11 @@ export default async function CoursePage({
       : `第 ${segNode.eps[0]}–${segNode.eps[segNode.eps.length - 1]} 集`
     : null;
 
-  const nextEpisode =
-    episodes.find((episode) => !watched?.has(episode.n)) ?? episodes[0];
-
   const prereqs = course.prerequisites
     .map((p) => content.coursesById.get(p))
     .filter((c) => c !== undefined);
   const inPaths = content.paths.filter((p) =>
     p.stages.some((s) => s.courses.includes(id)),
-  );
-  const relatedSkills = content.skillNodes.filter((n) =>
-    n.courses.includes(id),
   );
   const analysisRaw = content.analysisByCourse.get(id);
   // 分段时知识点/时间线同步收窄到该节点覆盖的集
@@ -208,21 +201,6 @@ export default async function CoursePage({
           </Fold>
         )}
 
-        <Fold
-          icon={<NotebookPen size={18} aria-hidden />}
-          title="专注学习面板"
-          note="计时 · 复述检查点"
-        >
-          <div className="app-skin">
-            <LearningSessionPanel
-              courseId={course.id}
-              episodes={episodes}
-              initialEpisode={nextEpisode.n}
-              loggedIn={!!user}
-            />
-          </div>
-        </Fold>
-
         {course.lab && (
           <Link href={LABS[course.lab].href} className="course-row">
             <span className="course-row-icon" style={{ color: "var(--app-gold)" }}>
@@ -276,24 +254,7 @@ export default async function CoursePage({
           </section>
         )}
 
-        {relatedSkills.length > 0 && (
-          <Link href="/skill-tree" className="course-row">
-            <span className="course-row-icon" style={{ color }}>
-              <GitBranch size={20} />
-            </span>
-            <span className="course-row-body">
-              <b>可解锁技能 ×{relatedSkills.length}</b>
-              <small>
-                {relatedSkills
-                  .slice(0, 3)
-                  .map((n) => n.title)
-                  .join(" · ")}
-                {relatedSkills.length > 3 ? " …" : ""}
-              </small>
-            </span>
-            <span aria-hidden>›</span>
-          </Link>
-        )}
+        {/* 技能星盘未迁移 App 风格，入口暂藏（玩法上称号 vs 技能树也待定夺） */}
 
         {inPaths.length > 0 && (
           <section className="course-card">
