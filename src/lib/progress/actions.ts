@@ -17,7 +17,9 @@ import { levelFromXp } from "../game/level";
 import type { EpisodeLoot } from "../game/rpg";
 import { settleEpisodeLoot } from "../game/rpg-server";
 import { courseBonusXp, episodeRef, episodeXp, XP_REASON } from "../game/xp";
-import { getTotalXp } from "./queries";
+import { allTermInputs } from "../game/glossary-source";
+import { newlyUnlocked } from "../game/glossary-unlock";
+import { getTotalXp, getUserProgress } from "./queries";
 
 export interface ToggleResult {
   ok: boolean;
@@ -32,6 +34,8 @@ export interface ToggleResult {
   totalXp?: number;
   courseDone?: boolean;
   loot?: EpisodeLoot;
+  /** 这一集让你第一次见到的术语——卷宗解锁弹窗用 */
+  unlockedTerms?: { term: string; definition: string }[];
 }
 
 function upsertStatus(userId: number, courseId: string, status: CourseStatus) {
@@ -132,6 +136,12 @@ export async function toggleEpisode(
   let bossBonus = 0;
   let courseDone = false;
   let loot: EpisodeLoot | undefined;
+
+  // 打卡前的观看集合——用来算「这一集让我第一次见到哪些词」，
+  // 必须在写入 episodeProgress 之前取
+  const watchedBefore = watched
+    ? getUserProgress(user.id).watchedByCourse
+    : null;
 
   if (watched) {
     const episodeInserted = db
@@ -244,5 +254,8 @@ export async function toggleEpisode(
     totalXp,
     courseDone,
     loot,
+    unlockedTerms: watchedBefore
+      ? newlyUnlocked(allTermInputs(), watchedBefore, courseId, episodeN)
+      : [],
   };
 }

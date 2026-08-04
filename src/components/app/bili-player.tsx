@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { reportWatchProgress } from "@/lib/game/watch-actions";
 import { saveCcOffset, savePlayerPrefs } from "@/lib/game/user-state-actions";
+import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
 import { RATES, prefsStore, type PlayerPrefs } from "./player-settings";
 
 // 自研 bilibili 播放器（思路参考 wiliwili，MIT）：
@@ -140,6 +141,8 @@ export function BiliPlayer({
   );
   /** 自动跳转倒计时剩余秒 */
   const [resumeLeft, setResumeLeft] = useState(RESUME_SECONDS);
+  /** 看完这一集新解锁的卷宗词条 */
+  const [newTerms, setNewTerms] = useState<UnlockedTerm[]>([]);
   /** 本视频的字幕时间轴偏移（毫秒，正数=字幕延后） */
   const [ccOffset, setCcOffset] = useState(0);
   // timeupdate 回调里要读最新值，但不能让它每次改动都重挂监听
@@ -542,6 +545,9 @@ export function BiliPlayer({
       );
       if (r.completed && !completedRef.current) {
         completedRef.current = true;
+        // 看够比例自动打卡的这一路，也要报出新解锁的词条
+        const terms = r.settle?.unlockedTerms ?? [];
+        if (terms.length > 0) setNewTerms(terms);
         onCompleted?.();
       }
     };
@@ -1159,6 +1165,8 @@ export function BiliPlayer({
           {payload.qualityName || "标清"}）
         </p>
       )}
+
+      <TermUnlockPopup terms={newTerms} onClose={() => setNewTerms([])} />
     </div>
   );
 }

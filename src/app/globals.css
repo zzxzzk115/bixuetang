@@ -6886,3 +6886,46 @@ body:has(.dungeon-chamber) .analysis-section {
   font-size: 12px;
   font-weight: 700;
 }
+
+/* ==== 卷宗解锁弹层 ==== */
+.term-unlock {
+  display: grid;
+  gap: 10px;
+}
+.term-unlock header b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-accent);
+}
+.term-unlock-lead {
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+}
+.term-unlock-list {
+  display: grid;
+  gap: 8px;
+  /* 一集可能一次解锁十几个词，别把弹层撑穿屏幕 */
+  max-height: 46vh;
+  overflow-y: auto;
+}
+.term-unlock-list li {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  background: var(--app-surface);
+}
+.term-unlock-list b {
+  color: var(--app-strong);
+  font-size: 14px;
+  font-weight: 800;
+}
+.term-unlock-list small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.6;
+}

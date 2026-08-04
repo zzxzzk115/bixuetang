@@ -6,6 +6,7 @@ import { celebrate } from "@/lib/celebrate";
 import { announceRpgLoot } from "@/lib/game/rpg-events";
 import type { Episode } from "@/lib/content/schema";
 import { toggleEpisode, type ToggleResult } from "@/lib/progress/actions";
+import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
 import { seekTo } from "@/lib/seek";
 
 // 分集清单（多邻国式原生版）：大圆勾 + 粗行 + 进度条 + 线性解锁——
@@ -41,6 +42,7 @@ export function AppEpisodeList({
   const [watchedSet, setWatchedSet] = useState(() => new Set(watched));
   const [playing, setPlaying] = useState<number | null>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [newTerms, setNewTerms] = useState<UnlockedTerm[]>([]);
   const [query, setQuery] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [, startTransition] = useTransition();
@@ -82,6 +84,10 @@ export function AppEpisodeList({
         });
         pushToast(result.error ?? "没记录上，再试一次");
         return;
+      }
+      // 卷宗解锁弹在最后，别和 XP/掉落的吐司抢注意力
+      if (next && result.unlockedTerms?.length) {
+        setNewTerms(result.unlockedTerms);
       }
       if (next && result.loot) {
         announceRpgLoot(result.loot);
@@ -255,6 +261,8 @@ export function AppEpisodeList({
           {expanded ? "收起" : `展开其余 ${filtered.length - COLLAPSED_LIMIT} 集`}
         </button>
       )}
+
+      <TermUnlockPopup terms={newTerms} onClose={() => setNewTerms([])} />
     </div>
   );
 }

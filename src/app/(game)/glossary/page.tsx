@@ -3,18 +3,14 @@ import { redirect } from "next/navigation";
 import { AppShell } from "@/components/app/app-shell";
 import { GlossaryIndex } from "@/components/glossary-index";
 import { getCurrentUser } from "@/lib/auth/session";
-import { getContent } from "@/lib/content/load";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
+import { allTermInputs } from "@/lib/game/glossary-source";
+import { unlockedTerms, type TermRecord } from "@/lib/game/glossary-unlock";
+import { getUserProgress } from "@/lib/progress/queries";
 import { splitBilingualTerm } from "@/lib/glossary/split-term";
 import { renderMathText } from "@/lib/math/render-math-text";
 
 export const metadata = { title: "术语卷宗" };
-
-interface GlossaryEntry {
-  term: string;
-  definitions: string[];
-  sources: { courseId: string; courseTitle: string; episodes: number[] }[];
-}
 
 const LATIN_KEYS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const INDEX_ORDER = ["0-9", ...LATIN_KEYS, "中", "#"];
@@ -34,43 +30,6 @@ function groupId(key: string): string {
   return `glossary-${key.toLowerCase()}`;
 }
 
-/**
- * 卷宗只收已解锁课程的术语。
- * 锁着的课点进去也跳不到对应集，把词条列在这里只会制造死链。
- */
-function buildGlossary(unlocked: Set<string>): GlossaryEntry[] {
-  const content = getContent();
-  const byKey = new Map<string, GlossaryEntry>();
-  for (const [courseId, analysis] of content.analysisByCourse) {
-    if (!unlocked.has(courseId)) continue;
-    const courseTitle = content.coursesById.get(courseId)?.title ?? courseId;
-    for (const episode of analysis.episodes) {
-      for (const term of episode.terms) {
-        const key = term.term.trim().toLowerCase();
-        let entry = byKey.get(key);
-        if (!entry) {
-          entry = { term: term.term.trim(), definitions: [], sources: [] };
-          byKey.set(key, entry);
-        }
-        if (!entry.definitions.includes(term.definition)) {
-          entry.definitions.push(term.definition);
-        }
-        let source = entry.sources.find((item) => item.courseId === courseId);
-        if (!source) {
-          source = { courseId, courseTitle, episodes: [] };
-          entry.sources.push(source);
-        }
-        if (!source.episodes.includes(episode.n)) {
-          source.episodes.push(episode.n);
-        }
-      }
-    }
-  }
-  return [...byKey.values()].sort((a, b) =>
-    a.term.localeCompare(b.term, "en", { sensitivity: "base" }),
-  );
-}
-
 export default async function GlossaryPage({
   searchParams,
 }: {
@@ -79,13 +38,13 @@ export default async function GlossaryPage({
   const user = await getCurrentUser();
   if (!user) redirect("/login");
   const bootstrap = getGameBootstrap(user);
+  const progress = getUserProgress(user.id);
 
   const { q } = await searchParams;
   const needle = q?.trim().toLowerCase();
-  const unlocked = new Set(
-    bootstrap.courses.filter((c) => c.unlocked).map((c) => c.id),
-  );
-  const all = buildGlossary(unlocked);
+  // 术语跟着「看过的集」解锁：没接触过的知识点摆出释义也是模糊的，
+  // 而且词条要能点回具体某一集，没看过的集列在出处里只会是死链
+  const all = unlockedTerms(allTermInputs(), progress.watchedByCourse);
   const entries = needle
     ? all.filter(
         (entry) =>
@@ -95,7 +54,7 @@ export default async function GlossaryPage({
           ),
       )
     : all;
-  const groups = new Map<string, GlossaryEntry[]>();
+  const groups = new Map<string, TermRecord[]>();
   for (const entry of entries) {
     const key = groupKey(entry.term);
     if (!groups.has(key)) groups.set(key, []);
