@@ -43,7 +43,7 @@ interface MapNode {
 
 /** 进度环单段圆弧路径（角度从 12 点方向顺时针起算） */
 function arcPath(r: number, startDeg: number, endDeg: number): string {
-  const c = 47; // viewBox 94×94 的圆心
+  const c = 53; // viewBox 106×106 的圆心
   const rad = (d: number) => ((d - 90) * Math.PI) / 180;
   const x1 = c + r * Math.cos(rad(startDeg));
   const y1 = c + r * Math.sin(rad(startDeg));
@@ -58,11 +58,11 @@ function NodeRing({ total, done }: { total: number; done: number }) {
   const gap = total === 1 ? 4 : 16; // 单段近乎整圆
   const span = 360 / total;
   return (
-    <svg className="route-node-ring" viewBox="0 0 94 94" aria-hidden>
+    <svg className="route-node-ring" viewBox="0 0 106 106" aria-hidden>
       {Array.from({ length: total }, (_, i) => (
         <path
           key={i}
-          d={arcPath(42, i * span + gap / 2, (i + 1) * span - gap / 2)}
+          d={arcPath(48, i * span + gap / 2, (i + 1) * span - gap / 2)}
           fill="none"
           stroke={i < done ? "var(--app-gold)" : "var(--app-line)"}
           strokeWidth={6}

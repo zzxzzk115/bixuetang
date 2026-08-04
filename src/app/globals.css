@@ -405,11 +405,12 @@ html {
   display: grid;
   place-items: center;
 }
+/* 环外推：留出按钮厚底阴影的呼吸空间 */
 .route-node-ring {
   position: absolute;
-  inset: -9px;
-  width: 94px;
-  height: 94px;
+  inset: -15px;
+  width: 106px;
+  height: 106px;
   pointer-events: none;
 }
 /* 有进度环时呼吸光环让位（两个圈叠一起太吵） */
