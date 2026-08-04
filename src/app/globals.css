@@ -1238,6 +1238,10 @@ html {
   /* app-page 是定高滚动容器：行必须 max-content 保底，
      否则唯一 overflow:hidden 的卡片会被挤成 0 高（min-size 规则） */
   grid-auto-rows: max-content;
+  /* 同一条 min-size 规则在横向的另一面：列的默认最小宽是内容的
+     min-content，一个不换行的长标题就能把整列撑到比屏幕还宽。
+     窄屏上表现为整页横向溢出，必须显式允许列收缩到 0 */
+  grid-template-columns: minmax(0, 1fr);
   color: var(--app-text);
   font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
 }
@@ -5522,8 +5526,13 @@ body:has(.dungeon-chamber) .analysis-section {
   font-size: 12px;
   font-weight: 600;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /* 单行 nowrap 在窄屏只剩一百多像素，等于什么都没显示。
+     改成两行截断：行数固定，卡片高度仍然整齐，但看得到东西 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow-wrap: anywhere;
 }
 .kmap-meta {
   flex-shrink: 0;
@@ -5661,6 +5670,9 @@ body:has(.dungeon-chamber) .analysis-section {
 /* ==== 自研 B 站播放器 ==== */
 .course-player-native {
   display: grid;
+  /* 控制栏那一排按钮的 min-content 有近 500px，不显式允许收缩的话
+     整个播放器会把窄屏页面顶出横向滚动 */
+  grid-template-columns: minmax(0, 1fr);
   gap: 8px;
 }
 .course-player-head {
@@ -5746,8 +5758,14 @@ body:has(.dungeon-chamber) .analysis-section {
 }
 .biliplayer-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+  /* flex 项默认 min-width:auto，一排控件挤不下时不是换行而是撑破容器 */
+  min-width: 0;
+}
+.biliplayer-controls > * {
+  min-width: 0;
 }
 .biliplayer-controls button {
   display: grid;
@@ -6928,4 +6946,69 @@ body:has(.dungeon-chamber) .analysis-section {
   font-size: 12px;
   font-weight: 700;
   line-height: 1.6;
+}
+
+/* ==== 窄屏与横竖屏自适应 ====
+   iPhone 14 竖屏 390px、SE 375px、部分安卓 360px；横屏时高度只剩
+   ~390px。这里统一兜住两件事：任何页面都不该横向溢出，矮屏时
+   竖向的固定高度要让路。 */
+
+/* 播放器控制栏在窄屏精简：音量条占 104px，是最不划算的那个——
+   静音按钮本身就在旁边，滑条让给真正常用的控件 */
+@media (max-width: 420px) {
+  .biliplayer-volume input[type="range"] {
+    display: none;
+  }
+  .biliplayer-time {
+    font-size: 11px;
+  }
+  .biliplayer-controls {
+    gap: 6px;
+  }
+  .biliplayer-controls button {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* 横屏手机（宽 > 高 且不高）：把播放器让成主角，周边留白收紧 */
+@media (orientation: landscape) and (max-height: 480px) {
+  .app-page {
+    padding: 10px 12px calc(12px + env(safe-area-inset-bottom));
+  }
+  .course-hero {
+    padding: 12px 14px;
+  }
+  .course-hero h1 {
+    font-size: 17px;
+  }
+  /* 设置/字幕面板本来按竖屏留的高度，横屏会顶出屏幕 */
+  .biliplayer-panel {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .term-unlock-list {
+    max-height: 38vh;
+  }
+}
+
+/* 兜底：长英文串（课程代码、URL、术语）不该把容器撑破 */
+.course-hero h1,
+.course-player-head b,
+.term-unlock-list b,
+.app-route-card-title {
+  overflow-wrap: anywhere;
+}
+
+/* 行内公式不可拆词换行，窄屏放不下时会顶破卡片。
+   让它自己在原地横向滚，而不是把整张卡撑开。 */
+.analysis-rich-text {
+  overflow-wrap: anywhere;
+}
+.analysis-rich-text .katex {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  vertical-align: middle;
 }
