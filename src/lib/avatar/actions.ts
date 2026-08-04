@@ -6,7 +6,6 @@ import { requireUser } from "../auth/session";
 import { db } from "../db/client";
 import { users } from "../db/schema";
 import { MAX_AVATAR_BYTES } from "./limits";
-import { presetById } from "./presets";
 import { deleteAvatar, sniffImage, writeAvatar } from "./storage";
 import { getBiliBinding } from "../bili/account";
 
@@ -15,23 +14,6 @@ export type AvatarFormState = { error: string } | { ok: string } | null;
 /** 头像出现在顶栏，改完要让所有页面重取 */
 function refresh() {
   revalidatePath("/", "layout");
-}
-
-export async function chooseAvatarPreset(
-  _prev: AvatarFormState,
-  formData: FormData,
-): Promise<AvatarFormState> {
-  const user = await requireUser();
-  const id = String(formData.get("preset") ?? "");
-  if (!presetById(id)) return { error: "没有这个预设头像" };
-
-  db.update(users)
-    .set({ avatar: `preset:${id}` })
-    .where(eq(users.id, user.id))
-    .run();
-  deleteAvatar(user.id); // 换成预设后，之前上传的图不再有用
-  refresh();
-  return { ok: "头像已更新" };
 }
 
 export async function uploadAvatar(

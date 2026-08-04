@@ -7043,3 +7043,98 @@ body:has(.dungeon-chamber) .analysis-section {
   overflow-y: hidden;
   vertical-align: middle;
 }
+
+/* 手势 OSD：横滑跳转 / 纵滑音量 / 长按倍速时的居中提示 */
+.biliplayer-osd {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  animation: sheet-rise 120ms ease-out;
+}
+/* 手势要吃掉横向拖动，否则浏览器会拿去做页面滚动 */
+.biliplayer-stage {
+  touch-action: pan-y;
+}
+.biliplayer:fullscreen .biliplayer-stage,
+.biliplayer.cinema .biliplayer-stage {
+  touch-action: none;
+}
+
+/* 需要键盘的入口（工坊）在窄屏藏起来——点进去也只能看到一句
+   「请到电脑上打开」，不如不给这个入口 */
+@media (max-width: 899px) {
+  .is-desktop-only {
+    display: none !important;
+  }
+}
+
+/* 屏幕不够大时的说明页 */
+.desktop-only {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 32px 20px;
+  color: var(--app-faint);
+  text-align: center;
+}
+.desktop-only b {
+  color: var(--app-strong);
+  font-size: 15px;
+  font-weight: 800;
+}
+.desktop-only p {
+  max-width: 28em;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+/* 实验目标清单 */
+.lab-goals {
+  display: grid;
+  gap: 8px;
+}
+.lab-goals li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  color: var(--app-faint);
+}
+.lab-goals li.complete {
+  border-color: var(--app-accent);
+  color: var(--app-accent);
+}
+.lab-goals li > span {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.lab-goals b {
+  color: var(--app-strong);
+  font-size: 13px;
+  font-weight: 800;
+}
+.lab-goals small {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.lab-goals strong {
+  color: var(--app-gold);
+  font-size: 12px;
+  font-weight: 800;
+}

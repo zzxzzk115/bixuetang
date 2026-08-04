@@ -677,6 +677,109 @@ export function BiliPlayer({
     [duration, seekTo],
   );
 
+  // ==== 触摸手势（只认手指，鼠标一律不接管，免得桌面误触发）====
+  //   横滑    快进快退，滑多远跳多久
+  //   纵滑    调音量
+  //   双击    播放/暂停
+  //   长按    临时 2 倍速，松手复原
+  const [osd, setOsd] = useState<string | null>(null);
+  const osdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const flashOsd = useCallback((text: string) => {
+    setOsd(text);
+    if (osdTimer.current) clearTimeout(osdTimer.current);
+    osdTimer.current = setTimeout(() => setOsd(null), 700);
+  }, []);
+
+  const gestureRef = useRef<{
+    x: number;
+    y: number;
+    at: number;
+    baseTime: number;
+    baseVolume: number;
+    /** null=还没定方向，之后锁死，避免斜着划来划去乱跳 */
+    axis: "seek" | "volume" | null;
+    longPress: ReturnType<typeof setTimeout> | null;
+    boosted: boolean;
+  } | null>(null);
+  const lastTapRef = useRef(0);
+
+  const onStagePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "touch") return;
+    const v = videoRef.current;
+    if (!v) return;
+    gestureRef.current = {
+      x: e.clientX,
+      y: e.clientY,
+      at: Date.now(),
+      baseTime: v.currentTime,
+      baseVolume: prefs.muted ? 0 : prefs.volume,
+      axis: null,
+      boosted: false,
+      longPress: setTimeout(() => {
+        const g = gestureRef.current;
+        if (!g || g.axis) return;
+        g.boosted = true;
+        v.playbackRate = 2;
+        if (audioRef.current) audioRef.current.playbackRate = 2;
+        flashOsd("2× 快进中");
+      }, 500),
+    };
+  };
+
+  const onStagePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const g = gestureRef.current;
+    const v = videoRef.current;
+    if (!g || !v || e.pointerType !== "touch") return;
+    const dx = e.clientX - g.x;
+    const dy = e.clientY - g.y;
+    if (!g.axis) {
+      if (Math.abs(dx) < 12 && Math.abs(dy) < 12) return;
+      g.axis = Math.abs(dx) > Math.abs(dy) ? "seek" : "volume";
+      if (g.longPress) clearTimeout(g.longPress);
+      g.longPress = null;
+    }
+    const rect = e.currentTarget.getBoundingClientRect();
+    if (g.axis === "seek") {
+      // 划满整个画面宽 = 跳 90 秒，短视频也不至于一划到底
+      const total = v.duration || duration;
+      const delta = (dx / rect.width) * 90;
+      const next = Math.max(0, Math.min(total, g.baseTime + delta));
+      seekTo(next);
+      flashOsd(`${delta >= 0 ? "▶▶" : "◀◀"} ${fmt(next)} / ${fmt(total)}`);
+    } else {
+      // 向上是加，所以取负
+      const next = Math.max(0, Math.min(1, g.baseVolume - dy / rect.height));
+      update({ volume: next, muted: next === 0 });
+      flashOsd(`音量 ${Math.round(next * 100)}%`);
+    }
+  };
+
+  const onStagePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const g = gestureRef.current;
+    if (!g || e.pointerType !== "touch") return;
+    gestureRef.current = null;
+    if (g.longPress) clearTimeout(g.longPress);
+
+    if (g.boosted) {
+      const v = videoRef.current;
+      if (v) v.playbackRate = prefs.rate;
+      if (audioRef.current) audioRef.current.playbackRate = prefs.rate;
+      setOsd(null);
+      return;
+    }
+    if (g.axis) return; // 滑动结束，不再当点击处理
+
+    // 没滑动、也没长按 → 判断是不是双击
+    const now = Date.now();
+    if (now - lastTapRef.current < 300) {
+      lastTapRef.current = 0;
+      togglePlay();
+      flashOsd(videoRef.current?.paused ? "已暂停" : "播放中");
+    } else {
+      lastTapRef.current = now;
+    }
+  };
+
   const onTrackPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     draggingRef.current = true;
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -824,7 +927,19 @@ export function BiliPlayer({
         hoverRef.current = false;
       }}
     >
-      <div className="biliplayer-stage" onClick={() => setPanel("none")}>
+      <div
+        className="biliplayer-stage"
+        onClick={() => setPanel("none")}
+        onPointerDown={onStagePointerDown}
+        onPointerMove={onStagePointerMove}
+        onPointerUp={onStagePointerUp}
+        onPointerCancel={onStagePointerUp}
+      >
+        {osd && (
+          <div className="biliplayer-osd" aria-live="polite">
+            {osd}
+          </div>
+        )}
         <video
           ref={videoRef}
           src={videoSrc}

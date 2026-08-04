@@ -1,8 +1,7 @@
-import { avatarSrc, parseAvatar } from "@/lib/avatar/presets";
+import { avatarSrc } from "@/lib/avatar/presets";
 
 /**
- * 用户头像。没设置过就回退到名字首字母色块（保持改动前的观感）。
- * 预设头像是 16px 像素画，必须 image-rendering: pixelated 才不糊。
+ * 用户头像。没设置过就回退到站点徽记（avatarSrc 内部兜底）。
  */
 export function UserAvatar({
   userId,
@@ -18,7 +17,6 @@ export function UserAvatar({
   className?: string;
 }) {
   const src = avatarSrc(avatar, userId);
-  const pixelated = parseAvatar(avatar).kind === "preset";
 
   if (!src) {
     return (
@@ -37,7 +35,6 @@ export function UserAvatar({
       width={size}
       height={size}
       className={`game-avatar game-avatar-img ${className}`}
-      style={pixelated ? { imageRendering: "pixelated" } : undefined}
       referrerPolicy="no-referrer"
     />
   );

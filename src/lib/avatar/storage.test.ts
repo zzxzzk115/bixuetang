@@ -36,24 +36,27 @@ test("RIFF 但不是 WEBP 的（比如 wav）要拒绝", () => {
   assert.equal(sniffImage(wav), null);
 });
 
-test("parseAvatar 解析三种取值", () => {
+test("parseAvatar 解析各种取值", () => {
   assert.deepEqual(parseAvatar(null), { kind: "none" });
   assert.deepEqual(parseAvatar(""), { kind: "none" });
-  assert.equal(parseAvatar("preset:sage").kind, "preset");
   assert.deepEqual(parseAvatar("upload:7"), { kind: "upload", version: "7" });
-});
-
-test("未知的 preset id 退化为未设置，而不是报错", () => {
-  assert.deepEqual(parseAvatar("preset:nonexistent"), { kind: "none" });
+  assert.deepEqual(parseAvatar("bili:https://i0.hdslb.com/x.jpg"), {
+    kind: "remote",
+    url: "https://i0.hdslb.com/x.jpg",
+  });
+  // 非 bilibili 图床的地址不放行，避免变成任意图片代理
+  assert.deepEqual(parseAvatar("bili:https://evil.example/x.jpg"), {
+    kind: "none",
+  });
+  // 退役的预设头像与无法识别的值一律当作未设置
+  assert.deepEqual(parseAvatar("preset:sage"), { kind: "none" });
   assert.deepEqual(parseAvatar("garbage"), { kind: "none" });
 });
 
 test("avatarSrc：上传态带版本号破缓存", () => {
   assert.equal(avatarSrc("upload:3", 42), "/avatars/42?v=3");
-  assert.equal(
-    avatarSrc("preset:sage", 42),
-    "/assets/pixel-dungeon/npc_sage.png",
-  );
+  // 退役的 preset:* 老数据认不出来，退化成站点徽记
+  assert.equal(avatarSrc("preset:sage", 42), SIGIL_SRC);
   // 没设置过头像就用站点徽记兜底，不再回落到首字母色块
   assert.equal(avatarSrc(null, 42), SIGIL_SRC);
 });

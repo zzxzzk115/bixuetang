@@ -4,6 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import {
   Backpack,
   BookOpen,
+  FlaskConical,
   Coins,
   Flame,
   Map as MapIcon,
@@ -26,6 +27,8 @@ const TABS = [
   { key: "shop", label: "商店", href: "/play/shop", icon: ShoppingBag },
   { key: "bag", label: "背包", href: "/play/bag", icon: Backpack },
   { key: "lexicon", label: "卷宗", href: "/glossary", icon: BookOpen },
+  // 工坊要键盘，窄屏上藏起来（CSS 控制），底部 Tab 也塞不下这么多项
+  { key: "lab", label: "工坊", href: "/lab/hack", icon: FlaskConical, desktopOnly: true },
   { key: "me", label: "我的", href: "/settings", icon: User },
 ] as const;
 
@@ -68,7 +71,9 @@ export function AppShell({
           return (
             <button
               key={tab.key}
-              className={active ? "active" : undefined}
+              className={`${active ? "active" : ""} ${
+                "desktopOnly" in tab && tab.desktopOnly ? "is-desktop-only" : ""
+              }`}
               onClick={() => router.push(tab.href)}
               aria-current={active ? "page" : undefined}
             >

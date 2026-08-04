@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronDown, Play, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { Calculator, ChevronDown, Play, Sparkles } from "lucide-react";
 import { useState } from "react";
 import type { CourseAnalysis, Episode } from "@/lib/content/schema";
 import { seekTo } from "@/lib/seek";
@@ -142,7 +143,15 @@ export function AppAnalysisMap({
                                     <code>{kp.formula}</code>
                                   )}
                                 </div>
-                                {/* 数学工坊还没迁移、暂时下线，先不给入口 */}
+                                {/* 工坊要键盘，窄屏隐藏这个入口（CSS） */}
+                                <Link
+                                  href={`/lab/math?expr=${encodeURIComponent(kp.formula)}`}
+                                  className="kmap-formula-action is-desktop-only"
+                                  title="送入数学工坊"
+                                  aria-label="送入数学工坊"
+                                >
+                                  <Calculator size={15} aria-hidden />
+                                </Link>
                               </div>
                             )}
                           </div>

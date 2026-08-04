@@ -13,6 +13,36 @@ export function GlossaryIndex({ items }: { items: GlossaryIndexItem[] }) {
   const dragging = useRef(false);
   const lastIndex = useRef(-1);
   const [active, setActive] = useState(items[0]?.key ?? "");
+  /**
+   * 词条一屏就装得下时不显示索引条——本来就尽收眼底，
+   * 放个快速定位条纯属噪声，还占掉右侧一条宽度。
+   */
+  const [needed, setNeeded] = useState(false);
+
+  useEffect(() => {
+    const scroller = document.querySelector<HTMLElement>(".app-page");
+    if (!scroller) return;
+    let raf = 0;
+    // 放进 rAF：ResizeObserver 首帧同步 setState 会被 react-hooks 规则拦下，
+    // 而且此时布局也还没稳定
+    const check = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() =>
+        setNeeded(scroller.scrollHeight > scroller.clientHeight + 40),
+      );
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(scroller);
+    for (const item of items) {
+      const el = document.getElementById(item.id);
+      if (el) ro.observe(el);
+    }
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, [items]);
 
   // scroll-spy：滚到哪个分区，条上就高亮哪个字母（拖拽中不抢状态）
   useEffect(() => {
@@ -62,6 +92,8 @@ export function GlossaryIndex({ items }: { items: GlossaryIndexItem[] }) {
     const ratio = Math.max(0, Math.min(0.9999, (clientY - rect.top) / rect.height));
     jump(Math.floor(ratio * items.length), false);
   };
+
+  if (!needed || items.length === 0) return null;
 
   return (
     <nav
