@@ -51,6 +51,31 @@ export default async function CoursePage({
   if (!user) redirect("/login");
   const bootstrap = getGameBootstrap(user);
 
+  // 前置没打过底的课，直接开 URL 也进不来——地图上锁着，这里就不能是后门
+  const summary = bootstrap.courses.find((c) => c.id === id);
+  if (summary && !summary.unlocked) {
+    return (
+      <AppShell bootstrap={bootstrap}>
+        <div className="app-page course-locked">
+          <h1>这门课还没解锁</h1>
+          <p>
+            先把
+            {summary.missingPrereqs.map((p, i) => (
+              <span key={p.id}>
+                {i > 0 ? "、" : ""}
+                <Link href={`/courses/${p.id}`}>《{p.title}》</Link>
+              </span>
+            ))}
+            学过半，再回来开这门。
+          </p>
+          <Link className="app-btn-primary" href="/play">
+            <MapIcon size={16} aria-hidden /> 回到地图
+          </Link>
+        </div>
+      </AppShell>
+    );
+  }
+
   const progress = getUserProgress(user.id);
   const watched = progress.watchedByCourse.get(id);
 

@@ -6819,3 +6819,30 @@ body:has(.dungeon-chamber) .analysis-section {
   justify-content: center;
   gap: 8px;
 }
+
+/* 锁着的课程被直接开 URL 时的说明页 */
+.course-locked {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 48px 20px;
+  text-align: center;
+}
+.course-locked h1 {
+  color: var(--app-strong);
+  font-size: 20px;
+  font-weight: 800;
+}
+.course-locked p {
+  max-width: 34em;
+  color: var(--app-faint);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.7;
+}
+.course-locked a {
+  color: var(--app-blue);
+}
+.course-locked .app-btn-primary {
+  color: inherit;
+}

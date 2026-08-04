@@ -176,9 +176,11 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
           node,
           x: width / 2 + Math.sin(i * 1.05) * amp,
           y: y + 50,
-          state: nodeDone(course, node, watched, quizDone, chestDone)
-            ? "done"
-            : "locked",
+          // 前置课没打过底的，整门课的节点一律锁住
+          state:
+            course.unlocked && nodeDone(course, node, watched, quizDone, chestDone)
+              ? "done"
+              : "locked",
           // current 状态下面统一算（要看全局顺序）
           ringDone:
             node.kind === "video"
@@ -188,8 +190,11 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
         y += NODE_SPACING;
       });
     }
-    // 第一个未完成节点 = 当前节点
-    const currentIdx = nodes.findIndex((n) => n.state !== "done");
+    // 第一个未完成节点 = 当前节点。锁着的课跳过——把「下一步」指到
+    // 一门点不开的课上，比不给指引更让人困惑
+    const currentIdx = nodes.findIndex(
+      (n) => n.state !== "done" && n.course.unlocked,
+    );
     if (currentIdx >= 0) nodes[currentIdx].state = "current";
     return { nodes, banners, totalH: y + BOTTOM_PAD };
   }, [bootstrap, path, width]);
@@ -508,7 +513,12 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
               )}
               {pop.node.state === "locked" ? (
                 <small className="route-pop-lockhint">
-                  完成前面的小节即可解锁
+                  {pop.node.course.missingPrereqs.length > 0
+                    ? // 整门课被前置挡着，说清楚挡在哪，别让人干瞪眼
+                      `先学过半「${pop.node.course.missingPrereqs
+                        .map((p) => p.title)
+                        .join("、")}」才能开这门课`
+                    : "完成前面的小节即可解锁"}
                 </small>
               ) : (
                 <button

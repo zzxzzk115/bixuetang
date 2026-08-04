@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { sniffImage } from "./storage";
-import { avatarSrc, parseAvatar } from "./presets";
+import { avatarSrc, parseAvatar, SIGIL_SRC } from "./presets";
 
 const png = () =>
   Uint8Array.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 0]);
@@ -54,5 +54,6 @@ test("avatarSrc：上传态带版本号破缓存", () => {
     avatarSrc("preset:sage", 42),
     "/assets/pixel-dungeon/npc_sage.png",
   );
-  assert.equal(avatarSrc(null, 42), null);
+  // 没设置过头像就用站点徽记兜底，不再回落到首字母色块
+  assert.equal(avatarSrc(null, 42), SIGIL_SRC);
 });

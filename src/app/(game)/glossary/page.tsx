@@ -34,10 +34,15 @@ function groupId(key: string): string {
   return `glossary-${key.toLowerCase()}`;
 }
 
-function buildGlossary(): GlossaryEntry[] {
+/**
+ * 卷宗只收已解锁课程的术语。
+ * 锁着的课点进去也跳不到对应集，把词条列在这里只会制造死链。
+ */
+function buildGlossary(unlocked: Set<string>): GlossaryEntry[] {
   const content = getContent();
   const byKey = new Map<string, GlossaryEntry>();
   for (const [courseId, analysis] of content.analysisByCourse) {
+    if (!unlocked.has(courseId)) continue;
     const courseTitle = content.coursesById.get(courseId)?.title ?? courseId;
     for (const episode of analysis.episodes) {
       for (const term of episode.terms) {
@@ -77,7 +82,10 @@ export default async function GlossaryPage({
 
   const { q } = await searchParams;
   const needle = q?.trim().toLowerCase();
-  const all = buildGlossary();
+  const unlocked = new Set(
+    bootstrap.courses.filter((c) => c.unlocked).map((c) => c.id),
+  );
+  const all = buildGlossary(unlocked);
   const entries = needle
     ? all.filter(
         (entry) =>

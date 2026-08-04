@@ -6,6 +6,7 @@ import type { SessionUser } from "../auth/session";
 import { db } from "../db/client";
 import { xpEvents } from "../db/schema";
 import { getUserProgress } from "../progress/queries";
+import { computeUnlocks } from "./unlock";
 import { learningStreak } from "./achievements";
 import { getActiveBoost } from "./boosts";
 import { dailyDateKey } from "./quests";
@@ -55,8 +56,20 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
   }));
   const relicById = new Map(relics.map((r) => [r.id, r]));
 
+  // 解锁状态要在所有课程都算完完成度之后才能定，先备一份输入
+  const unlockInputs = content.courses.map((c) => ({
+    id: c.id,
+    prerequisites: c.prerequisites,
+    episodeCount: c.episodes.length,
+    watchedCount: progress.watchedByCourse.get(c.id)?.size ?? 0,
+    done: progress.statusByCourse.get(c.id) === "done",
+  }));
+  const unlocks = computeUnlocks(unlockInputs);
+  const titleById = new Map(content.courses.map((c) => [c.id, c.title]));
+
   const courses: CourseSummaryDto[] = content.courses.map((c) => {
     const watchedSet = progress.watchedByCourse.get(c.id);
+    const unlock = unlocks.get(c.id);
     return {
       id: c.id,
       title: c.title,
@@ -69,6 +82,12 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
       episodeNs: c.episodes.map((e) => e.n),
       watched: watchedSet ? [...watchedSet] : [],
       hasQuiz: courseHasQuiz(c.id),
+      prerequisites: c.prerequisites,
+      unlocked: unlock?.unlocked ?? true,
+      missingPrereqs: (unlock?.missing ?? []).map((id) => ({
+        id,
+        title: titleById.get(id) ?? id,
+      })),
     };
   });
 

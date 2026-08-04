@@ -59,6 +59,12 @@ export interface CourseSummaryDto {
   watched: number[];
   /** 是否有测验题库（决定地图上是否有测验节点） */
   hasQuiz: boolean;
+  /** 前置课程 id */
+  prerequisites: string[];
+  /** 前置是否都打过底了（false = 地图上显示为锁住） */
+  unlocked: boolean;
+  /** 还差哪几门前置（标题，直接给用户看） */
+  missingPrereqs: { id: string; title: string }[];
 }
 
 export interface PathSummaryDto {
