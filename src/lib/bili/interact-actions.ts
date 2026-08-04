@@ -6,13 +6,14 @@ import { db } from "../db/client";
 import { biliAccounts } from "../db/schema";
 import {
   coinVideo,
-  defaultFavFolder,
-  favVideo,
+  dealFavorite,
+  fetchFavFolders,
   fetchRelation,
   fetchReplies,
   fetchStat,
   likeVideo,
   postReply,
+  type FavFolder,
   type ReplyItem,
   type VideoRelation,
   type VideoStat,
@@ -96,17 +97,38 @@ export async function addCoin(
   }
 }
 
-export async function toggleFavorite(
-  bvid: string,
-  aid: number,
-  add: boolean,
-): Promise<ActionResult> {
+export interface FavFoldersResult {
+  ok: boolean;
+  error?: string;
+  folders?: FavFolder[];
+}
+
+/** 打开收藏面板时取收藏夹列表（附「这条是否已在夹子里」） */
+export async function getFavFolders(aid: number): Promise<FavFoldersResult> {
   const c = await creds();
   if (!c) return { ok: false, error: "请先绑定 B 站账号" };
   try {
-    const folder = await defaultFavFolder(c.mid, c.sessdata);
-    if (!folder) return { ok: false, error: "没找到收藏夹" };
-    await favVideo(aid, folder, add, c.sessdata, c.csrf);
+    return { ok: true, folders: await fetchFavFolders(c.mid, aid, c.sessdata) };
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "取收藏夹失败",
+    };
+  }
+}
+
+/** 提交收藏夹勾选结果（可同时加入多个、移出多个） */
+export async function applyFavorite(
+  bvid: string,
+  aid: number,
+  addIds: number[],
+  delIds: number[],
+): Promise<ActionResult> {
+  const c = await creds();
+  if (!c) return { ok: false, error: "请先绑定 B 站账号" };
+  if (addIds.length === 0 && delIds.length === 0) return { ok: true };
+  try {
+    await dealFavorite(aid, addIds, delIds, c.sessdata, c.csrf);
     return { ok: true, relation: await fetchRelation(bvid, c.sessdata) };
   } catch (error) {
     return {

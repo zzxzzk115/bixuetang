@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
 
   const bvid = request.nextUrl.searchParams.get("bvid");
   const cid = Number(request.nextUrl.searchParams.get("cid"));
+  const duration = Number(request.nextUrl.searchParams.get("duration")) || undefined;
   if (!bvid || !/^BV[0-9A-Za-z]{8,}$/.test(bvid)) {
     return Response.json({ error: "bvid 不合法" }, { status: 400 });
   }
@@ -25,6 +26,7 @@ export async function GET(request: NextRequest) {
       bvid,
       cid,
       getBiliSessdata(user.id) ?? undefined,
+      duration,
     );
     return Response.json({ tracks });
   } catch {

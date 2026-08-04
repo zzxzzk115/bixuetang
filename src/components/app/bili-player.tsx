@@ -71,6 +71,8 @@ interface SubtitleTrack {
   lan: string;
   lanDoc: string;
   cues: SubtitleCue[];
+  ai: boolean;
+  suspect: boolean;
 }
 
 interface Track {
@@ -213,7 +215,9 @@ export function BiliPlayer({
   useEffect(() => {
     if (!payload?.cid) return;
     let cancelled = false;
-    fetch(`/api/bili/subtitle?bvid=${encodeURIComponent(bvid)}&cid=${payload.cid}`)
+    fetch(
+      `/api/bili/subtitle?bvid=${encodeURIComponent(bvid)}&cid=${payload.cid}&duration=${payload.durationSec}`,
+    )
       .then((r) => r.json())
       .then((data: { tracks?: SubtitleTrack[] }) => {
         if (!cancelled) setTracks(data.tracks ?? []);
@@ -224,7 +228,7 @@ export function BiliPlayer({
     return () => {
       cancelled = true;
     };
-  }, [payload?.cid, bvid]);
+  }, [payload?.cid, payload?.durationSec, bvid]);
 
   const activeTrack = useMemo(() => {
     if (tracks.length === 0) return null;
@@ -623,6 +627,8 @@ export function BiliPlayer({
         </div>
 
         <div className="biliplayer-controls">
+          {/* 左组：播放/时间/音量。右组：所有带弹层的设置——弹层从右侧展开，
+              按钮就得挨着右边，否则全屏时鼠标要横跨整个屏幕 */}
           <button onClick={togglePlay} aria-label={playing ? "暂停" : "播放"}>
             {playing ? <Pause size={18} /> : <Play size={18} fill="currentColor" />}
           </button>
@@ -651,6 +657,8 @@ export function BiliPlayer({
               aria-label="音量"
             />
           </div>
+
+          <span className="biliplayer-spacer" />
 
           <button
             className={panel === "rate" ? "on" : undefined}
@@ -698,7 +706,7 @@ export function BiliPlayer({
           )}
 
           <span className="biliplayer-watch" title="本集观看覆盖率，≥90% 自动打卡">
-            已看 {ratioPct}%
+            {ratioPct}%
           </span>
 
           <button
@@ -872,12 +880,31 @@ export function BiliPlayer({
                     key={t.lan}
                     className={activeTrack?.lan === t.lan ? "on" : undefined}
                     onClick={() => updateCc({ lan: t.lan, on: true })}
+                    title={
+                      t.suspect
+                        ? "这条字幕的时间轴与视频对不上，多半是平台挂错了"
+                        : t.ai
+                          ? "平台自动生成，内容可能不准"
+                          : undefined
+                    }
                   >
                     {t.lanDoc}
+                    {t.ai ? " · AI" : ""}
+                    {t.suspect ? " ⚠" : ""}
                   </button>
                 ))}
               </div>
             </div>
+            {activeTrack?.suspect && (
+              <p className="biliplayer-panel-note">
+                ⚠ 这条字幕只覆盖了视频的一小段，B 站可能挂错了片源——内容对不上时请关掉它。
+              </p>
+            )}
+            {activeTrack?.ai && !activeTrack.suspect && (
+              <p className="biliplayer-panel-note">
+                字幕由 B 站自动生成，可能有错漏，仅供参考。
+              </p>
+            )}
             <label className="biliplayer-slider">
               字号
               <input

@@ -417,33 +417,51 @@ export async function coinVideo(
   }
 }
 
-/** 取默认收藏夹 id（收藏接口要指定收藏夹） */
-export async function defaultFavFolder(
-  mid: string,
-  sessdata: string,
-): Promise<number | null> {
-  const json = await getJson<{ list?: { id: number }[] }>(
-    `https://api.bilibili.com/x/v3/fav/folder/created/list-all?up_mid=${encodeURIComponent(mid)}`,
-    sessdata,
-  );
-  return json.data?.list?.[0]?.id ?? null;
+export interface FavFolder {
+  id: number;
+  title: string;
+  mediaCount: number;
+  /** 这个稿件是否已在该收藏夹里 */
+  faved: boolean;
 }
 
-export async function favVideo(
+/**
+ * 取我的收藏夹列表。带 rid/type 时每个收藏夹会附 fav_state，
+ * 于是「哪些夹子已经收了这条」一次就拿到，不用逐个查。
+ */
+export async function fetchFavFolders(
+  mid: string,
   aid: number,
-  folderId: number,
-  add: boolean,
+  sessdata: string,
+): Promise<FavFolder[]> {
+  const json = await getJson<{
+    list?: { id: number; title: string; media_count: number; fav_state: number }[];
+  }>(
+    `https://api.bilibili.com/x/v3/fav/folder/created/list-all?up_mid=${encodeURIComponent(mid)}&type=2&rid=${aid}`,
+    sessdata,
+  );
+  return (json.data?.list ?? []).map((f) => ({
+    id: f.id,
+    title: f.title,
+    mediaCount: f.media_count,
+    faved: f.fav_state > 0,
+  }));
+}
+
+/** 一次提交收藏夹变更：加入 addIds、移出 delIds */
+export async function dealFavorite(
+  aid: number,
+  addIds: number[],
+  delIds: number[],
   sessdata: string,
   csrf: string,
 ) {
+  const body: Record<string, string | number> = { rid: aid, type: 2, csrf };
+  if (addIds.length > 0) body.add_media_ids = addIds.join(",");
+  if (delIds.length > 0) body.del_media_ids = delIds.join(",");
   const json = await postForm(
     "https://api.bilibili.com/x/v3/fav/resource/deal",
-    {
-      rid: aid,
-      type: 2,
-      [add ? "add_media_ids" : "del_media_ids"]: folderId,
-      csrf,
-    },
+    body,
     sessdata,
     csrf,
   );
@@ -516,6 +534,10 @@ export interface SubtitleTrack {
   lan: string;
   lanDoc: string;
   cues: SubtitleCue[];
+  /** B 站 AI 生成（lan 以 ai- 开头）——质量不稳定 */
+  ai: boolean;
+  /** 时间轴覆盖率明显不足，多半根本不是这一 P 的字幕 */
+  suspect: boolean;
 }
 
 interface PlayerV2Data {
@@ -537,6 +559,8 @@ export async function fetchSubtitles(
   bvid: string,
   cid: number,
   sessdata?: string,
+  /** 该 P 的时长，用来判断字幕时间轴是否对得上 */
+  durationSec?: number,
 ): Promise<SubtitleTrack[]> {
   const json = await getJson<PlayerV2Data>(
     `https://api.bilibili.com/x/player/v2?bvid=${encodeURIComponent(bvid)}&cid=${cid}`,
@@ -558,19 +582,33 @@ export async function fetchSubtitles(
       const body = (await res.json()) as {
         body?: { from: number; to: number; content: string }[];
       };
-      const cues = (body.body ?? []).map((c) => ({
-        from: c.from,
-        to: c.to,
-        text: c.content,
-      }));
-      if (cues.length > 0) {
-        tracks.push({ lan: item.lan, lanDoc: item.lan_doc, cues });
-      }
+      const cues = (body.body ?? [])
+        .map((c) => ({ from: c.from, to: c.to, text: c.content }))
+        // B 站偶尔给乱序数据；排好序前端才能按时间二分
+        .sort((a, b) => a.from - b.from);
+      if (cues.length === 0) continue;
+
+      // 覆盖率体检：实测遇到过 B 站把别的视频的 AI 字幕挂到本片 cid 上，
+      // 时间轴只盖住不到一半，正文也文不对题。标出来别让用户以为是我们错了。
+      const lastTo = cues[cues.length - 1].to;
+      const suspect =
+        !!durationSec && durationSec > 60 && lastTo < durationSec * 0.6;
+
+      tracks.push({
+        lan: item.lan,
+        lanDoc: item.lan_doc,
+        cues,
+        ai: item.lan.startsWith("ai-"),
+        suspect,
+      });
     } catch {
       // 单条字幕拉不到就跳过
     }
   }
-  return tracks;
+  // 人工字幕优先于 AI 字幕，可疑的排最后
+  return tracks.sort(
+    (a, b) => Number(a.ai) - Number(b.ai) || Number(a.suspect) - Number(b.suspect),
+  );
 }
 
 // ---------- 弹幕 ----------

@@ -12,13 +12,21 @@ import {
 } from "lucide-react";
 import {
   addCoin,
+  applyFavorite,
+  getFavFolders,
   getInteractState,
   loadReplies,
   sendReply,
-  toggleFavorite,
   toggleLike,
   type InteractState,
 } from "@/lib/bili/interact-actions";
+
+interface FavFolderVm {
+  id: number;
+  title: string;
+  mediaCount: number;
+  faved: boolean;
+}
 
 // 视频互动区：点赞 / 投币 / 收藏 / 分享 / 评论。
 // 全部是用户本人账号的显式单条操作；未绑定时按钮禁用并给出提示。
@@ -53,6 +61,11 @@ export function BiliInteract({
   const [replies, setReplies] = useState<Reply[] | null>(null);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
+  /** 投币确认弹层（投币不可撤销，必须先确认） */
+  const [coinAsk, setCoinAsk] = useState(false);
+  /** 收藏夹面板：null=未打开 */
+  const [folders, setFolders] = useState<FavFolderVm[] | null>(null);
+  const [checked, setChecked] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     let cancelled = false;
@@ -85,8 +98,9 @@ export function BiliInteract({
       else setState((s) => (s ? { ...s, relation: r.relation } : s));
     });
 
-  const onCoin = (multiply: number) =>
-    run("coin", async () => {
+  const onCoin = (multiply: number) => {
+    setCoinAsk(false);
+    return run("coin", async () => {
       const r = await addCoin(bvid, multiply);
       if (!r.ok) setMsg(r.error ?? "投币失败");
       else {
@@ -94,13 +108,43 @@ export function BiliInteract({
         setMsg(`已投 ${multiply} 个币`);
       }
     });
+  };
 
-  const onFav = () =>
+  // 打开收藏夹面板：拉列表并把已收的夹子预勾上
+  const openFav = () =>
     run("fav", async () => {
       if (aid === null) return;
-      const r = await toggleFavorite(bvid, aid, !rel?.favorite);
-      if (!r.ok) setMsg(r.error ?? "收藏失败");
-      else setState((s) => (s ? { ...s, relation: r.relation } : s));
+      if (folders !== null) {
+        setFolders(null);
+        return;
+      }
+      const r = await getFavFolders(aid);
+      if (!r.ok || !r.folders) {
+        setMsg(r.error ?? "取收藏夹失败");
+        return;
+      }
+      setFolders(r.folders);
+      setChecked(new Set(r.folders.filter((f) => f.faved).map((f) => f.id)));
+    });
+
+  const submitFav = () =>
+    run("favApply", async () => {
+      if (aid === null || folders === null) return;
+      const before = new Set(folders.filter((f) => f.faved).map((f) => f.id));
+      const addIds = [...checked].filter((id) => !before.has(id));
+      const delIds = [...before].filter((id) => !checked.has(id));
+      const r = await applyFavorite(bvid, aid, addIds, delIds);
+      if (!r.ok) {
+        setMsg(r.error ?? "收藏失败");
+        return;
+      }
+      setState((s) => (s ? { ...s, relation: r.relation } : s));
+      setFolders(null);
+      setMsg(
+        checked.size === 0
+          ? "已从收藏夹移出"
+          : `已收藏到 ${checked.size} 个收藏夹`,
+      );
     });
 
   const onShare = async () => {
@@ -166,13 +210,13 @@ export function BiliInteract({
 
         <button
           className={rel?.coin ? "on" : undefined}
-          onClick={() => onCoin(rel?.coin ? 1 : 2)}
+          onClick={() => setCoinAsk((v) => !v)}
           disabled={!bound || busy !== null || (rel?.coin ?? 0) >= 2}
           title={
             bound
               ? (rel?.coin ?? 0) >= 2
-                ? "这个稿件已经投满 2 个币"
-                : "投币（默认 2 个，已投过则再投 1 个）"
+                ? "已投满 2 个币（投币不可撤销）"
+                : "投币不可撤销，点开确认"
               : disabledTitle
           }
         >
@@ -187,9 +231,9 @@ export function BiliInteract({
 
         <button
           className={rel?.favorite ? "on" : undefined}
-          onClick={onFav}
+          onClick={openFav}
           disabled={!bound || busy !== null || aid === null}
-          title={disabledTitle}
+          title={bound ? "选择收藏夹" : disabledTitle}
         >
           {busy === "fav" ? (
             <Loader2 size={17} className="spin" aria-hidden />
@@ -219,6 +263,73 @@ export function BiliInteract({
           {state?.stat?.reply ? <em>{fmtCount(state.stat.reply)}</em> : null}
         </button>
       </div>
+
+      {coinAsk && (
+        <div className="bili-pop">
+          <b>投几个币？</b>
+          <p>投币会消耗你的硬币，且 B 站不支持撤销。</p>
+          <div className="bili-pop-actions">
+            <button className="app-btn-plain" onClick={() => onCoin(1)}>
+              投 1 个
+            </button>
+            {(rel?.coin ?? 0) === 0 && (
+              <button className="app-btn-primary" onClick={() => onCoin(2)}>
+                投 2 个
+              </button>
+            )}
+            <button className="bili-pop-cancel" onClick={() => setCoinAsk(false)}>
+              取消
+            </button>
+          </div>
+        </div>
+      )}
+
+      {folders !== null && (
+        <div className="bili-pop">
+          <b>收藏到</b>
+          {folders.length === 0 ? (
+            <p>你还没有收藏夹</p>
+          ) : (
+            <ul className="bili-fav-list">
+              {folders.map((f) => (
+                <li key={f.id}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={checked.has(f.id)}
+                      onChange={(e) => {
+                        setChecked((cur) => {
+                          const next = new Set(cur);
+                          if (e.target.checked) next.add(f.id);
+                          else next.delete(f.id);
+                          return next;
+                        });
+                      }}
+                    />
+                    <span>{f.title}</span>
+                    <em>{f.mediaCount}</em>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          )}
+          <div className="bili-pop-actions">
+            <button
+              className="app-btn-primary"
+              onClick={submitFav}
+              disabled={busy === "favApply"}
+            >
+              {busy === "favApply" ? "保存中…" : "确定"}
+            </button>
+            <button
+              className="bili-pop-cancel"
+              onClick={() => setFolders(null)}
+            >
+              取消
+            </button>
+          </div>
+        </div>
+      )}
 
       {!bound && (
         <p className="bili-interact-hint">

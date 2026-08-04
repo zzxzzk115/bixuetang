@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2, QrCode } from "lucide-react";
 import { pollBiliAuth, startBiliAuth } from "@/lib/bili/auth-actions";
@@ -35,6 +36,8 @@ function Qr({ text }: { text: string }) {
 
 export function BiliAuth() {
   const router = useRouter();
+  /** 必须先同意用户协议才出码 */
+  const [agreed, setAgreed] = useState(false);
   const [qr, setQr] = useState<{ url: string; key: string; buvid?: string } | null>(
     null,
   );
@@ -93,18 +96,25 @@ export function BiliAuth() {
     }, 2500);
   }, [router, stopPolling]);
 
-  // 打开页面就把码亮出来，少一次点击（放进微任务，避开「effect 里同步 setState」）
-  const autoStarted = useRef(false);
-  useEffect(() => {
-    if (autoStarted.current) return;
-    autoStarted.current = true;
-    const id = setTimeout(() => void start(), 0);
-    return () => clearTimeout(id);
-  }, [start]);
-
   return (
     <div className="bili-auth">
-      {qr ? (
+      <label className="bili-agree">
+        <input
+          type="checkbox"
+          checked={agreed}
+          onChange={(e) => setAgreed(e.target.checked)}
+        />
+        <span>
+          我已阅读并同意
+          <Link href="/terms" target="_blank">
+            《用户协议与隐私说明》
+          </Link>
+        </span>
+      </label>
+
+      {!agreed ? (
+        <p className="bili-auth-gate">勾选后即可获取二维码</p>
+      ) : qr ? (
         <>
           <Qr text={qr.url} />
           <p className="bili-auth-tip">

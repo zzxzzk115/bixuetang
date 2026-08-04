@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { CheckCircle2, Loader2, QrCode, Unlink } from "lucide-react";
 import {
   pollBiliLogin,
@@ -48,6 +49,8 @@ export function BiliBind({
   binding: BiliBindingDto | null;
 }) {
   const [binding, setBinding] = useState(initial);
+  /** 绑定前必须同意用户协议 */
+  const [agreed, setAgreed] = useState(false);
   const [qr, setQr] = useState<{
     url: string;
     key: string;
@@ -179,10 +182,23 @@ export function BiliBind({
             绑定后可在站内直接播放（自带弹幕），解锁高清晰度，
             并按实际观看进度自动打卡。凭据只存在本站服务端，随时可解绑。
           </p>
+          <label className="bili-agree">
+            <input
+              type="checkbox"
+              checked={agreed}
+              onChange={(e) => setAgreed(e.target.checked)}
+            />
+            <span>
+              我已阅读并同意
+              <Link href="/terms" target="_blank">
+                《用户协议与隐私说明》
+              </Link>
+            </span>
+          </label>
           <button
             className="app-btn-primary"
             onClick={start}
-            disabled={status === "pending"}
+            disabled={!agreed || status === "pending"}
           >
             {status === "pending" ? (
               <>

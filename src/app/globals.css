@@ -6376,3 +6376,186 @@ body:has(.dungeon-chamber) .analysis-section {
 .biliplayer-resume button:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* ==== 互动弹层（投币确认 / 收藏夹选择） ==== */
+.bili-pop {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+  animation: sheet-rise 160ms ease-out;
+}
+.bili-pop > b {
+  color: var(--app-strong);
+  font-size: 14px;
+  font-weight: 800;
+}
+.bili-pop > p {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.bili-pop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.bili-pop-actions .app-btn-primary,
+.bili-pop-actions .app-btn-plain {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 13px;
+}
+.bili-pop-cancel {
+  margin-left: auto;
+  padding: 8px 12px;
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.bili-fav-list {
+  display: grid;
+  gap: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.bili-fav-list label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.bili-fav-list label:hover {
+  background: color-mix(in srgb, var(--app-blue) 8%, transparent);
+}
+.bili-fav-list input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--app-green);
+  cursor: pointer;
+}
+.bili-fav-list span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--app-strong);
+  font-size: 13px;
+  font-weight: 700;
+}
+.bili-fav-list em {
+  color: var(--app-faint);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* ==== 用户协议 / 同意勾选 ==== */
+.terms-page {
+  display: grid;
+  justify-items: center;
+  min-height: 100dvh;
+  padding: 24px 16px 48px;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+.terms-card {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  width: 100%;
+  max-width: 680px;
+}
+.terms-card h1 {
+  color: var(--app-strong);
+  font-size: 22px;
+  font-weight: 900;
+}
+.terms-card h2 {
+  margin-top: 10px;
+  color: var(--app-strong);
+  font-size: 16px;
+  font-weight: 800;
+}
+.terms-card p,
+.terms-card li {
+  font-size: 14px;
+  line-height: 1.75;
+}
+.terms-card ul {
+  display: grid;
+  gap: 6px;
+  padding-left: 18px;
+  list-style: disc;
+}
+.terms-card strong {
+  color: var(--app-strong);
+  font-weight: 800;
+}
+.terms-card a {
+  color: var(--app-blue);
+  text-decoration: underline;
+}
+.terms-meta,
+.terms-foot {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.terms-lead {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--app-blue) 8%, transparent);
+}
+.terms-card .app-btn-plain {
+  margin-top: 12px;
+  min-height: 44px;
+  font-size: 14px;
+}
+.bili-agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.bili-agree input {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  margin-top: 1px;
+  accent-color: var(--app-green);
+  cursor: pointer;
+}
+.bili-agree a {
+  color: var(--app-blue);
+  text-decoration: underline;
+}
+.bili-auth-gate {
+  min-height: 200px;
+  display: grid;
+  place-items: center;
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* 控制栏分左右两组：带弹层的设置贴右边（弹层也从右侧展开） */
+.biliplayer-spacer {
+  flex: 1;
+}
+.biliplayer-watch {
+  margin-left: 0;
+}
