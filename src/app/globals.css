@@ -200,13 +200,18 @@ html {
 }
 
 .app-tabs {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  /* 写死列数会在隐藏「工坊」「更多」这类条件项后留下空列，
+     整排看起来既不等宽也不居中。改用 flex 均分：显示几个就分几份 */
+  display: flex;
+  justify-content: center;
   border-top: 2px solid var(--app-line);
   padding-bottom: env(safe-area-inset-bottom);
   background: var(--app-bg);
 }
 .app-tabs button {
+  /* 每个 Tab 等宽等间距，与实际显示数量无关 */
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -230,6 +235,9 @@ html {
     order: 0;
     display: flex;
     flex-direction: column;
+    /* 底部横排那份的 center 在这里会变成「垂直居中」，
+       按钮组浮在侧栏中间、品牌下面空一大截。竖着排就从上往下 */
+    justify-content: flex-start;
     align-items: stretch;
     gap: 6px;
     width: 224px;
@@ -250,6 +258,9 @@ html {
     letter-spacing: 0.02em;
   }
   .app-tabs button {
+    /* 横排那份的 flex:1 在竖向会把每个按钮拉满等分高度，
+       七个条目稀稀拉拉铺满一整屏（截图里就是这样）。竖着排用自然高度 */
+    flex: 0 0 auto;
     flex-direction: row;
     justify-content: flex-start;
     gap: 14px;
@@ -3132,30 +3143,7 @@ math-field {
   animation: float-up 1.6s ease-out forwards;
 }
 
-@keyframes celebrate-pop {
-  0% {
-    opacity: 0;
-    transform: scale(0.84);
-  }
-  14% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-  20% {
-    transform: scale(1);
-  }
-  86% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-}
 
-.animate-celebrate {
-  animation: celebrate-pop 2.6s ease-out forwards;
-}
 
 @keyframes glow-pulse {
   0%,
@@ -3333,9 +3321,6 @@ math-field {
 .encounter-code{display:block;color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:700;letter-spacing:.08em}
 .encounter-title{display:block;overflow:hidden;margin-top:2px;color:var(--foreground);font-size:13px;text-overflow:ellipsis;white-space:nowrap}
 .encounter-state{min-width:38px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:800;text-align:right}
-.celebration-panel{display:grid;width:min(520px,100%);grid-template-columns:86px minmax(0,1fr);align-items:center;gap:22px;padding:28px;border:1px solid var(--gold);background:var(--background);box-shadow:0 0 0 5px color-mix(in srgb,var(--background) 82%,transparent),0 0 64px color-mix(in srgb,var(--gold) 40%,transparent);clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
-.celebration-mark{display:grid;width:76px;height:76px;place-items:center;border:1px solid var(--gold);color:var(--gold);font-family:Georgia,serif;font-size:36px;font-weight:900;transform:rotate(45deg)}
-.celebration-mark{line-height:1}
 .glossary-list{border-top:1px solid var(--edge)}
 .glossary-entry{display:grid;grid-template-columns:minmax(220px,.72fr) minmax(0,1.5fr);border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);border-left:1px solid var(--edge);background:var(--panel)}
 .glossary-term{display:flex;min-width:0;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:18px;border-right:1px solid var(--edge);background:var(--panel-strong)}
@@ -3344,7 +3329,7 @@ math-field {
 .glossary-body{min-width:0;padding:16px 18px}
 .archive-source{border:1px solid var(--edge);padding:3px 6px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
 .archive-source:hover{border-color:var(--gold);color:var(--gold)}
-@media(max-width:680px){.celebration-panel{grid-template-columns:58px minmax(0,1fr);gap:16px;padding:22px 18px}.celebration-mark{width:52px;height:52px;font-size:25px}.glossary-entry{grid-template-columns:1fr}.glossary-term{border-right:0;border-bottom:1px solid var(--edge)}.encounter-state{display:none}}
+@media(max-width:680px){.glossary-entry{grid-template-columns:1fr}.glossary-term{border-right:0;border-bottom:1px solid var(--edge)}.encounter-state{display:none}}
 
 .skill-toolbar{min-width:0}
 .skill-viewport{width:100%;max-width:100%;--foreground:#e9e5da;--muted:#a8ada4;--panel:#111512;--panel-strong:#171d19;--edge:#465148;--edge-strong:#68766b;--shadow:rgba(0,0,0,.62);--glow:rgba(200,153,61,.28);background:#0b0e0c;box-shadow:inset 0 0 90px rgba(0,0,0,.7)}
@@ -7165,15 +7150,17 @@ body:has(.dungeon-chamber) .analysis-section {
 
 /* ==== 底部 Tab 的「更多」菜单（仅窄屏）==== */
 /* 桌面是竖向侧栏，位置管够：全部平铺，不要「更多」 */
-.app-tab-more {
+.app-tabs .app-tab-more {
+  /* 特异性要压得住桌面 media query 里的 .app-tabs button —— 
+     桌面是竖向侧栏，位置管够，不需要「更多」 */
   display: none;
 }
 @media (max-width: 819px) {
   .app-tabs .app-tab-overflow {
     display: none;
   }
-  .app-tab-more {
-    display: grid;
+  .app-tabs .app-tab-more {
+    display: flex;
   }
 }
 .app-more-sheet {
@@ -7198,4 +7185,118 @@ body:has(.dungeon-chamber) .analysis-section {
 .app-more-item.active {
   border-color: var(--app-blue);
   color: var(--app-blue);
+}
+
+/* ==== 全屏庆祝 ==== */
+.celebrate-root {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.42);
+  /* 纯展示层，别挡住底下的操作 */
+  pointer-events: none;
+  animation: celebrate-fade 240ms ease-out;
+}
+
+.celebrate-confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.celebrate-confetti i {
+  position: absolute;
+  top: -24px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(0.25, 0.6, 0.4, 1);
+  animation-fill-mode: forwards;
+}
+.celebrate-confetti i.tall {
+  width: 6px;
+  height: 16px;
+}
+@keyframes confetti-fall {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(var(--drift), 105vh, 0) rotate(var(--spin));
+    opacity: 0.15;
+  }
+}
+
+.celebrate-card {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: min(340px, 100%);
+  padding: 26px 24px 22px;
+  border-radius: 22px;
+  background: var(--app-surface);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  text-align: center;
+  animation: celebrate-pop 420ms cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+.celebrate-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  color: #fff;
+}
+/* 一圈向外扩散的光环，强调「刚刚发生了什么」 */
+.celebrate-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 3px solid;
+  animation: celebrate-ring 1.4s ease-out infinite;
+}
+.celebrate-card small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.celebrate-card h2 {
+  color: var(--app-strong);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.3;
+}
+.celebrate-card p {
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.celebrate-corner {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  color: var(--app-gold);
+  animation: celebrate-wiggle 1.6s ease-in-out infinite;
+}
+
+/* 关掉动效偏好：只留静态卡片，不闪不飘 */
+@media (prefers-reduced-motion: reduce) {
+  .celebrate-confetti {
+    display: none;
+  }
+  .celebrate-root,
+  .celebrate-card,
+  .celebrate-ring,
+  .celebrate-corner {
+    animation: none;
+  }
 }

@@ -3,14 +3,18 @@
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
+  Atom,
   Backpack,
   BookOpen,
+  Brain,
+  Cpu,
   FlaskConical,
   Coins,
   Flame,
   Map as MapIcon,
   MoreHorizontal,
   ShoppingBag,
+  Sigma,
   Swords,
   User,
   X,
@@ -35,8 +39,26 @@ const TABS = [
   { key: "me", label: "我的", href: "/settings", icon: User },
 ] as const;
 
-/** 底部 Tab 直接摆出来的数量，其余收进「更多」 */
-const MOBILE_TABS = 4;
+const SUBJECT_TONE: Record<string, string> = {
+  cs: "var(--app-blue)",
+  math: "var(--app-teal)",
+  physics: "var(--app-orange)",
+  ai: "var(--app-green)",
+};
+
+function SubjectIcon({ subject }: { subject?: string }) {
+  const size = 17;
+  if (subject === "math") return <Sigma size={size} aria-hidden />;
+  if (subject === "physics") return <Atom size={size} aria-hidden />;
+  if (subject === "ai") return <Brain size={size} aria-hidden />;
+  if (subject === "cs") return <Cpu size={size} aria-hidden />;
+  return <MapIcon size={size} aria-hidden />;
+}
+
+/** 底部 Tab 直接摆出来的数量，其余收进「更多」。
+ *  地图/试炼/商店/背包/卷宗都是天天点的，留在外面；
+ *  工坊（窄屏本来就隐藏）与我的收进菜单。 */
+const MOBILE_TABS = 5;
 
 const STAT_LABEL = [
   ["insight", "洞察"],
@@ -48,11 +70,14 @@ const STAT_LABEL = [
 export function AppShell({
   bootstrap,
   routeTitle,
+  routeSubject,
   onRoutePress,
   children,
 }: {
   bootstrap: GameBootstrap;
   routeTitle?: string;
+  /** 当前路线的学科，决定胶囊上的图标与配色 */
+  routeSubject?: string;
   onRoutePress?: () => void;
   children: React.ReactNode;
 }) {
@@ -160,7 +185,13 @@ export function AppShell({
         <header className="app-topbar">
           {routeTitle ? (
             <button className="app-route-pill" onClick={onRoutePress}>
-              <span className="app-route-pill-icon">🗺</span>
+              {/* 一眼看出这条线是什么学科，比一个通用的地图 emoji 有用 */}
+              <span
+                className="app-route-pill-icon"
+                style={{ color: SUBJECT_TONE[routeSubject ?? ""] }}
+              >
+                <SubjectIcon subject={routeSubject} />
+              </span>
               <span className="app-route-pill-title">{routeTitle}</span>
               <span aria-hidden>▾</span>
             </button>

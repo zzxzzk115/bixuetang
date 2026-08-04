@@ -325,6 +325,7 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
     <AppShell
       bootstrap={bootstrap}
       routeTitle={path?.title ?? "选择路线"}
+      routeSubject={path?.subject}
       onRoutePress={() => setSheetOpen(true)}
     >
       <div className="route-map" ref={scrollRef}>
