@@ -60,8 +60,11 @@ export function stackMultiplier(quantity: number): number {
   return 1 + Math.floor(Math.log2(quantity));
 }
 
-/** 单件遗物在装备后提供的属性 */
-export function relicBonus(item: LootItem, quantity: number): StatBlock {
+/** 单件遗物在装备后提供的属性（只看学科与稀有度，客户端 DTO 也能直接传） */
+export function relicBonus(
+  item: Pick<LootItem, "subject" | "rarity">,
+  quantity: number,
+): StatBlock {
   const stat = SUBJECT_STAT[item.subject];
   const value = RARITY_POWER[item.rarity] * stackMultiplier(quantity);
   return { ...ZERO_STATS, [stat]: value };

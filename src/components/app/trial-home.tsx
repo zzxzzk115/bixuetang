@@ -6,6 +6,7 @@ import { Heart, Swords, Timer, Zap } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import type { QuizQuestion } from "@/lib/game/quiz-draw";
 import { getTrialBatch } from "@/lib/game/quiz-actions";
+import type { SessionPerks } from "@/lib/game/session-perks";
 import { AppShell } from "./app-shell";
 import { QuizSession } from "./quiz-session";
 
@@ -16,7 +17,7 @@ export function TrialHome({ bootstrap }: { bootstrap: GameBootstrap }) {
   const router = useRouter();
   const [session, setSession] = useState<{
     questions: QuizQuestion[];
-    timeLimitSec: number;
+    perks: SessionPerks;
   } | null>(null);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,10 +32,7 @@ export function TrialHome({ bootstrap }: { bootstrap: GameBootstrap }) {
         setError(r.error ?? "出题失败，稍后再试");
         return;
       }
-      setSession({
-        questions: r.questions,
-        timeLimitSec: r.timeLimitSec ?? 15,
-      });
+      setSession({ questions: r.questions, perks: r.perks! });
     } finally {
       setStarting(false);
     }
@@ -45,7 +43,7 @@ export function TrialHome({ bootstrap }: { bootstrap: GameBootstrap }) {
       <QuizSession
         mode="trial"
         questions={session.questions}
-        timeLimitSec={session.timeLimitSec}
+        perks={session.perks}
         onExit={() => {
           setSession(null);
           router.refresh(); // 刷新今日奖励状态与顶栏金币

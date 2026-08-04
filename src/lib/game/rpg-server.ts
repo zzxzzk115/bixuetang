@@ -8,6 +8,7 @@ import {
   checkpointAttempts,
   episodeProgress,
   learningSessions,
+  rpgEquipment,
   rpgInventory,
   rpgLootEvents,
   rpgProfiles,
@@ -15,6 +16,7 @@ import {
   xpEvents,
 } from "../db/schema";
 import { levelFromXp } from "./level";
+import { equipmentBonus, type StatBlock } from "./relics";
 import {
   getLootItem,
   lootForEpisode,
@@ -27,9 +29,21 @@ export interface InventoryEntry {
   quantity: number;
 }
 
+export interface EquippedEntry {
+  slot: number;
+  item: LootItem;
+  quantity: number;
+}
+
 export interface RpgProfile {
   coins: number;
   relics: InventoryEntry[];
+  equipped: EquippedEntry[];
+  /** 学习行为攒出来的底子 */
+  baseStats: StatBlock;
+  /** 装备栏加成（随持有数量按 log2 堆叠，见 relics.ts） */
+  bonusStats: StatBlock;
+  /** base + bonus 合计（旧调用方继续用这个形状） */
   stats: {
     insight: number;
     focus: number;
@@ -174,21 +188,47 @@ export function getRpgProfile(userId: number): RpgProfile {
   const focus = 5 + Math.floor(Number(focusRow?.total ?? 0) / 30);
   const precision = 5 + Math.floor(episodeCount / 5);
   const resolve = 5 + passedCount * 2;
+  const baseStats: StatBlock = { insight, focus, precision, resolve };
+
+  const relics = inventory
+    .map((row) => {
+      const item = getLootItem(row.itemId);
+      return item ? { item, quantity: row.quantity } : null;
+    })
+    .filter((entry): entry is InventoryEntry => entry !== null);
+
+  const quantityById = new Map(relics.map((r) => [r.item.id, r.quantity]));
+  const equipped: EquippedEntry[] = db
+    .select()
+    .from(rpgEquipment)
+    .where(eq(rpgEquipment.userId, userId))
+    .all()
+    .map((row) => {
+      const item = getLootItem(row.itemId);
+      const quantity = quantityById.get(row.itemId) ?? 0;
+      // 内容删除或数量归零的孤儿装备：读时忽略
+      return item && quantity > 0 ? { slot: row.slot, item, quantity } : null;
+    })
+    .filter((e): e is EquippedEntry => e !== null)
+    .sort((a, b) => a.slot - b.slot);
+
+  const bonusStats = equipmentBonus(equipped);
 
   return {
     coins: profile?.coins ?? 0,
-    relics: inventory
-      .map((row) => {
-        const item = getLootItem(row.itemId);
-        return item ? { item, quantity: row.quantity } : null;
-      })
-      .filter((entry): entry is InventoryEntry => entry !== null),
+    relics,
+    equipped,
+    baseStats,
+    bonusStats,
     stats: {
-      insight,
-      focus,
-      precision,
-      resolve,
-      power: insight + focus + precision + resolve,
+      insight: insight + bonusStats.insight,
+      focus: focus + bonusStats.focus,
+      precision: precision + bonusStats.precision,
+      resolve: resolve + bonusStats.resolve,
+      power:
+        insight + focus + precision + resolve +
+        bonusStats.insight + bonusStats.focus +
+        bonusStats.precision + bonusStats.resolve,
     },
   };
 }

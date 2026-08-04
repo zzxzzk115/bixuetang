@@ -225,6 +225,26 @@ export const rpgLootEvents = sqliteTable(
   (t) => [primaryKey({ columns: [t.userId, t.courseId, t.episodeN] })],
 );
 
+// 装备栏：槽位 → 遗物种类的引用，不消耗数量（加成随持有总量涨，见 relics.ts）。
+// 与 rpg_inventory 分表：inventory 行是数量聚合（掉落链路 PK upsert quantity+1），
+// 装备是引用语义，混在一起会把两条写路径搅在一张表上。
+export const rpgEquipment = sqliteTable(
+  "rpg_equipment",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    slot: integer("slot").notNull(),
+    itemId: text("item_id").notNull(),
+    equippedAt: integer("equipped_at").notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.userId, t.slot] }),
+    // 同一遗物只能占一个槽
+    uniqueIndex("rpg_equipment_user_item").on(t.userId, t.itemId),
+  ],
+);
+
 export const rpgInventory = sqliteTable(
   "rpg_inventory",
   {

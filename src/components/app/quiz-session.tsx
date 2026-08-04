@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Flame, Heart, X, Zap } from "lucide-react";
+import { Flame, Heart, Lightbulb, X, Zap } from "lucide-react";
 import type { QuizQuestion } from "@/lib/game/quiz-draw";
 import {
   getTrialBatch,
@@ -11,19 +11,21 @@ import {
   type QuizSettleResult,
   type TrialSettleResult,
 } from "@/lib/game/quiz-actions";
+import type { SessionPerks } from "@/lib/game/session-perks";
 
 // 全屏答题会话（多邻国式）：顶部 X + 进度/生命，中间题面，下面四个大选项。
 // 两种模式：
 //   lesson — 课程测验节点：固定题量，答完交卷（≥60% 通过，首通发 XP）
-//   trial  — 无限试炼：3 条命，答错扣命，命尽结算（每日首战发奖）；题目快用完时续抽
+//   trial  — 无限试炼：生命耗尽结算（每日首战发奖）；题目快用完时续抽
+// 四维在这里生效（perks）：专注=限时、洞察=排除提示、意志=试炼生命、
+// 精准=快答窗口（快答有额外 XP）。装备遗物加四维 → 道具效果闭环。
 
 const FEEDBACK_MS = 1100;
-const TRIAL_HEARTS = 3;
 
 interface Props {
   mode: "lesson" | "trial";
   questions: QuizQuestion[];
-  timeLimitSec: number;
+  perks: SessionPerks;
   /** lesson 模式 */
   courseId?: string;
   quizIndex?: number;
@@ -34,7 +36,7 @@ interface Props {
 export function QuizSession({
   mode,
   questions: initial,
-  timeLimitSec,
+  perks,
   courseId,
   quizIndex,
   onExit,
@@ -47,20 +49,25 @@ export function QuizSession({
   );
   const [selected, setSelected] = useState<number | null>(null);
   const [correct, setCorrect] = useState(0);
+  const [fastCount, setFastCount] = useState(0);
+  const [wasFast, setWasFast] = useState(false);
   const [combo, setCombo] = useState(0);
   const [maxCombo, setMaxCombo] = useState(0);
-  const [hearts, setHearts] = useState(TRIAL_HEARTS);
+  const [hearts, setHearts] = useState(perks.hearts);
+  const [hintsLeft, setHintsLeft] = useState(perks.hints);
+  const [excluded, setExcluded] = useState<number[]>([]);
   const [settle, setSettle] = useState<
     QuizSettleResult | TrialSettleResult | null
   >(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const startRef = useRef(0);
   const settledRef = useRef(false);
   const fetchingRef = useRef(false);
 
   const q = questions[idx];
 
   const finish = useCallback(
-    async (finalCorrect: number) => {
+    async (finalCorrect: number, finalFast: number) => {
       setPhase("result");
       if (settledRef.current) return;
       settledRef.current = true;
@@ -70,10 +77,11 @@ export function QuizSession({
           quizIndex,
           finalCorrect,
           questions.length,
+          finalFast,
         );
         setSettle(r);
       } else {
-        const r = await settleTrialRun(finalCorrect);
+        const r = await settleTrialRun(finalCorrect, finalFast);
         setSettle(r);
       }
     },
@@ -81,24 +89,26 @@ export function QuizSession({
   );
 
   const advance = useCallback(
-    (wasCorrect: boolean) => {
+    (wasCorrect: boolean, wasFastAnswer: boolean) => {
       const nextCorrect = correct + (wasCorrect ? 1 : 0);
+      const nextFast = fastCount + (wasFastAnswer ? 1 : 0);
       if (mode === "trial" && !wasCorrect) {
         const left = hearts - 1;
         setHearts(left);
-        if (left <= 0) return void finish(nextCorrect);
+        if (left <= 0) return void finish(nextCorrect, nextFast);
       }
       const next = idx + 1;
       if (next >= questions.length) {
-        if (mode === "lesson") return void finish(nextCorrect);
-        // trial 题目耗尽（续抽失败/太快）也算打完
-        return void finish(nextCorrect);
+        // lesson 答完交卷；trial 题目耗尽（续抽失败）也算打完
+        return void finish(nextCorrect, nextFast);
       }
       setIdx(next);
       setSelected(null);
+      setExcluded([]);
+      setWasFast(false);
       setPhase("question");
     },
-    [correct, hearts, idx, questions.length, mode, finish],
+    [correct, fastCount, hearts, idx, questions.length, mode, finish],
   );
 
   const answer = useCallback(
@@ -106,10 +116,15 @@ export function QuizSession({
       if (phase !== "question" || !q) return;
       if (timerRef.current) clearTimeout(timerRef.current);
       const wasCorrect = i !== null && i === q.answerIndex;
+      const elapsed = performance.now() - startRef.current;
+      const fastAnswer =
+        wasCorrect && elapsed <= perks.fastRatio * perks.timeLimitSec * 1000;
       setSelected(i);
+      setWasFast(fastAnswer);
       setPhase("feedback");
       if (wasCorrect) {
         setCorrect((c) => c + 1);
+        if (fastAnswer) setFastCount((c) => c + 1);
         setCombo((c) => {
           const n = c + 1;
           setMaxCombo((m) => Math.max(m, n));
@@ -118,19 +133,23 @@ export function QuizSession({
       } else {
         setCombo(0);
       }
-      setTimeout(() => advance(wasCorrect), FEEDBACK_MS);
+      setTimeout(() => advance(wasCorrect, fastAnswer), FEEDBACK_MS);
     },
-    [phase, q, advance],
+    [phase, q, perks, advance],
   );
 
-  // 逐题倒计时：超时按答错处理
+  // 逐题倒计时：超时按答错处理；同时记录起点供快答判定
   useEffect(() => {
     if (phase !== "question") return;
-    timerRef.current = setTimeout(() => answer(null), timeLimitSec * 1000);
+    startRef.current = performance.now();
+    timerRef.current = setTimeout(
+      () => answer(null),
+      perks.timeLimitSec * 1000,
+    );
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [phase, idx, timeLimitSec, answer]);
+  }, [phase, idx, perks.timeLimitSec, answer]);
 
   // trial：快见底就续抽一批（去掉本场已出过的题面）
   useEffect(() => {
@@ -149,6 +168,18 @@ export function QuizSession({
         fetchingRef.current = false;
       });
   }, [mode, idx, questions.length, phase]);
+
+  // 洞察提示：排除一个错误选项
+  const useHint = () => {
+    if (phase !== "question" || hintsLeft <= 0 || !q) return;
+    const candidates = q.options
+      .map((_, i) => i)
+      .filter((i) => i !== q.answerIndex && !excluded.includes(i));
+    if (candidates.length <= 1) return; // 至少留一个错误项，不然等于送分
+    const pick = candidates[Math.floor(Math.random() * candidates.length)];
+    setExcluded((prev) => [...prev, pick]);
+    setHintsLeft((n) => n - 1);
+  };
 
   const exit = () => {
     if (mode === "lesson") router.push("/play");
@@ -182,13 +213,18 @@ export function QuizSession({
               <b>{correct}</b>
               <small>答对</small>
             </div>
-            {mode === "trial" && (
+            {fastCount > 0 && (
+              <div>
+                <b>⚡{fastCount}</b>
+                <small>快答</small>
+              </div>
+            )}
+            {mode === "trial" ? (
               <div>
                 <b>{maxCombo}</b>
                 <small>最高连击</small>
               </div>
-            )}
-            {mode === "lesson" && (
+            ) : (
               <div>
                 <b>
                   {correct}/{questions.length}
@@ -263,7 +299,7 @@ export function QuizSession({
               </span>
             )}
             <span className="quiz-hearts">
-              {Array.from({ length: TRIAL_HEARTS }, (_, i) => (
+              {Array.from({ length: perks.hearts }, (_, i) => (
                 <Heart
                   key={i}
                   size={20}
@@ -278,7 +314,7 @@ export function QuizSession({
 
       {/* 倒计时条：key 换题重置动画 */}
       <div className="quiz-timer" key={idx}>
-        <i style={{ animationDuration: `${timeLimitSec}s` }} />
+        <i style={{ animationDuration: `${perks.timeLimitSec}s` }} />
       </div>
 
       <main className="quiz-body">
@@ -293,12 +329,14 @@ export function QuizSession({
               if (i === q.answerIndex) cls += " right";
               else if (i === selected) cls += " wrong";
               else cls += " dim";
+            } else if (excluded.includes(i)) {
+              cls += " excluded";
             }
             return (
               <button
                 key={i}
                 className={cls}
-                disabled={phase === "feedback"}
+                disabled={phase === "feedback" || excluded.includes(i)}
                 onClick={() => answer(i)}
               >
                 {opt}
@@ -306,9 +344,22 @@ export function QuizSession({
             );
           })}
         </div>
-        {phase === "feedback" && selected === null && (
-          <p className="quiz-timeout">时间到！</p>
-        )}
+        <div className="quiz-underline">
+          {phase === "feedback" ? (
+            selected === null ? (
+              <p className="quiz-timeout">时间到！</p>
+            ) : wasFast ? (
+              <p className="quiz-fast">⚡ 快答 +1</p>
+            ) : null
+          ) : (
+            hintsLeft > 0 && (
+              <button className="quiz-hint" onClick={useHint}>
+                <Lightbulb size={17} aria-hidden />
+                排除一项 ×{hintsLeft}
+              </button>
+            )
+          )}
+        </div>
       </main>
     </div>
   );

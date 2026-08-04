@@ -10,7 +10,7 @@ import { learningStreak } from "./achievements";
 import { dailyDateKey } from "./quests";
 import { courseHasQuiz } from "./quiz-bank";
 import { getRpgProfile } from "./rpg-server";
-import { ZERO_STATS, type StatBlock } from "./relics";
+import type { StatBlock } from "./relics";
 import type {
   CourseSummaryDto,
   GameBootstrap,
@@ -43,8 +43,6 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
   const progress = getUserProgress(user.id);
   const rpg = getRpgProfile(user.id);
 
-  // G1：装备系统尚未接入，bonus 先全 0，base = 现有四维。G2 会让 getRpgProfile 直接给分列值。
-  const base = toStatBlock(rpg.stats);
   const relics: RelicDto[] = rpg.relics.map((r) => ({
     id: r.item.id,
     title: r.item.title,
@@ -52,6 +50,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     rarity: r.item.rarity,
     quantity: r.quantity,
   }));
+  const relicById = new Map(relics.map((r) => [r.id, r]));
 
   const courses: CourseSummaryDto[] = content.courses.map((c) => {
     const watchedSet = progress.watchedByCourse.get(c.id);
@@ -108,10 +107,15 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     rpg: {
       coins: rpg.coins,
       relics,
-      equipped: [],
-      baseStats: base,
-      bonusStats: { ...ZERO_STATS },
-      stats: base,
+      equipped: rpg.equipped
+        .map((e) => {
+          const item = relicById.get(e.item.id);
+          return item ? { slot: e.slot, item } : null;
+        })
+        .filter((e): e is { slot: number; item: RelicDto } => e !== null),
+      baseStats: rpg.baseStats,
+      bonusStats: rpg.bonusStats,
+      stats: toStatBlock(rpg.stats),
       power: rpg.stats.power,
     },
     courses,

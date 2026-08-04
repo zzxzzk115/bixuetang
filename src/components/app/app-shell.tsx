@@ -21,7 +21,7 @@ import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 const TABS = [
   { key: "map", label: "地图", href: "/play", icon: MapIcon },
   { key: "trial", label: "试炼", href: "/play/trial", icon: Swords },
-  { key: "bag", label: "背包", href: "/me", icon: Backpack },
+  { key: "bag", label: "背包", href: "/play/bag", icon: Backpack },
   { key: "lexicon", label: "卷宗", href: "/glossary", icon: BookOpen },
   { key: "me", label: "我的", href: "/settings", icon: User },
 ] as const;

@@ -859,6 +859,218 @@ html {
   font-weight: 700;
 }
 
+/* ---------- 答题：提示 / 快答 / 排除 ---------- */
+.quiz-underline {
+  display: flex;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 12px;
+}
+.quiz-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  background: var(--app-surface);
+  color: var(--app-gold);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.quiz-hint:active {
+  transform: translateY(2px);
+}
+.quiz-fast {
+  color: var(--app-gold);
+  font-size: 15px;
+  font-weight: 800;
+  animation: bubble-bounce 0.7s ease-in-out;
+}
+.quiz-option.excluded {
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+
+/* ---------- 背包 ---------- */
+.bag-root {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 16px 16px calc(20px + env(safe-area-inset-bottom));
+}
+.bag-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+}
+.bag-card h2 {
+  color: var(--app-strong);
+  font-size: 16px;
+  font-weight: 800;
+}
+.bag-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.bag-slot {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  min-height: 84px;
+  padding: 8px;
+  border: 2px dashed var(--app-line);
+  border-radius: 14px;
+  color: var(--app-faint);
+  cursor: pointer;
+  text-align: center;
+}
+.bag-slot:not(.rarity-empty) {
+  border-style: solid;
+  background: var(--app-surface);
+}
+.bag-slot.target {
+  border-color: var(--app-green);
+  animation: node-breathe 1.6s ease-in-out infinite;
+}
+.bag-slot b {
+  color: var(--app-strong);
+  font-size: 13px;
+  line-height: 1.3;
+}
+.bag-slot small {
+  font-size: 12px;
+  font-weight: 800;
+}
+.bag-tip {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.bag-error {
+  color: var(--app-red);
+  font-size: 13px;
+  font-weight: 700;
+}
+.bag-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.bag-stats span {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 10px 0;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--app-blue) 8%, transparent);
+}
+.bag-stats small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.bag-stats b {
+  color: var(--app-strong);
+  font-size: 17px;
+}
+.bag-stats em {
+  margin-left: 2px;
+  color: var(--app-green);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+}
+.bag-perks {
+  display: grid;
+  gap: 8px;
+}
+.bag-perks li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--app-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+.bag-perks li svg {
+  color: var(--app-blue);
+  flex-shrink: 0;
+}
+.bag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.bag-relic {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+  text-align: left;
+  cursor: pointer;
+}
+.bag-relic.rarity-uncommon {
+  border-color: color-mix(in srgb, var(--app-green) 60%, var(--app-line));
+}
+.bag-relic.rarity-rare {
+  border-color: color-mix(in srgb, var(--app-blue) 65%, var(--app-line));
+}
+.bag-relic.rarity-legendary {
+  border-color: var(--app-gold);
+}
+.bag-relic.selected {
+  outline: 3px solid var(--app-green);
+  outline-offset: 2px;
+}
+.bag-relic b {
+  color: var(--app-strong);
+  font-size: 13px;
+  line-height: 1.3;
+}
+.bag-relic small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.bag-relic-rarity {
+  color: var(--app-faint);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+.bag-relic.rarity-legendary .bag-relic-rarity {
+  color: var(--app-gold);
+}
+.bag-relic.rarity-rare .bag-relic-rarity {
+  color: var(--app-blue);
+}
+.bag-relic.rarity-uncommon .bag-relic-rarity {
+  color: var(--app-green);
+}
+.bag-relic-on {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--app-green) 15%, transparent);
+  color: var(--app-green);
+  font-size: 11px;
+  font-weight: 800;
+}
+
 /* ---------- 底部弹层（路线选择等） ---------- */
 .app-sheet-backdrop {
   position: fixed;

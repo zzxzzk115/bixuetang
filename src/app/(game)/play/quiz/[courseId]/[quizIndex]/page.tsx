@@ -43,7 +43,7 @@ export default async function QuizPage({
       key={payload.seed}
       mode="lesson"
       questions={payload.questions}
-      timeLimitSec={payload.timeLimitSec ?? 15}
+      perks={payload.perks!}
       courseId={courseId}
       quizIndex={idx}
     />

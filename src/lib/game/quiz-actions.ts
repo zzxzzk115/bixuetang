@@ -15,6 +15,7 @@ import { dailyDateKey } from "./quests";
 import { courseHasQuiz, getQuizBank } from "./quiz-bank";
 import { drawQuiz, type QuizQuestion } from "./quiz-draw";
 import { getRpgProfile } from "./rpg-server";
+import { sessionPerks, type SessionPerks } from "./session-perks";
 
 // 地图测验节点 / 无限试炼的服务端出题与结算。
 // v1 与实验室打卡同级：信任客户端上报的答题结果，防刷靠 xp_events 幂等键。
@@ -26,14 +27,8 @@ export interface QuizPayload {
   ok: boolean;
   error?: string;
   questions?: QuizQuestion[];
-  /** 逐题限时（秒），由专注属性决定 */
-  timeLimitSec?: number;
+  perks?: SessionPerks;
   seed?: number;
-}
-
-/** 专注越高每题限时越长：15 + 专注/2，封顶 40s */
-function timeLimitFromFocus(focus: number): number {
-  return Math.min(40, Math.max(15, Math.round(15 + focus * 0.5)));
 }
 
 function lessonTrackFor(courseId: string) {
@@ -79,7 +74,7 @@ export async function getCourseQuiz(
   return {
     ok: true,
     questions,
-    timeLimitSec: timeLimitFromFocus(getRpgProfile(user.id).stats.focus),
+    perks: sessionPerks(getRpgProfile(user.id).stats),
     seed,
   };
 }
@@ -96,12 +91,13 @@ export interface QuizSettleResult {
   newLevel?: number;
 }
 
-/** 交卷：通过则发 XP（幂等，首通才有），不通过只返回结果 */
+/** 交卷：通过则发 XP（幂等，首通才有），不通过只返回结果。fast=快答数（精准加成） */
 export async function submitQuizNode(
   courseId: string,
   quizIndex: number,
   correct: number,
   total: number,
+  fast = 0,
 ): Promise<QuizSettleResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "请先登录" };
@@ -112,10 +108,13 @@ export async function submitQuizNode(
   if (
     !Number.isInteger(correct) ||
     !Number.isInteger(total) ||
+    !Number.isInteger(fast) ||
     total < 1 ||
     total > 20 ||
     correct < 0 ||
-    correct > total
+    correct > total ||
+    fast < 0 ||
+    fast > correct
   ) {
     return { ok: false, error: "非法结果" };
   }
@@ -123,8 +122,9 @@ export async function submitQuizNode(
   const passed = correct / total >= 0.6;
   if (!passed) return { ok: true, passed: false, gained: 0 };
 
+  // 快答每题 +1 底分——精准属性放宽快答窗口，让「又快又准」有回报
   const amount = Math.round(
-    (6 + correct * 3) * LEVEL_FACTOR[found.course.level],
+    (6 + correct * 3 + fast) * LEVEL_FACTOR[found.course.level],
   );
   const before = getTotalXp(user.id);
   const inserted = db
@@ -238,7 +238,7 @@ export async function getTrialBatch(
   return {
     ok: true,
     questions,
-    timeLimitSec: timeLimitFromFocus(getRpgProfile(user.id).stats.focus),
+    perks: sessionPerks(getRpgProfile(user.id).stats),
     seed,
   };
 }
@@ -252,17 +252,27 @@ export interface TrialSettleResult {
   already?: boolean;
 }
 
-/** 试炼结算：每天第一场按成绩发奖（XP=2×答对 封顶 60，金币=答对 封顶 30） */
-export async function settleTrialRun(correct: number): Promise<TrialSettleResult> {
+/** 试炼结算：每天第一场按成绩发奖（XP=2×答对+快答 封顶 60，金币=答对 封顶 30） */
+export async function settleTrialRun(
+  correct: number,
+  fast = 0,
+): Promise<TrialSettleResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "请先登录" };
-  if (!Number.isInteger(correct) || correct < 0 || correct > 500) {
+  if (
+    !Number.isInteger(correct) ||
+    !Number.isInteger(fast) ||
+    correct < 0 ||
+    correct > 500 ||
+    fast < 0 ||
+    fast > correct
+  ) {
     return { ok: false, error: "非法结果" };
   }
   if (correct === 0) return { ok: true, gained: 0, coins: 0 };
 
   const now = Date.now();
-  const xp = Math.min(correct * 2, 60);
+  const xp = Math.min(correct * 2 + fast, 60);
   const coins = Math.min(correct, 30);
   const inserted = db
     .insert(xpEvents)
