@@ -28,7 +28,7 @@ export function HackLabLoader() {
           celebrate({
             kind: "level",
             title: `升级！Lv.${res.newLevel}`,
-            subtitle: "获得 1 技能点",
+            subtitle: undefined,
           });
         }
       }

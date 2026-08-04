@@ -19,7 +19,7 @@ export default async function HackLabPage() {
   const done = getLabTasksDone(user.id, "hack");
 
   return (
-    <AppShell bootstrap={bootstrap}>
+    <AppShell bootstrap={bootstrap} wide>
       <div className="app-page app-course">
         <header className="course-hero" style={{ background: "var(--app-blue)" }}>
           <div className="course-hero-tags">
@@ -36,6 +36,12 @@ export default async function HackLabPage() {
             去看对应课程 ›
           </Link>
         </header>
+
+        {/* 两个工坊之间要能互相走，否则进来就出不去了 */}
+        <nav className="lab-switch">
+          <span className="active">Hack 实验室</span>
+          <Link href="/lab/math">数学工坊 ›</Link>
+        </nav>
 
         <section className="course-card">
           <div className="course-card-head">

@@ -7300,3 +7300,38 @@ body:has(.dungeon-chamber) .analysis-section {
     animation: none;
   }
 }
+
+/* 实验室/工坊是宽屏工具：代码编辑器与模拟器屏幕挤在 720px 内容列里
+   会被压成一条缝（截图里就是这样） */
+@media (min-width: 1024px) {
+  .app-main.is-wide {
+    max-width: none;
+  }
+}
+
+/* 两个工坊之间的切换 */
+.lab-switch {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.lab-switch span,
+.lab-switch a {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 2px solid var(--app-line);
+  font-size: 13px;
+  font-weight: 800;
+}
+.lab-switch span.active {
+  border-color: var(--app-blue);
+  background: color-mix(in srgb, var(--app-blue) 12%, transparent);
+  color: var(--app-blue);
+}
+.lab-switch a {
+  color: var(--app-faint);
+}
+.lab-switch a:hover {
+  border-color: var(--app-blue);
+  color: var(--app-blue);
+}

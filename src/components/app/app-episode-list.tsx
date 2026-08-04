@@ -107,7 +107,7 @@ export function AppEpisodeList({
           celebrate({
             kind: "level",
             title: `升至 Lv.${result.newLevel}`,
-            subtitle: "获得 1 技能点，可前往技能星盘加点",
+            subtitle: "继续保持",
           });
         }
       }

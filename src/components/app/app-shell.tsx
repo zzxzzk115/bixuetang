@@ -71,6 +71,7 @@ export function AppShell({
   bootstrap,
   routeTitle,
   routeSubject,
+  wide,
   onRoutePress,
   children,
 }: {
@@ -78,6 +79,8 @@ export function AppShell({
   routeTitle?: string;
   /** 当前路线的学科，决定胶囊上的图标与配色 */
   routeSubject?: string;
+  /** 宽屏页面（实验室、工坊）：内容列不受 720px 限宽 */
+  wide?: boolean;
   onRoutePress?: () => void;
   children: React.ReactNode;
 }) {
@@ -181,7 +184,7 @@ export function AppShell({
         </div>
       )}
 
-      <div className="app-main">
+      <div className={`app-main ${wide ? "is-wide" : ""}`}>
         <header className="app-topbar">
           {routeTitle ? (
             <button className="app-route-pill" onClick={onRoutePress}>

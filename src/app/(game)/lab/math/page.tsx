@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Calculator, Check, Circle } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
@@ -23,11 +24,11 @@ export default async function MathLabPage({
   const done = getLabTasksDone(user.id, "math");
 
   return (
-    <AppShell bootstrap={bootstrap}>
+    <AppShell bootstrap={bootstrap} wide>
       <div className="app-page app-course">
         <header
           className="course-hero"
-          style={{ background: "var(--app-purple)" }}
+          style={{ background: "var(--app-teal)" }}
         >
           <div className="course-hero-tags">
             <span>工坊</span>
@@ -38,6 +39,12 @@ export default async function MathLabPage({
           </h1>
           <p>公式求值、化简、符号求导与函数图像，全部在本地算，不上传。</p>
         </header>
+
+        {/* 两个工坊之间要能互相走，否则进来就出不去了 */}
+        <nav className="lab-switch">
+          <span className="active">数学工坊</span>
+          <Link href="/lab/hack">Hack 实验室 ›</Link>
+        </nav>
 
         <section className="course-card">
           <div className="course-card-head">
