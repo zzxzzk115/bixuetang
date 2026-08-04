@@ -100,15 +100,22 @@ type OrientationLock = ScreenOrientation & {
   lock?: (o: "landscape") => Promise<void>;
 };
 
-async function lockLandscape(): Promise<void> {
+/** 返回 true 表示系统层面锁成功，不需要 CSS 兜底 */
+async function lockLandscape(): Promise<boolean> {
   // 只在窄屏（手机、竖持平板）上锁，桌面全屏不该被强制横过来
-  if (typeof window === "undefined" || window.innerWidth > 900) return;
+  if (typeof window === "undefined" || window.innerWidth > 900) return true;
   const o = screen.orientation as OrientationLock | undefined;
   try {
     await o?.lock?.("landscape");
+    return true;
   } catch {
-    // 不支持或被拒绝：保持原样
+    return false;
   }
+}
+
+/** 当前是竖持（高 > 宽）且屏幕不大 */
+function isPortraitPhone(): boolean {
+  return window.innerHeight > window.innerWidth && window.innerWidth <= 900;
 }
 
 function unlockOrientation(): void {
@@ -165,6 +172,8 @@ export function BiliPlayer({
   const [ratioPct, setRatioPct] = useState(initialRatioPct);
   const [cinema, setCinema] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  /** iOS 锁不了屏幕方向时，用 CSS 把播放器转 90° 顶上 */
+  const [forceLandscape, setForceLandscape] = useState(false);
   /** 续播提示里待跳转的秒数；null = 不提示（初值直接由 props 推导，不在 effect 里 set） */
   const [resumeTip, setResumeTip] = useState<number | null>(
     resumeAt > 5 ? resumeAt : null,
@@ -670,20 +679,28 @@ export function BiliPlayer({
     if (document.fullscreenElement) {
       // 退全屏时解除锁定，否则整个页面会一直被按在横屏里
       unlockOrientation();
+      setForceLandscape(false);
       await document.exitFullscreen().catch(() => {});
       return;
     }
     if (cinema) {
       setCinema(false);
+      setForceLandscape(false);
       return;
     }
+    const portrait = isPortraitPhone();
     try {
       await el.requestFullscreen();
-      // 手机全屏就该横过来看。Safari 至今不支持 lock()，
-      // 那边只能靠用户自己转手机——所以失败一律静默
-      await lockLandscape();
+      const locked = await lockLandscape();
+      // iOS Safari 没实现 screen.orientation.lock()。锁不上就自己转：
+      // 把播放器整体 rotate 90°，宽高对调铺满视口——H5 播放器的通行做法。
+      // 用户把手机转过来后，媒体查询会撤掉这个旋转，不会变成转两次。
+      if (!locked && portrait) setForceLandscape(true);
     } catch {
+      // 连全屏都进不去（iOS Safari 对非 video 元素就是这样）：
+      // 退到影院模式，同样配合强制横屏
       setCinema(true);
+      if (portrait) setForceLandscape(true);
     }
   }, [cinema]);
 
@@ -977,7 +994,9 @@ export function BiliPlayer({
 
   return (
     <div
-      className={`biliplayer ${cinema ? "cinema" : ""} ${isFullscreen ? "is-fs" : ""}`}
+      className={`biliplayer ${cinema ? "cinema" : ""} ${isFullscreen ? "is-fs" : ""} ${
+        forceLandscape ? "force-landscape" : ""
+      }`}
       ref={wrapRef}
       // 键盘只在指针停在播放器上时接管，免得在页面别处敲空格也暂停视频
       onPointerEnter={() => {

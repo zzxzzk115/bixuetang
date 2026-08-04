@@ -275,8 +275,22 @@ function toStream(s: DashStream): PlayStream {
 }
 
 /**
- * 取播放地址。fnval=4048 请求 DASH（含 4K/HDR），登录态才有高清晰度。
- * 没登录时 bilibili 只给 360P/480P——这正是绑定账号的价值。
+ * 取播放地址。
+ *
+ * **要单文件 MP4，不要 DASH。**
+ *
+ * DASH（fnval=4048）给的是画音分离的两路分片 MP4，头部只有一个几百字节的
+ * moov（没有完整样本表），真实时长在 sidx 里。用 `<video src>` 直接播它，
+ * 浏览器只能按已下载的分片推算时长——70 分钟的 CS50 会显示成 12 分钟；
+ * 再加上画音两路各自缓冲、各自 seek、靠 JS 校正同步，大文件必然失步：
+ * 表现就是没声音、播到中间卡死。要用 DASH 就得上 MSE 自己拼分片，
+ * 那是 dash.js 那一整套东西。
+ *
+ * fnval=1 给的是音视频合一的完整 MP4，时长准确、Range 正常、只有一路流。
+ * 代价是最高 720P（DASH 能到 1080P+），对学习视频完全够用——
+ * 能正常播放比多几十万像素重要。
+ *
+ * 没登录时 bilibili 只给 360P/480P，绑定账号才有 720P。
  */
 export async function fetchPlayUrl(
   bvid: string,
@@ -284,7 +298,7 @@ export async function fetchPlayUrl(
   sessdata?: string,
 ): Promise<PlayInfo> {
   const json = await getJson<PlayUrlData>(
-    `https://api.bilibili.com/x/player/playurl?bvid=${encodeURIComponent(bvid)}&cid=${cid}&fnval=4048&fnver=0&fourk=1`,
+    `https://api.bilibili.com/x/player/playurl?bvid=${encodeURIComponent(bvid)}&cid=${cid}&qn=80&fnval=1&fnver=0`,
     sessdata,
   );
   if (json.code !== 0 || !json.data) {

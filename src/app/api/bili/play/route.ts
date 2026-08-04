@@ -71,6 +71,10 @@ export async function GET(request: NextRequest) {
       }));
     const audio = [...play.audio].sort((a, b) => b.bandwidth - a.bandwidth)[0];
 
+    // durl 模式（现在的默认）只有一路合一的 MP4，没有 qualities 数组；
+    // 清晰度由请求时的 qn 决定，这里把它当成唯一一档报给前端
+    const single = play.progressive ? proxied(play.progressive.url) : null;
+
     return Response.json({
       aid: view.aid,
       cid: target.cid,
@@ -78,9 +82,11 @@ export async function GET(request: NextRequest) {
       durationSec: play.durationSec || target.duration,
       bound: !!sessdata,
       qualities,
-      qualityName: qualities[0]?.name ?? "",
-      video: qualities[0]?.url ?? null,
-      audio: audio ? proxied(audio.url) : null,
+      qualityName: qualities[0]?.name ?? (sessdata ? "高清 720P" : "标清"),
+      video: single ?? qualities[0]?.url ?? null,
+      // 单文件 MP4 音视频合一，不需要独立音轨——两路流各自缓冲各自 seek
+      // 正是之前「没声音、播到中间卡死」的根源
+      audio: single ? null : audio ? proxied(audio.url) : null,
       progressive: play.progressive ? proxied(play.progressive.url) : null,
     });
   } catch (error) {

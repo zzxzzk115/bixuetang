@@ -7430,3 +7430,39 @@ body:has(.dungeon-chamber) .analysis-section {
     padding-bottom: max(env(safe-area-inset-bottom), 6px);
   }
 }
+
+/* ==== iOS 强制横屏 ====
+   iOS Safari 至今没实现 screen.orientation.lock()，全屏后还是竖着。
+   锁不上就自己转：把播放器整体 rotate 90°、宽高对调铺满视口——
+   H5 播放器的通行做法。
+   用户真把手机转过来之后，下面的 orientation 媒体查询会撤掉这个旋转，
+   不会出现「转两次」的窘境。 */
+@media (orientation: portrait) {
+  .biliplayer.force-landscape {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 90;
+    /* 宽高对调：转 90° 后视口的高变成了它的宽 */
+    width: 100dvh;
+    height: 100dvw;
+    transform: rotate(90deg) translateY(-100%);
+    transform-origin: top left;
+    background: #000;
+  }
+  .biliplayer.force-landscape .biliplayer-stage {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    border-radius: 0;
+  }
+  .biliplayer.force-landscape .biliplayer-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 30px 16px 12px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  }
+}
