@@ -99,6 +99,13 @@
       "when": 1785841003000,
       "tag": "0013_pending_bili_signups",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "6",
+      "when": 1785841004000,
+      "tag": "0014_drop_api_tokens",
+      "breakpoints": true
     }
   ]
 }

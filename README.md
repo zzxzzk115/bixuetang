@@ -25,7 +25,6 @@
   乘除法/内存分配/绘图全部真跑在模拟 CPU 上。
 - **数学工坊**（`/lab/math`）：MathLive 公式输入 + compute-engine 求值/化简/求导 + 函数图像。
 - **术语对照表**（`/glossary`）：聚合各课 AI 分析产出的中英术语，可搜索、可跳回原课。
-- **浏览器插件**（`extension/`）：在 bilibili / YouTube 原站看视频时自动回传观看进度。
 
 ## 本地开发
 
