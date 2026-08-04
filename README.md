@@ -61,32 +61,32 @@
 ```bash
 git clone https://github.com/zzxzzk115/bixuetang.git
 cd bixuetang
+printf 'SITE_DOMAIN=bixuetang.com\n' > .env
 docker compose up -d --build
 ```
 
-访问 `http://<你的地址>:3000`。
+访问 `https://bixuetang.com`。Caddy 会在容器里读取 `.env` 的 `SITE_DOMAIN`，自动申请和续期 HTTPS 证书。
 
 ### 环境变量
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|
+| `SITE_DOMAIN` | 无 | 生产域名，Caddy 用它监听 80/443 并自动签发 HTTPS 证书 |
 | `DATABASE_PATH` | 镜像内 `/data/bixuetang.db` | SQLite 路径，上传的头像存同目录的 `avatars/` |
-| `COOKIE_SECURE` | `0` | 会话 cookie 是否仅走 HTTPS。**生产必须设为 `1`** |
-| `PORT` / `HOSTNAME` | `3000` / `0.0.0.0` | 监听地址 |
+| `COOKIE_SECURE` | compose 内为 `1` | 会话 cookie 是否仅走 HTTPS。本地开发保持 `0` |
+| `PORT` / `HOSTNAME` | `3000` / `0.0.0.0` | 应用容器内部监听地址 |
 
 数据库迁移在服务启动时自动执行，不用手动跑。
 
 ### 反向代理
 
-应用不处理 TLS，前面挂 Caddy 或 Nginx。Caddy 两行：
+`docker-compose.yml` 已内置 Caddy 反代：宿主机开放 80/443，应用容器只在 Docker 网络内暴露 3000。服务器上把 `.env` 写成：
 
-```caddyfile
-bixuetang.example.com {
-    reverse_proxy localhost:3000
-}
+```dotenv
+SITE_DOMAIN=bixuetang.com
 ```
 
-**挂上 HTTPS 后记得把 `COOKIE_SECURE` 改成 `1`**，否则登录 cookie 明文传输。
+然后执行 `docker compose up -d --build` 即可。
 
 ### 更新
 

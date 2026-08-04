@@ -1,14 +1,34 @@
 services:
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN:?请在 .env 中设置 SITE_DOMAIN，例如 bixuetang.com}
+    command: >
+      caddy reverse-proxy
+      --from ${SITE_DOMAIN}
+      --to bixuetang:3000
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - bixuetang
+    restart: unless-stopped
+
   bixuetang:
     build: .
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     volumes:
       - bixuetang-data:/data
     environment:
-      # HTTPS 反代部署时改为 "1"
-      COOKIE_SECURE: "0"
+      COOKIE_SECURE: "1"
     restart: unless-stopped
 
 volumes:
   bixuetang-data:
+  caddy-data:
+  caddy-config:
