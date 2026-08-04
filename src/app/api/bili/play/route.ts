@@ -34,19 +34,30 @@ export async function GET(request: NextRequest) {
     }
     const play = await fetchPlayUrl(bvid, target.cid, sessdata);
 
-    // 选最高码率的一路视频 + 一路音频
-    const video = [...play.video].sort(
-      (a, b) => b.id - a.id || b.bandwidth - a.bandwidth,
-    )[0];
+    // 同一清晰度可能有多种编码，每档只留码率最高的一路
+    const byQuality = new Map<number, (typeof play.video)[number]>();
+    for (const stream of play.video) {
+      const cur = byQuality.get(stream.id);
+      if (!cur || stream.bandwidth > cur.bandwidth) byQuality.set(stream.id, stream);
+    }
+    const qualities = [...byQuality.values()]
+      .sort((a, b) => b.id - a.id)
+      .map((stream) => ({
+        id: stream.id,
+        name: play.qualityNames[stream.id] ?? String(stream.id),
+        url: proxied(stream.url),
+      }));
     const audio = [...play.audio].sort((a, b) => b.bandwidth - a.bandwidth)[0];
 
     return Response.json({
+      aid: view.aid,
       cid: target.cid,
       title: target.part,
       durationSec: play.durationSec || target.duration,
       bound: !!sessdata,
-      qualityName: video ? (play.qualityNames[video.id] ?? "") : "",
-      video: video ? proxied(video.url) : null,
+      qualities,
+      qualityName: qualities[0]?.name ?? "",
+      video: qualities[0]?.url ?? null,
       audio: audio ? proxied(audio.url) : null,
       progressive: play.progressive ? proxied(play.progressive.url) : null,
     });

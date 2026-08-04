@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Episode, Source } from "@/lib/content/schema";
 import { SEEK_EVENT, type SeekRequest } from "@/lib/seek";
 import { EmbedPlayer } from "../embed-player";
+import { BiliInteract } from "./bili-interact";
 import { BiliPlayer } from "./bili-player";
 
 // 播放区：B 站源用自研播放器（弹幕 + 真实观看进度），
@@ -32,6 +33,11 @@ export function CoursePlayer({
 }) {
   const router = useRouter();
   const [episodeN, setEpisodeN] = useState(initialEpisode);
+  const [aid, setAid] = useState<number | null>(null);
+  const onLoaded = useCallback(
+    (info: { aid: number; cid: number }) => setAid(info.aid),
+    [],
+  );
 
   useEffect(() => {
     const onSeek = (event: Event) => {
@@ -76,7 +82,9 @@ export function CoursePlayer({
         episodeN={episode.n}
         resumeAt={resumeByEpisode[episode.n]?.positionSec ?? 0}
         onCompleted={() => router.refresh()}
+        onLoaded={onLoaded}
       />
+      <BiliInteract key={`i:${bvid}:${page}`} bvid={bvid} aid={aid} page={page} />
     </div>
   );
 }

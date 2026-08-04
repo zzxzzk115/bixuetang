@@ -1,32 +1,52 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import {
   Captions,
   CaptionsOff,
+  Gauge,
   Loader2,
   MessageSquare,
   MessageSquareOff,
   Maximize,
+  Minimize,
   Pause,
   Play,
+  Settings2,
+  Volume1,
   Volume2,
   VolumeX,
 } from "lucide-react";
 import { reportWatchProgress } from "@/lib/game/watch-actions";
+import { RATES, prefsStore, type PlayerPrefs } from "./player-settings";
 
 // 自研 B 站播放器（思路参考 wiliwili，MIT）：
-//   · DASH 画音分离 → <video> + <audio> 双轨同步播放
-//   · 弹幕在 <canvas> 上自绘（滚动/顶部/底部三种模式）
-//   · 逐秒记录「看过的秒」，覆盖率 ≥90% 自动打卡（跳着看也算）
-// 直链要 Referer，所以流走 /api/bili/stream 代理。
+//   · DASH 画音分离 → <video> + <audio> 双轨同步
+//   · 弹幕在 <canvas> 自绘，支持不透明度/字号/速度/显示区域/分类屏蔽
+//   · CC 字幕支持多语言切换与字号/位置/描边样式
+//   · 逐秒记录看过的秒，覆盖率 ≥90% 自动打卡（跳着看也算）
+
+interface Quality {
+  id: number;
+  name: string;
+  url: string;
+}
 
 interface PlayPayload {
+  aid: number;
   cid: number;
   title: string;
   durationSec: number;
   bound: boolean;
   qualityName: string;
+  qualities: Quality[];
   video: string | null;
   audio: string | null;
   progressive: string | null;
@@ -54,7 +74,6 @@ interface SubtitleTrack {
 
 interface Track {
   item: DanmakuItem;
-  x: number;
   y: number;
   width: number;
   speed: number;
@@ -75,6 +94,7 @@ export function BiliPlayer({
   episodeN,
   resumeAt = 0,
   onCompleted,
+  onLoaded,
 }: {
   bvid: string;
   page: number;
@@ -82,6 +102,7 @@ export function BiliPlayer({
   episodeN: number;
   resumeAt?: number;
   onCompleted?: () => void;
+  onLoaded?: (info: { aid: number; cid: number }) => void;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -91,24 +112,46 @@ export function BiliPlayer({
   const [payload, setPayload] = useState<PlayPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(false);
-  const [showDanmaku, setShowDanmaku] = useState(true);
   const [tracks, setTracks] = useState<SubtitleTrack[]>([]);
-  const [trackIndex, setTrackIndex] = useState(0);
-  const [showCc, setShowCc] = useState(true);
   const [cue, setCue] = useState("");
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
   const [ratioPct, setRatioPct] = useState(0);
+  const [cinema, setCinema] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  /** 打开的设置面板 */
+  const [panel, setPanel] = useState<"none" | "danmaku" | "cc" | "rate" | "quality">(
+    "none",
+  );
+
+  const prefs = useSyncExternalStore(
+    prefsStore.subscribe,
+    prefsStore.get,
+    prefsStore.getServerSnapshot,
+  );
 
   const danmakuRef = useRef<DanmakuItem[]>([]);
   const cursorRef = useRef(0);
   const activeRef = useRef<Track[]>([]);
-  /** 看过的整秒集合——跳过的段不计入覆盖率 */
   const seenRef = useRef<Set<number>>(new Set());
   const completedRef = useRef(false);
 
-  // 取播放地址（换集时组件由 key 重挂载，这里不需要同步清状态）
+  const update = useCallback(
+    (patch: Partial<PlayerPrefs>) => prefsStore.set(patch),
+    [],
+  );
+  const updateDanmaku = useCallback(
+    (patch: Partial<PlayerPrefs["danmaku"]>) =>
+      prefsStore.set({ danmaku: { ...prefsStore.get().danmaku, ...patch } }),
+    [],
+  );
+  const updateCc = useCallback(
+    (patch: Partial<PlayerPrefs["cc"]>) =>
+      prefsStore.set({ cc: { ...prefsStore.get().cc, ...patch } }),
+    [],
+  );
+
+  // 取播放地址
   useEffect(() => {
     let cancelled = false;
     seenRef.current = new Set();
@@ -123,6 +166,7 @@ export function BiliPlayer({
         }
         setPayload(data);
         setDuration(data.durationSec);
+        onLoaded?.({ aid: data.aid, cid: data.cid });
       })
       .catch(() => {
         if (!cancelled) setError("播放地址解析失败");
@@ -130,9 +174,9 @@ export function BiliPlayer({
     return () => {
       cancelled = true;
     };
-  }, [bvid, page]);
+  }, [bvid, page, onLoaded]);
 
-  // 取弹幕
+  // 弹幕
   useEffect(() => {
     if (!payload?.cid) return;
     let cancelled = false;
@@ -151,7 +195,7 @@ export function BiliPlayer({
     };
   }, [payload?.cid]);
 
-  // 取 CC 字幕（多数视频要登录态才有）
+  // CC 字幕
   useEffect(() => {
     if (!payload?.cid) return;
     let cancelled = false;
@@ -168,7 +212,23 @@ export function BiliPlayer({
     };
   }, [payload?.cid, bvid]);
 
-  // 音轨跟随视频（DASH 双轨：以 video 为时钟，audio 偏差超 0.3s 就校正）
+  const activeTrack = useMemo(() => {
+    if (tracks.length === 0) return null;
+    return tracks.find((t) => t.lan === prefs.cc.lan) ?? tracks[0];
+  }, [tracks, prefs.cc.lan]);
+
+  // 当前清晰度的视频地址
+  const videoSrc = useMemo(() => {
+    if (!payload) return undefined;
+    if (payload.qualities.length === 0) {
+      return payload.video ?? payload.progressive ?? undefined;
+    }
+    const picked =
+      payload.qualities.find((q) => q.id === prefs.qualityId) ??
+      payload.qualities[0];
+    return picked.url;
+  }, [payload, prefs.qualityId]);
+
   const syncAudio = useCallback(() => {
     const v = videoRef.current;
     const a = audioRef.current;
@@ -176,6 +236,7 @@ export function BiliPlayer({
     if (Math.abs(a.currentTime - v.currentTime) > 0.3) {
       a.currentTime = v.currentTime;
     }
+    if (a.playbackRate !== v.playbackRate) a.playbackRate = v.playbackRate;
   }, [payload?.audio]);
 
   const togglePlay = useCallback(() => {
@@ -194,7 +255,24 @@ export function BiliPlayer({
     }
   }, [payload?.audio]);
 
-  // 弹幕渲染循环
+  // 音量 / 静音 / 倍速 → 应用到媒体元素
+  useEffect(() => {
+    const v = videoRef.current;
+    const a = audioRef.current;
+    if (v) {
+      v.playbackRate = prefs.rate;
+      // DASH 时声音在 audio 轨，video 恒静音
+      v.muted = payload?.audio ? true : prefs.muted;
+      v.volume = prefs.volume;
+    }
+    if (a) {
+      a.playbackRate = prefs.rate;
+      a.muted = prefs.muted;
+      a.volume = prefs.volume;
+    }
+  }, [prefs.rate, prefs.muted, prefs.volume, payload?.audio, videoSrc]);
+
+  // 弹幕渲染
   useEffect(() => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
@@ -203,8 +281,7 @@ export function BiliPlayer({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const LANES = 12;
-    const laneFree: number[] = new Array(LANES).fill(0);
+    const laneFree: number[] = [];
 
     const draw = () => {
       raf = requestAnimationFrame(draw);
@@ -215,54 +292,66 @@ export function BiliPlayer({
         canvas.height = h;
       }
       ctx.clearRect(0, 0, w, h);
-      if (!showDanmaku) {
+      const d = prefsStore.get().danmaku;
+      if (!d.on) {
         activeRef.current = [];
         return;
       }
 
       const t = video.currentTime;
       const list = danmakuRef.current;
-      // 时间回跳（拖动进度条）→ 重定位游标并清屏
       if (cursorRef.current > 0 && list[cursorRef.current - 1]?.t > t + 1) {
         cursorRef.current = 0;
         activeRef.current = [];
-        laneFree.fill(0);
+        laneFree.length = 0;
       }
-      const fontSize = Math.max(14, Math.round(h / 22));
+
+      const fontSize = Math.max(12, Math.round((h / 22) * d.scale));
+      const lineHeight = fontSize + 6;
+      const lanes = Math.max(1, Math.floor((h * d.area) / lineHeight));
+      while (laneFree.length < lanes) laneFree.push(0);
+
       ctx.font = `600 ${fontSize}px ui-rounded, "PingFang SC", system-ui, sans-serif`;
       ctx.textBaseline = "top";
+      ctx.globalAlpha = d.opacity;
 
       while (cursorRef.current < list.length && list[cursorRef.current].t <= t) {
         const item = list[cursorRef.current++];
-        if (!video.paused || true) {
-          const width = ctx.measureText(item.text).width;
-          const lane = laneFree.findIndex((free) => free <= t);
-          const laneIndex = lane === -1 ? 0 : lane;
-          const speed = (w + width) / 8; // 8 秒穿屏
+        const isTop = item.mode === 5;
+        const isBottom = item.mode === 4;
+        if (isTop && d.blockTop) continue;
+        if (isBottom && d.blockBottom) continue;
+        if (!isTop && !isBottom && d.blockScroll) continue;
+
+        const width = ctx.measureText(item.text).width;
+        // 滚动弹幕：8 秒穿屏，speed 越大越快
+        const speed = ((w + width) / 8) * d.speed;
+        let laneIndex = 0;
+        if (!isTop && !isBottom) {
+          const free = laneFree.findIndex((until) => until <= t);
+          laneIndex = free === -1 ? 0 : free;
           laneFree[laneIndex] = t + width / speed + 0.4;
-          activeRef.current.push({
-            item,
-            x: w,
-            y: laneIndex * (fontSize + 6) + 6,
-            width,
-            speed,
-            born: t,
-          });
         }
+        activeRef.current.push({
+          item,
+          y: laneIndex * lineHeight + 6,
+          width,
+          speed,
+          born: t,
+        });
       }
 
       const alive: Track[] = [];
       for (const track of activeRef.current) {
         const { item } = track;
         const color = `#${item.color.toString(16).padStart(6, "0")}`;
-        ctx.fillStyle = "rgba(0,0,0,0.55)";
-        ctx.strokeStyle = "rgba(0,0,0,0.65)";
+        ctx.strokeStyle = "rgba(0,0,0,0.7)";
         ctx.lineWidth = 3;
         if (item.mode === 5 || item.mode === 4) {
-          // 顶部/底部固定弹幕：出现 4 秒
           if (t - track.born > 4) continue;
           const x = (canvas.width - track.width) / 2;
-          const y = item.mode === 5 ? 6 : canvas.height - fontSize - 10;
+          const y =
+            item.mode === 5 ? 6 : canvas.height - fontSize - 10;
           ctx.strokeText(item.text, x, y);
           ctx.fillStyle = color;
           ctx.fillText(item.text, x, y);
@@ -277,12 +366,13 @@ export function BiliPlayer({
         alive.push(track);
       }
       activeRef.current = alive;
+      ctx.globalAlpha = 1;
     };
     raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
-  }, [showDanmaku, payload]);
+  }, [payload]);
 
-  // 进度记录 + 上报
+  // 进度记录 + 字幕行
   useEffect(() => {
     const v = videoRef.current;
     if (!v || !payload) return;
@@ -290,20 +380,18 @@ export function BiliPlayer({
     const onTime = () => {
       setCurrent(v.currentTime);
       seenRef.current.add(Math.floor(v.currentTime));
-      // 当前字幕行（轨道按时间排好序，线性查找足够快）
-      const track = tracks[trackIndex];
-      if (showCc && track) {
-        const t = v.currentTime;
-        const hit = track.cues.find((c) => t >= c.from && t <= c.to);
-        setCue(hit?.text ?? "");
-      } else {
-        setCue("");
-      }
       const total = v.duration || payload.durationSec || 0;
       if (total > 0) {
         setRatioPct(
           Math.min(100, Math.round((seenRef.current.size / total) * 100)),
         );
+      }
+      if (prefsStore.get().cc.on && activeTrack) {
+        const t = v.currentTime;
+        const hit = activeTrack.cues.find((c) => t >= c.from && t <= c.to);
+        setCue(hit?.text ?? "");
+      } else {
+        setCue("");
       }
       syncAudio();
     };
@@ -324,9 +412,9 @@ export function BiliPlayer({
       v.removeEventListener("play", onPlay);
       v.removeEventListener("pause", onPause);
     };
-  }, [payload, syncAudio, tracks, trackIndex, showCc]);
+  }, [payload, syncAudio, activeTrack, prefs.cc.on]);
 
-  // 每 15 秒上报一次进度（离开页面时补一次）
+  // 定时上报观看进度
   useEffect(() => {
     if (!payload) return;
     const send = async () => {
@@ -368,6 +456,40 @@ export function BiliPlayer({
     return () => v.removeEventListener("loadedmetadata", onReady);
   }, [payload, resumeAt]);
 
+  // 全屏（被拒则影院模式）
+  const toggleFullscreen = useCallback(async () => {
+    const el = wrapRef.current;
+    if (!el) return;
+    if (document.fullscreenElement) {
+      await document.exitFullscreen().catch(() => {});
+      return;
+    }
+    if (cinema) {
+      setCinema(false);
+      return;
+    }
+    try {
+      await el.requestFullscreen();
+    } catch {
+      setCinema(true);
+    }
+  }, [cinema]);
+
+  useEffect(() => {
+    const onChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (!cinema) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setCinema(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [cinema]);
+
   const seek = (e: React.MouseEvent<HTMLDivElement>) => {
     const v = videoRef.current;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -404,29 +526,50 @@ export function BiliPlayer({
     );
   }
 
-  const src = payload.video ?? payload.progressive ?? undefined;
+  const VolumeIcon =
+    prefs.muted || prefs.volume === 0
+      ? VolumeX
+      : prefs.volume < 0.5
+        ? Volume1
+        : Volume2;
+  const currentQuality =
+    payload.qualities.find((q) => q.id === prefs.qualityId) ??
+    payload.qualities[0];
 
   return (
-    <div className="biliplayer" ref={wrapRef}>
-      <div className="biliplayer-stage" onClick={togglePlay}>
+    <div
+      className={`biliplayer ${cinema ? "cinema" : ""} ${isFullscreen ? "is-fs" : ""}`}
+      ref={wrapRef}
+    >
+      <div className="biliplayer-stage" onClick={() => setPanel("none")}>
         <video
           ref={videoRef}
-          src={src}
+          src={videoSrc}
           playsInline
-          muted={muted || !!payload.audio}
           preload="metadata"
+          onClick={togglePlay}
         />
         {payload.audio && (
-          <audio ref={audioRef} src={payload.audio} muted={muted} preload="metadata" />
+          <audio ref={audioRef} src={payload.audio} preload="metadata" />
         )}
         <canvas ref={canvasRef} className="biliplayer-danmaku" />
-        {showCc && cue && (
-          <div className="biliplayer-cc">
-            <span>{cue}</span>
+        {prefs.cc.on && cue && (
+          <div
+            className={`biliplayer-cc style-${prefs.cc.style}`}
+            style={{ bottom: `${prefs.cc.bottom * 100}%` }}
+          >
+            <span style={{ fontSize: `${prefs.cc.scale * 100}%` }}>{cue}</span>
           </div>
         )}
         {!playing && (
-          <button className="biliplayer-bigplay" aria-label="播放">
+          <button
+            className="biliplayer-bigplay"
+            aria-label="播放"
+            onClick={(e) => {
+              e.stopPropagation();
+              togglePlay();
+            }}
+          >
             <Play size={34} fill="currentColor" />
           </button>
         )}
@@ -436,81 +579,314 @@ export function BiliPlayer({
         <div className="biliplayer-track" onClick={seek}>
           <i style={{ width: `${duration ? (current / duration) * 100 : 0}%` }} />
         </div>
+
         <div className="biliplayer-controls">
           <button onClick={togglePlay} aria-label={playing ? "暂停" : "播放"}>
             {playing ? <Pause size={18} /> : <Play size={18} fill="currentColor" />}
           </button>
+
           <span className="biliplayer-time">
             {fmt(current)} / {fmt(duration)}
           </span>
+
+          {/* 音量：图标切静音 + 滑块调音量 */}
+          <div className="biliplayer-volume">
+            <button
+              onClick={() => update({ muted: !prefs.muted })}
+              aria-label={prefs.muted ? "取消静音" : "静音"}
+            >
+              <VolumeIcon size={18} />
+            </button>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={Math.round((prefs.muted ? 0 : prefs.volume) * 100)}
+              onChange={(e) => {
+                const v = Number(e.target.value) / 100;
+                update({ volume: v, muted: v === 0 });
+              }}
+              aria-label="音量"
+            />
+          </div>
+
           <button
-            onClick={() => {
-              setMuted((m) => !m);
-            }}
-            aria-label={muted ? "取消静音" : "静音"}
+            className={panel === "rate" ? "on" : undefined}
+            onClick={() => setPanel(panel === "rate" ? "none" : "rate")}
+            title="播放速度"
           >
-            {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+            <Gauge size={18} />
+            <em className="biliplayer-badge">{prefs.rate}×</em>
           </button>
+
           <button
-            className={showDanmaku ? "on" : undefined}
-            onClick={() => setShowDanmaku((d) => !d)}
-            aria-pressed={showDanmaku}
-            title={showDanmaku ? "关闭弹幕" : "开启弹幕"}
+            className={prefs.danmaku.on ? "on" : undefined}
+            onClick={() => setPanel(panel === "danmaku" ? "none" : "danmaku")}
+            title="弹幕设置"
           >
-            {showDanmaku ? (
+            {prefs.danmaku.on ? (
               <MessageSquare size={18} />
             ) : (
               <MessageSquareOff size={18} />
             )}
           </button>
-          {tracks.length > 0 && (
+
+          <button
+            className={prefs.cc.on && tracks.length > 0 ? "on" : undefined}
+            onClick={() => setPanel(panel === "cc" ? "none" : "cc")}
+            title="字幕设置"
+            disabled={tracks.length === 0}
+          >
+            {prefs.cc.on && tracks.length > 0 ? (
+              <Captions size={18} />
+            ) : (
+              <CaptionsOff size={18} />
+            )}
+          </button>
+
+          {payload.qualities.length > 1 && (
             <button
-              className={showCc ? "on" : undefined}
-              onClick={() => {
-                // 多条字幕轨时：开 → 依次切轨 → 关，一个按钮走完一圈
-                if (!showCc) {
-                  setShowCc(true);
-                  return;
-                }
-                const next = trackIndex + 1;
-                if (next < tracks.length) setTrackIndex(next);
-                else {
-                  setTrackIndex(0);
-                  setShowCc(false);
-                }
-              }}
-              aria-pressed={showCc}
-              title={
-                showCc
-                  ? `字幕：${tracks[trackIndex]?.lanDoc ?? ""}${tracks.length > 1 ? "（点击切换/关闭）" : "（点击关闭）"}`
-                  : "开启字幕"
-              }
+              className={panel === "quality" ? "on" : undefined}
+              onClick={() => setPanel(panel === "quality" ? "none" : "quality")}
+              title="清晰度"
             >
-              {showCc ? <Captions size={18} /> : <CaptionsOff size={18} />}
+              <Settings2 size={18} />
+              <em className="biliplayer-badge">{currentQuality?.name ?? ""}</em>
             </button>
           )}
+
           <span className="biliplayer-watch" title="本集观看覆盖率，≥90% 自动打卡">
             已看 {ratioPct}%
           </span>
+
           <button
-            onClick={() => void wrapRef.current?.requestFullscreen?.()}
-            aria-label="全屏"
-            title="全屏"
+            onClick={() => void toggleFullscreen()}
+            aria-label={cinema || isFullscreen ? "退出全屏" : "全屏"}
+            title={cinema || isFullscreen ? "退出全屏（Esc）" : "全屏"}
+            className={cinema || isFullscreen ? "on" : undefined}
           >
-            <Maximize size={18} />
+            {cinema || isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
           </button>
         </div>
+
+        {panel === "rate" && (
+          <div className="biliplayer-panel">
+            <h4>播放速度</h4>
+            <div className="biliplayer-chips">
+              {RATES.map((r) => (
+                <button
+                  key={r}
+                  className={prefs.rate === r ? "on" : undefined}
+                  onClick={() => update({ rate: r })}
+                >
+                  {r}×
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {panel === "quality" && (
+          <div className="biliplayer-panel">
+            <h4>清晰度</h4>
+            <div className="biliplayer-chips">
+              {payload.qualities.map((q) => (
+                <button
+                  key={q.id}
+                  className={currentQuality?.id === q.id ? "on" : undefined}
+                  onClick={() => update({ qualityId: q.id })}
+                >
+                  {q.name}
+                </button>
+              ))}
+            </div>
+            {!payload.bound && (
+              <p className="biliplayer-panel-note">绑定 B 站账号可解锁更高清晰度</p>
+            )}
+          </div>
+        )}
+
+        {panel === "danmaku" && (
+          <div className="biliplayer-panel">
+            <h4>
+              弹幕
+              <label className="biliplayer-switch">
+                <input
+                  type="checkbox"
+                  checked={prefs.danmaku.on}
+                  onChange={(e) => updateDanmaku({ on: e.target.checked })}
+                />
+                <span>{prefs.danmaku.on ? "开" : "关"}</span>
+              </label>
+            </h4>
+            <label className="biliplayer-slider">
+              不透明度
+              <input
+                type="range"
+                min={10}
+                max={100}
+                value={Math.round(prefs.danmaku.opacity * 100)}
+                onChange={(e) =>
+                  updateDanmaku({ opacity: Number(e.target.value) / 100 })
+                }
+              />
+              <b>{Math.round(prefs.danmaku.opacity * 100)}%</b>
+            </label>
+            <label className="biliplayer-slider">
+              字号
+              <input
+                type="range"
+                min={60}
+                max={160}
+                value={Math.round(prefs.danmaku.scale * 100)}
+                onChange={(e) =>
+                  updateDanmaku({ scale: Number(e.target.value) / 100 })
+                }
+              />
+              <b>{Math.round(prefs.danmaku.scale * 100)}%</b>
+            </label>
+            <label className="biliplayer-slider">
+              速度
+              <input
+                type="range"
+                min={50}
+                max={200}
+                value={Math.round(prefs.danmaku.speed * 100)}
+                onChange={(e) =>
+                  updateDanmaku({ speed: Number(e.target.value) / 100 })
+                }
+              />
+              <b>{prefs.danmaku.speed.toFixed(1)}×</b>
+            </label>
+            <div className="biliplayer-field">
+              <span>显示区域</span>
+              <div className="biliplayer-chips">
+                {[
+                  [0.25, "1/4 屏"],
+                  [0.5, "半屏"],
+                  [0.75, "3/4 屏"],
+                  [1, "满屏"],
+                ].map(([v, label]) => (
+                  <button
+                    key={String(v)}
+                    className={prefs.danmaku.area === v ? "on" : undefined}
+                    onClick={() => updateDanmaku({ area: v as number })}
+                  >
+                    {label as string}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="biliplayer-field">
+              <span>屏蔽</span>
+              <div className="biliplayer-chips">
+                <button
+                  className={prefs.danmaku.blockScroll ? "on" : undefined}
+                  onClick={() =>
+                    updateDanmaku({ blockScroll: !prefs.danmaku.blockScroll })
+                  }
+                >
+                  滚动
+                </button>
+                <button
+                  className={prefs.danmaku.blockTop ? "on" : undefined}
+                  onClick={() =>
+                    updateDanmaku({ blockTop: !prefs.danmaku.blockTop })
+                  }
+                >
+                  顶部
+                </button>
+                <button
+                  className={prefs.danmaku.blockBottom ? "on" : undefined}
+                  onClick={() =>
+                    updateDanmaku({ blockBottom: !prefs.danmaku.blockBottom })
+                  }
+                >
+                  底部
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {panel === "cc" && (
+          <div className="biliplayer-panel">
+            <h4>
+              字幕
+              <label className="biliplayer-switch">
+                <input
+                  type="checkbox"
+                  checked={prefs.cc.on}
+                  onChange={(e) => updateCc({ on: e.target.checked })}
+                />
+                <span>{prefs.cc.on ? "开" : "关"}</span>
+              </label>
+            </h4>
+            <div className="biliplayer-field">
+              <span>语言</span>
+              <div className="biliplayer-chips">
+                {tracks.map((t) => (
+                  <button
+                    key={t.lan}
+                    className={activeTrack?.lan === t.lan ? "on" : undefined}
+                    onClick={() => updateCc({ lan: t.lan, on: true })}
+                  >
+                    {t.lanDoc}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <label className="biliplayer-slider">
+              字号
+              <input
+                type="range"
+                min={70}
+                max={180}
+                value={Math.round(prefs.cc.scale * 100)}
+                onChange={(e) => updateCc({ scale: Number(e.target.value) / 100 })}
+              />
+              <b>{Math.round(prefs.cc.scale * 100)}%</b>
+            </label>
+            <label className="biliplayer-slider">
+              位置
+              <input
+                type="range"
+                min={2}
+                max={35}
+                value={Math.round(prefs.cc.bottom * 100)}
+                onChange={(e) => updateCc({ bottom: Number(e.target.value) / 100 })}
+              />
+              <b>距底 {Math.round(prefs.cc.bottom * 100)}%</b>
+            </label>
+            <div className="biliplayer-field">
+              <span>样式</span>
+              <div className="biliplayer-chips">
+                {[
+                  ["shadow", "描边"],
+                  ["box", "底框"],
+                  ["plain", "纯文字"],
+                ].map(([v, label]) => (
+                  <button
+                    key={v}
+                    className={prefs.cc.style === v ? "on" : undefined}
+                    onClick={() =>
+                      updateCc({ style: v as PlayerPrefs["cc"]["style"] })
+                    }
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {!payload.bound ? (
+      {!payload.bound && (
         <p className="biliplayer-hint">
           绑定 B 站账号后可解锁高清晰度与 CC 字幕（当前{" "}
           {payload.qualityName || "标清"}）
         </p>
-      ) : (
-        tracks.length === 0 && (
-          <p className="biliplayer-hint">这一集没有可用的 CC 字幕</p>
-        )
       )}
     </div>
   );

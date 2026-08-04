@@ -311,6 +311,199 @@ export async function fetchPlayUrl(
   };
 }
 
+// ---------- 互动（点赞 / 投币 / 收藏 / 评论） ----------
+
+function formHeaders(sessdata: string, csrf: string): Record<string, string> {
+  return {
+    "User-Agent": UA,
+    Referer: "https://www.bilibili.com",
+    Origin: "https://www.bilibili.com",
+    "Content-Type": "application/x-www-form-urlencoded",
+    Cookie: `SESSDATA=${sessdata}; bili_jct=${csrf}`,
+  };
+}
+
+async function postForm<T>(
+  url: string,
+  body: Record<string, string | number>,
+  sessdata: string,
+  csrf: string,
+): Promise<{ code: number; message?: string; data?: T }> {
+  const params = new URLSearchParams();
+  for (const [k, v] of Object.entries(body)) params.set(k, String(v));
+  const res = await fetch(url, {
+    method: "POST",
+    headers: formHeaders(sessdata, csrf),
+    body: params.toString(),
+    cache: "no-store",
+  });
+  return (await res.json()) as { code: number; message?: string; data?: T };
+}
+
+export interface VideoRelation {
+  like: boolean;
+  coin: number;
+  favorite: boolean;
+}
+
+/** 我对这个稿件的互动状态（未登录全 false） */
+export async function fetchRelation(
+  bvid: string,
+  sessdata?: string,
+): Promise<VideoRelation> {
+  if (!sessdata) return { like: false, coin: 0, favorite: false };
+  const json = await getJson<{
+    like: boolean;
+    coin: number;
+    favorite: boolean;
+  }>(
+    `https://api.bilibili.com/x/web-interface/archive/relation?bvid=${encodeURIComponent(bvid)}`,
+    sessdata,
+  );
+  return {
+    like: !!json.data?.like,
+    coin: json.data?.coin ?? 0,
+    favorite: !!json.data?.favorite,
+  };
+}
+
+export interface VideoStat {
+  view: number;
+  like: number;
+  coin: number;
+  favorite: number;
+  reply: number;
+}
+
+export async function fetchStat(bvid: string): Promise<VideoStat | null> {
+  const json = await getJson<VideoStat>(
+    `https://api.bilibili.com/x/web-interface/archive/stat?bvid=${encodeURIComponent(bvid)}`,
+  );
+  return json.data ?? null;
+}
+
+export async function likeVideo(
+  bvid: string,
+  like: boolean,
+  sessdata: string,
+  csrf: string,
+) {
+  const json = await postForm(
+    "https://api.bilibili.com/x/web-interface/archive/like",
+    { bvid, like: like ? 1 : 2, csrf },
+    sessdata,
+    csrf,
+  );
+  // 65006 = 已经点过赞
+  if (json.code !== 0 && json.code !== 65006) {
+    throw new Error(json.message ?? `点赞失败（${json.code}）`);
+  }
+}
+
+export async function coinVideo(
+  bvid: string,
+  multiply: number,
+  sessdata: string,
+  csrf: string,
+) {
+  const json = await postForm(
+    "https://api.bilibili.com/x/web-interface/coin/add",
+    { bvid, multiply, select_like: 0, csrf },
+    sessdata,
+    csrf,
+  );
+  if (json.code !== 0) {
+    throw new Error(json.message ?? `投币失败（${json.code}）`);
+  }
+}
+
+/** 取默认收藏夹 id（收藏接口要指定收藏夹） */
+export async function defaultFavFolder(
+  mid: string,
+  sessdata: string,
+): Promise<number | null> {
+  const json = await getJson<{ list?: { id: number }[] }>(
+    `https://api.bilibili.com/x/v3/fav/folder/created/list-all?up_mid=${encodeURIComponent(mid)}`,
+    sessdata,
+  );
+  return json.data?.list?.[0]?.id ?? null;
+}
+
+export async function favVideo(
+  aid: number,
+  folderId: number,
+  add: boolean,
+  sessdata: string,
+  csrf: string,
+) {
+  const json = await postForm(
+    "https://api.bilibili.com/x/v3/fav/resource/deal",
+    {
+      rid: aid,
+      type: 2,
+      [add ? "add_media_ids" : "del_media_ids"]: folderId,
+      csrf,
+    },
+    sessdata,
+    csrf,
+  );
+  if (json.code !== 0) {
+    throw new Error(json.message ?? `收藏失败（${json.code}）`);
+  }
+}
+
+export interface ReplyItem {
+  id: string;
+  uname: string;
+  avatar: string;
+  message: string;
+  like: number;
+  time: number;
+}
+
+interface RawReply {
+  rpid_str: string;
+  like: number;
+  ctime: number;
+  member: { uname: string; avatar: string };
+  content: { message: string };
+}
+
+export async function fetchReplies(
+  aid: number,
+  sessdata?: string,
+): Promise<ReplyItem[]> {
+  const json = await getJson<{ replies?: RawReply[] }>(
+    `https://api.bilibili.com/x/v2/reply?type=1&oid=${aid}&sort=1&ps=20&pn=1`,
+    sessdata,
+  );
+  return (json.data?.replies ?? []).map((r) => ({
+    id: r.rpid_str,
+    uname: r.member.uname,
+    avatar: r.member.avatar,
+    message: r.content.message,
+    like: r.like,
+    time: r.ctime,
+  }));
+}
+
+export async function postReply(
+  aid: number,
+  message: string,
+  sessdata: string,
+  csrf: string,
+) {
+  const json = await postForm(
+    "https://api.bilibili.com/x/v2/reply/add",
+    { type: 1, oid: aid, message, plat: 1, csrf },
+    sessdata,
+    csrf,
+  );
+  if (json.code !== 0) {
+    throw new Error(json.message ?? `发送失败（${json.code}）`);
+  }
+}
+
 // ---------- 字幕（CC） ----------
 
 export interface SubtitleCue {
