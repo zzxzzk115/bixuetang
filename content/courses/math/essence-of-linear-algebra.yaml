@@ -24,34 +24,50 @@ notes: []
 lab: math
 episodes:
   - n: 1
-    title: "00 - 序言"
+    title: 00 - 序言
+    durationSec: 309
   - n: 2
-    title: "01 - 向量究竟是什么？"
+    title: 01 - 向量究竟是什么？
+    durationSec: 592
   - n: 3
-    title: "02 - 线性组合、张成的空间与基"
+    title: 02 - 线性组合、张成的空间与基
+    durationSec: 599
   - n: 4
-    title: "03 - 矩阵与线性变换"
+    title: 03 - 矩阵与线性变换
+    durationSec: 658
   - n: 5
-    title: "04 - 矩阵乘法与线性变换复合"
+    title: 04 - 矩阵乘法与线性变换复合
+    durationSec: 603
   - n: 6
-    title: "附注1 - 三维空间中的线性变换"
+    title: 附注1 - 三维空间中的线性变换
+    durationSec: 285
   - n: 7
-    title: "05 - 行列式"
+    title: 05 - 行列式
+    durationSec: 603
   - n: 8
-    title: "06 - 逆矩阵、列空间与零空间"
+    title: 06 - 逆矩阵、列空间与零空间
+    durationSec: 729
   - n: 9
-    title: "附注2 - 非方阵"
+    title: 附注2 - 非方阵
+    durationSec: 266
   - n: 10
-    title: "07 - 点积与对偶性"
+    title: 07 - 点积与对偶性
+    durationSec: 851
   - n: 11
-    title: "08第一部分 - 叉积的标准介绍"
+    title: 08第一部分 - 叉积的标准介绍
+    durationSec: 533
   - n: 12
-    title: "08第二部分 - 以线性变换的眼光看叉积"
+    title: 08第二部分 - 以线性变换的眼光看叉积
+    durationSec: 790
   - n: 13
-    title: "09 - 基变换"
+    title: 09 - 基变换
+    durationSec: 771
   - n: 14
-    title: "10 - 特征向量与特征值"
+    title: 10 - 特征向量与特征值
+    durationSec: 1035
   - n: 15
-    title: "11 - 抽象向量空间"
+    title: 11 - 抽象向量空间
+    durationSec: 1006
   - n: 16
-    title: "12 - 克莱姆法则，几何解释"
+    title: 12 - 克莱姆法则，几何解释
+    durationSec: 733
