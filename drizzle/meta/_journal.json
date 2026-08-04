@@ -78,6 +78,13 @@
       "when": 1785841000000,
       "tag": "0010_player_prefs",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1785841001000,
+      "tag": "0011_subtitle_cache",
+      "breakpoints": true
     }
   ]
 }

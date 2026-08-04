@@ -239,8 +239,10 @@ export function BiliPlayer({
   }, [payload?.cid, payload?.durationSec, bvid]);
 
   // 可多选叠加：选了几条就显示几行。用户没选过时自动挑：
-  // 人工中文轨优先（bilibili 的中文轨往往自带中英双语），其次人工英文轨，
-  // 一条人工轨都没有才退到 AI 轨——至少保证有字幕可看。
+  // 人工中文轨优先（bilibili 的中文轨往往自带中英双语），其次人工英文轨。
+  //
+  // 只有 AI 轨时**不自动开**：bilibili 的 AI 字幕经常是别的视频的内容，
+  // 自动挂上去只会误导人。这种情况提示一句，让用户自己决定要不要看。
   const activeTracks = useMemo(() => {
     if (tracks.length === 0) return [];
     const picked = tracks.filter((t) => prefs.cc.lans.includes(t.lan));
@@ -253,9 +255,12 @@ export function BiliPlayer({
     if (zh) return [zh];
     if (en) return [en];
     if (human.length > 0) return [human[0]];
-    // 只剩 AI 轨（或可疑轨）时也给一条，总比没有强
-    return [tracks[0]];
+    return [];
   }, [tracks, prefs.cc.lans]);
+
+  /** 有轨可选，但全是 AI / 可疑轨，且用户还没手动选过 */
+  const onlyAiTracks =
+    tracks.length > 0 && activeTracks.length === 0 && prefs.cc.lans.length === 0;
 
   // 当前清晰度的视频地址
   const videoSrc = useMemo(() => {
@@ -294,6 +299,29 @@ export function BiliPlayer({
       a?.pause();
     }
   }, [payload?.audio]);
+
+  // 切走标签页 / 窗口失焦时自动暂停：人不在了还接着放，那段进度是白记的。
+  // 全屏播放时不管（切出去多半是临时的），可在设置里关掉。
+  useEffect(() => {
+    if (!payload || !prefs.pauseOnBlur) return;
+    const pause = () => {
+      if (document.fullscreenElement) return;
+      const v = videoRef.current;
+      if (v && !v.paused) {
+        v.pause();
+        audioRef.current?.pause();
+      }
+    };
+    const onVisibility = () => {
+      if (document.hidden) pause();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("blur", pause);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("blur", pause);
+    };
+  }, [payload, prefs.pauseOnBlur]);
 
   // 音量 / 静音 / 倍速 → 应用到媒体元素
   useEffect(() => {
@@ -796,17 +824,37 @@ export function BiliPlayer({
 
         {panel === "rate" && (
           <div className="biliplayer-panel">
-            <h4>播放速度</h4>
-            <div className="biliplayer-chips">
-              {RATES.map((r) => (
+            <h4>播放</h4>
+            <div className="biliplayer-field">
+              <span>速度</span>
+              <div className="biliplayer-chips">
+                {RATES.map((r) => (
+                  <button
+                    key={r}
+                    className={prefs.rate === r ? "on" : undefined}
+                    onClick={() => update({ rate: r })}
+                  >
+                    {r}×
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="biliplayer-field">
+              <span>离开页面</span>
+              <div className="biliplayer-chips">
                 <button
-                  key={r}
-                  className={prefs.rate === r ? "on" : undefined}
-                  onClick={() => update({ rate: r })}
+                  className={prefs.pauseOnBlur ? "on" : undefined}
+                  onClick={() => update({ pauseOnBlur: true })}
                 >
-                  {r}×
+                  自动暂停
                 </button>
-              ))}
+                <button
+                  className={!prefs.pauseOnBlur ? "on" : undefined}
+                  onClick={() => update({ pauseOnBlur: false })}
+                >
+                  继续播放
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -992,6 +1040,12 @@ export function BiliPlayer({
             {activeTracks.some((t) => t.ai && !t.suspect) && (
               <p className="biliplayer-panel-note">
                 标 AI 的字幕由 bilibili 自动生成，可能有错漏，仅供参考。
+              </p>
+            )}
+            {onlyAiTracks && (
+              <p className="biliplayer-panel-note">
+                本集只有 AI 自动字幕。这类字幕常与画面对不上号（bilibili 有时会把
+                别的视频的字幕挂过来），所以没有自动开启——需要的话在上面手动选一条。
               </p>
             )}
             <label className="biliplayer-slider">

@@ -63,12 +63,29 @@ export function BiliBind({
   const [note, setNote] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  /** 当前的轮询体，供「页面重新可见」时立刻补一次 */
+  const tickRef = useRef<(() => void) | null>(null);
+
   const stopPolling = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = null;
+    tickRef.current = null;
   }, []);
 
   useEffect(() => () => stopPolling(), [stopPolling]);
+
+  // 从 bilibili App 切回来时后台定时器多半被冻结了，回前台先补查一次
+  useEffect(() => {
+    const onVisible = () => {
+      if (!document.hidden) tickRef.current?.();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", onVisible);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", onVisible);
+    };
+  }, []);
 
   const start = async () => {
     setError(null);
@@ -85,32 +102,41 @@ export function BiliBind({
     stopPolling();
     // 二维码有效期约 180 秒，到点自己收摊，别无限轮询
     const startedAt = Date.now();
-    timerRef.current = setInterval(async () => {
-      if (Date.now() - startedAt > 185_000) {
-        setStatus("expired");
-        stopPolling();
-        return;
+    let busy = false;
+    const tick = async () => {
+      if (busy) return;
+      busy = true;
+      try {
+        if (Date.now() - startedAt > 185_000) {
+          setStatus("expired");
+          stopPolling();
+          return;
+        }
+        const poll = await pollBiliLogin(r.key!, r.buvid);
+        if (!poll.ok) {
+          setError(poll.error ?? "轮询失败");
+          stopPolling();
+          return;
+        }
+        // 非预期状态把 bilibili 原始返回显示出来，免得只能干等
+        setNote(poll.note ?? null);
+        if (poll.status === "scanned") setStatus("scanned");
+        if (poll.status === "expired") {
+          setStatus("expired");
+          stopPolling();
+        }
+        if (poll.status === "ok") {
+          setStatus("ok");
+          setBinding(poll.binding ?? null);
+          setQr(null);
+          stopPolling();
+        }
+      } finally {
+        busy = false;
       }
-      const poll = await pollBiliLogin(r.key!, r.buvid);
-      if (!poll.ok) {
-        setError(poll.error ?? "轮询失败");
-        stopPolling();
-        return;
-      }
-      // 非预期状态把 bilibili 原始返回显示出来，免得只能干等
-      setNote(poll.note ?? null);
-      if (poll.status === "scanned") setStatus("scanned");
-      if (poll.status === "expired") {
-        setStatus("expired");
-        stopPolling();
-      }
-      if (poll.status === "ok") {
-        setStatus("ok");
-        setBinding(poll.binding ?? null);
-        setQr(null);
-        stopPolling();
-      }
-    }, 2500);
+    };
+    tickRef.current = () => void tick();
+    timerRef.current = setInterval(() => void tick(), 2500);
   };
 
   const unbind = async () => {
@@ -153,11 +179,19 @@ export function BiliBind({
     <div className="bili-bind">
       {qr ? (
         <>
-          {/* 手机上没法自己扫自己：直接打开这个地址会唤起 bilibili App 确认 */}
-          <a className="app-btn-primary bili-auth-app" href={qr.url}>
+          {/* 手机上没法自己扫自己：直接打开这个地址会唤起 bilibili App 确认。
+              必须新开标签页：本页要留在原地继续轮询，确认完这边自动绑定 */}
+          <a
+            className="app-btn-primary bili-auth-app"
+            href={qr.url}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <Smartphone size={16} aria-hidden /> 在 bilibili App 中确认登录
           </a>
-          <p className="bili-auth-or">或用另一台设备扫码</p>
+          <p className="bili-auth-or">
+            确认后回到本页，这里会自动完成绑定 · 或用另一台设备扫码
+          </p>
           <QrCanvas text={qr.url} />
           <p className="bili-bind-tip">
             {status === "scanned"

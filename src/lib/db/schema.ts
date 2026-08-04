@@ -346,3 +346,18 @@ export const rpgInventory = sqliteTable(
   },
   (t) => [primaryKey({ columns: [t.userId, t.itemId] })],
 );
+
+// 字幕缓存。bilibili 的 player/v2 返回极不稳定——同一个 cid 连查 4 次，
+// 常常 3 次只给 AI 轨、1 次才带人工轨；而 AI 轨还经常是别的视频的内容。
+// 所以「曾经成功拿到过人工轨」这件事必须持久化，进程重启也不能丢：
+// 有人工轨的结果永久有效，只有 AI 轨的结果短期过期后继续碰运气。
+export const subtitleCache = sqliteTable("subtitle_cache", {
+  /** 分 P 的 cid，字幕以它为准 */
+  cid: integer("cid").primaryKey(),
+  bvid: text("bvid").notNull(),
+  /** SubtitleTrack[] 的 JSON */
+  tracksJson: text("tracks_json").notNull(),
+  /** 是否含人工字幕轨（1 = 永久有效，不必再查） */
+  hasHuman: integer("has_human").notNull().default(0),
+  updatedAt: integer("updated_at").notNull(),
+});

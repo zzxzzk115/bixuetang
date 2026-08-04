@@ -2,11 +2,14 @@ import "server-only";
 
 // bilibili 开放接口薄封装（服务端专用）。
 //
-// 思路参考 wiliwili（https://github.com/xfangfang/wiliwili，MIT）：
+// 思路参考 wiliwili（https://github.com/xfangfang/wiliwili，GPL-3.0）：
 // 用官方 TV/Web 端接口取播放地址与弹幕，自己渲染播放器，
 // 从而拿到「看了多少、看到哪」这些学习进度信号。
 // 凭据只在服务端使用，绝不下发到客户端。
 
+import { eq } from "drizzle-orm";
+import { db } from "@/lib/db/client";
+import { subtitleCache } from "@/lib/db/schema";
 import { signWbi } from "./wbi";
 
 const UA =
@@ -577,20 +580,26 @@ async function collectSubtitleList(
 ): Promise<RawSubtitle[]> {
   const merged = new Map<string, RawSubtitle>();
 
+  const urlOf = (item?: RawSubtitle) =>
+    item ? item.subtitle_url || item.subtitle_url_v2 : "";
   const absorb = (list: RawSubtitle[] | undefined) => {
     for (const item of list ?? []) {
-      if (!merged.has(item.lan)) merged.set(item.lan, item);
+      if (!item?.lan) continue;
+      // 同一语言以「带得到正文地址」的那份为准——view 接口给的条目常常没有 url
+      if (!merged.has(item.lan) || (!urlOf(merged.get(item.lan)) && urlOf(item))) {
+        merged.set(item.lan, item);
+      }
     }
   };
   const hasHuman = () =>
     [...merged.keys()].some((lan) => !lan.startsWith("ai-"));
 
+  // wiliwili 的做法：wbi/v2 + 只传 bvid 与 cid，别的参数一概不传。
+  // （实测 WBI 签名与 buvid3 都不是字幕能否返回的门槛，有效的 SESSDATA 才是；
+  //   签名版在境外 IP 会被 412 拦，所以拦过一次就直接走未签名版。）
   if (!wbiState.__biliWbiBlocked) {
     try {
-      const query = await signWbi(
-        { bvid, cid, web_location: 1315873 },
-        biliHeaders(sessdata),
-      );
+      const query = await signWbi({ bvid, cid }, biliHeaders(sessdata));
       const json = await getJson<PlayerV2Data>(
         `https://api.bilibili.com/x/player/wbi/v2?${query}`,
         sessdata,
@@ -602,7 +611,10 @@ async function collectSubtitleList(
     }
   }
 
-  for (let attempt = 0; attempt < 3 && !hasHuman(); attempt++) {
+  // 实测：连着问同一个 cid 会被降级——第 1 次给人工轨 zh-CN，第 2、3 次就只剩
+  // ai-zh 了。所以重试要慢，快速重试只会把好结果问没。
+  for (let attempt = 0; attempt < 2 && !hasHuman(); attempt++) {
+    if (attempt > 0) await new Promise((r) => setTimeout(r, 1500));
     try {
       const json = await getJson<PlayerV2Data>(
         `https://api.bilibili.com/x/player/v2?bvid=${encodeURIComponent(bvid)}&cid=${cid}`,
@@ -612,11 +624,31 @@ async function collectSubtitleList(
     } catch {
       // 单次失败无所谓，还有下一轮
     }
-    if (!hasHuman() && attempt < 2) {
-      await new Promise((r) => setTimeout(r, 250));
-    }
   }
   return [...merged.values()];
+}
+
+/**
+ * 这个稿件到底有没有 UP 主上传的人工字幕。
+ * view 接口的 subtitle.list 里人工轨是 type:0，但它**不给正文地址**
+ * （subtitle_url 恒为空），所以只能用来判断「该有而没拿到」，
+ * 不能直接当字幕源用。
+ */
+async function hasManualSubtitle(
+  bvid: string,
+  sessdata?: string,
+): Promise<boolean> {
+  try {
+    const json = await getJson<{ subtitle?: { list?: RawSubtitle[] } }>(
+      `https://api.bilibili.com/x/web-interface/view?bvid=${encodeURIComponent(bvid)}`,
+      sessdata,
+    );
+    return (json.data?.subtitle?.list ?? []).some(
+      (item) => !!item.lan && !item.lan.startsWith("ai-"),
+    );
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -627,7 +659,64 @@ async function collectSubtitleList(
 const subCache = globalThis as unknown as {
   __biliSubs?: Map<number, { tracks: SubtitleTrack[]; at: number }>;
 };
+/** 只抓到 AI 轨时的缓存时效：过期后再去碰运气找人工轨 */
 const SUB_TTL = 30 * 60 * 1000;
+
+/**
+ * 读持久缓存。人工轨永不过期（字幕内容不会变，而重新去问反而可能问不到）；
+ * 只有 AI 轨的结果按 SUB_TTL 过期，好让后续请求还有机会捞到人工轨。
+ */
+async function readSubCache(cid: number): Promise<SubtitleTrack[] | null> {
+  try {
+    const row = await db
+      .select()
+      .from(subtitleCache)
+      .where(eq(subtitleCache.cid, cid))
+      .get();
+    if (!row) return null;
+    if (!row.hasHuman && Date.now() - row.updatedAt > SUB_TTL) return null;
+    return JSON.parse(row.tracksJson) as SubtitleTrack[];
+  } catch {
+    return null;
+  }
+}
+
+async function writeSubCache(
+  cid: number,
+  bvid: string,
+  tracks: SubtitleTrack[],
+): Promise<void> {
+  const hasHuman = tracks.some((t) => !t.ai);
+  try {
+    const existing = await db
+      .select({ hasHuman: subtitleCache.hasHuman })
+      .from(subtitleCache)
+      .where(eq(subtitleCache.cid, cid))
+      .get();
+    // 别用「这次只捞到 AI 轨」的结果覆盖掉之前存好的人工轨
+    if (existing?.hasHuman && !hasHuman) return;
+    await db
+      .insert(subtitleCache)
+      .values({
+        cid,
+        bvid,
+        tracksJson: JSON.stringify(tracks),
+        hasHuman: hasHuman ? 1 : 0,
+        updatedAt: Date.now(),
+      })
+      .onConflictDoUpdate({
+        target: subtitleCache.cid,
+        set: {
+          bvid,
+          tracksJson: JSON.stringify(tracks),
+          hasHuman: hasHuman ? 1 : 0,
+          updatedAt: Date.now(),
+        },
+      });
+  } catch {
+    // 缓存写失败不影响播放
+  }
+}
 
 export async function fetchSubtitles(
   bvid: string,
@@ -641,11 +730,17 @@ export async function fetchSubtitles(
   if (cached && Date.now() - cached.at < SUB_TTL && cached.tracks.length > 0) {
     return cached.tracks;
   }
+  const persisted = await readSubCache(cid);
+  if (persisted && persisted.length > 0) {
+    subCache.__biliSubs.set(cid, { tracks: persisted, at: Date.now() });
+    return persisted;
+  }
 
   const list = await collectSubtitleList(bvid, cid, sessdata);
   const tracks: SubtitleTrack[] = [];
   for (const item of list.slice(0, 4)) {
-    const raw = item.subtitle_url_v2 || item.subtitle_url;
+    // wiliwili 只读 subtitle_url；v2 字段是后加的，两个都兜住
+    const raw = item.subtitle_url || item.subtitle_url_v2;
     if (!raw) continue;
     // 接口给的是协议相对地址
     const url = raw.startsWith("//") ? `https:${raw}` : raw;
@@ -685,9 +780,17 @@ export async function fetchSubtitles(
   const sorted = tracks.sort(
     (a, b) => Number(a.ai) - Number(b.ai) || Number(a.suspect) - Number(b.suspect),
   );
-  if (sorted.length > 0) {
-    subCache.__biliSubs!.set(cid, { tracks: sorted, at: Date.now() });
+  if (sorted.length === 0) return sorted;
+
+  // 只捞到 AI 轨时，先问一句这稿件本来有没有人工字幕：有的话说明是被降级了，
+  // 这份结果不该缓存（哪怕短期），否则半小时内都只能看错乱的 AI 字幕。
+  const aiOnly = sorted.every((t) => t.ai);
+  if (aiOnly && (await hasManualSubtitle(bvid, sessdata))) {
+    return sorted;
   }
+
+  subCache.__biliSubs!.set(cid, { tracks: sorted, at: Date.now() });
+  await writeSubCache(cid, bvid, sorted);
   return sorted;
 }
 

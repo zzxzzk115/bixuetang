@@ -41,9 +41,11 @@ export interface PlayerPrefs {
   cc: CcSettings;
   /** 记住的清晰度 id，找不到就退到最高档 */
   qualityId: number | null;
+  /** 切走标签页/窗口失焦时自动暂停 */
+  pauseOnBlur: boolean;
 }
 
-export const PREFS_VERSION = 4;
+export const PREFS_VERSION = 5;
 
 export const DEFAULT_PREFS: PlayerPrefs = {
   v: PREFS_VERSION,
@@ -70,6 +72,8 @@ export const DEFAULT_PREFS: PlayerPrefs = {
     style: "shadow",
   },
   qualityId: null,
+  // 默认开：人走了视频还在放，进度会白记一段
+  pauseOnBlur: true,
 };
 
 const KEY = "guild-player-prefs";
