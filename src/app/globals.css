@@ -6640,3 +6640,46 @@ body:has(.dungeon-chamber) .analysis-section {
   min-width: 62px;
   font-variant-numeric: tabular-nums;
 }
+
+/* ==== 首次扫码进站的开号表单 ==== */
+.bili-signup {
+  display: grid;
+  gap: 12px;
+  text-align: left;
+}
+.bili-signup h3 {
+  color: var(--app-strong);
+  font-size: 17px;
+  font-weight: 800;
+}
+.bili-signup-lead {
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.bili-signup-field {
+  display: grid;
+  gap: 5px;
+}
+.bili-signup-field span {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 800;
+}
+.bili-signup-field input {
+  width: 100%;
+  /* 移动端 <16px 会触发 iOS 自动放大 */
+  min-height: 46px;
+  padding: 0 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  background: var(--app-surface);
+  color: var(--app-strong);
+  font-size: 16px;
+  font-weight: 700;
+}
+.bili-signup-field input:focus-visible {
+  border-color: var(--app-blue);
+  outline: none;
+}

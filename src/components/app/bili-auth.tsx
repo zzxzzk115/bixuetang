@@ -4,7 +4,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2, QrCode, Smartphone } from "lucide-react";
-import { pollBiliAuth, startBiliAuth } from "@/lib/bili/auth-actions";
+import {
+  completeBiliSignup,
+  pollBiliAuth,
+  startBiliAuth,
+} from "@/lib/bili/auth-actions";
 import { qrMatrix } from "@/lib/qr/encode";
 
 // 扫码登录/注册：一个二维码搞定「登录既有账号」与「首次开号」。
@@ -42,8 +46,16 @@ export function BiliAuth() {
     null,
   );
   const [status, setStatus] = useState<
-    "idle" | "loading" | "waiting" | "scanned" | "expired" | "ok"
+    "idle" | "loading" | "waiting" | "scanned" | "expired" | "ok" | "signup"
   >("idle");
+  /** 首次进站要填的开号表单 */
+  const [signup, setSignup] = useState<{
+    token: string;
+    username: string;
+    displayName: string;
+  } | null>(null);
+  const [password, setPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [note, setNote] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -109,6 +121,16 @@ export function BiliAuth() {
           setStatus("expired");
           stopPolling();
         }
+        if (poll.status === "signup") {
+          // 首次进站：扫码只证明「你是谁」，账号还得自己开
+          stopPolling();
+          setStatus("signup");
+          setSignup({
+            token: poll.signupToken!,
+            username: poll.suggestedUsername ?? "",
+            displayName: poll.biliNickname ?? "",
+          });
+        }
         if (poll.status === "ok") {
           setStatus("ok");
           stopPolling();
@@ -122,6 +144,85 @@ export function BiliAuth() {
     tickRef.current = () => void tick();
     timerRef.current = setInterval(() => void tick(), 2500);
   }, [router, stopPolling]);
+
+  const submitSignup = async () => {
+    if (!signup) return;
+    setError(null);
+    setSubmitting(true);
+    const r = await completeBiliSignup(
+      signup.token,
+      signup.username,
+      password,
+      signup.displayName,
+    );
+    setSubmitting(false);
+    if (!r.ok) {
+      setError(r.error ?? "开号失败");
+      return;
+    }
+    router.replace("/play");
+    router.refresh();
+  };
+
+  // 首次进站：扫码只证明了「你是谁」，账号还得自己开——
+  // 定下用户名和密码，以后换台没装 bilibili 的设备也能登进来。
+  if (signup) {
+    return (
+      <div className="bili-auth bili-signup">
+        <h3>就差一步：给自己开个号</h3>
+        <p className="bili-signup-lead">
+          已认到 bilibili 账号
+          {signup.displayName ? `「${signup.displayName}」` : ""}。
+          设一组用户名和密码，以后不用 bilibili 也能登录。
+        </p>
+        <label className="bili-signup-field">
+          <span>用户名</span>
+          <input
+            value={signup.username}
+            autoComplete="username"
+            placeholder="3–32 位小写字母、数字或下划线"
+            onChange={(e) =>
+              setSignup({ ...signup, username: e.target.value.toLowerCase() })
+            }
+          />
+        </label>
+        <label className="bili-signup-field">
+          <span>密码</span>
+          <input
+            type="password"
+            value={password}
+            autoComplete="new-password"
+            placeholder="至少 8 位"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <label className="bili-signup-field">
+          <span>昵称</span>
+          <input
+            value={signup.displayName}
+            placeholder="留空就用 bilibili 昵称"
+            onChange={(e) =>
+              setSignup({ ...signup, displayName: e.target.value })
+            }
+          />
+        </label>
+        <button
+          className="app-btn-primary"
+          onClick={() => void submitSignup()}
+          disabled={submitting}
+        >
+          {submitting ? (
+            <>
+              <Loader2 size={15} className="spin" aria-hidden /> 开号中…
+            </>
+          ) : (
+            "确认开号并进入"
+          )}
+        </button>
+        {error && <p className="bili-bind-error">{error}</p>}
+      </div>
+    );
+  }
 
   return (
     <div className="bili-auth">
