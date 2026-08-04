@@ -642,16 +642,140 @@ export function BiliPlayer({
     return () => window.removeEventListener("keydown", onKey);
   }, [cinema]);
 
-  const seek = (e: React.MouseEvent<HTMLDivElement>) => {
-    const v = videoRef.current;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const ratio = (e.clientX - rect.left) / rect.width;
-    const total = v?.duration || duration;
-    if (v && total > 0) {
-      v.currentTime = Math.max(0, Math.min(total, ratio * total));
+  /** 跳到绝对时间，音轨跟着走 */
+  const seekTo = useCallback(
+    (sec: number) => {
+      const v = videoRef.current;
+      const total = v?.duration || duration;
+      if (!v || total <= 0) return;
+      v.currentTime = Math.max(0, Math.min(total, sec));
       if (audioRef.current) audioRef.current.currentTime = v.currentTime;
-    }
+      setCurrent(v.currentTime);
+    },
+    [duration],
+  );
+
+  /** 相对当前位置快进/快退 */
+  const nudge = useCallback(
+    (deltaSec: number) => {
+      const v = videoRef.current;
+      if (v) seekTo(v.currentTime + deltaSec);
+    },
+    [seekTo],
+  );
+
+  // 进度条拖拽。用 pointer 事件一套覆盖鼠标与触摸，
+  // setPointerCapture 让手指/光标移出进度条后依然跟手。
+  const draggingRef = useRef(false);
+  const seekAtClientX = useCallback(
+    (clientX: number, el: HTMLElement) => {
+      const rect = el.getBoundingClientRect();
+      const ratio = (clientX - rect.left) / rect.width;
+      const total = videoRef.current?.duration || duration;
+      if (total > 0) seekTo(ratio * total);
+    },
+    [duration, seekTo],
+  );
+
+  const onTrackPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    draggingRef.current = true;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    seekAtClientX(e.clientX, e.currentTarget);
   };
+  const onTrackPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (draggingRef.current) seekAtClientX(e.clientX, e.currentTarget);
+  };
+  const onTrackPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    draggingRef.current = false;
+    e.currentTarget.releasePointerCapture?.(e.pointerId);
+  };
+
+  // 键盘控制。只在鼠标停在播放器上或播放器内有焦点时接管按键——
+  // 否则在页面别处敲空格会莫名其妙地暂停视频。
+  const hoverRef = useRef(false);
+  useEffect(() => {
+    if (!payload) return;
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      // 别抢输入框和滑块的按键
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+      const inPlayer =
+        hoverRef.current ||
+        isFullscreen ||
+        cinema ||
+        (wrapRef.current?.contains(document.activeElement) ?? false);
+      if (!inPlayer) return;
+
+      switch (e.key) {
+        case " ":
+        case "k":
+          e.preventDefault();
+          togglePlay();
+          break;
+        case "ArrowLeft":
+          e.preventDefault();
+          nudge(e.shiftKey ? -30 : -5);
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          nudge(e.shiftKey ? 30 : 5);
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          update({ volume: Math.min(1, prefs.volume + 0.1), muted: false });
+          break;
+        case "ArrowDown": {
+          e.preventDefault();
+          const next = Math.max(0, prefs.volume - 0.1);
+          update({ volume: next, muted: next === 0 });
+          break;
+        }
+        case "m":
+          update({ muted: !prefs.muted });
+          break;
+        case "f":
+          void toggleFullscreen();
+          break;
+        case "c":
+          updateCc({ on: !prefs.cc.on });
+          break;
+        case "d":
+          updateDanmaku({ on: !prefs.danmaku.on });
+          break;
+        default:
+          // 数字键跳到对应百分比，跟主流播放器一致
+          if (/^[0-9]$/.test(e.key)) {
+            const total = videoRef.current?.duration || duration;
+            if (total > 0) seekTo((total * Number(e.key)) / 10);
+          }
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [
+    payload,
+    isFullscreen,
+    cinema,
+    prefs.volume,
+    prefs.muted,
+    prefs.cc.on,
+    prefs.danmaku.on,
+    duration,
+    togglePlay,
+    nudge,
+    seekTo,
+    update,
+    updateCc,
+    updateDanmaku,
+    toggleFullscreen,
+  ]);
 
   if (error) {
     return (
@@ -692,6 +816,13 @@ export function BiliPlayer({
     <div
       className={`biliplayer ${cinema ? "cinema" : ""} ${isFullscreen ? "is-fs" : ""}`}
       ref={wrapRef}
+      // 键盘只在指针停在播放器上时接管，免得在页面别处敲空格也暂停视频
+      onPointerEnter={() => {
+        hoverRef.current = true;
+      }}
+      onPointerLeave={() => {
+        hoverRef.current = false;
+      }}
     >
       <div className="biliplayer-stage" onClick={() => setPanel("none")}>
         <video
@@ -771,8 +902,24 @@ export function BiliPlayer({
       </div>
 
       <div className="biliplayer-bar">
-        <div className="biliplayer-track" onClick={seek}>
-          <i style={{ width: `${duration ? (current / duration) * 100 : 0}%` }} />
+        <div
+          className="biliplayer-track"
+          role="slider"
+          tabIndex={0}
+          aria-label="播放进度"
+          aria-valuemin={0}
+          aria-valuemax={Math.round(duration)}
+          aria-valuenow={Math.round(current)}
+          aria-valuetext={`${fmt(current)} / ${fmt(duration)}`}
+          onPointerDown={onTrackPointerDown}
+          onPointerMove={onTrackPointerMove}
+          onPointerUp={onTrackPointerUp}
+          onPointerCancel={onTrackPointerUp}
+        >
+          <i style={{ width: `${duration ? (current / duration) * 100 : 0}%` }}>
+            {/* 拖拽手柄：触摸屏上没有它就只能盲拖 */}
+            <b className="biliplayer-thumb" />
+          </i>
         </div>
 
         <div className="biliplayer-controls">

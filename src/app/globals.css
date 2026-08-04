@@ -5744,17 +5744,48 @@ body:has(.dungeon-chamber) .analysis-section {
   gap: 8px;
 }
 .biliplayer-track {
+  position: relative;
   height: 8px;
   border-radius: 6px;
   background: var(--app-line);
   cursor: pointer;
-  overflow: hidden;
+  /* 拖拽全程跟手，别让浏览器把横向拖动解释成页面滚动 */
+  touch-action: none;
+}
+.biliplayer-track::before {
+  /* 视觉上是 8px 细条，实际热区上下各撑 8px——
+     手指在 8px 高的条上拖拽几乎不可能对准 */
+  content: "";
+  position: absolute;
+  inset: -8px 0;
+}
+.biliplayer-track:focus-visible {
+  outline: 2px solid var(--app-blue);
+  outline-offset: 4px;
 }
 .biliplayer-track i {
+  position: relative;
   display: block;
   height: 100%;
   border-radius: 6px;
   background: var(--app-blue);
+}
+.biliplayer-thumb {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translate(50%, -50%);
+  border-radius: 50%;
+  background: var(--app-blue);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  /* 悬停或拖拽时才放大，静态时不喧宾夺主 */
+  transition: transform 120ms ease;
+}
+.biliplayer-track:hover .biliplayer-thumb,
+.biliplayer-track:active .biliplayer-thumb {
+  transform: translate(50%, -50%) scale(1.2);
 }
 .biliplayer-controls {
   display: flex;

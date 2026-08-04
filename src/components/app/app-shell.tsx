@@ -7,12 +7,12 @@ import {
   Coins,
   Flame,
   Map as MapIcon,
-  Shield,
   ShoppingBag,
   Swords,
   User,
   Zap,
 } from "lucide-react";
+import { GuildSigil } from "@/components/guild-sigil";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 
 // App 壳，随视口变形（多邻国式）：
@@ -54,7 +54,9 @@ export function AppShell({
     <div className="app-root">
       <nav className="app-tabs" aria-label="主导航">
         <span className="app-brand" aria-hidden>
-          <Shield size={26} strokeWidth={2.4} />
+          {/* 站点徽记与 favicon 同源（src/lib/brand/sigil.ts），
+              别在这里另挑一个图标，否则品牌两处对不上 */}
+          <GuildSigil size={26} />
           <b>必学堂</b>
         </span>
         {TABS.map((tab) => {
