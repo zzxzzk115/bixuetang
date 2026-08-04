@@ -115,8 +115,6 @@ function captionFor(node: LessonNode, isLastQuiz: boolean): string {
 export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  // 渲染期不许 Date.now()：挂载快照判断药水是否生效
-  const [mountedAt] = useState(() => Date.now());
   const [width, setWidth] = useState(0);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [routeId, setRouteId] = useState(() => {
@@ -135,10 +133,13 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
   const [shakeKey, setShakeKey] = useState<string | null>(null);
   const [chestOpening, setChestOpening] = useState(false);
   const [chestReward, setChestReward] = useState<ChestResult | null>(null);
-  // 视频节点气泡：点节点先看这节覆盖哪些集，再进入
+  // 视频节点气泡：点节点先看这节覆盖哪些集（含可得 XP），再进入
   const [pop, setPop] = useState<{
     node: MapNode;
-    episodes: { n: number; title: string; watched: boolean }[] | null;
+    episodes:
+      | { n: number; title: string; watched: boolean; xp: number; baseXp: number }[]
+      | null;
+    multiplierPct?: number;
   } | null>(null);
 
   useEffect(() => {
@@ -278,7 +279,13 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
       const r = await getVideoNodeEpisodes(n.course.id, n.node.index);
       if (r.ok && r.episodes) {
         setPop((cur) =>
-          cur?.node.key === n.key ? { node: n, episodes: r.episodes! } : cur,
+          cur?.node.key === n.key
+            ? {
+                node: n,
+                episodes: r.episodes!,
+                multiplierPct: r.multiplierPct ?? 100,
+              }
+            : cur,
         );
       }
       return;
@@ -389,7 +396,7 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
             const boosted =
               n.state === "current" &&
               bootstrap.boost &&
-              bootstrap.boost.expiresAt > mountedAt;
+              bootstrap.boost.episodesLeft > 0;
             const color =
               n.node.kind === "chest"
                 ? "var(--app-gold)"
@@ -493,6 +500,17 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
                     <li key={e.n} className={e.watched ? "watched" : undefined}>
                       <i>{e.watched ? "✓" : "○"}</i>
                       <span>{e.title}</span>
+                      {!e.watched && (
+                        <em
+                          className={
+                            (pop.multiplierPct ?? 100) > 100
+                              ? "route-pop-xp boosted"
+                              : "route-pop-xp"
+                          }
+                        >
+                          +{e.xp}
+                        </em>
+                      )}
                     </li>
                   ))}
                 </ul>

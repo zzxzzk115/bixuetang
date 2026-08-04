@@ -169,4 +169,31 @@ Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 ·
 SQLite (better-sqlite3 + Drizzle ORM) · argon2id + cookie session ·
 CodeMirror 6（Hack 实验室编辑器）· MathLive + compute-engine（数学工坊）
 
+播放器、弹幕渲染与二维码编码都是本仓库自己实现的，没有引入第三方播放器/QR 依赖。
+
 全站支持亮/暗双主题，跟随系统并可在 `/settings` 手动覆盖。
+
+## 致谢
+
+- **[wiliwili](https://github.com/xfangfang/wiliwili)**（MIT）——第三方 B 站客户端。
+  本站的「绑定 B 站账号 → 官方接口取播放地址与弹幕 → 自己渲染播放器 → 拿到真实观看
+  进度」这条路线，思路来自 wiliwili 的实现。感谢 xfangfang 与其贡献者。
+  本项目未使用其代码，仅参考其对公开接口的用法。
+- 课程索引主要来自 [csdiy.wiki](https://csdiy.wiki/)。
+- 像素字体：[方舟像素字体](https://github.com/TakWolf/ark-pixel-font)（OFL-1.1）。
+  美术素材授权见 `public/assets/ATTRIBUTION.md`。
+
+## 许可与免责声明
+
+本项目以 [MIT License](./LICENSE) 开源。
+
+- **非商业、无盈利**：本站不售卖课程内容，不提供付费会员，站内「金币 / 药水 / 商店」
+  全部是学习进度换算出的游戏化数值，与真实货币无关。若未来接受赞助，赞助仅用于
+  服务器与域名开销，不解锁任何内容特权。
+- **不托管视频**：所有课程视频均来自 bilibili / YouTube 等平台的公开地址，
+  本站不存储、不转码、不二次分发视频文件。绑定账号后的播放走用户自己的账号凭据，
+  等同于用户在原平台观看；凭据只保存在本站服务端，用户可随时解绑删除。
+- **接口用途**：与 bilibili 相关的接口调用仅为满足本人学习进度记录之需要，
+  请勿用于批量抓取、绕过平台限制或任何商业用途。因使用者违规使用造成的后果自负。
+- 课程内容版权归原作者与原平台所有。若权利人认为本站的索引方式不妥，
+  请提 issue，我们会立即移除对应条目。

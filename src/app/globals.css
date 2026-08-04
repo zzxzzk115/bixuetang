@@ -198,7 +198,7 @@ html {
 
 .app-tabs {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   border-top: 2px solid var(--app-line);
   padding-bottom: env(safe-area-inset-bottom);
   background: var(--app-bg);
@@ -5413,4 +5413,472 @@ body:has(.dungeon-chamber) .analysis-section {
   background: none;
   padding: 0;
   box-shadow: none;
+}
+
+/* ==== 每集可得 XP 标签 ==== */
+.app-eps-xp {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--app-gold) 16%, transparent);
+  color: var(--app-gold);
+  font-size: 12px;
+  font-weight: 800;
+}
+.app-eps-xp.boosted {
+  background: color-mix(in srgb, var(--app-purple) 16%, transparent);
+  color: var(--app-purple);
+}
+.route-pop-xp {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--app-gold);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+}
+.route-pop-xp.boosted {
+  color: var(--app-purple);
+}
+.app-stat.boost small {
+  margin-left: 2px;
+  font-size: 11px;
+  opacity: 0.85;
+}
+/* 六个 Tab 的移动端字号收一点，别挤 */
+@media (max-width: 400px) {
+  .app-tabs button {
+    font-size: 10px;
+  }
+}
+
+/* ==== 知识点地图（原生 App 版） ==== */
+.kmap {
+  display: grid;
+  gap: 12px;
+}
+.kmap-overview {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--app-blue) 8%, transparent);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.kmap-overview svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--app-blue);
+}
+.kmap-list {
+  display: grid;
+  gap: 8px;
+}
+.kmap-card {
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-bg);
+  overflow: hidden;
+}
+.kmap-card.open {
+  border-color: color-mix(in srgb, var(--app-blue) 45%, var(--app-line));
+}
+.kmap-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.kmap-no {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--app-blue) 12%, transparent);
+  color: var(--app-blue);
+  font-size: 12px;
+  font-weight: 800;
+}
+.kmap-head-copy {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.kmap-head-copy b {
+  color: var(--app-strong);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.kmap-head-copy small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kmap-meta {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-faint);
+}
+.kmap-meta em {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+}
+.kmap-meta svg {
+  transition: transform 150ms ease;
+}
+.kmap-card.open .kmap-meta svg {
+  transform: rotate(180deg);
+}
+.kmap-body {
+  display: grid;
+  gap: 12px;
+  padding: 0 14px 14px;
+}
+.kmap-summary {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--app-text);
+}
+.kmap-points {
+  display: grid;
+  gap: 10px;
+}
+.kmap-points li {
+  display: flex;
+  gap: 10px;
+}
+.kmap-stamp {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--app-green) 14%, transparent);
+  color: var(--app-green);
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.kmap-stamp:active {
+  transform: translateY(1px);
+}
+.kmap-dot {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--app-line);
+  color: var(--app-faint);
+  font-size: 11px;
+  font-weight: 800;
+}
+.kmap-point-copy {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.kmap-point-copy b {
+  color: var(--app-strong);
+  font-size: 13px;
+  font-weight: 800;
+}
+.kmap-point-copy p {
+  color: var(--app-text);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.kmap-formula {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--app-purple) 8%, transparent);
+}
+.kmap-formula-body {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  font-size: 14px;
+}
+.kmap-formula-body code {
+  font-size: 12px;
+  color: var(--app-purple);
+}
+.kmap-formula-action {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--app-surface);
+  color: var(--app-purple);
+}
+.kmap-terms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.kmap-terms span {
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-blue) 10%, transparent);
+  color: var(--app-blue);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: help;
+}
+.kmap-foot {
+  color: var(--app-faint);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* ==== 自研 B 站播放器 ==== */
+.course-player-native {
+  display: grid;
+  gap: 8px;
+}
+.course-player-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0 2px;
+}
+.course-player-head b {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--app-strong);
+  font-size: 13px;
+  font-weight: 800;
+}
+.course-player-head small {
+  flex-shrink: 0;
+  color: var(--app-green);
+  font-size: 12px;
+  font-weight: 800;
+}
+.biliplayer {
+  display: grid;
+  gap: 8px;
+}
+.biliplayer-stage {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 16 / 9;
+  cursor: pointer;
+}
+.biliplayer-stage video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.biliplayer-danmaku {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.biliplayer-bigplay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  cursor: pointer;
+}
+.biliplayer-bar {
+  display: grid;
+  gap: 8px;
+}
+.biliplayer-track {
+  height: 8px;
+  border-radius: 6px;
+  background: var(--app-line);
+  cursor: pointer;
+  overflow: hidden;
+}
+.biliplayer-track i {
+  display: block;
+  height: 100%;
+  border-radius: 6px;
+  background: var(--app-blue);
+}
+.biliplayer-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.biliplayer-controls button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: var(--app-text);
+  cursor: pointer;
+}
+.biliplayer-controls button:hover {
+  background: color-mix(in srgb, var(--app-blue) 10%, transparent);
+}
+.biliplayer-controls button.on {
+  color: var(--app-blue);
+}
+.biliplayer-time {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.biliplayer-watch {
+  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-green) 12%, transparent);
+  color: var(--app-green);
+  font-size: 12px;
+  font-weight: 800;
+}
+.biliplayer-hint,
+.biliplayer-loading,
+.biliplayer-fallback {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.biliplayer-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--app-line) 35%, transparent);
+}
+.biliplayer-fallback {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 32px 16px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--app-line) 30%, transparent);
+  text-align: center;
+}
+.spin {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==== B 站账号绑定 ==== */
+.bili-bind {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+}
+.bili-bind-lead {
+  color: var(--app-text);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.bili-bind .app-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 14px;
+}
+.bili-qr {
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+  border: 2px solid var(--app-line);
+  background: #fff;
+}
+.bili-bind-tip {
+  color: var(--app-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+.bili-bind-error {
+  color: var(--app-red);
+  font-size: 12px;
+  font-weight: 700;
+}
+.bili-bound {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bili-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.bili-bound-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.bili-bound-body b {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--app-green);
+  font-size: 14px;
+}
+.bili-bound-body small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.bili-bound .app-btn-plain {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 13px;
 }

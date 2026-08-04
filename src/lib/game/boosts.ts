@@ -1,11 +1,13 @@
 import "server-only";
 
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { db } from "../db/client";
 import { rpgInventory, xpBoosts } from "../db/schema";
+import { boostedXp } from "./xp";
 
-// 经验药水：商店购买（即时生效 / 入包备用），XP 结算统一走 boostXp。
-// 规则：同倍率续时长（从当前到期点顺延），不同倍率直接替换（用户拍板即所欲）。
+// 经验药水：商店购买（即时生效 / 入包备用）。
+// 按「还能加成几集」计数而不是时间——长课单集就超过 30 分钟，
+// 计时制会让药水在看完一集前就过期（用户点名的问题）。
 
 export type PotionKind = "x15" | "x3";
 
@@ -13,7 +15,8 @@ export interface PotionSpec {
   kind: PotionKind;
   title: string;
   multiplierPct: number;
-  durationMs: number;
+  /** 覆盖多少集 */
+  episodes: number;
   /** 立即生效价 */
   price: number;
   /** 放入背包价（囤货要加钱） */
@@ -26,19 +29,19 @@ export const POTIONS: Record<PotionKind, PotionSpec> = {
     kind: "x15",
     title: "经验药水 ×1.5",
     multiplierPct: 150,
-    durationMs: 30 * 60 * 1000,
+    episodes: 2,
     price: 100,
     bagPrice: 150,
-    blurb: "30 分钟内所有学习 XP ×1.5",
+    blurb: "接下来 2 集的完成经验 ×1.5",
   },
   x3: {
     kind: "x3",
     title: "浓缩经验药水 ×3",
     multiplierPct: 300,
-    durationMs: 30 * 60 * 1000,
+    episodes: 4,
     price: 300,
     bagPrice: 450,
-    blurb: "30 分钟内所有学习 XP ×3",
+    blurb: "接下来 4 集的完成经验 ×3",
   },
 };
 
@@ -55,7 +58,8 @@ export function potionKindFromItemId(itemId: string): PotionKind | null {
 
 export interface ActiveBoost {
   multiplierPct: number;
-  expiresAt: number;
+  /** 还能加成几集 */
+  episodesLeft: number;
 }
 
 export function getActiveBoost(userId: number): ActiveBoost | null {
@@ -64,31 +68,31 @@ export function getActiveBoost(userId: number): ActiveBoost | null {
     .from(xpBoosts)
     .where(eq(xpBoosts.userId, userId))
     .get();
-  if (!row || row.expiresAt <= Date.now()) return null;
-  return { multiplierPct: row.multiplierPct, expiresAt: row.expiresAt };
+  if (!row || row.episodesLeft <= 0) return null;
+  return { multiplierPct: row.multiplierPct, episodesLeft: row.episodesLeft };
 }
 
-/** 激活/续期加成：同倍率顺延，不同倍率替换 */
+/** 激活/叠加药水：同倍率累加集数，不同倍率替换 */
 export function activateBoost(userId: number, spec: PotionSpec): ActiveBoost {
   const now = Date.now();
   const cur = getActiveBoost(userId);
-  const expiresAt =
+  const episodesLeft =
     cur && cur.multiplierPct === spec.multiplierPct
-      ? cur.expiresAt + spec.durationMs
-      : now + spec.durationMs;
+      ? cur.episodesLeft + spec.episodes
+      : spec.episodes;
   db.insert(xpBoosts)
     .values({
       userId,
       multiplierPct: spec.multiplierPct,
-      expiresAt,
+      episodesLeft,
       updatedAt: now,
     })
     .onConflictDoUpdate({
       target: xpBoosts.userId,
-      set: { multiplierPct: spec.multiplierPct, expiresAt, updatedAt: now },
+      set: { multiplierPct: spec.multiplierPct, episodesLeft, updatedAt: now },
     })
     .run();
-  return { multiplierPct: spec.multiplierPct, expiresAt };
+  return { multiplierPct: spec.multiplierPct, episodesLeft };
 }
 
 /** 背包里各药水的存量 */
@@ -105,10 +109,33 @@ export function potionCounts(userId: number): Record<PotionKind, number> {
   };
 }
 
-/** XP 结算入口：有生效中的药水就乘上去（金币不受加成） */
-export function boostXp(userId: number, base: number): number {
-  if (base <= 0) return base;
+/** 预览：这一集完成能拿多少 XP（含药水加成），提前告诉玩家 */
+export function previewEpisodeXp(
+  userId: number,
+  baseXp: number,
+): { base: number; final: number; multiplierPct: number } {
   const boost = getActiveBoost(userId);
-  if (!boost) return base;
-  return Math.round((base * boost.multiplierPct) / 100);
+  if (!boost) return { base: baseXp, final: baseXp, multiplierPct: 100 };
+  return {
+    base: baseXp,
+    final: boostedXp(baseXp, boost.multiplierPct),
+    multiplierPct: boost.multiplierPct,
+  };
+}
+
+/**
+ * 结算一集：应用加成并消耗一次药水次数。
+ * 只有「看完一集」会消耗药水（测验/宝箱/试炼不消耗也不加成）。
+ */
+export function settleEpisodeXp(userId: number, baseXp: number): number {
+  const boost = getActiveBoost(userId);
+  if (!boost) return baseXp;
+  db.update(xpBoosts)
+    .set({
+      episodesLeft: sql`${xpBoosts.episodesLeft} - 1`,
+      updatedAt: Date.now(),
+    })
+    .where(eq(xpBoosts.userId, userId))
+    .run();
+  return boostedXp(baseXp, boost.multiplierPct);
 }

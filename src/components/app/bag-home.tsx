@@ -50,8 +50,8 @@ interface EquipVm {
 }
 
 const POTION_LABEL: Record<PotionKind, { title: string; blurb: string }> = {
-  x15: { title: "经验药水 ×1.5", blurb: "30 分钟 XP ×1.5" },
-  x3: { title: "浓缩经验药水 ×3", blurb: "30 分钟 XP ×3" },
+  x15: { title: "经验药水 ×1.5", blurb: "2 集内单集经验 ×1.5" },
+  x3: { title: "浓缩经验药水 ×3", blurb: "4 集内单集经验 ×3" },
 };
 
 export function BagHome({
@@ -62,8 +62,6 @@ export function BagHome({
   potions: Record<PotionKind, number>;
 }) {
   const router = useRouter();
-  // 渲染期不许碰 Date.now()（react-hooks/purity）——挂载时刻快照足够
-  const [now] = useState(() => Date.now());
   const [potions, setPotions] = useState(initialPotions);
   const [boost, setBoost] = useState(bootstrap.boost);
   const [drinking, setDrinking] = useState(false);
@@ -178,11 +176,10 @@ export function BagHome({
               <ShoppingBag size={15} aria-hidden /> 商店
             </button>
           </div>
-          {boost && boost.expiresAt > now && (
+          {boost && boost.episodesLeft > 0 && (
             <p className="bag-boost">
               <Zap size={15} aria-hidden /> 经验 ×{boost.multiplierPct / 100}{" "}
-              生效中 · 剩余{" "}
-              {Math.max(0, Math.round((boost.expiresAt - now) / 60000))} 分钟
+              生效中 · 还能加成 {boost.episodesLeft} 集
             </p>
           )}
           {potionEntries.length === 0 ? (

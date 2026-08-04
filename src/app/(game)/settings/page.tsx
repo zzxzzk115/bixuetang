@@ -1,4 +1,6 @@
 import { AppShell } from "@/components/app/app-shell";
+import { BiliBind } from "@/components/app/bili-bind";
+import { getBiliBinding } from "@/lib/bili/account";
 import { AvatarForm } from "@/components/avatar-form";
 import { PasswordForm, ProfileForm } from "@/components/settings-forms";
 import { UserAvatar } from "@/components/user-avatar";
@@ -55,6 +57,13 @@ export default async function SettingsPage() {
           <div className="app-skin">
             <AvatarForm avatar={user.avatar} />
           </div>
+        </section>
+
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>B 站账号</h2>
+          </div>
+          <BiliBind binding={getBiliBinding(user.id)} />
         </section>
 
         <section className="course-card">

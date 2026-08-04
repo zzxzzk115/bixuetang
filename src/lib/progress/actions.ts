@@ -12,7 +12,7 @@ import {
   xpEvents,
   type CourseStatus,
 } from "../db/schema";
-import { boostXp } from "../game/boosts";
+import { settleEpisodeXp } from "../game/boosts";
 import { levelFromXp } from "../game/level";
 import type { EpisodeLoot } from "../game/rpg";
 import { settleEpisodeLoot } from "../game/rpg-server";
@@ -144,17 +144,33 @@ export async function toggleEpisode(
       loot = settleEpisodeLoot(user.id, course, episodeN) ?? undefined;
     }
     // (user, reason, ref) 唯一约束兜底幂等：重复勾选不重复得分
-    db.insert(xpEvents)
-      .values({
-        userId: user.id,
-        // 经验药水在写入时结算（流水只追加，存实际入账值）
-        amount: boostXp(user.id, episodeXp(course.level)),
-        reason: XP_REASON.episode,
-        ref: episodeRef(courseId, episodeN),
-        createdAt: now,
-      })
-      .onConflictDoNothing()
-      .run();
+    // 单集 XP = 难度底分 + 时长加成，再吃药水（药水只在这里消耗一次次数）。
+    // 幂等：已入过账的集不会重复扣药水（先探测 conflict 再决定是否结算）
+    const episode = course.episodes.find((e) => e.n === episodeN);
+    const alreadyScored = db
+      .select({ id: xpEvents.id })
+      .from(xpEvents)
+      .where(
+        and(
+          eq(xpEvents.userId, user.id),
+          eq(xpEvents.reason, XP_REASON.episode),
+          eq(xpEvents.ref, episodeRef(courseId, episodeN)),
+        ),
+      )
+      .get();
+    if (!alreadyScored) {
+      const base = episodeXp(course.level, episode?.durationSec);
+      db.insert(xpEvents)
+        .values({
+          userId: user.id,
+          amount: settleEpisodeXp(user.id, base),
+          reason: XP_REASON.episode,
+          ref: episodeRef(courseId, episodeN),
+          createdAt: now,
+        })
+        .onConflictDoNothing()
+        .run();
+    }
 
     // 首次有进度时自动置为「在学」
     const cur = db
@@ -188,10 +204,7 @@ export async function toggleEpisode(
         .insert(xpEvents)
         .values({
           userId: user.id,
-          amount: boostXp(
-            user.id,
-            courseBonusXp(course.episodes.length, course.level),
-          ),
+          amount: courseBonusXp(course.episodes.length, course.level),
           reason: XP_REASON.courseDone,
           ref: courseId,
           createdAt: now,

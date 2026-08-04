@@ -1,16 +1,19 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { FlaskConical, Map as MapIcon, Sparkles } from "lucide-react";
-import { AnalysisPanel } from "@/components/analysis-panel";
+import { AppAnalysisMap } from "@/components/app/app-analysis-map";
 import { AppEpisodeList } from "@/components/app/app-episode-list";
 import { AppShell } from "@/components/app/app-shell";
+import { CoursePlayer } from "@/components/app/course-player";
 import { Fold } from "@/components/app/fold";
-import { EmbedPlayer } from "@/components/embed-player";
 import { renderLatex } from "@/lib/math/render-latex";
 import { renderMathText } from "@/lib/math/render-math-text";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
+import { getActiveBoost } from "@/lib/game/boosts";
+import { getWatchProgress } from "@/lib/game/watch-actions";
+import { boostedXp, episodeXp } from "@/lib/game/xp";
 import { buildLessonTrack, findTrackNode } from "@/lib/game/lesson-track";
 import { courseHasQuiz } from "@/lib/game/quiz-bank";
 import { LEVEL_LABEL, SUBJECT_LABEL } from "@/lib/content/schema";
@@ -110,6 +113,18 @@ export default async function CoursePage({
     }
   }
 
+  // 播放进度（续播 + 已看百分比）与本段第一集未看的集
+  const watchProgress = await getWatchProgress(id);
+  const firstUnwatched = episodes.find((e) => !watched?.has(e.n));
+
+  // 每集可得 XP（含药水加成）——学习前就让玩家看到收益
+  const boost = getActiveBoost(user.id);
+  const xpByEpisode: Record<number, number> = {};
+  for (const ep of episodes) {
+    const base = episodeXp(course.level, ep.durationSec);
+    xpByEpisode[ep.n] = boost ? boostedXp(base, boost.multiplierPct) : base;
+  }
+
   const color = SUBJECT_COLOR[course.subject] ?? "var(--app-blue)";
   const watchedCount = episodes.filter((e) => watched?.has(e.n)).length;
   const percent =
@@ -154,10 +169,13 @@ export default async function CoursePage({
         </header>
 
         <div id="course-player" className="course-card app-skin course-player">
-          <EmbedPlayer
+          <CoursePlayer
+            courseId={id}
             sources={course.sources}
             courseTitle={course.title}
-            episodes={course.episodes}
+            episodes={episodes}
+            initialEpisode={firstUnwatched?.n ?? episodes[0]?.n ?? 1}
+            resumeByEpisode={watchProgress}
           />
         </div>
 
@@ -181,6 +199,8 @@ export default async function CoursePage({
             episodes={episodes}
             watched={watched ? [...watched] : []}
             color={color}
+            xpByEpisode={xpByEpisode}
+            multiplierPct={boost?.multiplierPct ?? 100}
           />
         </section>
 
@@ -191,14 +211,12 @@ export default async function CoursePage({
             note={`${analysis.episodes.length} 集已分析`}
             defaultOpen
           >
-            <div className="app-skin">
-              <AnalysisPanel
-                analysis={analysis}
-                episodes={episodes}
-                formulaHtml={formulaHtml}
-                richTextHtml={richTextHtml}
-              />
-            </div>
+            <AppAnalysisMap
+              analysis={analysis}
+              episodes={episodes}
+              formulaHtml={formulaHtml}
+              richTextHtml={richTextHtml}
+            />
           </Fold>
         )}
 

@@ -16,7 +16,7 @@ export default async function ShopPage() {
     kind: p.kind,
     title: p.title,
     multiplierPct: p.multiplierPct,
-    durationMs: p.durationMs,
+    episodes: p.episodes,
     price: p.price,
     bagPrice: p.bagPrice,
     blurb: p.blurb,

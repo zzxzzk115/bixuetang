@@ -68,6 +68,8 @@ export const EpisodeSchema = z.object({
    * 缺省时视为同一稿件的第 n 个分 P。
    */
   bvid: z.string().optional(),
+  /** 视频时长（秒），由 fetch:episodes 从平台拉取；用于 XP 计分 */
+  durationSec: z.number().int().positive().optional(),
 });
 export type Episode = z.infer<typeof EpisodeSchema>;
 

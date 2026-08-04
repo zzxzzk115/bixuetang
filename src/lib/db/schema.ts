@@ -226,15 +226,51 @@ export const rpgLootEvents = sqliteTable(
 );
 
 // 经验加成（药水）：每人同时只有一个生效中的加成。
-// multiplier_pct：150=x1.5、300=x3；过期行为读时视为无加成。
+// multiplier_pct：150=x1.5、300=x3。
+// 按「还能加成几集」计数（不是时间）——长视频课不会喝了药水看不完一集就过期。
 export const xpBoosts = sqliteTable("xp_boosts", {
   userId: integer("user_id")
     .primaryKey()
     .references(() => users.id, { onDelete: "cascade" }),
   multiplierPct: integer("multiplier_pct").notNull(),
-  expiresAt: integer("expires_at").notNull(),
+  episodesLeft: integer("episodes_left").notNull().default(0),
   updatedAt: integer("updated_at").notNull(),
 });
+
+// B 站账号绑定（扫码登录换取的凭据）。凭据只在服务端使用，不下发客户端。
+export const biliAccounts = sqliteTable("bili_accounts", {
+  userId: integer("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  /** B 站 uid */
+  mid: text("mid").notNull(),
+  nickname: text("nickname"),
+  avatarUrl: text("avatar_url"),
+  sessdata: text("sessdata").notNull(),
+  biliJct: text("bili_jct"),
+  refreshToken: text("refresh_token"),
+  expiresAt: integer("expires_at"),
+  createdAt: integer("created_at").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+});
+
+// 单集观看进度（自研播放器上报）：看到哪、看了多少、是否达标
+export const episodeWatch = sqliteTable(
+  "episode_watch",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    courseId: text("course_id").notNull(),
+    episodeN: integer("episode_n").notNull(),
+    positionSec: integer("position_sec").notNull().default(0),
+    durationSec: integer("duration_sec").notNull().default(0),
+    /** 观看覆盖率 ×100（0~100），≥ 90 视为看完 */
+    ratioPct: integer("ratio_pct").notNull().default(0),
+    updatedAt: integer("updated_at").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.courseId, t.episodeN] })],
+);
 
 // 幽灵对战的对局记录：seed 决定题目（题库稳定时可复现），outcomes 是逐题
 // 时间线 JSON [{c:0|1, t:毫秒}]——别人挑战我时回放这条时间线当「幽灵」。

@@ -1,15 +1,39 @@
 import { LEVEL_FACTOR, type Level } from "../content/schema";
 
 // XP 数值规则（纯函数）。写入侧靠 xp_events 的 (user, reason, ref) 唯一约束幂等。
+//
+// 设计（用户拍板）：单集完成给固定底分，再按该集视频时长小幅加成，
+// 结果一律取 10 的倍数——玩家看到的永远是整十数，好预期、好算账。
 
-/** 看完一集（击败小怪）：10 × 难度系数 */
-export function episodeXp(level: Level): number {
-  return Math.round(10 * LEVEL_FACTOR[level]);
+/** 默认时长（分集数据没拉到时长时按 15 分钟算） */
+export const DEFAULT_EPISODE_MINUTES = 15;
+
+/** 难度底分：基础 10 / 进阶 20 / 高阶 30 */
+const LEVEL_BASE: Record<Level, number> = {
+  basic: 10,
+  intermediate: 20,
+  advanced: 30,
+};
+
+/** 时长加成：每满 20 分钟 +10，封顶 +30（不喧宾夺主） */
+export function durationBonus(durationSec?: number): number {
+  const minutes = durationSec ? durationSec / 60 : DEFAULT_EPISODE_MINUTES;
+  return Math.min(30, Math.floor(minutes / 20) * 10);
 }
 
-/** 整课通关（Boss 击杀）结算加成：集数 × 5 × 难度系数 */
+/** 看完一集：底分 + 时长加成，10 的倍数（10~60） */
+export function episodeXp(level: Level, durationSec?: number): number {
+  return LEVEL_BASE[level] + durationBonus(durationSec);
+}
+
+/** 加成后的实际入账值，同样取整到 10 */
+export function boostedXp(base: number, multiplierPct: number): number {
+  return Math.round((base * multiplierPct) / 100 / 10) * 10;
+}
+
+/** 整课通关（Boss 击杀）结算加成：集数 × 5 × 难度系数，取整到 10 */
 export function courseBonusXp(episodeCount: number, level: Level): number {
-  return Math.round(episodeCount * 5 * LEVEL_FACTOR[level]);
+  return Math.round((episodeCount * 5 * LEVEL_FACTOR[level]) / 10) * 10;
 }
 
 export const XP_REASON = {

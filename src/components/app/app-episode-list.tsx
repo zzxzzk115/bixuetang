@@ -25,12 +25,18 @@ export function AppEpisodeList({
   episodes,
   watched,
   color,
+  xpByEpisode,
+  multiplierPct = 100,
 }: {
   courseId: string;
   episodes: Episode[];
   watched: number[];
   /** 学科色（CSS 颜色值） */
   color: string;
+  /** 每集完成可得 XP（已含药水加成）：集号 → XP */
+  xpByEpisode: Record<number, number>;
+  /** 生效中的加成倍率（100=无） */
+  multiplierPct?: number;
 }) {
   const [watchedSet, setWatchedSet] = useState(() => new Set(watched));
   const [playing, setPlaying] = useState<number | null>(null);
@@ -110,7 +116,8 @@ export function AppEpisodeList({
       ?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
-  const done = watchedSet.size;
+  // 只统计本页呈现的集（分段时 watched 里含整门课的记录，不能直接用 size）
+  const done = episodes.filter((e) => watchedSet.has(e.n)).length;
   const total = episodes.length;
   const percent = total === 0 ? 0 : Math.round((done / total) * 100);
   const nextUp = episodes.find((episode) => !watchedSet.has(episode.n));
@@ -214,6 +221,18 @@ export function AppEpisodeList({
                 >
                   {episode.title}
                 </span>
+                {!isWatched && xpByEpisode[episode.n] !== undefined && (
+                  <span
+                    className={`app-eps-xp ${multiplierPct > 100 ? "boosted" : ""}`}
+                    title={
+                      multiplierPct > 100
+                        ? `含药水加成 ×${multiplierPct / 100}`
+                        : "完成可得经验"
+                    }
+                  >
+                    +{xpByEpisode[episode.n]}
+                  </span>
+                )}
                 {!locked && (
                   <Play
                     size={16}

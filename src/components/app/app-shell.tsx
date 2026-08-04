@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
   Backpack,
@@ -9,6 +8,7 @@ import {
   Flame,
   Map as MapIcon,
   Shield,
+  ShoppingBag,
   Swords,
   User,
   Zap,
@@ -23,6 +23,7 @@ import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 const TABS = [
   { key: "map", label: "地图", href: "/play", icon: MapIcon },
   { key: "trial", label: "试炼", href: "/play/trial", icon: Swords },
+  { key: "shop", label: "商店", href: "/play/shop", icon: ShoppingBag },
   { key: "bag", label: "背包", href: "/play/bag", icon: Backpack },
   { key: "lexicon", label: "卷宗", href: "/glossary", icon: BookOpen },
   { key: "me", label: "我的", href: "/settings", icon: User },
@@ -48,8 +49,6 @@ export function AppShell({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  // 渲染期不许 Date.now()：挂载快照判断加成是否还在生效
-  const [now] = useState(() => Date.now());
 
   return (
     <div className="app-root">
@@ -91,13 +90,14 @@ export function AppShell({
             <span aria-hidden />
           )}
           <div className="app-topbar-stats">
-            {bootstrap.boost && bootstrap.boost.expiresAt > now && (
+            {bootstrap.boost && bootstrap.boost.episodesLeft > 0 && (
               <span
                 className="app-stat boost"
-                title={`经验加成 ×${bootstrap.boost.multiplierPct / 100} 生效中`}
+                title={`经验 ×${bootstrap.boost.multiplierPct / 100}，还剩 ${bootstrap.boost.episodesLeft} 集`}
               >
                 <Zap aria-hidden size={18} />×
                 {bootstrap.boost.multiplierPct / 100}
+                <small>{bootstrap.boost.episodesLeft}集</small>
               </span>
             )}
             <span className="app-stat streak" title="连续学习天数">

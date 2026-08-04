@@ -3,13 +3,14 @@
 import { sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "../auth/session";
-import { boostXp } from "./boosts";
 import { getContent } from "../content/load";
 import { LEVEL_FACTOR } from "../content/schema";
 import type { Subject } from "../content/schema";
 import { db } from "../db/client";
 import { rpgProfiles, xpEvents } from "../db/schema";
+import { getActiveBoost } from "./boosts";
 import { levelFromXp } from "./level";
+import { boostedXp, episodeXp } from "./xp";
 import { buildLessonTrack, findTrackNode } from "./lesson-track";
 import { getTotalXp } from "../progress/queries";
 import { dailyDateKey } from "./quests";
@@ -83,7 +84,17 @@ export async function getCourseQuiz(
 export interface NodeEpisodesPayload {
   ok: boolean;
   error?: string;
-  episodes?: { n: number; title: string; watched: boolean }[];
+  episodes?: {
+    n: number;
+    title: string;
+    watched: boolean;
+    /** 完成这一集能拿的 XP（已含药水加成，10 的倍数） */
+    xp: number;
+    /** 未加成的底分（加成中时前端可展示划线原价） */
+    baseXp: number;
+  }[];
+  /** 生效中的加成倍率（100=无） */
+  multiplierPct?: number;
 }
 
 /** 地图视频节点气泡：按需取该节点覆盖各集的标题与打卡状态（不塞注水） */
@@ -100,14 +111,22 @@ export async function getVideoNodeEpisodes(
 
   const { getUserProgress } = await import("../progress/queries");
   const watched = getUserProgress(user.id).watchedByCourse.get(courseId);
-  const byN = new Map(found.course.episodes.map((e) => [e.n, e.title]));
+  const byN = new Map(found.course.episodes.map((e) => [e.n, e]));
+  const boost = getActiveBoost(user.id);
   return {
     ok: true,
-    episodes: node.eps.map((n) => ({
-      n,
-      title: byN.get(n) ?? `第 ${n} 讲`,
-      watched: watched?.has(n) ?? false,
-    })),
+    multiplierPct: boost?.multiplierPct ?? 100,
+    episodes: node.eps.map((n) => {
+      const ep = byN.get(n);
+      const base = episodeXp(found.course.level, ep?.durationSec);
+      return {
+        n,
+        title: ep?.title ?? `第 ${n} 讲`,
+        watched: watched?.has(n) ?? false,
+        baseXp: base,
+        xp: boost ? boostedXp(base, boost.multiplierPct) : base,
+      };
+    }),
   };
 }
 
@@ -155,9 +174,8 @@ export async function submitQuizNode(
   if (!passed) return { ok: true, passed: false, gained: 0 };
 
   // 快答每题 +1 底分——精准属性放宽快答窗口，让「又快又准」有回报
-  const amount = boostXp(
-    user.id,
-    Math.round((6 + correct * 3 + fast) * LEVEL_FACTOR[found.course.level]),
+  const amount = Math.round(
+    (6 + correct * 3 + fast) * LEVEL_FACTOR[found.course.level],
   );
   const before = getTotalXp(user.id);
   const inserted = db
@@ -221,7 +239,7 @@ export async function openChestNode(
     chestIndex ===
       found.track.filter((n) => n.kind === "chest").length - 1;
   const coins = Math.round((isFinal ? 60 : 25) * factor);
-  const xp = boostXp(user.id, Math.round((isFinal ? 20 : 10) * factor));
+  const xp = Math.round((isFinal ? 20 : 10) * factor);
 
   const inserted = db
     .insert(xpEvents)
@@ -305,7 +323,7 @@ export async function settleTrialRun(
   if (correct === 0) return { ok: true, gained: 0, coins: 0 };
 
   const now = Date.now();
-  const xp = boostXp(user.id, Math.min(correct * 2 + fast, 60));
+  const xp = Math.min(correct * 2 + fast, 60);
   const coins = Math.min(correct, 30);
   const inserted = db
     .insert(xpEvents)

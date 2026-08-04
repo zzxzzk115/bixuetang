@@ -85,5 +85,5 @@ export interface GameBootstrap {
   /** 今天的试炼奖励是否已领 */
   trialClaimedToday: boolean;
   /** 生效中的经验加成（药水），无则 null */
-  boost: { multiplierPct: number; expiresAt: number } | null;
+  boost: { multiplierPct: number; episodesLeft: number } | null;
 }

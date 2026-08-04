@@ -57,6 +57,13 @@
       "when": 1785815795570,
       "tag": "0007_dusty_mindworm",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1785830000000,
+      "tag": "0008_bili_and_episode_boosts",
+      "breakpoints": true
     }
   ]
 }

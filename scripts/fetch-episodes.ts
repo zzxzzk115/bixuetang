@@ -21,6 +21,8 @@ const HEADERS = {
 interface BiliPage {
   page: number;
   part: string;
+  /** 分 P 时长（秒） */
+  duration?: number;
 }
 
 interface EpisodeOut {
@@ -28,12 +30,14 @@ interface EpisodeOut {
   title: string;
   /** 合集类课程：每集是独立稿件 */
   bvid?: string;
+  /** 视频时长（秒）——XP 按时长计分 */
+  durationSec?: number;
 }
 
 interface SeasonEpisode {
   bvid: string;
   title: string;
-  arc?: { title?: string };
+  arc?: { title?: string; duration?: number };
 }
 
 interface BiliView {
@@ -167,6 +171,7 @@ async function main() {
         episodes = primaryView.pages.map((page) => ({
           n: page.page,
           title: cleanPart(page.part, page.page),
+          durationSec: page.duration,
         }));
       } else if (seasonEpisodes.length > 1) {
         episodes = seasonEpisodes.map((episode, index) => ({
@@ -176,6 +181,7 @@ async function main() {
             index + 1,
           ),
           bvid: episode.bvid,
+          durationSec: episode.arc?.duration,
         }));
         console.log(`  ↳ ${id}: 合集《${primaryView.ugc_season?.title}》`);
       }

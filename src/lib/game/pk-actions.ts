@@ -2,7 +2,6 @@
 
 import { sql } from "drizzle-orm";
 import { getCurrentUser } from "../auth/session";
-import { boostXp } from "./boosts";
 import { db } from "../db/client";
 import { pkRatings, pkRuns, rpgProfiles, xpEvents } from "../db/schema";
 import {
@@ -188,7 +187,7 @@ export async function submitPkMatch(
       .insert(xpEvents)
       .values({
         userId: user.id,
-        amount: boostXp(user.id, 30),
+        amount: 30,
         reason: "pk",
         ref: dailyDateKey(),
         createdAt: now,

@@ -13,15 +13,11 @@ export interface PotionSpecDto {
   kind: PotionKind;
   title: string;
   multiplierPct: number;
-  durationMs: number;
+  /** 覆盖集数 */
+  episodes: number;
   price: number;
   bagPrice: number;
   blurb: string;
-}
-
-function fmtRemaining(expiresAt: number, now: number): string {
-  const min = Math.max(0, Math.round((expiresAt - now) / 60000));
-  return `${min} 分钟`;
 }
 
 export function ShopHome({
@@ -32,8 +28,6 @@ export function ShopHome({
   specs: PotionSpecDto[];
 }) {
   const router = useRouter();
-  // 渲染期不许 Date.now()：用可更新的时刻快照算剩余时间
-  const [now, setNow] = useState(() => Date.now());
   const [coins, setCoins] = useState(bootstrap.rpg.coins);
   const [boost, setBoost] = useState(bootstrap.boost);
   const [busy, setBusy] = useState<string | null>(null);
@@ -51,7 +45,6 @@ export function ShopHome({
       }
       setCoins(r.coins ?? coins);
       setBoost(r.boost ?? null);
-      setNow(Date.now());
       setMsg(toBag ? "已放入背包" : "药水生效中！");
       router.refresh(); // 顶栏金币/加成徽章刷新
     } finally {
@@ -72,8 +65,8 @@ export function ShopHome({
       {boost && (
         <div className="shop-active">
           <Zap size={18} aria-hidden />
-          经验 ×{boost.multiplierPct / 100} 生效中 · 剩余{" "}
-          {fmtRemaining(boost.expiresAt, now)}
+          经验 ×{boost.multiplierPct / 100} 生效中 · 还能加成 {boost.episodesLeft}{" "}
+          集
         </div>
       )}
       {msg && <p className="shop-msg">{msg}</p>}
@@ -108,8 +101,9 @@ export function ShopHome({
       ))}
 
       <p className="shop-note">
-        药水生效期间，看课 / 测验 / 宝箱 / 试炼 / 首胜的 XP 全部按倍率结算；
-        同倍率重复购买会顺延时长，不同倍率会替换。金币不受加成影响。
+        药水按「集」计数：每完成一集消耗一次加成，长视频也不会中途失效。
+        加成只作用于看完单集的经验（测验 / 宝箱 / 试炼另计）；
+        同倍率重复购买累加集数，不同倍率会替换。金币不受加成影响。
       </p>
     </div>
   );
