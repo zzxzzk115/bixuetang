@@ -802,48 +802,247 @@ html {
   margin-top: 8px;
 }
 
-/* ---------- 试炼首页 ---------- */
-.trial-home {
+/* ---------- 试炼首页（双模式卡） ---------- */
+.trial-root {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
   display: grid;
-  justify-items: center;
   gap: 14px;
-  padding: 48px 28px;
-  text-align: center;
+  align-content: start;
+  padding: 16px 16px calc(20px + env(safe-area-inset-bottom));
 }
-.trial-home-icon {
+.trial-mode {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+}
+.trial-mode-icon {
+  flex-shrink: 0;
   display: grid;
   place-items: center;
-  width: 92px;
-  height: 92px;
-  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+}
+.trial-mode-icon.endless {
   background: color-mix(in srgb, var(--app-red) 12%, transparent);
   color: var(--app-red);
 }
-.trial-home h1 {
+.trial-mode-icon.pk {
+  background: color-mix(in srgb, var(--app-purple) 14%, transparent);
+  color: var(--app-purple);
+}
+.trial-mode-body {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  min-width: 0;
+}
+.trial-mode-body h2 {
   color: var(--app-strong);
-  font-size: 22px;
+  font-size: 17px;
   font-weight: 800;
 }
-.trial-home > p {
-  max-width: 340px;
-  font-size: 14px;
+.trial-mode-body > p {
+  font-size: 13px;
 }
 .trial-rules {
   display: grid;
-  gap: 10px;
-  margin: 6px 0;
-  text-align: left;
+  gap: 6px;
 }
 .trial-rules li {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 14px;
+  gap: 8px;
+  font-size: 13px;
   font-weight: 700;
 }
 .trial-rules li svg {
   color: var(--app-blue);
   flex-shrink: 0;
+}
+.pk-rank-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pk-rank-card b {
+  color: var(--app-strong);
+  font-size: 18px;
+}
+.pk-rank-card small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.pk-rank-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  background: color-mix(in srgb, var(--app-faint) 15%, transparent);
+  color: var(--app-text);
+}
+.pk-rank-badge.tier-silver {
+  background: color-mix(in srgb, var(--app-blue) 12%, transparent);
+  color: var(--app-blue);
+}
+.pk-rank-badge.tier-gold {
+  background: color-mix(in srgb, var(--app-gold) 16%, transparent);
+  color: var(--app-gold);
+}
+.pk-rank-badge.tier-platinum {
+  background: color-mix(in srgb, var(--app-green) 14%, transparent);
+  color: var(--app-green);
+}
+.pk-rank-badge.tier-diamond {
+  background: color-mix(in srgb, var(--app-purple) 14%, transparent);
+  color: var(--app-purple);
+}
+.pk-rank-badge.tier-king {
+  background: color-mix(in srgb, var(--app-orange) 16%, transparent);
+  color: var(--app-orange);
+}
+.trial-board {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+}
+.trial-board h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-strong);
+  font-size: 15px;
+  font-weight: 800;
+}
+.trial-board h3 svg {
+  color: var(--app-gold);
+}
+.trial-board ol {
+  display: grid;
+  gap: 6px;
+}
+.trial-board li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.trial-board li.me {
+  background: color-mix(in srgb, var(--app-blue) 10%, transparent);
+}
+.trial-board-no {
+  width: 20px;
+  color: var(--app-faint);
+  font-weight: 800;
+  text-align: center;
+}
+.trial-board-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--app-strong);
+}
+.trial-board-name em {
+  color: var(--app-blue);
+  font-style: normal;
+  font-size: 12px;
+}
+.trial-board li small {
+  color: var(--app-faint);
+  font-size: 12px;
+}
+.trial-board li b {
+  color: var(--app-strong);
+}
+
+/* ---------- 幽灵对战会话 ---------- */
+.pk-hud {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.pk-side {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  font-weight: 800;
+  min-width: 0;
+}
+.pk-side.me {
+  color: var(--app-blue);
+}
+.pk-side.ghost {
+  margin-left: auto;
+  color: var(--app-purple);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.pk-side b {
+  font-size: 17px;
+}
+.pk-progress {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 800;
+}
+.pk-ghost-chip {
+  color: var(--app-purple);
+  font-size: 14px;
+  font-weight: 800;
+  animation: bubble-bounce 0.7s ease-in-out;
+}
+.pk-ghost-reveal {
+  font-size: 14px;
+  font-weight: 800;
+}
+.pk-ghost-reveal.hit {
+  color: var(--app-purple);
+}
+.pk-ghost-reveal.miss {
+  color: var(--app-faint);
+}
+.pk-scoreline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 16px;
+  font-weight: 800;
+}
+.pk-scoreline .me {
+  color: var(--app-blue);
+}
+.pk-scoreline .ghost {
+  color: var(--app-purple);
+}
+.pk-scoreline b {
+  font-size: 24px;
+}
+.pk-scoreline small {
+  color: var(--app-faint);
+}
+.pk-up {
+  color: var(--app-green);
+}
+.pk-down {
+  color: var(--app-red);
 }
 .trial-claimed {
   padding: 6px 14px;

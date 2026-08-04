@@ -225,6 +225,32 @@ export const rpgLootEvents = sqliteTable(
   (t) => [primaryKey({ columns: [t.userId, t.courseId, t.episodeN] })],
 );
 
+// 幽灵对战的对局记录：seed 决定题目（题库稳定时可复现），outcomes 是逐题
+// 时间线 JSON [{c:0|1, t:毫秒}]——别人挑战我时回放这条时间线当「幽灵」。
+export const pkRuns = sqliteTable("pk_runs", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  seed: integer("seed").notNull(),
+  questionCount: integer("question_count").notNull(),
+  score: integer("score").notNull(),
+  totalMs: integer("total_ms").notNull(),
+  outcomes: text("outcomes").notNull(),
+  createdAt: integer("created_at").notNull(),
+});
+
+// 排位分（ELO）。行不存在视为初始 1000 分。
+export const pkRatings = sqliteTable("pk_ratings", {
+  userId: integer("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  rating: integer("rating").notNull().default(1000),
+  wins: integer("wins").notNull().default(0),
+  losses: integer("losses").notNull().default(0),
+  updatedAt: integer("updated_at").notNull(),
+});
+
 // 装备栏：槽位 → 遗物种类的引用，不消耗数量（加成随持有总量涨，见 relics.ts）。
 // 与 rpg_inventory 分表：inventory 行是数量聚合（掉落链路 PK upsert quantity+1），
 // 装备是引用语义，混在一起会把两条写路径搅在一张表上。
