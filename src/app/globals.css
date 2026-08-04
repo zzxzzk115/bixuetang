@@ -399,6 +399,74 @@ html {
     outline-offset: 8px;
   }
 }
+/* 视频节点外圈 N 等分打卡进度环 */
+.route-node-btnwrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.route-node-ring {
+  position: absolute;
+  inset: -9px;
+  width: 94px;
+  height: 94px;
+  pointer-events: none;
+}
+/* 有进度环时呼吸光环让位（两个圈叠一起太吵） */
+.route-node.current.kind-video .route-node-btn {
+  animation: none;
+}
+
+/* 吸顶「当前浏览课程」条 */
+.route-map-sticky {
+  position: sticky;
+  top: 8px;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(92%, 460px);
+  margin: 8px auto 0;
+  padding: 10px 14px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--app-bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+.route-map-sticky-dot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.route-map-sticky-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+.route-map-sticky-body b {
+  color: var(--app-strong);
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.route-map-sticky-body small {
+  color: var(--app-faint);
+  font-size: 11px;
+  font-weight: 700;
+}
+.route-map-sticky button {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-blue) 14%, transparent);
+  color: var(--app-blue);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .route-node-bubble {
   margin-bottom: 8px;
   padding: 6px 14px;
@@ -1256,12 +1324,125 @@ html {
 .course-fold-body {
   padding: 0 16px 16px;
 }
-/* 播放器工具条残留的方角元素统一圆角、红竖条备注降噪 */
-.course-player :is(button, .player-tool, .player-current-episode) {
-  border-radius: 10px;
+/* 播放器深度清理：老字体、方框、下划线 tab 全部覆盖成 App 风格 */
+.course-player .player-module,
+.course-player .player-module * {
+  font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui,
+    sans-serif;
 }
+.course-player .player-module {
+  border: none;
+  background: none;
+  padding: 0;
+}
+.course-player .player-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  border: none;
+  padding: 0;
+  background: none;
+}
+.course-player .player-toolbar > .flex {
+  gap: 6px;
+}
+.course-player .player-source {
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  padding: 7px 14px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.course-player .player-source.active {
+  border-color: var(--app-blue);
+  background: color-mix(in srgb, var(--app-blue) 12%, transparent);
+  color: var(--app-blue);
+}
+.course-player .player-tool {
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  padding: 7px 12px;
+  background: var(--app-surface);
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+}
+.course-player .player-tool.active {
+  border-color: var(--app-blue);
+  color: var(--app-blue);
+}
+/* 视频容器：去方框描边，圆角裁切 */
+.course-player .player-module > div:has(> iframe),
+.course-player .player-module > div:has(> .aspect-video) {
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+}
+/* 来源备注：去红竖条与 mono 味 */
 .course-player .border-hp {
-  border-color: var(--app-line);
+  border: none;
+  padding: 6px 2px 0;
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ---------- 滚动条统一：桌面细条、移动端隐藏 ---------- */
+.route-map,
+.app-page,
+.bag-root,
+.trial-root,
+.quiz-body,
+.app-sheet-list {
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-line) transparent;
+}
+.route-map::-webkit-scrollbar,
+.app-page::-webkit-scrollbar,
+.bag-root::-webkit-scrollbar,
+.trial-root::-webkit-scrollbar,
+.quiz-body::-webkit-scrollbar,
+.app-sheet-list::-webkit-scrollbar {
+  width: 8px;
+}
+.route-map::-webkit-scrollbar-thumb,
+.app-page::-webkit-scrollbar-thumb,
+.bag-root::-webkit-scrollbar-thumb,
+.trial-root::-webkit-scrollbar-thumb,
+.quiz-body::-webkit-scrollbar-thumb,
+.app-sheet-list::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: var(--app-line);
+}
+.route-map::-webkit-scrollbar-track,
+.app-page::-webkit-scrollbar-track,
+.bag-root::-webkit-scrollbar-track,
+.trial-root::-webkit-scrollbar-track,
+.quiz-body::-webkit-scrollbar-track,
+.app-sheet-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+@media (max-width: 1023px) {
+  .route-map,
+  .app-page,
+  .bag-root,
+  .trial-root,
+  .quiz-body,
+  .app-sheet-list {
+    scrollbar-width: none;
+  }
+  .route-map::-webkit-scrollbar,
+  .app-page::-webkit-scrollbar,
+  .bag-root::-webkit-scrollbar,
+  .trial-root::-webkit-scrollbar,
+  .quiz-body::-webkit-scrollbar,
+  .app-sheet-list::-webkit-scrollbar {
+    display: none;
+  }
 }
 /* 信息行（实验室/技能入口） */
 .course-row {
@@ -1672,35 +1853,32 @@ html {
   font: 800 15px ui-rounded, "PingFang SC", system-ui, sans-serif;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
-/* 桌面端：浮动竖条改为列顶横向字母条（sticky 吸顶） */
+/* 桌面端：索引统一放内容列右侧空余空间（iOS 联系人式，可点可拖拽）。
+   .lex-rail-slot 占右列并 sticky，rail 自身从 fixed 改回文档流竖条 */
 @media (min-width: 1024px) {
-  .lex-root .glossary-index-rail {
+  .lex-root {
+    grid-template-columns: minmax(0, 1fr) 44px;
+    column-gap: 6px;
+  }
+  .lex-root > * {
+    grid-column: 1;
+  }
+  .lex-root > .lex-rail-slot {
+    grid-column: 2;
+    grid-row: 1 / span 60;
+  }
+  .lex-rail-slot {
     position: sticky;
-    top: -16px;
-    right: auto;
-    bottom: auto;
-    z-index: 20;
-    order: -1;
-    width: 100%;
-    flex-direction: row;
-    border-radius: 14px;
-    padding: 4px 8px;
-    background: color-mix(in srgb, var(--app-surface) 97%, transparent);
+    top: 4px;
+    align-self: start;
   }
-  .lex-root .glossary-index-items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px;
-    padding: 0;
-    width: 100%;
-  }
-  .lex-root .glossary-index-items button {
-    min-width: 26px;
-    min-height: 26px;
-    font-size: 12px;
+  .lex-root .glossary-index-rail {
+    position: static;
+    width: 34px;
+    height: min(78dvh, 720px);
   }
   .lex-root .glossary-index-indicator {
-    display: none;
+    right: 44px;
   }
 }
 

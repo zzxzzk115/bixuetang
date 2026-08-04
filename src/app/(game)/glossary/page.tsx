@@ -130,7 +130,7 @@ export default async function GlossaryPage({
           </div>
         ) : (
           <>
-            <div className="app-skin">
+            <div className="lex-rail-slot">
               <GlossaryIndex items={indexItems} />
             </div>
             <div className="lex-sectors">

@@ -9,13 +9,25 @@ import {
 const seq = (n: number) => Array.from({ length: n }, (_, i) => i + 1);
 
 describe("videoNodeCount", () => {
-  it("小课不拆、中课按 ~4 集一节、超长课封顶 10 节", () => {
+  it("每节点最多 4 集、节点数不设上限", () => {
     assert.equal(videoNodeCount(1), 1);
     assert.equal(videoNodeCount(3), 1);
+    assert.equal(videoNodeCount(4), 1);
+    assert.equal(videoNodeCount(5), 2);
     assert.equal(videoNodeCount(8), 2);
+    assert.equal(videoNodeCount(15), 4);
     assert.equal(videoNodeCount(20), 5);
-    assert.equal(videoNodeCount(120), 10);
+    assert.equal(videoNodeCount(120), 30);
+    assert.equal(videoNodeCount(142), 36);
     assert.equal(videoNodeCount(0), 0);
+  });
+  it("任何节点都不超过 4 集", () => {
+    for (const n of [1, 5, 7, 15, 22, 97, 142]) {
+      const track = buildLessonTrack(seq(n), true);
+      for (const node of track) {
+        if (node.kind === "video") assert.ok(node.eps.length <= 4);
+      }
+    }
   });
 });
 

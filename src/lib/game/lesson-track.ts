@@ -17,10 +17,13 @@ export interface LessonNode {
   eps: number[];
 }
 
-/** 视频节点数：目标每节点 ~4 集，最少 1 个，最多 10 个（超长课每节点多塞几集） */
+/** 每个视频节点最多塞的集数（多邻国式打卡粒度：一次 1~4 集） */
+export const EPS_PER_NODE = 4;
+
+/** 视频节点数：每节点最多 4 集、不足 4 就少点，节点数不设上限 */
 export function videoNodeCount(episodeCount: number): number {
   if (episodeCount <= 0) return 0;
-  return Math.min(10, Math.max(1, Math.round(episodeCount / 4)));
+  return Math.ceil(episodeCount / EPS_PER_NODE);
 }
 
 /**

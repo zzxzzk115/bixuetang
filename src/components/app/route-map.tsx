@@ -37,6 +37,40 @@ interface MapNode {
   x: number;
   y: number;
   state: NodeState;
+  /** 视频节点的分集打卡进度（外圈 N 等分环用） */
+  ringDone?: number;
+}
+
+/** 进度环单段圆弧路径（角度从 12 点方向顺时针起算） */
+function arcPath(r: number, startDeg: number, endDeg: number): string {
+  const c = 47; // viewBox 94×94 的圆心
+  const rad = (d: number) => ((d - 90) * Math.PI) / 180;
+  const x1 = c + r * Math.cos(rad(startDeg));
+  const y1 = c + r * Math.sin(rad(startDeg));
+  const x2 = c + r * Math.cos(rad(endDeg));
+  const y2 = c + r * Math.sin(rad(endDeg));
+  const large = endDeg - startDeg > 180 ? 1 : 0;
+  return `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2}`;
+}
+
+/** N 等分进度环：filled 段金色、未完成段灰 */
+function NodeRing({ total, done }: { total: number; done: number }) {
+  const gap = total === 1 ? 4 : 16; // 单段近乎整圆
+  const span = 360 / total;
+  return (
+    <svg className="route-node-ring" viewBox="0 0 94 94" aria-hidden>
+      {Array.from({ length: total }, (_, i) => (
+        <path
+          key={i}
+          d={arcPath(42, i * span + gap / 2, (i + 1) * span - gap / 2)}
+          fill="none"
+          stroke={i < done ? "var(--app-gold)" : "var(--app-line)"}
+          strokeWidth={6}
+          strokeLinecap="round"
+        />
+      ))}
+    </svg>
+  );
 }
 
 interface MapBanner {
@@ -130,6 +164,10 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
             ? "done"
             : "locked",
           // current 状态下面统一算（要看全局顺序）
+          ringDone:
+            node.kind === "video"
+              ? node.eps.filter((n) => watched.has(n)).length
+              : undefined,
         });
         y += NODE_SPACING;
       });
@@ -139,6 +177,46 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
     if (currentIdx >= 0) nodes[currentIdx].state = "current";
     return { nodes, banners, totalH: y + BOTTOM_PAD };
   }, [bootstrap, path, width]);
+
+  // 吸顶「当前浏览课程」条：滚动时算视口顶落在哪门课的区段里
+  const [stickyCourse, setStickyCourse] = useState<CourseSummaryDto | null>(
+    null,
+  );
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || banners.length === 0) return;
+    let raf = 0;
+    const update = () => {
+      const top = el.scrollTop + 130;
+      let cur = banners[0].course;
+      for (const b of banners) {
+        if (b.y <= top) cur = b.course;
+        else break;
+      }
+      setStickyCourse(cur);
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+    update();
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("scroll", onScroll);
+    };
+  }, [banners]);
+
+  const scrollToCurrent = () => {
+    const el = scrollRef.current;
+    const cur = nodes.find((n) => n.state === "current");
+    if (el && cur) {
+      el.scrollTo({
+        top: Math.max(0, cur.y - el.clientHeight / 2),
+        behavior: "smooth",
+      });
+    }
+  };
 
   // 初次渲染滚到当前节点
   const scrolledOnce = useRef(false);
@@ -211,6 +289,25 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
       onRoutePress={() => setSheetOpen(true)}
     >
       <div className="route-map" ref={scrollRef}>
+        {stickyCourse && (
+          <div className="route-map-sticky">
+            <span
+              className="route-map-sticky-dot"
+              style={{
+                background:
+                  SUBJECT_COLOR[stickyCourse.subject] ?? "var(--app-blue)",
+              }}
+              aria-hidden
+            />
+            <div className="route-map-sticky-body">
+              <b>{stickyCourse.title}</b>
+              <small>
+                {stickyCourse.watchedCount}/{stickyCourse.episodeCount} 集
+              </small>
+            </div>
+            <button onClick={scrollToCurrent}>去当前</button>
+          </div>
+        )}
         <div className="route-map-world" style={{ height: totalH }}>
           {/* 节点之间的虚线小路（单元横幅处断开） */}
           {width > 0 && nodes.length > 1 && (
@@ -289,35 +386,40 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
                         : "开始"}
                   </span>
                 )}
-                <button
-                  className="route-node-btn"
-                  style={
-                    n.state === "locked"
-                      ? undefined
-                      : {
-                          background: color,
-                          boxShadow: `0 6px 0 color-mix(in srgb, ${color} 70%, #000)`,
-                        }
-                  }
-                  onClick={() => onNode(n)}
-                  aria-label={`${n.course.title} ${captionFor(n.node, isLastQuiz)}（${
-                    n.state === "done"
-                      ? "已完成"
-                      : n.state === "current"
-                        ? "进行中"
-                        : "未解锁"
-                  }）`}
-                >
-                  <Icon
-                    size={n.state === "done" ? 30 : 26}
-                    strokeWidth={n.state === "done" ? 3.5 : 2.6}
-                    fill={
-                      n.state === "current" && n.node.kind === "video"
-                        ? "currentColor"
-                        : "none"
+                <span className="route-node-btnwrap">
+                  {n.node.kind === "video" && n.state === "current" && (
+                    <NodeRing total={n.node.eps.length} done={n.ringDone ?? 0} />
+                  )}
+                  <button
+                    className="route-node-btn"
+                    style={
+                      n.state === "locked"
+                        ? undefined
+                        : {
+                            background: color,
+                            boxShadow: `0 6px 0 color-mix(in srgb, ${color} 70%, #000)`,
+                          }
                     }
-                  />
-                </button>
+                    onClick={() => onNode(n)}
+                    aria-label={`${n.course.title} ${captionFor(n.node, isLastQuiz)}（${
+                      n.state === "done"
+                        ? "已完成"
+                        : n.state === "current"
+                          ? `进行中 ${n.ringDone ?? 0}/${n.node.eps.length}`
+                          : "未解锁"
+                    }）`}
+                  >
+                    <Icon
+                      size={n.state === "done" ? 30 : 26}
+                      strokeWidth={n.state === "done" ? 3.5 : 2.6}
+                      fill={
+                        n.state === "current" && n.node.kind === "video"
+                          ? "currentColor"
+                          : "none"
+                      }
+                    />
+                  </button>
+                </span>
                 <div className="route-node-caption">
                   <small>{captionFor(n.node, isLastQuiz)}</small>
                 </div>
