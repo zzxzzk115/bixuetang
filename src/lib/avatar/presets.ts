@@ -61,5 +61,9 @@ export function avatarSrc(
   if (ref.kind === "preset") return ref.preset.src;
   if (ref.kind === "upload") return `/avatars/${userId}?v=${ref.version}`;
   if (ref.kind === "remote") return ref.url;
-  return null;
+  // 没设置过就用站点徽记兜底，比首字母色块体面
+  return SIGIL_SRC;
 }
+
+/** 默认头像 = 站点徽记（app/icon.svg 由 sigil 网格生成） */
+export const SIGIL_SRC = "/icon.svg";

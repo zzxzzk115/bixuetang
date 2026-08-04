@@ -101,6 +101,7 @@ export function BiliPlayer({
   courseId,
   episodeN,
   resumeAt = 0,
+  initialRatioPct = 0,
   serverPrefs = null,
   onCompleted,
   onLoaded,
@@ -110,6 +111,8 @@ export function BiliPlayer({
   courseId: string;
   episodeN: number;
   resumeAt?: number;
+  /** 库里已累计的观看覆盖率，显示时不能被本次会话打回 0 */
+  initialRatioPct?: number;
   /** 服务端存的播放偏好 JSON（权威值，跨设备一致） */
   serverPrefs?: string | null;
   onCompleted?: () => void;
@@ -128,7 +131,7 @@ export function BiliPlayer({
   const [cues, setCues] = useState<string[]>([]);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [ratioPct, setRatioPct] = useState(0);
+  const [ratioPct, setRatioPct] = useState(initialRatioPct);
   const [cinema, setCinema] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   /** 续播提示里待跳转的秒数；null = 不提示（初值直接由 props 推导，不在 effect 里 set） */
@@ -481,8 +484,13 @@ export function BiliPlayer({
       seenRef.current.add(Math.floor(v.currentTime));
       const total = v.duration || payload.durationSec || 0;
       if (total > 0) {
+        // 和库里已累计的取大值：本次会话的 seen 从零开始，直接显示它
+        // 会让「已看 70%」的一集重进后变成 0%
         setRatioPct(
-          Math.min(100, Math.round((seenRef.current.size / total) * 100)),
+          Math.max(
+            initialRatioPct,
+            Math.min(100, Math.round((seenRef.current.size / total) * 100)),
+          ),
         );
       }
       if (prefsStore.get().cc.on && activeTracks.length > 0) {
@@ -516,7 +524,7 @@ export function BiliPlayer({
       v.removeEventListener("play", onPlay);
       v.removeEventListener("pause", onPause);
     };
-  }, [payload, syncAudio, activeTracks, prefs.cc.on]);
+  }, [payload, syncAudio, activeTracks, prefs.cc.on, initialRatioPct]);
 
   // 定时上报观看进度
   useEffect(() => {

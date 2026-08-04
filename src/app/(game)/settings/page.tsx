@@ -1,7 +1,7 @@
 import { AppShell } from "@/components/app/app-shell";
 import { BiliBind } from "@/components/app/bili-bind";
 import { getBiliBinding } from "@/lib/bili/account";
-import { AvatarForm } from "@/components/avatar-form";
+import { AvatarForm } from "@/components/app/avatar-form";
 import { PasswordForm, ProfileForm } from "@/components/settings-forms";
 import { UserAvatar } from "@/components/user-avatar";
 import { requireUser } from "@/lib/auth/session";
@@ -12,6 +12,7 @@ export const metadata = { title: "设置" };
 export default async function SettingsPage() {
   const user = await requireUser();
   const bootstrap = getGameBootstrap(user);
+  const binding = getBiliBinding(user.id);
 
   const ratio = Math.round(bootstrap.level.ratio * 100);
   return (
@@ -43,7 +44,11 @@ export default async function SettingsPage() {
           </div>
           <p className="me-note">用户名：{user.username}</p>
           <div className="app-skin">
-            <ProfileForm displayName={user.displayName ?? ""} />
+            <ProfileForm
+              displayName={user.displayName ?? ""}
+              biliNickname={binding?.nickname ?? null}
+              username={user.username}
+            />
           </div>
         </section>
 
@@ -52,7 +57,11 @@ export default async function SettingsPage() {
             <h2>头像</h2>
           </div>
           <div className="app-skin">
-            <AvatarForm avatar={user.avatar} />
+            <AvatarForm
+              avatar={user.avatar}
+              userId={user.id}
+              biliAvatarUrl={binding?.avatarUrl ?? null}
+            />
           </div>
         </section>
 

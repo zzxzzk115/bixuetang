@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import {
   changePassword,
   updateProfile,
@@ -19,22 +19,45 @@ function Feedback({ state }: { state: SettingsFormState }) {
   return null;
 }
 
-export function ProfileForm({ displayName }: { displayName: string }) {
+export function ProfileForm({
+  displayName,
+  biliNickname,
+  username,
+}: {
+  displayName: string;
+  biliNickname?: string | null;
+  username?: string;
+}) {
   const [state, action, pending] = useActionState<SettingsFormState, FormData>(
     updateProfile,
     null,
   );
+  // 受控：为了「用 bilibili 昵称」一点就能填进去
+  const [name, setName] = useState(displayName);
+
   return (
     <form action={action} className="space-y-3">
       <label className="block text-sm">
-        <span className="text-muted">角色名（留空则显示用户名）</span>
+        <span className="text-muted">
+          角色名（留空则显示{biliNickname ? "用户名" : `用户名 ${username ?? ""}`}）
+        </span>
         <input
           name="displayName"
-          defaultValue={displayName}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           maxLength={32}
           className={inputCls}
         />
       </label>
+      {biliNickname && biliNickname !== name && (
+        <button
+          type="button"
+          onClick={() => setName(biliNickname)}
+          className="app-btn-plain"
+        >
+          用 bilibili 昵称「{biliNickname}」
+        </button>
+      )}
       <div className="flex items-center gap-3">
         <button disabled={pending} className={btnCls}>
           {pending ? "保存中……" : "保存"}

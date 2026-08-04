@@ -6683,3 +6683,139 @@ body:has(.dungeon-chamber) .analysis-section {
   border-color: var(--app-blue);
   outline: none;
 }
+
+/* ==== 头像：来源三选一 + 裁切器 ==== */
+.avatar-pick {
+  display: grid;
+  gap: 10px;
+}
+.avatar-pick-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.avatar-pick-card {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+  cursor: pointer;
+  transition: border-color 120ms ease;
+}
+.avatar-pick-card:hover:not(:disabled) {
+  border-color: var(--app-blue);
+}
+.avatar-pick-card.on {
+  border-color: var(--app-accent);
+  background: color-mix(in srgb, var(--app-accent) 8%, transparent);
+}
+.avatar-pick-card:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.avatar-pick-card img,
+.avatar-pick-blank {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--app-bg);
+}
+.avatar-pick-blank {
+  display: grid;
+  place-items: center;
+  color: var(--app-faint);
+}
+.avatar-pick-card b {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--app-strong);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}
+.avatar-pick-card small {
+  color: var(--app-faint);
+  font-size: 11px;
+  font-weight: 700;
+}
+.avatar-pick-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.avatar-pick-note.is-error {
+  color: var(--app-red, #e5533d);
+}
+.avatar-pick-note.is-ok {
+  color: var(--app-accent);
+}
+
+.avatar-crop {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+.avatar-crop-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--app-bg);
+  /* 拖拽取景时别让浏览器抢去做页面滚动／双指缩放 */
+  touch-action: none;
+  cursor: grab;
+}
+.avatar-crop-stage:active {
+  cursor: grabbing;
+}
+.avatar-crop-stage canvas {
+  display: block;
+}
+/* 圆形取景：中间透出，四周压暗 */
+.avatar-crop-mask {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-mask:
+    radial-gradient(circle at 50% 50%, transparent 49.5%, #000 50%);
+  mask: radial-gradient(circle at 50% 50%, transparent 49.5%, #000 50%);
+}
+.avatar-crop-zoom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 800;
+}
+.avatar-crop-zoom input[type="range"] {
+  flex: 1;
+  accent-color: var(--app-accent);
+  cursor: pointer;
+}
+.avatar-crop-zoom b {
+  min-width: 42px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.avatar-crop-tip {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.avatar-crop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}

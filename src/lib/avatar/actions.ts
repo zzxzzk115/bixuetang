@@ -8,6 +8,7 @@ import { users } from "../db/schema";
 import { MAX_AVATAR_BYTES } from "./limits";
 import { presetById } from "./presets";
 import { deleteAvatar, sniffImage, writeAvatar } from "./storage";
+import { getBiliBinding } from "../bili/account";
 
 export type AvatarFormState = { error: string } | { ok: string } | null;
 
@@ -71,4 +72,28 @@ export async function clearAvatar(): Promise<void> {
   db.update(users).set({ avatar: null }).where(eq(users.id, user.id)).run();
   deleteAvatar(user.id);
   refresh();
+}
+
+/** 用绑定的 bilibili 头像。地址存库，parseAvatar 只放行 hdslb 图床 */
+export async function useBiliAvatar(): Promise<AvatarFormState> {
+  const user = await requireUser();
+  const binding = getBiliBinding(user.id);
+  if (!binding?.avatarUrl) return { error: "还没绑定 bilibili 账号" };
+
+  db.update(users)
+    .set({ avatar: `bili:${binding.avatarUrl}` })
+    .where(eq(users.id, user.id))
+    .run();
+  deleteAvatar(user.id);
+  refresh();
+  return { ok: "已换成 bilibili 头像" };
+}
+
+/** 用站点徽记（清掉自定义头像即是默认） */
+export async function useDefaultAvatar(): Promise<AvatarFormState> {
+  const user = await requireUser();
+  db.update(users).set({ avatar: null }).where(eq(users.id, user.id)).run();
+  deleteAvatar(user.id);
+  refresh();
+  return { ok: "已换回站点徽记" };
 }

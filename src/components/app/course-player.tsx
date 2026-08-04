@@ -83,6 +83,7 @@ export function CoursePlayer({
         courseId={courseId}
         episodeN={episode.n}
         resumeAt={resumeByEpisode[episode.n]?.positionSec ?? 0}
+        initialRatioPct={resumeByEpisode[episode.n]?.ratioPct ?? 0}
         serverPrefs={serverPrefs}
         onCompleted={() => router.refresh()}
         onLoaded={onLoaded}
