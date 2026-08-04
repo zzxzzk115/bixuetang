@@ -7,6 +7,8 @@ import "server-only";
 // 从而拿到「看了多少、看到哪」这些学习进度信号。
 // 凭据只在服务端使用，绝不下发到客户端。
 
+import { signWbi } from "./wbi";
+
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36";
 
@@ -555,6 +557,78 @@ interface PlayerV2Data {
  * 取字幕轨。B 站的字幕（含 AI 生成的）多数要登录态才给，
  * 所以这是「绑定账号」的又一处收益；游客态返回空数组。
  */
+type RawSubtitle = NonNullable<
+  NonNullable<PlayerV2Data["subtitle"]>["subtitles"]
+>[number];
+
+/** WBI 接口被风控拦过就别再浪费请求（进程内记一下，重启即重试） */
+const wbiState = globalThis as unknown as { __biliWbiBlocked?: boolean };
+
+/**
+ * 取字幕轨列表。
+ * 实测 B 站这个接口返回不稳定：同一个 cid 连查 4 次，3 次只给 AI 字幕轨，
+ * 1 次才带上人工字幕轨。所以多试几次并按语言合并，拿到人工轨就收工。
+ * （WBI 签名版接口在境外 IP 会被 412 拦截，失败后不再重试。）
+ */
+async function collectSubtitleList(
+  bvid: string,
+  cid: number,
+  sessdata?: string,
+): Promise<RawSubtitle[]> {
+  const merged = new Map<string, RawSubtitle>();
+
+  const absorb = (list: RawSubtitle[] | undefined) => {
+    for (const item of list ?? []) {
+      if (!merged.has(item.lan)) merged.set(item.lan, item);
+    }
+  };
+  const hasHuman = () =>
+    [...merged.keys()].some((lan) => !lan.startsWith("ai-"));
+
+  if (!wbiState.__biliWbiBlocked) {
+    try {
+      const query = await signWbi(
+        { bvid, cid, web_location: 1315873 },
+        biliHeaders(sessdata),
+      );
+      const json = await getJson<PlayerV2Data>(
+        `https://api.bilibili.com/x/player/wbi/v2?${query}`,
+        sessdata,
+      );
+      if (json.code === 0) absorb(json.data?.subtitle?.subtitles);
+      else wbiState.__biliWbiBlocked = true;
+    } catch {
+      wbiState.__biliWbiBlocked = true;
+    }
+  }
+
+  for (let attempt = 0; attempt < 3 && !hasHuman(); attempt++) {
+    try {
+      const json = await getJson<PlayerV2Data>(
+        `https://api.bilibili.com/x/player/v2?bvid=${encodeURIComponent(bvid)}&cid=${cid}`,
+        sessdata,
+      );
+      absorb(json.data?.subtitle?.subtitles);
+    } catch {
+      // 单次失败无所谓，还有下一轮
+    }
+    if (!hasHuman() && attempt < 2) {
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  return [...merged.values()];
+}
+
+/**
+ * 字幕结果缓存。字幕内容不会变，而连续请求会被 B 站限流
+ * （实测同一条 AI 轨连查三次分别返回 209/55/17 条，越查越少），
+ * 所以取到一次好结果就存住。
+ */
+const subCache = globalThis as unknown as {
+  __biliSubs?: Map<number, { tracks: SubtitleTrack[]; at: number }>;
+};
+const SUB_TTL = 30 * 60 * 1000;
+
 export async function fetchSubtitles(
   bvid: string,
   cid: number,
@@ -562,11 +636,13 @@ export async function fetchSubtitles(
   /** 该 P 的时长，用来判断字幕时间轴是否对得上 */
   durationSec?: number,
 ): Promise<SubtitleTrack[]> {
-  const json = await getJson<PlayerV2Data>(
-    `https://api.bilibili.com/x/player/v2?bvid=${encodeURIComponent(bvid)}&cid=${cid}`,
-    sessdata,
-  );
-  const list = json.data?.subtitle?.subtitles ?? [];
+  if (!subCache.__biliSubs) subCache.__biliSubs = new Map();
+  const cached = subCache.__biliSubs.get(cid);
+  if (cached && Date.now() - cached.at < SUB_TTL && cached.tracks.length > 0) {
+    return cached.tracks;
+  }
+
+  const list = await collectSubtitleList(bvid, cid, sessdata);
   const tracks: SubtitleTrack[] = [];
   for (const item of list.slice(0, 4)) {
     const raw = item.subtitle_url_v2 || item.subtitle_url;
@@ -606,9 +682,13 @@ export async function fetchSubtitles(
     }
   }
   // 人工字幕优先于 AI 字幕，可疑的排最后
-  return tracks.sort(
+  const sorted = tracks.sort(
     (a, b) => Number(a.ai) - Number(b.ai) || Number(a.suspect) - Number(b.suspect),
   );
+  if (sorted.length > 0) {
+    subCache.__biliSubs!.set(cid, { tracks: sorted, at: Date.now() });
+  }
+  return sorted;
 }
 
 // ---------- 弹幕 ----------

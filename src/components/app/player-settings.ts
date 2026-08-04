@@ -18,8 +18,11 @@ export interface DanmakuSettings {
 
 export interface CcSettings {
   on: boolean;
-  /** 选中的语言代码，空=自动取第一条 */
-  lan: string;
+  /**
+   * 选中的语言代码，可多选并叠加显示（中英对照很实用）。
+   * 空数组 = 自动用第一条轨。
+   */
+  lans: string[];
   /** 字号缩放 0.7~1.8 */
   scale: number;
   /** 距底部的比例 0.02~0.35 */
@@ -40,7 +43,7 @@ export interface PlayerPrefs {
   qualityId: number | null;
 }
 
-export const PREFS_VERSION = 2;
+export const PREFS_VERSION = 3;
 
 export const DEFAULT_PREFS: PlayerPrefs = {
   v: PREFS_VERSION,
@@ -61,7 +64,7 @@ export const DEFAULT_PREFS: PlayerPrefs = {
   cc: {
     // 默认关：B 站的 AI 字幕经常不准，别默认糊在画面上
     on: false,
-    lan: "",
+    lans: [],
     scale: 1,
     bottom: 0.06,
     style: "shadow",

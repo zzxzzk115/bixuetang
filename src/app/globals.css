@@ -5889,8 +5889,11 @@ body:has(.dungeon-chamber) .analysis-section {
   left: 0;
   right: 0;
   bottom: 4%;
+  /* 多语言叠加：每条一行，从下往上排（主语言在最下） */
   display: flex;
-  justify-content: center;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 3px;
   padding: 0 6%;
   pointer-events: none;
 }

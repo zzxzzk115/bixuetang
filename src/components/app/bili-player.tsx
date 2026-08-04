@@ -119,7 +119,8 @@ export function BiliPlayer({
   const [error, setError] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
   const [tracks, setTracks] = useState<SubtitleTrack[]>([]);
-  const [cue, setCue] = useState("");
+  /** 每条启用轨道当前该显示的文本（顺序与 activeTracks 一致） */
+  const [cues, setCues] = useState<string[]>([]);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
   const [ratioPct, setRatioPct] = useState(0);
@@ -230,10 +231,12 @@ export function BiliPlayer({
     };
   }, [payload?.cid, payload?.durationSec, bvid]);
 
-  const activeTrack = useMemo(() => {
-    if (tracks.length === 0) return null;
-    return tracks.find((t) => t.lan === prefs.cc.lan) ?? tracks[0];
-  }, [tracks, prefs.cc.lan]);
+  // 可多选叠加：选了几条就显示几行（中英对照）。没选过就默认第一条。
+  const activeTracks = useMemo(() => {
+    if (tracks.length === 0) return [];
+    const picked = tracks.filter((t) => prefs.cc.lans.includes(t.lan));
+    return picked.length > 0 ? picked : [tracks[0]];
+  }, [tracks, prefs.cc.lans]);
 
   // 当前清晰度的视频地址
   const videoSrc = useMemo(() => {
@@ -404,12 +407,16 @@ export function BiliPlayer({
           Math.min(100, Math.round((seenRef.current.size / total) * 100)),
         );
       }
-      if (prefsStore.get().cc.on && activeTrack) {
+      if (prefsStore.get().cc.on && activeTracks.length > 0) {
         const t = v.currentTime;
-        const hit = activeTrack.cues.find((c) => t >= c.from && t <= c.to);
-        setCue(hit?.text ?? "");
+        setCues(
+          activeTracks.map(
+            (track) =>
+              track.cues.find((c) => t >= c.from && t <= c.to)?.text ?? "",
+          ),
+        );
       } else {
-        setCue("");
+        setCues([]);
       }
       syncAudio();
     };
@@ -430,7 +437,7 @@ export function BiliPlayer({
       v.removeEventListener("play", onPlay);
       v.removeEventListener("pause", onPause);
     };
-  }, [payload, syncAudio, activeTrack, prefs.cc.on]);
+  }, [payload, syncAudio, activeTracks, prefs.cc.on]);
 
   // 定时上报观看进度
   useEffect(() => {
@@ -581,12 +588,24 @@ export function BiliPlayer({
           <audio ref={audioRef} src={payload.audio} preload="metadata" />
         )}
         <canvas ref={canvasRef} className="biliplayer-danmaku" />
-        {prefs.cc.on && cue && (
+        {prefs.cc.on && cues.some(Boolean) && (
           <div
             className={`biliplayer-cc style-${prefs.cc.style}`}
             style={{ bottom: `${prefs.cc.bottom * 100}%` }}
           >
-            <span style={{ fontSize: `${prefs.cc.scale * 100}%` }}>{cue}</span>
+            {cues.map((text, i) =>
+              text ? (
+                <span
+                  key={activeTracks[i]?.lan ?? i}
+                  // 叠加时第二条起略小一点，主次分明
+                  style={{
+                    fontSize: `${prefs.cc.scale * (i === 0 ? 100 : 86)}%`,
+                  }}
+                >
+                  {text}
+                </span>
+              ) : null,
+            )}
           </div>
         )}
         {resumeTip !== null && (
@@ -873,36 +892,50 @@ export function BiliPlayer({
               </label>
             </h4>
             <div className="biliplayer-field">
-              <span>语言</span>
+              <span>语言（可多选叠加）</span>
               <div className="biliplayer-chips">
-                {tracks.map((t) => (
-                  <button
-                    key={t.lan}
-                    className={activeTrack?.lan === t.lan ? "on" : undefined}
-                    onClick={() => updateCc({ lan: t.lan, on: true })}
-                    title={
-                      t.suspect
-                        ? "这条字幕的时间轴与视频对不上，多半是平台挂错了"
-                        : t.ai
-                          ? "平台自动生成，内容可能不准"
-                          : undefined
-                    }
-                  >
-                    {t.lanDoc}
-                    {t.ai ? " · AI" : ""}
-                    {t.suspect ? " ⚠" : ""}
-                  </button>
-                ))}
+                {tracks.map((t) => {
+                  const on = activeTracks.some((a) => a.lan === t.lan);
+                  return (
+                    <button
+                      key={t.lan}
+                      className={on ? "on" : undefined}
+                      onClick={() => {
+                        const cur = prefsStore.get().cc.lans;
+                        const next = cur.includes(t.lan)
+                          ? cur.filter((l) => l !== t.lan)
+                          : [...cur, t.lan];
+                        updateCc({ lans: next, on: true });
+                      }}
+                      title={
+                        t.suspect
+                          ? "这条字幕的时间轴与视频对不上，多半是平台挂错了"
+                          : t.ai
+                            ? "平台自动生成，内容可能不准"
+                            : undefined
+                      }
+                    >
+                      {t.lanDoc}
+                      {t.ai ? " · AI" : ""}
+                      {t.suspect ? " ⚠" : ""}
+                    </button>
+                  );
+                })}
               </div>
             </div>
-            {activeTrack?.suspect && (
+            {tracks.length > 1 && (
               <p className="biliplayer-panel-note">
-                ⚠ 这条字幕只覆盖了视频的一小段，B 站可能挂错了片源——内容对不上时请关掉它。
+                选中两条即可中英对照，第二条会显示得小一号。
               </p>
             )}
-            {activeTrack?.ai && !activeTrack.suspect && (
+            {activeTracks.some((t) => t.suspect) && (
               <p className="biliplayer-panel-note">
-                字幕由 B 站自动生成，可能有错漏，仅供参考。
+                ⚠ 有字幕只覆盖了视频的一小段，B 站可能挂错了片源——内容对不上时请关掉它。
+              </p>
+            )}
+            {activeTracks.some((t) => t.ai && !t.suspect) && (
+              <p className="biliplayer-panel-note">
+                标 AI 的字幕由 B 站自动生成，可能有错漏，仅供参考。
               </p>
             )}
             <label className="biliplayer-slider">
