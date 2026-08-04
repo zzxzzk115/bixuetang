@@ -104,97 +104,82 @@ export default async function GlossaryPage({
 
   return (
     <AppShell bootstrap={bootstrap}>
-      <div className="app-skin app-page">
-    <div className="glossary-page page-stack mx-auto max-w-5xl">
-      <header className="page-intro">
-        <div>
-          <p className="page-kicker">LEXICON ARCHIVE // 知识索引</p>
-          <h1 className="page-title">术语卷宗</h1>
-          <p className="page-lead">
-            从课程知识点中聚合中英术语、数学表达与出现位置，建立跨副本的统一索引。
-          </p>
-        </div>
-        <div className="hero-stat">
-          <span className="hero-stat-value">{all.length}</span>
-          <span className="hero-stat-label">条已收录术语</span>
-        </div>
-      </header>
+      <div className="app-page lex-root">
+        <header className="lex-head">
+          <h1>术语卷宗</h1>
+          <span className="lex-count">{all.length} 条</span>
+        </header>
+        <p className="lex-lead">
+          从课程知识点聚合的中英术语索引，点出处直达课程。
+        </p>
 
-      <form action="/glossary" method="get" className="filter-console">
-        <label className="min-w-0 flex-1">
-          <span className="page-kicker">ARCHIVE QUERY</span>
+        <form action="/glossary" method="get" className="lex-search">
           <input
             name="q"
             defaultValue={q ?? ""}
-            placeholder="输入英文、中文或定义关键词"
-            className="mt-2 w-full border border-edge bg-background px-3 py-2 text-sm outline-none focus:border-gold"
+            placeholder="搜索英文、中文或定义关键词"
           />
-        </label>
-        <button className="command-button secondary shrink-0" type="submit">
-          检索卷宗
-        </button>
-      </form>
+          <button className="app-btn-primary" type="submit">
+            搜索
+          </button>
+        </form>
 
-      {entries.length === 0 ? (
-        <div className="hud-panel py-12 text-center text-sm text-muted">
-          {all.length === 0 ? "术语卷宗尚未建立。" : "没有匹配的术语。"}
-        </div>
-      ) : (
-        <>
-          <GlossaryIndex items={indexItems} />
-          <div className="glossary-sectors space-y-8">
-            {orderedGroups.map(([key, list]) => (
-              <section key={key} id={groupId(key)} className="glossary-sector">
-                <div className="section-heading">
-                  <div>
-                    <p className="page-kicker">INDEX SECTOR</p>
-                    <h2>{key}</h2>
-                  </div>
-                  <span className="font-mono text-xs text-muted">
-                    {list.length} ENTRIES
-                  </span>
-                </div>
-                <dl className="glossary-list">
-                  {list.map((entry) => {
-                    const { en, zh } = splitBilingualTerm(entry.term);
-                    return (
-                      <div key={entry.term} className="glossary-entry">
-                        <dt className="glossary-term">
-                          <span className="glossary-en">{en}</span>
-                          {zh && <span className="glossary-zh">{zh}</span>}
-                        </dt>
-                        <div className="glossary-body">
-                          {entry.definitions.map((definition, index) => (
-                            <dd
-                              key={index}
-                              className="analysis-rich-text text-sm text-muted"
-                              dangerouslySetInnerHTML={{
-                                __html: renderMathText(definition),
-                              }}
-                            />
-                          ))}
-                          <dd className="mt-3 flex flex-wrap gap-1.5">
-                            {entry.sources.map((source) => (
-                              <Link
-                                key={source.courseId}
-                                href={`/courses/${source.courseId}`}
-                                className="archive-source"
-                              >
-                                {source.courseTitle} · 第 {source.episodes.join("/")} 集
-                              </Link>
-                            ))}
-                          </dd>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </dl>
-              </section>
-            ))}
+        {entries.length === 0 ? (
+          <div className="lex-empty">
+            {all.length === 0 ? "术语卷宗尚未建立。" : "没有匹配的术语。"}
           </div>
-        </>
-      )}
-    </div>
+        ) : (
+          <>
+            <div className="app-skin">
+              <GlossaryIndex items={indexItems} />
+            </div>
+            <div className="lex-sectors">
+              {orderedGroups.map(([key, list]) => (
+                <section key={key} id={groupId(key)} className="lex-sector">
+                  <div className="lex-sector-head">
+                    <b>{key}</b>
+                    <small>{list.length} 条</small>
+                  </div>
+                  <dl className="lex-list">
+                    {list.map((entry) => {
+                      const { en, zh } = splitBilingualTerm(entry.term);
+                      return (
+                        <div key={entry.term} className="lex-entry">
+                          <dt>
+                            <b>{en}</b>
+                            {zh && <span>{zh}</span>}
+                          </dt>
+                          <div className="lex-entry-body app-skin">
+                            {entry.definitions.map((definition, index) => (
+                              <dd
+                                key={index}
+                                className="analysis-rich-text"
+                                dangerouslySetInnerHTML={{
+                                  __html: renderMathText(definition),
+                                }}
+                              />
+                            ))}
+                            <dd className="lex-sources">
+                              {entry.sources.map((source) => (
+                                <Link
+                                  key={source.courseId}
+                                  href={`/courses/${source.courseId}`}
+                                >
+                                  {source.courseTitle} · 第{" "}
+                                  {source.episodes.join("/")} 集
+                                </Link>
+                              ))}
+                            </dd>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </dl>
+                </section>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </AppShell>
   );

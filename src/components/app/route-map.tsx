@@ -171,7 +171,8 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
   const onNode = async (n: MapNode) => {
     if (n.state === "locked") return shake(n.key);
     if (n.node.kind === "video") {
-      router.push(`/courses/${n.course.id}`);
+      // 带上分段号：课程页只呈现该节点覆盖的集
+      router.push(`/courses/${n.course.id}?seg=${n.node.index}`);
       return;
     }
     if (n.node.kind === "quiz") {

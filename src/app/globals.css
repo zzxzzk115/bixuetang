@@ -1065,9 +1065,10 @@ html {
   --edge-strong: var(--app-faint);
   --foreground: var(--app-strong);
   --muted: color-mix(in srgb, var(--app-text) 78%, var(--app-faint));
-  --gold: var(--app-orange);
-  --gold-soft: color-mix(in srgb, var(--app-orange) 35%, var(--app-line));
-  --copper: var(--app-orange);
+  /* 旧金色/铜色一律落到蓝——橙色与绿蓝主题不搭（用户点名） */
+  --gold: var(--app-blue);
+  --gold-soft: color-mix(in srgb, var(--app-blue) 35%, var(--app-line));
+  --copper: var(--app-blue);
   --xp: var(--app-green);
   --hp: var(--app-red);
   --mana: var(--app-blue);
@@ -1096,6 +1097,655 @@ html {
 .app-skin h2,
 .app-skin h3 {
   color: var(--app-strong);
+}
+
+/* ---------- 课程页（原生 App 布局） ---------- */
+.app-course,
+.lex-root,
+.me-root {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  /* app-page 是定高滚动容器：行必须 max-content 保底，
+     否则唯一 overflow:hidden 的卡片会被挤成 0 高（min-size 规则） */
+  grid-auto-rows: max-content;
+  color: var(--app-text);
+  font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+.bag-root,
+.trial-root {
+  grid-auto-rows: max-content;
+}
+.course-hero {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+  border-radius: 18px;
+  color: #fff;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+.course-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.course-hero-tags span {
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.22);
+  font-size: 12px;
+  font-weight: 800;
+}
+.course-hero h1 {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.3;
+}
+.course-hero p {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.92;
+}
+.course-hero-bar {
+  height: 12px;
+  margin-top: 4px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+.course-hero-bar i {
+  display: block;
+  height: 100%;
+  border-radius: 8px;
+  background: #fff;
+}
+.course-hero small {
+  font-size: 12px;
+  font-weight: 800;
+  opacity: 0.92;
+}
+.course-hero-seg {
+  background: #fff !important;
+  color: #3c3c3c;
+}
+.course-hero-all {
+  justify-self: start;
+  margin-top: 2px;
+  padding: 5px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+.course-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+  background: var(--app-surface);
+}
+.course-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.course-card-head h2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-strong);
+  font-size: 16px;
+  font-weight: 800;
+}
+/* 播放器卡：隐藏旧组件里冗长的来源题头，只留切源与画面 */
+.course-player {
+  padding: 10px;
+}
+.course-player .player-source-heading {
+  display: none;
+}
+.course-desc {
+  padding: 0 4px;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+/* 折叠卡（知识点地图 / 学习面板），Fold 组件自控开合 */
+.course-fold {
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+  background: var(--app-surface);
+  overflow: hidden;
+}
+.course-fold-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 16px;
+  color: var(--app-strong);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: left;
+}
+.course-fold-summary svg {
+  color: var(--app-blue);
+  flex-shrink: 0;
+}
+.course-fold-summary small {
+  margin-left: auto;
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.course-fold-chevron {
+  margin-left: 8px;
+  color: var(--app-faint);
+  font-size: 18px;
+  transform: rotate(90deg);
+  transition: transform 150ms ease;
+}
+.course-fold.open .course-fold-chevron {
+  transform: rotate(-90deg);
+}
+.course-fold-body {
+  padding: 0 16px 16px;
+}
+/* 播放器工具条残留的方角元素统一圆角、红竖条备注降噪 */
+.course-player :is(button, .player-tool, .player-current-episode) {
+  border-radius: 10px;
+}
+.course-player .border-hp {
+  border-color: var(--app-line);
+}
+/* 信息行（实验室/技能入口） */
+.course-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+  background: var(--app-surface);
+  box-shadow: 0 4px 0 var(--app-line);
+  transition: transform 80ms ease;
+}
+.course-row:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--app-line);
+}
+.course-row-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: color-mix(in srgb, currentcolor 12%, transparent);
+}
+.course-row-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.course-row-body b {
+  color: var(--app-strong);
+  font-size: 14px;
+}
+.course-row-body small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.course-row > span[aria-hidden] {
+  color: var(--app-faint);
+  font-size: 22px;
+}
+.course-links {
+  display: grid;
+  gap: 4px;
+}
+.course-links a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  color: var(--app-strong);
+  font-size: 14px;
+  font-weight: 700;
+}
+.course-links a:hover {
+  background: color-mix(in srgb, var(--app-blue) 8%, transparent);
+}
+.course-links a small {
+  color: var(--app-faint);
+  font-weight: 600;
+}
+.course-links i {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--app-line);
+  border-radius: 50%;
+}
+.course-links i.done {
+  border-color: var(--app-green);
+  background: var(--app-green);
+}
+
+/* ---------- 分集清单（原生） ---------- */
+.app-eps {
+  position: relative;
+  display: grid;
+  gap: 12px;
+}
+.app-eps-toasts {
+  position: absolute;
+  top: -6px;
+  right: 0;
+  z-index: 10;
+  display: grid;
+  gap: 4px;
+  justify-items: end;
+  pointer-events: none;
+}
+.app-eps-toasts span {
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-green) 14%, var(--app-surface));
+  color: var(--app-green);
+  font-size: 12px;
+  font-weight: 800;
+  animation: bubble-bounce 0.7s ease-in-out;
+}
+.app-eps-progress {
+  display: grid;
+  gap: 4px;
+}
+.app-eps-bar {
+  height: 14px;
+  border-radius: 8px;
+  background: var(--app-line);
+  overflow: hidden;
+}
+.app-eps-bar i {
+  display: block;
+  height: 100%;
+  border-radius: 8px;
+  transition: width 300ms ease;
+}
+.app-eps-progress small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 800;
+}
+.app-eps-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.app-eps-actions .app-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 14px;
+}
+.app-eps-search {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  min-height: 44px;
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  background: var(--app-bg);
+  color: var(--app-faint);
+}
+.app-eps-search input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--app-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+.app-eps-list {
+  display: grid;
+  gap: 6px;
+}
+.app-eps-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.app-eps-check {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--app-line);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 80ms ease;
+}
+.app-eps-check:active {
+  transform: scale(0.9);
+}
+.app-eps-row {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+.app-eps-row:hover,
+.app-eps-list li.playing .app-eps-row {
+  background: color-mix(in srgb, var(--app-blue) 8%, transparent);
+}
+.app-eps-no {
+  flex-shrink: 0;
+  min-width: 30px;
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+}
+.app-eps-title {
+  flex: 1;
+  min-width: 0;
+  color: var(--app-strong);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.app-eps-title.done {
+  color: var(--app-faint);
+  text-decoration: line-through;
+}
+.app-eps-title.current {
+  color: var(--app-strong);
+}
+.app-eps-list li.locked .app-eps-title,
+.app-eps-list li.locked .app-eps-no {
+  color: color-mix(in srgb, var(--app-faint) 55%, transparent);
+}
+.app-eps-list li.locked .app-eps-check {
+  color: var(--app-faint);
+  cursor: default;
+}
+.app-eps-list li.locked .app-eps-row {
+  cursor: default;
+}
+.app-eps-list li.locked .app-eps-row:hover {
+  background: none;
+}
+.app-eps-play {
+  flex-shrink: 0;
+  color: var(--app-faint);
+}
+.app-eps-list li.playing .app-eps-play {
+  color: var(--app-blue);
+}
+.app-eps-more {
+  min-height: 44px;
+  font-size: 14px;
+}
+
+/* ---------- 术语卷宗（原生） ---------- */
+.lex-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.lex-head h1 {
+  color: var(--app-strong);
+  font-size: 22px;
+  font-weight: 900;
+}
+.lex-count {
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-blue) 12%, transparent);
+  color: var(--app-blue);
+  font-size: 12px;
+  font-weight: 800;
+}
+.lex-lead {
+  font-size: 13px;
+  color: var(--app-faint);
+  font-weight: 600;
+}
+.lex-search {
+  display: flex;
+  gap: 10px;
+}
+.lex-search input {
+  flex: 1;
+  min-width: 0;
+  min-height: 50px;
+  padding: 0 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+}
+.lex-search input:focus {
+  border-color: var(--app-blue);
+}
+.lex-empty {
+  padding: 48px 0;
+  text-align: center;
+  color: var(--app-faint);
+  font-weight: 700;
+}
+.lex-sectors {
+  display: grid;
+  gap: 18px;
+}
+.lex-sector-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 4px 2px;
+}
+.lex-sector-head b {
+  color: var(--app-strong);
+  font-size: 20px;
+  font-weight: 900;
+}
+.lex-sector-head small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.lex-list {
+  display: grid;
+  gap: 10px;
+}
+.lex-entry {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+}
+.lex-entry dt {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.lex-entry dt b {
+  color: var(--app-strong);
+  font-size: 15px;
+  font-weight: 800;
+}
+.lex-entry dt span {
+  color: var(--app-blue);
+  font-size: 13px;
+  font-weight: 700;
+}
+.lex-entry-body {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.lex-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.lex-sources a {
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-green) 12%, transparent);
+  color: var(--app-green);
+  font-size: 12px;
+  font-weight: 800;
+}
+/* 字母索引条：覆盖旧的暗金样式，换成 App 胶囊 */
+.lex-root .glossary-index-rail {
+  top: 90px;
+  right: 8px;
+  bottom: 90px;
+  width: 34px;
+  border: 2px solid var(--app-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-surface) 94%, transparent);
+  color: var(--app-faint);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+}
+.lex-root .glossary-index-caption {
+  display: none;
+}
+.lex-root .glossary-index-items {
+  padding: 6px 0;
+}
+.lex-root .glossary-index-items button {
+  border-radius: 8px;
+  color: var(--app-faint);
+  font: 800 10px ui-rounded, "PingFang SC", system-ui, sans-serif;
+}
+.lex-root .glossary-index-items button:first-child {
+  font-size: 10px;
+}
+.lex-root .glossary-index-items button:hover,
+.lex-root .glossary-index-items button.active {
+  background: color-mix(in srgb, var(--app-blue) 14%, transparent);
+  color: var(--app-blue);
+}
+.lex-root .glossary-index-indicator {
+  right: 42px;
+  border: 2px solid var(--app-blue);
+  border-radius: 14px;
+  background: var(--app-surface);
+  color: var(--app-blue);
+  font: 800 15px ui-rounded, "PingFang SC", system-ui, sans-serif;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+/* 桌面端：浮动竖条改为列顶横向字母条（sticky 吸顶） */
+@media (min-width: 1024px) {
+  .lex-root .glossary-index-rail {
+    position: sticky;
+    top: -16px;
+    right: auto;
+    bottom: auto;
+    z-index: 20;
+    order: -1;
+    width: 100%;
+    flex-direction: row;
+    border-radius: 14px;
+    padding: 4px 8px;
+    background: color-mix(in srgb, var(--app-surface) 97%, transparent);
+  }
+  .lex-root .glossary-index-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 0;
+    width: 100%;
+  }
+  .lex-root .glossary-index-items button {
+    min-width: 26px;
+    min-height: 26px;
+    font-size: 12px;
+  }
+  .lex-root .glossary-index-indicator {
+    display: none;
+  }
+}
+
+/* ---------- 我的（原生） ---------- */
+.me-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 18px;
+  background: var(--app-surface);
+}
+.me-hero-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+.me-hero h1 {
+  color: var(--app-strong);
+  font-size: 19px;
+  font-weight: 900;
+}
+.me-hero small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.me-hero-bar {
+  height: 12px;
+  border-radius: 8px;
+  background: var(--app-line);
+  overflow: hidden;
+}
+.me-hero-bar i {
+  display: block;
+  height: 100%;
+  border-radius: 8px;
+  background: var(--app-gold);
+}
+.me-note {
+  font-size: 13px;
+  color: var(--app-faint);
+  font-weight: 700;
 }
 .trial-claimed {
   padding: 6px 14px;
