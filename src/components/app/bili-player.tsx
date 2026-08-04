@@ -126,6 +126,13 @@ function unlockOrientation(): void {
   }
 }
 
+function isIosLike(): boolean {
+  if (typeof navigator === "undefined") return false;
+  return (
+    /iP(hone|ad|od)/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  );
+}
 function fmt(sec: number): string {
   if (!Number.isFinite(sec)) return "0:00";
   const m = Math.floor(sec / 60);
@@ -184,6 +191,7 @@ export function BiliPlayer({
   const [buffered, setBuffered] = useState(0);
   /** 正在等数据——大文件首次播放要缓冲一会儿，不给提示会以为卡死了 */
   const [stalled, setStalled] = useState(false);
+  const [controlsVisible, setControlsVisible] = useState(true);
   /** 看完这一集新解锁的卷宗词条 */
   const [newTerms, setNewTerms] = useState<UnlockedTerm[]>([]);
   /** 本视频的字幕时间轴偏移（毫秒，正数=字幕延后） */
@@ -206,6 +214,32 @@ export function BiliPlayer({
   const activeRef = useRef<Track[]>([]);
   const seenRef = useRef<Set<number>>(new Set());
   const completedRef = useRef(false);
+  const controlsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const overlayMode = cinema || isFullscreen || forceLandscape;
+  const nativeVolumeIsBinary = useMemo(() => isIosLike(), []);
+  const displayedVolume = nativeVolumeIsBinary ? (prefs.muted ? 0 : 1) : prefs.volume;
+
+  const revealControls = useCallback(() => {
+    setControlsVisible(true);
+    if (controlsTimerRef.current) clearTimeout(controlsTimerRef.current);
+    if (!overlayMode || !playing || panel !== "none") return;
+    controlsTimerRef.current = setTimeout(() => {
+      setControlsVisible(false);
+    }, 2500);
+  }, [overlayMode, panel, playing]);
+
+  useEffect(() => {
+    if (controlsTimerRef.current) clearTimeout(controlsTimerRef.current);
+    if (overlayMode && playing && panel === "none") {
+      controlsTimerRef.current = setTimeout(() => {
+        setControlsVisible(false);
+      }, 2500);
+    }
+    return () => {
+      if (controlsTimerRef.current) clearTimeout(controlsTimerRef.current);
+    };
+  }, [overlayMode, panel, playing]);
 
   // 偏好：库里那份是权威，挂载时 hydrate 一次；之后每次改动落库
   useEffect(() => {
@@ -411,14 +445,14 @@ export function BiliPlayer({
       v.playbackRate = prefs.rate;
       // DASH 时声音在 audio 轨，video 恒静音
       v.muted = payload?.audio ? true : prefs.muted;
-      v.volume = prefs.volume;
+      v.volume = nativeVolumeIsBinary ? 1 : prefs.volume;
     }
     if (a) {
       a.playbackRate = prefs.rate;
       a.muted = prefs.muted;
       a.volume = prefs.volume;
     }
-  }, [prefs.rate, prefs.muted, prefs.volume, payload?.audio, videoSrc]);
+  }, [prefs.rate, prefs.muted, prefs.volume, payload?.audio, videoSrc, nativeVolumeIsBinary]);
 
   // 弹幕渲染
   useEffect(() => {
@@ -757,7 +791,6 @@ export function BiliPlayer({
   // ==== 触摸手势（只认手指，鼠标一律不接管，免得桌面误触发）====
   //   横滑    快进快退，滑多远跳多久
   //   纵滑    调音量
-  //   双击    播放/暂停
   //   长按    临时 2 倍速，松手复原
   const [osd, setOsd] = useState<string | null>(null);
   const osdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -778,7 +811,6 @@ export function BiliPlayer({
     longPress: ReturnType<typeof setTimeout> | null;
     boosted: boolean;
   } | null>(null);
-  const lastTapRef = useRef(0);
 
   const onStagePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "touch") return;
@@ -789,7 +821,7 @@ export function BiliPlayer({
       y: e.clientY,
       at: Date.now(),
       baseTime: v.currentTime,
-      baseVolume: prefs.muted ? 0 : prefs.volume,
+      baseVolume: displayedVolume,
       axis: null,
       boosted: false,
       longPress: setTimeout(() => {
@@ -807,8 +839,10 @@ export function BiliPlayer({
     const g = gestureRef.current;
     const v = videoRef.current;
     if (!g || !v || e.pointerType !== "touch") return;
-    const dx = e.clientX - g.x;
-    const dy = e.clientY - g.y;
+    const rawDx = e.clientX - g.x;
+    const rawDy = e.clientY - g.y;
+    const dx = forceLandscape ? rawDy : rawDx;
+    const dy = forceLandscape ? -rawDx : rawDy;
     if (!g.axis) {
       if (Math.abs(dx) < 12 && Math.abs(dy) < 12) return;
       g.axis = Math.abs(dx) > Math.abs(dy) ? "seek" : "volume";
@@ -816,16 +850,19 @@ export function BiliPlayer({
       g.longPress = null;
     }
     const rect = e.currentTarget.getBoundingClientRect();
+    const spanX = forceLandscape ? rect.height : rect.width;
+    const spanY = forceLandscape ? rect.width : rect.height;
     if (g.axis === "seek") {
       // 划满整个画面宽 = 跳 90 秒，短视频也不至于一划到底
       const total = v.duration || duration;
-      const delta = (dx / rect.width) * 90;
+      const delta = (dx / spanX) * 90;
       const next = Math.max(0, Math.min(total, g.baseTime + delta));
       seekTo(next);
       flashOsd(`${delta >= 0 ? "▶▶" : "◀◀"} ${fmt(next)} / ${fmt(total)}`);
     } else {
       // 向上是加，所以取负
-      const next = Math.max(0, Math.min(1, g.baseVolume - dy / rect.height));
+      const rawNext = Math.max(0, Math.min(1, g.baseVolume - dy / spanY));
+      const next = nativeVolumeIsBinary ? (rawNext >= 0.5 ? 1 : 0) : rawNext;
       update({ volume: next, muted: next === 0 });
       flashOsd(`音量 ${Math.round(next * 100)}%`);
     }
@@ -845,16 +882,6 @@ export function BiliPlayer({
       return;
     }
     if (g.axis) return; // 滑动结束，不再当点击处理
-
-    // 没滑动、也没长按 → 判断是不是双击
-    const now = Date.now();
-    if (now - lastTapRef.current < 300) {
-      lastTapRef.current = 0;
-      togglePlay();
-      flashOsd(videoRef.current?.paused ? "已暂停" : "播放中");
-    } else {
-      lastTapRef.current = now;
-    }
   };
 
   const onTrackPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -893,6 +920,8 @@ export function BiliPlayer({
         (wrapRef.current?.contains(document.activeElement) ?? false);
       if (!inPlayer) return;
 
+      revealControls();
+
       switch (e.key) {
         case " ":
         case "k":
@@ -909,11 +938,12 @@ export function BiliPlayer({
           break;
         case "ArrowUp":
           e.preventDefault();
-          update({ volume: Math.min(1, prefs.volume + 0.1), muted: false });
+          if (nativeVolumeIsBinary) update({ volume: 1, muted: false });
+          else update({ volume: Math.min(1, prefs.volume + 0.1), muted: false });
           break;
         case "ArrowDown": {
           e.preventDefault();
-          const next = Math.max(0, prefs.volume - 0.1);
+          const next = nativeVolumeIsBinary ? 0 : Math.max(0, prefs.volume - 0.1);
           update({ volume: next, muted: next === 0 });
           break;
         }
@@ -945,6 +975,8 @@ export function BiliPlayer({
     cinema,
     prefs.volume,
     prefs.muted,
+    nativeVolumeIsBinary,
+    revealControls,
     prefs.cc.on,
     prefs.danmaku.on,
     duration,
@@ -983,9 +1015,9 @@ export function BiliPlayer({
   }
 
   const VolumeIcon =
-    prefs.muted || prefs.volume === 0
+    prefs.muted || displayedVolume === 0
       ? VolumeX
-      : prefs.volume < 0.5
+      : displayedVolume < 0.5
         ? Volume1
         : Volume2;
   const currentQuality =
@@ -996,23 +1028,40 @@ export function BiliPlayer({
     <div
       className={`biliplayer ${cinema ? "cinema" : ""} ${isFullscreen ? "is-fs" : ""} ${
         forceLandscape ? "force-landscape" : ""
-      }`}
+      } ${controlsVisible || !overlayMode ? "controls-visible" : "controls-hidden"}`}
       ref={wrapRef}
       // 键盘只在指针停在播放器上时接管，免得在页面别处敲空格也暂停视频
       onPointerEnter={() => {
         hoverRef.current = true;
+        revealControls();
       }}
       onPointerLeave={() => {
         hoverRef.current = false;
+        revealControls();
       }}
     >
       <div
         className="biliplayer-stage"
-        onClick={() => setPanel("none")}
-        onPointerDown={onStagePointerDown}
-        onPointerMove={onStagePointerMove}
-        onPointerUp={onStagePointerUp}
-        onPointerCancel={onStagePointerUp}
+        onClick={() => {
+          setPanel("none");
+          revealControls();
+        }}
+        onPointerDown={(e) => {
+          revealControls();
+          onStagePointerDown(e);
+        }}
+        onPointerMove={(e) => {
+          revealControls();
+          onStagePointerMove(e);
+        }}
+        onPointerUp={(e) => {
+          revealControls();
+          onStagePointerUp(e);
+        }}
+        onPointerCancel={(e) => {
+          revealControls();
+          onStagePointerUp(e);
+        }}
       >
         {osd && (
           <div className="biliplayer-osd" aria-live="polite">
@@ -1101,7 +1150,12 @@ export function BiliPlayer({
         )}
       </div>
 
-      <div className="biliplayer-bar">
+      <div
+        className="biliplayer-bar"
+        onPointerEnter={revealControls}
+        onPointerMove={revealControls}
+        onFocus={revealControls}
+      >
         <div
           className="biliplayer-track"
           role="slider"
@@ -1150,9 +1204,11 @@ export function BiliPlayer({
               type="range"
               min={0}
               max={100}
-              value={Math.round((prefs.muted ? 0 : prefs.volume) * 100)}
+              step={nativeVolumeIsBinary ? 100 : 1}
+              value={Math.round(displayedVolume * 100)}
               onChange={(e) => {
-                const v = Number(e.target.value) / 100;
+                const raw = Number(e.target.value) / 100;
+                const v = nativeVolumeIsBinary ? (raw >= 0.5 ? 1 : 0) : raw;
                 update({ volume: v, muted: v === 0 });
               }}
               aria-label="音量"

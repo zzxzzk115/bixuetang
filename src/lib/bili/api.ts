@@ -233,45 +233,22 @@ export interface PlayStream {
 }
 
 export interface PlayInfo {
-  /** 视频流（DASH，画音分离） */
+  /** MP4 durl streams, one per available quality. */
   video: PlayStream[];
   audio: PlayStream[];
-  /** 单文件 MP4（durl 模式，游客态常见） */
+  /** Best MP4 stream fallback. */
   progressive?: { url: string; backupUrls: string[] };
   durationSec: number;
   /** 各清晰度名称 */
   qualityNames: Record<number, string>;
 }
 
-interface DashStream {
-  id: number;
-  baseUrl: string;
-  base_url?: string;
-  backupUrl?: string[];
-  backup_url?: string[];
-  mimeType?: string;
-  mime_type?: string;
-  codecs: string;
-  bandwidth: number;
-}
-
 interface PlayUrlData {
-  dash?: { duration: number; video: DashStream[]; audio: DashStream[] };
   durl?: { url: string; backup_url?: string[]; length: number }[];
   timelength?: number;
+  quality?: number;
   accept_quality?: number[];
   accept_description?: string[];
-}
-
-function toStream(s: DashStream): PlayStream {
-  return {
-    url: s.baseUrl ?? s.base_url ?? "",
-    backupUrls: s.backupUrl ?? s.backup_url ?? [],
-    mimeType: s.mimeType ?? s.mime_type ?? "video/mp4",
-    codecs: s.codecs,
-    id: s.id,
-    bandwidth: s.bandwidth,
-  };
 }
 
 /**
@@ -292,44 +269,77 @@ function toStream(s: DashStream): PlayStream {
  *
  * 没登录时 bilibili 只给 360P/480P，绑定账号才有 720P。
  */
+async function fetchMp4PlayUrl(
+  bvid: string,
+  cid: number,
+  qn: number,
+  sessdata?: string,
+): Promise<PlayUrlData | null> {
+  const json = await getJson<PlayUrlData>(
+    `https://api.bilibili.com/x/player/playurl?bvid=${encodeURIComponent(bvid)}&cid=${cid}&qn=${qn}&fnval=1&fnver=0`,
+    sessdata,
+  );
+  if (json.code !== 0 || !json.data?.durl?.[0]) return null;
+  return json.data;
+}
+
 export async function fetchPlayUrl(
   bvid: string,
   cid: number,
   sessdata?: string,
 ): Promise<PlayInfo> {
-  const json = await getJson<PlayUrlData>(
-    `https://api.bilibili.com/x/player/playurl?bvid=${encodeURIComponent(bvid)}&cid=${cid}&qn=80&fnval=1&fnver=0`,
-    sessdata,
-  );
-  if (json.code !== 0 || !json.data) {
-    throw new Error(json.message ?? "取播放地址失败");
-  }
-  const data = json.data;
+  const firstData = await fetchMp4PlayUrl(bvid, cid, 80, sessdata);
+  if (!firstData) throw new Error("取播放地址失败");
+
   const qualityNames: Record<number, string> = {};
-  (data.accept_quality ?? []).forEach((q, i) => {
-    qualityNames[q] = data.accept_description?.[i] ?? String(q);
+  (firstData.accept_quality ?? []).forEach((q, i) => {
+    qualityNames[q] = firstData.accept_description?.[i] ?? String(q);
   });
 
-  if (data.dash) {
-    return {
-      video: data.dash.video.map(toStream),
-      audio: data.dash.audio.map(toStream),
-      durationSec: data.dash.duration,
-      qualityNames,
-    };
+  const requested = Array.from(
+    new Set([...(firstData.accept_quality ?? []), firstData.quality ?? 80, 80, 64, 32, 16]),
+  ).filter((q) => Number.isFinite(q) && q > 0);
+
+  const streams = new Map<number, PlayStream>();
+  const addStream = (data: PlayUrlData, requestedQn: number) => {
+    const first = data.durl?.[0];
+    if (!first) return;
+    const id = data.quality ?? requestedQn;
+    if (streams.has(id)) return;
+    streams.set(id, {
+      url: first.url,
+      backupUrls: first.backup_url ?? [],
+      mimeType: "video/mp4",
+      codecs: "avc1",
+      id,
+      bandwidth: 0,
+    });
+  };
+
+  addStream(firstData, firstData.quality ?? 80);
+  for (const qn of requested) {
+    if (streams.has(qn)) continue;
+    try {
+      const data =
+        qn === (firstData.quality ?? 80)
+          ? firstData
+          : await fetchMp4PlayUrl(bvid, cid, qn, sessdata);
+      if (data) addStream(data, qn);
+    } catch {
+      // Some advertised qualities are DASH-only or account-gated; skip them.
+    }
   }
-  const first = data.durl?.[0];
+
+  const video = [...streams.values()].sort((a, b) => b.id - a.id);
+  const best = video[0];
   return {
-    video: [],
+    video,
     audio: [],
-    progressive: first
-      ? { url: first.url, backupUrls: first.backup_url ?? [] }
-      : undefined,
-    durationSec: Math.round((data.timelength ?? 0) / 1000),
+    progressive: best ? { url: best.url, backupUrls: best.backupUrls } : undefined,
+    durationSec: Math.round((firstData.timelength ?? 0) / 1000),
     qualityNames,
   };
 }
-
 // ---------- 互动（点赞 / 投币 / 收藏 / 评论） ----------
 
 function formHeaders(sessdata: string, csrf: string): Record<string, string> {

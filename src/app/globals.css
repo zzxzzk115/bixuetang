@@ -192,30 +192,25 @@ html {
 }
 
 .app-tabs {
-  /* 写死列数会在隐藏「工坊」「更多」这类条件项后留下空列，
-     整排看起来既不等宽也不居中。改用 flex 均分：显示几个就分几份 */
   display: flex;
   justify-content: center;
   border-top: 2px solid var(--app-line);
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: 0;
+  margin-bottom: calc(env(safe-area-inset-bottom) * -1);
   background: var(--app-bg);
 }
 .app-tabs button {
-  /* 每个 Tab 等宽等间距，与实际显示数量无关 */
   flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: 8px 0 10px;
+  padding: 8px 0 calc(10px + env(safe-area-inset-bottom));
   color: var(--app-faint);
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
-}
-.app-tabs button.active {
-  color: var(--app-blue);
 }
 
 /* ---------- 桌面端：左导航 + 中内容列 + 右统计栏，占满全屏 ---------- */
@@ -233,6 +228,8 @@ html {
     align-items: stretch;
     gap: 6px;
     width: 224px;
+    margin-bottom: 0;
+    padding-bottom: 0;
     max-width: none;
     margin: 0;
     padding: 20px 14px;
@@ -5999,13 +5996,26 @@ body:has(.dungeon-chamber) .analysis-section {
   padding: 40px 18px 14px;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
   opacity: 0;
+  pointer-events: none;
   transition: opacity 200ms ease;
 }
-.biliplayer:fullscreen:hover .biliplayer-bar,
-.biliplayer.cinema:hover .biliplayer-bar,
+.biliplayer:fullscreen.controls-visible .biliplayer-bar,
+.biliplayer.cinema.controls-visible .biliplayer-bar,
 .biliplayer:fullscreen:focus-within .biliplayer-bar,
 .biliplayer.cinema:focus-within .biliplayer-bar {
   opacity: 1;
+  pointer-events: auto;
+}
+.biliplayer:fullscreen.controls-hidden,
+.biliplayer.cinema.controls-hidden,
+.biliplayer.force-landscape.controls-hidden {
+  cursor: none;
+}
+.biliplayer:fullscreen.controls-hidden .biliplayer-bar,
+.biliplayer.cinema.controls-hidden .biliplayer-bar,
+.biliplayer.force-landscape.controls-hidden .biliplayer-bar {
+  opacity: 0;
+  pointer-events: none;
 }
 .biliplayer:fullscreen .biliplayer-controls button,
 .biliplayer.cinema .biliplayer-controls button {
@@ -7420,17 +7430,60 @@ body:has(.dungeon-chamber) .analysis-section {
    inset:0 的范围——表现就是页面下方一条空白。
    改用 100dvh 铺满，再让底部导航自己吃掉安全区。 */
 @media (display-mode: standalone) {
-  .app-root {
-    height: 100dvh;
-    /* iOS 16 之前没有 dvh，用 -webkit-fill-available 兜底 */
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
     min-height: -webkit-fill-available;
+    min-height: 100svh;
+    min-height: 100dvh;
+    overflow: hidden;
+    background: var(--app-bg);
+  }
+  .app-root {
+    position: fixed;
+    inset: 0;
+    min-height: 0;
+    height: auto;
+    background: var(--app-bg);
   }
   .app-tabs {
-    /* 安全区的高度加在导航条自己身上，指示条压在导航下方而不是空白上 */
-    padding-bottom: max(env(safe-area-inset-bottom), 6px);
+    background: var(--app-bg);
   }
 }
 
+html[data-pwa-standalone="1"],
+html[data-pwa-standalone="1"] body {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--app-bg);
+}
+html[data-pwa-standalone="1"] .app-root {
+  position: fixed;
+  inset: 0;
+  min-height: 0;
+  height: auto;
+  background: var(--app-bg);
+}
+html[data-pwa-standalone="1"] .app-tabs {
+  background: var(--app-bg);
+}
+html,
+body {
+  background: var(--app-bg);
+}
+:root {
+  --force-landscape-left-safe: env(safe-area-inset-top);
+}
+html[data-ios="1"] {
+  --force-landscape-left-safe: max(env(safe-area-inset-top), 56px);
+}
 /* ==== iOS 强制横屏 ====
    iOS Safari 至今没实现 screen.orientation.lock()，全屏后还是竖着。
    锁不上就自己转：把播放器整体 rotate 90°、宽高对调铺满视口——
@@ -7443,12 +7496,13 @@ body:has(.dungeon-chamber) .analysis-section {
     left: 0;
     top: 0;
     z-index: 90;
-    /* 宽高对调：转 90° 后视口的高变成了它的宽 */
+    box-sizing: border-box;
     width: 100dvh;
     height: 100dvw;
     transform: rotate(90deg) translateY(-100%);
     transform-origin: top left;
     background: #000;
+    touch-action: none;
   }
   .biliplayer.force-landscape .biliplayer-stage {
     width: 100%;
@@ -7456,13 +7510,36 @@ body:has(.dungeon-chamber) .analysis-section {
     aspect-ratio: auto;
     border-radius: 0;
   }
+  .biliplayer.force-landscape .biliplayer-stage video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
   .biliplayer.force-landscape .biliplayer-bar {
     position: absolute;
-    left: 0;
+    left: var(--force-landscape-left-safe);
     right: 0;
     bottom: 0;
     z-index: 2;
-    padding: 30px 16px 12px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+    padding: 28px 20px 12px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease;
   }
+  .biliplayer.force-landscape.controls-visible .biliplayer-bar,
+  .biliplayer.force-landscape:focus-within .biliplayer-bar {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .biliplayer.force-landscape ~ *,
+  .biliplayer.force-landscape .biliplayer-hint {
+    display: none;
+  }
+}
+
+body:has(.biliplayer.force-landscape),
+body:has(.biliplayer.cinema),
+body:has(.biliplayer:fullscreen) {
+  background: #000;
 }

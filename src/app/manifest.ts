@@ -2,9 +2,7 @@ import type { MetadataRoute } from "next";
 
 // PWA 清单。Next 的 App Router 会把这个文件挂成 /manifest.webmanifest。
 //
-// 图标全部指向 /icon.svg：单个矢量文件在任何 DPI 下都清晰，
-// 省掉一整套 192/512 位图的生成与同步。purpose 里给 maskable，
-// 安卓才会把它裁成系统统一的图标形状而不是套一层白底。
+// Chrome Android 安装 PWA 时更认 192/512 位图；SVG 保留给浏览器标签页与高 DPI。
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -21,16 +19,22 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["education"],
     icons: [
       {
-        src: "/icon.svg",
-        sizes: "any",
-        type: "image/svg+xml",
+        src: "/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
         purpose: "any",
+      },
+      {
+        src: "/icon-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
       },
       {
         src: "/icon.svg",
         sizes: "any",
         type: "image/svg+xml",
-        purpose: "maskable",
+        purpose: "any",
       },
     ],
   };

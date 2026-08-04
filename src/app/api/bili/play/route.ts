@@ -13,6 +13,16 @@ function proxied(url: string): string {
   return `/api/bili/stream?u=${encodeURIComponent(url)}`;
 }
 
+function streamUrl(request: NextRequest, url: string): string {
+  const proto =
+    request.headers.get("x-forwarded-proto") ??
+    request.nextUrl.protocol.replace(":", "");
+  const host =
+    request.headers.get("x-forwarded-host") ??
+    request.headers.get("host") ??
+    request.nextUrl.host;
+  return new URL(proxied(url), `${proto}://${host}`).toString();
+}
 export async function GET(request: NextRequest) {
   const user = await getCurrentUser();
   if (!user) return Response.json({ error: "请先登录" }, { status: 401 });
@@ -40,41 +50,14 @@ export async function GET(request: NextRequest) {
     // 之前的机型只能软解——表现就是「解码特别慢」，画面卡成幻灯片。
     // AVC(H.264) 是唯一在所有设备上都硬解的编码，同画质码率高一些，
     // 但流畅度比省那点流量重要得多。
-    const codecRank = (codecs: string): number => {
-      const c = codecs.toLowerCase();
-      if (c.startsWith("avc1") || c.startsWith("avc3")) return 0;
-      if (c.startsWith("hev1") || c.startsWith("hvc1")) return 1;
-      if (c.startsWith("av01")) return 2;
-      return 3;
-    };
-    const better = (
-      a: (typeof play.video)[number],
-      b: (typeof play.video)[number],
-    ) => {
-      const ra = codecRank(a.codecs);
-      const rb = codecRank(b.codecs);
-      // 先按编码兼容性，同编码内才比码率
-      if (ra !== rb) return ra < rb;
-      return a.bandwidth > b.bandwidth;
-    };
-    const byQuality = new Map<number, (typeof play.video)[number]>();
-    for (const stream of play.video) {
-      const cur = byQuality.get(stream.id);
-      if (!cur || better(stream, cur)) byQuality.set(stream.id, stream);
-    }
-    const qualities = [...byQuality.values()]
-      .sort((a, b) => b.id - a.id)
-      .map((stream) => ({
-        id: stream.id,
-        name: play.qualityNames[stream.id] ?? String(stream.id),
-        url: proxied(stream.url),
-      }));
-    const audio = [...play.audio].sort((a, b) => b.bandwidth - a.bandwidth)[0];
-
-    // durl 模式（现在的默认）只有一路合一的 MP4，没有 qualities 数组；
-    // 清晰度由请求时的 qn 决定，这里把它当成唯一一档报给前端
-    const single = play.progressive ? proxied(play.progressive.url) : null;
-
+    const qualities = play.video.map((stream) => ({
+      id: stream.id,
+      name: play.qualityNames[stream.id] ?? String(stream.id),
+      url: streamUrl(request, stream.url),
+    }));
+    const single =
+      qualities[0]?.url ??
+      (play.progressive ? streamUrl(request, play.progressive.url) : null);
     return Response.json({
       aid: view.aid,
       cid: target.cid,
@@ -83,11 +66,10 @@ export async function GET(request: NextRequest) {
       bound: !!sessdata,
       qualities,
       qualityName: qualities[0]?.name ?? (sessdata ? "高清 720P" : "标清"),
-      video: single ?? qualities[0]?.url ?? null,
-      // 单文件 MP4 音视频合一，不需要独立音轨——两路流各自缓冲各自 seek
-      // 正是之前「没声音、播到中间卡死」的根源
-      audio: single ? null : audio ? proxied(audio.url) : null,
-      progressive: play.progressive ? proxied(play.progressive.url) : null,
+      video: single,
+      audio: null,
+      progressive: single,
+      dashManifest: null,
     });
   } catch (error) {
     return Response.json(
