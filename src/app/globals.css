@@ -6634,3 +6634,9 @@ body:has(.dungeon-chamber) .analysis-section {
   font-size: 13px;
   line-height: 1.7;
 }
+
+/* 字幕时间轴校准：数值按钮等宽，免得 +0.5s / -1.0s 之间跳来跳去 */
+.biliplayer-offset {
+  min-width: 62px;
+  font-variant-numeric: tabular-nums;
+}

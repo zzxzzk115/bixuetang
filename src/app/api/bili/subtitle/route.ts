@@ -1,5 +1,8 @@
 import type { NextRequest } from "next/server";
+import { and, eq } from "drizzle-orm";
 import { getCurrentUser } from "@/lib/auth/session";
+import { db } from "@/lib/db/client";
+import { ccOffsets } from "@/lib/db/schema";
 import { getBiliSessdata } from "@/lib/bili/account";
 import { fetchSubtitles } from "@/lib/bili/api";
 
@@ -21,6 +24,14 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: "cid 不合法" }, { status: 400 });
   }
 
+  // 用户为这个视频校准过的字幕偏移，跟字幕一起下发省一次往返
+  const offsetMs =
+    db
+      .select({ offsetMs: ccOffsets.offsetMs })
+      .from(ccOffsets)
+      .where(and(eq(ccOffsets.userId, user.id), eq(ccOffsets.cid, cid)))
+      .get()?.offsetMs ?? 0;
+
   try {
     const tracks = await fetchSubtitles(
       bvid,
@@ -28,8 +39,8 @@ export async function GET(request: NextRequest) {
       getBiliSessdata(user.id) ?? undefined,
       duration,
     );
-    return Response.json({ tracks });
+    return Response.json({ tracks, offsetMs });
   } catch {
-    return Response.json({ tracks: [] });
+    return Response.json({ tracks: [], offsetMs });
   }
 }

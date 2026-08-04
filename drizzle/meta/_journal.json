@@ -85,6 +85,13 @@
       "when": 1785841001000,
       "tag": "0011_subtitle_cache",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1785841002000,
+      "tag": "0012_cc_offsets",
+      "breakpoints": true
     }
   ]
 }

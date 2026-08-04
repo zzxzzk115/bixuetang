@@ -361,3 +361,19 @@ export const subtitleCache = sqliteTable("subtitle_cache", {
   hasHuman: integer("has_human").notNull().default(0),
   updatedAt: integer("updated_at").notNull(),
 });
+
+// 字幕时间轴偏移。有些搬运稿件的字幕整体早／晚半秒到几秒，
+// 这是稿件本身的问题，只能让用户自己校准；按 cid 记，跟人走。
+export const ccOffsets = sqliteTable(
+  "cc_offsets",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    cid: integer("cid").notNull(),
+    /** 正数=字幕延后出现，毫秒 */
+    offsetMs: integer("offset_ms").notNull().default(0),
+    updatedAt: integer("updated_at").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.cid] })],
+);

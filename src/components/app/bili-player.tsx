@@ -27,7 +27,7 @@ import {
   VolumeX,
 } from "lucide-react";
 import { reportWatchProgress } from "@/lib/game/watch-actions";
-import { savePlayerPrefs } from "@/lib/game/user-state-actions";
+import { saveCcOffset, savePlayerPrefs } from "@/lib/game/user-state-actions";
 import { RATES, prefsStore, type PlayerPrefs } from "./player-settings";
 
 // 自研 bilibili 播放器（思路参考 wiliwili，MIT）：
@@ -137,6 +137,10 @@ export function BiliPlayer({
   );
   /** 自动跳转倒计时剩余秒 */
   const [resumeLeft, setResumeLeft] = useState(RESUME_SECONDS);
+  /** 本视频的字幕时间轴偏移（毫秒，正数=字幕延后） */
+  const [ccOffset, setCcOffset] = useState(0);
+  // timeupdate 回调里要读最新值，但不能让它每次改动都重挂监听
+  const ccOffsetRef = useRef(0);
   /** 打开的设置面板 */
   const [panel, setPanel] = useState<"none" | "danmaku" | "cc" | "rate" | "quality">(
     "none",
@@ -173,6 +177,29 @@ export function BiliPlayer({
     (patch: Partial<PlayerPrefs["cc"]>) =>
       prefsStore.set({ cc: { ...prefsStore.get().cc, ...patch } }),
     [],
+  );
+
+  /**
+   * 调字幕时间轴。立刻生效，落库防抖 600ms——按住 -0.5 连点时
+   * 不该每下都写一次数据库。
+   */
+  const offsetSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const nudgeCcOffset = useCallback(
+    (deltaMs: number) => {
+      const cid = payload?.cid;
+      setCcOffset((prev) => {
+        const next = Math.max(-30_000, Math.min(30_000, prev + deltaMs));
+        ccOffsetRef.current = next;
+        if (cid) {
+          if (offsetSaveRef.current) clearTimeout(offsetSaveRef.current);
+          offsetSaveRef.current = setTimeout(() => {
+            void saveCcOffset(cid, next);
+          }, 600);
+        }
+        return next;
+      });
+    },
+    [payload?.cid],
   );
 
   // 取播放地址
@@ -227,8 +254,12 @@ export function BiliPlayer({
       `/api/bili/subtitle?bvid=${encodeURIComponent(bvid)}&cid=${payload.cid}&duration=${payload.durationSec}`,
     )
       .then((r) => r.json())
-      .then((data: { tracks?: SubtitleTrack[] }) => {
-        if (!cancelled) setTracks(data.tracks ?? []);
+      .then((data: { tracks?: SubtitleTrack[]; offsetMs?: number }) => {
+        if (cancelled) return;
+        setTracks(data.tracks ?? []);
+        const saved = data.offsetMs ?? 0;
+        setCcOffset(saved);
+        ccOffsetRef.current = saved;
       })
       .catch(() => {
         if (!cancelled) setTracks([]);
@@ -455,7 +486,8 @@ export function BiliPlayer({
         );
       }
       if (prefsStore.get().cc.on && activeTracks.length > 0) {
-        const t = v.currentTime;
+        // 正偏移 = 字幕延后出现，所以查表时把时间轴往回拨
+        const t = v.currentTime - ccOffsetRef.current / 1000;
         setCues(
           activeTracks.map(
             (track) =>
@@ -1070,6 +1102,25 @@ export function BiliPlayer({
               />
               <b>距底 {Math.round(prefs.cc.bottom * 100)}%</b>
             </label>
+            <div className="biliplayer-field">
+              <span>时间轴</span>
+              <div className="biliplayer-chips">
+                <button onClick={() => nudgeCcOffset(-500)}>-0.5s</button>
+                <button
+                  className="biliplayer-offset"
+                  onClick={() => nudgeCcOffset(-ccOffset)}
+                  title="点一下归零"
+                >
+                  {ccOffset === 0
+                    ? "对齐"
+                    : `${ccOffset > 0 ? "+" : ""}${(ccOffset / 1000).toFixed(1)}s`}
+                </button>
+                <button onClick={() => nudgeCcOffset(500)}>+0.5s</button>
+              </div>
+            </div>
+            <p className="biliplayer-panel-note">
+              字幕比人声慢就调正、快就调负。这个校准只对本视频生效，会记住。
+            </p>
             <div className="biliplayer-field">
               <span>样式</span>
               <div className="biliplayer-chips">
