@@ -17,14 +17,28 @@ export interface QrStartResult {
   /** 需要编码成二维码的 URL（前端自己画码，不依赖第三方图床） */
   url?: string;
   key?: string;
+  /** 本次登录会话用的 buvid（轮询要带同一个） */
+  buvid?: string;
+}
+
+/** 生成一个形如真实客户端的 buvid3（登录会话内保持一致） */
+function newBuvid(): string {
+  const hex = (n: number) =>
+    Array.from({ length: n }, () =>
+      Math.floor(Math.random() * 16).toString(16).toUpperCase(),
+    ).join("");
+  return `${hex(8)}-${hex(4)}-${hex(4)}-${hex(4)}-${hex(12)}${Math.floor(
+    Math.random() * 90000 + 10000,
+  )}infoc`;
 }
 
 export async function startBiliLogin(): Promise<QrStartResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "请先登录学者公会账号" };
   try {
-    const data = await qrGenerate();
-    return { ok: true, url: data.url, key: data.qrcode_key };
+    const buvid = newBuvid();
+    const data = await qrGenerate(buvid);
+    return { ok: true, url: data.url, key: data.qrcode_key, buvid };
   } catch (error) {
     return {
       ok: false,
@@ -38,16 +52,28 @@ export interface QrPollActionResult {
   error?: string;
   status?: "pending" | "scanned" | "expired" | "ok";
   binding?: BiliBinding;
+  /** 接口返回了非预期状态时的诊断信息 */
+  note?: string;
 }
 
 export async function pollBiliLogin(
   key: string,
+  buvid?: string,
 ): Promise<QrPollActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "请先登录学者公会账号" };
   try {
-    const result = await qrPoll(key);
-    if (result.status !== "ok") return { ok: true, status: result.status };
+    const result = await qrPoll(key, buvid);
+    if (result.status !== "ok") {
+      return {
+        ok: true,
+        status: result.status,
+        note:
+          result.rawCode !== undefined
+            ? `B 站返回 code=${result.rawCode}${result.rawMessage ? ` ${result.rawMessage}` : ""}`
+            : undefined,
+      };
+    }
 
     // 拿到凭据后取昵称头像，绑定入库
     let nickname: string | null = null;

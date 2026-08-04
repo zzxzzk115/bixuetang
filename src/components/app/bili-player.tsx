@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  Captions,
+  CaptionsOff,
   Loader2,
   MessageSquare,
   MessageSquareOff,
@@ -36,6 +38,18 @@ interface DanmakuItem {
   mode: number;
   color: number;
   text: string;
+}
+
+interface SubtitleCue {
+  from: number;
+  to: number;
+  text: string;
+}
+
+interface SubtitleTrack {
+  lan: string;
+  lanDoc: string;
+  cues: SubtitleCue[];
 }
 
 interface Track {
@@ -79,6 +93,10 @@ export function BiliPlayer({
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [showDanmaku, setShowDanmaku] = useState(true);
+  const [tracks, setTracks] = useState<SubtitleTrack[]>([]);
+  const [trackIndex, setTrackIndex] = useState(0);
+  const [showCc, setShowCc] = useState(true);
+  const [cue, setCue] = useState("");
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
   const [ratioPct, setRatioPct] = useState(0);
@@ -132,6 +150,23 @@ export function BiliPlayer({
       cancelled = true;
     };
   }, [payload?.cid]);
+
+  // 取 CC 字幕（多数视频要登录态才有）
+  useEffect(() => {
+    if (!payload?.cid) return;
+    let cancelled = false;
+    fetch(`/api/bili/subtitle?bvid=${encodeURIComponent(bvid)}&cid=${payload.cid}`)
+      .then((r) => r.json())
+      .then((data: { tracks?: SubtitleTrack[] }) => {
+        if (!cancelled) setTracks(data.tracks ?? []);
+      })
+      .catch(() => {
+        if (!cancelled) setTracks([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [payload?.cid, bvid]);
 
   // 音轨跟随视频（DASH 双轨：以 video 为时钟，audio 偏差超 0.3s 就校正）
   const syncAudio = useCallback(() => {
@@ -255,6 +290,15 @@ export function BiliPlayer({
     const onTime = () => {
       setCurrent(v.currentTime);
       seenRef.current.add(Math.floor(v.currentTime));
+      // 当前字幕行（轨道按时间排好序，线性查找足够快）
+      const track = tracks[trackIndex];
+      if (showCc && track) {
+        const t = v.currentTime;
+        const hit = track.cues.find((c) => t >= c.from && t <= c.to);
+        setCue(hit?.text ?? "");
+      } else {
+        setCue("");
+      }
       const total = v.duration || payload.durationSec || 0;
       if (total > 0) {
         setRatioPct(
@@ -280,7 +324,7 @@ export function BiliPlayer({
       v.removeEventListener("play", onPlay);
       v.removeEventListener("pause", onPause);
     };
-  }, [payload, syncAudio]);
+  }, [payload, syncAudio, tracks, trackIndex, showCc]);
 
   // 每 15 秒上报一次进度（离开页面时补一次）
   useEffect(() => {
@@ -376,6 +420,11 @@ export function BiliPlayer({
           <audio ref={audioRef} src={payload.audio} muted={muted} preload="metadata" />
         )}
         <canvas ref={canvasRef} className="biliplayer-danmaku" />
+        {showCc && cue && (
+          <div className="biliplayer-cc">
+            <span>{cue}</span>
+          </div>
+        )}
         {!playing && (
           <button className="biliplayer-bigplay" aria-label="播放">
             <Play size={34} fill="currentColor" />
@@ -414,6 +463,32 @@ export function BiliPlayer({
               <MessageSquareOff size={18} />
             )}
           </button>
+          {tracks.length > 0 && (
+            <button
+              className={showCc ? "on" : undefined}
+              onClick={() => {
+                // 多条字幕轨时：开 → 依次切轨 → 关，一个按钮走完一圈
+                if (!showCc) {
+                  setShowCc(true);
+                  return;
+                }
+                const next = trackIndex + 1;
+                if (next < tracks.length) setTrackIndex(next);
+                else {
+                  setTrackIndex(0);
+                  setShowCc(false);
+                }
+              }}
+              aria-pressed={showCc}
+              title={
+                showCc
+                  ? `字幕：${tracks[trackIndex]?.lanDoc ?? ""}${tracks.length > 1 ? "（点击切换/关闭）" : "（点击关闭）"}`
+                  : "开启字幕"
+              }
+            >
+              {showCc ? <Captions size={18} /> : <CaptionsOff size={18} />}
+            </button>
+          )}
           <span className="biliplayer-watch" title="本集观看覆盖率，≥90% 自动打卡">
             已看 {ratioPct}%
           </span>
@@ -427,10 +502,15 @@ export function BiliPlayer({
         </div>
       </div>
 
-      {!payload.bound && (
+      {!payload.bound ? (
         <p className="biliplayer-hint">
-          绑定 B 站账号后可解锁高清晰度（当前 {payload.qualityName || "标清"}）
+          绑定 B 站账号后可解锁高清晰度与 CC 字幕（当前{" "}
+          {payload.qualityName || "标清"}）
         </p>
+      ) : (
+        tracks.length === 0 && (
+          <p className="biliplayer-hint">这一集没有可用的 CC 字幕</p>
+        )
       )}
     </div>
   );

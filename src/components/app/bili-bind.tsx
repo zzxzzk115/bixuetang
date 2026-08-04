@@ -48,11 +48,16 @@ export function BiliBind({
   binding: BiliBindingDto | null;
 }) {
   const [binding, setBinding] = useState(initial);
-  const [qr, setQr] = useState<{ url: string; key: string } | null>(null);
+  const [qr, setQr] = useState<{
+    url: string;
+    key: string;
+    buvid?: string;
+  } | null>(null);
   const [status, setStatus] = useState<
     "idle" | "pending" | "scanned" | "expired" | "ok"
   >("idle");
   const [error, setError] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const stopPolling = useCallback(() => {
@@ -64,6 +69,7 @@ export function BiliBind({
 
   const start = async () => {
     setError(null);
+    setNote(null);
     setStatus("pending");
     const r = await startBiliLogin();
     if (!r.ok || !r.url || !r.key) {
@@ -71,16 +77,25 @@ export function BiliBind({
       setError(r.error ?? "二维码申请失败");
       return;
     }
-    setQr({ url: r.url, key: r.key });
+    setQr({ url: r.url, key: r.key, buvid: r.buvid });
 
     stopPolling();
+    // 二维码有效期约 180 秒，到点自己收摊，别无限轮询
+    const startedAt = Date.now();
     timerRef.current = setInterval(async () => {
-      const poll = await pollBiliLogin(r.key!);
+      if (Date.now() - startedAt > 185_000) {
+        setStatus("expired");
+        stopPolling();
+        return;
+      }
+      const poll = await pollBiliLogin(r.key!, r.buvid);
       if (!poll.ok) {
         setError(poll.error ?? "轮询失败");
         stopPolling();
         return;
       }
+      // 非预期状态把 B 站原始返回显示出来，免得只能干等
+      setNote(poll.note ?? null);
       if (poll.status === "scanned") setStatus("scanned");
       if (poll.status === "expired") {
         setStatus("expired");
@@ -92,7 +107,7 @@ export function BiliBind({
         setQr(null);
         stopPolling();
       }
-    }, 2000);
+    }, 2500);
   };
 
   const unbind = async () => {
@@ -148,6 +163,15 @@ export function BiliBind({
               换一张二维码
             </button>
           )}
+          {note && <p className="bili-bind-note">{note}</p>}
+          <a
+            className="bili-bind-open"
+            href={qr.url}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            扫不动？在本机浏览器里打开这个登录页
+          </a>
         </>
       ) : (
         <>

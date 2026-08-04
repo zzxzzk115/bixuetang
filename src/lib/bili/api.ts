@@ -20,6 +20,17 @@ export function biliHeaders(sessdata?: string): Record<string, string> {
   return headers;
 }
 
+/** 扫码登录相关请求要带 passport 的 Referer，否则部分环境会被判成异常来源 */
+function passportHeaders(buvid?: string): Record<string, string> {
+  const headers: Record<string, string> = {
+    "User-Agent": UA,
+    Referer: "https://passport.bilibili.com/login",
+    Origin: "https://passport.bilibili.com",
+  };
+  if (buvid) headers.Cookie = `buvid3=${buvid}`;
+  return headers;
+}
+
 async function getJson<T>(
   url: string,
   sessdata?: string,
@@ -39,12 +50,18 @@ export interface QrGenerate {
   qrcode_key: string;
 }
 
-export async function qrGenerate(): Promise<QrGenerate> {
-  const json = await getJson<QrGenerate>(
+export async function qrGenerate(buvid?: string): Promise<QrGenerate> {
+  const res = await fetch(
     "https://passport.bilibili.com/x/passport-login/web/qrcode/generate",
+    { headers: passportHeaders(buvid), cache: "no-store" },
   );
+  const json = (await res.json()) as {
+    code: number;
+    message?: string;
+    data?: QrGenerate;
+  };
   if (json.code !== 0 || !json.data) {
-    throw new Error(json.message ?? "二维码申请失败");
+    throw new Error(json.message ?? `二维码申请失败（code=${json.code}）`);
   }
   return json.data;
 }
@@ -64,28 +81,83 @@ export interface QrPollResult {
   biliJct?: string;
   mid?: string;
   refreshToken?: string;
+  /** 非预期状态时回传原始码，便于定位（UI 会显示出来） */
+  rawCode?: number;
+  rawMessage?: string;
 }
 
-/** 轮询扫码结果。成功时从 302 URL 的 query 里取出凭据 */
-export async function qrPoll(qrcodeKey: string): Promise<QrPollResult> {
+/** 从 Set-Cookie 头里挑出某个 cookie 的值 */
+function cookieValue(setCookies: string[], name: string): string | undefined {
+  for (const line of setCookies) {
+    const match = line.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`));
+    if (match) return decodeURIComponent(match[1]);
+  }
+  return undefined;
+}
+
+/**
+ * 轮询扫码结果。
+ * 凭据有两条来路：跳转 URL 的 query，以及响应的 Set-Cookie。
+ * 两边都读——B 站在不同环境下给的位置不一样，只认一边就会「确认了却登不上」。
+ */
+export async function qrPoll(
+  qrcodeKey: string,
+  buvid?: string,
+): Promise<QrPollResult> {
   const res = await fetch(
     `https://passport.bilibili.com/x/passport-login/web/qrcode/poll?qrcode_key=${encodeURIComponent(qrcodeKey)}`,
-    { headers: biliHeaders(), cache: "no-store" },
+    { headers: passportHeaders(buvid), cache: "no-store" },
   );
-  const json = (await res.json()) as { code: number; data?: QrPollData };
+  const json = (await res.json()) as {
+    code: number;
+    message?: string;
+    data?: QrPollData;
+  };
+  // 外层非 0（如 -412 风控）直接把码带回去，别装作「等待扫码」
+  if (json.code !== 0) {
+    return {
+      status: "pending",
+      rawCode: json.code,
+      rawMessage: json.message,
+    };
+  }
   const data = json.data;
   if (!data) return { status: "pending" };
 
   if (data.code === 86038) return { status: "expired" };
   if (data.code === 86090) return { status: "scanned" };
-  if (data.code !== 0) return { status: "pending" };
+  if (data.code === 86101) return { status: "pending" };
+  if (data.code !== 0) {
+    return { status: "pending", rawCode: data.code, rawMessage: data.message };
+  }
 
-  // 成功：凭据在跳转 URL 的 query 里；Set-Cookie 同样带 SESSDATA
-  const url = new URL(data.url);
-  const sessdata = url.searchParams.get("SESSDATA") ?? undefined;
-  const biliJct = url.searchParams.get("bili_jct") ?? undefined;
-  const mid = url.searchParams.get("DedeUserID") ?? undefined;
-  if (!sessdata || !mid) return { status: "pending" };
+  const setCookies =
+    typeof res.headers.getSetCookie === "function"
+      ? res.headers.getSetCookie()
+      : [res.headers.get("set-cookie") ?? ""].filter(Boolean);
+
+  let sessdata = cookieValue(setCookies, "SESSDATA");
+  let biliJct = cookieValue(setCookies, "bili_jct");
+  let mid = cookieValue(setCookies, "DedeUserID");
+
+  if (data.url) {
+    try {
+      const url = new URL(data.url);
+      sessdata = sessdata ?? url.searchParams.get("SESSDATA") ?? undefined;
+      biliJct = biliJct ?? url.searchParams.get("bili_jct") ?? undefined;
+      mid = mid ?? url.searchParams.get("DedeUserID") ?? undefined;
+    } catch {
+      // url 不是合法地址就只靠 cookie
+    }
+  }
+
+  if (!sessdata || !mid) {
+    return {
+      status: "pending",
+      rawCode: data.code,
+      rawMessage: "已确认登录，但没能取到凭据（接口返回格式可能变了）",
+    };
+  }
   return {
     status: "ok",
     sessdata,
@@ -237,6 +309,75 @@ export async function fetchPlayUrl(
     durationSec: Math.round((data.timelength ?? 0) / 1000),
     qualityNames,
   };
+}
+
+// ---------- 字幕（CC） ----------
+
+export interface SubtitleCue {
+  from: number;
+  to: number;
+  text: string;
+}
+
+export interface SubtitleTrack {
+  lan: string;
+  lanDoc: string;
+  cues: SubtitleCue[];
+}
+
+interface PlayerV2Data {
+  subtitle?: {
+    subtitles?: {
+      lan: string;
+      lan_doc: string;
+      subtitle_url?: string;
+      subtitle_url_v2?: string;
+    }[];
+  };
+}
+
+/**
+ * 取字幕轨。B 站的字幕（含 AI 生成的）多数要登录态才给，
+ * 所以这是「绑定账号」的又一处收益；游客态返回空数组。
+ */
+export async function fetchSubtitles(
+  bvid: string,
+  cid: number,
+  sessdata?: string,
+): Promise<SubtitleTrack[]> {
+  const json = await getJson<PlayerV2Data>(
+    `https://api.bilibili.com/x/player/v2?bvid=${encodeURIComponent(bvid)}&cid=${cid}`,
+    sessdata,
+  );
+  const list = json.data?.subtitle?.subtitles ?? [];
+  const tracks: SubtitleTrack[] = [];
+  for (const item of list.slice(0, 4)) {
+    const raw = item.subtitle_url_v2 || item.subtitle_url;
+    if (!raw) continue;
+    // 接口给的是协议相对地址
+    const url = raw.startsWith("//") ? `https:${raw}` : raw;
+    try {
+      const res = await fetch(url, {
+        headers: biliHeaders(sessdata),
+        cache: "no-store",
+      });
+      if (!res.ok) continue;
+      const body = (await res.json()) as {
+        body?: { from: number; to: number; content: string }[];
+      };
+      const cues = (body.body ?? []).map((c) => ({
+        from: c.from,
+        to: c.to,
+        text: c.content,
+      }));
+      if (cues.length > 0) {
+        tracks.push({ lan: item.lan, lanDoc: item.lan_doc, cues });
+      }
+    } catch {
+      // 单条字幕拉不到就跳过
+    }
+  }
+  return tracks;
 }
 
 // ---------- 弹幕 ----------

@@ -5882,3 +5882,40 @@ body:has(.dungeon-chamber) .analysis-section {
   padding: 0 14px;
   font-size: 13px;
 }
+
+/* ==== CC 字幕层与登录诊断 ==== */
+.biliplayer-cc {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4%;
+  display: flex;
+  justify-content: center;
+  padding: 0 6%;
+  pointer-events: none;
+}
+.biliplayer-cc span {
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: clamp(14px, 2.4vw, 20px);
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+.bili-bind-note {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-orange) 12%, transparent);
+  color: var(--app-orange);
+  font-size: 12px;
+  font-weight: 700;
+}
+.bili-bind-open {
+  color: var(--app-blue);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
+}
