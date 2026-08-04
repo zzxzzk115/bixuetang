@@ -97,9 +97,9 @@ export default async function GlossaryPage({
           </div>
         ) : (
           <>
-            <div className="lex-rail-slot">
-              <GlossaryIndex items={indexItems} />
-            </div>
+            {/* 槽位由组件自己带（它跨 60 个 grid 行，空着也会把页面撑高，
+                必须跟索引条一起消失） */}
+            <GlossaryIndex items={indexItems} />
             <div className="lex-sectors">
               {orderedGroups.map(([key, list]) => (
                 <section key={key} id={groupId(key)} className="lex-sector">
