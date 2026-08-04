@@ -7,7 +7,7 @@ import { getCurrentUser } from "@/lib/auth/session";
 
 export const metadata = { title: "登录" };
 
-// 登录页（App 风格）：扫码 B 站是主路径——一张码同时管登录与开号，
+// 登录页（App 风格）：扫码 bilibili 是主路径——一张码同时管登录与开号，
 // 而且登录后播放/字幕/互动全部可用。账号密码作为备选留在下面。
 export default async function LoginPage({
   searchParams,
@@ -26,8 +26,8 @@ export default async function LoginPage({
         </span>
         <h1>扫码进入</h1>
         <p className="auth-lead">
-          用 B 站账号扫码即可登录；没有公会账号会自动开一个，
-          昵称取自 B 站（之后可改）。
+          用 bilibili 账号扫码即可登录；没有公会账号会自动开一个，
+          昵称取自 bilibili（之后可改）。
         </p>
 
         <BiliAuth />

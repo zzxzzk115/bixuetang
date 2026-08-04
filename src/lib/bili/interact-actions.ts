@@ -65,7 +65,7 @@ export async function toggleLike(
   like: boolean,
 ): Promise<ActionResult> {
   const c = await creds();
-  if (!c) return { ok: false, error: "请先绑定 B 站账号" };
+  if (!c) return { ok: false, error: "请先绑定 bilibili 账号" };
   try {
     await likeVideo(bvid, like, c.sessdata, c.csrf);
     return { ok: true, relation: await fetchRelation(bvid, c.sessdata) };
@@ -82,7 +82,7 @@ export async function addCoin(
   multiply: number,
 ): Promise<ActionResult> {
   const c = await creds();
-  if (!c) return { ok: false, error: "请先绑定 B 站账号" };
+  if (!c) return { ok: false, error: "请先绑定 bilibili 账号" };
   if (multiply !== 1 && multiply !== 2) {
     return { ok: false, error: "只能投 1 或 2 个币" };
   }
@@ -106,7 +106,7 @@ export interface FavFoldersResult {
 /** 打开收藏面板时取收藏夹列表（附「这条是否已在夹子里」） */
 export async function getFavFolders(aid: number): Promise<FavFoldersResult> {
   const c = await creds();
-  if (!c) return { ok: false, error: "请先绑定 B 站账号" };
+  if (!c) return { ok: false, error: "请先绑定 bilibili 账号" };
   try {
     return { ok: true, folders: await fetchFavFolders(c.mid, aid, c.sessdata) };
   } catch (error) {
@@ -125,7 +125,7 @@ export async function applyFavorite(
   delIds: number[],
 ): Promise<ActionResult> {
   const c = await creds();
-  if (!c) return { ok: false, error: "请先绑定 B 站账号" };
+  if (!c) return { ok: false, error: "请先绑定 bilibili 账号" };
   if (addIds.length === 0 && delIds.length === 0) return { ok: true };
   try {
     await dealFavorite(aid, addIds, delIds, c.sessdata, c.csrf);
@@ -152,7 +152,7 @@ export async function sendReply(
   message: string,
 ): Promise<{ ok: boolean; error?: string }> {
   const c = await creds();
-  if (!c) return { ok: false, error: "请先绑定 B 站账号" };
+  if (!c) return { ok: false, error: "请先绑定 bilibili 账号" };
   const text = message.trim();
   if (!text) return { ok: false, error: "评论不能为空" };
   if (text.length > 500) return { ok: false, error: "评论太长了" };

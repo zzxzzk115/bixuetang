@@ -2,7 +2,7 @@ import "server-only";
 
 import { createHash } from "node:crypto";
 
-// WBI 签名。B 站较新的接口（player/wbi/v2 等）要求请求带 w_rid/wts 签名，
+// WBI 签名。bilibili 较新的接口（player/wbi/v2 等）要求请求带 w_rid/wts 签名，
 // 不签名会返回残缺数据——实测表现为：字幕轨时有时无、人工字幕轨直接消失。
 //
 // 算法是公开的：从 nav 接口拿两把 key，按固定置换表洗出 mixin key，

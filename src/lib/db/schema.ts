@@ -252,12 +252,12 @@ export const userState = sqliteTable("user_state", {
   updatedAt: integer("updated_at").notNull(),
 });
 
-// B 站账号绑定（扫码登录换取的凭据）。凭据只在服务端使用，不下发客户端。
+// bilibili 账号绑定（扫码登录换取的凭据）。凭据只在服务端使用，不下发客户端。
 export const biliAccounts = sqliteTable("bili_accounts", {
   userId: integer("user_id")
     .primaryKey()
     .references(() => users.id, { onDelete: "cascade" }),
-  /** B 站 uid */
+  /** bilibili uid */
   mid: text("mid").notNull(),
   nickname: text("nickname"),
   avatarUrl: text("avatar_url"),

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const metadata = { title: "用户协议" };
 
-// 用户协议。写得尽量白话：说清楚这站干什么、拿你的 B 站账号做什么、不做什么。
+// 用户协议。写得尽量白话：说清楚这站干什么、拿你的 bilibili 账号做什么、不做什么。
 
 export const TERMS_VERSION = "2026-08-04";
 
@@ -15,7 +15,7 @@ export default function TermsPage() {
 
         <p className="terms-lead">
           学者公会（下称「本站」）是一个开源的公开课学习工具，由个人开发者维护，
-          以 MIT 协议开源，不以盈利为目的。使用本站前请阅读以下内容。
+          以 GPL-3.0 协议开源，不以盈利为目的。使用本站前请阅读以下内容。
         </p>
 
         <h2>一、本站是什么</h2>
@@ -37,7 +37,14 @@ export default function TermsPage() {
           </li>
         </ul>
 
-        <h2>二、关于绑定 B 站账号</h2>
+        <h2>二、关于绑定 bilibili 账号</h2>
+        <p className="terms-note">
+          本站与 bilibili 无任何隶属、合作或授权关系。
+          「bilibili」「哔哩哔哩」及相关标识为其权利人所有；
+          该平台由上海宽娱数码科技有限公司、上海幻电信息科技有限公司等主体运营，
+          其上市实体为 Bilibili Inc.（纳斯达克：BILI／港交所：9626）。
+          本站仅以普通用户身份、通过其公开接口访问你自己账号下的内容。
+        </p>
         <p>
           绑定是<strong>可选</strong>的：不绑定也能使用本站的绝大部分功能，
           只是播放清晰度受限于游客权限，且无法使用字幕与互动功能。
@@ -62,18 +69,18 @@ export default function TermsPage() {
           <li>将你的凭据、观看记录提供给第三方。</li>
         </ul>
         <p>
-          <strong>投币不可撤销</strong>：这是 B 站的规则，本站会在你投币前二次确认，
+          <strong>投币不可撤销</strong>：这是 bilibili 的规则，本站会在你投币前二次确认，
           但一旦投出无法退回。
         </p>
 
         <h2>三、你的数据</h2>
         <ul>
           <li>
-            账号凭据（SESSDATA 等）加密存放在本站服务端，仅在向 B 站发起上述请求时使用，
+            账号凭据（SESSDATA 等）加密存放在本站服务端，仅在向 bilibili 发起上述请求时使用，
             不会下发到浏览器。
           </li>
           <li>
-            你可以随时在「我的 → B 站账号 → 解绑」删除凭据；
+            你可以随时在「我的 → bilibili 账号 → 解绑」删除凭据；
             解绑后本站立即失去以你身份操作的能力。
           </li>
           <li>
@@ -117,7 +124,8 @@ export default function TermsPage() {
         </p>
 
         <p className="terms-foot">
-          本站的 B 站播放实现思路参考了开源项目{" "}
+          学者公会是独立的第三方开源项目，与文中提及的任何平台均无隶属关系。
+          本站的 bilibili 播放实现思路参考了开源项目{" "}
           <a
             href="https://github.com/xfangfang/wiliwili"
             target="_blank"
@@ -125,7 +133,7 @@ export default function TermsPage() {
           >
             wiliwili
           </a>
-          （MIT）。
+          （GPL-3.0），本站同样以 GPL-3.0 开源。
         </p>
 
         <Link className="app-btn-plain" href="/login">

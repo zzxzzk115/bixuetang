@@ -188,7 +188,7 @@ export function BiliInteract({
     }
   };
 
-  const disabledTitle = bound ? undefined : "绑定 B 站账号后可用";
+  const disabledTitle = bound ? undefined : "绑定 bilibili 账号后可用";
 
   return (
     <div className="bili-interact">
@@ -267,7 +267,7 @@ export function BiliInteract({
       {coinAsk && (
         <div className="bili-pop">
           <b>投几个币？</b>
-          <p>投币会消耗你的硬币，且 B 站不支持撤销。</p>
+          <p>投币会消耗你的硬币，且 bilibili 不支持撤销。</p>
           <div className="bili-pop-actions">
             <button className="app-btn-plain" onClick={() => onCoin(1)}>
               投 1 个
@@ -333,7 +333,7 @@ export function BiliInteract({
 
       {!bound && (
         <p className="bili-interact-hint">
-          点赞 / 投币 / 收藏 / 发评论需要 B 站账号，
+          点赞 / 投币 / 收藏 / 发评论需要 bilibili 账号，
           <Link href="/settings">去绑定 →</Link>
         </p>
       )}
@@ -346,7 +346,7 @@ export function BiliInteract({
               <textarea
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
-                placeholder="发条评论…（会以你的 B 站账号发布）"
+                placeholder="发条评论…（会以你的 bilibili 账号发布）"
                 rows={2}
                 maxLength={500}
               />
@@ -359,7 +359,7 @@ export function BiliInteract({
               </button>
             </div>
           ) : (
-            <p className="bili-interact-hint">绑定 B 站账号后可以发评论</p>
+            <p className="bili-interact-hint">绑定 bilibili 账号后可以发评论</p>
           )}
 
           {replies.length === 0 ? (
@@ -368,7 +368,7 @@ export function BiliInteract({
             <ul className="bili-reply-list">
               {replies.map((r) => (
                 <li key={r.id}>
-                  {/* B 站头像是外部图源，用原生 img 避开 next/image 域名白名单 */}
+                  {/* bilibili 头像是外部图源，用原生 img 避开 next/image 域名白名单 */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={r.avatar} alt="" referrerPolicy="no-referrer" />
                   <div>

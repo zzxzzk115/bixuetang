@@ -119,7 +119,7 @@ export function EmbedPlayer({
             <button
               type="button"
               onClick={() => prefStore.set(!nativePage)}
-              title="切换 B 站原站页面"
+              title="切换 bilibili 原站页面"
               className={`player-tool ${nativePage ? "active" : ""}`}
             >
               原站页

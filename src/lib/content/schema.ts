@@ -64,7 +64,7 @@ export const EpisodeSchema = z.object({
   n: z.number().int().positive(),
   title: z.string(),
   /**
-   * 该集的独立视频 id（B 站 ugc_season 合集类课程，每集是独立稿件）。
+   * 该集的独立视频 id（bilibili ugc_season 合集类课程，每集是独立稿件）。
    * 缺省时视为同一稿件的第 n 个分 P。
    */
   bvid: z.string().optional(),

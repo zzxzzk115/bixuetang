@@ -1,6 +1,6 @@
 import "server-only";
 
-// B 站开放接口薄封装（服务端专用）。
+// bilibili 开放接口薄封装（服务端专用）。
 //
 // 思路参考 wiliwili（https://github.com/xfangfang/wiliwili，MIT）：
 // 用官方 TV/Web 端接口取播放地址与弹幕，自己渲染播放器，
@@ -100,7 +100,7 @@ function cookieValue(setCookies: string[], name: string): string | undefined {
 /**
  * 轮询扫码结果。
  * 凭据有两条来路：跳转 URL 的 query，以及响应的 Set-Cookie。
- * 两边都读——B 站在不同环境下给的位置不一样，只认一边就会「确认了却登不上」。
+ * 两边都读——bilibili 在不同环境下给的位置不一样，只认一边就会「确认了却登不上」。
  */
 export async function qrPoll(
   qrcodeKey: string,
@@ -273,7 +273,7 @@ function toStream(s: DashStream): PlayStream {
 
 /**
  * 取播放地址。fnval=4048 请求 DASH（含 4K/HDR），登录态才有高清晰度。
- * 没登录时 B 站只给 360P/480P——这正是绑定账号的价值。
+ * 没登录时 bilibili 只给 360P/480P——这正是绑定账号的价值。
  */
 export async function fetchPlayUrl(
   bvid: string,
@@ -536,7 +536,7 @@ export interface SubtitleTrack {
   lan: string;
   lanDoc: string;
   cues: SubtitleCue[];
-  /** B 站 AI 生成（lan 以 ai- 开头）——质量不稳定 */
+  /** bilibili AI 生成（lan 以 ai- 开头）——质量不稳定 */
   ai: boolean;
   /** 时间轴覆盖率明显不足，多半根本不是这一 P 的字幕 */
   suspect: boolean;
@@ -554,7 +554,7 @@ interface PlayerV2Data {
 }
 
 /**
- * 取字幕轨。B 站的字幕（含 AI 生成的）多数要登录态才给，
+ * 取字幕轨。bilibili 的字幕（含 AI 生成的）多数要登录态才给，
  * 所以这是「绑定账号」的又一处收益；游客态返回空数组。
  */
 type RawSubtitle = NonNullable<
@@ -566,7 +566,7 @@ const wbiState = globalThis as unknown as { __biliWbiBlocked?: boolean };
 
 /**
  * 取字幕轨列表。
- * 实测 B 站这个接口返回不稳定：同一个 cid 连查 4 次，3 次只给 AI 字幕轨，
+ * 实测 bilibili 这个接口返回不稳定：同一个 cid 连查 4 次，3 次只给 AI 字幕轨，
  * 1 次才带上人工字幕轨。所以多试几次并按语言合并，拿到人工轨就收工。
  * （WBI 签名版接口在境外 IP 会被 412 拦截，失败后不再重试。）
  */
@@ -620,7 +620,7 @@ async function collectSubtitleList(
 }
 
 /**
- * 字幕结果缓存。字幕内容不会变，而连续请求会被 B 站限流
+ * 字幕结果缓存。字幕内容不会变，而连续请求会被 bilibili 限流
  * （实测同一条 AI 轨连查三次分别返回 209/55/17 条，越查越少），
  * 所以取到一次好结果就存住。
  */
@@ -660,11 +660,11 @@ export async function fetchSubtitles(
       };
       const cues = (body.body ?? [])
         .map((c) => ({ from: c.from, to: c.to, text: c.content }))
-        // B 站偶尔给乱序数据；排好序前端才能按时间二分
+        // bilibili 偶尔给乱序数据；排好序前端才能按时间二分
         .sort((a, b) => a.from - b.from);
       if (cues.length === 0) continue;
 
-      // 覆盖率体检：实测遇到过 B 站把别的视频的 AI 字幕挂到本片 cid 上，
+      // 覆盖率体检：实测遇到过 bilibili 把别的视频的 AI 字幕挂到本片 cid 上，
       // 时间轴只盖住不到一半，正文也文不对题。标出来别让用户以为是我们错了。
       const lastTo = cues[cues.length - 1].to;
       const suspect =

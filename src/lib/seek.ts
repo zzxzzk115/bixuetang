@@ -6,7 +6,7 @@ export interface SeekRequest {
   page?: number;
   /** 秒 */
   seconds?: number;
-  /** 该集的独立 B 站稿件（合集类课程） */
+  /** 该集的独立 bilibili 稿件（合集类课程） */
   bvid?: string;
 }
 

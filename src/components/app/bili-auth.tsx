@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Loader2, QrCode } from "lucide-react";
+import { Loader2, QrCode, Smartphone } from "lucide-react";
 import { pollBiliAuth, startBiliAuth } from "@/lib/bili/auth-actions";
 import { qrMatrix } from "@/lib/qr/encode";
 
@@ -26,7 +26,7 @@ function Qr({ text }: { text: string }) {
       viewBox={`0 0 ${total} ${total}`}
       shapeRendering="crispEdges"
       role="img"
-      aria-label="B 站登录二维码"
+      aria-label="bilibili 登录二维码"
     >
       <rect width={total} height={total} fill="#fff" />
       <path d={path} fill="#000" />
@@ -116,6 +116,11 @@ export function BiliAuth() {
         <p className="bili-auth-gate">勾选后即可获取二维码</p>
       ) : qr ? (
         <>
+          {/* 手机上没法自己扫自己，直接打开这个地址会唤起 bilibili App 确认登录 */}
+          <a className="app-btn-primary bili-auth-app" href={qr.url}>
+            <Smartphone size={16} aria-hidden /> 在 bilibili App 中确认登录
+          </a>
+          <p className="bili-auth-or">或用另一台设备扫码</p>
           <Qr text={qr.url} />
           <p className="bili-auth-tip">
             {status === "scanned"
@@ -124,7 +129,7 @@ export function BiliAuth() {
                 ? "登录成功，正在进入…"
                 : status === "expired"
                   ? "二维码已过期"
-                  : "用 B 站手机 App 扫码，即可登录或开号"}
+                  : "用 bilibili 手机 App 扫码，即可登录或开号"}
           </p>
           {status === "expired" && (
             <button className="app-btn-primary" onClick={() => void start()}>

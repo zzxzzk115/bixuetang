@@ -1,7 +1,7 @@
-// 内容链接健康检查：B 站搬运稿件常被删除，笔记外链也会失效。
+// 内容链接健康检查：bilibili 搬运稿件常被删除，笔记外链也会失效。
 // 用法：
 //   npm run check:links              # 检查全部课程
-//   npm run check:links -- --bili    # 只查 B 站视频（快）
+//   npm run check:links -- --bili    # 只查 bilibili 视频（快）
 //   npm run check:links -- cs61a     # 只查指定课程
 // 退出码非 0 表示有失效链接（可用于 CI 周期任务）。
 
@@ -41,7 +41,7 @@ function listYaml(dir: string): string[] {
   return out;
 }
 
-/** B 站稿件是否仍然存在（code=0 存活；-404 稿件不存在；62002 已被删除/不可见） */
+/** bilibili 稿件是否仍然存在（code=0 存活；-404 稿件不存在；62002 已被删除/不可见） */
 async function checkBili(url: string): Promise<string | null> {
   const bv = url.match(/\/video\/(BV[0-9A-Za-z]+)/)?.[1];
   const av = url.match(/\/video\/av(\d+)/)?.[1];

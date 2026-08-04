@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { CheckCircle2, Loader2, QrCode, Unlink } from "lucide-react";
+import { CheckCircle2, Loader2, QrCode, Smartphone, Unlink } from "lucide-react";
 import {
   pollBiliLogin,
   startBiliLogin,
@@ -10,7 +10,7 @@ import {
 } from "@/lib/bili/actions";
 import { qrMatrix } from "@/lib/qr/encode";
 
-// B 站账号绑定：扫码登录。二维码在浏览器本地画（自写编码器，不依赖外部图床）。
+// bilibili 账号绑定：扫码登录。二维码在浏览器本地画（自写编码器，不依赖外部图床）。
 
 function QrCanvas({ text }: { text: string }) {
   const matrix = qrMatrix(text);
@@ -29,7 +29,7 @@ function QrCanvas({ text }: { text: string }) {
       viewBox={`0 0 ${total} ${total}`}
       shapeRendering="crispEdges"
       role="img"
-      aria-label="B 站登录二维码"
+      aria-label="bilibili 登录二维码"
     >
       <rect width={total} height={total} fill="#fff" />
       <path d={path} fill="#000" />
@@ -97,7 +97,7 @@ export function BiliBind({
         stopPolling();
         return;
       }
-      // 非预期状态把 B 站原始返回显示出来，免得只能干等
+      // 非预期状态把 bilibili 原始返回显示出来，免得只能干等
       setNote(poll.note ?? null);
       if (poll.status === "scanned") setStatus("scanned");
       if (poll.status === "expired") {
@@ -125,7 +125,7 @@ export function BiliBind({
     return (
       <div className="bili-bound">
         {binding.avatarUrl && (
-          // B 站头像是外部图源，用原生 img 避开 next/image 的域名白名单
+          // bilibili 头像是外部图源，用原生 img 避开 next/image 的域名白名单
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={binding.avatarUrl}
@@ -136,7 +136,7 @@ export function BiliBind({
         )}
         <div className="bili-bound-body">
           <b>
-            <CheckCircle2 size={15} aria-hidden /> 已绑定 B 站账号
+            <CheckCircle2 size={15} aria-hidden /> 已绑定 bilibili 账号
           </b>
           <small>
             {binding.nickname ?? `UID ${binding.mid}`} · 可播放高清晰度并同步进度
@@ -153,13 +153,18 @@ export function BiliBind({
     <div className="bili-bind">
       {qr ? (
         <>
+          {/* 手机上没法自己扫自己：直接打开这个地址会唤起 bilibili App 确认 */}
+          <a className="app-btn-primary bili-auth-app" href={qr.url}>
+            <Smartphone size={16} aria-hidden /> 在 bilibili App 中确认登录
+          </a>
+          <p className="bili-auth-or">或用另一台设备扫码</p>
           <QrCanvas text={qr.url} />
           <p className="bili-bind-tip">
             {status === "scanned"
               ? "已扫描，请在手机上确认登录"
               : status === "expired"
                 ? "二维码已过期，请重新获取"
-                : "用 B 站手机 App 扫码登录"}
+                : "用 bilibili 手机 App 扫码登录"}
           </p>
           {status === "expired" && (
             <button className="app-btn-primary" onClick={start}>
@@ -206,7 +211,7 @@ export function BiliBind({
               </>
             ) : (
               <>
-                <QrCode size={15} aria-hidden /> 扫码绑定 B 站账号
+                <QrCode size={15} aria-hidden /> 扫码绑定 bilibili 账号
               </>
             )}
           </button>

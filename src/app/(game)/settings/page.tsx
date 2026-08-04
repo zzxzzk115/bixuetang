@@ -61,7 +61,7 @@ export default async function SettingsPage() {
 
         <section className="course-card">
           <div className="course-card-head">
-            <h2>B 站账号</h2>
+            <h2>bilibili 账号</h2>
           </div>
           <BiliBind binding={getBiliBinding(user.id)} />
         </section>

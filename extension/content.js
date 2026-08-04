@@ -1,4 +1,4 @@
-// 内容脚本：在 B 站 / YouTube 播放页读取当前视频与播放进度，
+// 内容脚本：在 bilibili / YouTube 播放页读取当前视频与播放进度，
 // 达到阈值后通过 background 上报给 Guild 后端。
 // 只读取播放器状态，不碰账号信息，不注入任何界面元素（除轻量角标）。
 
@@ -97,7 +97,7 @@ async function tick() {
 
 setInterval(tick, POLL_MS);
 
-// B 站/YouTube 是单页应用，换集不刷新页面，需监听 URL 变化重置状态
+// bilibili/YouTube 是单页应用，换集不刷新页面，需监听 URL 变化重置状态
 let lastHref = location.href;
 setInterval(() => {
   if (location.href !== lastHref) {

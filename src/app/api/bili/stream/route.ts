@@ -2,8 +2,8 @@ import type { NextRequest } from "next/server";
 import { getCurrentUser } from "@/lib/auth/session";
 import { biliHeaders } from "@/lib/bili/api";
 
-// 视频字节代理：补上 B 站要求的 Referer/UA，并透传 Range（拖动进度条要用）。
-// 只允许代理 B 站 CDN 域名，避免变成任意 URL 的开放代理。
+// 视频字节代理：补上 bilibili 要求的 Referer/UA，并透传 Range（拖动进度条要用）。
+// 只允许代理 bilibili CDN 域名，避免变成任意 URL 的开放代理。
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     return new Response("地址不合法", { status: 400 });
   }
   if (target.protocol !== "https:" || !ALLOWED_HOST.test(target.hostname)) {
-    return new Response("只允许代理 B 站视频源", { status: 403 });
+    return new Response("只允许代理 bilibili 视频源", { status: 403 });
   }
 
   const headers = biliHeaders();

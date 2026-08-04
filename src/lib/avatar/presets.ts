@@ -45,7 +45,7 @@ export function parseAvatar(value: string | null | undefined): AvatarRef {
     return preset ? { kind: "preset", preset } : { kind: "none" };
   }
   if (kind === "upload" && rest) return { kind: "upload", version: rest };
-  // 扫码登录带回来的 B 站头像：只认 https 的 B 站图床，别变成任意图片代理
+  // 扫码登录带回来的 bilibili 头像：只认 https 的 bilibili 图床，别变成任意图片代理
   if (kind === "bili" && /^https:\/\/[\w.-]*hdslb\.com\//.test(rest)) {
     return { kind: "remote", url: rest };
   }

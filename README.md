@@ -10,7 +10,7 @@
 
 | 游戏概念 | 对应现实 |
 |---|---|
-| 副本 | 一门公开课（多视频源：B 站 / YouTube） |
+| 副本 | 一门公开课（多视频源：bilibili / YouTube） |
 | 小怪 | 一集视频，勾选即击败，+XP |
 | Boss | 整课全部集数看完，触发通关结算奖励 |
 | 冒险路径 | 由浅入深的学习路线（分章节） |
@@ -25,7 +25,7 @@
   乘除法/内存分配/绘图全部真跑在模拟 CPU 上。
 - **数学工坊**（`/lab/math`）：MathLive 公式输入 + compute-engine 求值/化简/求导 + 函数图像。
 - **术语对照表**（`/glossary`）：聚合各课 AI 分析产出的中英术语，可搜索、可跳回原课。
-- **浏览器插件**（`extension/`）：在 B 站 / YouTube 原站看视频时自动回传观看进度。
+- **浏览器插件**（`extension/`）：在 bilibili / YouTube 原站看视频时自动回传观看进度。
 
 ## 本地开发
 
@@ -142,7 +142,7 @@ git pull && docker compose up -d --build
 ```bash
 npm test              # 纯函数单测（游戏机制 + Hack 工具链 + 数学引擎）
 npm run validate      # 校验 content/（Zod + 引用完整性 + DAG 环检测）
-npm run fetch:episodes  # 从 B 站 API 拉取各课真实分集标题写回 YAML
+npm run fetch:episodes  # 从 bilibili API 拉取各课真实分集标题写回 YAML
 npm run check:links -- --bili   # 体检所有视频源是否还活着
 npm run brand:gen     # 由 src/lib/brand/sigil.ts 的像素网格重新生成 favicon 与 OG 图
 npm run db:generate   # 修改 src/lib/db/schema.ts 后生成迁移
@@ -157,9 +157,9 @@ npm run db:generate   # 修改 src/lib/db/schema.ts 后生成迁移
 - **BV 号必须核实**：写进 YAML 前用 `https://api.bilibili.com/x/web-interface/view?bvid=<BV>`
   确认标题与课程对得上。搜索结果里的 BV 号张冠李戴很常见，宁可没有源也不要挂错课。
 - 找不到原课录像时，可以挂**同主题替代课或中文对应课**，但 `note` 里必须写明它不是原课搬运
-- 一门课至少一个 `sources`；B 站 `/video/BVxxx` 与 YouTube watch/playlist 链接可内嵌播放，其他链接自动降级为外链卡片
+- 一门课至少一个 `sources`；bilibili `/video/BVxxx` 与 YouTube watch/playlist 链接可内嵌播放，其他链接自动降级为外链卡片
 - 笔记外链放 `notes`，学习路径在 `content/paths/`，技能树 `content/skill-tree.yaml`，职业 `content/jobs.yaml`
-- 分集标题不用手写，`npm run fetch:episodes` 会从 B 站拉真实的（多 P 与合集两种结构都支持）
+- 分集标题不用手写，`npm run fetch:episodes` 会从 bilibili 拉真实的（多 P 与合集两种结构都支持）
 
 内容即代码：改动经 PR 审阅合并，重新构建镜像后生效。数据库只存用户数据。
 
@@ -175,8 +175,8 @@ CodeMirror 6（Hack 实验室编辑器）· MathLive + compute-engine（数学�
 
 ## 致谢
 
-- **[wiliwili](https://github.com/xfangfang/wiliwili)**（MIT）——第三方 B 站客户端。
-  本站的「绑定 B 站账号 → 官方接口取播放地址与弹幕 → 自己渲染播放器 → 拿到真实观看
+- **[wiliwili](https://github.com/xfangfang/wiliwili)**（GPL-3.0）——第三方 bilibili 客户端。
+  本站的「绑定 bilibili 账号 → 官方接口取播放地址与弹幕 → 自己渲染播放器 → 拿到真实观看
   进度」这条路线，思路来自 wiliwili 的实现。感谢 xfangfang 与其贡献者。
   本项目未使用其代码，仅参考其对公开接口的用法。
 - 课程索引主要来自 [csdiy.wiki](https://csdiy.wiki/)。
@@ -185,7 +185,8 @@ CodeMirror 6（Hack 实验室编辑器）· MathLive + compute-engine（数学�
 
 ## 许可与免责声明
 
-本项目以 [MIT License](./LICENSE) 开源。
+本项目以 [GNU General Public License v3.0](./LICENSE) 开源——与思路来源
+[wiliwili](https://github.com/xfangfang/wiliwili) 保持一致的许可与免责立场。
 
 - **非商业、无盈利**：本站不售卖课程内容，不提供付费会员，站内「金币 / 药水 / 商店」
   全部是学习进度换算出的游戏化数值，与真实货币无关。若未来接受赞助，赞助仅用于

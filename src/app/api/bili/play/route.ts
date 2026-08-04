@@ -4,7 +4,7 @@ import { getBiliSessdata } from "@/lib/bili/account";
 import { fetchPlayUrl, fetchView } from "@/lib/bili/api";
 
 // 解析播放地址：返回「经本站代理的」流地址。
-// B 站直链要求 Referer，浏览器不能自定义，所以视频字节必须走 /api/bili/stream。
+// bilibili 直链要求 Referer，浏览器不能自定义，所以视频字节必须走 /api/bili/stream。
 // 绑定了账号就带上凭据 → 拿得到高清晰度。
 
 export const dynamic = "force-dynamic";

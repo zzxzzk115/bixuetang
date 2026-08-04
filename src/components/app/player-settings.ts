@@ -43,7 +43,7 @@ export interface PlayerPrefs {
   qualityId: number | null;
 }
 
-export const PREFS_VERSION = 3;
+export const PREFS_VERSION = 4;
 
 export const DEFAULT_PREFS: PlayerPrefs = {
   v: PREFS_VERSION,
@@ -62,8 +62,8 @@ export const DEFAULT_PREFS: PlayerPrefs = {
     blockBottom: false,
   },
   cc: {
-    // 默认关：B 站的 AI 字幕经常不准，别默认糊在画面上
-    on: false,
+    // 默认开：自动挑人工字幕（中文优先，其次英文），实在没有才退到 AI 轨
+    on: true,
     lans: [],
     scale: 1,
     bottom: 0.06,

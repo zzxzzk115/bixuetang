@@ -19,7 +19,9 @@ import {
   Minimize,
   Pause,
   Play,
+  RotateCcw,
   Settings2,
+  SkipForward,
   Volume1,
   Volume2,
   VolumeX,
@@ -28,7 +30,7 @@ import { reportWatchProgress } from "@/lib/game/watch-actions";
 import { savePlayerPrefs } from "@/lib/game/user-state-actions";
 import { RATES, prefsStore, type PlayerPrefs } from "./player-settings";
 
-// 自研 B 站播放器（思路参考 wiliwili，MIT）：
+// 自研 bilibili 播放器（思路参考 wiliwili，MIT）：
 //   · DASH 画音分离 → <video> + <audio> 双轨同步
 //   · 弹幕在 <canvas> 自绘，支持不透明度/字号/速度/显示区域/分类屏蔽
 //   · CC 字幕支持多语言切换与字号/位置/描边样式
@@ -83,6 +85,9 @@ interface Track {
   born: number;
 }
 
+/** 续播提示的反悔窗口（秒） */
+const RESUME_SECONDS = 5;
+
 function fmt(sec: number): string {
   if (!Number.isFinite(sec)) return "0:00";
   const m = Math.floor(sec / 60);
@@ -130,6 +135,8 @@ export function BiliPlayer({
   const [resumeTip, setResumeTip] = useState<number | null>(
     resumeAt > 5 ? resumeAt : null,
   );
+  /** 自动跳转倒计时剩余秒 */
+  const [resumeLeft, setResumeLeft] = useState(RESUME_SECONDS);
   /** 打开的设置面板 */
   const [panel, setPanel] = useState<"none" | "danmaku" | "cc" | "rate" | "quality">(
     "none",
@@ -231,11 +238,23 @@ export function BiliPlayer({
     };
   }, [payload?.cid, payload?.durationSec, bvid]);
 
-  // 可多选叠加：选了几条就显示几行（中英对照）。没选过就默认第一条。
+  // 可多选叠加：选了几条就显示几行。用户没选过时自动挑：
+  // 人工中文轨优先（bilibili 的中文轨往往自带中英双语），其次人工英文轨，
+  // 一条人工轨都没有才退到 AI 轨——至少保证有字幕可看。
   const activeTracks = useMemo(() => {
     if (tracks.length === 0) return [];
     const picked = tracks.filter((t) => prefs.cc.lans.includes(t.lan));
-    return picked.length > 0 ? picked : [tracks[0]];
+    if (picked.length > 0) return picked;
+
+    const human = tracks.filter((t) => !t.ai && !t.suspect);
+    const zh = human.find((t) => t.lan.toLowerCase().startsWith("zh"));
+    const en = human.find((t) => t.lan.toLowerCase().startsWith("en"));
+    if (zh && en) return [zh, en];
+    if (zh) return [zh];
+    if (en) return [en];
+    if (human.length > 0) return [human[0]];
+    // 只剩 AI 轨（或可疑轨）时也给一条，总比没有强
+    return [tracks[0]];
   }, [tracks, prefs.cc.lans]);
 
   // 当前清晰度的视频地址
@@ -471,7 +490,28 @@ export function BiliPlayer({
     };
   }, [payload, courseId, episodeN, onCompleted]);
 
-  // 续播：不静默跳，给 3 秒反悔窗口；超时没点「从头开始」就跳过去
+  /** 跳到上次的进度并立刻续播 */
+  const jumpToResume = useCallback(
+    (at: number) => {
+      const v = videoRef.current;
+      const a = audioRef.current;
+      setResumeTip(null);
+      if (!v) return;
+      const apply = () => {
+        const total = v.duration || payload?.durationSec || 0;
+        v.currentTime = total > 0 ? Math.min(at, total - 5) : at;
+        if (a) a.currentTime = v.currentTime;
+        void v.play();
+        if (a && payload?.audio) void a.play();
+      };
+      // metadata 还没到手时 currentTime 是写不进去的，等一下再跳
+      if (v.readyState >= 1) apply();
+      else v.addEventListener("loadedmetadata", apply, { once: true });
+    },
+    [payload?.audio, payload?.durationSec],
+  );
+
+  // 续播：不静默跳，给 3 秒反悔窗口（倒计时可见）；超时没点「从头开始」就跳过去
   useEffect(() => {
     if (resumeTip === null || !payload) return;
     const total = payload.durationSec || 0;
@@ -480,16 +520,19 @@ export function BiliPlayer({
       const drop = setTimeout(() => setResumeTip(null), 0);
       return () => clearTimeout(drop);
     }
-    const timer = setTimeout(() => {
-      const video = videoRef.current;
-      if (video && video.currentTime < 2) {
-        video.currentTime = Math.min(resumeTip, (video.duration || total) - 5);
-        if (audioRef.current) audioRef.current.currentTime = video.currentTime;
-      }
-      setResumeTip(null);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [payload, resumeTip]);
+    // 倒计时从 RESUME_SECONDS 起（state 初值就是它，无需在这里重置）
+    const tick = setInterval(() => {
+      setResumeLeft((n) => {
+        if (n <= 1) {
+          clearInterval(tick);
+          jumpToResume(resumeTip);
+          return 0;
+        }
+        return n - 1;
+      });
+    }, 1000);
+    return () => clearInterval(tick);
+  }, [payload, resumeTip, jumpToResume]);
 
   // 全屏（被拒则影院模式）
   const toggleFullscreen = useCallback(async () => {
@@ -546,7 +589,7 @@ export function BiliPlayer({
           rel="noreferrer noopener"
           className="app-btn-plain"
         >
-          去 B 站看这一集
+          去 bilibili 看这一集
         </a>
       </div>
     );
@@ -613,17 +656,30 @@ export function BiliPlayer({
             className="biliplayer-resume"
             onClick={(e) => e.stopPropagation()}
           >
-            <span>
-              上次看到 {fmt(resumeTip)}，即将跳转
+            <span className="biliplayer-resume-text">
+              上次看到 <b>{fmt(resumeTip)}</b>
+              <small>{resumeLeft} 秒后自动继续</small>
             </span>
-            <button
-              onClick={() => {
-                // 取消 = 从头看
-                setResumeTip(null);
-              }}
-            >
-              从头开始
-            </button>
+            <span className="biliplayer-resume-acts">
+              <button
+                className="is-primary"
+                onClick={() => jumpToResume(resumeTip)}
+              >
+                <SkipForward size={14} aria-hidden /> 立即跳转
+              </button>
+              <button
+                onClick={() => {
+                  // 取消 = 从头看
+                  setResumeTip(null);
+                }}
+              >
+                <RotateCcw size={14} aria-hidden /> 从头开始
+              </button>
+            </span>
+            <i
+              className="biliplayer-resume-bar"
+              style={{ width: `${(resumeLeft / RESUME_SECONDS) * 100}%` }}
+            />
           </div>
         )}
         {!playing && (
@@ -770,7 +826,7 @@ export function BiliPlayer({
               ))}
             </div>
             {!payload.bound && (
-              <p className="biliplayer-panel-note">绑定 B 站账号可解锁更高清晰度</p>
+              <p className="biliplayer-panel-note">绑定 bilibili 账号可解锁更高清晰度</p>
             )}
           </div>
         )}
@@ -930,12 +986,12 @@ export function BiliPlayer({
             )}
             {activeTracks.some((t) => t.suspect) && (
               <p className="biliplayer-panel-note">
-                ⚠ 有字幕只覆盖了视频的一小段，B 站可能挂错了片源——内容对不上时请关掉它。
+                ⚠ 有字幕只覆盖了视频的一小段，bilibili 可能挂错了片源——内容对不上时请关掉它。
               </p>
             )}
             {activeTracks.some((t) => t.ai && !t.suspect) && (
               <p className="biliplayer-panel-note">
-                标 AI 的字幕由 B 站自动生成，可能有错漏，仅供参考。
+                标 AI 的字幕由 bilibili 自动生成，可能有错漏，仅供参考。
               </p>
             )}
             <label className="biliplayer-slider">
@@ -986,7 +1042,7 @@ export function BiliPlayer({
 
       {!payload.bound && (
         <p className="biliplayer-hint">
-          绑定 B 站账号后可解锁高清晰度与 CC 字幕（当前{" "}
+          绑定 bilibili 账号后可解锁高清晰度与 CC 字幕（当前{" "}
           {payload.qualityName || "标清"}）
         </p>
       )}

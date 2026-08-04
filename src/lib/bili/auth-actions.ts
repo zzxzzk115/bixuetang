@@ -8,8 +8,8 @@ import { createSession } from "../auth/session";
 import { fetchSelfInfo, qrGenerate, qrPoll } from "./api";
 import { saveBiliBinding } from "./account";
 
-// 用 B 站扫码直接登录 / 注册学者公会账号。
-// 已绑定过的 B 站账号 → 登录既有账号；没绑过 → 建号并绑定，昵称取 B 站昵称（可改）。
+// 用 bilibili 扫码直接登录 / 注册学者公会账号。
+// 已绑定过的 bilibili 账号 → 登录既有账号；没绑过 → 建号并绑定，昵称取 bilibili 昵称（可改）。
 
 export interface BiliAuthStart {
   ok: boolean;
@@ -51,7 +51,7 @@ export interface BiliAuthPoll {
   note?: string;
 }
 
-/** 由 B 站 uid 派生一个合法用户名（3–32 位小写字母/数字/下划线） */
+/** 由 bilibili uid 派生一个合法用户名（3–32 位小写字母/数字/下划线） */
 function usernameForMid(mid: string): string {
   return `bili_${mid}`.slice(0, 32).toLowerCase();
 }
@@ -68,7 +68,7 @@ export async function pollBiliAuth(
         status: result.status,
         note:
           result.rawCode !== undefined
-            ? `B 站返回 code=${result.rawCode}${result.rawMessage ? ` ${result.rawMessage}` : ""}`
+            ? `bilibili 返回 code=${result.rawCode}${result.rawMessage ? ` ${result.rawMessage}` : ""}`
             : undefined,
       };
     }
@@ -86,7 +86,7 @@ export async function pollBiliAuth(
       // 拿不到昵称不影响登录
     }
 
-    // 这个 B 站账号已经绑过某个公会账号 → 直接登录它
+    // 这个 bilibili 账号已经绑过某个公会账号 → 直接登录它
     const bound = db
       .select({ userId: biliAccounts.userId })
       .from(biliAccounts)

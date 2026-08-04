@@ -1,11 +1,11 @@
-// 从 B 站拉取课程的原稿标题与真实分集标题，写回课程 YAML。
+// 从 bilibili 拉取课程的原稿标题与真实分集标题，写回课程 YAML。
 // 用法：
 //   npm run fetch:episodes                  # 补原标题；仅为缺少 episodes 的课程补分集
 //   npm run fetch:episodes -- --titles-only # 只刷新原稿标题，不改分集
 //   npm run fetch:episodes -- --force       # 刷新原标题并覆盖已有分集
 //   npm run fetch:episodes -- cs61a games101
 //
-// B 站 view 接口的 data.title 是原稿标题，data.pages[].part 是分 P 标题。
+// bilibili view 接口的 data.title 是原稿标题，data.pages[].part 是分 P 标题。
 
 import fs from "node:fs";
 import path from "node:path";

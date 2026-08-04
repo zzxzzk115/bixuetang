@@ -15,7 +15,7 @@ schema 见 `src/lib/content/schema.ts` 的 `CourseAnalysisSchema`。
    将来能对上的源（官方源优先）。
 
 2. **拉字幕**（存 scratch/，勿入仓库）：
-   - **B 站**：直接跑 `npm run fetch:subtitles -- <courseId>`。需要 `.env.local` 里的
+   - **bilibili**：直接跑 `npm run fetch:subtitles -- <courseId>`。需要 `.env.local` 里的
      `BILI_SESSDATA`（游客态拿不到字幕列表）；脚本顶部注释写了怎么取。
      产物：`scratch/subtitles/<courseId>/<n>.json`（逐字原文）与 `<n>.txt`（**分析读这个**）。
      `.txt` 每行形如 `[12:30|750s] 这 90 秒在讲的内容…`，**方括号里的秒数直接就是 `t`**。
@@ -30,7 +30,7 @@ schema 见 `src/lib/content/schema.ts` 的 `CourseAnalysisSchema`。
    - `basis: "titles-only"`，keyPoints 一律**不带 `t`**；
    - 不确定的内容宁可少写，禁止编造时间戳。
 
-   注意 B 站的 AI 字幕是**无标点的 ASR 流**，含大量「这个这个这个」之类口水话，
+   注意 bilibili 的 AI 字幕是**无标点的 ASR 流**，含大量「这个这个这个」之类口水话，
    人名/专有名词常被听错。据此判断讲了什么是可靠的，但**别把 ASR 原文当引文抄进 detail**。
 
 4. **分集提炼**：每集产出——

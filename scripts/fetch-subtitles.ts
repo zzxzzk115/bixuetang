@@ -1,11 +1,11 @@
-// 抓取 B 站 CC 字幕（带时间轴），供 AI 分析生成精确的知识点时间戳。
+// 抓取 bilibili CC 字幕（带时间轴），供 AI 分析生成精确的知识点时间戳。
 //
-// 前置：B 站游客态拿不到字幕列表，需要登录后的 SESSDATA。
+// 前置：bilibili 游客态拿不到字幕列表，需要登录后的 SESSDATA。
 //   1. 浏览器登录 bilibili.com
 //   2. F12 → Application → Cookies → https://www.bilibili.com → 复制 SESSDATA 的值
 //   3. 在项目根目录建 .env.local（已 gitignore），写入：
 //        BILI_SESSDATA=你复制的值
-//   SESSDATA 等同于账号登录态，切勿提交或分享。撤销方法：B 站「设置 → 安全 → 退出所有设备」。
+//   SESSDATA 等同于账号登录态，切勿提交或分享。撤销方法：bilibili 「设置 → 安全 → 退出所有设备」。
 //
 // 用法：
 //   npm run fetch:subtitles -- <courseId> [起始集] [结束集]
@@ -134,7 +134,7 @@ async function resolveEpisode(
 
 /**
  * 把字幕行按 60 秒一桶聚合成「[mm:ss] 文本」，喂给 AI 分析用。
- * 每桶截断到 maxChars——B 站 AI 字幕是无标点的 ASR 流，「这个这个这个」这类口水话占了大半，
+ * 每桶截断到 maxChars——bilibili AI 字幕是无标点的 ASR 流，「这个这个这个」这类口水话占了大半，
  * 每分钟开头一两句足够判断在讲什么。截断后整课体量能塞进单个 agent 的上下文。
  * 需要逐字原文时读同目录的 .json。
  */
@@ -174,12 +174,12 @@ function mainBvOf(course: Course): string | undefined {
     ?.url.match(/\/video\/(BV[0-9A-Za-z]+)/)?.[1];
 }
 
-/** 普查：每门有 B 站源的课抽第 1 集，看有没有 CC 字幕，输出可批量分析的课程清单 */
+/** 普查：每门有 bilibili 源的课抽第 1 集，看有没有 CC 字幕，输出可批量分析的课程清单 */
 async function probe() {
   const courses = allCourses().filter(
     (c) => mainBvOf(c) && (c.episodes?.length ?? 0) > 0,
   );
-  console.log(`普查 ${courses.length} 门有 B 站源且有分集清单的课程……\n`);
+  console.log(`普查 ${courses.length} 门有 bilibili 源且有分集清单的课程……\n`);
 
   const withSub: string[] = [];
   const without: string[] = [];

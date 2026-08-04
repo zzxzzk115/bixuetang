@@ -1,6 +1,6 @@
 # 字幕获取技术细节
 
-## B 站 CC 字幕（两步 API）
+## bilibili CC 字幕（两步 API）
 
 1. 拿分 P 列表与 cid：
    `GET https://api.bilibili.com/x/web-interface/view?bvid=<BV>`（av 号用 `aid=<数字>`）
@@ -16,7 +16,7 @@
 
 注意：
 - 请求带 UA 头（裸 fetch 可能 412）：`User-Agent: Mozilla/5.0`、`Referer: https://www.bilibili.com`。
-- 很多搬运视频没有 CC 字幕（`subtitles` 为空数组）→ 试 yt-dlp（对 B 站也支持
+- 很多搬运视频没有 CC 字幕（`subtitles` 为空数组）→ 试 yt-dlp（对 bilibili 也支持
   `--write-subs`），仍无则走降级。
 - wbi 接口偶尔要签名；若 412/错误，退回旧接口
   `https://api.bilibili.com/x/player/v2?bvid=&cid=`（字段相同）。

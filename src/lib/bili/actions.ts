@@ -9,7 +9,7 @@ import {
   type BiliBinding,
 } from "./account";
 
-// B 站扫码登录绑定。二维码由 B 站签发，我们只做中转与凭据落库。
+// bilibili 扫码登录绑定。二维码由 bilibili 签发，我们只做中转与凭据落库。
 
 export interface QrStartResult {
   ok: boolean;
@@ -70,7 +70,7 @@ export async function pollBiliLogin(
         status: result.status,
         note:
           result.rawCode !== undefined
-            ? `B 站返回 code=${result.rawCode}${result.rawMessage ? ` ${result.rawMessage}` : ""}`
+            ? `bilibili 返回 code=${result.rawCode}${result.rawMessage ? ` ${result.rawMessage}` : ""}`
             : undefined,
       };
     }

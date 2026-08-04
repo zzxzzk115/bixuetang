@@ -12,12 +12,12 @@ export interface EmbedOptions {
   page?: number;
   /** 起播秒数（iframe 无跨域控制接口，跳转靠换 src 重载） */
   startSeconds?: number;
-  /** 该集的独立 B 站稿件（ugc_season 合集课程），优先于 page */
+  /** 该集的独立 bilibili 稿件（ugc_season 合集课程），优先于 page */
   bvid?: string;
   /**
    * 原站模式：直接嵌 www.bilibili.com 视频页而非 player.html。
-   * B 站主站没有 X-Frame-Options，技术上可嵌；主站播放器有弹幕/画质/倍速完整 UI。
-   * 注意：B 站 cookie 未设 SameSite（浏览器按 Lax 处理），跨站 iframe 不会携带
+   * bilibili 主站没有 X-Frame-Options，技术上可嵌；主站播放器有弹幕/画质/倍速完整 UI。
+   * 注意：bilibili cookie 未设 SameSite（浏览器按 Lax 处理），跨站 iframe 不会携带
    * 登录态，所以清晰度仍是游客上限——要登录态高清只能用浏览器插件在原站看。
    */
   nativePage?: boolean;

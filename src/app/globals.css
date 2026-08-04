@@ -5696,6 +5696,9 @@ body:has(.dungeon-chamber) .analysis-section {
   background: #000;
   aspect-ratio: 16 / 9;
   cursor: pointer;
+  /* 字幕字号以画面自身尺寸为基准（cqh），这样全屏放大后字幕比例不变。
+     尺寸由 aspect-ratio / flex 决定，不依赖内容，size containment 安全 */
+  container-type: size;
 }
 .biliplayer-stage video {
   width: 100%;
@@ -5893,20 +5896,26 @@ body:has(.dungeon-chamber) .analysis-section {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
-  gap: 3px;
+  gap: 0.25em;
   padding: 0 6%;
   pointer-events: none;
+  /* 字幕基准字号 = 画面高度的 4.2%（业界惯例），全屏时随画面一起长大。
+     必须落在容器上：span 带 inline 的 font-size 百分比（用户的字号滑块），
+     那个百分比是相对父元素算的，写在 span 上的规则会被 inline 值直接盖掉 */
+  font-size: clamp(13px, 4.2cqh, 56px);
 }
 .biliplayer-cc span {
-  padding: 4px 12px;
-  border-radius: 8px;
+  padding: 0.2em 0.6em;
+  border-radius: 0.4em;
   background: rgba(0, 0, 0, 0.6);
   color: #fff;
-  font-size: clamp(14px, 2.4vw, 20px);
   font-weight: 600;
   line-height: 1.45;
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  /* bilibili 的双语字幕把中英塞在同一条 cue 里、用换行符分隔，
+     默认的 normal 会把换行折叠成空格，两种语言就挤成一行了 */
+  white-space: pre-line;
 }
 .bili-bind-note {
   padding: 6px 10px;
@@ -6356,20 +6365,43 @@ body:has(.dungeon-chamber) .analysis-section {
   left: 12px;
   bottom: 12px;
   z-index: 3;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.75);
+  gap: 14px;
+  padding: 10px 14px 12px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.8);
   color: #fff;
   font-size: 13px;
   font-weight: 700;
   animation: sheet-rise 200ms ease-out;
 }
+.biliplayer-resume-text {
+  display: grid;
+  gap: 2px;
+  line-height: 1.3;
+}
+.biliplayer-resume-text b {
+  font-weight: 800;
+}
+.biliplayer-resume-text small {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 11px;
+  font-weight: 700;
+  /* 倒计时数字变化时宽度别抖 */
+  font-variant-numeric: tabular-nums;
+}
+.biliplayer-resume-acts {
+  display: flex;
+  gap: 8px;
+}
 .biliplayer-resume button {
-  padding: 4px 10px;
-  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 9px;
   background: rgba(255, 255, 255, 0.18);
   color: #fff;
   font-size: 12px;
@@ -6378,6 +6410,22 @@ body:has(.dungeon-chamber) .analysis-section {
 }
 .biliplayer-resume button:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+.biliplayer-resume button.is-primary {
+  background: var(--app-accent, #58cc02);
+  color: #0b2b00;
+}
+.biliplayer-resume button.is-primary:hover {
+  filter: brightness(1.08);
+}
+/* 倒计时进度条：贴在卡片底边，1 秒一格地缩短 */
+.biliplayer-resume-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--app-accent, #58cc02);
+  transition: width 1s linear;
 }
 
 /* ==== 互动弹层（投币确认 / 收藏夹选择） ==== */
@@ -6561,4 +6609,28 @@ body:has(.dungeon-chamber) .analysis-section {
 }
 .biliplayer-watch {
   margin-left: 0;
+}
+
+/* 移动端：直接唤起 bilibili App 确认登录（手机没法自己扫自己） */
+.bili-auth-app {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 46px;
+  padding: 0 20px;
+  font-size: 14px;
+  text-decoration: none;
+}
+.bili-auth-or {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.terms-note {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-faint) 12%, transparent);
+  color: var(--app-text);
+  font-size: 13px;
+  line-height: 1.7;
 }

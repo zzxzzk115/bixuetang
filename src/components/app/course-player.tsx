@@ -8,7 +8,7 @@ import { EmbedPlayer } from "../embed-player";
 import { BiliInteract } from "./bili-interact";
 import { BiliPlayer } from "./bili-player";
 
-// 播放区：B 站源用自研播放器（弹幕 + 真实观看进度），
+// 播放区：bilibili 源用自研播放器（弹幕 + 真实观看进度），
 // 其他平台（YouTube 等）回退到原来的嵌入播放器。
 // 知识点地图点时间戳会派 SEEK_EVENT，这里接住并切集/跳转。
 
