@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Brain, Check, Gift, Lock, Play } from "lucide-react";
+import { Brain, Check, FlaskConical, Gift, Lock, Play } from "lucide-react";
 import type {
   CourseSummaryDto,
   GameBootstrap,
@@ -27,7 +27,7 @@ const BOTTOM_PAD = 140;
 
 const SUBJECT_COLOR: Record<string, string> = {
   cs: "var(--app-blue)",
-  math: "var(--app-purple)",
+  math: "var(--app-teal)",
   physics: "var(--app-orange)",
   ai: "var(--app-green)",
 };
@@ -393,7 +393,9 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
           })}
 
           {nodes.map((n) => {
-            // 经验药水生效中：当前节点罩紫色光效
+            // 经验药水生效中：当前节点罩光效 + 挂药水角标。
+            // 光晕的紫色跟数学的学科色是同一个紫，光靠颜色分不出
+            // 「这是数学课」还是「药水生效中」，所以语义交给角标扛
             const boosted =
               n.state === "current" &&
               bootstrap.boost &&
@@ -432,12 +434,21 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
                 )}
                 <span className="route-node-btnwrap">
                   {boosted && (
-                    <span className="boost-bubbles" aria-hidden>
-                      <i />
-                      <i />
-                      <i />
-                      <i />
-                    </span>
+                    <>
+                      <span className="boost-bubbles" aria-hidden>
+                        <i />
+                        <i />
+                        <i />
+                        <i />
+                      </span>
+                      <span
+                        className="boost-badge"
+                        title={`经验 ×${(bootstrap.boost?.multiplierPct ?? 100) / 100}`}
+                      >
+                        <FlaskConical size={13} aria-hidden />
+                        <b>×{(bootstrap.boost?.multiplierPct ?? 100) / 100}</b>
+                      </span>
+                    </>
                   )}
                   {n.node.kind === "video" && n.state === "current" && (
                     <NodeRing

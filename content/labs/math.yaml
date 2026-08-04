@@ -5,7 +5,7 @@ tasks:
     xp: 25
     description: 成功完成一次公式求值或化简
   - id: symbolic-derivative
-    title: 符文求导
+    title: 符号求导
     xp: 40
     description: 成功完成一次符号求导
   - id: function-plot

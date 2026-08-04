@@ -39,7 +39,7 @@ const RARITY_LABEL: Record<string, string> = {
 
 const SUBJECT_COLOR: Record<string, string> = {
   cs: "var(--app-blue)",
-  math: "var(--app-purple)",
+  math: "var(--app-teal)",
   physics: "var(--app-orange)",
   ai: "var(--app-green)",
 };

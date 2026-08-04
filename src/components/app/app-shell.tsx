@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
   Backpack,
@@ -8,9 +9,11 @@ import {
   Coins,
   Flame,
   Map as MapIcon,
+  MoreHorizontal,
   ShoppingBag,
   Swords,
   User,
+  X,
   Zap,
 } from "lucide-react";
 import { GuildSigil } from "@/components/guild-sigil";
@@ -32,6 +35,9 @@ const TABS = [
   { key: "me", label: "我的", href: "/settings", icon: User },
 ] as const;
 
+/** 底部 Tab 直接摆出来的数量，其余收进「更多」 */
+const MOBILE_TABS = 4;
+
 const STAT_LABEL = [
   ["insight", "洞察"],
   ["focus", "专注"],
@@ -52,6 +58,18 @@ export function AppShell({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const [moreOpen, setMoreOpen] = useState(false);
+
+  // 底部 Tab 放得下的数量有限，窄屏尤其挤。前 MOBILE_TABS 个直接摆出来，
+  // 其余收进「更多」——不做的话第 6、7 项会被挤成一条缝，谁都点不准。
+  // 桌面是竖向侧栏，位置管够，全部平铺（CSS 里把 .app-tab-more 藏掉）。
+  const overflow = TABS.slice(MOBILE_TABS);
+  const overflowActive = overflow.some((t) => pathname.startsWith(t.href));
+
+  const go = (href: string) => {
+    setMoreOpen(false);
+    router.push(href);
+  };
 
   return (
     <div className="app-root">
@@ -68,13 +86,17 @@ export function AppShell({
             tab.href === "/play"
               ? pathname === "/play"
               : pathname.startsWith(tab.href);
+          const inOverflow = overflow.includes(tab);
           return (
             <button
               key={tab.key}
-              className={`${active ? "active" : ""} ${
-                "desktopOnly" in tab && tab.desktopOnly ? "is-desktop-only" : ""
-              }`}
-              onClick={() => router.push(tab.href)}
+              className={[
+                active ? "active" : "",
+                "desktopOnly" in tab && tab.desktopOnly ? "is-desktop-only" : "",
+                // 挤不下的那几项在窄屏交给「更多」菜单，桌面侧栏照常平铺
+                inOverflow ? "app-tab-overflow" : "",
+              ].join(" ")}
+              onClick={() => go(tab.href)}
               aria-current={active ? "page" : undefined}
             >
               <Icon aria-hidden size={24} strokeWidth={2.4} />
@@ -82,7 +104,57 @@ export function AppShell({
             </button>
           );
         })}
+
+        {overflow.length > 0 && (
+          <button
+            className={`app-tab-more ${overflowActive ? "active" : ""}`}
+            onClick={() => setMoreOpen(true)}
+            aria-haspopup="menu"
+            aria-expanded={moreOpen}
+          >
+            <MoreHorizontal aria-hidden size={24} strokeWidth={2.4} />
+            <span>更多</span>
+          </button>
+        )}
       </nav>
+
+      {moreOpen && (
+        <div className="app-sheet-backdrop" onClick={() => setMoreOpen(false)}>
+          <div
+            className="app-sheet app-more-sheet"
+            role="menu"
+            aria-label="更多"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <header>
+              <b>更多</b>
+              <button onClick={() => setMoreOpen(false)} aria-label="关闭">
+                <X size={20} />
+              </button>
+            </header>
+            {overflow.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.key}
+                  role="menuitem"
+                  className={[
+                    "app-more-item",
+                    pathname.startsWith(tab.href) ? "active" : "",
+                    "desktopOnly" in tab && tab.desktopOnly
+                      ? "is-desktop-only"
+                      : "",
+                  ].join(" ")}
+                  onClick={() => go(tab.href)}
+                >
+                  <Icon aria-hidden size={20} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <div className="app-main">
         <header className="app-topbar">

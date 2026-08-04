@@ -94,7 +94,10 @@ html {
   --app-faint: #afafaf;
   --app-green: #58cc02;
   --app-blue: #1cb0f6;
+  /* 紫色专供经验药水，不参与学科配色——学科色里出现紫色会让人
+     以为药水生效了 */
   --app-purple: #ce82ff;
+  --app-teal: #12b8a6;
   --app-orange: #ff9600;
   --app-gold: #ffc800;
   --app-red: #ff4b4b;
@@ -2257,7 +2260,7 @@ html {
   font-weight: 800;
 }
 .app-route-card.subject-math .app-route-card-subject {
-  color: var(--app-purple);
+  color: var(--app-teal);
 }
 .app-route-card.subject-physics .app-route-card-subject {
   color: var(--app-orange);
@@ -7137,4 +7140,62 @@ body:has(.dungeon-chamber) .analysis-section {
   color: var(--app-gold);
   font-size: 12px;
   font-weight: 800;
+}
+
+/* 药水角标：光晕的紫跟数学的学科色是同一个紫，光靠颜色分不出
+   「这是数学课」还是「药水生效中」，所以语义交给这个角标 */
+.boost-badge {
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  border: 2px solid var(--app-surface);
+  background: var(--app-purple);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ==== 底部 Tab 的「更多」菜单（仅窄屏）==== */
+/* 桌面是竖向侧栏，位置管够：全部平铺，不要「更多」 */
+.app-tab-more {
+  display: none;
+}
+@media (max-width: 819px) {
+  .app-tabs .app-tab-overflow {
+    display: none;
+  }
+  .app-tab-more {
+    display: grid;
+  }
+}
+.app-more-sheet {
+  display: grid;
+  gap: 6px;
+}
+.app-more-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* 拇指点得准的高度 */
+  min-height: 52px;
+  padding: 0 14px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.app-more-item.active {
+  border-color: var(--app-blue);
+  color: var(--app-blue);
 }
