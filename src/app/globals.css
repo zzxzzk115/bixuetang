@@ -1885,48 +1885,7 @@ html {
   font-size: 12px;
   font-weight: 800;
 }
-/* 字母索引条：覆盖旧的暗金样式，换成 App 胶囊 */
-.lex-root .glossary-index-rail {
-  top: 90px;
-  right: 8px;
-  bottom: 90px;
-  width: 34px;
-  border: 2px solid var(--app-line);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--app-surface) 94%, transparent);
-  color: var(--app-faint);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  backdrop-filter: blur(6px);
-}
-.lex-root .glossary-index-caption {
-  display: none;
-}
-.lex-root .glossary-index-items {
-  padding: 6px 0;
-}
-.lex-root .glossary-index-items button {
-  border-radius: 8px;
-  color: var(--app-faint);
-  font: 800 10px ui-rounded, "PingFang SC", system-ui, sans-serif;
-}
-.lex-root .glossary-index-items button:first-child {
-  font-size: 10px;
-}
-.lex-root .glossary-index-items button:hover,
-.lex-root .glossary-index-items button.active {
-  background: color-mix(in srgb, var(--app-blue) 14%, transparent);
-  color: var(--app-blue);
-}
-.lex-root .glossary-index-indicator {
-  right: 42px;
-  border: 2px solid var(--app-blue);
-  border-radius: 14px;
-  background: var(--app-surface);
-  color: var(--app-blue);
-  font: 800 15px ui-rounded, "PingFang SC", system-ui, sans-serif;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-}
+/* 字母索引条样式在文件末尾统一覆盖（旧主题规则特异性高，必须压轴） */
 /* 桌面端：索引统一放内容列右侧空余空间（iOS 联系人式，可点可拖拽）。
    .lex-rail-slot 占右列并 sticky，rail 自身从 fixed 改回文档流竖条 */
 @media (min-width: 1024px) {
@@ -5127,4 +5086,58 @@ body:has(.dungeon-chamber) .analysis-section {
   background: var(--panel);
   color: var(--gold);
   box-shadow: 0 8px 18px rgba(25,33,29,.18);
+}
+
+/* ==== 字母索引条终态覆盖（压轴：旧主题规则特异性高，必须排最后） ====
+   用户定调：灰边框、黑字，激活蓝底白字；不许再出现土金色 */
+:root .lex-root .glossary-index-rail,
+:root[data-theme="light"] .lex-root .glossary-index-rail,
+:root[data-theme="dark"] .lex-root .glossary-index-rail {
+  border: 2px solid var(--app-line);
+  border-radius: 999px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  backdrop-filter: none;
+}
+@media (max-width: 1023px) {
+  :root .lex-root .glossary-index-rail {
+    top: 90px;
+    right: 8px;
+    bottom: 90px;
+    width: 34px;
+  }
+}
+:root .lex-root .glossary-index-caption {
+  display: none;
+}
+:root .lex-root .glossary-index-items {
+  padding: 6px 0;
+}
+:root .lex-root .glossary-index-items button,
+:root[data-theme="light"] .lex-root .glossary-index-items button {
+  border-radius: 8px;
+  background: none;
+  color: var(--app-text);
+  font: 800 10px ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+:root .lex-root .glossary-index-items button:first-child {
+  font-size: 10px;
+}
+:root .lex-root .glossary-index-items button:hover,
+:root .lex-root .glossary-index-items button.active,
+:root[data-theme="light"] .lex-root .glossary-index-items button:hover,
+:root[data-theme="light"] .lex-root .glossary-index-items button.active {
+  background: var(--app-blue);
+  color: #fff;
+}
+:root .lex-root .glossary-index-indicator,
+:root[data-theme="light"] .lex-root .glossary-index-indicator {
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+  color: var(--app-strong);
+  font: 800 15px ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
