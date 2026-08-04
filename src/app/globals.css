@@ -1044,6 +1044,59 @@ html {
 .pk-down {
   color: var(--app-red);
 }
+
+/* ---------- App 皮肤适配层 ----------
+   老页面组件（hud-panel/command-button/glossary/analysis…）全部通过
+   CSS 变量取色。迁移进 App 壳时不重写组件，只在包装层把旧主题变量
+   重映射到 App 令牌 + 抹圆角、去装饰——一层皮肤全站组件通吃。 */
+.app-page {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
+  scrollbar-width: thin;
+}
+.app-skin {
+  --background: var(--app-bg);
+  --panel: var(--app-surface);
+  --panel-hover: color-mix(in srgb, var(--app-blue) 8%, var(--app-surface));
+  --panel-strong: color-mix(in srgb, var(--app-line) 55%, var(--app-surface));
+  --edge: var(--app-line);
+  --edge-strong: var(--app-faint);
+  --foreground: var(--app-strong);
+  --muted: color-mix(in srgb, var(--app-text) 78%, var(--app-faint));
+  --gold: var(--app-orange);
+  --gold-soft: color-mix(in srgb, var(--app-orange) 35%, var(--app-line));
+  --copper: var(--app-orange);
+  --xp: var(--app-green);
+  --hp: var(--app-red);
+  --mana: var(--app-blue);
+  --glow: transparent;
+  --shadow: rgba(0, 0, 0, 0.05);
+  color: var(--app-text);
+  font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+/* 圆角与去装饰：老部件的直角/角标在 App 语境里统一软化 */
+.app-skin :is(.hud-panel, .filter-console, .page-intro, .player-frame) {
+  border-radius: 16px;
+  box-shadow: none;
+}
+.app-skin .hud-panel::before,
+.app-skin .combat-heading::before {
+  display: none;
+}
+.app-skin :is(.command-button, input, select, textarea, .archive-source) {
+  border-radius: 12px;
+}
+.app-skin .encounter-list li,
+.app-skin .glossary-entry {
+  border-radius: 12px;
+}
+.app-skin h1,
+.app-skin h2,
+.app-skin h3 {
+  color: var(--app-strong);
+}
 .trial-claimed {
   padding: 6px 14px;
   border-radius: 12px;

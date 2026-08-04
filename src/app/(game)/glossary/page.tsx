@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { AppShell } from "@/components/app/app-shell";
 import { GlossaryIndex } from "@/components/glossary-index";
+import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
+import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { splitBilingualTerm } from "@/lib/glossary/split-term";
 import { renderMathText } from "@/lib/math/render-math-text";
 
@@ -67,6 +71,10 @@ export default async function GlossaryPage({
 }: {
   searchParams: Promise<{ q?: string }>;
 }) {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+  const bootstrap = getGameBootstrap(user);
+
   const { q } = await searchParams;
   const needle = q?.trim().toLowerCase();
   const all = buildGlossary();
@@ -95,6 +103,8 @@ export default async function GlossaryPage({
   }));
 
   return (
+    <AppShell bootstrap={bootstrap}>
+      <div className="app-skin app-page">
     <div className="glossary-page page-stack mx-auto max-w-5xl">
       <header className="page-intro">
         <div>
@@ -185,5 +195,7 @@ export default async function GlossaryPage({
         </>
       )}
     </div>
+      </div>
+    </AppShell>
   );
 }

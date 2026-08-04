@@ -1,17 +1,22 @@
+import { AppShell } from "@/components/app/app-shell";
 import { AvatarForm } from "@/components/avatar-form";
 import { PasswordForm, ProfileForm } from "@/components/settings-forms";
 import { UserAvatar } from "@/components/user-avatar";
 import { TokenManager } from "@/components/token-manager";
 import { listApiTokens } from "@/lib/auth/api-token";
 import { requireUser } from "@/lib/auth/session";
+import { getGameBootstrap } from "@/lib/game/bootstrap";
 
 export const metadata = { title: "设置" };
 
 export default async function SettingsPage() {
   const user = await requireUser();
   const tokens = listApiTokens(user.id);
+  const bootstrap = getGameBootstrap(user);
 
   return (
+    <AppShell bootstrap={bootstrap}>
+      <div className="app-skin app-page">
     <div className="mx-auto max-w-lg space-y-6">
       <h1 className="text-2xl font-bold">设置</h1>
 
@@ -44,5 +49,7 @@ export default async function SettingsPage() {
         <TokenManager tokens={tokens} />
       </section>
     </div>
+      </div>
+    </AppShell>
   );
 }
