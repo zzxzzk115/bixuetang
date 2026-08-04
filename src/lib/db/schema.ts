@@ -366,7 +366,7 @@ export const ccOffsets = sqliteTable(
   (t) => [primaryKey({ columns: [t.userId, t.cid] })],
 );
 
-// 扫码登录时如果这个 bilibili 账号还没绑过任何公会账号，就先把凭据
+// 扫码登录时如果这个 bilibili 账号还没绑过任何本站账号，就先把凭据
 // 暂存在这里，等用户填完用户名和密码再建号——不然账号只能靠扫码进，
 // 换个设备没 bilibili App 就进不来了。凭据不下发到浏览器，前端只拿 token。
 export const pendingBiliSignups = sqliteTable("pending_bili_signups", {

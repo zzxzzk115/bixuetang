@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { X } from "lucide-react";
+import { Lock, X } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 
 // 路线选择：多邻国「切换课程」式底部弹层，列出全部冒险路径与进度。
@@ -59,23 +59,44 @@ export function RouteSheet({
           {rows.map(({ path, watched, total, done }) => (
             <button
               key={path.id}
-              className={`app-route-card ${path.id === currentId ? "active" : ""} subject-${path.subject}`}
-              onClick={() => onSelect(path.id)}
+              className={`app-route-card ${path.id === currentId ? "active" : ""} ${
+                path.unlocked ? "" : "locked"
+              } subject-${path.subject}`}
+              onClick={() => path.unlocked && onSelect(path.id)}
+              disabled={!path.unlocked}
             >
               <span className="app-route-card-subject">
-                {SUBJECT_LABEL[path.subject] ?? path.subject}
+                {path.unlocked ? (
+                  (SUBJECT_LABEL[path.subject] ?? path.subject)
+                ) : (
+                  <>
+                    <Lock size={11} aria-hidden /> 未解锁
+                  </>
+                )}
               </span>
               <span className="app-route-card-title">{path.title}</span>
-              <span className="app-route-card-bar">
-                <i
-                  style={{
-                    width: total ? `${Math.round((watched / total) * 100)}%` : "0%",
-                  }}
-                />
-              </span>
-              <small>
-                {done}/{path.courseIds.length} 课通关 · {watched}/{total} 集
-              </small>
+              {path.unlocked ? (
+                <>
+                  <span className="app-route-card-bar">
+                    <i
+                      style={{
+                        width: total
+                          ? `${Math.round((watched / total) * 100)}%`
+                          : "0%",
+                      }}
+                    />
+                  </span>
+                  <small>
+                    {done}/{path.courseIds.length} 课通关 · {watched}/{total} 集
+                  </small>
+                </>
+              ) : (
+                <small className="app-route-card-lock">
+                  {path.missingPrereqs.length > 0
+                    ? `先学过半「${path.missingPrereqs.map((p) => p.title).join("、")}」`
+                    : "完成前置课程后开启"}
+                </small>
+              )}
             </button>
           ))}
         </div>

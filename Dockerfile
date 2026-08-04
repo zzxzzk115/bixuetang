@@ -16,21 +16,21 @@ RUN npm run build
 FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-ENV DATABASE_PATH=/data/guild.db
+ENV DATABASE_PATH=/data/bixuetang.db
 ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 
-RUN addgroup -S guild && adduser -S guild -G guild \
-  && mkdir -p /data && chown guild:guild /data
+RUN addgroup -S bixuetang && adduser -S bixuetang -G bixuetang \
+  && mkdir -p /data && chown bixuetang:bixuetang /data
 
 # standalone 只打包被 trace 到的依赖；content/ 与 drizzle/ 是运行期 fs 读取，需显式拷贝
-COPY --from=build --chown=guild:guild /app/.next/standalone ./
-COPY --from=build --chown=guild:guild /app/.next/static ./.next/static
-COPY --from=build --chown=guild:guild /app/public ./public
-COPY --from=build --chown=guild:guild /app/content ./content
-COPY --from=build --chown=guild:guild /app/drizzle ./drizzle
+COPY --from=build --chown=bixuetang:bixuetang /app/.next/standalone ./
+COPY --from=build --chown=bixuetang:bixuetang /app/.next/static ./.next/static
+COPY --from=build --chown=bixuetang:bixuetang /app/public ./public
+COPY --from=build --chown=bixuetang:bixuetang /app/content ./content
+COPY --from=build --chown=bixuetang:bixuetang /app/drizzle ./drizzle
 
-USER guild
+USER bixuetang
 EXPOSE 3000
 VOLUME /data
 

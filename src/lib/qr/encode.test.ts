@@ -199,7 +199,7 @@ describe("往返：编码后能按规范反读回原文", () => {
     "hi",
     "https://passport.bilibili.com/qrcode/h5/login?oauthKey=abc123",
     "https://passport.bilibili.com/h5-app/passport/login/scan?navhide=1&qrcode_key=7f3b2c1d9e8a4f6b0c5d2e1a3b4c5d6e&from=",
-    "学者公会 Guild — 扫码登录",
+    "必学堂 — 扫码登录",
     "x".repeat(150),
   ];
   for (const text of samples) {

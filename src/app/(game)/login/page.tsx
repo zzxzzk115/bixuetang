@@ -22,11 +22,11 @@ export default async function LoginPage({
       <div className="auth-card">
         <span className="auth-brand">
           <Shield size={26} strokeWidth={2.4} />
-          学者公会
+          必学堂
         </span>
         <h1>扫码进入</h1>
         <p className="auth-lead">
-          用 bilibili 账号扫码即可登录；没有公会账号会自动开一个，
+          用 bilibili 账号扫码即可登录；没有账号会引导你开一个，
           昵称取自 bilibili（之后可改）。
         </p>
 

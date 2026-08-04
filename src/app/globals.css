@@ -6846,3 +6846,20 @@ body:has(.dungeon-chamber) .analysis-section {
 .course-locked .app-btn-primary {
   color: inherit;
 }
+
+/* 锁住的路线卡：不可选，说明挡在哪 */
+.app-route-card.locked {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+.app-route-card.locked .app-route-card-subject {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--app-faint);
+}
+.app-route-card-lock {
+  color: var(--app-faint);
+  font-weight: 700;
+  line-height: 1.5;
+}

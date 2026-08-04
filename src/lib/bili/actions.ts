@@ -34,7 +34,7 @@ function newBuvid(): string {
 
 export async function startBiliLogin(): Promise<QrStartResult> {
   const user = await getCurrentUser();
-  if (!user) return { ok: false, error: "请先登录学者公会账号" };
+  if (!user) return { ok: false, error: "请先登录必学堂账号" };
   try {
     const buvid = newBuvid();
     const data = await qrGenerate(buvid);
@@ -61,7 +61,7 @@ export async function pollBiliLogin(
   buvid?: string,
 ): Promise<QrPollActionResult> {
   const user = await getCurrentUser();
-  if (!user) return { ok: false, error: "请先登录学者公会账号" };
+  if (!user) return { ok: false, error: "请先登录必学堂账号" };
   try {
     const result = await qrPoll(key, buvid);
     if (result.status !== "ok") {

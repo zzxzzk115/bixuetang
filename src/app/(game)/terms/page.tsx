@@ -14,7 +14,7 @@ export default function TermsPage() {
         <p className="terms-meta">版本 {TERMS_VERSION}</p>
 
         <p className="terms-lead">
-          学者公会（下称「本站」）是一个开源的公开课学习工具，由个人开发者维护，
+          必学堂（下称「本站」）是一个开源的公开课学习工具，由个人开发者维护，
           以 GPL-3.0 协议开源，不以盈利为目的。使用本站前请阅读以下内容。
         </p>
 
@@ -124,7 +124,7 @@ export default function TermsPage() {
         </p>
 
         <p className="terms-foot">
-          学者公会是独立的第三方开源项目，与文中提及的任何平台均无隶属关系。
+          必学堂是独立的第三方开源项目，与文中提及的任何平台均无隶属关系。
           本站的 bilibili 播放实现思路参考了开源项目{" "}
           <a
             href="https://github.com/xfangfang/wiliwili"

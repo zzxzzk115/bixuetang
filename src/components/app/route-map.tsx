@@ -147,8 +147,13 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
     return () => ro.disconnect();
   }, []);
 
+  // 存着的 routeId 可能指向一条现在还锁着的线（内容更新或换了账号），
+  // 那就退到第一条能走的线，别把人扔在一屏的锁前面
+  const picked = bootstrap.paths.find((p) => p.id === routeId);
   const path =
-    bootstrap.paths.find((p) => p.id === routeId) ?? bootstrap.paths[0];
+    picked?.unlocked === false || !picked
+      ? (bootstrap.paths.find((p) => p.unlocked) ?? bootstrap.paths[0])
+      : picked;
 
   const { nodes, banners, totalH } = useMemo(() => {
     if (!path || width === 0)

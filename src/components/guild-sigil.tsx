@@ -1,15 +1,19 @@
-import { SIGIL_SIZE, sigilRects } from "@/lib/brand/sigil";
-
-const RECTS = sigilRects();
+import {
+  SIGIL_CHECK_PATH,
+  SIGIL_CHECK_WIDTH,
+  SIGIL_COLORS,
+  SIGIL_HOUSE_PATH,
+  SIGIL_SIZE,
+} from "@/lib/brand/sigil";
 
 /**
- * 公会徽记。网格定义在 src/lib/brand/sigil.ts，与 favicon 同源。
- * shape-rendering=crispEdges 保证缩放后仍是硬边像素，不糊。
+ * 站点徽记：屋顶下面一个对勾。路径定义在 src/lib/brand/sigil.ts，
+ * 与 favicon / OG 图同源。
  */
 export function GuildSigil({
   size = 32,
   className,
-  title = "学者公会",
+  title = "必学堂",
 }: {
   size?: number;
   className?: string;
@@ -20,14 +24,19 @@ export function GuildSigil({
       width={size}
       height={size}
       viewBox={`0 0 ${SIGIL_SIZE} ${SIGIL_SIZE}`}
-      shapeRendering="crispEdges"
       className={className}
       role="img"
       aria-label={title}
     >
-      {RECTS.map((r, i) => (
-        <rect key={i} x={r.x} y={r.y} width={r.w} height={1} fill={r.fill} />
-      ))}
+      <path d={SIGIL_HOUSE_PATH} fill={SIGIL_COLORS.green} />
+      <path
+        d={SIGIL_CHECK_PATH}
+        fill="none"
+        stroke={SIGIL_COLORS.ink}
+        strokeWidth={SIGIL_CHECK_WIDTH}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }

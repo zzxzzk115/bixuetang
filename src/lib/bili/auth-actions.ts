@@ -8,7 +8,7 @@ import { createSession } from "../auth/session";
 import { fetchSelfInfo, qrGenerate, qrPoll } from "./api";
 import { saveBiliBinding } from "./account";
 
-// 用 bilibili 扫码直接登录 / 注册学者公会账号。
+// 用 bilibili 扫码直接登录 / 注册必学堂账号。
 // 已绑定过的 bilibili 账号 → 登录既有账号；没绑过 → 建号并绑定，昵称取 bilibili 昵称（可改）。
 
 export interface BiliAuthStart {
@@ -45,7 +45,7 @@ export async function startBiliAuth(): Promise<BiliAuthStart> {
 export interface BiliAuthPoll {
   ok: boolean;
   error?: string;
-  /** signup = 扫码通过了，但这个 bilibili 账号还没有公会账号，要先开号 */
+  /** signup = 扫码通过了，但这个 bilibili 账号还没有本站账号，要先开号 */
   status?: "pending" | "scanned" | "expired" | "ok" | "signup";
   /** ok 时：这次是新建账号还是登录既有账号 */
   created?: boolean;
@@ -95,7 +95,7 @@ export async function pollBiliAuth(
       // 拿不到昵称不影响登录
     }
 
-    // 这个 bilibili 账号已经绑过某个公会账号 → 直接登录它
+    // 这个 bilibili 账号已经绑过某个本站账号 → 直接登录它
     const bound = db
       .select({ userId: biliAccounts.userId })
       .from(biliAccounts)

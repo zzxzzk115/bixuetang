@@ -311,12 +311,13 @@ export default async function CoursePage({
               </h2>
             </div>
             <ul className="course-links">
+              {/* 路线详情页还没迁移、暂时下线，先只把名字列出来不给链接 */}
               {inPaths.map((p) => (
                 <li key={p.id}>
-                  <Link href={`/paths/${p.id}`}>
+                  <span>
                     <i />
                     {p.title}
-                  </Link>
+                  </span>
                 </li>
               ))}
             </ul>

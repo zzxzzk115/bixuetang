@@ -3,8 +3,8 @@ import "./globals.css";
 import { CelebrationLayer } from "@/components/celebration-layer";
 
 export const metadata: Metadata = {
-  title: { default: "学者公会 Guild", template: "%s · 学者公会" },
-  description: "面向中文学习者的游戏化理科自学公会。",
+  title: { default: "必学堂", template: "%s · 必学堂" },
+  description: "把公开课学成通关——面向中文学习者的游戏化自学工具。",
 };
 
 // 根 layout 只保留 html/body/防闪烁主题脚本/全局庆祝层。

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Coins, Flame, LogOut, Settings, ShieldCheck } from "lucide-react";
 import { GuildNavigation } from "@/components/guild-navigation";
 import { GuildSigil } from "@/components/guild-sigil";
@@ -10,14 +11,21 @@ import { learningStreak } from "@/lib/game/achievements";
 import { getRpgProfile } from "@/lib/game/rpg-server";
 import { getUserProgress } from "@/lib/progress/queries";
 
-// 站点外壳（顶栏 HUD + 底部导航 + 页脚），包住除全屏游戏外的所有页面。
-// 从根 layout 下移到此，好让 (game) 路由组走无壳全屏布局。
+// 旧站点外壳（顶栏 HUD + 底部导航 + 页脚）。
+//
+// 这一组路由（/courses 索引、/paths、/jobs、/skill-tree、/me、/lab、/register）
+// 还是旧的方块 UI，没跟着做 App 化迁移。混在新界面里进出会很割裂，
+// 所以整组先下线：代码原样留着，等各页迁移完再逐个放开。
+// 放开某一页 = 把它从 (site) 移到 (game) 并按新设计重写，而不是删掉这行。
+const RETIRED = true;
 
 export default async function SiteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  if (RETIRED) notFound();
+
   const user = await getCurrentUser();
   const progress = user ? getUserProgress(user.id) : null;
   const streak = user ? learningStreak(user.id) : 0;
@@ -26,10 +34,10 @@ export default async function SiteLayout({
   return (
     <div className="guild-app">
       <header className="game-top-hud">
-        <Link href="/" className="game-brand" aria-label="返回学者公会">
+        <Link href="/" className="game-brand" aria-label="返回必学堂">
           <GuildSigil size={34} className="guild-sigil" />
           <span className="game-brand-copy">
-            <b>学者公会</b>
+            <b>必学堂</b>
             <small>ACADEMIC ADVENTURE</small>
           </span>
         </Link>

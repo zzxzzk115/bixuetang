@@ -250,4 +250,4 @@ jobs:
     requires:
       minLevel: 25
       skills: { anyOf: [distributed-systems, computer-graphics, waves, generative-ai, linear-algebra], minAnyOf: 3 }
-    description: 横跨四系高峰的终极传说——公会史册将记下你的名字。
+    description: 横跨四系高峰的终极传说——学堂史册将记下你的名字。

@@ -1,4 +1,4 @@
-# 学者公会 Guild
+# 必学堂
 
 游戏闯关式理科自学网站：把 bilibili / YouTube 上的世界名校公开课整理成「副本」，
 看完一集击败一只小怪，通关一门课讨伐 Boss，升级攒技能点、点亮技能树、转职换称号。
@@ -42,7 +42,7 @@ npm run dev        # 启动时自动建库迁移，DB 在 ./data/dev.db
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|
-| `DATABASE_PATH` | `./data/dev.db`（镜像内 `/data/guild.db`） | SQLite 文件路径。上传的头像存在同目录的 `avatars/` 下 |
+| `DATABASE_PATH` | `./data/dev.db`（镜像内 `/data/bixuetang.db`） | SQLite 文件路径。上传的头像存在同目录的 `avatars/` 下 |
 | `COOKIE_SECURE` | `0` | 会话 cookie 是否仅在 HTTPS 下发送。**生产必须设为 `1`** |
 | `PORT` / `HOSTNAME` | `3000` / `0.0.0.0` | 监听地址，镜像里已设好 |
 | `BILI_SESSDATA` | 空 | 仅内容维护脚本抓字幕用，站点运行不需要 |
@@ -55,7 +55,7 @@ npm run dev        # 启动时自动建库迁移，DB 在 ./data/dev.db
 docker compose up -d --build
 ```
 
-访问 http://localhost:3000。数据持久化在 `guild-data` 卷。
+访问 http://localhost:3000。数据持久化在 `bixuetang-data` 卷。
 **反代终止 TLS 时**，把 `docker-compose.yml` 里的 `COOKIE_SECURE` 改成 `"1"` 再重启，
 否则登录 cookie 会以明文传输。
 
@@ -68,24 +68,24 @@ docker compose up -d --build
 ```bash
 npm ci
 npm run build
-DATABASE_PATH=/var/lib/guild/guild.db COOKIE_SECURE=1 npm run serve
+DATABASE_PATH=/var/lib/bixuetang/bixuetang.db COOKIE_SECURE=1 npm run serve
 ```
 
 配合 systemd 常驻：
 
 ```ini
 [Unit]
-Description=Guild
+Description=bixuetang
 After=network.target
 
 [Service]
-WorkingDirectory=/srv/guild
+WorkingDirectory=/srv/bixuetang
 Environment=NODE_ENV=production
-Environment=DATABASE_PATH=/var/lib/guild/guild.db
+Environment=DATABASE_PATH=/var/lib/bixuetang/bixuetang.db
 Environment=COOKIE_SECURE=1
 ExecStart=/usr/bin/npm run serve
 Restart=always
-User=guild
+User=bixuetang
 
 [Install]
 WantedBy=multi-user.target
@@ -96,7 +96,7 @@ WantedBy=multi-user.target
 应用不自己处理 TLS，前面挂 Caddy 或 Nginx。Caddy 两行搞定：
 
 ```caddyfile
-guild.example.com {
+bixuetang.example.com {
     reverse_proxy localhost:3000
 }
 ```
@@ -105,7 +105,7 @@ Nginx 需要注意上传头像的体积上限（默认 1 MB 够用，但别设�
 
 ```nginx
 server {
-    server_name guild.example.com;
+    server_name bixuetang.example.com;
     client_max_body_size 2m;
     location / {
         proxy_pass http://127.0.0.1:3000;
@@ -122,9 +122,9 @@ server {
 SQLite 开了 WAL，**别直接 `cp` 正在写的库**，用官方备份命令：
 
 ```bash
-docker compose exec guild sh -c 'sqlite3 /data/guild.db ".backup /data/backup.db"'
-docker compose cp guild:/data/backup.db ./guild-backup.db
-docker compose cp guild:/data/avatars ./avatars-backup
+docker compose exec bixuetang sh -c 'sqlite3 /data/bixuetang.db ".backup /data/backup.db"'
+docker compose cp bixuetang:/data/backup.db ./bixuetang-backup.db
+docker compose cp bixuetang:/data/avatars ./avatars-backup
 ```
 
 升级就是重新构建镜像——内容即代码，课程改动随镜像发布：

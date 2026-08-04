@@ -55,7 +55,7 @@ export function AppShell({
       <nav className="app-tabs" aria-label="主导航">
         <span className="app-brand" aria-hidden>
           <Shield size={26} strokeWidth={2.4} />
-          <b>学者公会</b>
+          <b>必学堂</b>
         </span>
         {TABS.map((tab) => {
           const Icon = tab.icon;

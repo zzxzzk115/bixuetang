@@ -37,7 +37,7 @@ const env = {
     process.env.DATABASE_PATH ?? path.join(root, "data", "dev.db"),
 };
 
-console.log(`学者公会 Guild → http://localhost:${env.PORT}`);
+console.log(`必学堂 → http://localhost:${env.PORT}`);
 console.log(`数据库: ${env.DATABASE_PATH}`);
 
 const child = spawn(process.execPath, ["server.js"], {

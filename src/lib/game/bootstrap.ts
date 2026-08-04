@@ -110,12 +110,25 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     (r) => r.reason === "trial" && r.ref === dailyDateKey(),
   );
 
-  const paths: PathSummaryDto[] = content.paths.map((p) => ({
-    id: p.id,
-    title: p.title,
-    subject: p.subject,
-    courseIds: p.stages.flatMap((s) => s.courses),
-  }));
+  const courseById = new Map(courses.map((c) => [c.id, c]));
+  const paths: PathSummaryDto[] = content.paths.map((p) => {
+    const courseIds = p.stages.flatMap((s) => s.courses);
+    // 路线是线性的：第一门课打不开，这条线就没法从头走，整条锁住。
+    // 例外是已经在这条线上学过东西的人——那就让他继续。
+    const first = courseIds.map((id) => courseById.get(id)).find(Boolean);
+    const started = courseIds.some(
+      (id) => (courseById.get(id)?.watchedCount ?? 0) > 0,
+    );
+    const unlocked = (first?.unlocked ?? true) || started;
+    return {
+      id: p.id,
+      title: p.title,
+      subject: p.subject,
+      courseIds,
+      unlocked,
+      missingPrereqs: unlocked ? [] : (first?.missingPrereqs ?? []),
+    };
+  });
 
   return {
     user: { id: user.id, name: user.displayName || user.username, avatar: user.avatar },

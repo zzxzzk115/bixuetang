@@ -72,6 +72,10 @@ export interface PathSummaryDto {
   title: string;
   subject: Subject;
   courseIds: string[];
+  /** 整条路线是否可选：一门课都开不了的线，选进去只有一屏的锁 */
+  unlocked: boolean;
+  /** 锁住时挡在最前面的那几门前置课（标题） */
+  missingPrereqs: { id: string; title: string }[];
 }
 
 export interface GameBootstrap {
