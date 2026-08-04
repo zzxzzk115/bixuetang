@@ -2,7 +2,7 @@
 // （客户端）都要引用这些类型，而 bootstrap.ts 本体 import "server-only"（同步 sqlite），
 // 不能进客户端包。类型无运行时，安全共享。
 
-import type { Level, Subject } from "../content/schema";
+import type { Level, PathTier, Subject } from "../content/schema";
 import type { LootRarity } from "./rpg";
 import type { StatBlock } from "./relics";
 
@@ -65,17 +65,23 @@ export interface CourseSummaryDto {
   unlocked: boolean;
   /** 还差哪几门前置（标题，直接给用户看） */
   missingPrereqs: { id: string; title: string }[];
+  /** 「去解锁」该跳到哪门课：沿前置链找到的第一门现在就能学的课 */
+  unlockEntry: { id: string; title: string } | null;
 }
 
 export interface PathSummaryDto {
   id: string;
   title: string;
   subject: Subject;
+  /** 难度分层：初级线的首课一定没有前置 */
+  tier: PathTier;
   courseIds: string[];
   /** 整条路线是否可选：一门课都开不了的线，选进去只有一屏的锁 */
   unlocked: boolean;
   /** 锁住时挡在最前面的那几门前置课（标题） */
   missingPrereqs: { id: string; title: string }[];
+  /** 「去解锁」入口：从首课的前置链里找到的第一门能学的课 */
+  unlockEntry: { id: string; title: string } | null;
 }
 
 export interface GameBootstrap {

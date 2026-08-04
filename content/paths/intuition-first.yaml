@@ -1,0 +1,15 @@
+id: intuition-first
+title: 直觉先行
+subject: math
+tier: basic
+description: >
+  零基础的第一条线：3Blue1Brown 的三部「本质」。全程可视化，
+  不推公式也不做题，先把线性代数、微积分、神经网络在脑子里变成图像。
+  三门加起来 34 集，一周就能走完一遍——先尝到甜头，再啃正课。
+stages:
+  - title: 第一章 · 空间的形状
+    courses: [essence-of-linear-algebra]
+  - title: 第二章 · 变化的度量
+    courses: [essence-of-calculus]
+  - title: 第三章 · 会学习的机器
+    courses: [essence-of-neural-networks]

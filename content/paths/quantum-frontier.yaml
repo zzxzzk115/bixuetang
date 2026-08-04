@@ -1,6 +1,7 @@
 id: quantum-frontier
 title: 量子疆界
 subject: physics
+tier: advanced
 description: 从量子力学的第一课推进到量子信息与量子算法——物理与计算交汇的最前线。
 stages:
   - title: 第一章 · 波函数入门

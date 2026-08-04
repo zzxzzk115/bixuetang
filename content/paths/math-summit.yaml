@@ -1,6 +1,7 @@
 id: math-summit
 title: 数学之巅
 subject: math
+tier: advanced
 description: 走完微积分与线代之后的进阶远征——严格化、抽象化，直到看见结构本身。
 stages:
   - title: 第一章 · 把微积分建在磐石上

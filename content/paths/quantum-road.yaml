@@ -1,6 +1,7 @@
 id: quantum-road
 title: 通往量子之路
 subject: physics
+tier: intermediate
 description: 从耶鲁的基础物理一路推进到 MIT 量子物理——微观世界的完整攀登。
 stages:
   - title: 第一章 · 基础物理

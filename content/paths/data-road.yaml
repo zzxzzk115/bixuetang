@@ -1,6 +1,7 @@
 id: data-road
 title: 数据之径
 subject: ai
+tier: advanced
 description: 从一张脏表格到亿级数据挖掘——数据科学家的完整手艺链。
 stages:
   - title: 第一章 · 数据科学入门

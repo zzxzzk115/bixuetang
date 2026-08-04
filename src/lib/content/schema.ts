@@ -126,10 +126,28 @@ export type Course = z.infer<typeof CourseSchema>;
 
 // ---------- 学习路径（课程的有序分组，不承载依赖语义） ----------
 
+/**
+ * 路线难度分层。
+ *
+ * basic 是地基线：**首课必须没有任何前置**，任何人打开就能学。
+ * 站里 116 门课只有 8 门无前置，全部的进阶线最终都踩在这几门上，
+ * 所以地基线要有足够多条、覆盖不同起点，否则新人一进来满屏都是锁。
+ * 走完地基线，中级线自然解锁，再往上是高级线。
+ */
+export const PATH_TIERS = ["basic", "intermediate", "advanced"] as const;
+export type PathTier = (typeof PATH_TIERS)[number];
+
+export const PATH_TIER_LABEL: Record<PathTier, string> = {
+  basic: "初级",
+  intermediate: "中级",
+  advanced: "高级",
+};
+
 export const PathSchema = z.object({
   id: slug,
   title: z.string(),
   subject: z.enum(SUBJECTS),
+  tier: z.enum(PATH_TIERS).default("intermediate"),
   description: z.string().optional(),
   stages: z
     .array(

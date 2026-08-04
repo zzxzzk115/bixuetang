@@ -1,6 +1,7 @@
 id: systems-quest
 title: 系统远征
 subject: cs
+tier: advanced
 description: 从机器底层到数据库——通往架构宗师的四段远征。
 stages:
   - title: 第一章 · 机器之底

@@ -1,6 +1,7 @@
 id: physics-core
 title: 物理主线（Lewin 三部曲）
 subject: physics
+tier: intermediate
 description: Walter Lewin 的 MIT 物理三部曲，从力学一路打到波动光学。
 stages:
   - title: 第一章 · 经典力学

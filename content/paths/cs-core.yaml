@@ -1,13 +1,14 @@
 id: cs-core
 title: 计算机科学主线
 subject: cs
-description: 从零基础到分布式系统的四章主线剧情。
+tier: intermediate
+description: >
+  编程启程之后的正统主线：往下挖到硬件与操作系统，往上练算法，
+  最后是分布式。这条线不再教「怎么写代码」，而是教「计算机怎么工作」。
 stages:
-  - title: 第一章 · 新手村：程序入门
-    courses: [cs50, cs61a, missing-semester]
-  - title: 第二章 · 深入地城：计算机系统（两条路线任选）
+  - title: 第一章 · 深入地城：计算机系统（两条路线任选）
     courses: [nand2tetris, csapp]
-  - title: 第三章 · 试炼场：数据结构与算法
+  - title: 第二章 · 试炼场：数据结构与算法
     courses: [cs61b, mit-6-006]
-  - title: 第四章 · 巅峰之战：分布式
+  - title: 第三章 · 巅峰之战：分布式
     courses: [mit-6-824]

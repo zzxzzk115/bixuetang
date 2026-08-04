@@ -1,6 +1,7 @@
 id: lang-tour
 title: 编程语言巡礼
 subject: cs
+tier: intermediate
 description: C++ 的掌控、Rust 的安全、OCaml 的优雅——三种范式塑造三种思维。
 stages:
   - title: 第一章 · 现代 C++

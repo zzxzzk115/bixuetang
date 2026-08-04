@@ -6,7 +6,7 @@ import type { SessionUser } from "../auth/session";
 import { db } from "../db/client";
 import { xpEvents } from "../db/schema";
 import { getUserProgress } from "../progress/queries";
-import { computeUnlocks } from "./unlock";
+import { computeUnlocks, unlockEntry } from "./unlock";
 import { learningStreak } from "./achievements";
 import { getActiveBoost } from "./boosts";
 import { dailyDateKey } from "./quests";
@@ -66,6 +66,8 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
   }));
   const unlocks = computeUnlocks(unlockInputs);
   const titleById = new Map(content.courses.map((c) => [c.id, c.title]));
+  const entryDto = (id: string | null) =>
+    id ? { id, title: titleById.get(id) ?? id } : null;
 
   const courses: CourseSummaryDto[] = content.courses.map((c) => {
     const watchedSet = progress.watchedByCourse.get(c.id);
@@ -88,6 +90,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
         id,
         title: titleById.get(id) ?? id,
       })),
+      unlockEntry: entryDto(unlockEntry(c.id, unlockInputs)),
     };
   });
 
@@ -124,9 +127,11 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
       id: p.id,
       title: p.title,
       subject: p.subject,
+      tier: p.tier,
       courseIds,
       unlocked,
       missingPrereqs: unlocked ? [] : (first?.missingPrereqs ?? []),
+      unlockEntry: unlocked ? null : (first?.unlockEntry ?? null),
     };
   });
 

@@ -1,6 +1,7 @@
 id: engine-way
 title: 引擎之道
 subject: cs
+tier: intermediate
 description: 从渲染第一课到亲手写出自己的引擎——通往引擎之魂的完整修行。
 stages:
   - title: 第一章 · 图形起点

@@ -1,6 +1,7 @@
 id: cloud-quest
 title: 云之疆域
 subject: cs
+tier: intermediate
 description: 从单机进程到跨机房集群——把分布式理论一路推到能上生产的交付能力。
 stages:
   - title: 第一章 · 单机的极限

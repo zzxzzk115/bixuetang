@@ -1,6 +1,7 @@
 id: cs-romance
 title: 计算机三大浪漫
 subject: cs
+tier: intermediate
 description: 图形学、操作系统、编译原理——程序员的三场浪漫远征，通关即传说。
 stages:
   - title: 浪漫其一 · 图形学：创造世界

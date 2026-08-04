@@ -6863,3 +6863,26 @@ body:has(.dungeon-chamber) .analysis-section {
   font-weight: 700;
   line-height: 1.5;
 }
+
+/* 路线按难度分组 */
+.app-route-group {
+  display: grid;
+  gap: 10px;
+}
+.app-route-group + .app-route-group {
+  margin-top: 18px;
+}
+.app-route-group h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--app-strong);
+  font-size: 14px;
+  font-weight: 800;
+}
+.app-route-group h3 small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}

@@ -1,6 +1,7 @@
 id: security-road
 title: 攻防之路
 subject: cs
+tier: intermediate
 description: 先学会如何被攻破，才懂得如何防守——从内存漏洞到现代密码学的完整攻防修行。
 stages:
   - title: 第一章 · 理解机器才能攻击机器

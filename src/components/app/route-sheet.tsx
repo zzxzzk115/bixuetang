@@ -3,8 +3,17 @@
 import { useMemo } from "react";
 import { Lock, X } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
+import { PATH_TIER_LABEL, type PathTier } from "@/lib/content/schema";
 
 // 路线选择：多邻国「切换课程」式底部弹层，列出全部冒险路径与进度。
+
+const TIER_ORDER: PathTier[] = ["basic", "intermediate", "advanced"];
+
+const TIER_HINT: Record<PathTier, string> = {
+  basic: "没有任何前置，现在就能开始",
+  intermediate: "走完一条初级线之后开启",
+  advanced: "需要相当的基础，慢慢来",
+};
 
 const SUBJECT_LABEL: Record<string, string> = {
   cs: "计算机",
@@ -24,9 +33,11 @@ export function RouteSheet({
   onSelect: (pathId: string) => void;
   onClose: () => void;
 }) {
-  const rows = useMemo(() => {
+  // 按初级/中级/高级分组：新人一进来该先看见能走的那几条地基线，
+  // 而不是在 21 条里翻哪条没锁
+  const groups = useMemo(() => {
     const byId = new Map(bootstrap.courses.map((c) => [c.id, c]));
-    return bootstrap.paths.map((p) => {
+    const rows = bootstrap.paths.map((p) => {
       let watched = 0;
       let total = 0;
       let done = 0;
@@ -39,6 +50,10 @@ export function RouteSheet({
       }
       return { path: p, watched, total, done };
     });
+    return TIER_ORDER.map((tier) => ({
+      tier,
+      rows: rows.filter((r) => r.path.tier === tier),
+    })).filter((g) => g.rows.length > 0);
   }, [bootstrap]);
 
   return (
@@ -56,7 +71,13 @@ export function RouteSheet({
           </button>
         </header>
         <div className="app-sheet-list">
-          {rows.map(({ path, watched, total, done }) => (
+          {groups.map(({ tier, rows }) => (
+            <section key={tier} className="app-route-group">
+              <h3>
+                {PATH_TIER_LABEL[tier]}
+                <small>{TIER_HINT[tier]}</small>
+              </h3>
+              {rows.map(({ path, watched, total, done }) => (
             <button
               key={path.id}
               className={`app-route-card ${path.id === currentId ? "active" : ""} ${
@@ -96,8 +117,10 @@ export function RouteSheet({
                     ? `先学过半「${path.missingPrereqs.map((p) => p.title).join("、")}」`
                     : "完成前置课程后开启"}
                 </small>
-              )}
-            </button>
+                  )}
+                </button>
+              ))}
+            </section>
           ))}
         </div>
       </div>

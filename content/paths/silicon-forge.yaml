@@ -1,6 +1,7 @@
 id: silicon-forge
 title: 硅之远征
 subject: cs
+tier: intermediate
 description: 从一颗与非门出发，一路造到自己流片的 RISC-V 处理器——软硬件边界上的终极冒险。
 stages:
   - title: 第一章 · 从与非门起步

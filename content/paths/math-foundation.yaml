@@ -1,17 +1,18 @@
 id: math-foundation
-title: 数学基础主线
+title: 数学进阶
 subject: math
-description: 微积分与线性代数——所有理科方向共用的地基。
+tier: intermediate
+description: >
+  数学地基之后的正课线：多元微积分、概率、微分方程，
+  最后落到矩阵方法与数值计算——机器学习和科学计算真正吃的就是这几门。
 stages:
-  - title: 第一章 · 微积分
-    courses: [mit-18-01]
-  - title: 第二章 · 线性代数（先建直觉再上硬课）
-    courses: [essence-of-linear-algebra, mit-18-06]
-  - title: 第三章 · 离散与多元
-    courses: [mit-6-042j, mit-18-02]
-  - title: 第四章 · 概率与微分方程
-    courses: [stat110, mit-6-041, mit-18-03]
-  - title: 第五章 · 矩阵方法与机器学习
+  - title: 第一章 · 多元微积分
+    courses: [mit-18-02]
+  - title: 第二章 · 概率
+    courses: [stat110, mit-6-041]
+  - title: 第三章 · 微分方程
+    courses: [mit-18-03]
+  - title: 第四章 · 矩阵方法与机器学习
     courses: [mit-18-065]
-  - title: 第六章 · 严格化与数值实践
-    courses: [mit-18-100, mit-18-335]
+  - title: 第五章 · 数值实践
+    courses: [mit-18-335]

@@ -1,9 +1,12 @@
 id: ai-engineer
 title: AI 工程师之路
 subject: ai
-description: 从吴恩达入门到李沐动手实战，中文学习者最顺滑的 AI 路线。
+tier: intermediate
+description: >
+  从吴恩达入门到李沐动手实战，中文学习者最顺滑的 AI 路线。
+  线性代数的直觉在「直觉先行」或「数学地基」里打，这条线直接进模型。
 stages:
   - title: 第一章 · 建立直觉
-    courses: [essence-of-linear-algebra, andrew-ng-ml]
+    courses: [andrew-ng-ml]
   - title: 第二章 · 深度学习实战
     courses: [hung-yi-lee-ml, d2l]

@@ -4,6 +4,7 @@ import {
   completionOf,
   computeUnlocks,
   unlockedCourseIds,
+  unlockEntry,
   UNLOCK_RATIO,
   type CourseUnlockInput,
 } from "./unlock";
@@ -96,6 +97,43 @@ describe("computeUnlocks", () => {
     ]);
     assert.equal(states.get("a")!.unlocked, false);
     assert.equal(states.get("b")!.unlocked, false);
+  });
+});
+
+describe("unlockEntry", () => {
+  it("前置链有两三层深时，一路找到最底下那门能学的", () => {
+    const chain = [
+      course("l1"), // 无前置，能学
+      course("l2", ["l1"]),
+      course("l3", ["l2"]),
+      course("l4", ["l3"]),
+    ];
+    assert.equal(unlockEntry("l4", chain), "l1");
+  });
+
+  it("直接前置就能学时返回它自己", () => {
+    const courses = [course("base", [], 10), course("next", ["base"])];
+    // base 已过半 → next 本来就解锁了，这里测的是链条更长的情形
+    const locked = [course("base"), course("next", ["base"])];
+    assert.equal(unlockEntry("next", locked), "base");
+    assert.equal(unlockEntry("next", courses), null); // 自己就是开的，无需入口
+  });
+
+  it("多个前置时挑更浅的那条", () => {
+    const courses = [
+      course("shallow"),
+      course("deepBase"),
+      course("deepMid", ["deepBase"]),
+      course("target", ["deepMid", "shallow"]),
+    ];
+    assert.equal(unlockEntry("target", courses), "shallow");
+  });
+
+  it("环形前置不会死循环，返回 null", () => {
+    assert.equal(
+      unlockEntry("a", [course("a", ["b"]), course("b", ["a"])]),
+      null,
+    );
   });
 });
 

@@ -1,6 +1,7 @@
 id: web-builder
 title: 全栈建造者
 subject: cs
+tier: intermediate
 description: 从第一个 HTML 标签到能上线、能测试、能扛住流量的完整产品。
 stages:
   - title: 第一章 · Web 编程入门

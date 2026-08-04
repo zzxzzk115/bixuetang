@@ -67,3 +67,36 @@ export function unlockedCourseIds(courses: CourseUnlockInput[]): Set<string> {
     [...states.entries()].filter(([, s]) => s.unlocked).map(([id]) => id),
   );
 }
+
+/**
+ * 「去解锁」该跳到哪门课。
+ *
+ * 直接跳到缺的那门前置往往还是锁着的——实测 116 门课里只有 8 门没有前置，
+ * 大多数课的前置链有两三层深。所以沿链一路往下找，返回**第一门现在就能学**
+ * 的课，让「去解锁」点一次就落到能开始的地方。
+ *
+ * 找不到（整条链都锁着，通常意味着内容里的前置关系有环）时返回 null。
+ */
+export function unlockEntry(
+  courseId: string,
+  courses: CourseUnlockInput[],
+): string | null {
+  const byId = new Map(courses.map((c) => [c.id, c]));
+  const states = computeUnlocks(courses);
+  // 自己就能学，不需要什么入口
+  if (states.get(courseId)?.unlocked) return null;
+
+  // 广度优先：同一层里先撞上的那门更浅，学起来更快
+  const queue = [courseId];
+  const seen = new Set([courseId]);
+  while (queue.length > 0) {
+    const id = queue.shift()!;
+    if (id !== courseId && states.get(id)?.unlocked) return id;
+    for (const p of byId.get(id)?.prerequisites ?? []) {
+      if (!byId.has(p) || seen.has(p)) continue;
+      seen.add(p);
+      queue.push(p);
+    }
+  }
+  return null;
+}

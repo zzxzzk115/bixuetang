@@ -1,0 +1,17 @@
+id: math-start
+title: 数学地基
+subject: math
+tier: basic
+description: >
+  所有理科方向共用的地基，四门课都没有前置。
+  先用 3Blue1Brown 建立图像，再进 MIT 的正课把微积分与线性代数学扎实，
+  最后是离散数学——它才是算法、密码学、编译原理真正的门槛。
+stages:
+  - title: 第一章 · 先有图像
+    courses: [essence-of-linear-algebra]
+  - title: 第二章 · 连续的世界
+    courses: [mit-18-01]
+  - title: 第三章 · 线性代数正课
+    courses: [mit-18-06]
+  - title: 第四章 · 离散的世界
+    courses: [mit-6-042j]

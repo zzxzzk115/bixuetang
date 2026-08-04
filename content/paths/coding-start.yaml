@@ -1,0 +1,16 @@
+id: coding-start
+title: 编程启程
+subject: cs
+tier: basic
+description: >
+  写代码的地基线，三门课都没有任何前置，今天就能开始。
+  CS50 建立全局观，缺失的一课补上命令行、Git、调试这些学校不教
+  但天天要用的手艺，SICP 把「程序到底是什么」想透。
+  走完这条线，计算机方向的中级线基本都会解锁。
+stages:
+  - title: 第一章 · 先看见全景
+    courses: [cs50]
+  - title: 第二章 · 补上工具课
+    courses: [missing-semester]
+  - title: 第三章 · 想透抽象
+    courses: [cs61a]

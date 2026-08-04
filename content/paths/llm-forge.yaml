@@ -1,6 +1,7 @@
 id: llm-forge
 title: 大模型锻造
 subject: ai
+tier: advanced
 description: 从 Transformer 的第一行注意力，到亲手预训练、微调、量化部署一整套大模型工程。
 stages:
   - title: 第一章 · 深度学习地基
