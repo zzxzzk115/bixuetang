@@ -43,6 +43,12 @@ export async function GET(request: NextRequest) {
     const value = upstream.headers.get(key);
     if (value) out.set(key, value);
   }
+  // 上游支持 Range（实测发 Range 会返回 206 + content-range），
+  // 但它**不吐 Accept-Ranges 头**。浏览器看不到这个声明就不敢发 Range：
+  // 只能从头把整个文件拉完才开始播，也没法拖进度条。
+  // CS50 第一集 224MB，表现就是点了播放一直黑屏；小文件熬一会儿能出来，
+  // 第二次走浏览器缓存又「好了」——症状全对得上。这里替上游把话说明白。
+  out.set("accept-ranges", "bytes");
   // 流是私有内容，别让中间层缓存
   out.set("cache-control", "private, no-store");
   return new Response(upstream.body, { status: upstream.status, headers: out });

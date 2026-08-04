@@ -56,17 +56,24 @@ export function ThemeToggle() {
     return () => query.removeEventListener("change", onChange);
   }, [pref]);
 
-  const next = ORDER[(ORDER.indexOf(pref) + 1) % ORDER.length];
-  const Icon = ICON[pref];
-
+  // 三态直接摆出来，比「点一下轮换一格」少猜一步
   return (
-    <button
-      onClick={() => setThemePref(next)}
-      title={`当前主题：${LABEL[pref]}。切换为${LABEL[next]}`}
-      aria-label={`切换主题，当前为${LABEL[pref]}`}
-      className="hud-icon-button"
-    >
-      <Icon aria-hidden size={16} />
-    </button>
+    <div className="theme-switch" role="radiogroup" aria-label="配色">
+      {ORDER.map((option) => {
+        const Icon = ICON[option];
+        return (
+          <button
+            key={option}
+            role="radio"
+            aria-checked={pref === option}
+            className={pref === option ? "on" : undefined}
+            onClick={() => setThemePref(option)}
+          >
+            <Icon aria-hidden size={15} />
+            <span>{LABEL[option]}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 }

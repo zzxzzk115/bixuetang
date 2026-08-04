@@ -7340,3 +7340,93 @@ body:has(.dungeon-chamber) .analysis-section {
   font-size: 13px;
   font-weight: 800;
 }
+
+/* 已缓冲段：垫在播放进度底下，让人知道还能往后拖多少 */
+.biliplayer-buffered {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--app-blue) 32%, transparent);
+  text-decoration: none;
+}
+
+/* 缓冲中：大文件首次播放要等一会儿，不给提示会以为卡死了 */
+.biliplayer-stalled {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.68);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+/* 配色三态：直接摆出来，比「点一下轮换一格」少猜一步 */
+.theme-switch {
+  display: flex;
+  gap: 6px;
+}
+.theme-switch button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 999px;
+  background: var(--app-surface);
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.theme-switch button:hover {
+  border-color: var(--app-blue);
+}
+.theme-switch button.on {
+  border-color: var(--app-blue);
+  background: color-mix(in srgb, var(--app-blue) 12%, transparent);
+  color: var(--app-blue);
+}
+@media (max-width: 420px) {
+  .theme-switch button span {
+    display: none;
+  }
+  .theme-switch button {
+    padding: 0 14px;
+  }
+}
+
+/* 密码登录表单：扫码是主路径，这个是备选，不做成独立卡片 */
+.auth-pwd {
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+
+/* ==== iOS PWA（standalone）====
+   .app-root 用的是 fixed + inset:0。在 Safari 标签页里这等于视口，
+   但装到主屏后底部会留出 home indicator 的安全区，那块区域不属于
+   inset:0 的范围——表现就是页面下方一条空白。
+   改用 100dvh 铺满，再让底部导航自己吃掉安全区。 */
+@media (display-mode: standalone) {
+  .app-root {
+    height: 100dvh;
+    /* iOS 16 之前没有 dvh，用 -webkit-fill-available 兜底 */
+    min-height: -webkit-fill-available;
+  }
+  .app-tabs {
+    /* 安全区的高度加在导航条自己身上，指示条压在导航下方而不是空白上 */
+    padding-bottom: max(env(safe-area-inset-bottom), 6px);
+  }
+}

@@ -1,8 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState } from "react";
+import { Loader2 } from "lucide-react";
 import { login, register, type AuthFormState } from "@/lib/auth/actions";
+
+// 账号密码登录。扫码是主路径，这个是备选——所以不做成独立卡片，
+// 直接嵌在登录页的分隔线下面，跟扫码区共用一个容器。
+//
+// 注册入口不在这里：新账号统一走扫码开号（见 bili-auth.tsx），
+// 那条路径会顺便绑好 bilibili，不然开出来的号看不了视频。
 
 export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const action = mode === "login" ? login : register;
@@ -12,70 +18,52 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   );
 
   return (
-    <div className="mx-auto mt-8 max-w-sm rounded-lg border border-edge bg-panel p-6">
-      <h1 className="text-center text-xl font-bold">
-        {mode === "login" ? "回到冒险" : "创建角色"}
-      </h1>
-      <form action={formAction} className="mt-5 space-y-4">
-        <label className="block text-sm">
-          <span className="text-muted">用户名</span>
-          <input
-            name="username"
-            required
-            autoComplete="username"
-            pattern="[a-z0-9_]{3,32}"
-            title="3–32 位小写字母、数字或下划线"
-            className="mt-1 w-full rounded border border-edge bg-background px-3 py-2 outline-none focus:border-gold"
-          />
+    <form action={formAction} className="auth-pwd">
+      <label className="bili-signup-field">
+        <span>用户名</span>
+        <input
+          name="username"
+          required
+          autoComplete="username"
+          pattern="[a-z0-9_]{3,32}"
+          title="3–32 位小写字母、数字或下划线"
+          placeholder={mode === "register" ? "3–32 位小写字母、数字或下划线" : ""}
+        />
+      </label>
+
+      {mode === "register" && (
+        <label className="bili-signup-field">
+          <span>昵称</span>
+          <input name="displayName" maxLength={32} placeholder="可留空" />
         </label>
-        {mode === "register" && (
-          <label className="block text-sm">
-            <span className="text-muted">角色名（可选，展示用）</span>
-            <input
-              name="displayName"
-              maxLength={32}
-              className="mt-1 w-full rounded border border-edge bg-background px-3 py-2 outline-none focus:border-gold"
-            />
-          </label>
-        )}
-        <label className="block text-sm">
-          <span className="text-muted">密码{mode === "register" ? "（至少 8 位）" : ""}</span>
-          <input
-            name="password"
-            type="password"
-            required
-            minLength={mode === "register" ? 8 : undefined}
-            autoComplete={
-              mode === "login" ? "current-password" : "new-password"
-            }
-            className="mt-1 w-full rounded border border-edge bg-background px-3 py-2 outline-none focus:border-gold"
-          />
-        </label>
-        {state?.error && <p className="text-sm text-hp">{state.error}</p>}
-        <button
-          disabled={pending}
-          className="w-full rounded border border-gold py-2 font-bold text-gold transition-colors hover:bg-gold hover:text-background disabled:opacity-50"
-        >
-          {pending ? "……" : mode === "login" ? "登录" : "开始冒险"}
-        </button>
-      </form>
-      <p className="mt-4 text-center text-xs text-muted">
-        {mode === "login" ? (
+      )}
+
+      <label className="bili-signup-field">
+        <span>密码</span>
+        <input
+          name="password"
+          type="password"
+          required
+          minLength={mode === "register" ? 8 : undefined}
+          autoComplete={mode === "login" ? "current-password" : "new-password"}
+          placeholder={mode === "register" ? "至少 8 位" : ""}
+        />
+      </label>
+
+      <button className="app-btn-primary" disabled={pending}>
+        {pending ? (
           <>
-            还没有角色？{" "}
-            <Link href="/register" className="text-gold hover:underline">
-              创建一个
-            </Link>
+            <Loader2 size={15} className="spin" aria-hidden />
+            {mode === "login" ? "登录中…" : "创建中…"}
           </>
+        ) : mode === "login" ? (
+          "登录"
         ) : (
-          <>
-            已有角色？{" "}
-            <Link href="/login" className="text-gold hover:underline">
-              直接登录
-            </Link>
-          </>
+          "创建账号"
         )}
-      </p>
-    </div>
+      </button>
+
+      {state?.error && <p className="bili-bind-error">{state.error}</p>}
+    </form>
   );
 }

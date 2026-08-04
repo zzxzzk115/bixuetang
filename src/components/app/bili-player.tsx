@@ -171,6 +171,10 @@ export function BiliPlayer({
   );
   /** 自动跳转倒计时剩余秒 */
   const [resumeLeft, setResumeLeft] = useState(RESUME_SECONDS);
+  /** 已缓冲到第几秒（进度条上画一段浅色） */
+  const [buffered, setBuffered] = useState(0);
+  /** 正在等数据——大文件首次播放要缓冲一会儿，不给提示会以为卡死了 */
+  const [stalled, setStalled] = useState(false);
   /** 看完这一集新解锁的卷宗词条 */
   const [newTerms, setNewTerms] = useState<UnlockedTerm[]>([]);
   /** 本视频的字幕时间轴偏移（毫秒，正数=字幕延后） */
@@ -542,6 +546,19 @@ export function BiliPlayer({
     };
     const onMeta = () => setDuration(v.duration || payload.durationSec);
     const onPlay = () => setPlaying(true);
+    // 缓冲进度：取包含当前播放点的那一段的末尾
+    const onProgress = () => {
+      const t = v.currentTime;
+      for (let i = 0; i < v.buffered.length; i++) {
+        if (v.buffered.start(i) <= t && t <= v.buffered.end(i)) {
+          setBuffered(v.buffered.end(i));
+          return;
+        }
+      }
+      setBuffered(v.buffered.length > 0 ? v.buffered.end(0) : 0);
+    };
+    const onWaiting = () => setStalled(true);
+    const onPlaying = () => setStalled(false);
     const onPause = () => {
       setPlaying(false);
       audioRef.current?.pause();
@@ -551,11 +568,19 @@ export function BiliPlayer({
     v.addEventListener("loadedmetadata", onMeta);
     v.addEventListener("play", onPlay);
     v.addEventListener("pause", onPause);
+    v.addEventListener("progress", onProgress);
+    v.addEventListener("waiting", onWaiting);
+    v.addEventListener("playing", onPlaying);
+    v.addEventListener("canplay", onPlaying);
     return () => {
       v.removeEventListener("timeupdate", onTime);
       v.removeEventListener("loadedmetadata", onMeta);
       v.removeEventListener("play", onPlay);
       v.removeEventListener("pause", onPause);
+      v.removeEventListener("progress", onProgress);
+      v.removeEventListener("waiting", onWaiting);
+      v.removeEventListener("playing", onPlaying);
+      v.removeEventListener("canplay", onPlaying);
     };
   }, [payload, syncAudio, activeTracks, prefs.cc.on, initialRatioPct]);
 
@@ -1037,6 +1062,12 @@ export function BiliPlayer({
             />
           </div>
         )}
+        {stalled && playing && (
+          <div className="biliplayer-stalled" aria-live="polite">
+            <Loader2 size={26} className="spin" aria-hidden />
+            <span>缓冲中…</span>
+          </div>
+        )}
         {!playing && (
           <button
             className="biliplayer-bigplay"
@@ -1066,6 +1097,11 @@ export function BiliPlayer({
           onPointerUp={onTrackPointerUp}
           onPointerCancel={onTrackPointerUp}
         >
+          {/* 已缓冲的那一段：浅色垫在播放进度底下 */}
+          <u
+            className="biliplayer-buffered"
+            style={{ width: `${duration ? (buffered / duration) * 100 : 0}%` }}
+          />
           <i style={{ width: `${duration ? (current / duration) * 100 : 0}%` }}>
             {/* 拖拽手柄：触摸屏上没有它就只能盲拖 */}
             <b className="biliplayer-thumb" />
