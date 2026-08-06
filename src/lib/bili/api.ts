@@ -340,6 +340,127 @@ export async function fetchPlayUrl(
     qualityNames,
   };
 }
+
+// ---------- DASH（配合 MSE 播放器） ----------
+//
+// fnval=4048 给的是画音分离的分片 MP4（fMP4），响应里带每路流的
+// segment_base 字节区间（moov 初始段 + sidx 索引段）——这正是合成
+// SegmentBase 寻址 MPD 所需的全部信息。直接 <video src> 播分片流会
+// 时长错乱（上面 fetchMp4PlayUrl 的注释有血泪史），但交给 dash.js
+// 走 MSE/ManagedMediaSource 就是它的本职：1080P+、自适应码率、
+// 换清晰度不丢进度。老设备（iOS <17.1）没有 MSE，仍走上面的 MP4 兜底。
+
+export interface DashStream {
+  /** 视频=清晰度编号(qn)，音频=音质编号（30216/30232/30280 等） */
+  id: number;
+  baseUrl: string;
+  backupUrls: string[];
+  bandwidth: number;
+  mimeType: string;
+  codecs: string;
+  width?: number;
+  height?: number;
+  /** 形如 "30000/1001"，MPD 原样透传 */
+  frameRate?: string;
+  /** moov 初始段字节区间，形如 "0-991" */
+  initRange?: string;
+  /** sidx 索引段字节区间，形如 "992-5647" */
+  indexRange?: string;
+}
+
+export interface DashPlayInfo {
+  durationSec: number;
+  video: DashStream[];
+  audio: DashStream[];
+  qualityNames: Record<number, string>;
+}
+
+/** bilibili 的 dash 字段有 snake_case / camelCase 两套写法，都要兜住 */
+interface RawDashSegmentBase {
+  initialization?: string;
+  index_range?: string;
+  Initialization?: string;
+  indexRange?: string;
+}
+
+interface RawDashStream {
+  id: number;
+  base_url?: string;
+  baseUrl?: string;
+  backup_url?: string[];
+  backupUrl?: string[];
+  bandwidth?: number;
+  mime_type?: string;
+  mimeType?: string;
+  codecs?: string;
+  width?: number;
+  height?: number;
+  frame_rate?: string;
+  frameRate?: string;
+  segment_base?: RawDashSegmentBase;
+  SegmentBase?: RawDashSegmentBase;
+}
+
+interface DashPlayUrlData {
+  timelength?: number;
+  accept_quality?: number[];
+  accept_description?: string[];
+  dash?: {
+    duration?: number;
+    video?: RawDashStream[];
+    audio?: RawDashStream[];
+  };
+}
+
+function toDashStream(raw: RawDashStream, fallbackMime: string): DashStream | null {
+  const baseUrl = raw.base_url ?? raw.baseUrl;
+  if (!baseUrl) return null;
+  const seg = raw.segment_base ?? raw.SegmentBase;
+  return {
+    id: raw.id,
+    baseUrl,
+    backupUrls: raw.backup_url ?? raw.backupUrl ?? [],
+    bandwidth: raw.bandwidth ?? 0,
+    mimeType: raw.mime_type ?? raw.mimeType ?? fallbackMime,
+    codecs: raw.codecs ?? "",
+    width: raw.width,
+    height: raw.height,
+    frameRate: raw.frame_rate ?? raw.frameRate,
+    initRange: seg?.initialization ?? seg?.Initialization,
+    indexRange: seg?.index_range ?? seg?.indexRange,
+  };
+}
+
+/** DASH 播放信息；接口没给 dash 数据时返回 null（由调用方降级到 MP4） */
+export async function fetchDashPlayUrl(
+  bvid: string,
+  cid: number,
+  sessdata?: string,
+): Promise<DashPlayInfo | null> {
+  const json = await getJson<DashPlayUrlData>(
+    `https://api.bilibili.com/x/player/playurl?bvid=${encodeURIComponent(bvid)}&cid=${cid}&qn=127&fnval=4048&fnver=0&fourk=1`,
+    sessdata,
+  );
+  const dash = json.data?.dash;
+  if (json.code !== 0 || !dash?.video?.length) return null;
+
+  const qualityNames: Record<number, string> = {};
+  (json.data?.accept_quality ?? []).forEach((q, i) => {
+    qualityNames[q] = json.data?.accept_description?.[i] ?? String(q);
+  });
+
+  return {
+    durationSec:
+      dash.duration ?? Math.round((json.data?.timelength ?? 0) / 1000),
+    video: (dash.video ?? [])
+      .map((raw) => toDashStream(raw, "video/mp4"))
+      .filter((s): s is DashStream => !!s),
+    audio: (dash.audio ?? [])
+      .map((raw) => toDashStream(raw, "audio/mp4"))
+      .filter((s): s is DashStream => !!s),
+    qualityNames,
+  };
+}
 // ---------- 互动（点赞 / 投币 / 收藏 / 评论） ----------
 
 function formHeaders(sessdata: string, csrf: string): Record<string, string> {
@@ -569,6 +690,14 @@ export interface SubtitleTrack {
   suspect: boolean;
 }
 
+/** UP 主标的视频章节（进度条上的分段刻度） */
+export interface ViewPoint {
+  content: string;
+  /** 起止秒 */
+  from: number;
+  to: number;
+}
+
 interface PlayerV2Data {
   subtitle?: {
     subtitles?: {
@@ -578,6 +707,8 @@ interface PlayerV2Data {
       subtitle_url_v2?: string;
     }[];
   };
+  /** 章节列表；没标章节的稿件不带这个字段 */
+  view_points?: { type?: number; content?: string; from?: number; to?: number }[];
 }
 
 /**
@@ -597,23 +728,41 @@ const wbiState = globalThis as unknown as { __biliWbiBlocked?: boolean };
  * 1 次才带上人工字幕轨。所以多试几次并按语言合并，拿到人工轨就收工。
  * （WBI 签名版接口在境外 IP 会被 412 拦截，失败后不再重试。）
  */
+function parseViewPoints(data: PlayerV2Data | undefined): ViewPoint[] {
+  return (data?.view_points ?? [])
+    .filter(
+      (p) =>
+        !!p.content &&
+        Number.isFinite(p.from) &&
+        Number.isFinite(p.to) &&
+        (p.to as number) > (p.from as number),
+    )
+    .map((p) => ({ content: p.content!, from: p.from!, to: p.to! }))
+    .sort((a, b) => a.from - b.from);
+}
+
 async function collectSubtitleList(
   bvid: string,
   cid: number,
   sessdata?: string,
-): Promise<RawSubtitle[]> {
+): Promise<{ subs: RawSubtitle[]; viewPoints: ViewPoint[] | null }> {
   const merged = new Map<string, RawSubtitle>();
+  // null = 一次都没成功响应过（章节情况未知，别把「未知」缓存成「没有」）
+  let viewPoints: ViewPoint[] | null = null;
 
   const urlOf = (item?: RawSubtitle) =>
     item ? item.subtitle_url || item.subtitle_url_v2 : "";
-  const absorb = (list: RawSubtitle[] | undefined) => {
-    for (const item of list ?? []) {
+  const absorb = (data: PlayerV2Data | undefined) => {
+    for (const item of data?.subtitle?.subtitles ?? []) {
       if (!item?.lan) continue;
       // 同一语言以「带得到正文地址」的那份为准——view 接口给的条目常常没有 url
       if (!merged.has(item.lan) || (!urlOf(merged.get(item.lan)) && urlOf(item))) {
         merged.set(item.lan, item);
       }
     }
+    // 章节顺路收下（同一响应里就有，不必单独再打一次接口）
+    const points = parseViewPoints(data);
+    if (viewPoints === null || points.length > 0) viewPoints = points;
   };
   const hasHuman = () =>
     [...merged.keys()].some((lan) => !lan.startsWith("ai-"));
@@ -628,7 +777,7 @@ async function collectSubtitleList(
         `https://api.bilibili.com/x/player/wbi/v2?${query}`,
         sessdata,
       );
-      if (json.code === 0) absorb(json.data?.subtitle?.subtitles);
+      if (json.code === 0) absorb(json.data);
       else wbiState.__biliWbiBlocked = true;
     } catch {
       wbiState.__biliWbiBlocked = true;
@@ -644,12 +793,12 @@ async function collectSubtitleList(
         `https://api.bilibili.com/x/player/v2?bvid=${encodeURIComponent(bvid)}&cid=${cid}`,
         sessdata,
       );
-      absorb(json.data?.subtitle?.subtitles);
+      absorb(json.data);
     } catch {
       // 单次失败无所谓，还有下一轮
     }
   }
-  return [...merged.values()];
+  return { subs: [...merged.values()], viewPoints };
 }
 
 /**
@@ -742,6 +891,76 @@ async function writeSubCache(
   }
 }
 
+// ---------- 视频章节（view_points） ----------
+
+async function readViewPointsCache(cid: number): Promise<ViewPoint[] | null> {
+  try {
+    const row = await db
+      .select({ viewPointsJson: subtitleCache.viewPointsJson })
+      .from(subtitleCache)
+      .where(eq(subtitleCache.cid, cid))
+      .get();
+    if (!row || row.viewPointsJson == null) return null;
+    return JSON.parse(row.viewPointsJson) as ViewPoint[];
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * 写章节缓存。行不存在时以「空字幕、立即过期」的占位行落地——
+ * updatedAt=0 保证字幕链路仍会去抓真字幕，不受占位行影响。
+ */
+async function writeViewPointsCache(
+  cid: number,
+  bvid: string,
+  points: ViewPoint[],
+): Promise<void> {
+  try {
+    await db
+      .insert(subtitleCache)
+      .values({
+        cid,
+        bvid,
+        tracksJson: "[]",
+        hasHuman: 0,
+        updatedAt: 0,
+        viewPointsJson: JSON.stringify(points),
+      })
+      .onConflictDoUpdate({
+        target: subtitleCache.cid,
+        set: { viewPointsJson: JSON.stringify(points) },
+      });
+  } catch {
+    // 缓存写失败不影响播放
+  }
+}
+
+/**
+ * 取视频章节。优先读永久缓存（字幕链路顺路存过就零请求）；
+ * 缓存未命中时打一次未签名 player/v2——只多这一次，之后永久命中。
+ */
+export async function fetchViewPoints(
+  bvid: string,
+  cid: number,
+  sessdata?: string,
+): Promise<ViewPoint[]> {
+  const cached = await readViewPointsCache(cid);
+  if (cached) return cached;
+  try {
+    const json = await getJson<PlayerV2Data>(
+      `https://api.bilibili.com/x/player/v2?bvid=${encodeURIComponent(bvid)}&cid=${cid}`,
+      sessdata,
+    );
+    if (json.code !== 0) return [];
+    const points = parseViewPoints(json.data);
+    await writeViewPointsCache(cid, bvid, points);
+    return points;
+  } catch {
+    return [];
+  }
+}
+
 export async function fetchSubtitles(
   bvid: string,
   cid: number,
@@ -760,7 +979,19 @@ export async function fetchSubtitles(
     return persisted;
   }
 
-  const list = await collectSubtitleList(bvid, cid, sessdata);
+  const { subs: list, viewPoints } = await collectSubtitleList(
+    bvid,
+    cid,
+    sessdata,
+  );
+  // 章节顺路持久化。空结果只在「从没查到过」时落地——
+  // 防止接口偶发漏掉 view_points 时把存好的章节冲成空。
+  if (
+    viewPoints !== null &&
+    (viewPoints.length > 0 || (await readViewPointsCache(cid)) === null)
+  ) {
+    await writeViewPointsCache(cid, bvid, viewPoints);
+  }
   const tracks: SubtitleTrack[] = [];
   for (const item of list.slice(0, 4)) {
     // wiliwili 只读 subtitle_url；v2 字段是后加的，两个都兜住

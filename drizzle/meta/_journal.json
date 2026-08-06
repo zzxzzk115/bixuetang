@@ -113,6 +113,13 @@
       "when": 1785841005000,
       "tag": "0015_drop_skills_jobs",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "6",
+      "when": 1785841006000,
+      "tag": "0016_view_points",
+      "breakpoints": true
     }
   ]
 }

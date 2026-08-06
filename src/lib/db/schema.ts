@@ -323,6 +323,12 @@ export const subtitleCache = sqliteTable("subtitle_cache", {
   /** 是否含人工字幕轨（1 = 永久有效，不必再查） */
   hasHuman: integer("has_human").notNull().default(0),
   updatedAt: integer("updated_at").notNull(),
+  /**
+   * UP 主标的视频章节（player/v2 的 view_points），ViewPoint[] 的 JSON。
+   * 章节不会变，取到一次永久有效；确认没有章节的存 "[]"，免得反复回源。
+   * null = 还没查过。
+   */
+  viewPointsJson: text("view_points_json"),
 });
 
 // 字幕时间轴偏移。有些搬运稿件的字幕整体早／晚半秒到几秒，
