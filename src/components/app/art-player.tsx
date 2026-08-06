@@ -1,0 +1,979 @@
+"use client";
+
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type Ref,
+  useImperativeHandle,
+} from "react";
+import { createPortal } from "react-dom";
+import { Loader2, RotateCcw, SkipForward } from "lucide-react";
+import type Artplayer from "artplayer";
+import type { Setting as ArtSetting } from "artplayer";
+import type { MediaPlayerClass } from "dashjs";
+import { reportWatchProgress } from "@/lib/game/watch-actions";
+import { saveCcOffset, savePlayerPrefs } from "@/lib/game/user-state-actions";
+import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
+import { detectPlayMode } from "./player-capability";
+import { prefsStore } from "./player-settings";
+
+// bilibili 播放器,ArtPlayer(MIT)+ dash.js 组合:
+//   · DASH 分片流交给 dash.js 走 MSE / ManagedMediaSource(iOS 17.1+),
+//     1080P+、自适应码率、换清晰度不丢进度;老设备回退渐进 MP4
+//   · 手势/全屏/横屏/锁屏/进度条/加载态全部用 ArtPlayer 的成熟实现
+//   · 弹幕用官方 artplayer-plugin-danmuku(防重叠,设置面板自带)
+//   · CC 字幕仍是自研 DOM 层:双语双行、per-user 时间轴偏移、
+//     AI/可疑轨标记,这些 ArtPlayer 的单轨 VTT 引擎做不了
+//   · 业务钩子不变:逐秒记录看过的秒,覆盖率 ≥90% 自动打卡
+
+interface DashQuality {
+  id: number;
+  name: string;
+  height: number | null;
+}
+
+interface Mp4Quality {
+  id: number;
+  name: string;
+  url: string;
+}
+
+interface PlayPayload {
+  aid: number;
+  cid: number;
+  title: string;
+  durationSec: number;
+  bound: boolean;
+  viewPoints: { content: string; from: number; to: number }[];
+  dash: { mpd: string; qualities: DashQuality[] } | null;
+  progressive: { qualities: Mp4Quality[] } | null;
+  error?: string;
+}
+
+interface SubtitleTrack {
+  lan: string;
+  lanDoc: string;
+  cues: { from: number; to: number; text: string }[];
+  ai: boolean;
+  suspect: boolean;
+}
+
+export interface BiliPlayerHandle {
+  /** 跳到绝对秒(知识点地图的时间戳跳转走这里) */
+  seek: (seconds: number) => void;
+  currentTime: () => number;
+}
+
+/** 续播提示的反悔窗口(秒) */
+const RESUME_SECONDS = 5;
+
+function fmt(sec: number): string {
+  if (!Number.isFinite(sec)) return "0:00";
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+/** 读主题色给 ArtPlayer 当强调色 */
+function accentColor(): string {
+  if (typeof window === "undefined") return "#58cc02";
+  return (
+    getComputedStyle(document.documentElement)
+      .getPropertyValue("--app-green")
+      .trim() || "#58cc02"
+  );
+}
+
+export function BiliPlayer({
+  bvid,
+  page,
+  courseId,
+  episodeN,
+  resumeAt = 0,
+  initialRatioPct = 0,
+  serverPrefs = null,
+  onCompleted,
+  onLoaded,
+  ref,
+}: {
+  bvid: string;
+  page: number;
+  courseId: string;
+  episodeN: number;
+  resumeAt?: number;
+  /** 库里已累计的观看覆盖率,显示时不能被本次会话打回 0 */
+  initialRatioPct?: number;
+  /** 服务端存的播放偏好 JSON(权威值,跨设备一致) */
+  serverPrefs?: string | null;
+  onCompleted?: () => void;
+  onLoaded?: (info: { aid: number; cid: number }) => void;
+  ref?: Ref<BiliPlayerHandle>;
+}) {
+  const hostRef = useRef<HTMLDivElement | null>(null);
+  const artRef = useRef<Artplayer | null>(null);
+  const dashRef = useRef<MediaPlayerClass | null>(null);
+
+  const [payload, setPayload] = useState<PlayPayload | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [tracks, setTracks] = useState<SubtitleTrack[]>([]);
+  const [cues, setCues] = useState<string[]>([]);
+  const [newTerms, setNewTerms] = useState<UnlockedTerm[]>([]);
+  const [ccOffset, setCcOffset] = useState(0);
+  const [resumeTip, setResumeTip] = useState<number | null>(
+    resumeAt > 5 ? resumeAt : null,
+  );
+  const [resumeLeft, setResumeLeft] = useState(RESUME_SECONDS);
+  /** ArtPlayer 建好后暴露的层挂载点,React 往里 portal */
+  const [ccHost, setCcHost] = useState<HTMLElement | null>(null);
+  const [resumeHost, setResumeHost] = useState<HTMLElement | null>(null);
+
+  const prefs = useSyncExternalStore(
+    prefsStore.subscribe,
+    prefsStore.get,
+    prefsStore.getServerSnapshot,
+  );
+
+  const seenRef = useRef<Set<number>>(new Set());
+  const completedRef = useRef(false);
+  const ccOffsetRef = useRef(0);
+  const lastCuesRef = useRef("");
+  const hoverRef = useRef(false);
+  /** 实例还没建好时收到的 seek 请求,建好后补跳 */
+  const pendingSeekRef = useRef<number | null>(null);
+
+  // 偏好:库里那份是权威,挂载时 hydrate 一次;之后每次改动落库
+  useEffect(() => {
+    prefsStore.bindPersist((json) => void savePlayerPrefs(json));
+    prefsStore.hydrate(serverPrefs);
+  }, [serverPrefs]);
+
+  // 取播放地址(带能力检测结论)
+  useEffect(() => {
+    let cancelled = false;
+    seenRef.current = new Set();
+    completedRef.current = false;
+    const mode = detectPlayMode();
+    fetch(
+      `/api/bili/play?bvid=${encodeURIComponent(bvid)}&page=${page}&mode=${mode}`,
+    )
+      .then((r) => r.json())
+      .then((data: PlayPayload) => {
+        if (cancelled) return;
+        if (data.error) {
+          setError(data.error);
+          return;
+        }
+        setPayload(data);
+        onLoaded?.({ aid: data.aid, cid: data.cid });
+      })
+      .catch(() => {
+        if (!cancelled) setError("播放地址解析失败");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [bvid, page, onLoaded]);
+
+  // CC 字幕轨 + 本视频已存的时间轴偏移
+  useEffect(() => {
+    if (!payload?.cid) return;
+    let cancelled = false;
+    fetch(
+      `/api/bili/subtitle?bvid=${encodeURIComponent(bvid)}&cid=${payload.cid}&duration=${payload.durationSec}`,
+    )
+      .then((r) => r.json())
+      .then((data: { tracks?: SubtitleTrack[]; offsetMs?: number }) => {
+        if (cancelled) return;
+        setTracks(data.tracks ?? []);
+        const saved = data.offsetMs ?? 0;
+        setCcOffset(saved);
+        ccOffsetRef.current = saved;
+      })
+      .catch(() => {
+        if (!cancelled) setTracks([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [payload?.cid, payload?.durationSec, bvid]);
+
+  // 启用的字幕轨:用户选过就用选的;没选过自动挑人工轨(中文优先,
+  // 中英都有就叠加双语)。只有 AI/可疑轨时不自动开——bilibili 的 AI
+  // 字幕经常是别的视频的内容,自动挂上去只会误导人。
+  const activeTracks = useMemo(() => {
+    if (tracks.length === 0) return [];
+    const picked = tracks.filter((t) => prefs.cc.lans.includes(t.lan));
+    if (picked.length > 0) return picked;
+    const human = tracks.filter((t) => !t.ai && !t.suspect);
+    const zh = human.find((t) => t.lan.toLowerCase().startsWith("zh"));
+    const en = human.find((t) => t.lan.toLowerCase().startsWith("en"));
+    if (zh && en) return [zh, en];
+    if (zh) return [zh];
+    if (en) return [en];
+    if (human.length > 0) return [human[0]];
+    return [];
+  }, [tracks, prefs.cc.lans]);
+  const activeTracksRef = useRef(activeTracks);
+  useEffect(() => {
+    activeTracksRef.current = activeTracks;
+    lastCuesRef.current = "";
+  }, [activeTracks]);
+
+  /**
+   * 调字幕时间轴。立刻生效,落库防抖 600ms——按住 -0.5 连点时
+   * 不该每下都写一次数据库。
+   */
+  const offsetSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cidRef = useRef<number | null>(null);
+  cidRef.current = payload?.cid ?? null;
+  const nudgeCcOffset = useCallback((deltaMs: number) => {
+    setCcOffset((prev) => {
+      const next =
+        deltaMs === 0
+          ? 0
+          : Math.max(-30_000, Math.min(30_000, prev + deltaMs));
+      ccOffsetRef.current = next;
+      const cid = cidRef.current;
+      if (cid) {
+        if (offsetSaveRef.current) clearTimeout(offsetSaveRef.current);
+        offsetSaveRef.current = setTimeout(() => {
+          void saveCcOffset(cid, next);
+        }, 600);
+      }
+      return next;
+    });
+  }, []);
+
+  // ==== 建 ArtPlayer 实例 ====
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host || !payload) return;
+    if (!payload.dash && !payload.progressive?.qualities.length) {
+      setError("没有可用的视频流");
+      return;
+    }
+    let cancelled = false;
+    let art: Artplayer | null = null;
+
+    (async () => {
+      const [{ default: ArtplayerCtor }, { default: danmukuPlugin }] =
+        await Promise.all([
+          import("artplayer"),
+          import("artplayer-plugin-danmuku"),
+        ]);
+      if (cancelled || !hostRef.current) return;
+
+      const p = prefsStore.get();
+      const isDash = !!payload.dash;
+      const mp4Qualities = payload.progressive?.qualities ?? [];
+      const mp4Picked =
+        mp4Qualities.find((q) => q.id === p.qualityId) ?? mp4Qualities[0];
+
+      // React 往这些层里 portal 自己的 UI(续播弹窗/CC 字幕),
+      // 挂在播放器内部才能在全屏时可见
+      const ccEl = document.createElement("div");
+      ccEl.className = "artcc-host";
+      const resumeEl = document.createElement("div");
+      resumeEl.className = "artresume-host";
+
+      art = new ArtplayerCtor({
+        container: hostRef.current,
+        url: isDash ? payload.dash!.mpd : mp4Picked.url,
+        // mp4 不设 type,走浏览器原生;只有 mpd 需要 customType 接管
+        ...(isDash ? { type: "mpd" as const } : {}),
+        customType: {
+          mpd: async (video: HTMLVideoElement, rawUrl: string) => {
+            // dash.js 的 CMCD 模块会拿这个地址去 new URL(),相对路径会炸
+            const url = new URL(rawUrl, window.location.href).toString();
+            const dashjs = await import("dashjs");
+            const player = dashjs.MediaPlayer().create();
+            player.updateSettings({
+              streaming: {
+                // 手动切清晰度时直接替换缓冲区,立刻见效(不等旧档播完)
+                buffer: { fastSwitchEnabled: true },
+                abr: {
+                  autoSwitchBitrate: { video: prefsStore.get().autoQuality },
+                },
+              },
+            });
+            player.initialize(video, url, false);
+            dashRef.current = player;
+
+            // 手动挑过清晰度的用户,流一建好就按住那一档
+            player.on("streamInitialized", () => {
+              const cur = prefsStore.get();
+              if (!cur.autoQuality && cur.qualityId != null) {
+                try {
+                  player.setRepresentationForTypeById(
+                    "video",
+                    `v${cur.qualityId}`,
+                  );
+                } catch {
+                  // 该档位不存在就随 ABR
+                }
+              }
+            });
+
+            // bilibili 直链约 2 小时过期。播放中途下载报错时重拉 MPD
+            // (每次请求都是新鲜直链),并把进度接回去;10 秒内不重复试。
+            let lastReattach = 0;
+            player.on("error", () => {
+              const now = Date.now();
+              if (now - lastReattach < 10_000) return;
+              lastReattach = now;
+              const at = video.currentTime;
+              try {
+                player.attachSource(url);
+                player.on("streamInitialized", function once() {
+                  player.off("streamInitialized", once);
+                  if (at > 0) video.currentTime = at;
+                });
+              } catch {
+                // 重连失败让 ArtPlayer 报错 UI 兜着
+              }
+            });
+          },
+        },
+        // mp4 模式的清晰度用 ArtPlayer 原生列表(切换自动保进度);
+        // dash 模式的清晰度在设置菜单里调 dash.js,同一 MSE 会话不丢进度
+        quality: isDash
+          ? []
+          : mp4Qualities.map((q) => ({
+              html: q.name,
+              url: q.url,
+              default: q.id === mp4Picked.id,
+            })),
+        volume: p.volume,
+        muted: p.muted,
+        playsInline: true,
+        autoplay: false,
+        autoSize: false,
+        autoMini: false,
+        mutex: true,
+        backdrop: true,
+        setting: true,
+        hotkey: false, // 自己接管:要支持「悬停即可用键盘」,ArtPlayer 的须先点击聚焦
+        pip: true,
+        airplay: false,
+        fullscreen: true,
+        fullscreenWeb: true,
+        miniProgressBar: true,
+        playbackRate: true,
+        autoPlayback: false, // 续播用自己的库存进度,不用 ArtPlayer 的 localStorage
+        lock: true,
+        gesture: true,
+        fastForward: true,
+        autoOrientation: true, // 手机竖屏点网页全屏 → 自动转 90°(iOS 也适用)
+        theme: accentColor(),
+        lang: "zh-cn",
+        // 章节刻度:UP 主标的 view_points 显示在进度条上,悬停出标题
+        highlight: payload.viewPoints.map((v) => ({
+          time: v.from,
+          text: v.content,
+        })),
+        layers: [
+          { name: "cc", html: ccEl },
+          { name: "resume", html: resumeEl },
+        ],
+        controls: [
+          {
+            name: "watch",
+            position: "right",
+            index: 5,
+            html: `<span class="artp-watch" title="本集观看覆盖率,≥90% 自动打卡">${initialRatioPct}%</span>`,
+          },
+        ],
+        settings: buildSettings(isDash, payload.dash?.qualities ?? []),
+        plugins: [
+          danmukuPlugin({
+            danmuku: () =>
+              fetch(`/api/bili/danmaku?cid=${payload.cid}`)
+                .then((r) => r.json())
+                .then(
+                  (data: {
+                    danmaku?: {
+                      t: number;
+                      mode: number;
+                      color: number;
+                      text: string;
+                    }[];
+                  }) =>
+                    (data.danmaku ?? []).map((d) => ({
+                      text: d.text,
+                      time: d.t,
+                      color: `#${d.color.toString(16).padStart(6, "0")}`,
+                      mode: (d.mode === 5 ? 1 : d.mode === 4 ? 2 : 0) as
+                        | 0
+                        | 1
+                        | 2,
+                    })),
+                ),
+            // 学习场景不发弹幕,只看
+            emitter: false,
+            visible: p.danmaku.on,
+            opacity: p.danmaku.opacity,
+            // 字号用画面高度的百分比,全屏时自动跟着放大
+            fontSize: `${(4.5 * p.danmaku.scale).toFixed(1)}%` as `${number}%`,
+            // 插件的 speed 是「穿屏耗时(秒)」,和旧偏好的倍率反着来
+            speed: Math.max(1, Math.min(10, Math.round(8 / p.danmaku.speed))),
+            margin: [8, `${Math.round((1 - p.danmaku.area) * 100)}%`] as [
+              number,
+              `${number}%`,
+            ],
+            antiOverlap: true,
+            synchronousPlayback: true,
+          }),
+        ],
+      });
+
+      artRef.current = art;
+      setCcHost(ccEl);
+      setResumeHost(resumeEl);
+
+      art.on("ready", () => {
+        const cur = prefsStore.get();
+        art!.playbackRate = cur.rate;
+        // 实例建成前收到过 seek(知识点跨集跳转)就补上
+        const pending = pendingSeekRef.current;
+        if (pending != null) {
+          pendingSeekRef.current = null;
+          setResumeTip(null);
+          art!.currentTime = Math.max(0, pending);
+          void art!.play();
+        }
+      });
+
+      // 播放中的偏好改动写回 prefs(音量/静音/倍速),跨集跨设备记住
+      art.on("video:volumechange", () => {
+        const cur = prefsStore.get();
+        if (
+          art &&
+          (Math.abs(cur.volume - art.volume) > 0.001 || cur.muted !== art.muted)
+        ) {
+          prefsStore.set({ volume: art.volume, muted: art.muted });
+        }
+      });
+      art.on("video:ratechange", () => {
+        const cur = prefsStore.get();
+        if (art && art.playbackRate !== cur.rate && art.playbackRate > 0) {
+          prefsStore.set({ rate: art.playbackRate });
+        }
+      });
+
+      // 覆盖率追踪 + CC 字幕行,都挂在 timeupdate 上
+      const watchEl = () => {
+        const el = art?.controls?.watch as HTMLElement | undefined;
+        return el?.querySelector<HTMLElement>(".artp-watch") ?? el ?? null;
+      };
+      art.on("video:timeupdate", () => {
+        if (!art) return;
+        const t = art.currentTime;
+        seenRef.current.add(Math.floor(t));
+        const total = art.duration || payload.durationSec || 0;
+        if (total > 0) {
+          const pct = Math.max(
+            initialRatioPct,
+            Math.min(100, Math.round((seenRef.current.size / total) * 100)),
+          );
+          const el = watchEl();
+          if (el) el.textContent = `${pct}%`;
+        }
+        // 正偏移 = 字幕延后出现,查表时把时间轴往回拨
+        if (prefsStore.get().cc.on && activeTracksRef.current.length > 0) {
+          const at = t - ccOffsetRef.current / 1000;
+          const next = activeTracksRef.current.map(
+            (track) =>
+              track.cues.find((c) => at >= c.from && at <= c.to)?.text ?? "",
+          );
+          const key = next.join("");
+          if (key !== lastCuesRef.current) {
+            lastCuesRef.current = key;
+            setCues(next);
+          }
+        } else if (lastCuesRef.current !== "") {
+          lastCuesRef.current = "";
+          setCues([]);
+        }
+      });
+
+      // 悬停状态给键盘控制用
+      const el = art.template?.$container as HTMLElement | undefined;
+      el?.addEventListener("pointerenter", () => (hoverRef.current = true));
+      el?.addEventListener("pointerleave", () => (hoverRef.current = false));
+    })();
+
+    return () => {
+      cancelled = true;
+      setCcHost(null);
+      setResumeHost(null);
+      try {
+        dashRef.current?.destroy();
+      } catch {
+        // 已销毁就算了
+      }
+      dashRef.current = null;
+      try {
+        art?.destroy(true);
+      } catch {
+        // 同上
+      }
+      artRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- 实例只随视频本身重建;偏好类改动走下面的小 effect,不推倒重来
+  }, [payload]);
+
+  /** 设置菜单:清晰度(dash)/ CC 字幕 / 离开暂停。弹幕设置由官方插件自带。 */
+  function buildSettings(
+    isDash: boolean,
+    dashQualities: DashQuality[],
+  ): ArtSetting[] {
+    const settings: ArtSetting[] = [];
+    if (isDash && dashQualities.length > 0) {
+      const p = prefsStore.get();
+      settings.push({
+        html: "清晰度",
+        width: 220,
+        tooltip: p.autoQuality
+          ? "自动"
+          : (dashQualities.find((q) => q.id === p.qualityId)?.name ?? "自动"),
+        selector: [
+          {
+            html: "自动(按网速)",
+            default: p.autoQuality,
+            qid: null,
+          },
+          ...dashQualities.map((q) => ({
+            html: q.name,
+            default: !p.autoQuality && p.qualityId === q.id,
+            qid: q.id,
+          })),
+        ],
+        onSelect: (item) => {
+          const qid = item.qid as number | null;
+          const dash = dashRef.current;
+          if (qid == null) {
+            prefsStore.set({ autoQuality: true });
+            dash?.updateSettings({
+              streaming: { abr: { autoSwitchBitrate: { video: true } } },
+            });
+            return "自动";
+          }
+          prefsStore.set({ autoQuality: false, qualityId: qid });
+          dash?.updateSettings({
+            streaming: { abr: { autoSwitchBitrate: { video: false } } },
+          });
+          try {
+            dash?.setRepresentationForTypeById("video", `v${qid}`);
+          } catch {
+            // 档位不存在就保持现状
+          }
+          return String(item.html);
+        },
+      });
+    }
+
+    settings.push({
+      html: "离开页面自动暂停",
+      tooltip: prefsStore.get().pauseOnBlur ? "开" : "关",
+      switch: prefsStore.get().pauseOnBlur,
+      onSwitch: (item) => {
+        const next = !item.switch;
+        prefsStore.set({ pauseOnBlur: next });
+        return next;
+      },
+    });
+    return settings;
+  }
+
+  // 字幕轨到手后把 CC 设置塞进设置菜单(轨道列表取决于异步结果,
+  // 建播放器时还没有,只能后补)
+  useEffect(() => {
+    const art = artRef.current;
+    if (!art || tracks.length === 0) return;
+    const name = "cc-setting";
+    const ccSetting: ArtSetting = {
+      name,
+      html: "CC 字幕",
+      width: 240,
+      tooltip: prefsStore.get().cc.on ? "开" : "关",
+      selector: [
+        {
+          html: "显示字幕",
+          switch: prefsStore.get().cc.on,
+          onSwitch: (item) => {
+            const next = !item.switch;
+            prefsStore.set({ cc: { ...prefsStore.get().cc, on: next } });
+            return next;
+          },
+        },
+        ...tracks.map((t): ArtSetting => ({
+          html:
+            t.lanDoc + (t.ai ? " · AI" : "") + (t.suspect ? " ⚠" : ""),
+          tooltip: t.suspect
+            ? "时间轴对不上,多半挂错了"
+            : t.ai
+              ? "AI 生成,可能不准"
+              : undefined,
+          switch: activeTracks.some((a) => a.lan === t.lan),
+          onSwitch: (item) => {
+            const cur = prefsStore.get().cc;
+            const has = cur.lans.includes(t.lan);
+            const lans = has
+              ? cur.lans.filter((l) => l !== t.lan)
+              : [...cur.lans, t.lan];
+            prefsStore.set({ cc: { ...cur, lans, on: true } });
+            return !item.switch;
+          },
+        })),
+        {
+          html: "字幕慢 0.5s",
+          onSelect: () => {
+            nudgeCcOffset(500);
+            return "已调整";
+          },
+        },
+        {
+          html: "字幕快 0.5s",
+          onSelect: () => {
+            nudgeCcOffset(-500);
+            return "已调整";
+          },
+        },
+        {
+          html: "时间轴归零",
+          onSelect: () => {
+            nudgeCcOffset(0);
+            return "已归零";
+          },
+        },
+      ],
+    };
+    art.setting.add(ccSetting);
+    return () => {
+      try {
+        art.setting.remove(name);
+      } catch {
+        // 播放器已销毁
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- activeTracks 只影响初始勾选态,菜单不必随它重建
+  }, [tracks, nudgeCcOffset, ccHost]);
+
+  // 倍速偏好变化 → 应用到播放器(设置菜单里改的走 ratechange 已同步)
+  useEffect(() => {
+    const art = artRef.current;
+    if (art && art.playbackRate !== prefs.rate) art.playbackRate = prefs.rate;
+  }, [prefs.rate, ccHost]);
+
+  // 切走标签页 / 窗口失焦自动暂停(全屏时不管,可在设置里关)
+  useEffect(() => {
+    if (!payload || !prefs.pauseOnBlur) return;
+    const pause = () => {
+      const art = artRef.current;
+      if (!art || art.fullscreen || art.fullscreenWeb) return;
+      if (art.playing) art.pause();
+    };
+    const onVisibility = () => {
+      if (document.hidden) pause();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("blur", pause);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("blur", pause);
+    };
+  }, [payload, prefs.pauseOnBlur]);
+
+  // 定时上报观看进度;≥90% 自动打卡时报出新解锁的词条
+  useEffect(() => {
+    if (!payload) return;
+    const send = async () => {
+      const art = artRef.current;
+      const total = art?.duration || payload.durationSec || 0;
+      if (!art || total <= 0 || seenRef.current.size === 0) return;
+      const r = await reportWatchProgress(
+        courseId,
+        episodeN,
+        art.currentTime,
+        total,
+        seenRef.current.size,
+      );
+      if (r.completed && !completedRef.current) {
+        completedRef.current = true;
+        const terms = r.settle?.unlockedTerms ?? [];
+        if (terms.length > 0) setNewTerms(terms);
+        onCompleted?.();
+      }
+    };
+    // 10 秒一次:进度落库要够密,否则「上次看到哪」会差一截
+    const timer = setInterval(send, 10000);
+    const onHide = () => {
+      if (document.visibilityState === "hidden") void send();
+    };
+    document.addEventListener("visibilitychange", onHide);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", onHide);
+      void send();
+    };
+  }, [payload, courseId, episodeN, onCompleted]);
+
+  /** 跳到上次的进度并立刻续播 */
+  const jumpToResume = useCallback(
+    (at: number) => {
+      setResumeTip(null);
+      const art = artRef.current;
+      if (!art) return;
+      const apply = () => {
+        const total = art.duration || payload?.durationSec || 0;
+        art.currentTime = total > 0 ? Math.min(at, total - 5) : at;
+        void art.play();
+      };
+      if (art.isReady) apply();
+      else art.once("ready", apply);
+    },
+    [payload?.durationSec],
+  );
+
+  // 续播:不静默跳,给反悔窗口(倒计时可见);超时没点「从头开始」就跳过去
+  useEffect(() => {
+    if (resumeTip === null || !payload) return;
+    const total = payload.durationSec || 0;
+    // 离结尾太近等于看完了,不必续播
+    if (total > 0 && resumeTip > total - 10) {
+      const drop = setTimeout(() => setResumeTip(null), 0);
+      return () => clearTimeout(drop);
+    }
+    const tick = setInterval(() => {
+      setResumeLeft((n) => {
+        if (n <= 1) {
+          clearInterval(tick);
+          jumpToResume(resumeTip);
+          return 0;
+        }
+        return n - 1;
+      });
+    }, 1000);
+    return () => clearInterval(tick);
+  }, [payload, resumeTip, jumpToResume]);
+
+  // 键盘控制。只在鼠标停在播放器上、全屏中、或播放器内有焦点时接管——
+  // 否则在页面别处敲空格会莫名其妙地暂停视频。
+  // (不用 ArtPlayer 内建 hotkey:它要求先点击播放器聚焦,悬停不算)
+  useEffect(() => {
+    if (!payload) return;
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+      const art = artRef.current;
+      if (!art) return;
+      const container = art.template?.$container as HTMLElement | undefined;
+      const inPlayer =
+        hoverRef.current ||
+        art.fullscreen ||
+        art.fullscreenWeb ||
+        (container?.contains(document.activeElement) ?? false);
+      if (!inPlayer) return;
+
+      switch (e.key) {
+        case " ":
+        case "k":
+          e.preventDefault();
+          art.toggle();
+          break;
+        case "ArrowLeft":
+          e.preventDefault();
+          art.backward = e.shiftKey ? 30 : 5;
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          art.forward = e.shiftKey ? 30 : 5;
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          art.volume = Math.min(1, art.volume + 0.1);
+          art.muted = false;
+          break;
+        case "ArrowDown": {
+          e.preventDefault();
+          const next = Math.max(0, art.volume - 0.1);
+          art.volume = next;
+          if (next === 0) art.muted = true;
+          break;
+        }
+        case "m":
+          art.muted = !art.muted;
+          break;
+        case "f":
+          art.fullscreen = !art.fullscreen;
+          break;
+        case "c": {
+          const cur = prefsStore.get().cc;
+          prefsStore.set({ cc: { ...cur, on: !cur.on } });
+          break;
+        }
+        case "d": {
+          const plugin = (
+            art.plugins as unknown as {
+              artplayerPluginDanmuku?: {
+                isHide: boolean;
+                show: () => void;
+                hide: () => void;
+              };
+            }
+          ).artplayerPluginDanmuku;
+          if (plugin) {
+            if (plugin.isHide) plugin.show();
+            else plugin.hide();
+          }
+          break;
+        }
+        default:
+          // 数字键跳到对应百分比,跟主流播放器一致
+          if (/^[0-9]$/.test(e.key)) {
+            const total = art.duration;
+            if (total > 0) art.currentTime = (total * Number(e.key)) / 10;
+          }
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [payload]);
+
+  useImperativeHandle(
+    ref,
+    (): BiliPlayerHandle => ({
+      seek: (seconds: number) => {
+        const art = artRef.current;
+        if (!art) {
+          // 实例还没建好(刚切集):记下来,ready 时补跳
+          pendingSeekRef.current = seconds;
+          return;
+        }
+        const apply = () => {
+          art.currentTime = Math.max(0, seconds);
+          void art.play();
+        };
+        if (art.isReady) apply();
+        else art.once("ready", apply);
+        // 主动跳时间戳,说明用户要看那儿——续播提示别再挡着
+        setResumeTip(null);
+      },
+      currentTime: () => artRef.current?.currentTime ?? 0,
+    }),
+    [],
+  );
+
+  if (error) {
+    return (
+      <div className="biliplayer-fallback">
+        <p>{error}</p>
+        <a
+          href={`https://www.bilibili.com/video/${bvid}?p=${page}`}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="app-btn-plain"
+        >
+          去 bilibili 看这一集
+        </a>
+      </div>
+    );
+  }
+
+  if (!payload) {
+    return (
+      <div className="biliplayer-loading">
+        <Loader2 size={22} className="spin" aria-hidden />
+        正在解析播放地址…
+      </div>
+    );
+  }
+
+  return (
+    <div className="biliplayer-art-wrap">
+      <div ref={hostRef} className="biliplayer-art" />
+
+      {/* CC 字幕:portal 进播放器内部的层,全屏也可见 */}
+      {ccHost &&
+        prefs.cc.on &&
+        cues.some(Boolean) &&
+        createPortal(
+          <div
+            className={`biliplayer-cc style-${prefs.cc.style}`}
+            style={{ bottom: `${prefs.cc.bottom * 100}%` }}
+          >
+            {cues.map((text, i) =>
+              text ? (
+                <span
+                  key={activeTracks[i]?.lan ?? i}
+                  // 叠加时第二条起略小一点,主次分明
+                  style={{
+                    fontSize: `${prefs.cc.scale * (i === 0 ? 100 : 86)}%`,
+                  }}
+                >
+                  {text}
+                </span>
+              ) : null,
+            )}
+          </div>,
+          ccHost,
+        )}
+
+      {/* 续播提示:同样 portal 进播放器 */}
+      {resumeHost &&
+        resumeTip !== null &&
+        createPortal(
+          <div
+            className="biliplayer-resume"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="biliplayer-resume-text">
+              上次看到 <b>{fmt(resumeTip)}</b>
+              <small>{resumeLeft} 秒后自动继续</small>
+            </span>
+            <span className="biliplayer-resume-acts">
+              <button
+                className="is-primary"
+                onClick={() => jumpToResume(resumeTip)}
+              >
+                <SkipForward size={14} aria-hidden /> 立即跳转
+              </button>
+              <button onClick={() => setResumeTip(null)}>
+                <RotateCcw size={14} aria-hidden /> 从头开始
+              </button>
+            </span>
+            <i
+              className="biliplayer-resume-bar"
+              style={{ width: `${(resumeLeft / RESUME_SECONDS) * 100}%` }}
+            />
+          </div>,
+          resumeHost,
+        )}
+
+      {ccOffset !== 0 && prefs.cc.on && (
+        <p className="biliplayer-hint">
+          字幕时间轴偏移 {ccOffset > 0 ? "+" : ""}
+          {(ccOffset / 1000).toFixed(1)}s(设置菜单里可调,只对本视频生效)
+        </p>
+      )}
+      {!payload.bound && (
+        <p className="biliplayer-hint">
+          绑定 bilibili 账号后可解锁高清晰度与 CC 字幕
+        </p>
+      )}
+
+      <TermUnlockPopup terms={newTerms} onClose={() => setNewTerms([])} />
+    </div>
+  );
+}

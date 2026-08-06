@@ -5674,137 +5674,8 @@ body:has(.dungeon-chamber) .analysis-section {
   font-size: 12px;
   font-weight: 800;
 }
-.biliplayer {
-  display: grid;
-  gap: 8px;
-}
-.biliplayer-stage {
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #000;
-  aspect-ratio: 16 / 9;
-  cursor: pointer;
-  /* 字幕字号以画面自身尺寸为基准（cqh），这样全屏放大后字幕比例不变。
-     尺寸由 aspect-ratio / flex 决定，不依赖内容，size containment 安全 */
-  container-type: size;
-}
-.biliplayer-stage video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-.biliplayer-danmaku {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.biliplayer-bigplay {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  cursor: pointer;
-}
-.biliplayer-bar {
-  display: grid;
-  gap: 8px;
-}
-.biliplayer-track {
-  position: relative;
-  height: 8px;
-  border-radius: 6px;
-  background: var(--app-line);
-  cursor: pointer;
-  /* 拖拽全程跟手，别让浏览器把横向拖动解释成页面滚动 */
-  touch-action: none;
-}
-.biliplayer-track::before {
-  /* 视觉上是 8px 细条，实际热区上下各撑 8px——
-     手指在 8px 高的条上拖拽几乎不可能对准 */
-  content: "";
-  position: absolute;
-  inset: -8px 0;
-}
-.biliplayer-track:focus-visible {
-  outline: 2px solid var(--app-blue);
-  outline-offset: 4px;
-}
-.biliplayer-track i {
-  position: relative;
-  display: block;
-  height: 100%;
-  border-radius: 6px;
-  background: var(--app-blue);
-}
-.biliplayer-thumb {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  width: 14px;
-  height: 14px;
-  transform: translate(50%, -50%);
-  border-radius: 50%;
-  background: var(--app-blue);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
-  /* 悬停或拖拽时才放大，静态时不喧宾夺主 */
-  transition: transform 120ms ease;
-}
-.biliplayer-track:hover .biliplayer-thumb,
-.biliplayer-track:active .biliplayer-thumb {
-  transform: translate(50%, -50%) scale(1.2);
-}
-.biliplayer-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  /* flex 项默认 min-width:auto，一排控件挤不下时不是换行而是撑破容器 */
-  min-width: 0;
-}
-.biliplayer-controls > * {
-  min-width: 0;
-}
-.biliplayer-controls button {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  color: var(--app-text);
-  cursor: pointer;
-}
-.biliplayer-controls button:hover {
-  background: color-mix(in srgb, var(--app-blue) 10%, transparent);
-}
-.biliplayer-controls button.on {
-  color: var(--app-blue);
-}
-.biliplayer-time {
-  color: var(--app-faint);
-  font-size: 12px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-.biliplayer-watch {
-  margin-left: auto;
-  padding: 3px 10px;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--app-green) 12%, transparent);
-  color: var(--app-green);
-  font-size: 12px;
-  font-weight: 800;
-}
+/* 旧自研播放器 chrome(stage/bar/track/panel)已随 ArtPlayer 重写退役,
+   只保留 hint/loading/fallback、CC 层与续播弹窗这些还在用的部分 */
 .biliplayer-hint,
 .biliplayer-loading,
 .biliplayer-fallback {
@@ -5956,224 +5827,6 @@ body:has(.dungeon-chamber) .analysis-section {
   font-size: 12px;
   font-weight: 700;
   text-decoration: underline;
-}
-
-/* ==== 播放器全屏 / 影院模式 ====
-   原生全屏（:fullscreen）与兜底影院模式（.cinema）共用同一套布局：
-   舞台撑满、控制栏浮在视频上、字幕上移避开控制栏。 */
-.biliplayer.cinema {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  background: #000;
-}
-.biliplayer:fullscreen,
-.biliplayer.cinema {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  width: 100%;
-  height: 100%;
-}
-.biliplayer:fullscreen {
-  background: #000;
-}
-.biliplayer:fullscreen .biliplayer-stage,
-.biliplayer.cinema .biliplayer-stage {
-  flex: 1;
-  min-height: 0;
-  aspect-ratio: auto;
-  border-radius: 0;
-}
-/* 控制栏浮在画面底部，默认淡出，指针进入时显形 */
-.biliplayer:fullscreen .biliplayer-bar,
-.biliplayer.cinema .biliplayer-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  padding: 40px 18px 14px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 200ms ease;
-}
-.biliplayer:fullscreen.controls-visible .biliplayer-bar,
-.biliplayer.cinema.controls-visible .biliplayer-bar,
-.biliplayer:fullscreen:focus-within .biliplayer-bar,
-.biliplayer.cinema:focus-within .biliplayer-bar {
-  opacity: 1;
-  pointer-events: auto;
-}
-.biliplayer:fullscreen.controls-hidden,
-.biliplayer.cinema.controls-hidden,
-.biliplayer.force-landscape.controls-hidden {
-  cursor: none;
-}
-.biliplayer:fullscreen.controls-hidden .biliplayer-bar,
-.biliplayer.cinema.controls-hidden .biliplayer-bar,
-.biliplayer.force-landscape.controls-hidden .biliplayer-bar {
-  opacity: 0;
-  pointer-events: none;
-}
-.biliplayer:fullscreen .biliplayer-controls button,
-.biliplayer.cinema .biliplayer-controls button {
-  color: #fff;
-}
-.biliplayer:fullscreen .biliplayer-controls button:hover,
-.biliplayer.cinema .biliplayer-controls button:hover {
-  background: rgba(255, 255, 255, 0.16);
-}
-.biliplayer:fullscreen .biliplayer-time,
-.biliplayer.cinema .biliplayer-time {
-  color: rgba(255, 255, 255, 0.85);
-}
-.biliplayer:fullscreen .biliplayer-track,
-.biliplayer.cinema .biliplayer-track {
-  background: rgba(255, 255, 255, 0.25);
-}
-/* 全屏下字幕上移，别被控制栏压住 */
-.biliplayer:fullscreen .biliplayer-cc,
-.biliplayer.cinema .biliplayer-cc {
-  bottom: 10%;
-}
-/* 全屏时隐藏提示行（它在流式布局里，全屏没有它的位置） */
-.biliplayer:fullscreen .biliplayer-hint,
-.biliplayer.cinema .biliplayer-hint {
-  display: none;
-}
-
-/* ==== 播放器：音量条 / 设置面板 / 徽标 ==== */
-.biliplayer-bar {
-  position: relative;
-}
-.biliplayer-volume {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-.biliplayer-volume input[type="range"] {
-  width: 68px;
-  height: 4px;
-  accent-color: var(--app-blue);
-  cursor: pointer;
-}
-.biliplayer-badge {
-  margin-left: 3px;
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 800;
-}
-.biliplayer-controls button {
-  width: auto;
-  min-width: 34px;
-  padding: 0 6px;
-  gap: 2px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.biliplayer-controls button:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-.biliplayer-panel {
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 8px);
-  z-index: 5;
-  display: grid;
-  gap: 10px;
-  width: min(300px, 88vw);
-  padding: 14px;
-  border: 2px solid var(--app-line);
-  border-radius: 14px;
-  background: var(--app-surface);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
-}
-.biliplayer:fullscreen .biliplayer-panel,
-.biliplayer.cinema .biliplayer-panel {
-  bottom: calc(100% + 4px);
-  background: rgba(20, 20, 24, 0.96);
-  border-color: rgba(255, 255, 255, 0.16);
-  color: #fff;
-}
-.biliplayer-panel h4 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: inherit;
-  font-size: 14px;
-  font-weight: 800;
-}
-.biliplayer:fullscreen .biliplayer-panel h4,
-.biliplayer.cinema .biliplayer-panel h4 {
-  color: #fff;
-}
-.biliplayer-panel-note {
-  color: var(--app-faint);
-  font-size: 11px;
-  font-weight: 700;
-}
-.biliplayer-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
-.biliplayer-switch input {
-  accent-color: var(--app-green);
-}
-.biliplayer-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.biliplayer-chips button {
-  padding: 5px 11px;
-  border: 2px solid var(--app-line);
-  border-radius: 10px;
-  background: transparent;
-  color: inherit;
-  font-size: 12px;
-  font-weight: 800;
-  cursor: pointer;
-}
-.biliplayer-chips button.on {
-  border-color: var(--app-blue);
-  background: color-mix(in srgb, var(--app-blue) 16%, transparent);
-  color: var(--app-blue);
-}
-.biliplayer-slider {
-  display: grid;
-  grid-template-columns: 48px 1fr auto;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 700;
-}
-.biliplayer-slider input {
-  accent-color: var(--app-blue);
-  cursor: pointer;
-}
-.biliplayer-slider b {
-  min-width: 56px;
-  text-align: right;
-  font-size: 11px;
-  color: var(--app-faint);
-}
-.biliplayer:fullscreen .biliplayer-slider b,
-.biliplayer.cinema .biliplayer-slider b {
-  color: rgba(255, 255, 255, 0.7);
-}
-.biliplayer-field {
-  display: grid;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 700;
 }
 
 /* CC 三种样式 */
@@ -6642,14 +6295,6 @@ body:has(.dungeon-chamber) .analysis-section {
   font-weight: 700;
 }
 
-/* 控制栏分左右两组：带弹层的设置贴右边（弹层也从右侧展开） */
-.biliplayer-spacer {
-  flex: 1;
-}
-.biliplayer-watch {
-  margin-left: 0;
-}
-
 /* 移动端：直接唤起 bilibili App 确认登录（手机没法自己扫自己） */
 .bili-auth-app {
   display: inline-flex;
@@ -6672,12 +6317,6 @@ body:has(.dungeon-chamber) .analysis-section {
   color: var(--app-text);
   font-size: 13px;
   line-height: 1.7;
-}
-
-/* 字幕时间轴校准：数值按钮等宽，免得 +0.5s / -1.0s 之间跳来跳去 */
-.biliplayer-offset {
-  min-width: 62px;
-  font-variant-numeric: tabular-nums;
 }
 
 /* ==== 首次扫码进站的开号表单 ==== */
@@ -6974,24 +6613,6 @@ body:has(.dungeon-chamber) .analysis-section {
    ~390px。这里统一兜住两件事：任何页面都不该横向溢出，矮屏时
    竖向的固定高度要让路。 */
 
-/* 播放器控制栏在窄屏精简：音量条占 104px，是最不划算的那个——
-   静音按钮本身就在旁边，滑条让给真正常用的控件 */
-@media (max-width: 420px) {
-  .biliplayer-volume input[type="range"] {
-    display: none;
-  }
-  .biliplayer-time {
-    font-size: 11px;
-  }
-  .biliplayer-controls {
-    gap: 6px;
-  }
-  .biliplayer-controls button {
-    width: 32px;
-    height: 32px;
-  }
-}
-
 /* 横屏手机（宽 > 高 且不高）：把播放器让成主角，周边留白收紧 */
 @media (orientation: landscape) and (max-height: 480px) {
   .app-page {
@@ -7002,11 +6623,6 @@ body:has(.dungeon-chamber) .analysis-section {
   }
   .course-hero h1 {
     font-size: 17px;
-  }
-  /* 设置/字幕面板本来按竖屏留的高度，横屏会顶出屏幕 */
-  .biliplayer-panel {
-    max-height: 60vh;
-    overflow-y: auto;
   }
   .term-unlock-list {
     max-height: 38vh;
@@ -7032,32 +6648,6 @@ body:has(.dungeon-chamber) .analysis-section {
   overflow-x: auto;
   overflow-y: hidden;
   vertical-align: middle;
-}
-
-/* 手势 OSD：横滑跳转 / 纵滑音量 / 长按倍速时的居中提示 */
-.biliplayer-osd {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 4;
-  transform: translate(-50%, -50%);
-  padding: 10px 16px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.72);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-  pointer-events: none;
-  animation: sheet-rise 120ms ease-out;
-}
-/* 手势要吃掉横向拖动，否则浏览器会拿去做页面滚动 */
-.biliplayer-stage {
-  touch-action: pan-y;
-}
-.biliplayer:fullscreen .biliplayer-stage,
-.biliplayer.cinema .biliplayer-stage {
-  touch-action: none;
 }
 
 /* 需要键盘的入口（工坊）在窄屏藏起来——点进去也只能看到一句
@@ -7351,36 +6941,6 @@ body:has(.dungeon-chamber) .analysis-section {
   font-weight: 800;
 }
 
-/* 已缓冲段：垫在播放进度底下，让人知道还能往后拖多少 */
-.biliplayer-buffered {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--app-blue) 32%, transparent);
-  text-decoration: none;
-}
-
-/* 缓冲中：大文件首次播放要等一会儿，不给提示会以为卡死了 */
-.biliplayer-stalled {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 4;
-  transform: translate(-50%, -50%);
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  padding: 14px 20px;
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.68);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 800;
-  pointer-events: none;
-}
-
 /* 配色三态：直接摆出来，比「点一下轮换一格」少猜一步 */
 .theme-switch {
   display: flex;
@@ -7478,68 +7038,48 @@ html,
 body {
   background: var(--app-bg);
 }
-:root {
-  --force-landscape-left-safe: env(safe-area-inset-top);
+/* ==== ArtPlayer 播放器(P1b 重写) ====
+   播放器 chrome(控制栏/手势/全屏/横屏/锁屏)全部由 ArtPlayer 提供,
+   这里只管:容器尺寸、主题色对齐、自研 CC 层与续播弹窗的挂载点。 */
+.biliplayer-art-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
-html[data-ios="1"] {
-  --force-landscape-left-safe: max(env(safe-area-inset-top), 56px);
+.biliplayer-art {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
 }
-/* ==== iOS 强制横屏 ====
-   iOS Safari 至今没实现 screen.orientation.lock()，全屏后还是竖着。
-   锁不上就自己转：把播放器整体 rotate 90°、宽高对调铺满视口——
-   H5 播放器的通行做法。
-   用户真把手机转过来之后，下面的 orientation 媒体查询会撤掉这个旋转，
-   不会出现「转两次」的窘境。 */
-@media (orientation: portrait) {
-  .biliplayer.force-landscape {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 90;
-    box-sizing: border-box;
-    width: 100dvh;
-    height: 100dvw;
-    transform: rotate(90deg) translateY(-100%);
-    transform-origin: top left;
-    background: #000;
-    touch-action: none;
-  }
-  .biliplayer.force-landscape .biliplayer-stage {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    border-radius: 0;
-  }
-  .biliplayer.force-landscape .biliplayer-stage video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  .biliplayer.force-landscape .biliplayer-bar {
-    position: absolute;
-    left: var(--force-landscape-left-safe);
-    right: 0;
-    bottom: 0;
-    z-index: 2;
-    padding: 28px 20px 12px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 200ms ease;
-  }
-  .biliplayer.force-landscape.controls-visible .biliplayer-bar,
-  .biliplayer.force-landscape:focus-within .biliplayer-bar {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .biliplayer.force-landscape ~ *,
-  .biliplayer.force-landscape .biliplayer-hint {
-    display: none;
-  }
+.biliplayer-art .art-video-player {
+  font-family: inherit;
 }
-
-body:has(.biliplayer.force-landscape),
-body:has(.biliplayer.cinema),
-body:has(.biliplayer:fullscreen) {
+/* React portal 的层挂载点:铺满画面。cc 层开容器查询,
+   字幕字号用 cqh 按画面高度缩放(全屏自动跟着放大) */
+.artcc-host,
+.artresume-host {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.artcc-host {
+  container-type: size;
+}
+.artresume-host .biliplayer-resume {
+  pointer-events: auto;
+}
+/* 控制栏上的观看覆盖率角标 */
+.artp-watch {
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+/* 网页全屏/原生全屏时页面底色压黑,safe area 不露白 */
+body:has(.art-video-player.art-fullscreen),
+body:has(.art-video-player.art-fullscreen-web) {
   background: #000;
 }
