@@ -5901,7 +5901,8 @@ body:has(.art-video-player.art-fullscreen-web) {
 }
 
 /* ==== F5:播放器内笔记速记层(全屏可用) ==== */
-.artp-notebtn {
+.artp-notebtn,
+.artp-pipbtn {
   display: inline-grid;
   place-items: center;
   min-width: 22px;

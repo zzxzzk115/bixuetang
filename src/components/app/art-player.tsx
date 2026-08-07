@@ -217,10 +217,14 @@ export function BiliPlayer({
   const completedRef = useRef(false);
   const ccOffsetsRef = useRef<Record<string, number>>({});
   const lastCuesRef = useRef("");
-  /** 画中画字幕(方案 A):原生 PiP 只搬 video 画面,DOM 字幕层进不去,
-      于是挂一条原生字幕轨,仅 PiP 期间 showing,把当前双语行合成一条 cue 喂进去 */
-  const pipTrackRef = useRef<TextTrack | null>(null);
+  /** 画中画(canvas 合成):原生 PiP 只搬 video 画面,DOM 字幕层进不去。
+      于是把「画面 + 当前双语字幕」逐帧画到 canvas,再把 canvas 流投进 PiP。
+      音频仍来自页面里的原视频(它不暂停),字幕一定显示、样式自控。 */
   const pipOnRef = useRef(false);
+  /** 控件点击时调用(实例建好后才有函数体) */
+  const togglePipRef = useRef<(() => void) | null>(null);
+  /** 卸载时收拾画中画(停 raf、断流、退出 PiP) */
+  const pipCleanupRef = useRef<(() => void) | null>(null);
   const hoverRef = useRef(false);
   /** 实例还没建好时收到的 seek 请求,建好后补跳 */
   const pendingSeekRef = useRef<number | null>(null);
@@ -559,7 +563,8 @@ export function BiliPlayer({
         backdrop: true,
         setting: true,
         hotkey: false, // 自己接管:要支持「悬停即可用键盘」,ArtPlayer 的须先点击聚焦
-        pip: true,
+        pip: false, // 用自研 canvas 合成 PiP(带字幕),不用原生的
+
         airplay: false,
         fullscreen: true,
         fullscreenWeb: true,
@@ -620,6 +625,17 @@ export function BiliPlayer({
             html: `<span class="artp-notebtn">✎</span>`,
             click: () => {
               openNote();
+            },
+          },
+          {
+            // 画中画(canvas 合成,带字幕)
+            name: "canvaspip",
+            position: "right",
+            index: 7,
+            tooltip: "画中画",
+            html: `<span class="artp-pipbtn">⧉</span>`,
+            click: () => {
+              togglePipRef.current?.();
             },
           },
         ],
@@ -748,38 +764,20 @@ export function BiliPlayer({
         }
       });
 
-      // 画中画字幕轨:进 PiP 时 showing、把当前双语行合成一条原生 cue;
-      // 退出就禁用并清空。正常观看仍走自绘 DOM 层,不受影响。
-      const pipVideo = art.video;
-      try {
-        const track = pipVideo.addTextTrack("subtitles", "字幕", "zh");
-        track.mode = "disabled";
-        pipTrackRef.current = track;
-      } catch {
-        // 个别环境不支持 addTextTrack,PiP 就没字幕,不影响播放
-      }
-      const clearPipCue = () => {
-        const tr = pipTrackRef.current;
-        if (!tr?.cues) return;
-        for (let i = tr.cues.length - 1; i >= 0; i--) tr.removeCue(tr.cues[i]);
-      };
-      const syncPipCue = (text: string) => {
-        const tr = pipTrackRef.current;
-        if (!tr) return;
-        clearPipCue();
-        if (!text) return;
-        try {
-          // 一条长 cue 顶到下次换字幕时被替换;时间戳锚在当前秒
-          tr.addCue(
-            new VTTCue(pipVideo.currentTime, pipVideo.currentTime + 3600, text),
-          );
-        } catch {
-          // VTTCue 不可用就算了
-        }
-      };
+      // 画中画(canvas 合成):把「原视频画面 + 当前双语字幕」逐帧画到
+      // 离屏 canvas,再把 canvas.captureStream 投进 PiP。原视频不暂停,
+      // 音频照常;PiP 小窗里字幕一定显示、样式自控(代价:小窗只有播放/暂停)。
+      const srcVideo = art.video;
+      const pipVideo = document.createElement("video");
+      pipVideo.muted = true;
+      pipVideo.playsInline = true;
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      let rafId = 0;
+
       const currentCcText = () => {
         if (!prefsStore.get().cc.on) return "";
-        const t = pipVideo.currentTime;
+        const t = srcVideo.currentTime;
         return activeTracksRef.current
           .map((track) => {
             const at = t - (ccOffsetsRef.current[track.lan] ?? 0) / 1000;
@@ -788,16 +786,81 @@ export function BiliPlayer({
           .filter(Boolean)
           .join("\n");
       };
-      pipVideo.addEventListener("enterpictureinpicture", () => {
-        pipOnRef.current = true;
-        if (pipTrackRef.current) pipTrackRef.current.mode = "showing";
-        syncPipCue(currentCcText());
-      });
-      pipVideo.addEventListener("leavepictureinpicture", () => {
+
+      const drawSubtitle = (text: string) => {
+        if (!ctx || !text) return;
+        const lines = text.split("\n");
+        const base = Math.round(canvas.height * 0.05); // 字号随分辨率缩放
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+        ctx.lineJoin = "round";
+        let y = canvas.height - Math.round(canvas.height * 0.04);
+        // 从下往上画(主字幕在上、略大),与页面内叠加顺序一致
+        for (let i = lines.length - 1; i >= 0; i--) {
+          const size = i === 0 ? base : Math.round(base * 0.86);
+          ctx.font = `700 ${size}px system-ui, "PingFang SC", "Microsoft YaHei", sans-serif`;
+          ctx.lineWidth = Math.max(3, size * 0.14);
+          ctx.strokeStyle = "rgba(0,0,0,0.85)";
+          ctx.fillStyle = "#fff";
+          ctx.strokeText(lines[i], canvas.width / 2, y);
+          ctx.fillText(lines[i], canvas.width / 2, y);
+          y -= size * 1.3;
+        }
+      };
+
+      const drawFrame = () => {
+        if (ctx && srcVideo.videoWidth) {
+          if (canvas.width !== srcVideo.videoWidth) {
+            canvas.width = srcVideo.videoWidth;
+            canvas.height = srcVideo.videoHeight;
+          }
+          ctx.drawImage(srcVideo, 0, 0, canvas.width, canvas.height);
+          drawSubtitle(currentCcText());
+        }
+        rafId = requestAnimationFrame(drawFrame);
+      };
+
+      const stopPip = () => {
         pipOnRef.current = false;
-        if (pipTrackRef.current) pipTrackRef.current.mode = "disabled";
-        clearPipCue();
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+        if (document.pictureInPictureElement === pipVideo) {
+          document.exitPictureInPicture().catch(() => {});
+        }
+        const s = pipVideo.srcObject as MediaStream | null;
+        if (s) s.getTracks().forEach((t) => t.stop());
+        pipVideo.srcObject = null;
+      };
+
+      const startPip = async () => {
+        if (pipOnRef.current || !ctx || !srcVideo.videoWidth) return;
+        canvas.width = srcVideo.videoWidth;
+        canvas.height = srcVideo.videoHeight;
+        drawFrame();
+        pipVideo.srcObject = canvas.captureStream(30);
+        try {
+          await pipVideo.play();
+          await pipVideo.requestPictureInPicture();
+          pipOnRef.current = true;
+        } catch {
+          stopPip(); // 用户拒绝 / 不支持 → 收拾干净
+        }
+      };
+
+      togglePipRef.current = () => {
+        if (pipOnRef.current) stopPip();
+        else void startPip();
+      };
+      pipCleanupRef.current = stopPip;
+
+      // PiP 小窗的播放/暂停镜像回原视频(保持音画同步)
+      pipVideo.addEventListener("play", () => {
+        if (srcVideo.paused) void srcVideo.play();
       });
+      pipVideo.addEventListener("pause", () => {
+        if (!srcVideo.paused) srcVideo.pause();
+      });
+      pipVideo.addEventListener("leavepictureinpicture", () => stopPip());
 
       // 覆盖率追踪 + CC 字幕行,都挂在 timeupdate 上
       // (覆盖率百分比不再占控制栏按钮位,分段 chips 与打卡反馈足够)
@@ -818,12 +881,10 @@ export function BiliPlayer({
           if (key !== lastCuesRef.current) {
             lastCuesRef.current = key;
             setCues(next);
-            if (pipOnRef.current) syncPipCue(next.filter(Boolean).join("\n"));
           }
         } else if (lastCuesRef.current !== "") {
           lastCuesRef.current = "";
           setCues([]);
-          if (pipOnRef.current) syncPipCue("");
         }
       });
 
@@ -846,7 +907,9 @@ export function BiliPlayer({
       thumbsStartedRef.current = false;
       setThumbs({});
       deferredRef.current = null;
-      pipTrackRef.current = null;
+      pipCleanupRef.current?.();
+      pipCleanupRef.current = null;
+      togglePipRef.current = null;
       pipOnRef.current = false;
       try {
         dashRef.current?.destroy();
