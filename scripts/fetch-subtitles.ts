@@ -86,16 +86,58 @@ async function getJson<T>(url: string): Promise<T> {
   return (await res.json()) as T;
 }
 
-/** 取某个稿件某一分 P 的字幕行 */
+type RawSub = { lan: string; subtitle_url?: string; subtitle_url_v2?: string };
+type PlayerResp = {
+  code: number;
+  data?: { subtitle?: { subtitles?: RawSub[] } };
+};
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * 取某个稿件某一分 P 的字幕行。
+ * 关键：WBI 签名版接口在境外 IP 常被 412 拦，必须回退到非签名的 player/v2
+ * （和运行时 api.ts 的 collectSubtitleList 一致），否则会把「其实有字幕」误判成
+ * 「无字幕」。人工轨优先，只拿到 AI 轨就慢重试两次碰运气（快重试反而问没）。
+ */
 async function fetchSubtitle(
   bvid: string,
   cid: number,
 ): Promise<{ lang: string; lines: SubtitleLine[] } | null> {
-  const player = await getJson<{
-    code: number;
-    data?: { subtitle?: { subtitles?: { lan: string; subtitle_url: string }[] } };
-  }>(`https://api.bilibili.com/x/player/wbi/v2?bvid=${bvid}&cid=${cid}`);
-  const list = player.data?.subtitle?.subtitles ?? [];
+  const merged = new Map<string, RawSub>();
+  const urlOf = (s?: RawSub) => (s ? s.subtitle_url || s.subtitle_url_v2 || "" : "");
+  const absorb = (list?: RawSub[]) => {
+    for (const s of list ?? []) {
+      if (!s?.lan) continue;
+      if (!merged.has(s.lan) || (!urlOf(merged.get(s.lan)) && urlOf(s))) {
+        merged.set(s.lan, s);
+      }
+    }
+  };
+  const hasHuman = () => [...merged.keys()].some((l) => !l.startsWith("ai-"));
+
+  // 1) WBI 签名版（偶尔才给人工轨），412 就忽略走回退
+  try {
+    const j = await getJson<PlayerResp>(
+      `https://api.bilibili.com/x/player/wbi/v2?bvid=${bvid}&cid=${cid}`,
+    );
+    if (j.code === 0) absorb(j.data?.subtitle?.subtitles);
+  } catch {
+    // 412 等：走下面的非签名回退
+  }
+  // 2) 非签名 player/v2 回退：最多两轮、慢重试，拿到人工轨即止
+  for (let i = 0; i < 2 && !hasHuman(); i++) {
+    if (i > 0) await sleep(1500);
+    try {
+      const j = await getJson<PlayerResp>(
+        `https://api.bilibili.com/x/player/v2?bvid=${bvid}&cid=${cid}`,
+      );
+      absorb(j.data?.subtitle?.subtitles);
+    } catch {
+      // 单轮失败无所谓
+    }
+  }
+
+  const list = [...merged.values()].filter((s) => urlOf(s));
   if (list.length === 0) return null;
 
   // 优先人工中文 > AI 中文 > 英文
@@ -105,9 +147,8 @@ async function fetchSubtitle(
     list.find((s) => /^(en|ai-en)/i.test(s.lan)) ??
     list[0];
 
-  const url = pick.subtitle_url.startsWith("//")
-    ? `https:${pick.subtitle_url}`
-    : pick.subtitle_url;
+  const raw = urlOf(pick);
+  const url = raw.startsWith("//") ? `https:${raw}` : raw;
   const body = await getJson<{ body: SubtitleLine[] }>(url);
   return { lang: pick.lan, lines: body.body ?? [] };
 }
