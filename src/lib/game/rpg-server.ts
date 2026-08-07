@@ -37,6 +37,8 @@ export interface EquippedEntry {
 
 export interface RpgProfile {
   coins: number;
+  /** 已解锁的装备槽数(默认 3,商店扩容) */
+  equipSlots: number;
   relics: InventoryEntry[];
   equipped: EquippedEntry[];
   /** 学习行为攒出来的底子 */
@@ -146,10 +148,11 @@ function syncRpgLootForProgress(userId: number) {
 export function getRpgProfile(userId: number): RpgProfile {
   syncRpgLootForProgress(userId);
   const profile = db
-    .select({ coins: rpgProfiles.coins })
+    .select({ coins: rpgProfiles.coins, equipSlots: rpgProfiles.equipSlots })
     .from(rpgProfiles)
     .where(eq(rpgProfiles.userId, userId))
     .get();
+  const equipSlots = profile?.equipSlots ?? 3;
   const inventory = db
     .select()
     .from(rpgInventory)
@@ -211,10 +214,11 @@ export function getRpgProfile(userId: number): RpgProfile {
     .filter((e): e is EquippedEntry => e !== null)
     .sort((a, b) => a.slot - b.slot);
 
-  const bonusStats = equipmentBonus(equipped);
+  const bonusStats = equipmentBonus(equipped, equipSlots);
 
   return {
     coins: profile?.coins ?? 0,
+    equipSlots,
     relics,
     equipped,
     baseStats,

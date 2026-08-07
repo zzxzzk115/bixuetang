@@ -7,7 +7,9 @@ import type { LootItem, LootRarity } from "./rpg";
 // 学科决定加哪一项，稀有度决定加多少——都不是随机数，
 // 玩家看得懂「我该去学什么才能变强」。
 
+/** 默认装备槽数;商店可扩容到 MAX_EQUIP_SLOTS */
 export const EQUIP_SLOTS = 3;
+export const MAX_EQUIP_SLOTS = 6;
 
 /** 每个学科主加一项属性，对应它锻炼的能力 */
 export const SUBJECT_STAT: Record<Subject, StatKey> = {
@@ -88,8 +90,11 @@ export interface EquippedRelic {
 }
 
 /** 装备栏带来的总加成。超出格子数的部分不计，避免前端漏校验时被绕过 */
-export function equipmentBonus(equipped: EquippedRelic[]): StatBlock {
+export function equipmentBonus(
+  equipped: EquippedRelic[],
+  slots: number = EQUIP_SLOTS,
+): StatBlock {
   return sumStats(
-    equipped.slice(0, EQUIP_SLOTS).map((e) => relicBonus(e.item, e.quantity)),
+    equipped.slice(0, slots).map((e) => relicBonus(e.item, e.quantity)),
   );
 }

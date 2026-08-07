@@ -17,7 +17,6 @@ import { equipRelic, unequipRelic } from "@/lib/game/equipment-actions";
 import { drinkPotion } from "@/lib/game/shop-actions";
 import type { StatBlock } from "@/lib/game/relics";
 import {
-  EQUIP_SLOTS,
   STAT_LABEL,
   SUBJECT_STAT,
   relicBonus,
@@ -225,9 +224,15 @@ export function BagHome({
         </section>
 
         <section className="bag-card">
-          <h2>装备栏</h2>
+          <h2>
+            装备栏
+            <small className="bag-slots-note">
+              {bootstrap.rpg.equipSlots}/6 格
+              {bootstrap.rpg.equipSlots < 6 ? " · 商店可扩容" : ""}
+            </small>
+          </h2>
           <div className="bag-slots">
-            {Array.from({ length: EQUIP_SLOTS }, (_, slot) => {
+            {Array.from({ length: bootstrap.rpg.equipSlots }, (_, slot) => {
               const vm = equipped.find((e) => e.slot === slot);
               const relic = vm ? byId.get(vm.itemId) : undefined;
               const color = relic

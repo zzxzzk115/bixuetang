@@ -5261,6 +5261,94 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-weight: 800;
 }
 
+/* ==== 商店扩展柜台:装备槽 / 遗物直售 / 融合 ==== */
+.shop-card-icon-slot {
+  color: var(--app-blue);
+}
+.shop-card-icon-relic {
+  color: var(--app-teal);
+}
+.shop-card-icon-fuse {
+  color: #c084fc;
+}
+.shop-relic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  margin: 4px 0 2px;
+}
+.shop-relic-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1.5px solid var(--app-line);
+  border-radius: 12px;
+}
+.shop-relic-cell b {
+  font-size: 13px;
+}
+.shop-relic-cell .app-btn-plain {
+  font-size: 12px;
+  padding: 5px 8px;
+}
+.shop-fuse-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0;
+}
+.shop-fuse-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 7px 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+.shop-fuse-chip span {
+  font-size: 13px;
+  font-weight: 800;
+}
+.shop-fuse-chip small {
+  font-size: 11px;
+  color: var(--app-faint);
+}
+.shop-fuse-chip.rarity-uncommon {
+  border-color: color-mix(in srgb, var(--app-green) 55%, transparent);
+}
+.shop-fuse-chip.rarity-rare {
+  border-color: color-mix(in srgb, var(--app-blue) 55%, transparent);
+}
+.shop-fuse-chip.rarity-legendary {
+  border-color: color-mix(in srgb, var(--app-gold) 70%, transparent);
+}
+.shop-fuse-chip.on {
+  outline: 2.5px solid var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 10%, transparent);
+}
+.shop-fuse-chip.dim {
+  opacity: 0.4;
+}
+.shop-fuse-empty,
+.shop-fuse-msg {
+  font-size: 13px;
+  color: var(--app-faint);
+}
+.shop-fuse-msg {
+  color: var(--app-green);
+  font-weight: 800;
+}
+.bag-slots-note {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-faint);
+}
+
 /* 经验倍率徽章:药水名不带倍率(会被读成 1.5 瓶),倍率单独成章 */
 .xp-badge {
   display: inline-block;

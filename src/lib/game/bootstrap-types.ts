@@ -35,6 +35,8 @@ export interface EquippedDto {
 
 export interface RpgDto {
   coins: number;
+  /** 已解锁装备槽数(默认 3,商店扩容到 6) */
+  equipSlots: number;
   relics: RelicDto[];
   equipped: EquippedDto[];
   baseStats: StatBlock;

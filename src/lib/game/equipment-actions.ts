@@ -3,7 +3,7 @@
 import { and, eq, gt } from "drizzle-orm";
 import { getCurrentUser } from "../auth/session";
 import { db } from "../db/client";
-import { rpgEquipment, rpgInventory } from "../db/schema";
+import { rpgEquipment, rpgInventory, rpgProfiles } from "../db/schema";
 import { validateEquip, validateUnequip, type EquipState } from "./equip-rules";
 import { getRpgProfile, type RpgProfile } from "./rpg-server";
 
@@ -33,7 +33,13 @@ function loadState(userId: number): EquipState {
       .all()
       .map((r) => r.itemId),
   );
-  return { equipped, owned };
+  const slots =
+    db
+      .select({ equipSlots: rpgProfiles.equipSlots })
+      .from(rpgProfiles)
+      .where(eq(rpgProfiles.userId, userId))
+      .get()?.equipSlots ?? 3;
+  return { equipped, owned, slots };
 }
 
 export async function equipRelic(

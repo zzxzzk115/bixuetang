@@ -168,6 +168,8 @@ export const rpgProfiles = sqliteTable("rpg_profiles", {
     .primaryKey()
     .references(() => users.id, { onDelete: "cascade" }),
   coins: integer("coins").notNull().default(0),
+  /** 装备槽数:默认 3,商店购买扩容,上限见 relics.MAX_EQUIP_SLOTS */
+  equipSlots: integer("equip_slots").notNull().default(3),
   updatedAt: integer("updated_at").notNull(),
 });
 

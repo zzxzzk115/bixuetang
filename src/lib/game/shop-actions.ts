@@ -1,5 +1,6 @@
 "use server";
 
+import crypto from "node:crypto";
 import { and, eq, gt, sql } from "drizzle-orm";
 import { getCurrentUser } from "../auth/session";
 import { db } from "../db/client";
@@ -13,8 +14,20 @@ import {
   type ActiveBoost,
   type PotionKind,
 } from "./boosts";
+import {
+  FUSE_COUNT,
+  fusableError,
+  fusionResult,
+  RARITY_ENCOUNTER,
+  RELIC_SHOP_PRICES,
+  SLOT_PRICES,
+} from "./fusion";
+import { MAX_EQUIP_SLOTS } from "./relics";
+import { getLootItem, itemForEncounter, type LootItem } from "./rpg";
+import type { Subject } from "../content/schema";
 
 // 商店与消耗品。购买默认立即生效；入包（囤货）要加价，之后在背包里「使用」。
+// 扩展玩法:装备槽扩容(3→6)、遗物直售(融合素材)、遗物融合(3合1,几率升级)。
 
 export interface ShopResult {
   ok: boolean;
@@ -113,6 +126,167 @@ export async function buyStreakFreeze(): Promise<FreezeResult> {
 
   const added = addFreeze(user.id);
   return { ...snapshot(user.id), freezes: added.freezes };
+}
+
+/** 扣款(带余额校验)。返回 false = 金币不够 */
+function charge(userId: number, price: number): boolean {
+  const paid = db
+    .update(rpgProfiles)
+    .set({ coins: sql`${rpgProfiles.coins} - ${price}`, updatedAt: Date.now() })
+    .where(
+      and(eq(rpgProfiles.userId, userId), gt(rpgProfiles.coins, price - 1)),
+    )
+    .returning({ coins: rpgProfiles.coins })
+    .get();
+  return !!paid;
+}
+
+function addItem(userId: number, itemId: string, delta = 1) {
+  const now = Date.now();
+  db.insert(rpgInventory)
+    .values({ userId, itemId, quantity: delta, acquiredAt: now, updatedAt: now })
+    .onConflictDoUpdate({
+      target: [rpgInventory.userId, rpgInventory.itemId],
+      set: { quantity: sql`${rpgInventory.quantity} + ${delta}`, updatedAt: now },
+    })
+    .run();
+}
+
+export interface SlotResult extends ShopResult {
+  equipSlots?: number;
+  /** 下一个槽的价格(null=已满) */
+  nextSlotPrice?: number | null;
+}
+
+/** 购买第 4/5/6 个装备槽 */
+export async function buyEquipSlot(): Promise<SlotResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+
+  const cur =
+    db
+      .select({ equipSlots: rpgProfiles.equipSlots })
+      .from(rpgProfiles)
+      .where(eq(rpgProfiles.userId, user.id))
+      .get()?.equipSlots ?? 3;
+  if (cur >= MAX_EQUIP_SLOTS) {
+    return { ok: false, error: "装备槽已经满配了" };
+  }
+  const price = SLOT_PRICES[cur + 1];
+  if (!price) return { ok: false, error: "槽位价格未定义" };
+  if (!charge(user.id, price)) return { ok: false, error: "金币不够" };
+
+  const next = cur + 1;
+  db.update(rpgProfiles)
+    .set({ equipSlots: next, updatedAt: Date.now() })
+    .where(eq(rpgProfiles.userId, user.id))
+    .run();
+  return {
+    ...snapshot(user.id),
+    equipSlots: next,
+    nextSlotPrice: next >= MAX_EQUIP_SLOTS ? null : SLOT_PRICES[next + 1],
+  };
+}
+
+export interface RelicShopResult extends ShopResult {
+  item?: LootItem;
+}
+
+/** 遗物直售:只卖 common/uncommon 当融合素材,高稀有度得自己学出来 */
+export async function buyRelic(
+  subject: Subject,
+  rarity: "common" | "uncommon",
+): Promise<RelicShopResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+  const price = RELIC_SHOP_PRICES[rarity];
+  if (!price) return { ok: false, error: "商店不卖这种稀有度" };
+  const item = itemForEncounter(subject, RARITY_ENCOUNTER[rarity]);
+  if (!item) return { ok: false, error: "没有这种遗物" };
+  if (!charge(user.id, price)) return { ok: false, error: "金币不够" };
+  addItem(user.id, item.id);
+  return { ...snapshot(user.id), item };
+}
+
+export interface FusionActionResult extends ShopResult {
+  item?: LootItem;
+  upgraded?: boolean;
+}
+
+/** 遗物融合:三件同稀有度 → 一件(几率升一级);学科随机继承自输入 */
+export async function fuseRelics(
+  itemIds: string[],
+): Promise<FusionActionResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+  if (!Array.isArray(itemIds) || itemIds.length !== FUSE_COUNT) {
+    return { ok: false, error: `融合需要恰好 ${FUSE_COUNT} 件遗物` };
+  }
+  const inputs: LootItem[] = [];
+  for (const id of itemIds) {
+    const item = getLootItem(id);
+    if (!item) return { ok: false, error: "有一件不是遗物" };
+    inputs.push(item);
+  }
+  const invalid = fusableError(inputs);
+  if (invalid) return { ok: false, error: invalid };
+
+  // 按 id 聚合需求量,事务里逐一扣减(带存量校验),不足则整体回滚
+  const need = new Map<string, number>();
+  for (const id of itemIds) need.set(id, (need.get(id) ?? 0) + 1);
+
+  const outcome = fusionResult(
+    inputs,
+    crypto.randomInt(1_000_000) / 1_000_000,
+    crypto.randomInt(1_000_000) / 1_000_000,
+  );
+
+  try {
+    db.transaction((tx) => {
+      const now = Date.now();
+      for (const [id, qty] of need) {
+        const used = tx
+          .update(rpgInventory)
+          .set({
+            quantity: sql`${rpgInventory.quantity} - ${qty}`,
+            updatedAt: now,
+          })
+          .where(
+            and(
+              eq(rpgInventory.userId, user.id),
+              eq(rpgInventory.itemId, id),
+              gt(rpgInventory.quantity, qty - 1),
+            ),
+          )
+          .returning({ quantity: rpgInventory.quantity })
+          .get();
+        if (!used) throw new Error("遗物数量不够");
+      }
+      tx.insert(rpgInventory)
+        .values({
+          userId: user.id,
+          itemId: outcome.item.id,
+          quantity: 1,
+          acquiredAt: now,
+          updatedAt: now,
+        })
+        .onConflictDoUpdate({
+          target: [rpgInventory.userId, rpgInventory.itemId],
+          set: {
+            quantity: sql`${rpgInventory.quantity} + 1`,
+            updatedAt: now,
+          },
+        })
+        .run();
+    });
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "融合失败",
+    };
+  }
+
+  return { ...snapshot(user.id), item: outcome.item, upgraded: outcome.upgraded };
 }
 
 export async function drinkPotion(kind: PotionKind): Promise<ShopResult> {
