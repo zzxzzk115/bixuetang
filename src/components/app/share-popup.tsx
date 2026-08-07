@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  Copy,
-  Download,
-  Loader2,
-  MessageCircle,
-  Share2,
-  X,
-} from "lucide-react";
+import { Copy, Download, Loader2, Share2, X } from "lucide-react";
 import { drawShareCard } from "@/lib/share-card";
 
 // 分享弹层:选「分享本站」或「分享原站(bilibili)」,生成对应风格的
@@ -130,22 +123,6 @@ export function SharePopup({
     }
   };
 
-  const qqShare = () => {
-    window.open(
-      `https://connect.qq.com/widget/shareqq/index.html?url=${encodeURIComponent(link)}&title=${encodeURIComponent(shareTitle)}&summary=${encodeURIComponent("在必学堂用游戏化的方式自学公开课")}`,
-      "_blank",
-      "noopener",
-    );
-  };
-
-  const weiboShare = () => {
-    window.open(
-      `https://service.weibo.com/share/share.php?url=${encodeURIComponent(link)}&title=${encodeURIComponent(shareTitle)}`,
-      "_blank",
-      "noopener",
-    );
-  };
-
   return (
     <div className="share-pop-mask" onClick={onClose}>
       <div className="share-pop" onClick={(e) => e.stopPropagation()}>
@@ -185,22 +162,16 @@ export function SharePopup({
           <button className="app-btn-primary" onClick={download} disabled={!imgUrl}>
             <Download size={16} aria-hidden /> 保存图片
           </button>
-          <button className="app-btn-plain" onClick={systemShare} disabled={!imgUrl}>
-            <Share2 size={16} aria-hidden /> 系统分享
-          </button>
           <button className="app-btn-plain" onClick={copyLink}>
             <Copy size={16} aria-hidden /> 复制链接
           </button>
-          <button className="app-btn-plain" onClick={qqShare}>
-            <MessageCircle size={16} aria-hidden /> QQ
-          </button>
-          <button className="app-btn-plain" onClick={weiboShare}>
-            微博
+          <button className="app-btn-plain" onClick={systemShare} disabled={!imgUrl}>
+            <Share2 size={16} aria-hidden /> 分享
           </button>
         </div>
         <p className="share-pop-note">
-          微信没有网页分享通道:保存图片发给好友/朋友圈即可,
-          对方长按识别图上二维码直达;手机上「系统分享」也能直接选微信。
+          「分享」走系统面板,手机上可直接选微信/QQ(带图带链接);
+          电脑端不支持时,保存图片发送即可,图上二维码就是入口。
         </p>
         {msg && <p className="share-pop-msg">{msg}</p>}
       </div>

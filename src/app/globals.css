@@ -5090,17 +5090,23 @@ body:has(.art-video-player.art-fullscreen-web) {
   background: color-mix(in srgb, #fb7299 14%, transparent);
   color: #fb7299;
 }
+/* 关闭钮:实心浅灰圆,一眼可识别为按钮而不是一个字符 */
 .share-pop-close {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  color: var(--app-faint);
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-line) 55%, transparent);
+  color: var(--app-text);
   cursor: pointer;
+  transition: background 120ms ease;
 }
 .share-pop-close:hover {
-  background: color-mix(in srgb, var(--app-faint) 14%, transparent);
+  background: color-mix(in srgb, var(--app-faint) 30%, transparent);
+}
+.share-pop-close svg {
+  display: block;
 }
 .share-pop-preview {
   display: grid;
