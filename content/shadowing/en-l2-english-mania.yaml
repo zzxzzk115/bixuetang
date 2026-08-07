@@ -1,0 +1,53 @@
+# 影子跟读单元(由 BV14p4y197in 的真实 en 字幕轨生成,句子即字幕 cue)
+id: en-l2-english-mania
+title: 英语狂热(TED短演讲)
+lang: en
+level: l2
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV14p4y197in
+bvid: BV14p4y197in
+page: 1
+sentences:
+  - text: "Let's start with beatlemania."
+    from: 19.82
+    to: 22.26
+  - text: "All for one idea get the ball in the net."
+    from: 37.1
+    to: 41.879
+  - text: "Okay religious mania there's rapture."
+    from: 43.44
+    to: 46.66
+  - text: "There's weeping there's visions manias can be good."
+    from: 46.66
+    to: 52.08
+  - text: "Manias can be alarming."
+    from: 52.4
+    to: 54.08
+  - text: "Or manias can be deadly."
+    from: 55.4
+    to: 57.86
+  - text: "The world has a new mania."
+    from: 61
+    to: 62.96
+  - text: "A mania for learning english."
+    from: 62.96
+    to: 65.519
+  - text: "How many people are trying to learn english worldwide."
+    from: 65.519
+    to: 68.779
+  - text: "Two billion of them in latin."
+    from: 68.779
+    to: 72.7
+  - text: "America in india in southeast asia."
+    from: 72.7
+    to: 76.84
+  - text: "And most of all in china."
+    from: 76.84
+    to: 79.679
+  - text: "Why english in a single word opportunity."
+    from: 79.92
+    to: 83.36
+  - text: "Opportunity for a better life."
+    from: 83.36
+    to: 85.2

@@ -1,0 +1,65 @@
+# 影子跟读单元(由 BV11y4y1272t 的真实 en 字幕轨生成,句子即字幕 cue)
+id: en-l3-first-20-hours
+title: 如何快速学会任何技能(TED)
+lang: en
+level: l3
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV11y4y1272t
+bvid: BV11y4y1272t
+page: 1
+sentences:
+  - text: "Hi everyone."
+    from: 2.26
+    to: 3.32
+  - text: "One of the things that I enjoy is learning new things."
+    from: 4.7
+    to: 8.9
+  - text: "How long does it take to acquire a new skill."
+    from: 8.9
+    to: 12.1
+  - text: "You know what I found ten thousand hours."
+    from: 12.1
+    to: 16.28
+  - text: "I am never going to be able to learn anything new ever again."
+    from: 18.58
+    to: 23.88
+  - text: "But that's not true the ten thousand hour rule came out of studies of."
+    from: 24.44
+    to: 29.86
+  - text: "Professional athletes world class musicians."
+    from: 32.34
+    to: 35.22
+  - text: "And the folks at the tippy top of their fields."
+    from: 35.22
+    to: 37.52
+  - text: "Put in around ten thousand hours of practice."
+    from: 37.52
+    to: 41.06
+  - text: "But that last statement it takes ten thousand hours to learn something."
+    from: 41.06
+    to: 44.309
+  - text: "It's not true this is the learning curve."
+    from: 44.309
+    to: 46.689
+  - text: "And the story of the learning curve is when you start."
+    from: 46.689
+    to: 49.209
+  - text: "You're grossly incompetent and you know it with a little bit of practice."
+    from: 49.209
+    to: 53.149
+  - text: "You get really good really quick."
+    from: 53.149
+    to: 54.849
+  - text: "And then at a certain point you reach a plateau."
+    from: 54.849
+    to: 57.66
+  - text: "And the subsequent gains become much harder to get."
+    from: 57.66
+    to: 61.4
+  - text: "How long does it take from starting something and being grossly incompetent."
+    from: 61.4
+    to: 66.21
+  - text: "And knowing it to being reasonably good."
+    from: 66.21
+    to: 68.67

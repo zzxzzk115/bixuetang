@@ -94,6 +94,47 @@ function esc(s: string) {
   return `"${s.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
 }
 
+/**
+ * ASR 字幕轨常把一句拆成好几条碎 cue(如「you know」单独 0.3s),
+ * 直接每条当一句会让跟读支离破碎。合并策略:相邻 cue 连成一句,直到
+ * 达到 minSec 时长且 minWords 词数,或原 cue 间存在明显停顿(gap≥pauseSec)。
+ * 保留合并后整段的 from/to,text 用空格拼接。
+ */
+function mergeCues(cues: Cue[], opts: { minSec: number; minWords: number; pauseSec: number; maxSec: number }): Cue[] {
+  const out: Cue[] = [];
+  let cur: Cue | null = null;
+  const words = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
+  for (const c of cues) {
+    const content = c.content.trim();
+    if (!content) continue;
+    if (!cur) {
+      cur = { from: c.from, to: c.to, content };
+      continue;
+    }
+    const gap = c.from - cur.to;
+    const curLong = cur.to - cur.from >= opts.minSec && words(cur.content) >= opts.minWords;
+    const wouldOverflow = c.to - cur.from > opts.maxSec;
+    // 已够长、或中间有明显停顿、或再并会超上限 → 断句
+    if (curLong || gap >= opts.pauseSec || wouldOverflow) {
+      out.push(cur);
+      cur = { from: c.from, to: c.to, content };
+    } else {
+      cur = { from: cur.from, to: c.to, content: `${cur.content} ${content}` };
+    }
+  }
+  if (cur) out.push(cur);
+  return out;
+}
+
+/** ASR 无标点:句首大写、"i" 独立时大写、结尾补句点,轻量可读化(不改词) */
+function tidy(text: string): string {
+  let s = text.trim().replace(/\s+/g, " ");
+  s = s.replace(/\bi\b/g, "I");
+  s = s.charAt(0).toUpperCase() + s.slice(1);
+  if (!/[.?!]$/.test(s)) s += ".";
+  return s;
+}
+
 async function main() {
   loadEnvLocal();
   if (!process.env.BILI_SESSDATA) {
@@ -115,6 +156,11 @@ async function main() {
 
   const cid = await cidOf(bvid, page);
   let cues = await cuesForLang(bvid, cid, lang);
+  // 英文 ASR 轨先合并碎 cue 成自然句;中日文按字不按空格,跳过合并
+  if (/^en/i.test(lang)) {
+    cues = mergeCues(cues, { minSec: 1.6, minWords: 5, pauseSec: 0.7, maxSec: 9 });
+    cues = cues.map((c) => ({ ...c, content: tidy(c.content) }));
+  }
   // 过掉过短的碎句;可选截取前 max 句
   cues = cues.filter((c) => c.content.trim().length >= minChars);
   if (max > 0) cues = cues.slice(0, max);
