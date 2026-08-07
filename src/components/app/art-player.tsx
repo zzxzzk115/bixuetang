@@ -562,7 +562,7 @@ export function BiliPlayer({
         backdrop: true,
         setting: true,
         hotkey: false, // 自己接管:要支持「悬停即可用键盘」,ArtPlayer 的须先点击聚焦
-        pip: true, // 视频画中画走 ArtPlayer 原生(真控件、最稳)
+        pip: false, // 自研 Document PiP(带自绘字幕),不用原生的
 
         airplay: false,
         fullscreen: true,
@@ -627,12 +627,12 @@ export function BiliPlayer({
             },
           },
           {
-            // 桌面字幕浮窗(独立于视频画中画)
-            name: "subwindow",
+            // 画中画:Document PiP,视频 + 自绘字幕 + 极简控件一窗搞定
+            name: "docpip",
             position: "right",
             index: 7,
-            tooltip: "桌面字幕",
-            html: `<span class="artp-pipbtn">幕</span>`,
+            tooltip: "画中画(带字幕)",
+            html: `<span class="artp-pipbtn">⧉</span>`,
             click: () => {
               toggleSubRef.current?.();
             },
@@ -769,6 +769,9 @@ export function BiliPlayer({
       const srcVideo = art.video;
       let subWin: Window | null = null;
       let subEl: HTMLElement | null = null;
+      let syncTimer = 0;
+      // 记住 video 在原播放器里的位置,退出时精确塞回去
+      let videoHome: { parent: Node; next: Node | null } | null = null;
 
       const currentCcText = () => {
         if (!prefsStore.get().cc.on) return "";
@@ -784,21 +787,6 @@ export function BiliPlayer({
       const updateSubWindow = () => {
         if (subEl) subEl.textContent = currentCcText();
       };
-      const buildSubWindow = (win: Window) => {
-        win.document.title = "字幕";
-        win.document.body.style.cssText =
-          "margin:0;height:100vh;display:flex;align-items:center;" +
-          "justify-content:center;background:rgba(10,10,12,0.82);";
-        const box = win.document.createElement("div");
-        box.style.cssText =
-          "width:100%;padding:8px 16px;text-align:center;color:#fff;" +
-          "white-space:pre-wrap;word-break:break-word;" +
-          'font:700 26px/1.4 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;' +
-          "text-shadow:0 2px 8px #000,0 0 3px #000;";
-        win.document.body.appendChild(box);
-        subEl = box;
-        updateSubWindow();
-      };
 
       const docPip = (
         window as unknown as {
@@ -811,9 +799,154 @@ export function BiliPlayer({
         }
       ).documentPictureInPicture;
 
-      const closeSubWindow = () => {
+      // 只把 video 元素搬进浮窗(不搬整棵 React 播放器,避免之前那些 bug),
+      // 再用纯 DOM 画字幕 + 一条仿原生的浮层控件(播放/暂停 + 静音 + 进度条,
+      // hover 显示、闲置淡出)。
+      const buildPipWindow = (win: Window) => {
+        win.document.title = "画中画";
+        win.document.body.style.cssText =
+          "margin:0;height:100vh;background:#000;overflow:hidden;";
+        const stage = win.document.createElement("div");
+        stage.style.cssText =
+          "position:relative;width:100%;height:100%;background:#000;display:flex;";
+        videoHome = { parent: srcVideo.parentNode!, next: srcVideo.nextSibling };
+        srcVideo.style.cssText =
+          "width:100%;height:100%;object-fit:contain;background:#000;";
+        stage.appendChild(srcVideo);
+        // 字幕层(纯 DOM,一定显示、样式自控),压在控件之上
+        const cc = win.document.createElement("div");
+        cc.style.cssText =
+          "position:absolute;left:0;right:0;bottom:52px;text-align:center;color:#fff;" +
+          "white-space:pre-wrap;word-break:break-word;padding:0 14px;pointer-events:none;" +
+          'font:700 22px/1.35 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;' +
+          "text-shadow:0 2px 8px #000,0 0 3px #000;";
+        stage.appendChild(cc);
+        subEl = cc;
+        // 控件浮层:进度条 + 播放/暂停 + 静音;hover 显示,闲置淡出
+        const bar = win.document.createElement("div");
+        bar.style.cssText =
+          "position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:6px;" +
+          "padding:8px 12px 10px;color:#fff;opacity:0;transition:opacity .2s;" +
+          "background:linear-gradient(transparent,rgba(0,0,0,0.65));";
+        const seek = win.document.createElement("input");
+        seek.type = "range";
+        seek.min = "0";
+        seek.max = "1000";
+        seek.value = "0";
+        seek.style.cssText = "width:100%;cursor:pointer;accent-color:#fff;";
+        let seeking = false;
+        seek.addEventListener("input", () => (seeking = true));
+        seek.addEventListener("change", () => {
+          const dur = srcVideo.duration || 0;
+          if (dur) srcVideo.currentTime = (Number(seek.value) / 1000) * dur;
+          seeking = false;
+        });
+        const row = win.document.createElement("div");
+        row.style.cssText = "display:flex;align-items:center;gap:14px;";
+        const btnCss =
+          "border:0;background:transparent;color:#fff;font-size:17px;cursor:pointer;padding:0;";
+        const playBtn = win.document.createElement("button");
+        const muteBtn = win.document.createElement("button");
+        const ccBtn = win.document.createElement("button");
+        playBtn.style.cssText = btnCss;
+        muteBtn.style.cssText = btnCss;
+        ccBtn.style.cssText =
+          "border:1.5px solid #fff;border-radius:4px;background:transparent;color:#fff;" +
+          "font:800 11px system-ui;cursor:pointer;padding:1px 4px;line-height:1.1;";
+        ccBtn.textContent = "CC";
+        // 音量滑条(拖动即取消静音)
+        const vol = win.document.createElement("input");
+        vol.type = "range";
+        vol.min = "0";
+        vol.max = "1";
+        vol.step = "0.05";
+        vol.value = String(srcVideo.muted ? 0 : srcVideo.volume);
+        vol.style.cssText = "width:72px;cursor:pointer;accent-color:#fff;";
+        const timeLabel = win.document.createElement("span");
+        timeLabel.style.cssText =
+          "margin-left:auto;font:600 12px system-ui;font-variant-numeric:tabular-nums;";
+        playBtn.onclick = () => {
+          if (srcVideo.paused) void srcVideo.play();
+          else srcVideo.pause();
+        };
+        muteBtn.onclick = () => (srcVideo.muted = !srcVideo.muted);
+        vol.addEventListener("input", () => {
+          srcVideo.muted = false;
+          srcVideo.volume = Number(vol.value);
+        });
+        ccBtn.onclick = () => {
+          const cur = prefsStore.get().cc;
+          prefsStore.set({ cc: { ...cur, on: !cur.on } });
+          updateSubWindow();
+        };
+        row.append(playBtn, muteBtn, vol, ccBtn, timeLabel);
+        bar.append(seek, row);
+        stage.appendChild(bar);
+        win.document.body.appendChild(stage);
+
+        // 仿原生 PiP:鼠标动就显示控件,2.5s 不动淡出(暂停时常驻)
+        let hideT = 0;
+        const showBar = () => {
+          bar.style.opacity = "1";
+          win.clearTimeout(hideT);
+          hideT = win.setTimeout(() => {
+            if (!srcVideo.paused) bar.style.opacity = "0";
+          }, 2500);
+        };
+        stage.addEventListener("mousemove", showBar);
+        stage.addEventListener("mouseleave", () => {
+          if (!srcVideo.paused) bar.style.opacity = "0";
+        });
+
+        const fmt = (s: number) => {
+          s = Math.max(0, s | 0);
+          const m = (s / 60) | 0;
+          return `${m}:${String(s % 60).padStart(2, "0")}`;
+        };
+        const paint = () => {
+          playBtn.textContent = srcVideo.paused ? "▶" : "⏸";
+          const muted = srcVideo.muted || srcVideo.volume === 0;
+          muteBtn.textContent = muted ? "🔇" : "🔊";
+          // 音量条跟随外部变化(拖动时不回写,避免打架)
+          if (win.document.activeElement !== vol) {
+            vol.value = String(muted ? 0 : srcVideo.volume);
+          }
+          // CC 开关态:开=实心,关=半透明
+          ccBtn.style.opacity = prefsStore.get().cc.on ? "1" : "0.4";
+          const dur = srcVideo.duration || 0;
+          if (!seeking && dur) {
+            seek.value = String(Math.round((srcVideo.currentTime / dur) * 1000));
+          }
+          timeLabel.textContent = `${fmt(srcVideo.currentTime)} / ${fmt(dur)}`;
+        };
+        // 250ms 轮询刷新字幕 + 控件(不依赖 React)
+        syncTimer = win.setInterval(() => {
+          paint();
+          updateSubWindow();
+        }, 250);
+        paint();
+        updateSubWindow();
+        showBar();
+      };
+
+      const closePip = () => {
         subOnRef.current = false;
         subEl = null;
+        if (syncTimer && subWin) {
+          try {
+            subWin.clearInterval(syncTimer);
+          } catch {
+            // 窗口已没
+          }
+        }
+        syncTimer = 0;
+        // 把 video 塞回原播放器
+        if (videoHome) {
+          srcVideo.style.cssText = "";
+          if (videoHome.next) videoHome.parent.insertBefore(srcVideo, videoHome.next);
+          else videoHome.parent.appendChild(srcVideo);
+          videoHome = null;
+        }
         if (subWin) {
           try {
             subWin.close();
@@ -822,29 +955,47 @@ export function BiliPlayer({
           }
           subWin = null;
         }
+        if (document.pictureInPictureElement === srcVideo) {
+          document.exitPictureInPicture().catch(() => {});
+        }
       };
 
-      const openSubWindow = async () => {
-        if (subOnRef.current || !docPip?.requestWindow) return;
+      const openPip = async () => {
+        if (subOnRef.current) return;
+        // 首选 Document PiP:视频 + 自绘字幕 + 极简控件都在一个窗口
+        if (docPip?.requestWindow) {
+          try {
+            const w = Math.min(srcVideo.videoWidth || 640, 720);
+            const h = Math.round(
+              w * ((srcVideo.videoHeight || 9) / (srcVideo.videoWidth || 16)),
+            );
+            const win = await docPip.requestWindow({ width: w, height: h });
+            subWin = win;
+            subOnRef.current = true;
+            buildPipWindow(win);
+            win.addEventListener("pagehide", () => closePip(), { once: true });
+            return;
+          } catch {
+            closePip();
+          }
+        }
+        // 兜底:原生 PiP(有控件,但没有自绘字幕)
         try {
-          const win = await docPip.requestWindow({ width: 520, height: 108 });
-          subWin = win;
+          await srcVideo.requestPictureInPicture();
           subOnRef.current = true;
-          buildSubWindow(win);
-          win.addEventListener("pagehide", () => closeSubWindow(), {
-            once: true,
-          });
         } catch {
           // 用户拒绝 / 不支持
-          closeSubWindow();
         }
       };
 
       toggleSubRef.current = () => {
-        if (subOnRef.current) closeSubWindow();
-        else void openSubWindow();
+        if (subOnRef.current) closePip();
+        else void openPip();
       };
-      subCleanupRef.current = closeSubWindow;
+      subCleanupRef.current = closePip;
+      srcVideo.addEventListener("leavepictureinpicture", () => {
+        if (!subWin) subOnRef.current = false;
+      });
 
       // 覆盖率追踪 + CC 字幕行,都挂在 timeupdate 上
       // (覆盖率百分比不再占控制栏按钮位,分段 chips 与打卡反馈足够)
