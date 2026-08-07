@@ -11,7 +11,7 @@ import {
   useImperativeHandle,
 } from "react";
 import { createPortal } from "react-dom";
-import { Loader2 } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import type Artplayer from "artplayer";
 import type { Setting as ArtSetting } from "artplayer";
 import type { MediaPlayerClass } from "dashjs";
@@ -1027,7 +1027,7 @@ export function BiliPlayer({
             <header>
               <b>章节</b>
               <button onClick={() => setChaptersOpen(false)} aria-label="关闭">
-                ×
+                <X size={18} strokeWidth={2.6} aria-hidden />
               </button>
             </header>
             <ol>

@@ -22,8 +22,6 @@
   --foreground: #19211d;
   --muted: #5b675f;
   --gold: #8b5a12;
-  --gold-soft: #d6bd82;
-  --copper: #955b38;
   --xp: #287a58;
   --hp: #a23e38;
   --mana: #356b72;
@@ -43,8 +41,6 @@
   --foreground: #e4e8e1;
   --muted: #95a098;
   --gold: #d4a64d;
-  --gold-soft: #816634;
-  --copper: #bc7650;
   --xp: #5dba8b;
   --hp: #d45d50;
   --mana: #6ca4aa;
@@ -1197,10 +1193,8 @@ html {
   --edge-strong: var(--app-faint);
   --foreground: var(--app-strong);
   --muted: color-mix(in srgb, var(--app-text) 78%, var(--app-faint));
-  /* 旧金色/铜色一律落到蓝——橙色与绿蓝主题不搭（用户点名） */
+  /* 旧金色一律落到蓝——橙色与绿蓝主题不搭（用户点名） */
   --gold: var(--app-blue);
-  --gold-soft: color-mix(in srgb, var(--app-blue) 35%, var(--app-line));
-  --copper: var(--app-blue);
   --xp: var(--app-green);
   --hp: var(--app-red);
   --mana: var(--app-blue);
@@ -1209,20 +1203,7 @@ html {
   color: var(--app-text);
   font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
 }
-/* 圆角与去装饰：老部件的直角/角标在 App 语境里统一软化 */
-.app-skin :is(.hud-panel, .filter-console, .page-intro, .player-frame) {
-  border-radius: 16px;
-  box-shadow: none;
-}
-.app-skin .hud-panel::before,
-.app-skin .combat-heading::before {
-  display: none;
-}
 .app-skin :is(.command-button, input, select, textarea, .archive-source) {
-  border-radius: 12px;
-}
-.app-skin .encounter-list li,
-.app-skin .glossary-entry {
   border-radius: 12px;
 }
 .app-skin h1,
@@ -2291,35 +2272,6 @@ html {
   font-weight: 700;
 }
 
-/* ---------- 空态/占位 ---------- */
-.app-empty {
-  display: grid;
-  justify-items: center;
-  gap: 12px;
-  padding: 64px 28px;
-  text-align: center;
-}
-.app-empty-icon {
-  display: grid;
-  place-items: center;
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--app-blue) 12%, transparent);
-  color: var(--app-blue);
-}
-.app-empty h1 {
-  color: var(--app-strong);
-  font-size: 20px;
-  font-weight: 800;
-}
-.app-empty p {
-  max-width: 360px;
-  color: var(--app-text);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
 body {
   position: relative;
   min-width: 320px;
@@ -2351,35 +2303,6 @@ input {
   outline-color: var(--gold);
 }
 
-.guild-header {
-  position: sticky;
-  z-index: 30;
-  top: 0;
-  border-bottom: 1px solid var(--edge);
-  background: color-mix(in srgb, var(--background) 92%, transparent);
-  box-shadow: 0 8px 24px var(--shadow);
-  backdrop-filter: blur(14px);
-}
-
-.guild-nav {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: stretch;
-  width: min(100%, 1280px);
-  min-height: 64px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.guild-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 188px;
-  padding-right: 24px;
-  color: var(--foreground);
-}
-
 /* 徽记本身就是盾形像素画（见 src/lib/brand/sigil.ts），
    不再需要外框与 clip-path 去伪造盾形 */
 .guild-sigil {
@@ -2387,131 +2310,6 @@ input {
   flex-shrink: 0;
   width: 34px;
   height: 34px;
-}
-
-.guild-wordmark {
-  display: block;
-  font-family: "Songti SC", SimSun, serif;
-  font-size: 16px;
-  font-weight: 800;
-}
-
-.guild-submark {
-  display: block;
-  margin-top: 1px;
-  color: var(--muted);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-}
-
-.guild-links {
-  display: flex;
-  min-width: 0;
-  align-items: stretch;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.guild-links::-webkit-scrollbar {
-  display: none;
-}
-
-.guild-nav-link {
-  position: relative;
-  display: flex;
-  min-width: max-content;
-  align-items: center;
-  padding: 0 13px;
-  border-left: 1px solid transparent;
-  border-right: 1px solid transparent;
-  color: var(--muted);
-  font-size: 13px;
-  transition: 160ms ease;
-}
-
-.guild-nav-link::after {
-  position: absolute;
-  right: 12px;
-  bottom: 9px;
-  left: 12px;
-  height: 2px;
-  background: transparent;
-  content: "";
-}
-
-.guild-nav-link:hover {
-  border-color: var(--edge);
-  background: var(--panel);
-  color: var(--foreground);
-}
-
-.guild-nav-link:hover::after {
-  background: var(--gold);
-}
-
-.guild-account {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  min-width: max-content;
-  padding-left: 16px;
-}
-
-.guild-level {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 138px;
-  padding: 7px 10px;
-  border: 1px solid var(--edge);
-  background: var(--panel);
-  color: var(--foreground);
-}
-
-.guild-level strong {
-  color: var(--gold);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-}
-
-.guild-main {
-  width: min(100%, 1280px);
-  flex: 1;
-  margin: 0 auto;
-  padding: 28px 20px 56px;
-}
-
-.guild-footer {
-  border-top: 1px solid var(--edge);
-  background: color-mix(in srgb, var(--background) 92%, transparent);
-  color: var(--muted);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 13px;
-}
-
-.guild-footer-inner {
-  display: flex;
-  width: min(100%, 1280px);
-  margin: 0 auto;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 18px 20px;
-}
-
-.hud-icon-button {
-  display: grid;
-  width: 32px;
-  height: 32px;
-  place-items: center;
-  border: 1px solid var(--edge);
-  background: var(--panel);
-  color: var(--muted);
-}
-
-.hud-icon-button:hover {
-  border-color: var(--gold);
-  color: var(--gold);
 }
 
 .command-button {
@@ -2545,396 +2343,9 @@ input {
   color: var(--foreground);
 }
 
-.page-stack {
-  display: grid;
-  gap: 28px;
-}
-
-.page-intro {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--edge);
-}
-
-.page-kicker {
-  margin-bottom: 5px;
-  color: var(--copper);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.page-title {
-  font-family: "Songti SC", SimSun, serif;
-  font-size: 28px;
-  font-weight: 800;
-  line-height: 1.15;
-}
-
-.page-lead {
-  max-width: 720px;
-  margin-top: 8px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.8;
-}
-
-.section-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 12px;
-  font-family: "Songti SC", SimSun, serif;
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.section-heading::after {
-  height: 1px;
-  flex: 1;
-  background: var(--edge);
-  content: "";
-}
-
-.hud-panel {
-  position: relative;
-  border: 1px solid var(--edge);
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--panel) 94%, transparent);
-  box-shadow: 0 12px 32px var(--shadow);
-}
-
-.hud-panel::before {
-  position: absolute;
-  top: -1px;
-  left: 18px;
-  width: 54px;
-  height: 2px;
-  background: var(--gold);
-  content: "";
-}
-
-.guild-hero {
-  position: relative;
-  display: grid;
-  min-height: 356px;
-  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
-  align-items: end;
-  gap: 36px;
-  overflow: hidden;
-  padding: 42px;
-  border: 1px solid #5f5138;
-  background: #101411 url("/assets/guild-campaign-map.jpg") center / cover no-repeat;
-  color: #f1eee4;
-  box-shadow: inset 0 0 0 1000px rgba(6, 9, 7, 0.48), 0 18px 42px var(--shadow);
-}
-
-.guild-hero::before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 5px;
-  height: 100%;
-  background: #b78a3f;
-  content: "";
-}
-
-.guild-hero-copy,
-.hero-rail {
-  position: relative;
-  z-index: 1;
-}
-
-.guild-hero h1 {
-  max-width: 720px;
-  font-family: "Songti SC", SimSun, serif;
-  font-size: 44px;
-  font-weight: 900;
-  line-height: 1.08;
-}
-
-.guild-hero .hero-copy {
-  max-width: 690px;
-  margin-top: 16px;
-  color: #c7cec7;
-  font-size: 14px;
-  line-height: 1.9;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 24px;
-}
-
-.hero-rail {
-  border-left: 1px solid rgba(214, 189, 130, 0.45);
-  background: rgba(11, 15, 12, 0.72);
-}
-
-.hero-stat {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  padding: 13px 16px;
-  border-bottom: 1px solid rgba(214, 189, 130, 0.22);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 11px;
-}
-
-.hero-stat:last-child {
-  border-bottom: 0;
-}
-
-.hero-stat strong {
-  color: #d8ae5c;
-  font-size: 16px;
-}
-
-.branch-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border: 1px solid var(--edge);
-  background: var(--panel);
-}
-
-.branch-tile {
-  position: relative;
-  min-height: 132px;
-  padding: 24px 20px 18px;
-  border-right: 1px solid var(--edge);
-  color: var(--foreground);
-  transition: 160ms ease;
-}
-
-.branch-tile:last-child {
-  border-right: 0;
-}
-
-.branch-tile::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 3px;
-  background: var(--edge-strong);
-  content: "";
-}
-
-.branch-tile[data-subject="cs"]::before {
-  background: var(--copper);
-}
-
-.branch-tile[data-subject="math"]::before {
-  background: var(--gold);
-}
-
-.branch-tile[data-subject="physics"]::before {
-  background: var(--mana);
-}
-
-.branch-tile[data-subject="ai"]::before {
-  background: var(--hp);
-}
-
-.branch-tile:hover {
-  z-index: 1;
-  background: var(--panel-hover);
-  box-shadow: inset 0 -3px 0 var(--gold);
-}
-
-.branch-code {
-  color: var(--muted);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 13px;
-  letter-spacing: 0.12em;
-}
-
-.branch-symbol {
-  margin-top: 12px;
-  color: var(--gold);
-  font-family: Georgia, serif;
-  font-size: 24px;
-  font-weight: 800;
-}
-
-.branch-name {
-  margin-top: 5px;
-  font-weight: 800;
-}
-
 .quest-board {
   border: 1px solid var(--edge);
   background: color-mix(in srgb, var(--panel) 92%, transparent);
-}
-
-.quest-row {
-  display: grid;
-  grid-template-columns: 54px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 18px;
-  min-height: 92px;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--edge);
-  color: var(--foreground);
-  transition: 160ms ease;
-}
-
-.quest-row:last-child {
-  border-bottom: 0;
-}
-
-.quest-row:hover {
-  background: var(--panel-hover);
-  box-shadow: inset 4px 0 0 var(--gold);
-}
-
-.quest-index {
-  color: var(--gold);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 16px;
-  font-weight: 800;
-}
-
-.quest-meta {
-  color: var(--muted);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 13px;
-}
-
-.quest-arrow {
-  color: var(--gold);
-  font-size: 22px;
-}
-
-.filter-console {
-  display: grid;
-  gap: 14px;
-  padding: 16px;
-  border: 1px solid var(--edge);
-  background: var(--panel);
-}
-
-.filter-console input {
-  min-height: 40px;
-  border: 1px solid var(--edge);
-  border-radius: 0;
-  background: var(--background);
-}
-
-.filter-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-}
-
-.filter-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.filter-chip {
-  padding: 5px 9px;
-  border: 1px solid transparent;
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.filter-chip:hover,
-.filter-chip.active {
-  border-color: var(--gold);
-  background: var(--panel-hover);
-  color: var(--gold);
-}
-
-.dungeon-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.dungeon-card {
-  position: relative;
-  display: flex;
-  min-height: 168px;
-  flex-direction: column;
-  padding: 18px;
-  overflow: hidden;
-  border: 1px solid var(--edge);
-  border-radius: 2px;
-  background: var(--panel);
-  color: var(--foreground);
-  transition: 160ms ease;
-}
-
-.dungeon-card::before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 3px;
-  height: 100%;
-  background: var(--edge-strong);
-  content: "";
-}
-
-.dungeon-card:hover {
-  border-color: var(--gold);
-  background: var(--panel-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px var(--shadow);
-}
-
-.dungeon-card:hover::before {
-  background: var(--gold);
-}
-
-.dungeon-code {
-  color: var(--copper);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 13px;
-  letter-spacing: 0.08em;
-}
-
-.dungeon-title {
-  margin-top: 8px;
-  font-family: "Songti SC", SimSun, serif;
-  font-size: 17px;
-  font-weight: 800;
-}
-
-.dungeon-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: auto;
-  padding-top: 18px;
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.progress-track {
-  height: 5px;
-  overflow: hidden;
-  border: 1px solid var(--edge);
-  background: var(--background);
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--hp);
-  transition: width 500ms ease;
-}
-
-.progress-fill.complete {
-  background: var(--gold);
 }
 
 .tier-stack {
@@ -2968,117 +2379,6 @@ input {
   border-bottom: 1px solid var(--edge);
   font-family: "Songti SC", SimSun, serif;
   font-weight: 800;
-}
-
-.job-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.job-card {
-  position: relative;
-  display: flex;
-  min-height: 218px;
-  flex-direction: column;
-  padding: 18px;
-  border: 1px solid var(--edge);
-  background: var(--panel);
-}
-
-.job-card[data-held="true"] {
-  border-color: var(--gold);
-  box-shadow: inset 0 3px 0 var(--gold);
-}
-
-.job-card[data-ready="true"] {
-  border-color: var(--xp);
-}
-
-.job-status {
-  color: var(--muted);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-}
-
-.job-card h3 {
-  margin-top: 7px;
-  font-family: "Songti SC", SimSun, serif;
-  font-size: 17px;
-}
-
-.path-map {
-  overflow-x: auto;
-  border: 1px solid var(--edge);
-  background: color-mix(in srgb, var(--panel) 88%, transparent);
-  box-shadow: inset 0 0 60px var(--shadow);
-}
-
-.combat-heading {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: "Songti SC", SimSun, serif;
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.combat-heading::before {
-  width: 4px;
-  height: 22px;
-  background: var(--hp);
-  content: "";
-}
-
-.encounter-row {
-  border: 1px solid var(--edge);
-  border-radius: 0;
-  background: var(--panel);
-}
-
-.encounter-row:hover {
-  border-color: var(--gold);
-  background: var(--panel-hover);
-}
-
-.skill-viewport {
-  border: 1px solid var(--edge);
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--background) 76%, transparent);
-  box-shadow: inset 0 0 90px var(--shadow);
-}
-
-.skill-node {
-  border-radius: 2px;
-  box-shadow: 0 5px 14px var(--shadow);
-}
-
-.skill-hub {
-  box-shadow: 0 0 0 10px color-mix(in srgb, var(--gold) 10%, transparent), 0 0 32px var(--glow);
-}
-
-
-.path-stage {
-  border-radius: 0;
-  box-shadow: 0 5px 14px var(--shadow);
-  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
-}
-
-.path-node {
-  border-radius: 0;
-  box-shadow: 0 6px 16px var(--shadow);
-  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
-}
-
-.path-course-card {
-  border-radius: 2px;
-  box-shadow: 0 8px 18px var(--shadow);
-}
-
-.path-course-card:hover {
-  background: var(--panel-hover);
-  transform: translateY(-1px);
 }
 
 math-field {
@@ -3128,10 +2428,6 @@ math-field {
   }
 }
 
-.animate-float-up {
-  animation: float-up 1.6s ease-out forwards;
-}
-
 
 
 @keyframes glow-pulse {
@@ -3142,10 +2438,6 @@ math-field {
   50% {
     box-shadow: 0 0 0 1px var(--gold), 0 0 18px var(--glow);
   }
-}
-
-.animate-glow {
-  animation: glow-pulse 2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3159,748 +2451,39 @@ math-field {
   }
 }
 
-@media (max-width: 980px) {
-  .guild-nav {
-    grid-template-columns: auto auto;
-    padding: 0 14px;
-  }
-
-  .guild-brand {
-    min-width: 0;
-    padding-right: 10px;
-  }
-
-  .guild-links {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    border-top: 1px solid var(--edge);
-  }
-
-  .guild-nav-link {
-    min-height: 40px;
-    padding: 0 14px;
-  }
-
-  .guild-account {
-    grid-column: 2;
-    grid-row: 1;
-    min-height: 58px;
-  }
-
-  .guild-level {
-    min-width: auto;
-  }
-
-  .guild-hero {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-rail {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid rgba(214, 189, 130, 0.45);
-    border-left: 0;
-  }
-
-  .hero-stat {
-    grid-template-columns: 1fr;
-    border-right: 1px solid rgba(214, 189, 130, 0.22);
-    border-bottom: 0;
-  }
-
-  .dungeon-grid,
-  .job-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 680px) {
-  .guild-nav {
-    padding: 0 10px;
-  }
-
-  .guild-wordmark {
-    font-size: 14px;
-  }
-
-  .guild-submark,
-  .guild-account .account-name,
-  .guild-account .logout-button {
-    display: none;
-  }
-
-  .guild-account {
-    gap: 6px;
-    padding-left: 6px;
-  }
-
-  .guild-main {
-    padding: 18px 12px 40px;
-  }
-
-  .guild-footer-inner {
-    display: block;
-    padding: 16px 12px;
-  }
-
-  .guild-footer-inner span:last-child {
-    display: none;
-  }
-
-  .guild-hero {
-    min-height: 480px;
-    padding: 28px 22px;
-    background-position: 62% center;
-  }
-
-  .guild-hero h1 {
-    font-size: 34px;
-  }
-
-  .hero-rail {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .branch-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .branch-tile:nth-child(2) {
-    border-right: 0;
-  }
-
-  .branch-tile:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--edge);
-  }
-
-  .quest-row {
-    grid-template-columns: 42px minmax(0, 1fr);
-  }
-
-  .quest-arrow {
-    display: none;
-  }
-
-  .dungeon-grid,
-  .job-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .page-intro {
-    align-items: start;
-    flex-direction: column;
-  }
-
-  .page-title {
-    font-size: 24px;
-  }
-}
-
-.player-frame{position:relative;padding:6px;border:1px solid var(--edge-strong);background:#050706;box-shadow:0 16px 36px var(--shadow),inset 0 0 0 1px rgba(255,255,255,.035)}
-.player-frame::after{position:absolute;right:10px;bottom:-1px;width:72px;height:3px;background:var(--hp);content:""}
-.progress-fill.hp{background:var(--hp)}
-.progress-fill.gold{background:var(--gold)}
-.encounter-list{display:grid;gap:5px}
-.encounter-row{display:flex;min-height:52px;align-items:center;gap:10px;padding:0 12px;transition:border-color 160ms ease,background 160ms ease,transform 160ms ease}
-.encounter-row:hover{transform:translateX(3px)}
-.encounter-row.active{border-color:var(--gold);box-shadow:inset 3px 0 0 var(--gold)}
-.encounter-row.cleared{background:color-mix(in srgb,var(--xp) 7%,var(--panel))}
-.encounter-check{display:grid;width:25px;height:25px;flex:0 0 25px;place-items:center;border:1px solid var(--edge-strong);color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:900}
-.encounter-check:disabled{opacity:.45}
-.encounter-code{display:block;color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:700;letter-spacing:.08em}
-.encounter-title{display:block;overflow:hidden;margin-top:2px;color:var(--foreground);font-size:13px;text-overflow:ellipsis;white-space:nowrap}
-.encounter-state{min-width:38px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:800;text-align:right}
-.glossary-list{border-top:1px solid var(--edge)}
-.glossary-entry{display:grid;grid-template-columns:minmax(220px,.72fr) minmax(0,1.5fr);border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);border-left:1px solid var(--edge);background:var(--panel)}
-.glossary-term{display:flex;min-width:0;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:18px;border-right:1px solid var(--edge);background:var(--panel-strong)}
-.glossary-en{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:14px;font-weight:800;overflow-wrap:anywhere}
-.glossary-zh{padding-top:8px;border-top:1px solid var(--edge-strong);color:var(--foreground);font-family:"Songti SC",SimSun,serif;font-size:14px;font-weight:800}
-.glossary-body{min-width:0;padding:16px 18px}
-.archive-source{border:1px solid var(--edge);padding:3px 6px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.archive-source:hover{border-color:var(--gold);color:var(--gold)}
-@media(max-width:680px){.glossary-entry{grid-template-columns:1fr}.glossary-term{border-right:0;border-bottom:1px solid var(--edge)}.encounter-state{display:none}}
-
-.skill-toolbar{min-width:0}
-.skill-viewport{width:100%;max-width:100%;--foreground:#e9e5da;--muted:#a8ada4;--panel:#111512;--panel-strong:#171d19;--edge:#465148;--edge-strong:#68766b;--shadow:rgba(0,0,0,.62);--glow:rgba(200,153,61,.28);background:#0b0e0c;box-shadow:inset 0 0 90px rgba(0,0,0,.7)}
-.skill-viewport .skill-node{color:var(--foreground)}
-.skill-viewport .skill-node:hover{border-color:var(--gold);box-shadow:0 0 0 2px rgba(200,153,61,.14),0 8px 22px rgba(0,0,0,.6)}
-.skill-viewport .skill-hub{background:#17140e}
-
 .player-toolbar{display:flex;min-height:36px;align-items:end;gap:8px;border-bottom:1px solid var(--edge);background:#050706}
 .player-source{max-width:240px;overflow:hidden;border:1px solid transparent;border-bottom:0;padding:7px 11px;color:#858d85;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px;text-overflow:ellipsis;white-space:nowrap}
 .player-source:hover{color:#e8e5dc}
 .player-source.active{border-color:var(--edge-strong);background:#111512;color:var(--gold)}
 .player-tool{border:1px solid #4a534b;padding:4px 8px;color:#a5ada6;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:700}
 .player-tool:hover,.player-tool.active{border-color:var(--gold);color:var(--gold)}
-.profile-layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:24px}
-.profile-sigil{display:grid;width:62px;height:62px;flex:0 0 62px;place-items:center;border:1px solid var(--gold);background:var(--panel-strong);color:var(--gold);font-family:Georgia,serif;font-size:25px;font-weight:900;clip-path:polygon(50% 0,92% 18%,92% 68%,50% 100%,8% 68%,8% 18%)}
-.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:16px;border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
-.profile-stats>div{display:flex;flex-direction:column;padding:12px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge)}
-.profile-stats strong{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:16px}
-.profile-stats span{color:var(--muted);font-size:13px}
-.section-heading.compact{margin-bottom:12px}
-.section-heading.compact h2{font-size:15px}
-.job-crest{border:1px solid var(--edge);padding:5px 7px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.job-crest.active{border-color:var(--gold);background:var(--panel-strong);color:var(--gold)}
-@media(max-width:900px){.profile-layout{grid-template-columns:1fr}.profile-layout>aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.profile-layout>aside section:first-child{grid-column:1/-1}}
-@media(max-width:680px){.player-toolbar{align-items:center;flex-wrap:wrap;padding-bottom:5px}.player-toolbar>div:last-child{margin-left:0;padding:0 5px}.profile-layout>aside{display:block}.profile-layout>aside section{margin-bottom:12px}}
-
-
-/* M7 persistent guild application shell */
-.guild-app{min-height:100vh;background:var(--background)}
-.guild-rail{position:fixed;inset:0 auto 0 0;z-index:40;display:flex;width:188px;flex-direction:column;border-right:1px solid var(--edge);background:color-mix(in srgb,var(--panel-strong) 96%,transparent);box-shadow:8px 0 24px var(--shadow)}
-.guild-rail-brand{display:flex;height:74px;align-items:center;gap:11px;padding:0 17px;border-bottom:1px solid var(--edge)}
-.guild-rail-wordmark{display:flex;flex-direction:column;color:var(--foreground);font-family:"Songti SC",SimSun,serif;font-size:16px;font-weight:900}
-.guild-rail-wordmark small{margin-top:3px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:600;letter-spacing:.12em}
-.guild-rail-links{display:flex;flex:1;flex-direction:column;gap:3px;padding:18px 10px}
-.guild-rail-link{position:relative;display:flex;height:42px;align-items:center;gap:11px;padding:0 11px;border:1px solid transparent;color:var(--muted);font-size:12px;font-weight:700;transition:150ms ease}
-.guild-rail-link::before{position:absolute;top:9px;bottom:9px;left:-11px;width:3px;background:transparent;content:""}
-.guild-rail-link:hover{border-color:var(--edge);background:var(--panel-hover);color:var(--foreground)}
-.guild-rail-link.active{border-color:var(--edge-strong);background:var(--background);color:var(--gold)}
-.guild-rail-link.active::before{background:var(--gold)}
-.guild-rail-tools{display:flex;align-items:center;gap:7px;padding:14px 16px;border-top:1px solid var(--edge)}
-.guild-workspace{min-height:100vh;margin-left:188px}
-.guild-topbar{position:sticky;top:0;z-index:35;display:flex;height:58px;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--edge);background:color-mix(in srgb,var(--background) 94%,transparent);backdrop-filter:blur(12px)}
-.guild-mobile-brand{display:none}
-.guild-signal{display:flex;align-items:center;gap:7px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;letter-spacing:.1em}
-.guild-signal b{color:var(--xp)}
-.signal-dot{width:6px;height:6px;background:var(--xp);box-shadow:0 0 9px color-mix(in srgb,var(--xp) 60%,transparent)}
-.guild-top-account{display:flex;align-items:center;gap:9px}
-.guild-streak{display:inline-flex;align-items:center;gap:4px;border-right:1px solid var(--edge);padding-right:11px;color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:800}
-.guild-level{display:flex;align-items:center;gap:7px;color:var(--foreground);font-size:11px}
-.guild-level strong{border:1px solid var(--gold);padding:4px 6px;color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.guild-stage-grid{display:grid;min-height:calc(100vh - 94px)}
-.guild-stage{min-width:0;padding:28px clamp(18px,3vw,44px) 56px}
-.guild-stage-grid.with-tracker{grid-template-columns:minmax(0,1fr)}
-.guild-quest-tracker{display:none}
-.guild-footer{display:flex;min-height:36px;align-items:center;justify-content:space-between;padding:0 24px;border-top:1px solid var(--edge);color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.guild-mobile-nav{display:none}
-
-@media(min-width:1480px){
-  .guild-stage-grid.with-tracker{grid-template-columns:minmax(0,1fr) 292px}
-  .guild-quest-tracker{position:sticky;top:58px;display:block;height:calc(100vh - 58px);overflow-y:auto;border-left:1px solid var(--edge);background:var(--panel);padding:22px 16px}
-  .tracker-heading{display:flex;flex-direction:column;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--edge)}
-  .tracker-heading span{color:var(--copper);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;letter-spacing:.12em}
-  .tracker-heading b{margin-top:3px;font-family:"Songti SC",SimSun,serif;font-size:15px}
-  .tracker-link{display:block;margin-top:12px;color:var(--gold);font-size:13px}
-}
-
-/* Daily quest system */
-.daily-quests{display:grid;gap:7px}
+@media(max-width:680px){.player-toolbar{align-items:center;flex-wrap:wrap;padding-bottom:5px}.player-toolbar>div:last-child{margin-left:0;padding:0 5px}}
 .daily-quest{display:flex;align-items:flex-start;gap:11px;padding:13px;border:1px solid var(--edge);background:var(--panel)}
 .daily-quest.complete{border-color:color-mix(in srgb,var(--gold) 65%,var(--edge));background:color-mix(in srgb,var(--gold) 5%,var(--panel))}
-.daily-quest-icon{display:grid;width:30px;height:30px;flex:0 0 30px;place-items:center;border:1px solid var(--edge-strong);color:var(--copper)}
-.daily-quest.complete .daily-quest-icon{border-color:var(--gold);color:var(--gold)}
 .daily-quest h3{font-size:12px;font-weight:800}
 .daily-quest p{margin-top:3px;color:var(--muted);font-size:13px;line-height:1.45}
-.quest-reward{flex:0 0 auto;color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:800}
-.quest-count{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.quest-course{display:block;margin-top:6px;color:var(--gold);font-size:12px}
 .quest-claim{display:grid;width:30px;height:30px;flex:0 0 30px;place-items:center;border:1px solid var(--gold);color:var(--gold)}
 .quest-claim:hover{background:var(--gold);color:var(--background)}
-.daily-quests.compact .daily-quest{padding:10px 8px}
-.daily-quests.compact .daily-quest-icon{width:26px;height:26px;flex-basis:26px}
-.daily-quests.compact .daily-quest h3{font-size:13px}
-
-/* Dedicated workshop facilities */
-.facility-hero{display:flex;min-height:190px;align-items:flex-end;justify-content:space-between;gap:24px;padding:32px;border:1px solid var(--edge);background:var(--panel-strong);box-shadow:inset 4px 0 0 var(--copper)}
-.facility-hero-status{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
-.facility-hero-status span{display:flex;min-width:120px;flex-direction:column;padding:13px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.facility-hero-status b{color:var(--gold);font-size:17px}
-.section-status{color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;letter-spacing:.1em}
-.facility-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.facility-card{position:relative;display:flex;min-height:290px;flex-direction:column;border:1px solid var(--edge);background:var(--panel);transition:160ms ease}
-.facility-card::before{position:absolute;inset:0 auto 0 0;width:3px;background:var(--edge-strong);content:""}
-.facility-card[data-facility="hack"]::before{background:var(--copper)}
-.facility-card[data-facility="math"]::before{background:var(--mana)}
-.facility-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 16px 28px var(--shadow)}
-.facility-card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 17px;border-bottom:1px solid var(--edge)}
-.facility-code,.facility-status{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:800;letter-spacing:.1em}
-.facility-code{color:var(--copper)}
-.facility-status{color:var(--xp)}
-.facility-card-body{display:grid;grid-template-columns:54px minmax(0,1fr);gap:15px;padding:22px 18px}
-.facility-icon{display:grid;width:52px;height:52px;place-items:center;border:1px solid var(--edge-strong);background:var(--background);color:var(--gold)}
-.facility-card h2{font-family:"Songti SC",SimSun,serif;font-size:20px;font-weight:900}
-.facility-card-body p{margin-top:7px;color:var(--muted);font-size:12px;line-height:1.7}
-.facility-progress{margin-top:auto;padding:0 18px 18px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.facility-card-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--edge);color:var(--muted);font-size:13px}
-.facility-card-foot strong{display:inline-flex;align-items:center;gap:5px;color:var(--gold)}
-.workshop-protocol{display:grid;grid-template-columns:220px minmax(0,1fr);gap:28px;padding:24px 0;border-top:1px solid var(--edge);border-bottom:1px solid var(--edge)}
-.workshop-protocol h2{font-family:"Songti SC",SimSun,serif;font-size:20px}
-.workshop-protocol ol{display:grid;grid-template-columns:repeat(3,1fr)}
-.workshop-protocol li{display:flex;gap:10px;padding:8px 18px;border-left:1px solid var(--edge);color:var(--muted);font-size:11px}
-.workshop-protocol li b{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
-
-/* Focus session console */
-.session-console{border:1px solid var(--edge-strong);background:var(--panel);box-shadow:inset 3px 0 0 var(--mana)}
-.session-console-head{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-bottom:1px solid var(--edge)}
-.session-console-head span{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:800}
-.session-console-head b{color:var(--mana);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.session-episode{overflow:hidden;padding:11px 13px 0;color:var(--foreground);font-size:11px;text-overflow:ellipsis;white-space:nowrap}
-
-.session-clock{padding:15px 13px 10px;color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:36px;font-weight:300;letter-spacing:.05em}
-.session-controls{display:flex;gap:6px;padding:0 13px 13px}
-.session-primary,.session-icon{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--edge-strong);padding:7px 10px;color:var(--foreground);font-size:13px;font-weight:800}
-.session-primary{flex:1}
-.session-primary:hover,.session-icon:hover{border-color:var(--gold);color:var(--gold)}
-.session-summary{display:block;padding:13px;border-top:1px solid var(--edge)}
-.session-summary>span{display:flex;align-items:center;gap:5px;margin-bottom:7px;color:var(--muted);font-size:12px;font-weight:800}
-.session-summary textarea{width:100%;resize:vertical;border:1px solid var(--edge);background:var(--background);padding:8px;color:var(--foreground);font-size:11px;line-height:1.5;outline:none}
-.session-summary textarea:focus{border-color:var(--mana)}
-.session-console>.command-button{margin:0 13px 13px;width:calc(100% - 26px)}
-.session-message{padding:0 13px 12px;color:var(--mana);font-size:12px}
-
-@media(max-width:920px){
-  .guild-rail{display:block;position:static;width:0;height:0;border:0;box-shadow:none}
-  .guild-rail-brand,.guild-rail-links,.guild-rail-tools{display:none}
-  .guild-workspace{margin-left:0}
-  .guild-topbar{height:54px;padding:0 12px}
-  .guild-mobile-brand{display:flex;align-items:center;gap:8px;font-family:"Songti SC",SimSun,serif}
-  .guild-mobile-brand .guild-sigil{width:28px;height:28px}
-  .guild-signal,.guild-streak,.guild-top-account .guild-level span{display:none}
-  .guild-stage{padding:18px 12px 82px}
-  .guild-mobile-nav{position:fixed;right:0;bottom:0;left:0;z-index:60;display:grid;height:62px;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--edge);background:color-mix(in srgb,var(--panel-strong) 96%,transparent);backdrop-filter:blur(12px)}
-  .guild-mobile-nav a{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;color:var(--muted);font-size:12px}
-  .guild-mobile-nav a.active{color:var(--gold)}
-  .guild-footer{display:none}
-  .facility-hero{min-height:0;align-items:flex-start;flex-direction:column;padding:22px}
-  .facility-grid{grid-template-columns:1fr}
-  .workshop-protocol{grid-template-columns:1fr}
-  .workshop-protocol ol{grid-template-columns:1fr}
-  .workshop-protocol li{border-top:1px solid var(--edge);border-left:0;padding:10px 0}
-}
-
-@media(max-width:520px){
-  .guild-top-account .command-button.secondary{display:none}
-  .guild-top-account .command-button{padding:7px 9px;font-size:12px}
-  .facility-hero-status{width:100%}
-  .facility-hero-status span{min-width:0}
-  .facility-card{min-height:270px}
-  .facility-card-body{grid-template-columns:42px minmax(0,1fr)}
-  .facility-icon{width:40px;height:40px}
-}
-
-.hall-header{display:flex;min-height:132px;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:24px;border-bottom:1px solid var(--edge)}
-.hall-level{display:flex;align-items:flex-end;gap:12px}
-.hall-level span{width:72px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.4}
-.hall-level strong{color:var(--gold);font-family:Georgia,serif;font-size:52px;line-height:.85}
-.hall-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.65fr);gap:14px}
-.current-expedition,.character-brief{border:1px solid var(--edge);background:var(--panel)}
-.current-expedition{position:relative;display:flex;min-height:326px;flex-direction:column;box-shadow:inset 4px 0 0 var(--hp)}
-.current-expedition-head,.character-brief-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--edge)}
-.current-expedition-head>div>span{font-family:"Songti SC",SimSun,serif;font-size:16px;font-weight:900}
-.current-expedition-head>a{display:flex;align-items:center;gap:5px;color:var(--gold);font-size:12px}
-.expedition-core{display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;gap:18px;padding:28px 22px}
-.expedition-emblem{display:grid;width:70px;height:70px;place-items:center;border:1px solid var(--hp);background:var(--background);color:var(--hp);clip-path:polygon(50% 0,100% 22%,88% 78%,50% 100%,12% 78%,0 22%)}
-.expedition-core h2{margin-top:5px;font-family:"Songti SC",SimSun,serif;font-size:25px;font-weight:900}
-.expedition-core p{margin-top:6px;color:var(--muted);font-size:11px}
-.expedition-progress{margin-top:auto;padding:0 22px 18px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.expedition-progress b{color:var(--foreground)}
-.expedition-deploy{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-top:1px solid var(--edge);color:var(--gold);font-size:11px;font-weight:900}
-.expedition-deploy:hover{background:var(--panel-hover)}
-.empty-expedition{display:flex;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--muted)}
-.character-brief{padding-bottom:17px;box-shadow:inset 0 3px 0 var(--gold)}
-.character-brief-head{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.character-brief-head a{color:var(--gold)}
-.character-rank{display:flex;align-items:center;gap:13px;padding:20px 17px}
-.character-rank>span{display:grid;width:54px;height:54px;place-items:center;border:1px solid var(--gold);color:var(--gold);font-family:Georgia,serif;font-size:23px;clip-path:polygon(50% 0,92% 18%,92% 68%,50% 100%,8% 68%,8% 18%)}
-.character-rank div{display:flex;flex-direction:column}
-.character-rank b{font-size:17px}
-.character-rank small{color:var(--gold);font-size:13px}
-.character-brief>.progress-track,.character-brief>[class*="progress"]{margin-right:17px;margin-left:17px}
-.character-brief>.mt-1{margin-right:17px;margin-left:17px}
-.character-stats{display:grid;grid-template-columns:repeat(3,1fr);margin:18px 17px 0;border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
-.character-stats div{display:flex;flex-direction:column;padding:10px 8px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge)}
-.character-stats b{color:var(--gold);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px}
-.character-stats span{color:var(--muted);font-size:12px}
-.achievement-strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--edge);border-left:1px solid var(--edge)}
-.achievement-token{display:flex;min-height:72px;align-items:center;gap:10px;padding:13px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);color:var(--muted);opacity:.45}
-.achievement-token.unlocked{background:var(--panel);color:var(--gold);opacity:1}
-.achievement-token span{display:flex;min-width:0;flex-direction:column}
-.achievement-token b{color:var(--foreground);font-size:11px}
-.achievement-token small{margin-top:3px;color:var(--muted);font-size:12px}
-@media(max-width:980px){.hall-grid{grid-template-columns:1fr}.achievement-strip{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:620px){.hall-header{min-height:0;align-items:flex-start;flex-direction:column}.hall-level{display:none}.expedition-core{grid-template-columns:50px minmax(0,1fr);padding:22px 16px}.expedition-emblem{width:50px;height:50px}.expedition-core h2{font-size:19px}.achievement-strip{grid-template-columns:1fr}}
-
-.facility-detail-head{display:flex;align-items:center;gap:18px;padding:22px;border:1px solid var(--edge);background:var(--panel);box-shadow:inset 4px 0 0 var(--gold)}
-.facility-detail-icon{display:grid;width:62px;height:62px;flex:0 0 62px;place-items:center;border:1px solid var(--edge-strong);background:var(--background);color:var(--gold)}
-.lab-task-panel{display:grid;grid-template-columns:170px minmax(0,1fr);gap:18px;padding:18px;border:1px solid var(--edge);background:var(--panel)}
-.lab-task-panel h2{font-family:"Songti SC",SimSun,serif;font-size:17px}
-.lab-task-panel ul{display:grid;gap:5px}
-.lab-task-panel li{display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--edge);color:var(--muted)}
-.lab-task-panel li.complete{border-color:color-mix(in srgb,var(--gold) 55%,var(--edge));color:var(--gold)}
-.lab-task-panel li span{display:flex;min-width:0;flex-direction:column}
-.lab-task-panel li b{color:var(--foreground);font-size:13px}
-.lab-task-panel li small{margin-top:2px;color:var(--muted);font-size:12px}
-.lab-task-panel li strong{color:var(--xp);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.lab-login{grid-column:2;color:var(--gold);font-size:12px}
-@media(max-width:760px){.facility-detail-head{align-items:flex-start;flex-wrap:wrap}.facility-detail-head .command-button{margin-left:80px}.lab-task-panel{grid-template-columns:1fr}.lab-login{grid-column:1}}
-
-.world-map-head{display:flex;min-height:160px;align-items:flex-end;justify-content:space-between;padding:28px;border:1px solid var(--edge);background:var(--panel-strong);color:var(--foreground)}
-.world-map-head>svg{color:var(--gold);opacity:.65}
-.world-regions{display:grid;gap:22px}
-.world-region{border-top:3px solid var(--edge-strong)}
-.world-region[data-subject="cs"]{border-top-color:var(--copper)}
-.world-region[data-subject="math"]{border-top-color:var(--gold)}
-.world-region[data-subject="physics"]{border-top-color:var(--mana)}
-.world-region[data-subject="ai"]{border-top-color:var(--hp)}
-.region-heading{display:grid;grid-template-columns:58px minmax(0,1fr);gap:14px;padding:18px 0}
-.region-icon{display:grid;width:56px;height:56px;place-items:center;border:1px solid var(--edge-strong);background:var(--panel);color:var(--gold);font-size:22px}
-.region-heading h2{font-family:"Songti SC",SimSun,serif;font-size:20px}
-.region-heading>div>span{color:var(--muted);font-size:12px}
-.region-paths{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.region-path{display:flex;min-height:196px;flex-direction:column;padding:16px;border:1px solid var(--edge);background:var(--panel);transition:160ms ease}
-.region-path:hover{border-color:var(--gold);transform:translateY(-2px)}
-.region-path-top{display:flex;justify-content:space-between;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.region-path-top b{color:var(--gold)}
-.region-path h3{margin-top:12px;font-family:"Songti SC",SimSun,serif;font-size:16px}
-.region-path p{display:-webkit-box;overflow:hidden;margin-top:7px;color:var(--muted);font-size:13px;line-height:1.6;-webkit-box-orient:vertical;-webkit-line-clamp:3}
-.region-path-deploy{display:flex;align-items:center;justify-content:space-between;margin-top:9px;color:var(--gold);font-size:12px;font-weight:800}
-@media(max-width:1080px){.region-paths{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:620px){.world-map-head>svg{display:none}.region-paths{grid-template-columns:1fr}.region-path{min-height:170px}}
-
-@media(min-width:1480px){
-  body:has(.hall-header) .guild-stage-grid.with-tracker{grid-template-columns:minmax(0,1fr)}
-  body:has(.hall-header) .guild-quest-tracker{display:none}
-}
-
-
-/* M7.1 immersive game shell */
-.guild-app{min-height:100vh;background:var(--background)}
-.game-top-hud{position:fixed;z-index:80;top:0;right:0;left:0;display:grid;height:70px;grid-template-columns:minmax(230px,1fr) minmax(320px,560px) minmax(230px,1fr);align-items:center;border-bottom:1px solid rgba(214,189,130,.38);background:linear-gradient(180deg,rgba(8,11,9,.97),rgba(12,16,14,.9));color:#e8e2d2;box-shadow:0 14px 32px rgba(0,0,0,.38);backdrop-filter:blur(14px)}
-.game-top-hud::after{position:absolute;right:0;bottom:-3px;left:0;height:3px;background:linear-gradient(90deg,transparent 4%,rgba(212,166,77,.7) 30%,rgba(93,186,139,.55) 50%,rgba(212,166,77,.7) 70%,transparent 96%);content:"";opacity:.6}
-.game-brand{display:flex;height:100%;align-items:center;gap:11px;padding-left:20px;color:#e8e2d2}
-.game-brand-copy{display:flex;flex-direction:column}
-.game-brand-copy b{font-family:"Songti SC",SimSun,serif;font-size:17px}
-.game-brand-copy small{margin-top:2px;color:#8f998f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px;letter-spacing:.16em}
-.game-player-hud{justify-self:center;display:grid;width:min(100%,520px);height:54px;grid-template-columns:48px minmax(0,1fr);align-items:center;color:#e8e2d2}
 /* 方框，不做盾形裁切：六边形 mask 会把用户上传的头像切掉四角，
    像素头像更是直接被削掉像素、边缘出现锯齿。 */
 .game-avatar{position:relative;z-index:1;display:grid;width:46px;height:46px;place-items:center;border:1px solid #b98c3d;background:#141915;color:#d9aa51;font-family:Georgia,serif;font-size:20px}
 /* contain 而不是 cover：素材不都是正方形（比如金剑是竖长条），
    cover 会裁掉两端，固定宽高又会溢出容器 */
 .game-avatar-img{display:block;padding:2px;object-fit:contain}
-.game-player-copy{display:grid;min-width:0;padding-left:11px}
-.game-player-copy>span:first-child{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
-.game-player-copy b{overflow:hidden;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
-.game-player-copy small{color:#a6afa7;font-size:12px}
-.game-xp-line{position:relative;display:block;height:7px;margin-top:6px;border:1px solid #3d4a41;background:#080b09;clip-path:polygon(0 0,100% 0,calc(100% - 6px) 100%,6px 100%)}
-.game-xp-line i{display:block;height:100%;background:linear-gradient(90deg,#356f54,#65b98d);box-shadow:0 0 10px rgba(93,186,139,.48)}
-.game-xp-label{margin-top:3px;color:#9da79f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px}
-.game-player-hud.guest{width:auto}
-.game-player-hud.guest .game-player-copy{display:flex;flex-direction:column}
-.game-resources{display:flex;height:100%;align-items:center;justify-content:flex-end;gap:8px;padding-right:20px}
-.game-resource{display:grid;height:38px;grid-template-columns:18px auto;grid-template-rows:1fr 1fr;align-items:center;padding:0 12px;border-right:1px solid #364038;color:#d4a64d}
-.game-resource svg{grid-row:1/3}
-.game-resource b{font:800 11px ui-monospace,SFMono-Regular,Consolas,monospace}
-.game-resource small{color:#8f998f;font-size:11px}
-.game-top-hud .hud-icon-button{border-color:#3b463e;background:#111612;color:#aeb8af}
-.game-top-hud .hud-icon-button:hover{border-color:#c8973f;color:#e0b35b}
-.game-auth-actions{display:flex;gap:7px}
-.guild-stage{min-height:100vh;padding:98px clamp(18px,3vw,46px) 112px}
-.guild-footer{display:none}
-
-.game-command-deck{position:fixed;z-index:85;right:0;bottom:14px;left:0;display:flex;justify-content:center;pointer-events:none}
-.game-command-slots{display:flex;align-items:flex-end;gap:4px;padding:7px 9px;border:1px solid rgba(214,189,130,.42);background:rgba(8,11,9,.94);box-shadow:0 12px 34px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.025);backdrop-filter:blur(14px);pointer-events:auto;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%,0 12px)}
-.game-command{position:relative;display:flex;width:72px;height:54px;align-items:center;justify-content:center;flex-direction:column;gap:2px;border:1px solid #39443c;background:linear-gradient(180deg,#171d18,#0e120f);color:#9ca69d;transition:transform 140ms ease,border-color 140ms ease,color 140ms ease}
-.game-command::after{position:absolute;right:4px;bottom:3px;left:4px;height:2px;background:transparent;content:""}
-.game-command:hover{z-index:1;border-color:#c8973f;color:#e1b45c;transform:translateY(-5px)}
-.game-command.active{border-color:#d0a34e;background:linear-gradient(180deg,#28271d,#131711);color:#e2b65c;box-shadow:0 0 16px rgba(212,166,77,.2)}
-.game-command.active::after{background:#d4a64d;box-shadow:0 0 8px rgba(212,166,77,.7)}
-.game-command-key{position:absolute;top:2px;right:4px;color:#657068;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
-.game-command-label{font-size:12px;font-weight:700}
-.guild-hall-scene{position:relative;min-height:100vh;overflow:hidden;background:#0b0e0c url("/assets/guild-campaign-map.jpg") center/cover no-repeat;color:#e6e1d4;isolation:isolate}
-.guild-hall-scene::before{position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 50% 43%,rgba(11,14,12,.04) 0,rgba(6,8,7,.2) 48%,rgba(3,5,4,.78) 100%),linear-gradient(180deg,rgba(2,4,3,.48) 0,transparent 28%,rgba(2,3,2,.68) 100%);content:""}
-.guild-hall-scene::after{position:absolute;z-index:-1;inset:70px 12px 84px;border:1px solid rgba(212,166,77,.16);content:"";pointer-events:none}
-body:has(.guild-hall-scene) .guild-stage{padding:0}
-body:has(.guild-hall-scene)::before{display:none}
-.scene-atmosphere{position:absolute;inset:0;background:linear-gradient(90deg,rgba(1,3,2,.62),transparent 28%,transparent 72%,rgba(1,3,2,.62));pointer-events:none}
-.scene-identity{position:absolute;z-index:3;top:94px;left:50%;width:min(520px,70vw);text-align:center;transform:translateX(-50%)}
-.scene-identity p{color:#ba8b45;font:8px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.2em}
-.scene-identity h1{margin-top:5px;color:#e9e1cd;font-family:"Songti SC",SimSun,serif;font-size:31px;font-weight:900;text-shadow:0 2px 12px #000}
-.scene-identity span{display:block;margin-top:5px;color:#9ba49c;font-size:12px}
-.scene-locations{position:absolute;z-index:2;inset:70px 0 84px}
-/* 通往各据点的路线。原先是三个 0.08 透明度的同心圆，几乎不可见，
-   也不连接任何东西——看不出这是张地图。改成从公会中心真实拉到每个据点的弧线，
-   走马灯式的虚线流动暗示「可前往」。 */
-.scene-routes{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-/* non-scaling-stroke 是必需的：容器不是正方形且 preserveAspectRatio=none，
-   不加的话线宽会被横竖不等地拉伸。代价是这些数值全部按屏幕像素算，
-   不能再用 viewBox 的 0-100 尺度去估。 */
-.scene-route{fill:none;stroke:rgba(212,166,77,.5);stroke-width:1.5px;stroke-dasharray:7 7;stroke-linecap:round;vector-effect:non-scaling-stroke;animation:scene-route-flow 3.4s linear infinite}
 @keyframes scene-route-flow{to{stroke-dashoffset:-28}}
-@media (prefers-reduced-motion:reduce){.scene-route{animation:none}}
-/* 定位由 page.tsx 的 ZONE_POS 写进 style，这里只负责把自己拉回锚点中心 */
-.scene-location{position:absolute;display:flex;align-items:center;gap:9px;color:#c6cec7;filter:drop-shadow(0 3px 8px #000);transform:translate(-22px,-50%);transition:160ms ease}
-.scene-location:hover{z-index:4;color:#f0c66f;transform:translate(-22px,calc(-50% - 4px))}
-.scene-location-pulse{position:absolute;top:50%;left:22px;width:54px;height:54px;border:1px solid rgba(212,166,77,.25);border-radius:50%;transform:translate(-50%,-50%);animation:scene-pulse 2.6s ease-out infinite}
-.scene-location-icon{position:relative;display:grid;width:44px;height:44px;flex:0 0 44px;place-items:center;border:1px solid #876b39;background:rgba(11,15,12,.88);color:#d5a64f;transform:rotate(45deg);box-shadow:inset 0 0 0 3px rgba(8,11,9,.9),0 0 18px rgba(212,166,77,.12)}
-.scene-location-icon svg{transform:rotate(-45deg)}
-.scene-location-copy{display:flex;min-width:128px;flex-direction:column;padding:7px 9px;border-left:1px solid rgba(212,166,77,.38);background:linear-gradient(90deg,rgba(5,8,6,.9),rgba(5,8,6,.25))}
-.scene-location-copy small{color:#8e7445;font:7px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.12em}
-.scene-location-copy b{margin-top:1px;color:inherit;font-family:"Songti SC",SimSun,serif;font-size:13px}
-.scene-location-copy em{margin-top:2px;color:#818b83;font-size:11px;font-style:normal}
-/* 定位同样来自 ZONE_POS/HUB，这里只做居中 */
-.scene-you-are-here{position:absolute;z-index:3;display:flex;align-items:center;flex-direction:column;transform:translate(-50%,-50%)}
-.scene-you-are-here>span{display:grid;width:50px;height:50px;place-items:center;border:1px solid #d4a64d;background:#151912;box-shadow:0 0 0 7px rgba(212,166,77,.07),0 0 28px rgba(212,166,77,.24)}
-.scene-you-are-here small{margin-top:8px;color:#b8914a;font:7px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em}
-.scene-orders-panel,.scene-expedition-panel,.scene-entry-panel{position:absolute;z-index:6;border:1px solid rgba(190,155,86,.52);background:rgba(9,13,10,.9);box-shadow:0 18px 42px rgba(0,0,0,.48);backdrop-filter:blur(12px)}
-.scene-orders-panel{top:102px;right:26px;width:300px;padding:13px}
-.scene-expedition-panel{right:50%;bottom:94px;width:min(520px,46vw);transform:translateX(50%)}
-.scene-entry-panel{bottom:104px;left:26px;width:min(480px,calc(100vw - 52px));padding:22px}
-.scene-panel-heading{display:flex;align-items:center;justify-content:space-between;min-height:28px;margin-bottom:8px;border-bottom:1px solid rgba(190,155,86,.25);padding-bottom:8px;color:#aeb7af;font-size:12px}
-.scene-panel-heading>span{display:flex;align-items:center;gap:6px;color:#d2a24b;font-weight:800}
-.scene-panel-heading>a,.scene-panel-heading>b{color:#a68b58;font:8px ui-monospace,SFMono-Regular,Consolas,monospace}
-.scene-orders-panel .daily-quests{gap:0}
-.scene-orders-panel .daily-quest{border:0;border-bottom:1px solid rgba(125,139,128,.22);background:transparent;color:#d9ddd8;padding:10px 4px}
-.scene-orders-panel .daily-quest:last-child{border-bottom:0}
-.scene-orders-panel .daily-quest.complete{background:linear-gradient(90deg,rgba(212,166,77,.1),transparent)}
-.scene-orders-panel .daily-quest-icon{border-color:#556057;background:#111611}
-.scene-orders-panel .daily-quest h3{font-size:13px}
-.scene-orders-panel .progress-track{border-color:#39443c;background:#070a08}
-.scene-battle-target{display:grid;grid-template-columns:52px minmax(0,1fr);align-items:center;gap:13px;padding:13px 16px}
-.scene-battle-rank{display:grid;width:48px;height:48px;place-items:center;border:1px solid #a84842;background:rgba(97,28,25,.22);color:#df6b5e;font:800 8px ui-monospace,SFMono-Regular,Consolas,monospace;clip-path:polygon(50% 0,100% 24%,88% 78%,50% 100%,12% 78%,0 24%)}
-.scene-battle-target small{color:#ac8a4e;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
-.scene-battle-target h2{margin-top:2px;overflow:hidden;color:#eee6d4;font-family:"Songti SC",SimSun,serif;font-size:17px;text-overflow:ellipsis;white-space:nowrap}
-.scene-battle-target p{margin-top:3px;overflow:hidden;color:#969f97;font-size:12px;text-overflow:ellipsis;white-space:nowrap}
-.scene-boss-health{padding:0 16px 12px}
-.scene-boss-health>span{display:flex;justify-content:space-between;margin-bottom:5px;color:#b9c0ba;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
-.scene-boss-health>span b{color:#d45d50}
-.scene-boss-health>div{height:8px;border:1px solid #55302c;background:#080907;clip-path:polygon(0 0,100% 0,calc(100% - 6px) 100%,6px 100%)}
-.scene-boss-health i{display:block;height:100%;background:linear-gradient(90deg,#8f322f,#d25c50);box-shadow:0 0 8px rgba(212,93,80,.4)}
-.scene-deploy{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-top:1px solid rgba(190,155,86,.3);background:linear-gradient(90deg,rgba(151,105,34,.24),transparent);color:#e5b758;font-size:13px;font-weight:900}
-.scene-deploy:hover{background:rgba(194,143,55,.2)}
-.scene-empty-target{display:flex;align-items:center;justify-content:space-between;padding:18px;color:#a3aca5;font-size:13px}
-.scene-panel-kicker{color:#b58b46;font:8px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em}
-.scene-entry-panel h1{margin-top:7px;color:#eee5d1;font-family:"Songti SC",SimSun,serif;font-size:24px}
-.scene-entry-panel>p:not(.scene-panel-kicker){margin-top:9px;color:#a9b1aa;font-size:11px;line-height:1.7}
-.scene-panel-actions{display:flex;align-items:center;gap:12px;margin-top:16px}
-.scene-primary-action,.scene-secondary-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;padding:0 13px;border:1px solid #a67b37;font-size:12px;font-weight:800}
-.scene-primary-action{background:#a17431;color:#0c0f0d}
-.scene-primary-action:hover{background:#c09242}
-.scene-secondary-action{border-color:#536056;color:#c0c7c1}
 @keyframes scene-pulse{0%{opacity:.75;transform:translate(-50%,-50%) scale(.75)}70%,100%{opacity:0;transform:translate(-50%,-50%) scale(1.35)}}
-
-@media(max-width:1100px){
-  .game-top-hud{grid-template-columns:190px minmax(280px,1fr) 190px}
-  .game-player-hud{width:min(100%,430px)}
-  .game-resource small{display:none}
-  .scene-location[data-zone="archive"]{left:27%}
-  .scene-location[data-zone="glossary"]{left:25%}
-  .scene-orders-panel{width:270px}
-}
 @media(max-width:820px){
-  .game-top-hud{height:58px;grid-template-columns:auto minmax(0,1fr) auto}
-  .game-brand{padding-left:10px}
-  .game-brand-copy{display:none}
-  .game-brand .guild-sigil{width:30px;height:30px}
-  .game-player-hud{width:100%;height:46px;grid-template-columns:38px minmax(0,1fr);padding:0 8px}
   .game-avatar{width:36px;height:40px;font-size:15px}
-  .game-player-copy{padding-left:7px}
-  .game-player-copy small{display:none}
-  .game-xp-line{height:5px;margin-top:4px}
-  .game-resources{gap:4px;padding-right:8px}
-  .game-resource{display:none}
-  .game-top-hud .hud-icon-button{width:32px;height:32px}
-  .game-auth-actions .secondary{display:none}
-  .game-auth-actions .command-button{padding:7px 8px;font-size:12px}
-  .guild-stage{padding:78px 12px 88px}
-  .game-command-deck{bottom:0}
-  .game-command-slots{width:100%;justify-content:space-around;gap:0;padding:4px 3px;border-right:0;border-bottom:0;border-left:0;clip-path:none}
-  .game-command{width:min(64px,14.1vw);height:55px;border-color:transparent;background:transparent}
-  .game-command:nth-child(n+6){display:none}
-  .game-command:hover{transform:none}
-  .game-command-key{display:none}
-  .guild-hall-scene{min-height:auto;padding:78px 12px 88px;background-position:43% center}
-  .guild-hall-scene::after{inset:64px 6px 68px}
-  .scene-identity{position:relative;top:auto;left:auto;width:auto;text-align:left;transform:none}
-  .scene-identity h1{font-size:24px}
-  .scene-locations{position:relative;inset:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:20px}
-  .scene-route-lines,.scene-you-are-here,.scene-location-pulse{display:none}
-  .scene-location{position:relative!important;top:auto!important;left:auto!important;min-height:78px;padding:10px;border:1px solid rgba(180,144,75,.32);background:rgba(8,11,9,.78);filter:none}
-  .scene-location:hover{transform:none}
-  .scene-location-icon{width:38px;height:38px;flex-basis:38px}
-  .scene-location-copy{min-width:0;padding:4px 0 4px 8px;background:none}
-  .scene-location-copy em{white-space:normal}
-  .scene-orders-panel,.scene-expedition-panel,.scene-entry-panel{position:relative;top:auto;right:auto;bottom:auto;left:auto;width:100%;margin-top:10px;transform:none}
-  .scene-orders-panel{padding:11px}
-  .scene-expedition-panel{margin-top:16px}
-  .scene-entry-panel{padding:18px}
-  .scene-atmosphere{position:fixed}
-}
-@media(max-width:440px){
-  .game-player-copy>span:first-child small{display:none}
-  .game-xp-label{font-size:11px}
-  .game-top-hud .theme-toggle-label{display:none}
-  .scene-locations{grid-template-columns:1fr}
-  .scene-location{min-height:68px}
-  .scene-orders-panel{display:none}
-  .scene-panel-actions{align-items:stretch;flex-direction:column}
-  .scene-secondary-action{min-height:32px}
 }
 
 
 /* Core game screens: campaign board, dungeon roster, and workshop bays */
 .scene-location[data-zone="skills"]{top:59%}
-.world-map-head{min-height:190px;border-color:#4f4734;background:linear-gradient(90deg,rgba(7,10,8,.94),rgba(8,11,9,.7)),url("/assets/guild-campaign-map.jpg") center 56%/cover;color:#e9e2d2;box-shadow:inset 4px 0 0 #a87936,0 18px 36px var(--shadow)}
-.world-map-head .page-title{color:#eee5d3}
-.world-map-head .page-lead{max-width:720px;color:#aab3ac}
-.world-map-head>svg{color:#d4a64d;filter:drop-shadow(0 0 12px rgba(212,166,77,.28));opacity:1}
-.world-regions{gap:16px}
-.world-region{position:relative;padding:0 16px 16px;border:1px solid #3b453d;border-top-width:3px;background:linear-gradient(135deg,rgba(13,18,14,.97),rgba(22,28,23,.95));color:#e1e6e1;box-shadow:0 12px 28px rgba(0,0,0,.22)}
-.region-heading{grid-template-columns:52px minmax(0,1fr);padding:14px 0}
-.region-icon{width:50px;height:50px;border-color:#68736b;background:#0b0f0c;color:#d2a24b}
-.region-heading h2{color:#e7e2d5}
-.region-heading>div>span{color:#929d95}
-.region-paths{gap:7px}
-.region-path{min-height:174px;border-color:#3e4941;background:linear-gradient(180deg,#181e19,#101511);color:#dde3dd;box-shadow:inset 0 -2px 0 rgba(212,166,77,.08)}
-.region-path::before{display:block;width:34px;height:2px;margin-bottom:8px;background:#7a643b;content:""}
-.region-path:hover{border-color:#b88940;background:#1c231d;box-shadow:0 10px 20px rgba(0,0,0,.3)}
-.region-path h3{color:#eee6d5}
-.region-path p{color:#96a098}
-.region-path-top{color:#7f8b82}
-.region-path-deploy{color:#d2a34d}
-
-.facility-hero{min-height:215px;border-color:#4b4738;background:linear-gradient(90deg,rgba(6,9,7,.94),rgba(11,15,12,.72)),url("/assets/guild-campaign-map.jpg") left 72%/cover;color:#e8e1d2;box-shadow:inset 4px 0 0 #b06c43,0 18px 36px var(--shadow)}
-.facility-hero .page-title{color:#eee6d5}
-.facility-hero .page-lead{color:#a7b0a9}
-.facility-hero-status{border-color:#4f5b52}
-.facility-hero-status span{border-color:#4f5b52;color:#94a097}
-.facility-hero-status b{color:#e0ae50}
-.facility-grid{gap:10px}
-.facility-card{min-height:300px;border-color:#414c43;background:linear-gradient(145deg,#19201a,#0f1410);color:#e3e8e2;box-shadow:0 14px 30px rgba(0,0,0,.24)}
-.facility-card::after{position:absolute;right:0;bottom:0;width:54px;height:54px;border-right:1px solid rgba(212,166,77,.25);border-bottom:1px solid rgba(212,166,77,.25);content:"";clip-path:polygon(100% 0,100% 100%,0 100%)}
-.facility-card:hover{background:linear-gradient(145deg,#202820,#111713);box-shadow:0 18px 34px rgba(0,0,0,.36),0 0 0 1px rgba(212,166,77,.18)}
-.facility-card-head,.facility-card-foot{border-color:#3b463e}
-.facility-card h2{color:#eee6d5}
-.facility-card-body p,.facility-card-foot,.facility-progress{color:#94a097}
-.facility-icon{border-color:#5f6b62;background:#0b0f0c;color:#d4a64d}
-.facility-card .progress-track{border-color:#3e4941;background:#080b09}
-.workshop-protocol{padding:22px;border:1px solid #3c473f;background:#111713;color:#dfe5df}
-.workshop-protocol li{border-color:#3c473f;color:#9ba69d}
-.workshop-protocol h2{color:#eee5d3}
-
-body:has(.dungeon-grid) .page-intro{min-height:190px;padding:28px;border:1px solid #4b4738;background:linear-gradient(90deg,rgba(6,9,7,.95),rgba(13,17,14,.7)),url("/assets/guild-campaign-map.jpg") right 36%/cover;color:#e8e1d2;box-shadow:inset 4px 0 0 #a64740}
-body:has(.dungeon-grid) .page-intro .page-title{color:#eee5d3}
-body:has(.dungeon-grid) .page-intro .page-lead{color:#a7b0a9}
-body:has(.dungeon-grid) .filter-console{border-color:#3f4a42;background:#111713;color:#dfe5df}
-body:has(.dungeon-grid) .filter-console input{background:#090d0a;color:#e0e5e0}
-body:has(.dungeon-grid) .filter-chip{border-color:#3c473f;color:#98a39b}
-body:has(.dungeon-grid) .filter-chip.active{border-color:#bd8e42;background:#28251b;color:#e1b35a}
-.dungeon-card{min-height:230px;border-color:#3e4941;background:linear-gradient(145deg,#181f1a,#0f1411);color:#dfe5df;box-shadow:inset 3px 0 0 #6d4936}
-.dungeon-card:hover{border-color:#b6873f;background:linear-gradient(145deg,#202820,#111713);box-shadow:0 14px 28px rgba(0,0,0,.32),inset 3px 0 0 #b6873f}
-.dungeon-card .dungeon-title{color:#eee6d5}
-.dungeon-card .text-muted,.dungeon-card .quest-meta{color:#95a098}
-.dungeon-card .bg-background\/50{background:#0b0f0c}
-.dungeon-card .progress-track{border-color:#3d4840;background:#080b09}
-
-@media(max-width:820px){
-  .scene-location[data-zone="skills"]{top:auto}
-  .world-map-head,.facility-hero,body:has(.dungeon-grid) .page-intro{min-height:0;padding:20px}
-  .world-region{padding:0 10px 10px}
-  .region-path{min-height:160px}
-  .facility-card{min-height:260px}
-  .workshop-protocol{padding:16px}
-}
-
-.scene-location[data-zone="paths"]{left:60%}
-.scene-location[data-zone="skills"]{top:62%;left:10%}
-@media(max-width:820px){.scene-location[data-zone="paths"],.scene-location[data-zone="skills"]{top:auto;left:auto}}
 
 
 /* Fixed curriculum tower: player chooses a route, course order stays shallow-to-deep */
 .tower-page{width:min(100%,1180px);margin:0 auto}
-.tower-run-header{display:flex;min-height:190px;align-items:flex-end;justify-content:space-between;gap:24px;padding:28px;border:1px solid #4a4434;background:linear-gradient(90deg,rgba(6,9,7,.95),rgba(10,14,11,.66)),url("/assets/guild-campaign-map.jpg") center 42%/cover;color:#e9e2d2;box-shadow:inset 4px 0 0 #a9433d,0 18px 38px var(--shadow)}
-.tower-run-header h1{margin-top:5px;font-family:"Songti SC",SimSun,serif;font-size:32px;font-weight:900}
-.tower-run-header>div>p:last-child{max-width:720px;margin-top:8px;color:#aab3ac;font-size:11px;line-height:1.7}
-.tower-run-status{display:grid;grid-template-columns:repeat(2,92px);border-top:1px solid #4a554d;border-left:1px solid #4a554d}
-.tower-run-status span{display:flex;height:72px;align-items:flex-start;justify-content:center;flex-direction:column;padding:10px;border-right:1px solid #4a554d;border-bottom:1px solid #4a554d}
-.tower-run-status small{color:#8f9a92;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
-.tower-run-status b{margin-top:4px;color:#d8a84e;font:800 19px ui-monospace,SFMono-Regular,Consolas,monospace}
-.tower-run-layout{display:grid;grid-template-columns:238px minmax(0,1fr);gap:12px;margin-top:14px}
-.tower-dossier{align-self:start;border:1px solid #3d4840;background:linear-gradient(160deg,#172019,#0d120f);padding:16px;color:#dce2dc;box-shadow:inset 3px 0 0 #7c6238}
-.tower-dossier-title{display:flex;align-items:center;gap:9px;padding-bottom:12px;border-bottom:1px solid #39443c;color:#d3a34d}
-.tower-dossier-title span{display:flex;flex-direction:column}
-.tower-dossier-title small{font:7px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.12em}
-.tower-dossier-title b{margin-top:2px;color:#e6dfcf;font-family:"Songti SC",SimSun,serif;font-size:16px}
-.tower-dossier>p{margin:13px 0;color:#98a39b;font-size:13px;line-height:1.7}
-.tower-dossier dl{display:grid}
-.tower-dossier dl>div{padding:9px 0;border-top:1px solid #303a33}
-.tower-dossier dt{display:flex;align-items:center;gap:7px;color:#d7ddd7;font-size:13px;font-weight:800}
-.tower-legend dt img{width:22px;height:22px;object-fit:contain}
-.tower-dossier dd{margin-top:3px;padding-left:22px;color:#7f8b82;font-size:12px}
-.tower-register{display:block;margin-top:13px;border:1px solid #a57a38;padding:9px;color:#dbae56;text-align:center;font-size:12px}
-/* 塔内视口：深色石室，不再铺羊皮纸地图——爬塔发生在塔里，不是桌面上。
-   砖墙纹理直接平铺 0x72 的墙砖，image-rendering 保持像素硬边。 */
-.tower-viewport{position:relative;height:min(74vh,790px);min-height:610px;overflow:auto;border:1px solid #3d493f;background:#0a0d0a url("/assets/pixel-dungeon/wall_center.png");background-size:64px 64px;image-rendering:pixelated;color:#e1e5e0;scrollbar-color:#85683a #101511;overscroll-behavior:contain}
-.tower-viewport::before{position:sticky;z-index:1;top:0;display:block;height:38px;background:linear-gradient(#080b09,transparent);content:"";pointer-events:none}
-/* 压暗砖墙、给中路留光——视线跟着塔心走 */
-.tower-map{position:relative;min-width:760px;margin:-38px auto 0;background:linear-gradient(90deg,rgba(3,5,4,.88),rgba(6,9,7,.55) 35%,rgba(6,9,7,.55) 65%,rgba(3,5,4,.88))}
-.tower-spire{position:absolute;top:56px;bottom:74px;left:50%;width:1px;background:linear-gradient(transparent,#6f5b35 8%,#38443b 92%,transparent);box-shadow:0 0 34px rgba(212,166,77,.16)}
-.tower-crown{position:absolute;top:37px;left:50%;display:grid;width:54px;height:54px;place-items:center;border:1px solid #b18139;background:#16170f;color:#e0ae51;transform:translateX(-50%) rotate(45deg);box-shadow:0 0 24px rgba(212,166,77,.24)}
-.tower-crown svg{transform:rotate(-45deg)}
-.tower-routes{position:absolute;inset:0;pointer-events:none}
-.tower-act-marker{position:absolute;left:14px;display:flex;width:184px;align-items:center;gap:9px;border-bottom:1px solid #4a554d;padding:0 0 5px;color:#9da79f}
-.tower-act-marker span{color:#a47d40;font:7px ui-monospace,SFMono-Regular,Consolas,monospace}
-.tower-act-marker b{overflow:hidden;font-family:"Songti SC",SimSun,serif;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
-/* 楼层遭遇：不再是七边形徽章卡，而是站在石台上的怪物精灵——
-   跟课程页里的 Phaser 战斗场景同一批 0x72 素材，塔和战斗才像同一个世界。 */
-.tower-encounter{position:absolute;z-index:3;display:grid;width:70px;height:70px;place-items:center;transition:transform 150ms ease,filter 150ms ease}
-/* 站台：一块简单的石头投影，精灵踩在上面 */
-.tower-encounter::after{position:absolute;bottom:2px;left:50%;width:52px;height:12px;border-radius:50%;background:rgba(0,0,0,.55);content:"";transform:translateX(-50%)}
-.tower-sprite{position:relative;z-index:1;width:52px;height:52px;object-fit:contain}
-.tower-encounter:hover{z-index:6;filter:drop-shadow(0 0 12px rgba(212,166,77,.4));transform:translateY(-4px)}
-.tower-encounter small{position:absolute;top:-4px;right:0;left:0;z-index:2;color:#b9944d;font-size:12px;text-align:center;text-shadow:0 2px 3px #000}
-/* 当前层：金光呼吸，示意「你在这」 */
-.tower-encounter.current .tower-sprite{animation:tower-current 2s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(212,166,77,.65))}
-/* 已讨伐：灰化并横倒，压上红叉 */
-.tower-encounter.done .tower-sprite{filter:grayscale(1) brightness(.6);transform:rotate(90deg) translateY(6px)}
-.tower-slain{position:absolute;z-index:2;color:#d45d50;font-size:24px;text-shadow:0 0 6px #000}
-.tower-encounter.boss .tower-sprite{width:64px;height:64px;filter:drop-shadow(0 0 14px rgba(187,68,61,.5))}
-/* 战争迷雾：没打到的层只有剪影 */
-.tower-encounter.future .tower-sprite{filter:brightness(0) opacity(.55)}
-.tower-encounter.future:hover .tower-sprite{filter:brightness(.35)}
-/* 血条：横在怪头顶，宽度=剩余集数占比 */
-.tower-hp-bar{position:absolute;top:10px;left:50%;z-index:2;width:48px;height:5px;border:1px solid #080a08;background:#31201d;transform:translateX(-50%)}
-.tower-hp-bar::before{display:block;width:var(--hp);height:100%;background:#9e493e;content:""}
-.tower-encounter-label{position:absolute;z-index:2;display:flex;width:224px;align-items:center;flex-direction:column;color:#adb7af;text-align:center;text-shadow:0 2px 5px #000}
-.tower-encounter-label small{color:#8e998f;font-size:12px}
-.tower-encounter-label b{display:block;overflow:hidden;width:100%;margin-top:2px;color:#dce2dc;font-family:"Songti SC",SimSun,serif;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
-.tower-encounter-label em{margin-top:3px;color:#d3a44e;font-size:11px;font-style:normal}
-/* 整备侧路：宝箱精灵 + 右下角一个小图标区分种类（工坊/卷宗/星盘） */
-.tower-support-node{position:absolute;z-index:4;display:grid;width:48px;height:48px;place-items:center}
-.tower-support-node img{width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.6))}
-.tower-support-kind{position:absolute;right:-2px;bottom:-2px;color:#e0b157;background:#111711;border:1px solid #79643c;padding:1px}
-.tower-support-node:hover{filter:drop-shadow(0 0 10px rgba(212,166,77,.4))}
-.tower-support-node span{position:absolute;top:48px;left:50%;width:140px;color:#8e998f;font-size:11px;text-align:center;transform:translateX(-50%) rotate(-45deg)}
-.tower-base{position:absolute;left:50%;display:flex;align-items:center;flex-direction:column;color:#aab4ac;transform:translateX(-50%)}
-.tower-base span{display:grid;width:42px;height:42px;place-items:center;border:1px solid #7e663a;background:#111611;color:#d4a64d;font-family:Georgia,serif;clip-path:polygon(50% 0,92% 18%,92% 70%,50% 100%,8% 70%,8% 18%)}
-.tower-base b{margin-top:5px;font-family:"Songti SC",SimSun,serif;font-size:13px}
 @keyframes tower-current{0%,100%{filter:drop-shadow(0 0 4px rgba(212,166,77,.2))}50%{filter:drop-shadow(0 0 15px rgba(212,166,77,.6))}}
-
-@media(max-width:900px){
-  .tower-run-layout{grid-template-columns:1fr}
-  .tower-dossier{display:grid;grid-template-columns:180px minmax(0,1fr);gap:0 16px}
-  .tower-dossier-title{grid-row:1/3}
-  .tower-dossier>p{margin:0}
-  .tower-dossier dl{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:8px}
-  .tower-dossier dl>div{padding:6px 0}
-  .tower-register{grid-column:1/-1}
-}
-@media(max-width:620px){
-  .tower-run-header{min-height:0;align-items:flex-start;flex-direction:column;padding:20px}
-  .tower-run-header h1{font-size:24px}
-  .tower-run-status{width:100%;grid-template-columns:repeat(2,1fr)}
-  .tower-run-status span{height:58px}
-  .tower-dossier{display:block}
-  .tower-dossier-title{margin-bottom:10px}
-  .tower-dossier dl{grid-template-columns:1fr 1fr}
-  .tower-viewport{height:68vh;min-height:520px}
-}
-
-/* Scrubbable lexicon index */
-.glossary-page{padding-right:26px}
-.glossary-sector{scroll-margin-top:92px}
 .glossary-index-rail{position:fixed;z-index:72;top:82px;right:8px;bottom:94px;display:flex;width:38px;align-items:center;flex-direction:column;border:1px solid rgba(212,166,77,.42);background:rgba(8,12,9,.94);color:#a7b1a9;box-shadow:0 10px 28px rgba(0,0,0,.38);backdrop-filter:blur(10px);touch-action:none;user-select:none}
 .glossary-index-caption{padding:5px 0 3px;color:#9a7842;font:6px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
 .glossary-index-items{display:grid;width:100%;min-height:0;flex:1;grid-auto-rows:minmax(13px,1fr)}
@@ -3910,373 +2493,11 @@ body:has(.dungeon-grid) .filter-chip.active{border-color:#bd8e42;background:#282
 .glossary-index-indicator{position:absolute;top:50%;right:44px;display:grid;min-width:42px;height:42px;place-items:center;border:1px solid #a77c3a;background:#111611;color:#e0ae50;font:800 14px ui-monospace,SFMono-Regular,Consolas,monospace;box-shadow:0 8px 18px rgba(0,0,0,.36);opacity:0;pointer-events:none;transform:translateY(-50%)}
 .glossary-index-rail:active .glossary-index-indicator{opacity:1}
 @media(max-width:680px){
-  .glossary-page{padding-right:22px}
   .glossary-index-rail{top:62px;right:0;bottom:64px;width:30px}
   .glossary-index-caption{display:none}
   .glossary-index-items button{font-size:11px}
   .glossary-index-indicator{right:35px}
 }
-
-
-/* M8 deterministic dungeon chamber */
-body:has(.dungeon-chamber) {
-  background: #080b09;
-}
-body:has(.dungeon-chamber)::before {
-  position: fixed;
-  z-index: -1;
-  inset: 0;
-  background:
-    linear-gradient(rgba(4, 7, 5, .86), rgba(4, 7, 5, .96)),
-    url("/assets/guild-campaign-map.jpg") center / cover;
-  content: "";
-}
-body:has(.dungeon-chamber) .guild-stage {
-  max-width: 1500px;
-  margin: 0 auto;
-}
-body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child {
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 0;
-  padding: 22px 24px 20px;
-  border-color: #4b4938;
-  border-bottom: 0;
-  background: #111713;
-  box-shadow: inset 4px 0 0 #ae473f;
-}
-body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child::after {
-  position: absolute;
-  right: 22px;
-  bottom: 10px;
-  color: #333d36;
-  font: 700 42px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
-  content: "DUNGEON";
-  pointer-events: none;
-}
-
-.dungeon-chamber {
-  position: relative;
-  margin: 0 0 24px;
-  border: 1px solid #4b4938;
-  background: #090d0a;
-  color: #e6e1d4;
-  box-shadow: 0 24px 52px rgba(0, 0, 0, .42), inset 0 0 0 1px rgba(217, 174, 88, .05);
-  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
-}
-.dungeon-chamber::before,
-.dungeon-chamber::after {
-  position: absolute;
-  z-index: 4;
-  width: 34px;
-  height: 3px;
-  background: #c39848;
-  content: "";
-  pointer-events: none;
-}
-.dungeon-chamber::before { top: 0; left: 0; }
-.dungeon-chamber::after { right: 0; bottom: 0; }
-
-.dungeon-chamber-head {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  min-height: 88px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 14px 20px;
-  border-bottom: 1px solid #384239;
-  background: #111713;
-}
-.dungeon-kicker {
-  display: block;
-  margin-bottom: 5px;
-  color: #b47645;
-  font: 800 9px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
-  letter-spacing: .12em;
-}
-.dungeon-chamber-head h2 {
-  color: #f0e9da;
-  font: 900 20px/1.25 "Songti SC", SimSun, serif;
-}
-.dungeon-chamber-head p {
-  overflow: hidden;
-  max-width: 650px;
-  margin-top: 4px;
-  color: #98a49c;
-  font-size: 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.dungeon-reward-preview {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: stretch;
-  gap: 5px;
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-}
-.dungeon-reward-preview span,
-.dungeon-reward-preview b {
-  display: inline-flex;
-  min-height: 38px;
-  align-items: center;
-  gap: 7px;
-  padding: 0 11px;
-  border: 1px solid #3e493f;
-  background: #0b100d;
-  color: #d8aa50;
-  font-size: 13px;
-}
-.dungeon-reward-preview b[data-rarity="rare"] { border-color: #6c704a; color: #d8c06a; }
-.dungeon-reward-preview b[data-rarity="legendary"] { border-color: #9d493e; color: #ef876c; }
-
-.dungeon-canvas-shell {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 48 / 17;
-  min-height: 280px;
-  max-height: 440px;
-  overflow: hidden;
-  background: #070a08;
-}
-.dungeon-canvas {
-  position: absolute;
-  inset: 0;
-}
-.dungeon-canvas canvas {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-}
-.dungeon-login-seal {
-  position: absolute;
-  z-index: 7;
-  right: 18px;
-  bottom: 18px;
-  padding: 10px 13px;
-  border: 1px solid #c29443;
-  background: rgba(8, 12, 9, .92);
-  color: #e0b45b;
-  font-size: 11px;
-  font-weight: 800;
-}
-.dungeon-stat-strip {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  grid-template-columns: 1.25fr repeat(4, 1fr) 1.25fr;
-  min-height: 46px;
-  border-top: 1px solid #384239;
-  border-bottom: 1px solid #2d352f;
-  background: #101511;
-}
-.dungeon-stat-strip > span {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border-right: 1px solid #2f3831;
-  color: #8f9b93;
-  font-size: 13px;
-}
-.dungeon-stat-strip > span:last-child { border-right: 0; }
-.dungeon-stat-strip b { color: #d9ded9; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
-.dungeon-stat-strip .dungeon-power {
-  color: #c0974a;
-  font-weight: 800;
-}
-.dungeon-stat-strip .dungeon-power b { color: #e5b85e; font-size: 15px; }
-.dungeon-stat-strip .dungeon-coins { color: #b5904c; }
-
-.dungeon-rule-note {
-  margin: 0;
-  padding: 9px 18px 10px;
-  background: #0b100d;
-  color: #758078;
-  font-size: 12px;
-  line-height: 1.5;
-  text-align: center;
-}
-body:has(.dungeon-chamber) .player-frame {
-  border-color: #4a554c;
-  box-shadow: 0 18px 38px rgba(0, 0, 0, .34), inset 0 0 0 1px rgba(255, 255, 255, .035);
-}
-body:has(.dungeon-chamber) .course-layout aside .hud-panel {
-  border-color: #39443c;
-  background: #101511;
-}
-
-.game-resource.coin {
-  border-color: #5d4c2e;
-  color: #d7a94f;
-}
-
-@media (max-width: 900px) {
-  .dungeon-chamber-head { align-items: flex-start; flex-direction: column; gap: 10px; }
-  .dungeon-reward-preview { width: 100%; }
-  .dungeon-reward-preview span,
-  .dungeon-reward-preview b { flex: 1; justify-content: center; }
-  .dungeon-stat-strip { grid-template-columns: repeat(3, 1fr); }
-  .dungeon-stat-strip > span { min-height: 40px; }
-  .dungeon-canvas-shell { min-height: 240px; }
-}
-
-@media (max-width: 560px) {
-  body:has(.dungeon-chamber) .guild-stage { padding-right: 8px; padding-left: 8px; }
-  body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child { padding: 16px 14px; }
-  body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child::after { display: none; }
-  .dungeon-chamber-head { padding: 13px 12px; }
-  .dungeon-chamber-head h2 { font-size: 17px; }
-  .dungeon-chamber-head p { max-width: calc(100vw - 42px); }
-  .dungeon-reward-preview { flex-direction: column; }
-  .dungeon-canvas-shell { aspect-ratio: 16 / 10; min-height: 220px; }
-  .dungeon-stat-strip { grid-template-columns: repeat(2, 1fr); }
-  .dungeon-stat-strip > span { min-height: 38px; }
-  .dungeon-rule-note { padding: 9px 11px 12px; text-align: left; }
-}
-
-
-body:has(.dungeon-chamber) .guild-stage {
-  background: #090d0a;
-  color: #dfe4df;
-}
-body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child h1 {
-  position: relative;
-  z-index: 1;
-  color: #eee7d8;
-}
-body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child .text-muted {
-  position: relative;
-  z-index: 1;
-  color: #97a29a;
-}
-body:has(.dungeon-chamber) .session-console {
-  border-color: #4a554c;
-  background: #101511;
-  color: #dfe4df;
-  box-shadow: inset 3px 0 0 #667b6b;
-}
-body:has(.dungeon-chamber) .session-console-head {
-  border-color: #354038;
-  color: #b8c0ba;
-}
-body:has(.dungeon-chamber) .session-episode,
-body:has(.dungeon-chamber) .session-summary span {
-  color: #cbd1cc;
-}
-body:has(.dungeon-chamber) .session-clock {
-  color: #e0b158;
-}
-body:has(.dungeon-chamber) .session-summary textarea {
-  border-color: #3b473e;
-  background: #090d0a;
-  color: #dfe4df;
-}
-body:has(.dungeon-chamber) .session-controls button {
-  border-color: #465248;
-}
-body:has(.dungeon-chamber) .encounter-row {
-  border: 1px solid #303a32;
-  background: #0f1411;
-}
-body:has(.dungeon-chamber) .encounter-row:hover {
-  border-color: #7d6438;
-  background: #151b17;
-}
-body:has(.dungeon-chamber) .analysis-panel,
-body:has(.dungeon-chamber) .analysis-section {
-  border-color: #39443c;
-  background: #101511;
-}
-
-
-/* Persistent mirrored character sheet */
-.rpg-character-sheet,
-.rpg-inventory {
-  border-color: #424c43;
-  background: #101511;
-}
-.rpg-power-mark {
-  border: 1px solid #806638;
-  padding: 5px 8px;
-  color: #d6aa52;
-  font: 800 9px ui-monospace, SFMono-Regular, Consolas, monospace;
-}
-.rpg-attribute-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  border-top: 1px solid #354038;
-  border-left: 1px solid #354038;
-}
-.rpg-attribute-grid > div {
-  display: grid;
-  min-height: 52px;
-  grid-template-columns: 20px 1fr auto;
-  align-items: center;
-  gap: 5px;
-  padding: 8px;
-  border-right: 1px solid #354038;
-  border-bottom: 1px solid #354038;
-  color: #87938b;
-  font-size: 12px;
-}
-.rpg-attribute-grid b {
-  color: #e1e5e1;
-  font: 900 14px ui-monospace, SFMono-Regular, Consolas, monospace;
-}
-.rpg-wallet {
-  display: grid;
-  min-height: 38px;
-  grid-template-columns: 20px 1fr auto;
-  align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  padding: 0 10px;
-  border: 1px solid #5a482d;
-  background: #0b0f0c;
-  color: #c99d4a;
-  font-size: 12px;
-}
-.rpg-wallet b { font: 900 14px ui-monospace, SFMono-Regular, Consolas, monospace; }
-.rpg-sheet-note { margin-top: 8px; color: #758078; font-size: 12px; line-height: 1.45; }
-.rpg-inventory-list { display: grid; gap: 6px; }
-.rpg-inventory-list li {
-  display: grid;
-  min-height: 52px;
-  grid-template-columns: 34px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 9px;
-  padding: 7px;
-  border: 1px solid #354038;
-  background: #0b100d;
-}
-.rpg-inventory-list li[data-rarity="rare"] { border-color: #666844; }
-.rpg-inventory-list li[data-rarity="legendary"] { border-color: #8e453c; }
-.rpg-item-glyph {
-  display: grid;
-  width: 32px;
-  height: 36px;
-  place-items: center;
-  border: 1px solid #8b6b36;
-  color: #d6aa52;
-  font-family: "Songti SC", SimSun, serif;
-  font-weight: 900;
-  clip-path: polygon(50% 0, 100% 24%, 88% 82%, 50% 100%, 12% 82%, 0 24%);
-}
-.rpg-inventory-list li > span:nth-child(2) { display: flex; min-width: 0; flex-direction: column; }
-.rpg-inventory-list b { color: #dce1dc; font-size: 13px; }
-.rpg-inventory-list small { overflow: hidden; margin-top: 2px; color: #758078; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
-.rpg-inventory-list strong { color: #c79c4a; font: 800 10px ui-monospace, SFMono-Regular, Consolas, monospace; }
-
-.scene-loot-preview{display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:4px 7px;border:1px solid rgba(199,155,75,.34);background:rgba(7,11,8,.56);color:#d3a64e;font:800 8px ui-monospace,SFMono-Regular,Consolas,monospace}
-
-.encounter-row.encounter-cache{border-left:3px solid #8e733d}
-.encounter-row.encounter-elite{border-left:3px solid #8a4b3f;background:color-mix(in srgb,#8a4b3f 7%,var(--panel))}
-.encounter-row.encounter-boss{border-left:3px solid #c54a41;background:color-mix(in srgb,#c54a41 10%,var(--panel));box-shadow:inset 0 0 26px rgba(139,46,40,.08)}
-.encounter-code[data-kind="cache"]{color:#c49b4c}
-.encounter-code[data-kind="elite"],.encounter-code[data-kind="boss"]{color:#c26755}
 
 
 /* Source identity and episode-first knowledge map */
@@ -4377,272 +2598,6 @@ body:has(.dungeon-chamber) .analysis-section {
   background: #0d120f;
 }
 
-.analysis-map-head {
-  display: flex;
-  min-height: 74px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 13px 16px;
-  border-bottom: 1px solid #39443c;
-  background: #111713;
-}
-
-.analysis-map-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 5px;
-  color: #b27243;
-  font: 800 8px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
-  letter-spacing: .1em;
-}
-
-.analysis-map-head h2 {
-  color: #eee7d8;
-}
-
-.analysis-map-basis {
-  display: inline-flex;
-  max-width: 62%;
-  align-items: center;
-  gap: 5px;
-  color: #828e86;
-  font-size: 12px;
-  line-height: 1.45;
-  text-align: right;
-}
-
-.analysis-map-basis svg {
-  flex: 0 0 auto;
-  color: #c79b4b;
-}
-
-.analysis-overview {
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
-  gap: 9px;
-  padding: 13px 16px;
-  border-bottom: 1px solid #303a33;
-  background: #0b100d;
-  color: #99a49c;
-}
-
-.analysis-overview > svg {
-  margin-top: 2px;
-  color: #b48a48;
-}
-
-.analysis-overview p {
-  font-size: 11px;
-  line-height: 1.7;
-}
-
-.analysis-episode-list > li {
-  border-bottom: 1px solid #303a33;
-  background: #0e1410;
-}
-
-.analysis-episode-list > li:last-child {
-  border-bottom: 0;
-}
-
-.analysis-episode-list > li.is-open {
-  box-shadow: inset 3px 0 0 #b58b46;
-}
-
-.analysis-episode-trigger {
-  display: grid;
-  width: 100%;
-  min-height: 70px;
-  grid-template-columns: 58px minmax(0, 1fr) 24px;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 15px;
-  color: #dfe4df;
-  text-align: left;
-}
-
-.analysis-episode-trigger:hover {
-  background: #151c17;
-}
-
-.analysis-episode-number {
-  color: #b48345;
-  font: 900 10px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
-}
-
-.analysis-episode-copy {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.analysis-episode-copy > strong {
-  overflow: hidden;
-  color: #eee8db;
-  font-size: 12px;
-  line-height: 1.35;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.analysis-episode-copy > span {
-  display: -webkit-box;
-  overflow: hidden;
-  color: #808b83;
-  font-size: 12px;
-  line-height: 1.5;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.analysis-episode-chevron {
-  color: #78847b;
-  transition: transform 160ms ease;
-}
-
-.analysis-episode-list > li.is-open .analysis-episode-chevron {
-  color: #c79b4b;
-  transform: rotate(180deg);
-}
-
-.analysis-episode-body {
-  display: grid;
-  gap: 18px;
-  padding: 16px 18px 19px 85px;
-  border-top: 1px solid #303a33;
-  background: #090d0a;
-}
-
-.analysis-section-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #a76b42;
-  font: 800 8px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
-  letter-spacing: .1em;
-}
-
-.analysis-summary-block p {
-  color: #b4bdb6;
-  font-size: 11px;
-  line-height: 1.75;
-}
-
-.analysis-keypoint-list {
-  display: grid;
-  gap: 7px;
-}
-
-.analysis-keypoint-list > li {
-  display: grid;
-  grid-template-columns: 58px minmax(0, 1fr);
-  gap: 10px;
-  padding: 10px;
-  border: 1px solid #303a33;
-  background: #0e1410;
-}
-
-.analysis-timestamp,
-.analysis-keypoint-index {
-  display: inline-flex;
-  width: 52px;
-  height: 25px;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  border: 1px solid #625239;
-  background: #11130e;
-  color: #d0a554;
-  font: 800 8px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
-}
-
-.analysis-timestamp:hover {
-  border-color: #d0a554;
-  background: #292316;
-}
-
-.analysis-keypoint-index {
-  border-color: #354039;
-  color: #738077;
-}
-
-.analysis-keypoint-copy {
-  min-width: 0;
-}
-
-.analysis-keypoint-copy > strong {
-  color: #e4e7e3;
-  font-size: 11px;
-  line-height: 1.45;
-}
-
-.analysis-keypoint-copy > p {
-  margin-top: 4px;
-  color: #89958d;
-  font-size: 13px;
-  line-height: 1.65;
-}
-
-.analysis-formula-row {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.analysis-formula {
-  min-width: 0;
-  flex: 1;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 8px 10px;
-  border-left: 2px solid #607c78;
-  background: #080c09;
-  color: #dce5e0;
-}
-
-.analysis-formula code {
-  color: #9ca79f;
-  font-size: 13px;
-}
-
-.analysis-formula-action {
-  display: grid;
-  width: 28px;
-  height: 28px;
-  flex: 0 0 28px;
-  place-items: center;
-  border: 1px solid #496764;
-  color: #77aaa6;
-}
-
-.analysis-formula-action:hover {
-  border-color: #77aaa6;
-  background: #12201e;
-}
-
-.analysis-term-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.analysis-term-list > span {
-  cursor: help;
-  border: 1px solid #344038;
-  padding: 4px 7px;
-  background: #0e1410;
-  color: #8f9b93;
-  font-size: 12px;
-}
-
-.dungeon-canvas canvas {
-  image-rendering: pixelated;
-}
-
 @media (max-width: 760px) {
   .player-source-heading {
     grid-template-columns: 34px minmax(0, 1fr);
@@ -4651,151 +2606,9 @@ body:has(.dungeon-chamber) .analysis-section {
   .player-current-episode {
     grid-column: 1 / -1;
   }
-
-  .analysis-map-head {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .analysis-map-basis {
-    max-width: none;
-    text-align: left;
-  }
-
-  .analysis-episode-trigger {
-    grid-template-columns: 48px minmax(0, 1fr) 20px;
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .analysis-episode-body {
-    padding: 14px 11px;
-  }
-
-  .analysis-keypoint-list > li {
-    grid-template-columns: 50px minmax(0, 1fr);
-    padding: 8px;
-  }
-
-  .analysis-timestamp,
-  .analysis-keypoint-index {
-    width: 46px;
-  }
 }
 
 
-/* Light theme game surfaces. The pixel dungeon itself remains dark by design. */
-:root[data-theme="light"] {
-  --game-surface: #f7f6ef;
-  --game-surface-2: #ecefe8;
-  --game-surface-3: #dfe5dc;
-  --game-ink: #19211d;
-  --game-muted: #5b675f;
-  --game-line: #aeb7ac;
-}
-
-/* Persistent game shell */
-:root[data-theme="light"] .game-top-hud {
-  border-bottom-color: rgba(139, 90, 18, .34);
-  background: color-mix(in srgb, var(--panel) 95%, transparent);
-  color: var(--foreground);
-  box-shadow: 0 10px 26px rgba(25, 33, 29, .16);
-}
-:root[data-theme="light"] .game-brand,
-:root[data-theme="light"] .game-player-hud { color: var(--foreground); }
-:root[data-theme="light"] .game-avatar {
-  border-color: var(--gold);
-  background: var(--panel-strong);
-  color: var(--gold);
-  box-shadow: inset 0 0 0 3px var(--panel), 0 0 14px rgba(139, 90, 18, .12);
-}
-:root[data-theme="light"] .game-brand-copy small,
-:root[data-theme="light"] .game-player-copy small,
-:root[data-theme="light"] .game-xp-label,
-:root[data-theme="light"] .game-resource small { color: var(--muted); }
-:root[data-theme="light"] .game-xp-line {
-  border-color: var(--edge-strong);
-  background: var(--panel-strong);
-}
-:root[data-theme="light"] .game-resource { border-color: var(--edge); color: var(--gold); }
-:root[data-theme="light"] .game-top-hud .hud-icon-button {
-  border-color: var(--edge);
-  background: var(--panel);
-  color: var(--foreground);
-}
-:root[data-theme="light"] .game-command-slots {
-  border-color: rgba(139, 90, 18, .38);
-  background: color-mix(in srgb, var(--panel) 95%, transparent);
-  box-shadow: 0 10px 28px rgba(25, 33, 29, .22), inset 0 0 0 1px rgba(255, 255, 255, .6);
-}
-:root[data-theme="light"] .game-command {
-  border-color: var(--edge);
-  background: linear-gradient(180deg, var(--panel), var(--panel-strong));
-  color: var(--muted);
-}
-:root[data-theme="light"] .game-command:hover { border-color: var(--gold); color: var(--gold); }
-:root[data-theme="light"] .game-command.active {
-  border-color: var(--gold);
-  background: linear-gradient(180deg, #fbf3dc, #e6dfc8);
-  color: var(--gold);
-  box-shadow: 0 0 12px rgba(139, 90, 18, .14);
-}
-:root[data-theme="light"] .game-command-key { color: var(--edge-strong); }
-
-/* Campaign hall */
-:root[data-theme="light"] .guild-hall-scene {
-  background-color: #e7e3d8;
-  background-image: url("/assets/guild-campaign-map-light.jpg");
-  color: var(--foreground);
-}
-:root[data-theme="light"] .guild-hall-scene::before {
-  background:
-    radial-gradient(circle at 50% 43%, transparent 0, rgba(25,33,29,.04) 58%, rgba(25,33,29,.18) 100%),
-    linear-gradient(180deg, rgba(247,246,239,.08), transparent 36%, rgba(25,33,29,.08));
-}
-:root[data-theme="light"] .scene-atmosphere {
-  background: linear-gradient(90deg, rgba(25,33,29,.1), transparent 24%, transparent 76%, rgba(25,33,29,.1));
-}
-:root[data-theme="light"] .scene-identity h1 {
-  color: var(--foreground);
-  text-shadow: 0 2px 8px rgba(247,246,239,.9);
-}
-:root[data-theme="light"] .scene-identity span,
-:root[data-theme="light"] .scene-location-copy em,
-:root[data-theme="light"] .scene-panel-heading,
-:root[data-theme="light"] .scene-orders-panel .daily-quest,
-:root[data-theme="light"] .scene-boss-health > span,
-:root[data-theme="light"] .scene-entry-panel > p:not(.scene-panel-kicker),
-:root[data-theme="light"] .scene-empty-target { color: var(--muted); }
-:root[data-theme="light"] .scene-location {
-  color: var(--foreground);
-  filter: drop-shadow(0 3px 5px rgba(247,246,239,.9));
-}
-:root[data-theme="light"] .scene-location-icon,
-:root[data-theme="light"] .scene-you-are-here > span {
-  border-color: var(--gold);
-  background: var(--panel);
-  color: var(--gold);
-  box-shadow: inset 0 0 0 3px var(--panel-strong), 0 0 14px rgba(139,90,18,.14);
-}
-:root[data-theme="light"] .scene-location-copy {
-  background: linear-gradient(90deg, rgba(247,246,239,.96), rgba(247,246,239,.45));
-}
-:root[data-theme="light"] .scene-orders-panel,
-:root[data-theme="light"] .scene-expedition-panel,
-:root[data-theme="light"] .scene-entry-panel {
-  border-color: rgba(139,90,18,.42);
-  background: rgba(247,246,239,.94);
-  color: var(--foreground);
-  box-shadow: 0 16px 36px rgba(25,33,29,.18);
-}
-:root[data-theme="light"] .scene-orders-panel .daily-quest { border-color: var(--edge); }
-:root[data-theme="light"] .scene-orders-panel .daily-quest-icon,
-:root[data-theme="light"] .scene-orders-panel .progress-track,
-:root[data-theme="light"] .scene-boss-health > div { background: var(--panel-strong); }
-:root[data-theme="light"] .scene-battle-target h2,
-:root[data-theme="light"] .scene-entry-panel h1 { color: var(--foreground); }
-:root[data-theme="light"] .scene-secondary-action { border-color: var(--edge-strong); color: var(--foreground); }
 
 /* Campaign map, course roster, workshop, and tower chrome */
 :root[data-theme="light"] .world-map-head,
@@ -4806,165 +2619,6 @@ body:has(.dungeon-chamber) .analysis-section {
   background: linear-gradient(90deg, rgba(247,246,239,.9), rgba(247,246,239,.58)),
     url("/assets/guild-campaign-map-light.jpg") center / cover;
   color: var(--foreground);
-}
-:root[data-theme="light"] .world-map-head .page-title,
-:root[data-theme="light"] .facility-hero .page-title,
-:root[data-theme="light"] body:has(.dungeon-grid) .page-intro .page-title,
-:root[data-theme="light"] .tower-run-header h1 { color: var(--foreground); }
-:root[data-theme="light"] .world-map-head .page-lead,
-:root[data-theme="light"] .facility-hero .page-lead,
-:root[data-theme="light"] body:has(.dungeon-grid) .page-intro .page-lead,
-:root[data-theme="light"] .tower-run-header > div > p:last-child { color: var(--muted); }
-:root[data-theme="light"] .world-region,
-:root[data-theme="light"] .region-path,
-:root[data-theme="light"] .facility-card,
-:root[data-theme="light"] .workshop-protocol,
-:root[data-theme="light"] body:has(.dungeon-grid) .filter-console,
-:root[data-theme="light"] .dungeon-card,
-:root[data-theme="light"] .tower-dossier {
-  border-color: var(--edge);
-  background: var(--panel);
-  color: var(--foreground);
-  box-shadow: 0 10px 24px rgba(25,33,29,.1);
-}
-:root[data-theme="light"] .region-path:hover,
-:root[data-theme="light"] .facility-card:hover,
-:root[data-theme="light"] .dungeon-card:hover {
-  border-color: var(--gold);
-  background: var(--panel-hover);
-  box-shadow: 0 12px 26px rgba(25,33,29,.14);
-}
-:root[data-theme="light"] .region-icon,
-:root[data-theme="light"] .facility-icon,
-:root[data-theme="light"] .dungeon-card .bg-background\/50 {
-  border-color: var(--edge);
-  background: var(--panel-strong);
-  color: var(--gold);
-}
-:root[data-theme="light"] .region-heading h2,
-:root[data-theme="light"] .region-path h3,
-:root[data-theme="light"] .facility-card h2,
-:root[data-theme="light"] .workshop-protocol h2,
-:root[data-theme="light"] .dungeon-card .dungeon-title,
-:root[data-theme="light"] .tower-dossier-title b { color: var(--foreground); }
-:root[data-theme="light"] .region-heading > div > span,
-:root[data-theme="light"] .region-path p,
-:root[data-theme="light"] .region-path-top,
-:root[data-theme="light"] .facility-card-body p,
-:root[data-theme="light"] .facility-card-foot,
-:root[data-theme="light"] .facility-progress,
-:root[data-theme="light"] .workshop-protocol li,
-:root[data-theme="light"] .dungeon-card .text-muted,
-:root[data-theme="light"] .dungeon-card .quest-meta,
-:root[data-theme="light"] .tower-dossier > p,
-:root[data-theme="light"] .tower-dossier dd { color: var(--muted); }
-:root[data-theme="light"] .facility-card-head,
-:root[data-theme="light"] .facility-card-foot,
-:root[data-theme="light"] .workshop-protocol li,
-:root[data-theme="light"] .tower-dossier-title,
-:root[data-theme="light"] .tower-dossier dl > div { border-color: var(--edge); }
-:root[data-theme="light"] .facility-card .progress-track,
-:root[data-theme="light"] .dungeon-card .progress-track {
-  border-color: var(--edge);
-  background: var(--panel-strong);
-}
-:root[data-theme="light"] body:has(.dungeon-grid) .filter-console input {
-  background: var(--background);
-  color: var(--foreground);
-}
-:root[data-theme="light"] body:has(.dungeon-grid) .filter-chip { border-color: var(--edge); color: var(--muted); }
-:root[data-theme="light"] body:has(.dungeon-grid) .filter-chip.active {
-  border-color: var(--gold);
-  background: #efe6cf;
-  color: var(--gold);
-}
-:root[data-theme="light"] .tower-run-status,
-:root[data-theme="light"] .tower-run-status span { border-color: var(--edge); }
-:root[data-theme="light"] .tower-run-status small { color: var(--muted); }
-/* 塔内不做亮色适配：地下城内部就该是暗的，火把与精灵的配色都建立在深底之上。
-   页面外壳（标题、侧栏）继续跟随主题，但视口这块「窗户」永远看进黑暗。 */
-:root[data-theme="light"] .tower-viewport { border-color: var(--edge); }
-
-/* Course dungeon shell */
-:root[data-theme="light"] body:has(.dungeon-chamber) { background: var(--background); }
-:root[data-theme="light"] body:has(.dungeon-chamber)::before {
-  background: linear-gradient(rgba(233,235,230,.8), rgba(233,235,230,.9)),
-    url("/assets/guild-campaign-map-light.jpg") center / cover;
-}
-:root[data-theme="light"] body:has(.dungeon-chamber) .guild-stage {
-  background: transparent;
-  color: var(--foreground);
-}
-:root[data-theme="light"] body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child {
-  border-color: var(--edge);
-  background: var(--panel);
-  box-shadow: inset 4px 0 0 var(--hp), 0 10px 26px rgba(25,33,29,.09);
-}
-:root[data-theme="light"] body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child::after {
-  color: var(--panel-strong);
-}
-:root[data-theme="light"] body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child h1 {
-  color: var(--foreground);
-}
-:root[data-theme="light"] body:has(.dungeon-chamber) .course-layout > .min-w-0 > .hud-panel:first-child .text-muted {
-  color: var(--muted);
-}
-:root[data-theme="light"] .dungeon-chamber {
-  border-color: var(--edge-strong);
-  background: var(--panel);
-  color: var(--foreground);
-  box-shadow: 0 18px 38px rgba(25,33,29,.16), inset 0 0 0 1px rgba(255,255,255,.5);
-}
-:root[data-theme="light"] .dungeon-chamber-head {
-  border-color: var(--edge);
-  background: var(--panel);
-}
-:root[data-theme="light"] .dungeon-chamber-head h2 { color: var(--foreground); }
-:root[data-theme="light"] .dungeon-chamber-head p { color: var(--muted); }
-:root[data-theme="light"] .dungeon-reward-preview span,
-:root[data-theme="light"] .dungeon-reward-preview b {
-  border-color: var(--edge);
-  background: var(--panel-strong);
-  color: var(--gold);
-}
-:root[data-theme="light"] .dungeon-stat-strip {
-  border-color: var(--edge);
-  background: var(--panel);
-}
-:root[data-theme="light"] .dungeon-stat-strip > span {
-  border-color: var(--edge);
-  color: var(--muted);
-}
-:root[data-theme="light"] .dungeon-stat-strip b { color: var(--foreground); }
-:root[data-theme="light"] .dungeon-rule-note {
-  background: var(--panel-strong);
-  color: var(--muted);
-}
-:root[data-theme="light"] body:has(.dungeon-chamber) .course-layout aside .hud-panel,
-:root[data-theme="light"] body:has(.dungeon-chamber) .session-console,
-:root[data-theme="light"] body:has(.dungeon-chamber) .analysis-panel,
-:root[data-theme="light"] body:has(.dungeon-chamber) .analysis-section {
-  border-color: var(--edge);
-  background: var(--panel);
-  color: var(--foreground);
-}
-:root[data-theme="light"] body:has(.dungeon-chamber) .session-console-head,
-:root[data-theme="light"] body:has(.dungeon-chamber) .session-summary { border-color: var(--edge); }
-:root[data-theme="light"] body:has(.dungeon-chamber) .session-episode,
-:root[data-theme="light"] body:has(.dungeon-chamber) .session-summary span { color: var(--foreground); }
-:root[data-theme="light"] body:has(.dungeon-chamber) .session-summary textarea {
-  border-color: var(--edge);
-  background: var(--background);
-  color: var(--foreground);
-}
-:root[data-theme="light"] body:has(.dungeon-chamber) .session-controls button { border-color: var(--edge-strong); }
-:root[data-theme="light"] body:has(.dungeon-chamber) .encounter-row {
-  border-color: var(--edge);
-  background: var(--panel);
-}
-:root[data-theme="light"] body:has(.dungeon-chamber) .encounter-row:hover {
-  border-color: var(--gold);
-  background: var(--panel-hover);
 }
 
 /* Player, course analysis, and character sheet */
@@ -5000,53 +2654,6 @@ body:has(.dungeon-chamber) .analysis-section {
 :root[data-theme="light"] .analysis-map {
   border-color: var(--edge);
   background: var(--panel);
-}
-:root[data-theme="light"] .analysis-map-head,
-:root[data-theme="light"] .analysis-overview,
-:root[data-theme="light"] .analysis-episode-list > li,
-:root[data-theme="light"] .analysis-episode-body {
-  border-color: var(--edge);
-  background: var(--panel);
-}
-:root[data-theme="light"] .analysis-map-head h2,
-:root[data-theme="light"] .analysis-episode-trigger,
-:root[data-theme="light"] .analysis-episode-copy > strong,
-:root[data-theme="light"] .analysis-keypoint-copy > strong { color: var(--foreground); }
-:root[data-theme="light"] .analysis-map-basis,
-:root[data-theme="light"] .analysis-overview,
-:root[data-theme="light"] .analysis-episode-copy > span,
-:root[data-theme="light"] .analysis-summary-block p,
-:root[data-theme="light"] .analysis-keypoint-copy > p { color: var(--muted); }
-:root[data-theme="light"] .analysis-episode-trigger:hover,
-:root[data-theme="light"] .analysis-keypoint-list > li { background: var(--panel-hover); }
-:root[data-theme="light"] .analysis-keypoint-list > li { border-color: var(--edge); }
-:root[data-theme="light"] .analysis-timestamp,
-:root[data-theme="light"] .analysis-keypoint-index { background: var(--panel-strong); }
-:root[data-theme="light"] .analysis-timestamp:hover { background: #efe6cf; }
-:root[data-theme="light"] .analysis-formula { background: #edf4f0; color: var(--foreground); }
-:root[data-theme="light"] .analysis-formula code { color: var(--muted); }
-:root[data-theme="light"] .analysis-formula-action:hover { background: #dcebe6; }
-:root[data-theme="light"] .analysis-term-list > span {
-  border-color: var(--edge);
-  background: var(--panel-strong);
-  color: var(--foreground);
-}
-:root[data-theme="light"] .rpg-character-sheet,
-:root[data-theme="light"] .rpg-inventory {
-  border-color: var(--edge);
-  background: var(--panel);
-}
-:root[data-theme="light"] .rpg-attribute-grid,
-:root[data-theme="light"] .rpg-attribute-grid > div { border-color: var(--edge); }
-:root[data-theme="light"] .rpg-attribute-grid > div,
-:root[data-theme="light"] .rpg-sheet-note,
-:root[data-theme="light"] .rpg-inventory-list small { color: var(--muted); }
-:root[data-theme="light"] .rpg-attribute-grid b,
-:root[data-theme="light"] .rpg-inventory-list b { color: var(--foreground); }
-:root[data-theme="light"] .rpg-wallet,
-:root[data-theme="light"] .rpg-inventory-list li {
-  border-color: var(--edge);
-  background: var(--panel-strong);
 }
 
 /* Glossary rail */
@@ -7119,6 +4726,99 @@ body:has(.art-video-player.art-fullscreen-web) {
   margin: 0 auto;
   padding: 12px 14px 2px;
 }
+/* 每日任务板(App 风,与路线卡同族) */
+.app-quests {
+  display: grid;
+  gap: 10px;
+}
+.app-quest {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+  background: var(--app-surface);
+}
+.app-quest.complete {
+  border-color: color-mix(in srgb, var(--app-gold) 55%, transparent);
+}
+.app-quest-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  color: #fff;
+}
+.app-quest-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+.app-quest-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.app-quest-head b {
+  font-size: 14px;
+  font-weight: 800;
+}
+.app-quest-xp {
+  flex-shrink: 0;
+  color: var(--app-green);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+}
+.app-quest-desc {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.app-quest-desc:hover {
+  color: var(--app-blue);
+}
+.app-quest-progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-line) 65%, transparent);
+}
+.app-quest-progress i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width 400ms ease;
+}
+.app-quest-claim {
+  flex-shrink: 0;
+  padding: 9px 14px;
+  border-radius: 12px;
+  background: var(--app-green);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--app-green) 60%, #000);
+}
+.app-quest-claim:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+.app-quest-error {
+  color: var(--app-orange);
+  font-size: 12px;
+  font-weight: 700;
+}
 .review-entry {
   display: flex;
   align-items: center;
@@ -7446,4 +5146,24 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-green);
   font-size: 12px;
   font-weight: 800;
+}
+.share-pop-wechat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 2px solid color-mix(in srgb, #07c160 55%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, #07c160 8%, transparent);
+}
+.share-pop-wechat img {
+  width: 132px;
+  height: 132px;
+  flex-shrink: 0;
+  border-radius: 8px;
+}
+.share-pop-wechat p {
+  color: var(--app-text);
+  font-size: 12px;
+  line-height: 1.7;
 }

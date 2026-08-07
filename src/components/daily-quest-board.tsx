@@ -1,25 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpenCheck, Check, Gift, RotateCcw, Swords } from "lucide-react";
+import { BookOpenCheck, Check, RotateCcw, Swords } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { celebrate } from "@/lib/celebrate";
 import { claimDailyQuest } from "@/lib/game/quest-actions";
 import type { DailyQuestView } from "@/lib/game/quests";
 
-// 每日任务板(目标梯度:进度条离满越近,行动意愿越强)。
+// 每日任务板(App 风格卡片,目标梯度:进度条离满越近,行动意愿越强)。
 // 三条任务对应现役玩法:看一集 / 完成复习 / 打一场试炼。
 
-const ICON = {
-  watch: BookOpenCheck,
-  review: RotateCcw,
-  trial: Swords,
+const META = {
+  watch: { icon: BookOpenCheck, color: "var(--app-green)" },
+  review: { icon: RotateCcw, color: "var(--app-blue)" },
+  trial: { icon: Swords, color: "var(--app-orange)" },
 } as const;
 
 export function DailyQuestBoard({
   quests,
-  compact = false,
 }: {
   quests: DailyQuestView[];
   compact?: boolean;
@@ -50,60 +49,57 @@ export function DailyQuestBoard({
   };
 
   return (
-    <div className={compact ? "daily-quests compact" : "daily-quests"}>
+    <div className="app-quests">
       {quests.map((quest) => {
-        const Icon = ICON[quest.kind];
+        const meta = META[quest.kind];
+        const Icon = meta.icon;
         const isClaimed = claimed.has(quest.id);
+        const claimable = quest.complete && !isClaimed;
         return (
           <article
             key={quest.id}
-            className={`daily-quest ${quest.complete ? "complete" : ""}`}
+            className={`app-quest ${quest.complete ? "complete" : ""}`}
           >
-            <span className="daily-quest-icon">
-              {isClaimed ? (
-                <Check aria-hidden size={16} />
-              ) : (
-                <Icon aria-hidden size={16} />
-              )}
+            <span
+              className="app-quest-icon"
+              style={{ background: meta.color }}
+              aria-hidden
+            >
+              {isClaimed ? <Check size={18} strokeWidth={3} /> : <Icon size={18} />}
             </span>
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center justify-between gap-2">
-                <h3>{quest.title}</h3>
-                <span className="quest-reward">+{quest.rewardXp} XP</span>
+            <div className="app-quest-body">
+              <div className="app-quest-head">
+                <b>{quest.title}</b>
+                {!claimable && (
+                  <em className="app-quest-xp">+{quest.rewardXp} XP</em>
+                )}
               </div>
-              {!compact && (
-                <Link href={quest.href} className="quest-course">
-                  {quest.description}
-                </Link>
-              )}
-              <div className="mt-2 flex items-center gap-2">
-                <div className="progress-track flex-1">
-                  <div
-                    className={`progress-fill ${quest.complete ? "gold" : "hp"}`}
-                    style={{
-                      width: `${Math.min(100, (quest.progress / quest.target) * 100)}%`,
-                    }}
-                  />
-                </div>
-                <span className="quest-count">
-                  {quest.progress}/{quest.target}
-                </span>
+              <Link href={quest.href} className="app-quest-desc">
+                {quest.description}
+              </Link>
+              <div className="app-quest-progress">
+                <i
+                  style={{
+                    width: `${Math.min(100, (quest.progress / quest.target) * 100)}%`,
+                    background: quest.complete ? "var(--app-gold)" : meta.color,
+                  }}
+                  aria-hidden
+                />
               </div>
             </div>
-            {quest.complete && !isClaimed && (
+            {claimable && (
               <button
                 onClick={() => claim(quest)}
                 disabled={pending}
-                className="quest-claim"
-                title="领取任务奖励"
+                className="app-quest-claim"
               >
-                <Gift aria-hidden size={16} />
+                领取 +{quest.rewardXp}
               </button>
             )}
           </article>
         );
       })}
-      {error && <p className="mt-2 text-xs text-hp">{error}</p>}
+      {error && <p className="app-quest-error">{error}</p>}
     </div>
   );
 }
