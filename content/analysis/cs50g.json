@@ -1,0 +1,217 @@
+{
+  "courseId": "cs50g",
+  "generatedAt": "2026-08-07",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "哈佛 GD50:用「复刻经典」学游戏开发。前七讲用 Lua + LÖVE2D 从 Pong 一路做到宝可梦,把游戏循环、状态机、精灵表、碰撞、补间、粒子、物理引擎、回合制战斗逐个吃透;后四讲转 Unity/C#,做 3D 直升机、恐怖迷宫与传送门。每讲都是「拆解一款你玩过的游戏」,概念在动手里自然长出来。搬运源无 CC 字幕,本分析基于课程官方大纲与讲义,不含时间戳。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "课程预告片:一分多钟的蒙太奇,快速闪过整门课要复刻的游戏——Pong、Flappy Bird、打砖块、超级马里奥、塞尔达、愤怒的小鸟、宝可梦,再到 Unity 做的 3D 与 VR 项目。传达一件事:这门课不是听概念,是把这些游戏亲手做一遍。",
+      "keyPoints": [
+        { "title": "课程路线一览", "detail": "前半程 Lua + LÖVE2D 做 2D 经典,后半程 Unity + C# 进 3D/VR;每讲一款完整游戏,配套作业是在讲解代码基础上加功能。" },
+        { "title": "复刻式学习", "detail": "选你玩过的游戏来拆解:需求不用讲,注意力全部留给「它是怎么实现的」。" }
+      ],
+      "terms": []
+    },
+    {
+      "n": 2,
+      "summary": "Lecture 0 · Pong:从零搭起第一款游戏。认识 Lua 与 LÖVE2D 框架,理解游戏循环——每帧先处理输入、更新世界、再画出来;用 delta time 让移动速度与帧率解耦;画拍子和球、做 AABB 碰撞、记分、加音效,并用简单的状态区分「开始/对局/结束」。Pong 麻雀虽小,游戏程序的骨架五脏俱全。",
+      "keyPoints": [
+        { "title": "游戏循环:update 与 render 的心跳", "detail": "游戏 = 一个每秒跑几十次的循环:love.update(dt) 改世界状态,love.draw() 画当前状态;所有游戏引擎的根都在这。" },
+        { "title": "delta time:与帧率解耦", "detail": "每帧时长 dt 不恒定,位移一律写成「速度 × dt」,60 帧和 144 帧的机器上球速才一样。", "formula": "x_{t+1} = x_t + v \\cdot \\Delta t" },
+        { "title": "AABB 碰撞检测", "detail": "两个轴对齐矩形相交 ⇔ 水平和垂直方向都有重叠;Pong 的球拍反弹、之后几乎每款 2D 游戏都靠它。" },
+        { "title": "简易状态区分", "detail": "用一个字符串变量区分 start/serve/play/done,不同状态下 update 与 draw 各干各的——下一讲会升级成正式的状态机。" },
+        { "title": "音效与手感", "detail": "bfxr 生成 8-bit 音效,碰撞/得分即时反馈;手感是游戏的一半。" }
+      ],
+      "terms": [
+        { "term": "game loop 游戏循环", "definition": "每帧「输入→更新→渲染」的主循环,游戏程序的骨架" },
+        { "term": "delta time 帧间隔", "definition": "两帧之间的秒数,乘进一切位移让速度与帧率无关" },
+        { "term": "AABB 轴对齐包围盒", "definition": "不旋转的矩形碰撞盒,重叠判定只需比较四条边" },
+        { "term": "LÖVE2D", "definition": "轻量 Lua 2D 游戏框架,课程前半程的载体" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "Lecture 1 · Flappy Bird:程序化生成与状态机正式登场。视差滚动让背景与地面按不同速度循环平移营造纵深;水管由代码按随机间隙不断生成、飞出屏幕即回收;小鸟只有一个操作——点击给一个向上的速度脉冲,其余交给重力积分。把上一讲的字符串状态升级为 StateMachine 类,Title/Countdown/Play/Score 各自独立成类。",
+      "keyPoints": [
+        { "title": "视差滚动(parallax)", "detail": "背景与地面用不同速度循环平移,再配合取模回绕,静态图就有了纵深与无限延伸感。" },
+        { "title": "程序化生成水管", "detail": "定时生成一对上下水管,间隙位置在上一对基础上随机偏移;离开屏幕即移除——无限关卡不需要人工摆放。" },
+        { "title": "重力与脉冲跳跃", "detail": "每帧 v += g·dt,点击时直接把 v 置为负值(向上脉冲);极简操作 + 连续物理 = Flappy Bird 全部手感。", "formula": "v_{t+1} = v_t + g \\cdot \\Delta t" },
+        { "title": "StateMachine 类", "detail": "状态抽象成对象(enter/exit/update/render),切换即换当前状态对象——比 if 字符串优雅,之后每款游戏都用它。" },
+        { "title": "碰撞即死与计分", "detail": "小鸟与水管 AABB 相撞或落地进 Score 状态;穿过一对水管加一分,按分数发奖牌。" }
+      ],
+      "terms": [
+        { "term": "parallax scrolling 视差滚动", "definition": "多层背景按不同速度移动制造纵深错觉" },
+        { "term": "procedural generation 程序化生成", "definition": "用代码规则而非人工摆放来生成关卡内容" },
+        { "term": "state machine 状态机", "definition": "把界面/流程拆成状态对象,enter/update/render 各管各" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "Lecture 2 · Breakout(打砖块):精灵表与游戏「肌肉」。从一张大图上用 Quad 裁出砖块、球、拍子的所有皮肤;关卡由程序按行列与配色规则生成;碰撞不只判定「撞没撞」,还要根据撞在拍子的哪个位置改变反弹角度;引入血量(心)、掉落道具、粒子特效与最高分持久化存档。",
+      "keyPoints": [
+        { "title": "精灵表与 Quad", "detail": "所有美术打包在一张图集里,用 Quad 定义子区域按需绘制——省内存也方便换皮肤,现代引擎的图集(atlas)同源。" },
+        { "title": "程序化关卡布局", "detail": "按行列生成砖阵,行数列数颜色与坚硬度由难度参数与随机性决定,关卡数字越大越花哨。" },
+        { "title": "反弹角度由击点决定", "detail": "球撞拍子时,离拍子中心越远反弹的水平分量越大——这是玩家能「瞄准」的关键,纯镜面反射的打砖块没法玩。" },
+        { "title": "血量与道具", "detail": "漏球扣心,清砖有概率掉道具(多球等);捡道具的即时奖励让玩家愿意冒险移动。" },
+        { "title": "粒子系统初见", "detail": "LÖVE 的 ParticleSystem 给砖块碎裂配上一蓬颜色匹配的粒子,廉价但效果拔群。" },
+        { "title": "最高分持久化", "detail": "love.filesystem 把高分表写到磁盘,关游戏不清零——存档是留存感的最小单元。" }
+      ],
+      "terms": [
+        { "term": "sprite sheet 精灵表", "definition": "多帧/多素材拼成的一张大图,配合子区域裁剪使用" },
+        { "term": "quad 裁剪区域", "definition": "指向图集中某个矩形子区域的引用,绘制时按需取用" },
+        { "term": "particle system 粒子系统", "definition": "批量小图元的发射/衰减模拟,做碎裂烟花等特效" },
+        { "term": "power-up 道具", "definition": "改变玩法参数的可拾取奖励" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "Lecture 3 · Match 3(消消乐):时间与动画的艺术。引入 Timer 库与补间(tween)——「0.5 秒内把这个方块从 A 挪到 B」一行声明搞定,回调链把「交换→检测→消除→下落→再检测」的连锁反应串成流畅动画;棋盘生成要保证初始无三连;交换后无消除则弹回;鼠标输入拾取棋盘坐标。",
+      "keyPoints": [
+        { "title": "Timer 与 tween:声明式动画", "detail": "Timer.tween(时长, {对象=目标值}) 加 :finish() 回调,替代手写逐帧插值;游戏里 90% 的「动起来」都是补间。" },
+        { "title": "三连检测", "detail": "逐行逐列扫描连续同色段,长度 ≥3 记为一组匹配;交换后立刻检测,无匹配则把交换补间回去。" },
+        { "title": "连锁反应(cascade)", "detail": "消除后上方方块下落补位、顶部生成新方块,落定再检测——循环直到棋盘稳定;连锁是消除类游戏的爽感引擎。" },
+        { "title": "初始棋盘合法性", "detail": "生成时若出现三连就重摇,保证开局无免费消除——程序化生成常配「约束重试」。" },
+        { "title": "鼠标坐标 → 棋盘格", "detail": "屏幕坐标减棋盘偏移再整除格宽,拾取行列;高亮选中格,第二次点击触发交换。" }
+      ],
+      "terms": [
+        { "term": "tween 补间", "definition": "在时长内把属性从当前值插值到目标值的声明式动画" },
+        { "term": "cascade 连锁", "definition": "消除后下落补位引发的后续消除循环" },
+        { "term": "callback 回调", "definition": "动画/定时器完成时执行的函数,串起流程链" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "Lecture 4 · Super Mario Bros:平台跳跃与瓦片地图。世界由瓦片(tile)网格拼成,渲染与碰撞都以格为单位;玩家有走/跳/落的状态机与贴图动画;与瓦片的碰撞按方向分别处理——头顶砖、脚踩地、侧面挡;关卡程序化生成(坑、柱、灌木、金币),敌人(蜗牛)有巡逻 AI;踩头杀敌、吃币加分。",
+      "keyPoints": [
+        { "title": "瓦片地图", "detail": "世界 = 二维格子数组,每格一个瓦片 ID;画面按相机可见范围只画一屏,碰撞按玩家所在格查表——大世界的标准表示。" },
+        { "title": "平台物理:跳跃三态", "detail": "walking/jumping/falling 状态机;跳跃 = 起跳瞬间给向上速度,之后重力每帧拉回;下落中检测脚下瓦片着地。" },
+        { "title": "方向敏感的瓦片碰撞", "detail": "同一格砖,从下往上撞是顶碎/顶金币,从上往下落是站稳,水平方向是挡路——碰撞响应必须知道来向。" },
+        { "title": "实体层次(GameObject/Entity)", "detail": "金币、旗子等静物是 GameObject,玩家敌人是带状态机的 Entity;分层让生成与更新循环整齐。" },
+        { "title": "程序化关卡", "detail": "按列生成地形:随机挖坑、抬柱、放灌木与金币;结尾放旗杆——每次进游戏关卡都不同。" },
+        { "title": "敌人 AI 与踩头", "detail": "蜗牛在平台上巡逻/追逐;玩家下落中与敌人相撞判定为踩头消灭,否则受伤——一条简单规则区分攻防。" }
+      ],
+      "terms": [
+        { "term": "tile map 瓦片地图", "definition": "用网格瓦片拼世界,渲染与碰撞都按格处理" },
+        { "term": "platformer 平台跳跃游戏", "definition": "以跳跃与落点为核心玩法的游戏类型" },
+        { "term": "entity 实体", "definition": "有行为(状态机/AI)的游戏对象,区别于静态物件" },
+        { "term": "camera scrolling 相机滚动", "definition": "视口跟随玩家平移,只渲染可见区域" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "Lecture 5 · Legend of Zelda:俯视角地牢。世界按「房间」组织,走到门口整屏平移切换到相邻房间;引入 hitbox/hurtbox 之分——挥剑时在面朝方向伸出攻击盒与敌人受击盒求交;敌人四方向游走 AI;心形血量、掉落回复;事件系统(Event.on/dispatch)解耦「开门」「掉落」等跨对象通信。",
+      "keyPoints": [
+        { "title": "房间与整屏切换", "detail": "地牢 = 房间图,出门时旧房间与新房间一起补间平移一屏——塞尔达式过场,相机与玩家坐标要同步换算。" },
+        { "title": "hitbox 与 hurtbox", "detail": "攻击盒(我打人的范围)与受击盒(我挨打的范围)分开建模:挥剑瞬间在面朝方向生成临时 hitbox,与敌人 hurtbox 相交才算命中。" },
+        { "title": "四方向动画与游走 AI", "detail": "玩家/敌人各有上下左右行走动画;敌人定时随机换方向移动,简单却像活物。" },
+        { "title": "事件系统解耦", "detail": "Event.dispatch('shine-pot') 之类的发布-订阅,让房间、物件、UI 互相不用持有引用——大一点的游戏没有它会缠成毛线团。" },
+        { "title": "心量与掉落", "detail": "受击扣半心带无敌闪烁,击杀概率掉心回血——风险与回复的循环。" }
+      ],
+      "terms": [
+        { "term": "hitbox / hurtbox 攻击盒/受击盒", "definition": "主动攻击范围与被动受击范围分开建模" },
+        { "term": "top-down 俯视角", "definition": "从头顶俯视的 2D 视角,移动为四/八方向" },
+        { "term": "event system 事件系统", "definition": "发布-订阅式消息,解耦对象间通信" },
+        { "term": "invulnerability frames 无敌帧", "definition": "受击后的短暂免伤期,防连续掉血" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "Lecture 6 · Angry Birds:把物理交给 Box2D。不再手写碰撞,LÖVE 内置的 love.physics(Box2D 绑定)接管:World 管重力与步进,Body(位置/速度)+ Shape(几何)+ Fixture(摩擦/弹性)构成刚体;鼠标拖拽弹弓设定初速度,方块塔在冲击下自然倒塌;碰撞回调按冲击强度决定障碍是否碎裂。",
+      "keyPoints": [
+        { "title": "Box2D 三件套:Body/Shape/Fixture", "detail": "Body 是动力学状态,Shape 是几何,Fixture 把两者绑定并携带密度摩擦弹性——刚体物理引擎的通用建模。" },
+        { "title": "World 与固定步进", "detail": "world:update(dt) 内部做碰撞求解;重力全局设定,static/dynamic/kinematic 三种体各司其职。" },
+        { "title": "弹弓发射", "detail": "拖拽距离与方向换算成初速度向量,松手 setLinearVelocity——玩家输入到物理世界只有这一个接口,其余全交给模拟。" },
+        { "title": "碰撞回调与破坏", "detail": "beginContact 回调里读碰撞冲量,超过阈值的障碍物标记销毁;物理事件驱动游戏逻辑。" },
+        { "title": "为什么用引擎而不手写", "detail": "堆叠、休眠、连锁倒塌这些效果手写碰撞根本做不出;上一门 GAMES103 讲的原理,这里是「用」的一侧。" }
+      ],
+      "terms": [
+        { "term": "Box2D", "definition": "最流行的 2D 刚体物理引擎,LÖVE 内置绑定" },
+        { "term": "rigid body 刚体", "definition": "不形变的物理对象,由位置/旋转/速度描述" },
+        { "term": "fixture 夹具", "definition": "把形状绑到刚体并携带密度/摩擦/弹性参数" },
+        { "term": "collision callback 碰撞回调", "definition": "物理引擎在接触发生时通知游戏逻辑的钩子" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "Lecture 7 · Pokémon:回合制与 GUI 系统。实时操作让位给菜单与流程:用「状态栈」代替状态机——战斗中弹出对话框、对话框上再弹选择菜单,栈顶更新、整栈渲染,退栈即返回;Panel/Textbox/Selection 组成 GUI 组件层;战斗流程(出招→伤害→血条补间→经验→升级)用回调与补间串成不打断的演出;野外遇敌用步数概率触发,转场用全屏淡入淡出。",
+      "keyPoints": [
+        { "title": "状态栈 vs 状态机", "detail": "状态机同时只有一个状态;栈允许「战斗底下压着世界,菜单叠在战斗上」——只更新栈顶、渲染整栈,push/pop 即进出界面。" },
+        { "title": "GUI 组件:Panel/Textbox/Selection", "detail": "九宫格面板、逐字对话框、上下选择菜单——回合制游戏的界面三件套,组合出所有战斗与商店 UI。" },
+        { "title": "回合制战斗流水线", "detail": "选招后的整段演出(掉血动画→击败判定→经验结算→可能的升级弹窗)用回调链依次触发,玩家全程只看不操作。" },
+        { "title": "数值成长", "detail": "经验按对手等级给,升级按成长曲线加属性——数值面板是这类游戏的真正「玩法」。" },
+        { "title": "遇敌与转场", "detail": "草丛里每步一定概率触发遇敌;全屏白闪+淡出的转场掩盖场景切换的加载与状态压栈。" }
+      ],
+      "terms": [
+        { "term": "state stack 状态栈", "definition": "可叠加的状态管理:栈顶更新、整栈渲染、退栈返回" },
+        { "term": "turn-based 回合制", "definition": "双方轮流行动的玩法,重菜单与演出轻实时操作" },
+        { "term": "GUI 组件", "definition": "Panel/Textbox/Selection 等可组合的界面构件" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "Lecture 8 · Helicopter Game 3D:转入 Unity 与 C#。认识编辑器(Scene/Hierarchy/Inspector)与组件式架构——GameObject 是空壳,行为全靠挂 Component;直升机侧视 3D 化:Rigidbody 重力 + 点击升力,障碍与金币做成 Prefab 由 Spawner 定时实例化、飞过销毁;Collider 的 Trigger 模式做拾取与撞击判定;天空盒与循环贴图撑起场景,场景(Scene)切换管理标题/游戏/结束。",
+      "keyPoints": [
+        { "title": "组件式架构", "detail": "Unity 的哲学:GameObject 本身什么都不是,Transform/Rigidbody/Collider/自写脚本一件件挂上去——组合优于继承。" },
+        { "title": "MonoBehaviour 生命周期", "detail": "Start/Update/OnTriggerEnter…引擎按约定回调你的脚本;LÖVE 里手写的循环在这里被框架接管。" },
+        { "title": "Prefab 与运行时生成", "detail": "把配置好的物体存成预制件,Spawner 用 Instantiate 按节奏克隆、出界 Destroy——Flappy Bird 水管思路的 3D 版。" },
+        { "title": "Trigger 碰撞", "detail": "isTrigger 的 Collider 不产生物理响应只发事件:金币拾取、撞障碍判死都走 OnTriggerEnter。" },
+        { "title": "场景与关卡流", "detail": "标题/游玩/结束各是一个 Scene,SceneManager.LoadScene 切换;跨场景数据用静态类或 DontDestroyOnLoad。" }
+      ],
+      "terms": [
+        { "term": "GameObject / Component", "definition": "Unity 的实体与挂载其上的功能组件" },
+        { "term": "prefab 预制件", "definition": "可反复实例化的预配置对象模板" },
+        { "term": "trigger 触发器", "definition": "只发事件不挡路的碰撞体,做拾取与判定" },
+        { "term": "scene 场景", "definition": "一组对象的容器,加载切换构成游戏流程" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "Lecture 9 · Dreadhalls:第一人称恐怖迷宫。核心是程序化迷宫——网格上生成墙与通路,再按格子实例化墙体方块拼出 3D 迷宫;CharacterController+ 鼠标视角构成第一人称移动;点光源跟随玩家、全局压暗,恐怖感一半来自照明;Unity UI(Canvas)做血条与提示;进入下一层重新生成迷宫,坠落出界触发 Game Over。",
+      "keyPoints": [
+        { "title": "程序化迷宫生成", "detail": "先在二维数组上刻画墙/地(随机挖墙或迷宫算法),再逐格 Instantiate 墙块与地板——2D 思路直接抬升为 3D 关卡。" },
+        { "title": "第一人称控制", "detail": "CharacterController 处理碰撞与重力,鼠标转视角、WASD 相对朝向移动——FPS 控制的标准件。" },
+        { "title": "光照即氛围", "detail": "环境光压到近黑,只留玩家身上一盏点光——视野受限本身就是恐怖机制,美术不够光照凑。" },
+        { "title": "Canvas UI 与状态呈现", "detail": "屏幕空间的 Canvas 挂血条/楼层提示;世界内 3D 与屏幕 UI 两套坐标系统各自渲染。" },
+        { "title": "层进结构", "detail": "找到出口进下一层、重新生成更难的迷宫;坠出地图或被抓 Game Over——roguelike 式的无限层。" }
+      ],
+      "terms": [
+        { "term": "maze generation 迷宫生成", "definition": "在网格上程序化刻画墙与通路的算法" },
+        { "term": "CharacterController 角色控制器", "definition": "Unity 内置的胶囊碰撞行走组件,自带步高与坡度处理" },
+        { "term": "point light 点光源", "definition": "从一点向四周衰减的光,恐怖游戏的氛围主力" },
+        { "term": "Canvas 画布", "definition": "Unity 的 UI 渲染层,与 3D 世界分离" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "Lecture 10 · Portal:传送门机制拆解。两扇门各持有对方的引用,玩家碰到门 A 就被瞬移到门 B 的位置并保持相对朝向/速度——传送本质是坐标系变换;门内画面用 Render Texture:在门后架一台副相机,把它拍到的画面贴到门面上,营造「看穿」错觉;射线检测(Raycast)决定门往哪面墙上开;还要处理传送后立即再触发的抖动(冷却/位置偏移)。",
+      "keyPoints": [
+        { "title": "传送 = 坐标系变换", "detail": "把玩家相对门 A 的位置/朝向/速度,变换到门 B 的局部坐标系再放回世界——不是简单的位置替换,否则出门方向会错。" },
+        { "title": "Render Texture 门中景", "detail": "副相机渲染到纹理、纹理贴到门面;两门各配一台相机互拍,「透过门看到另一边」就成立了。" },
+        { "title": "Raycast 开门", "detail": "从准星发射线,命中的墙面位置与法向决定门的落点与朝向——射线检测是 3D 交互的万能钥匙。" },
+        { "title": "传送抖动与防重入", "detail": "出门位置若仍与门重叠会被立刻传回:出口处沿法向偏移一点、加短冷却——移植任何机制都要处理这类边界。" }
+      ],
+      "terms": [
+        { "term": "render texture 渲染纹理", "definition": "把相机画面渲染成可贴图的纹理" },
+        { "term": "raycast 射线检测", "definition": "从一点沿方向发射线求第一个命中,3D 交互基础" },
+        { "term": "local space 局部坐标系", "definition": "相对某个物体自身的坐标系,传送变换的载体" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "Lecture 11 · Portal Problems:收官讲。深入传送门实现里真正难啃的问题——穿门瞬间的视觉连续性(相机贴门时的近裁剪面处理)、带速度穿门的动量保持、物体(而不只是玩家)穿门、以及两门相互渲染的递归层级;顺带回望整门课的方法论:从 Pong 到 Portal,每个新游戏都只是「已有积木 + 一两个新机制」,学游戏开发就是攒积木。",
+      "keyPoints": [
+        { "title": "穿门的连续性细节", "detail": "玩家半身在门里时画面会穿帮:斜切近裁剪面/在门后补一段假走廊等手段维持错觉——机制原型到成品之间隔着一堆这样的细节。" },
+        { "title": "动量与朝向保持", "detail": "速度向量也要做门 A→门 B 的坐标变换,「下坠进地门、从墙门水平飞出」的经典玩法才成立。" },
+        { "title": "递归渲染的截断", "detail": "门中有门中有门…渲染纹理互拍会无限递归,实际按层数截断并用降级画面填充。" },
+        { "title": "课程方法论:积木复利", "detail": "状态机、补间、碰撞、生成、物理、UI——十一款游戏攒下的积木,组合起来就是你下一款原创游戏的全部起点。" }
+      ],
+      "terms": [
+        { "term": "near clip plane 近裁剪面", "definition": "相机能渲染的最近距离,穿门穿帮的根源之一" },
+        { "term": "momentum conservation 动量保持", "definition": "穿门时速度经坐标变换后保留,传送门玩法核心" }
+      ]
+    }
+  ]
+}
