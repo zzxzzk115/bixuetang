@@ -208,6 +208,10 @@ html {
   font-weight: 700;
   cursor: pointer;
 }
+/* 当前 tab 高亮(移动端底栏,桌面侧栏在下面的媒体查询里另有底色版) */
+.app-tabs button.active {
+  color: var(--app-green);
+}
 
 /* ---------- 桌面端：左导航 + 中内容列 + 右统计栏，占满全屏 ---------- */
 @media (min-width: 1024px) {

@@ -11,7 +11,13 @@ import { useEffect, useState } from "react";
 export function DevLanQr() {
   const pathname = usePathname();
   const [card, setCard] = useState<{ qr: string; url: string } | null>(null);
-  const [collapsed, setCollapsed] = useState(false);
+  // 手机默认收起(它就是扫码进来的,再挂个二维码没意义),电脑默认展开;
+  // 点击随时切换
+  const [collapsed, setCollapsed] = useState(
+    () =>
+      typeof document !== "undefined" &&
+      document.documentElement.dataset.device === "mobile",
+  );
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") return;
