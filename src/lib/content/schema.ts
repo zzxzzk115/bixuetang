@@ -122,6 +122,57 @@ export const CourseSchema = CourseRawSchema.transform((raw) => {
         }));
   return { ...raw, episodes };
 });
+
+// ---------- 影子跟读（口语训练：先英语，后日语） ----------
+
+// 由浅入深四档，对应「哑巴英语」从敢开口到跟上原速。
+export const SHADOW_LEVELS = ["l1", "l2", "l3", "l4"] as const;
+export type ShadowLevel = (typeof SHADOW_LEVELS)[number];
+export const SHADOW_LEVEL_LABEL: Record<ShadowLevel, string> = {
+  l1: "慢速短句",
+  l2: "日常对话",
+  l3: "演讲长句",
+  l4: "原速影视",
+};
+
+export const ShadowSentenceSchema = z.object({
+  /** 原文（英/日） */
+  text: z.string(),
+  /** 中文译文（可选，看文精听阶段用） */
+  zh: z.string().optional(),
+  /** 该句在音源里的起、止秒（句级 A-B 循环靠它） */
+  from: z.number().nonnegative(),
+  to: z.number().positive(),
+});
+export type ShadowSentence = z.infer<typeof ShadowSentenceSchema>;
+
+export const ShadowUnitSchema = z
+  .object({
+    id: slug,
+    title: z.string(),
+    /** 语种：先做英语，后扩日语 */
+    lang: z.enum(["en", "ja"]).default("en"),
+    level: z.enum(SHADOW_LEVELS),
+    /** 音源（B 站视频） */
+    source: SourceSchema,
+    /** 音源的 bvid + 分 P；缺省时从 source.url 解析 bvid、page=1 */
+    bvid: z.string().optional(),
+    page: z.number().int().positive().default(1),
+    description: z.string().optional(),
+    sentences: z.array(ShadowSentenceSchema).min(1),
+  })
+  .check((ctx) => {
+    ctx.value.sentences.forEach((s, i) => {
+      if (s.to <= s.from) {
+        ctx.issues.push({
+          code: "custom",
+          message: `第 ${i + 1} 句的 to 必须大于 from`,
+          input: ctx.value,
+        });
+      }
+    });
+  });
+export type ShadowUnit = z.infer<typeof ShadowUnitSchema>;
 export type Course = z.infer<typeof CourseSchema>;
 
 // ---------- 学习路径（课程的有序分组，不承载依赖语义） ----------

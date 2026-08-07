@@ -6,11 +6,13 @@ import {
   CourseSchema,
   LabTasksSchema,
   PathSchema,
+  ShadowUnitSchema,
   type Course,
   type CourseAnalysis,
   type LabId,
   type LabTasks,
   type LearningPath,
+  type ShadowUnit,
 } from "./schema";
 
 export interface ContentIndex {
@@ -20,6 +22,9 @@ export interface ContentIndex {
   pathsById: Map<string, LearningPath>;
   labTasksById: Map<LabId, LabTasks>;
   analysisByCourse: Map<string, CourseAnalysis>;
+  /** 影子跟读单元（口语训练，与课程体系并行） */
+  shadowUnits: ShadowUnit[];
+  shadowUnitsById: Map<string, ShadowUnit>;
 }
 
 export class ContentError extends Error {
@@ -172,6 +177,24 @@ export function loadContent(): ContentIndex {
     }
   }
 
+  // ---- 影子跟读单元 ----
+  const shadowUnits: ShadowUnit[] = [];
+  for (const file of listYamlFiles(path.join(root, "shadowing"))) {
+    const parsed = ShadowUnitSchema.safeParse(readYaml(file));
+    if (parsed.success) shadowUnits.push(parsed.data);
+    else
+      problems.push(
+        `shadowing/${rel(file)}: ${parsed.error.issues
+          .map((i) => `${i.path.join(".")} ${i.message}`)
+          .join("; ")}`,
+      );
+  }
+  const shadowUnitsById = new Map<string, ShadowUnit>();
+  for (const u of shadowUnits) {
+    if (shadowUnitsById.has(u.id)) problems.push(`影子跟读单元 id 重复: ${u.id}`);
+    shadowUnitsById.set(u.id, u);
+  }
+
   if (problems.length > 0) throw new ContentError(problems);
 
   return {
@@ -181,6 +204,8 @@ export function loadContent(): ContentIndex {
     pathsById,
     labTasksById,
     analysisByCourse,
+    shadowUnits: shadowUnits.sort((a, b) => a.id.localeCompare(b.id)),
+    shadowUnitsById,
   };
 }
 
