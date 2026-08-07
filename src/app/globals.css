@@ -6650,3 +6650,77 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-red);
   font-size: 13px;
 }
+
+/* ==== S1 影子跟读线的地图节点(一列) ==== */
+.shadow-track {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 520px;
+  margin: 8px auto 40px;
+  padding: 0 12px;
+}
+.shadow-track-empty {
+  text-align: center;
+  color: var(--app-faint);
+  font-size: 14px;
+  padding: 40px 0;
+}
+.shadow-track-node {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.shadow-track-node:not(:disabled):hover {
+  border-color: var(--app-pink);
+}
+.shadow-track-node.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.shadow-track-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--app-pink);
+  box-shadow: 0 5px 0 color-mix(in srgb, var(--app-pink) 70%, #000);
+}
+.shadow-track-node.done .shadow-track-icon {
+  background: var(--app-green);
+  box-shadow: 0 5px 0 color-mix(in srgb, var(--app-green) 70%, #000);
+}
+.shadow-track-node.locked .shadow-track-icon {
+  background: var(--app-line);
+  color: var(--app-faint);
+  box-shadow: none;
+}
+.shadow-track-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.shadow-track-body b {
+  font-size: 12px;
+  color: var(--app-pink);
+}
+.shadow-track-node.done .shadow-track-body b {
+  color: var(--app-green);
+}
+.shadow-track-body span {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.shadow-progress{font-size:12px;font-weight:800;color:var(--app-faint);}

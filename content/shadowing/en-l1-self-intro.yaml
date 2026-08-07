@@ -8,10 +8,13 @@ level: l1
 description: 最基础的自我介绍与寒暄。慢速、清晰、有停顿，先敢开口。
 source:
   platform: bilibili
-  url: https://www.bilibili.com/video/BV1GJ411x7h7
-  uploader: 待核对
-  note: 慢速英语自我介绍（音源与时间轴待 S1d 核对）
-bvid: BV1GJ411x7h7
+  url: https://www.bilibili.com/video/BV1rU4y1h7Qr
+  uploader: 前端半仙君（搬运）
+  note: >
+    临时借用一条真实可播的英文讲座音源(Missing Semester L1),
+    用于打通「播放/循环/录音/打分」全链路;真正的慢速英语音源与逐句
+    时间轴在 S1d 内容运营阶段替换。句子文本可照常练习。
+bvid: BV1rU4y1h7Qr
 page: 1
 sentences:
   - text: Hello. Nice to meet you.

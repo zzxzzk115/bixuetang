@@ -81,6 +81,8 @@ export interface PathSummaryDto {
   subject: Subject;
   /** 难度分层：初级线的首课一定没有前置 */
   tier: PathTier;
+  /** course=课程线；shadow=影子跟读线(courseIds 里是跟读单元 id) */
+  mode: "course" | "shadow";
   courseIds: string[];
   /** 整条路线是否可选：一门课都开不了的线，选进去只有一屏的锁 */
   unlocked: boolean;
@@ -88,6 +90,15 @@ export interface PathSummaryDto {
   missingPrereqs: { id: string; title: string }[];
   /** 「去解锁」入口：从首课的前置链里找到的第一门能学的课 */
   unlockEntry: { id: string; title: string } | null;
+}
+
+export interface ShadowUnitDto {
+  id: string;
+  title: string;
+  /** 难度档 l1..l4 */
+  level: string;
+  /** 是否已练完(练完发过 XP) */
+  done: boolean;
 }
 
 export interface GameBootstrap {
@@ -104,6 +115,8 @@ export interface GameBootstrap {
   quizDone: string[];
   /** 已开过的宝箱 ref（`courseId:index`） */
   chestDone: string[];
+  /** 影子跟读单元(供跟读线的地图节点渲染) */
+  shadowUnits: ShadowUnitDto[];
   /** 今天的试炼奖励是否已领 */
   trialClaimedToday: boolean;
   /** 生效中的按次经验加成（药水），无则 null */

@@ -4,6 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Mic, Play, Square } from "lucide-react";
 import type { ShadowSentence } from "@/lib/content/schema";
 import { scoreShadow, type ShadowScore } from "@/lib/shadow/score";
+import { completeShadowUnit } from "@/lib/game/shadow-actions";
+import { celebrate } from "@/lib/celebrate";
+import { rewardToast } from "@/lib/reward-feedback";
 
 // 影子跟读练习壳(纯前端):
 //   音源 = B 站(复用 /api/bili/play 的 DASH,隐藏 video + dash.js)
@@ -41,6 +44,7 @@ function drawWave(canvas: HTMLCanvasElement | null, pcm: Float32Array | null, co
 }
 
 export function ShadowPractice({
+  unitId,
   bvid,
   page,
   sentences,
@@ -58,17 +62,20 @@ export function ShadowPractice({
   const [score, setScore] = useState<ShadowScore | null>(null);
   const [ready, setReady] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [recorded, setRecorded] = useState<Set<number>>(new Set());
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dashRef = useRef<any>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
+  const srcNodeRef = useRef<MediaElementAudioSourceNode | null>(null);
   const origPcmRef = useRef<Float32Array | null>(null);
   const userPcmRef = useRef<Float32Array | null>(null);
   const origCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const userCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const recRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const completedRef = useRef(false);
 
   const cur = sentences[idx];
 
@@ -125,18 +132,61 @@ export function ShadowPractice({
     drawWave(userCanvasRef.current, null, "");
   }, [idx]);
 
-  /** 播放当前句(A-B 循环一次):保音调变速,到句尾自动停 */
+  /** 播放当前句(A-B 循环一次):保音调变速 + Web Audio 抓本句原声 PCM */
   const playSentence = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
     v.playbackRate = rate;
     // 保音调变速(慢放不变调)
     (v as HTMLVideoElement & { preservesPitch?: boolean }).preservesPitch = true;
+
+    let proc: ScriptProcessorNode | null = null;
+    const chunks: Float32Array[] = [];
+    try {
+      const ctx =
+        audioCtxRef.current ?? (audioCtxRef.current = new AudioContext());
+      if (ctx.state === "suspended") void ctx.resume();
+      // createMediaElementSource 每个元素只能建一次
+      if (!srcNodeRef.current) {
+        srcNodeRef.current = ctx.createMediaElementSource(v);
+        srcNodeRef.current.connect(ctx.destination);
+      }
+      proc = ctx.createScriptProcessor(4096, 1, 1);
+      srcNodeRef.current.connect(proc);
+      proc.connect(ctx.destination);
+      proc.onaudioprocess = (e) => {
+        if (v.currentTime >= cur.from && v.currentTime <= cur.to + 0.05) {
+          chunks.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+        }
+      };
+    } catch {
+      // 环境不支持就只听不抓,不影响练习
+    }
+
     v.currentTime = cur.from;
+    const finish = () => {
+      if (chunks.length) {
+        const len = chunks.reduce((s, c) => s + c.length, 0);
+        const pcm = new Float32Array(len);
+        let o = 0;
+        for (const c of chunks) {
+          pcm.set(c, o);
+          o += c.length;
+        }
+        origPcmRef.current = pcm;
+        drawWave(origCanvasRef.current, pcm, "var(--app-blue)");
+      }
+      try {
+        proc?.disconnect();
+      } catch {
+        // ignore
+      }
+    };
     const stopAt = () => {
       if (v.currentTime >= cur.to) {
         v.pause();
         v.removeEventListener("timeupdate", stopAt);
+        finish();
       }
     };
     v.addEventListener("timeupdate", stopAt);
@@ -161,13 +211,30 @@ export function ShadowPractice({
         const pcm = decoded.getChannelData(0).slice();
         userPcmRef.current = pcm;
         drawWave(userCanvasRef.current, pcm, "var(--app-pink)");
-        // 有原声就打分(原声需先在「录音对比」步骤播一次抓取,见下)
+        // 有原声(先点过「播放原声」抓取)就打分
         const orig = origPcmRef.current;
         if (orig) {
-          setScore(
-            scoreShadow(orig, pcm, 16000, decoded.sampleRate),
-          );
+          const origRate = audioCtxRef.current?.sampleRate ?? 44100;
+          setScore(scoreShadow(orig, pcm, origRate, decoded.sampleRate));
         }
+        // 记下这句已练;全部练过一遍 → 练完本单元发 XP(幂等)
+        setRecorded((prev) => {
+          const next = new Set(prev).add(idx);
+          if (next.size >= sentences.length && !completedRef.current) {
+            completedRef.current = true;
+            void completeShadowUnit(unitId).then((r) => {
+              if (r.ok && r.gained) {
+                rewardToast({ text: `跟读单元完成 +${r.gained} XP`, tone: "xp" });
+                celebrate({
+                  kind: "quest",
+                  title: "跟读单元完成！",
+                  subtitle: "开口说出来了,继续下一段",
+                });
+              }
+            });
+          }
+          return next;
+        });
       };
       recRef.current = rec;
       rec.start();
@@ -175,16 +242,14 @@ export function ShadowPractice({
     } catch {
       setErr("麦克风打不开(需授权)");
     }
-  }, []);
+  }, [idx, sentences.length, unitId]);
 
   const stopRec = useCallback(() => {
     recRef.current?.stop();
     setRecording(false);
   }, []);
 
-  // TODO(S1b 收尾): 在「录音对比」步骤播放原声时用 Web Audio 抓取本句 PCM
-  // 存进 origPcmRef,才能给 scoreShadow 提供原声、画出原声波形并出分。
-  // 目前录音 + 录音波形已可用,原声抓取待真实音源到位后在设备上联调。
+  // 原声抓取已在 playSentence 里做:先点「播放原声」抓本句 PCM,再录音即出分。
 
   const go = (d: number) => {
     setIdx((i) => Math.min(sentences.length - 1, Math.max(0, i + d)));
@@ -220,6 +285,9 @@ export function ShadowPractice({
 
       {/* 当前句练习区 */}
       <div className="shadow-stage">
+        <div className="shadow-progress">
+          本单元 {recorded.size}/{sentences.length} 句已跟读
+        </div>
         <div className="shadow-steps">
           {STEPS.map((s, i) => (
             <button

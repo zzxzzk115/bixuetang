@@ -102,7 +102,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     .where(
       and(
         eq(xpEvents.userId, user.id),
-        inArray(xpEvents.reason, ["quiz", "chest", "trial"]),
+        inArray(xpEvents.reason, ["quiz", "chest", "trial", "shadow"]),
       ),
     )
     .all();
@@ -113,13 +113,36 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
   const trialClaimedToday = claimRows.some(
     (r) => r.reason === "trial" && r.ref === dailyDateKey(),
   );
+  // 跟读单元完成标记:ref 形如 `shadow:<unitId>`
+  const shadowDoneIds = new Set(
+    claimRows
+      .filter((r) => r.reason === "shadow")
+      .map((r) => r.ref.replace(/^shadow:/, "")),
+  );
+  const shadowUnits = content.shadowUnits.map((u) => ({
+    id: u.id,
+    title: u.title,
+    level: u.level,
+    done: shadowDoneIds.has(u.id),
+  }));
 
   const courseById = new Map(courses.map((c) => [c.id, c]));
-  // 影子跟读线(mode:shadow)节点不是课程,暂不进课程地图——等跟读节点渲染做好再接。
-  const paths: PathSummaryDto[] = content.paths
-    .filter((p) => p.mode === "course")
-    .map((p) => {
+  const paths: PathSummaryDto[] = content.paths.map((p) => {
     const courseIds = p.stages.flatMap((s) => s.courses);
+    // 跟读线:基础线、无课程前置,直接可选;解锁靠单元线性推进(前端算)。
+    if (p.mode === "shadow") {
+      return {
+        id: p.id,
+        title: p.title,
+        subject: p.subject,
+        tier: p.tier,
+        mode: "shadow" as const,
+        courseIds,
+        unlocked: true,
+        missingPrereqs: [],
+        unlockEntry: null,
+      };
+    }
     // 路线是线性的：第一门课打不开，这条线就没法从头走，整条锁住。
     // 例外是已经在这条线上学过东西的人——那就让他继续。
     const first = courseIds.map((id) => courseById.get(id)).find(Boolean);
@@ -132,6 +155,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
       title: p.title,
       subject: p.subject,
       tier: p.tier,
+      mode: "course" as const,
       courseIds,
       unlocked,
       missingPrereqs: unlocked ? [] : (first?.missingPrereqs ?? []),
@@ -171,6 +195,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     trialBest: {},
     quizDone,
     chestDone,
+    shadowUnits,
     trialClaimedToday,
     boost: getActiveBoost(user.id),
     timedBoost: getTimedBoost(user.id),

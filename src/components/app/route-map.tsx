@@ -2,11 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Brain, Check, FlaskConical, Gift, Lock, Play } from "lucide-react";
+import { Brain, Check, FlaskConical, Gift, Lock, Mic, Play } from "lucide-react";
 import type {
   CourseSummaryDto,
   GameBootstrap,
 } from "@/lib/game/bootstrap-types";
+import { SHADOW_LEVEL_LABEL, type ShadowLevel } from "@/lib/content/schema";
 import { buildLessonTrack, type LessonNode } from "@/lib/game/lesson-track";
 import {
   getVideoNodeEpisodes,
@@ -212,6 +213,19 @@ export function RouteMap({
     return { nodes, banners, totalH: y + BOTTOM_PAD };
   }, [bootstrap, path, width]);
 
+  // 跟读线(mode:shadow):把单元排成一列节点,前一个练完才解锁下一个
+  const shadowNodes = useMemo(() => {
+    if (path?.mode !== "shadow") return [];
+    const byId = new Map(bootstrap.shadowUnits.map((u) => [u.id, u]));
+    const ordered = path.courseIds
+      .map((id) => byId.get(id))
+      .filter((u): u is (typeof bootstrap.shadowUnits)[number] => !!u);
+    return ordered.map((u, i) => ({
+      ...u,
+      unlocked: i === 0 || ordered[i - 1].done,
+    }));
+  }, [path, bootstrap]);
+
   // 吸顶「当前浏览课程」条：滚动时算视口顶落在哪门课的区段里
   const [stickyCourse, setStickyCourse] = useState<CourseSummaryDto | null>(
     null,
@@ -338,6 +352,44 @@ export function RouteMap({
     >
       <div className="route-map" ref={scrollRef}>
         {topSlot && <div className="route-map-top">{topSlot}</div>}
+
+        {/* 影子跟读线:一列跟读单元节点,点开进 /shadow/<id> 练习页 */}
+        {path?.mode === "shadow" && (
+          <div className="shadow-track">
+            {shadowNodes.length === 0 && (
+              <p className="shadow-track-empty">这条跟读线还在备料中,敬请期待。</p>
+            )}
+            {shadowNodes.map((u) => {
+              const state = u.done ? "done" : u.unlocked ? "current" : "locked";
+              return (
+                <button
+                  key={u.id}
+                  className={`shadow-track-node ${state}`}
+                  disabled={state === "locked"}
+                  onClick={() =>
+                    state !== "locked" && router.push(`/shadow/${u.id}`)
+                  }
+                >
+                  <span className="shadow-track-icon">
+                    {u.done ? (
+                      <Check size={20} strokeWidth={3} />
+                    ) : u.unlocked ? (
+                      <Mic size={18} />
+                    ) : (
+                      <Lock size={16} />
+                    )}
+                  </span>
+                  <span className="shadow-track-body">
+                    <b>
+                      {SHADOW_LEVEL_LABEL[u.level as ShadowLevel] ?? u.level}
+                    </b>
+                    <span>{u.title}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
         {stickyCourse && (
           <div className="route-map-sticky">
             <span
