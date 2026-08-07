@@ -97,8 +97,12 @@ export interface ShadowUnitDto {
   title: string;
   /** 难度档 l1..l4 */
   level: string;
-  /** 是否已练完(练完发过 XP) */
-  done: boolean;
+  /** 句子总数(练习页/节点段划分用) */
+  sentenceCount: number;
+  /** 各跟读段是否练完,下标=段序号 */
+  segDone: boolean[];
+  /** 单元宝箱是否已开 */
+  chestDone: boolean;
 }
 
 export interface GameBootstrap {

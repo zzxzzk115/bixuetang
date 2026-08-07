@@ -13,6 +13,8 @@ import { getStreak } from "./streak-server";
 import { courseHasQuiz } from "./quiz-bank";
 import { getRpgProfile } from "./rpg-server";
 import { getUserState } from "./user-state";
+import { shadowSegRef, shadowChestRef } from "./xp";
+import { shadowSegCount } from "./shadow-track";
 import type { StatBlock } from "./relics";
 import type {
   CourseSummaryDto,
@@ -113,18 +115,26 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
   const trialClaimedToday = claimRows.some(
     (r) => r.reason === "trial" && r.ref === dailyDateKey(),
   );
-  // 跟读单元完成标记:ref 形如 `shadow:<unitId>`
-  const shadowDoneIds = new Set(
-    claimRows
-      .filter((r) => r.reason === "shadow")
-      .map((r) => r.ref.replace(/^shadow:/, "")),
+  // 跟读段完成标记:ref 形如 `shadow:<unitId>#<seg>`;宝箱 ref `shadow-chest:<unitId>`
+  const shadowSegDone = new Set(
+    claimRows.filter((r) => r.reason === "shadow").map((r) => r.ref),
   );
-  const shadowUnits = content.shadowUnits.map((u) => ({
-    id: u.id,
-    title: u.title,
-    level: u.level,
-    done: shadowDoneIds.has(u.id),
-  }));
+  const shadowChestDoneSet = new Set(
+    chestDone.filter((r) => r.startsWith("shadow-chest:")),
+  );
+  const shadowUnits = content.shadowUnits.map((u) => {
+    const segTotal = shadowSegCount(u.sentences.length);
+    return {
+      id: u.id,
+      title: u.title,
+      level: u.level,
+      sentenceCount: u.sentences.length,
+      segDone: Array.from({ length: segTotal }, (_, i) =>
+        shadowSegDone.has(shadowSegRef(u.id, i)),
+      ),
+      chestDone: shadowChestDoneSet.has(shadowChestRef(u.id)),
+    };
+  });
 
   const courseById = new Map(courses.map((c) => [c.id, c]));
   const paths: PathSummaryDto[] = content.paths.map((p) => {

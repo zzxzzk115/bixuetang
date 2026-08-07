@@ -42,13 +42,24 @@ export const XP_REASON = {
   labTask: "lab-task",
   /** 长视频章节(分段)阶段性结算——目标梯度:大目标拆成小里程碑 */
   segment: "segment",
-  /** 影子跟读:练完一个单元 */
+  /** 影子跟读:练完一个跟读段(ref 见 shadowSegRef) */
   shadow: "shadow",
 } as const;
 
-/** 影子跟读单元的幂等键 */
-export function shadowRef(unitId: string): string {
-  return `shadow:${unitId}`;
+/** 影子跟读某段(单元内第 seg 段)的幂等键 */
+export function shadowSegRef(unitId: string, seg: number): string {
+  return `shadow:${unitId}#${seg}`;
+}
+/** 从 `shadow:<unitId>#<seg>` 反解出 {unitId, seg}(旧式无 # 的按整单元处理) */
+export function parseShadowRef(ref: string): { unitId: string; seg: number } | null {
+  const m = ref.match(/^shadow:(.+)#(\d+)$/);
+  if (m) return { unitId: m[1], seg: Number(m[2]) };
+  const legacy = ref.match(/^shadow:(.+)$/);
+  return legacy ? { unitId: legacy[1], seg: 0 } : null;
+}
+/** 影子跟读单元宝箱的幂等键(reason 用 chest,前缀区分于课程宝箱) */
+export function shadowChestRef(unitId: string): string {
+  return `shadow-chest:${unitId}`;
 }
 
 /** 幂等键 */

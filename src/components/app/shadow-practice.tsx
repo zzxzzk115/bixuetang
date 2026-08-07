@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Mic, Play, Square } from "lucide-react";
 import type { ShadowSentence } from "@/lib/content/schema";
 import { scoreShadow, type ShadowScore } from "@/lib/shadow/score";
-import { completeShadowUnit } from "@/lib/game/shadow-actions";
+import { completeShadowSegment } from "@/lib/game/shadow-actions";
 import { celebrate } from "@/lib/celebrate";
 import { rewardToast } from "@/lib/reward-feedback";
 
@@ -45,11 +45,13 @@ function drawWave(canvas: HTMLCanvasElement | null, pcm: Float32Array | null, co
 
 export function ShadowPractice({
   unitId,
+  seg,
   bvid,
   page,
   sentences,
 }: {
   unitId: string;
+  seg: number;
   bvid: string;
   page: number;
   sentences: ShadowSentence[];
@@ -217,18 +219,18 @@ export function ShadowPractice({
           const origRate = audioCtxRef.current?.sampleRate ?? 44100;
           setScore(scoreShadow(orig, pcm, origRate, decoded.sampleRate));
         }
-        // 记下这句已练;全部练过一遍 → 练完本单元发 XP(幂等)
+        // 记下这句已练;本段每句都练过 → 练完这段发 XP(幂等)
         setRecorded((prev) => {
           const next = new Set(prev).add(idx);
           if (next.size >= sentences.length && !completedRef.current) {
             completedRef.current = true;
-            void completeShadowUnit(unitId).then((r) => {
+            void completeShadowSegment(unitId, seg).then((r) => {
               if (r.ok && r.gained) {
-                rewardToast({ text: `跟读单元完成 +${r.gained} XP`, tone: "xp" });
+                rewardToast({ text: `跟读段完成 +${r.gained} XP`, tone: "xp" });
                 celebrate({
                   kind: "quest",
-                  title: "跟读单元完成！",
-                  subtitle: "开口说出来了,继续下一段",
+                  title: "这一段练完了！",
+                  subtitle: "回地图继续下一节点",
                 });
               }
             });
@@ -242,7 +244,7 @@ export function ShadowPractice({
     } catch {
       setErr("麦克风打不开(需授权)");
     }
-  }, [idx, sentences.length, unitId]);
+  }, [idx, sentences.length, unitId, seg]);
 
   const stopRec = useCallback(() => {
     recRef.current?.stop();

@@ -14,6 +14,7 @@ import {
   openChestNode,
   type ChestResult,
 } from "@/lib/game/quiz-actions";
+import { openShadowChest } from "@/lib/game/shadow-actions";
 import { saveRouteChoice } from "@/lib/game/user-state-actions";
 import { AppShell } from "./app-shell";
 import { RouteSheet } from "./route-sheet";
@@ -92,6 +93,19 @@ interface MapBanner {
   key: string;
   course: CourseSummaryDto;
   y: number;
+}
+
+// 跟读线的地图节点(与课程节点分开建模,复用同一套 route-node 外观)
+interface ShadowMapNode {
+  key: string;
+  unitId: string;
+  kind: "practice" | "chest";
+  /** practice: 段序号;chest: -1 */
+  seg: number;
+  caption: string;
+  x: number;
+  y: number;
+  state: NodeState;
 }
 
 function nodeDone(
@@ -213,18 +227,66 @@ export function RouteMap({
     return { nodes, banners, totalH: y + BOTTOM_PAD };
   }, [bootstrap, path, width]);
 
-  // 跟读线(mode:shadow):把单元排成一列节点,前一个练完才解锁下一个
-  const shadowNodes = useMemo(() => {
-    if (path?.mode !== "shadow") return [];
+  // 跟读线(mode:shadow):每个单元 = 一个范围(横幅),范围里是若干「跟读」节点
+  // (每段句子一个)+ 段末一个「宝箱」,和课程路线一套心智模型,线性推进。
+  const shadowLayout = useMemo(() => {
+    const empty = {
+      snodes: [] as ShadowMapNode[],
+      sbanners: [] as { key: string; title: string; sub: string; y: number }[],
+      stotalH: 0,
+    };
+    if (path?.mode !== "shadow" || width === 0) return empty;
     const byId = new Map(bootstrap.shadowUnits.map((u) => [u.id, u]));
     const ordered = path.courseIds
       .map((id) => byId.get(id))
       .filter((u): u is (typeof bootstrap.shadowUnits)[number] => !!u);
-    return ordered.map((u, i) => ({
-      ...u,
-      unlocked: i === 0 || ordered[i - 1].done,
-    }));
-  }, [path, bootstrap]);
+    const amp = Math.min(width * 0.24, 120);
+    const snodes: ShadowMapNode[] = [];
+    const sbanners: { key: string; title: string; sub: string; y: number }[] = [];
+    let y = 0;
+    let wave = 0;
+    for (const u of ordered) {
+      const segTotal = u.segDone.length;
+      const levelLabel = SHADOW_LEVEL_LABEL[u.level as ShadowLevel] ?? u.level;
+      y += BANNER_SPACING;
+      sbanners.push({
+        key: `sb:${u.id}`,
+        y: y - 124,
+        title: u.title,
+        sub: `${levelLabel} · ${u.segDone.filter(Boolean).length}/${segTotal} 段`,
+      });
+      for (let i = 0; i < segTotal; i++) {
+        snodes.push({
+          key: `${u.id}:p:${i}`,
+          unitId: u.id,
+          kind: "practice",
+          seg: i,
+          caption: segTotal > 1 ? `跟读 ${i + 1}` : "跟读",
+          x: width / 2 + Math.sin(wave * 1.05) * amp,
+          y: y + 50,
+          state: u.segDone[i] ? "done" : "locked",
+        });
+        y += NODE_SPACING;
+        wave++;
+      }
+      snodes.push({
+        key: `${u.id}:c`,
+        unitId: u.id,
+        kind: "chest",
+        seg: -1,
+        caption: "宝箱",
+        x: width / 2 + Math.sin(wave * 1.05) * amp,
+        y: y + 50,
+        state: u.chestDone ? "done" : "locked",
+      });
+      y += NODE_SPACING;
+      wave++;
+    }
+    // 第一个未完成节点 = 当前(前面段全练完宝箱才会变成当前,天然把宝箱放到段末)
+    const curIdx = snodes.findIndex((n) => n.state !== "done");
+    if (curIdx >= 0) snodes[curIdx].state = "current";
+    return { snodes, sbanners, stotalH: y + BOTTOM_PAD };
+  }, [path, bootstrap, width]);
 
   // 吸顶「当前浏览课程」条：滚动时算视口顶落在哪门课的区段里
   const [stickyCourse, setStickyCourse] = useState<CourseSummaryDto | null>(
@@ -330,6 +392,24 @@ export function RouteMap({
     }
   };
 
+  const onShadowNode = async (n: ShadowMapNode) => {
+    if (n.state === "locked") return shake(n.key);
+    if (n.kind === "practice") {
+      router.push(`/shadow/${n.unitId}?seg=${n.seg}`);
+      return;
+    }
+    // 宝箱:整单元练完才可开;已开不响应
+    if (n.state === "done" || chestOpening) return;
+    setChestOpening(true);
+    try {
+      const r = await openShadowChest(n.unitId);
+      if (r.ok) setChestReward(r);
+      else shake(n.key);
+    } finally {
+      setChestOpening(false);
+    }
+  };
+
   const closeChest = () => {
     setChestReward(null);
     router.refresh(); // 重新注水：金币入袋、宝箱变已开、当前节点前移
@@ -353,42 +433,8 @@ export function RouteMap({
       <div className="route-map" ref={scrollRef}>
         {topSlot && <div className="route-map-top">{topSlot}</div>}
 
-        {/* 影子跟读线:一列跟读单元节点,点开进 /shadow/<id> 练习页 */}
-        {path?.mode === "shadow" && (
-          <div className="shadow-track">
-            {shadowNodes.length === 0 && (
-              <p className="shadow-track-empty">这条跟读线还在备料中,敬请期待。</p>
-            )}
-            {shadowNodes.map((u) => {
-              const state = u.done ? "done" : u.unlocked ? "current" : "locked";
-              return (
-                <button
-                  key={u.id}
-                  className={`shadow-track-node ${state}`}
-                  disabled={state === "locked"}
-                  onClick={() =>
-                    state !== "locked" && router.push(`/shadow/${u.id}`)
-                  }
-                >
-                  <span className="shadow-track-icon">
-                    {u.done ? (
-                      <Check size={20} strokeWidth={3} />
-                    ) : u.unlocked ? (
-                      <Mic size={18} />
-                    ) : (
-                      <Lock size={16} />
-                    )}
-                  </span>
-                  <span className="shadow-track-body">
-                    <b>
-                      {SHADOW_LEVEL_LABEL[u.level as ShadowLevel] ?? u.level}
-                    </b>
-                    <span>{u.title}</span>
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+        {path?.mode === "shadow" && shadowLayout.snodes.length === 0 && (
+          <p className="shadow-track-empty">这条跟读线还在备料中,敬请期待。</p>
         )}
         {stickyCourse && (
           <div className="route-map-sticky">
@@ -409,9 +455,111 @@ export function RouteMap({
             <button onClick={scrollToCurrent}>去当前</button>
           </div>
         )}
-        <div className="route-map-world" style={{ height: totalH }}>
+        <div
+          className="route-map-world"
+          style={{
+            height: path?.mode === "shadow" ? shadowLayout.stotalH : totalH,
+          }}
+        >
+          {/* 跟读线世界:横幅(范围)+ 蜿蜒的跟读/宝箱节点,复用 route-node 外观 */}
+          {path?.mode === "shadow" && (
+            <>
+              {width > 0 && shadowLayout.snodes.length > 1 && (
+                <svg
+                  className="route-map-trail"
+                  width={width}
+                  height={shadowLayout.stotalH}
+                  aria-hidden
+                >
+                  {shadowLayout.snodes.slice(0, -1).map((a, i) => {
+                    const b = shadowLayout.snodes[i + 1];
+                    if (a.unitId !== b.unitId) return null; // 单元之间断开(横幅处)
+                    const lit = a.state === "done";
+                    return (
+                      <path
+                        key={a.key}
+                        d={`M ${a.x} ${a.y} Q ${(a.x + b.x) / 2} ${(a.y + b.y) / 2 + 20} ${b.x} ${b.y}`}
+                        fill="none"
+                        stroke={lit ? "var(--app-green)" : "var(--app-line)"}
+                        strokeWidth={6}
+                        strokeLinecap="round"
+                        strokeDasharray="1 16"
+                      />
+                    );
+                  })}
+                </svg>
+              )}
+
+              {shadowLayout.sbanners.map((b) => (
+                <div
+                  key={b.key}
+                  className="route-banner"
+                  style={{ top: b.y, background: "var(--app-pink)" }}
+                >
+                  <b>{b.title}</b>
+                  <small>{b.sub}</small>
+                </div>
+              ))}
+
+              {shadowLayout.snodes.map((n) => {
+                const color =
+                  n.kind === "chest" ? "var(--app-gold)" : "var(--app-pink)";
+                const Icon =
+                  n.state === "done"
+                    ? Check
+                    : n.state === "locked"
+                      ? Lock
+                      : n.kind === "chest"
+                        ? Gift
+                        : Mic;
+                return (
+                  <div
+                    key={n.key}
+                    className={`route-node ${n.state} kind-${n.kind === "chest" ? "chest" : "shadow"} ${shakeKey === n.key ? "shake" : ""}`}
+                    style={{ left: n.x, top: n.y }}
+                  >
+                    {n.state === "current" && (
+                      <span className="route-node-bubble">
+                        {n.kind === "chest" ? "开箱" : "跟读"}
+                      </span>
+                    )}
+                    <span className="route-node-btnwrap">
+                      <button
+                        className="route-node-btn"
+                        style={
+                          n.state === "locked"
+                            ? undefined
+                            : {
+                                background: color,
+                                boxShadow: `0 6px 0 color-mix(in srgb, ${color} 70%, #000)`,
+                              }
+                        }
+                        onClick={() => onShadowNode(n)}
+                        aria-label={`${n.caption}（${
+                          n.state === "done"
+                            ? "已完成"
+                            : n.state === "current"
+                              ? "进行中"
+                              : "未解锁"
+                        }）`}
+                      >
+                        <Icon
+                          size={n.state === "done" ? 30 : 26}
+                          strokeWidth={n.state === "done" ? 3.5 : 2.6}
+                        />
+                      </button>
+                    </span>
+                    <div className="route-node-caption">
+                      <small>{n.caption}</small>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
+
           {/* 节点之间的虚线小路（单元横幅处断开） */}
-          {width > 0 && nodes.length > 1 && (
+          {path?.mode !== "shadow" && width > 0 && nodes.length > 1 && (
             <svg
               className="route-map-trail"
               width={width}
