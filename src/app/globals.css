@@ -5789,9 +5789,9 @@ body:has(.dungeon-chamber) .analysis-section {
   left: 0;
   right: 0;
   bottom: 4%;
-  /* 多语言叠加：每条一行，从下往上排（主语言在最下） */
+  /* 多语言叠加：主语言在上（字号大），辅语言在下——阅读动线从主到辅 */
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   gap: 0.25em;
   padding: 0 6%;
@@ -6049,75 +6049,6 @@ body:has(.dungeon-chamber) .analysis-section {
   gap: 6px;
   min-height: 44px;
   font-size: 14px;
-}
-
-/* ==== 续播提示（3 秒内可取消） ==== */
-.biliplayer-resume {
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-  z-index: 3;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 10px 14px 12px;
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  animation: sheet-rise 200ms ease-out;
-}
-.biliplayer-resume-text {
-  display: grid;
-  gap: 2px;
-  line-height: 1.3;
-}
-.biliplayer-resume-text b {
-  font-weight: 800;
-}
-.biliplayer-resume-text small {
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 11px;
-  font-weight: 700;
-  /* 倒计时数字变化时宽度别抖 */
-  font-variant-numeric: tabular-nums;
-}
-.biliplayer-resume-acts {
-  display: flex;
-  gap: 8px;
-}
-.biliplayer-resume button {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 12px;
-  border-radius: 9px;
-  background: rgba(255, 255, 255, 0.18);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 800;
-  cursor: pointer;
-}
-.biliplayer-resume button:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-.biliplayer-resume button.is-primary {
-  background: var(--app-accent, #58cc02);
-  color: #0b2b00;
-}
-.biliplayer-resume button.is-primary:hover {
-  filter: brightness(1.08);
-}
-/* 倒计时进度条：贴在卡片底边，1 秒一格地缩短 */
-.biliplayer-resume-bar {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  background: var(--app-accent, #58cc02);
-  transition: width 1s linear;
 }
 
 /* ==== 互动弹层（投币确认 / 收藏夹选择） ==== */
@@ -7056,19 +6987,13 @@ body {
 .biliplayer-art .art-video-player {
   font-family: inherit;
 }
-/* React portal 的层挂载点:铺满画面。cc 层开容器查询,
+/* React portal 的 CC 层挂载点:铺满画面并开容器查询,
    字幕字号用 cqh 按画面高度缩放(全屏自动跟着放大) */
-.artcc-host,
-.artresume-host {
+.artcc-host {
   position: absolute;
   inset: 0;
   pointer-events: none;
-}
-.artcc-host {
   container-type: size;
-}
-.artresume-host .biliplayer-resume {
-  pointer-events: auto;
 }
 /* 控制栏上的观看覆盖率角标 */
 .artp-watch {

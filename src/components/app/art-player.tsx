@@ -11,7 +11,7 @@ import {
   useImperativeHandle,
 } from "react";
 import { createPortal } from "react-dom";
-import { Loader2, RotateCcw, SkipForward } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import type Artplayer from "artplayer";
 import type { Setting as ArtSetting } from "artplayer";
 import type { MediaPlayerClass } from "dashjs";
@@ -68,16 +68,6 @@ export interface BiliPlayerHandle {
   currentTime: () => number;
 }
 
-/** 续播提示的反悔窗口(秒) */
-const RESUME_SECONDS = 5;
-
-function fmt(sec: number): string {
-  if (!Number.isFinite(sec)) return "0:00";
-  const m = Math.floor(sec / 60);
-  const s = Math.floor(sec % 60);
-  return `${m}:${String(s).padStart(2, "0")}`;
-}
-
 /** 读主题色给 ArtPlayer 当强调色 */
 function accentColor(): string {
   if (typeof window === "undefined") return "#58cc02";
@@ -123,13 +113,8 @@ export function BiliPlayer({
   const [cues, setCues] = useState<string[]>([]);
   const [newTerms, setNewTerms] = useState<UnlockedTerm[]>([]);
   const [ccOffset, setCcOffset] = useState(0);
-  const [resumeTip, setResumeTip] = useState<number | null>(
-    resumeAt > 5 ? resumeAt : null,
-  );
-  const [resumeLeft, setResumeLeft] = useState(RESUME_SECONDS);
   /** ArtPlayer 建好后暴露的层挂载点,React 往里 portal */
   const [ccHost, setCcHost] = useState<HTMLElement | null>(null);
-  const [resumeHost, setResumeHost] = useState<HTMLElement | null>(null);
 
   const prefs = useSyncExternalStore(
     prefsStore.subscribe,
@@ -205,18 +190,25 @@ export function BiliPlayer({
   // 中英都有就叠加双语)。只有 AI/可疑轨时不自动开——bilibili 的 AI
   // 字幕经常是别的视频的内容,自动挂上去只会误导人。
   const activeTracks = useMemo(() => {
-    if (tracks.length === 0) return [];
-    const picked = tracks.filter((t) => prefs.cc.lans.includes(t.lan));
-    if (picked.length > 0) return picked;
-    const human = tracks.filter((t) => !t.ai && !t.suspect);
-    const zh = human.find((t) => t.lan.toLowerCase().startsWith("zh"));
-    const en = human.find((t) => t.lan.toLowerCase().startsWith("en"));
-    if (zh && en) return [zh, en];
-    if (zh) return [zh];
-    if (en) return [en];
-    if (human.length > 0) return [human[0]];
-    return [];
-  }, [tracks, prefs.cc.lans]);
+    const pickList = (() => {
+      if (tracks.length === 0) return [] as SubtitleTrack[];
+      const picked = tracks.filter((t) => prefs.cc.lans.includes(t.lan));
+      if (picked.length > 0) return picked;
+      const human = tracks.filter((t) => !t.ai && !t.suspect);
+      const zh = human.find((t) => t.lan.toLowerCase().startsWith("zh"));
+      const en = human.find((t) => t.lan.toLowerCase().startsWith("en"));
+      if (zh && en) return [zh, en];
+      if (zh) return [zh];
+      if (en) return [en];
+      if (human.length > 0) return [human[0]];
+      return [] as SubtitleTrack[];
+    })();
+    // 主语言排最前(渲染在最上、字号最大)。默认中文在上;
+    // 英语为主的学习者可在设置里换成英文在上。
+    const primaryFirst = (t: SubtitleTrack) =>
+      t.lan.toLowerCase().startsWith(prefs.cc.primary) ? 0 : 1;
+    return [...pickList].sort((a, b) => primaryFirst(a) - primaryFirst(b));
+  }, [tracks, prefs.cc.lans, prefs.cc.primary]);
   const activeTracksRef = useRef(activeTracks);
   useEffect(() => {
     activeTracksRef.current = activeTracks;
@@ -267,21 +259,24 @@ export function BiliPlayer({
         ]);
       if (cancelled || !hostRef.current) return;
 
+      // 「上次看到」小条默认在首个 timeupdate 的 3 秒后自动隐藏,
+      // 但加载/seek 阶段就可能触发一次 timeupdate,窗口稍纵即逝——放宽到 10 秒
+      ArtplayerCtor.AUTO_PLAYBACK_TIMEOUT = 10_000;
+
       const p = prefsStore.get();
       const isDash = !!payload.dash;
       const mp4Qualities = payload.progressive?.qualities ?? [];
       const mp4Picked =
         mp4Qualities.find((q) => q.id === p.qualityId) ?? mp4Qualities[0];
 
-      // React 往这些层里 portal 自己的 UI(续播弹窗/CC 字幕),
-      // 挂在播放器内部才能在全屏时可见
+      // React 往这个层里 portal 自研 CC 字幕,挂在播放器内部才能在全屏时可见
       const ccEl = document.createElement("div");
       ccEl.className = "artcc-host";
-      const resumeEl = document.createElement("div");
-      resumeEl.className = "artresume-host";
 
       art = new ArtplayerCtor({
         container: hostRef.current,
+        // autoPlayback 的进度记忆按这个 id 存取(默认用 url,但直链会过期变化)
+        id: `${bvid}:${page}`,
         url: isDash ? payload.dash!.mpd : mp4Picked.url,
         // mp4 不设 type,走浏览器原生;只有 mpd 需要 customType 接管
         ...(isDash ? { type: "mpd" as const } : {}),
@@ -363,7 +358,9 @@ export function BiliPlayer({
         fullscreenWeb: true,
         miniProgressBar: true,
         playbackRate: true,
-        autoPlayback: false, // 续播用自己的库存进度,不用 ArtPlayer 的 localStorage
+        // 续播用 ArtPlayer 内建的「上次看到」小条(位置由它按控制栏排布,
+        // 不会被组件挡住);服务端的跨设备进度在下面种进它的 storage
+        autoPlayback: true,
         lock: true,
         gesture: true,
         fastForward: true,
@@ -375,10 +372,7 @@ export function BiliPlayer({
           time: v.from,
           text: v.content,
         })),
-        layers: [
-          { name: "cc", html: ccEl },
-          { name: "resume", html: resumeEl },
-        ],
+        layers: [{ name: "cc", html: ccEl }],
         controls: [
           {
             name: "watch",
@@ -432,7 +426,23 @@ export function BiliPlayer({
 
       artRef.current = art;
       setCcHost(ccEl);
-      setResumeHost(resumeEl);
+
+      // 服务端存的跨设备进度种进 autoPlayback 的 storage(取两边的较大值),
+      // ready 时它会读这个键弹出「上次看到 X · 跳转播放」小条
+      if (resumeAt > 5) {
+        try {
+          const times =
+            (art.storage.get("times") as Record<string, number> | undefined) ??
+            {};
+          const key = `${bvid}:${page}`;
+          if ((times[key] ?? 0) < resumeAt) {
+            times[key] = resumeAt;
+            art.storage.set("times", times);
+          }
+        } catch {
+          // storage 不可用(隐私模式)就没有续播提示,不影响播放
+        }
+      }
 
       art.on("ready", () => {
         const cur = prefsStore.get();
@@ -441,7 +451,6 @@ export function BiliPlayer({
         const pending = pendingSeekRef.current;
         if (pending != null) {
           pendingSeekRef.current = null;
-          setResumeTip(null);
           art!.currentTime = Math.max(0, pending);
           void art!.play();
         }
@@ -509,7 +518,6 @@ export function BiliPlayer({
     return () => {
       cancelled = true;
       setCcHost(null);
-      setResumeHost(null);
       try {
         dashRef.current?.destroy();
       } catch {
@@ -630,6 +638,17 @@ export function BiliPlayer({
           },
         })),
         {
+          html: "中文在上(主)",
+          switch: prefsStore.get().cc.primary === "zh",
+          onSwitch: (item) => {
+            const next = !item.switch;
+            prefsStore.set({
+              cc: { ...prefsStore.get().cc, primary: next ? "zh" : "en" },
+            });
+            return next;
+          },
+        },
+        {
           html: "字幕慢 0.5s",
           onSelect: () => {
             nudgeCcOffset(500);
@@ -721,45 +740,6 @@ export function BiliPlayer({
       void send();
     };
   }, [payload, courseId, episodeN, onCompleted]);
-
-  /** 跳到上次的进度并立刻续播 */
-  const jumpToResume = useCallback(
-    (at: number) => {
-      setResumeTip(null);
-      const art = artRef.current;
-      if (!art) return;
-      const apply = () => {
-        const total = art.duration || payload?.durationSec || 0;
-        art.currentTime = total > 0 ? Math.min(at, total - 5) : at;
-        void art.play();
-      };
-      if (art.isReady) apply();
-      else art.once("ready", apply);
-    },
-    [payload?.durationSec],
-  );
-
-  // 续播:不静默跳,给反悔窗口(倒计时可见);超时没点「从头开始」就跳过去
-  useEffect(() => {
-    if (resumeTip === null || !payload) return;
-    const total = payload.durationSec || 0;
-    // 离结尾太近等于看完了,不必续播
-    if (total > 0 && resumeTip > total - 10) {
-      const drop = setTimeout(() => setResumeTip(null), 0);
-      return () => clearTimeout(drop);
-    }
-    const tick = setInterval(() => {
-      setResumeLeft((n) => {
-        if (n <= 1) {
-          clearInterval(tick);
-          jumpToResume(resumeTip);
-          return 0;
-        }
-        return n - 1;
-      });
-    }, 1000);
-    return () => clearInterval(tick);
-  }, [payload, resumeTip, jumpToResume]);
 
   // 键盘控制。只在鼠标停在播放器上、全屏中、或播放器内有焦点时接管——
   // 否则在页面别处敲空格会莫名其妙地暂停视频。
@@ -867,8 +847,6 @@ export function BiliPlayer({
         };
         if (art.isReady) apply();
         else art.once("ready", apply);
-        // 主动跳时间戳,说明用户要看那儿——续播提示别再挡着
-        setResumeTip(null);
       },
       currentTime: () => artRef.current?.currentTime ?? 0,
     }),
@@ -928,37 +906,6 @@ export function BiliPlayer({
             )}
           </div>,
           ccHost,
-        )}
-
-      {/* 续播提示:同样 portal 进播放器 */}
-      {resumeHost &&
-        resumeTip !== null &&
-        createPortal(
-          <div
-            className="biliplayer-resume"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <span className="biliplayer-resume-text">
-              上次看到 <b>{fmt(resumeTip)}</b>
-              <small>{resumeLeft} 秒后自动继续</small>
-            </span>
-            <span className="biliplayer-resume-acts">
-              <button
-                className="is-primary"
-                onClick={() => jumpToResume(resumeTip)}
-              >
-                <SkipForward size={14} aria-hidden /> 立即跳转
-              </button>
-              <button onClick={() => setResumeTip(null)}>
-                <RotateCcw size={14} aria-hidden /> 从头开始
-              </button>
-            </span>
-            <i
-              className="biliplayer-resume-bar"
-              style={{ width: `${(resumeLeft / RESUME_SECONDS) * 100}%` }}
-            />
-          </div>,
-          resumeHost,
         )}
 
       {ccOffset !== 0 && prefs.cc.on && (

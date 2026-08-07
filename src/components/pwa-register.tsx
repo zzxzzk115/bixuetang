@@ -23,6 +23,14 @@ export function PwaRegister() {
     document.documentElement.dataset.ios = iosLike ? "1" : "0";
 
     if (!("serviceWorker" in navigator)) return;
+    // 开发环境不注册:SW 缓存的旧 chunk 会顶掉 HMR 的新代码,
+    // 「改了没生效」十有八九是它;顺手清掉残留的注册
+    if (process.env.NODE_ENV !== "production") {
+      void navigator.serviceWorker
+        .getRegistrations()
+        .then((regs) => regs.forEach((r) => void r.unregister()));
+      return;
+    }
     // 挂载即注册；失败不打扰用户，控制台留个记录就够了
     navigator.serviceWorker.register("/sw.js").catch((err) => {
       console.warn("Service Worker 注册失败", err);

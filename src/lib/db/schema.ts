@@ -1,4 +1,5 @@
 import {
+  index,
   integer,
   primaryKey,
   sqliteTable,
@@ -360,4 +361,57 @@ export const pendingBiliSignups = sqliteTable("pending_bili_signups", {
   refreshToken: text("refresh_token"),
   expiresAt: integer("expires_at").notNull(),
   createdAt: integer("created_at").notNull(),
+});
+
+// 间隔重复复习卡。看完一集,该集的术语/知识点入卡(每集上限见
+// review-enqueue),按 SM-2 简化版调度(src/lib/game/srs.ts)。
+// (user,course,episode,kind,prompt) 唯一 → 重复看同一集不会重复入卡。
+export const reviewCards = sqliteTable(
+  "review_cards",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    courseId: text("course_id").notNull(),
+    episodeN: integer("episode_n").notNull(),
+    /** term | keypoint(对应 quiz bank 的条目类型) */
+    kind: text("kind").notNull(),
+    /** 题面(quiz bank 条目的 prompt,用于反查出题) */
+    prompt: text("prompt").notNull(),
+    /** 下次到期学习日(dayKey,UTC+8) */
+    dueDay: text("due_day").notNull(),
+    intervalDays: integer("interval_days").notNull().default(0),
+    /** ease ×100 整数(SM-2 的 2.3 存 230) */
+    ease: integer("ease").notNull().default(230),
+    reps: integer("reps").notNull().default(0),
+    lapses: integer("lapses").notNull().default(0),
+    lastReviewedAt: integer("last_reviewed_at"),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [
+    uniqueIndex("review_cards_identity").on(
+      t.userId,
+      t.courseId,
+      t.episodeN,
+      t.kind,
+      t.prompt,
+    ),
+    index("review_cards_due").on(t.userId, t.dueDay),
+  ],
+);
+
+// 连胜状态。派生自 xp_events 的旧算法要全表扫且 UTC 日切,
+// 冻结道具(损失厌恶的安全阀)也必须有持久状态才能实现。
+export const streakState = sqliteTable("streak_state", {
+  userId: integer("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  current: integer("current").notNull().default(0),
+  best: integer("best").notNull().default(0),
+  /** 最后一次学习行为的 dayKey(UTC+8);空串=从没学过 */
+  lastDay: text("last_day").notNull().default(""),
+  /** 连胜冻结存量(商店购买,断一天时自动消耗) */
+  freezes: integer("freezes").notNull().default(0),
+  updatedAt: integer("updated_at").notNull(),
 });

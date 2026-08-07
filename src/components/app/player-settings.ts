@@ -29,6 +29,11 @@ export interface CcSettings {
   bottom: number;
   /** 底色样式 */
   style: "shadow" | "box" | "plain";
+  /**
+   * 双语叠加时谁在上面当主语言（上面那条字号大）。
+   * 默认中文在上；以英语为主的学习者可切成英文在上。
+   */
+  primary: "zh" | "en";
 }
 
 export interface PlayerPrefs {
@@ -72,6 +77,7 @@ export const DEFAULT_PREFS: PlayerPrefs = {
     scale: 1,
     bottom: 0.06,
     style: "shadow",
+    primary: "zh",
   },
   qualityId: null,
   autoQuality: true,
