@@ -1,0 +1,507 @@
+{
+  "courseId": "stat110",
+  "generatedAt": "2026-08-07",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "哈佛 Blitzstein 的传奇概率课:从计数与公理出发,靠「故事证明」与条件化思维把反直觉的概率问题一个个讲到服气。上半程建立条件概率与随机变量的语言(Monty Hall、赌徒破产、期望的线性性),中段铺开常用分布家族(泊松、正态、指数、Beta、Gamma)与矩母函数,收官于不等式、大数定律/中心极限定理与马尔可夫链。搬运源无 CC 轨,本分析基于官方讲次编排,不含时间戳。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "开胃前菜:Blitzstein 在 Harvard Thinks Big 的短讲《统计的灵魂》。用几个故事说明统计不是算数而是一种看世界的方式——量化不确定性、警惕幸存者偏差与混杂变量、区分相关与因果。看完再进正课,你会知道这门课教的是思维而非公式。",
+      "keyPoints": [
+        { "title": "统计 = 不确定性的语言", "detail": "科学、医学、政策的结论几乎都是概率性的;不懂不确定性就读不懂证据。" },
+        { "title": "相关不是因果", "detail": "混杂变量能让两件不相干的事看起来同涨同落;这门课后面用条件化把这件事说精确。" },
+        { "title": "数据会撒谎(如果你让它)", "detail": "幸存者偏差、选择效应——收集数据的方式决定结论的成色。" }
+      ],
+      "terms": [
+        { "term": "confounder 混杂变量", "definition": "同时影响两个变量、制造假相关的第三方因素" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "Lecture 1 · 概率与计数:样本空间是全部可能结果的集合,朴素概率 = 有利结果数 / 总数——但它只在等可能时成立。于是计数成了第一门功课:乘法法则、排列与组合;抽样四象限(有序/无序 × 放回/不放回)一张表打尽。",
+      "keyPoints": [
+        { "title": "样本空间与事件", "detail": "实验的所有可能结果构成集合 S,事件是它的子集;概率是对事件的度量——一切从集合语言开始。" },
+        { "title": "朴素概率的适用条件", "detail": "P = |A|/|S| 只在结果等可能时合法;把它当万能公式是初学者的第一大坑。", "formula": "P_{naive}(A) = \\frac{|A|}{|S|}" },
+        { "title": "乘法法则", "detail": "分步实验的总方式数是各步方式数之积——所有计数公式的根。" },
+        { "title": "二项系数", "detail": "从 n 个中无序选 k 个:C(n,k) = n!/(k!(n-k)!);「选人组队」的故事比公式更好记。", "formula": "\\binom{n}{k} = \\frac{n!}{k!\\,(n-k)!}" },
+        { "title": "抽样四象限", "detail": "有序/无序 × 放回/不放回四种抽样的计数公式;无序有放回那格(n+k-1 选 k)最难,后面讲 Bose-Einstein 再回来。" }
+      ],
+      "terms": [
+        { "term": "sample space 样本空间", "definition": "实验全部可能结果的集合" },
+        { "term": "binomial coefficient 二项系数", "definition": "C(n,k),n 个中无序选 k 个的方式数" },
+        { "term": "multiplication rule 乘法法则", "definition": "分步计数相乘的基本原理" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "Lecture 2 · 故事证明与概率公理:用「讲故事」证明组合恒等式——两边数同一样东西,比代数硬算优雅得多(选队长恒等式、Vandermonde)。然后给概率立规矩:非负、全空间为 1、互斥可加,三条公理即可推出全部性质;概率的两大解释(频率派/贝叶斯)在公理层面并无分歧。",
+      "keyPoints": [
+        { "title": "故事证明", "detail": "证明 C(n,k)=C(n,n-k):选进队的 k 人等价于选出局的 n-k 人——两边数的是同一件事。组合恒等式的正确打开方式。" },
+        { "title": "选队长恒等式", "detail": "n·C(n-1,k-1) = k·C(n,k):左边先选队长再补队员,右边先组队再选队长——同一个「带队长的队伍」。", "formula": "n\\binom{n-1}{k-1} = k\\binom{n}{k}" },
+        { "title": "Vandermonde 恒等式", "detail": "C(m+n,k) = Σ C(m,j)C(n,k-j):从两群人里共选 k 个,按「第一群出几个」分类。", "formula": "\\binom{m+n}{k} = \\sum_{j=0}^{k} \\binom{m}{j}\\binom{n}{k-j}" },
+        { "title": "概率三公理", "detail": "P(∅)=0、P(S)=1、互斥事件概率可加——就这三条,其余(补集、单调性、容斥)全是定理。", "formula": "P\\left(\\bigcup_{i} A_i\\right) = \\sum_i P(A_i) \\;\\; (A_i \\text{ 互斥})" }
+      ],
+      "terms": [
+        { "term": "story proof 故事证明", "definition": "用双向计数解释恒等式,两边数同一对象" },
+        { "term": "axioms of probability 概率公理", "definition": "非负、归一、可列可加三条基本假设" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "Lecture 3 · 生日问题与概率性质:23 个人里两人同生日的概率就过半——反直觉的根源是「配对数」按平方增长。从公理推导常用性质:补集、单调性、容斥原理;并用 de Montmort 配对问题(洗好的牌恰好有牌在原位)演示容斥的威力,答案逼近 1-1/e。",
+      "keyPoints": [
+        { "title": "生日问题", "detail": "P(至少两人同生日) = 1 - 365·364···(365-n+1)/365ⁿ;n=23 就超 50%——因为配对有 C(23,2)=253 对。", "formula": "P = 1 - \\frac{365 \\cdot 364 \\cdots (365-n+1)}{365^n}" },
+        { "title": "先算补集", "detail": "「至少一个」的概率几乎总是从补集「一个都没有」下手——本课贯穿始终的手筋。" },
+        { "title": "容斥原理", "detail": "并集概率 = 单项和 - 两两交 + 三三交 - …;重叠部分多算的要按层退回来。", "formula": "P(A \\cup B) = P(A) + P(B) - P(A \\cap B)" },
+        { "title": "de Montmort 配对问题", "detail": "n 张牌洗匀后至少一张在原位的概率 → 1 - 1/e ≈ 0.632;容斥展开正好是 e 的级数。", "formula": "P \\to 1 - \\frac{1}{e}" }
+      ],
+      "terms": [
+        { "term": "inclusion-exclusion 容斥原理", "definition": "并集概率按交叠层级加减修正" },
+        { "term": "complement 补集", "definition": "「不发生」事件,P(Aᶜ)=1-P(A)" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "Lecture 4 · 条件概率:全课的心脏。P(A|B) 是「知道 B 发生后对 A 的重新评估」,定义为交比边缘;由此得乘法链式法则与贝叶斯定理。Blitzstein 名言:条件化是概率的灵魂——所有概率都是条件概率,只是条件常被省略。",
+      "keyPoints": [
+        { "title": "条件概率定义", "detail": "P(A|B) = P(A∩B)/P(B):把样本空间缩到 B 里重新归一;「获得证据 = 换世界观」。", "formula": "P(A\\mid B) = \\frac{P(A \\cap B)}{P(B)}" },
+        { "title": "链式法则", "detail": "P(A₁∩…∩Aₙ) 逐层条件化展开——复杂事件拆成一串「在前面都发生的前提下」。", "formula": "P(A_1 \\cap A_2 \\cap A_3) = P(A_1)P(A_2\\mid A_1)P(A_3\\mid A_1 \\cap A_2)" },
+        { "title": "贝叶斯定理", "detail": "把 P(A|B) 翻转成 P(B|A):证据与假设互换方向的桥;整个贝叶斯统计就立在这一行上。", "formula": "P(A\\mid B) = \\frac{P(B\\mid A)\\,P(A)}{P(B)}" },
+        { "title": "先验与后验", "detail": "P(A) 是看到证据前的信念,P(A|B) 是看到证据后的更新——概率是动态的信念状态。" }
+      ],
+      "terms": [
+        { "term": "conditional probability 条件概率", "definition": "已知一事件发生后另一事件的概率" },
+        { "term": "Bayes' rule 贝叶斯定理", "definition": "用 P(B|A) 与先验翻转求 P(A|B)" },
+        { "term": "prior / posterior 先验/后验", "definition": "看到证据前/后的概率评估" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "Lecture 5 · 全概率公式与条件化续:把样本空间切成互斥完备的几块,任何事件的概率都能按块加权平均——「分情况讨论」的概率版。经典应用:检测悖论(罕见病 + 高准确率检测,阳性后真患病的概率仍低得惊人),以及条件概率世界里的独立性。",
+      "keyPoints": [
+        { "title": "全概率公式(LOTP)", "detail": "P(B) = Σ P(B|Aᵢ)P(Aᵢ):对分割 {Aᵢ} 加权平均;「不知道就先条件在你希望知道的东西上」。", "formula": "P(B) = \\sum_i P(B\\mid A_i)\\,P(A_i)" },
+        { "title": "检测悖论", "detail": "患病率 1%、准确率 95% 时,检测阳性后患病概率只有 ~16%:基础率低的稀有事件,假阳性人数轻松碾压真阳性。" },
+        { "title": "条件独立 ≠ 独立", "detail": "两事件可以条件独立却不独立,反之亦然(点球例子);独立性永远要问「在什么条件下」。" },
+        { "title": "条件概率也是概率", "definition": "", "detail": "固定条件 B 后,P(·|B) 满足全部公理——所有定理(容斥、LOTP、贝叶斯)都有条件版。" }
+      ],
+      "terms": [
+        { "term": "law of total probability 全概率公式", "definition": "按互斥完备分割加权平均求概率" },
+        { "term": "partition 分割", "definition": "互斥且并为全空间的一组事件" },
+        { "term": "conditional independence 条件独立", "definition": "在给定条件下相互独立,与无条件独立互不蕴含" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "Lecture 6 · Monty Hall 与 Simpson 悖论:两大反直觉名场面。三门问题——换门把中奖率从 1/3 提到 2/3,关键是主持人「知情且必开山羊门」这个信息;用条件化(LOTP 对「车在哪」条件化)或画树一目了然。Simpson 悖论——每个分组里 A 都比 B 好,合起来 B 反而比 A 好,混杂变量(权重)在作怪。",
+      "keyPoints": [
+        { "title": "Monty Hall:换门赢 2/3", "detail": "你初选对的概率 1/3;主持人开门不改变这点,却把剩余 2/3 全部集中到另一扇门上——换门等于赌「初选错了」。" },
+        { "title": "条件化解法", "detail": "对「车在几号门」用 LOTP,或直接算 P(换门赢|开了某门):关键假设是主持人知情、必开山羊、可选时等概率。" },
+        { "title": "Simpson 悖论", "detail": "分组全赢、汇总反输:两位医生的手术成功率按手术类型都更高,总成功率却更低——因为接的难手术比例不同。" },
+        { "title": "悖论的解药还是条件化", "detail": "问对条件(控制混杂变量)悖论即消失;「该看分组还是汇总」取决于因果结构,不是算术。" }
+      ],
+      "terms": [
+        { "term": "Monty Hall problem 三门问题", "definition": "主持人知情开门后换门更优的经典悖论" },
+        { "term": "Simpson's paradox 辛普森悖论", "definition": "分组结论与汇总结论反向的现象" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "Lecture 7 · 赌徒破产与随机变量:两个赌徒轮流下注直到一方破产,用「首步分析」列差分方程解出破产概率——公平赌局里资本少的一方几乎必输,这就是赌场的数学。随后引入本课主角:随机变量是「从样本空间到实数的函数」,伯努利与二项分布登场。",
+      "keyPoints": [
+        { "title": "首步分析", "detail": "以第一步的输赢条件化,得 pᵢ = p·pᵢ₊₁ + q·pᵢ₋₁ 的差分方程——把动态过程化成方程组的通用手法。", "formula": "p_i = p\\,p_{i+1} + q\\,p_{i-1}" },
+        { "title": "赌徒破产的结论", "detail": "公平赌局中从 i 元打到 N 元的概率是 i/N;不公平时是等比形式——长期对赌,资本即命运。", "formula": "P_{win} = \\frac{1 - (q/p)^i}{1 - (q/p)^N}" },
+        { "title": "随机变量 = 函数", "detail": "X: S → ℝ,把随机结果映成数;「X=x」是事件的简写。理解成函数,后面的一切才不玄。" },
+        { "title": "伯努利与二项", "detail": "一次成败是 Bernoulli(p);n 次独立试验的成功数是 Binomial(n,p),PMF 里的 C(n,k) 数的是「哪几次成功」。", "formula": "P(X=k) = \\binom{n}{k} p^k (1-p)^{n-k}" }
+      ],
+      "terms": [
+        { "term": "random variable 随机变量", "definition": "样本空间到实数的函数" },
+        { "term": "first-step analysis 首步分析", "definition": "以第一步结果条件化建立递推方程" },
+        { "term": "Bernoulli / Binomial 伯努利/二项分布", "definition": "单次成败 / n 次独立成败的成功计数" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "Lecture 8 · 随机变量与分布:把语言立牢。PMF 给出离散变量各取值的概率;CDF 对一切随机变量通用;「X 的分布」是蓝图,X 本身是随机的数——别把房子和图纸混为一谈。二项分布的和(独立同 p 相加仍是二项)与超几何分布(不放回抽样,如从黑白球缸里抓球)对照登场。",
+      "keyPoints": [
+        { "title": "PMF 与 CDF", "detail": "PMF:P(X=x) 逐点给概率(和为 1);CDF:F(x)=P(X≤x) 单调右连续,离散连续通吃。", "formula": "F(x) = P(X \\le x)" },
+        { "title": "分布 ≠ 随机变量", "detail": "Blitzstein 反复敲黑板:分布是描述,变量是对象;两个不同的变量可以同分布,却不相等。" },
+        { "title": "二项的可加性", "detail": "X~Bin(n,p) 与 Y~Bin(m,p) 独立则 X+Y~Bin(n+m,p)——故事:把两批试验拼起来。" },
+        { "title": "超几何分布", "detail": "w 白 b 黑中不放回抓 n 个的白球数;与二项的区别就在「不放回带来的依赖」,抽样比例小时两者接近。", "formula": "P(X=k) = \\frac{\\binom{w}{k}\\binom{b}{n-k}}{\\binom{w+b}{n}}" }
+      ],
+      "terms": [
+        { "term": "PMF 概率质量函数", "definition": "离散变量逐点取值概率" },
+        { "term": "CDF 累积分布函数", "definition": "P(X≤x),对一切随机变量定义" },
+        { "term": "hypergeometric 超几何分布", "definition": "不放回抽样的成功计数分布" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "Lecture 9 · 期望、指示变量与线性性:期望是按概率加权的平均;线性性 E(X+Y)=E(X)+E(Y) 无条件成立——不需要独立!配合指示变量(把计数拆成一堆 0/1 相加),很多看似不可算的期望瞬间变平凡:匹配问题的期望原位数、二项期望 np 一行推出。几何分布及其期望也在本讲。",
+      "keyPoints": [
+        { "title": "期望的定义", "detail": "E(X) = Σ x·P(X=x):概率加权的重心;它是常数不是随机数。", "formula": "E(X) = \\sum_x x\\,P(X = x)" },
+        { "title": "线性性:不要求独立", "detail": "E(X+Y) = E(X)+E(Y) 对任何相关性都成立——本课最好用的定理,没有之一。", "formula": "E(X + Y) = E(X) + E(Y)" },
+        { "title": "指示变量法", "detail": "把「有几个…」写成指示变量之和,期望逐个算:E(I_A) = P(A);匹配问题期望 = n·(1/n) = 1,不用容斥。", "formula": "E(I_A) = P(A)" },
+        { "title": "几何分布", "detail": "首次成功前的失败次数,PMF 是 q^k p;期望 q/p,用「首步条件化」或级数都能推。", "formula": "E(X) = \\frac{q}{p}" }
+      ],
+      "terms": [
+        { "term": "expectation 期望", "definition": "按概率加权的平均值" },
+        { "term": "linearity 线性性", "definition": "和的期望等于期望的和,与独立无关" },
+        { "term": "indicator variable 指示变量", "definition": "事件发生取 1 否则 0,期望即概率" },
+        { "term": "geometric distribution 几何分布", "definition": "首次成功前失败次数的分布" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "Lecture 10 · 期望续:负二项分布(第 r 次成功前的失败数)用「r 段几何拼接」的故事一步得期望;St. Petersburg 悖论——期望无穷大的赌局你愿意花多少钱入场?揭示期望不是决策的全部;再证明「对称性 + 线性性」组合技(首次成功位置的期望等)。",
+      "keyPoints": [
+        { "title": "负二项 = 几何的和", "detail": "等第 r 次成功,路上的失败数是 r 个独立几何变量之和,期望 rq/p——故事解构完胜级数硬算。", "formula": "E(X) = \\frac{rq}{p}" },
+        { "title": "St. Petersburg 悖论", "detail": "翻倍赌局期望发散,但没人愿意出高价——期望作为「公平价格」的失效现场,引出效用与风险的讨论。", "formula": "E = \\sum_{k=1}^{\\infty} 2^k \\cdot 2^{-k} = \\infty" },
+        { "title": "期望存在性", "detail": "级数绝对收敛期望才存在;Cauchy 那样的重尾分布连期望都没有(第 21 讲见)。" },
+        { "title": "对称性论证", "detail": "交换对称的变量必同期望——很多「凭什么是均匀的」问题靠对称性一句话终结。" }
+      ],
+      "terms": [
+        { "term": "negative binomial 负二项分布", "definition": "第 r 次成功前失败数的分布" },
+        { "term": "St. Petersburg paradox 圣彼得堡悖论", "definition": "期望无穷但直觉价值有限的赌局" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "Lecture 11 · 泊松分布:稀有事件的分布之王。PMF e^{-λ}λ^k/k!,期望与方差都是 λ;泊松范式(Poisson paradigm):大量独立(或弱相关)小概率事件的计数近似泊松——雨点、错别字、原始人生日碰撞都是它;二项分布在 n 大 p 小时收敛到泊松的证明。",
+      "keyPoints": [
+        { "title": "泊松 PMF", "detail": "P(X=k)=e^{-λ}λ^k/k!;λ 既是期望又是方差——「率」的分布。", "formula": "P(X=k) = e^{-\\lambda}\\frac{\\lambda^k}{k!}" },
+        { "title": "泊松范式", "detail": "n 个小概率事件的总发生数 ≈ Poisson(Σpᵢ),事件间弱相关也行——现实里比二项假设更常成立。" },
+        { "title": "二项 → 泊松极限", "detail": "n→∞、p→0、np→λ 时 Bin(n,p)→Pois(λ):把 PMF 取极限,(1-p)ⁿ→e^{-λ}。", "formula": "\\lim_{n\\to\\infty} \\binom{n}{k} p^k (1-p)^{n-k} = e^{-\\lambda}\\frac{\\lambda^k}{k!}" },
+        { "title": "应用直觉", "detail": "单位时间接到的电话数、一页书的错字数——「很多机会、每次都难得发生」就想泊松。" }
+      ],
+      "terms": [
+        { "term": "Poisson distribution 泊松分布", "definition": "稀有事件计数的分布,参数 λ 兼任期望与方差" },
+        { "term": "Poisson paradigm 泊松范式", "definition": "大量弱相关小概率事件计数的泊松近似" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "Lecture 12 · 离散 vs 连续与均匀分布:进入连续世界。PDF 替代 PMF——单点概率为零,概率是密度下的面积;CDF 求导得 PDF。Uniform(0,1) 是「概率本身的分布」:普适性(universality)说任何分布都能由均匀变量经反 CDF 生成——模拟与采样的理论根基。",
+      "keyPoints": [
+        { "title": "PDF:密度不是概率", "detail": "P(a≤X≤b)=∫f(x)dx;f(x) 可以大于 1,单点概率恒为 0——连续世界的第一课。", "formula": "P(a \\le X \\le b) = \\int_a^b f(x)\\,dx" },
+        { "title": "CDF 与 PDF 互通", "detail": "F' = f,f 积分回 F;离散连续统一在 CDF 语言下。" },
+        { "title": "均匀分布", "detail": "Unif(a,b) 密度恒定;「概率与长度成正比」是它的全部人格。" },
+        { "title": "普适性(Universality)", "detail": "U~Unif(0,1) 则 F⁻¹(U) 服从 F;反过来 F(X)~Unif(0,1)——一句话解释了为什么计算机能从均匀随机数造出任何分布。", "formula": "X = F^{-1}(U) \\sim F" }
+      ],
+      "terms": [
+        { "term": "PDF 概率密度函数", "definition": "连续变量的密度,积分才是概率" },
+        { "term": "uniform distribution 均匀分布", "definition": "区间上密度恒定的分布" },
+        { "term": "universality of Uniform 均匀分布普适性", "definition": "反 CDF 作用在均匀变量上可生成任意分布" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "Lecture 13 · 正态分布:以标准正态起手——密度 e^{-z²/2}/√(2π),用极坐标二重积分证明归一化常数;对称性给出均值 0,分部积分得方差 1;一般正态是标准正态的位移伸缩 μ+σZ;68-95-99.7 规则。它为何无处不在,答案在第 29 讲的中心极限定理。",
+      "keyPoints": [
+        { "title": "标准正态密度与归一化", "detail": "∫e^{-z²/2}dz 无初等原函数,平方后换极坐标算出 √(2π)——本课最著名的一次「神来之笔」。", "formula": "\\varphi(z) = \\frac{1}{\\sqrt{2\\pi}} e^{-z^2/2}" },
+        { "title": "均值与方差", "detail": "奇函数积分为零得 E(Z)=0;分部积分得 Var(Z)=1;对称性是计算的第一生产力。" },
+        { "title": "位移伸缩", "detail": "X = μ + σZ ~ N(μ,σ²);标准化 (X-μ)/σ 把一切正态问题化归标准表。", "formula": "Z = \\frac{X - \\mu}{\\sigma}" },
+        { "title": "68-95-99.7", "detail": "±1σ/2σ/3σ 覆盖约 68%/95%/99.7%——正态直觉的速查口诀。" }
+      ],
+      "terms": [
+        { "term": "normal distribution 正态分布", "definition": "钟形密度 N(μ,σ²),统计学的中心角色" },
+        { "term": "standardization 标准化", "definition": "减均值除标准差,化为标准正态" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "Lecture 14 · 位置、尺度与 LOTUS:方差的定义与性质(Var(cX)=c²Var(X)、独立时可加);LOTUS——求 E g(X) 不必先求 g(X) 的分布,直接 Σg(x)P(X=x) 或 ∫g(x)f(x)dx;用 LOTUS 补齐泊松与二项的方差。",
+      "keyPoints": [
+        { "title": "方差与标准差", "detail": "Var(X)=E(X-EX)²=E(X²)-(EX)²;标准差回到原量纲——「波动」的标准度量。", "formula": "\\mathrm{Var}(X) = E(X^2) - (E X)^2" },
+        { "title": "方差的性质", "detail": "Var(cX)=c²Var(X)、Var(X+c)=Var(X);独立时 Var(X+Y)=Var(X)+Var(Y)(相关时要加协方差,第 21 讲)。" },
+        { "title": "LOTUS", "detail": "「无意识统计学家定律」:E g(X) 直接对 g 加权求和/积分——不用求 g(X) 的分布,这就是它「无意识」的原因。", "formula": "E[g(X)] = \\int g(x) f(x)\\,dx" },
+        { "title": "泊松/二项方差", "detail": "用 LOTUS 算 E(X²)(取巧:先算 E[X(X-1)]),得泊松方差 λ、二项方差 npq。" }
+      ],
+      "terms": [
+        { "term": "variance 方差", "definition": "偏离均值平方的期望,波动的度量" },
+        { "term": "LOTUS", "definition": "E g(X) 直接按 X 的分布加权 g(x)" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "Lecture 15 · 期中复习:把前半程串成一张网——计数是等可能世界的算术,条件化是核心思维,随机变量与分布是语言,期望线性性与指示变量是最锋利的刀。通过练习题演示「先认分布故事再套公式」的解题路径,以及常见陷阱(把密度当概率、独立与不相关混淆、无条件用朴素概率)。",
+      "keyPoints": [
+        { "title": "认故事定分布", "detail": "看到问题先问:这是哪个分布的故事?(计次成功=二项/负二项,稀有计数=泊松,不放回=超几何)——认对故事,公式自动到位。" },
+        { "title": "条件化解题三板斧", "detail": "LOTP 分情况、贝叶斯翻方向、首步分析建递推——三招覆盖绝大多数「求概率」题。" },
+        { "title": "期望的两条路", "detail": "定义硬算 vs 指示变量+线性性;考试里后者几乎总是更快。" },
+        { "title": "高频陷阱盘点", "detail": "朴素概率要等可能;P(A|B) ≠ P(B|A);连续单点概率为 0;方差不满足线性。" }
+      ],
+      "terms": []
+    },
+    {
+      "n": 17,
+      "summary": "Lecture 16 · 指数分布:连续世界的等待时间。密度 λe^{-λx},期望 1/λ;招牌性质是无记忆性——已等 s 分钟不改变还要等的分布,指数是唯一有此性质的连续分布(几何是离散版);由此既是福也是坑:公交何时来与你等了多久无关。",
+      "keyPoints": [
+        { "title": "指数密度与期望", "detail": "f(x)=λe^{-λx} (x>0);期望 1/λ、方差 1/λ²;λ 是「率」,期望是「平均等待」。", "formula": "f(x) = \\lambda e^{-\\lambda x}" },
+        { "title": "无记忆性", "detail": "P(X>s+t | X>s) = P(X>t):过去的等待不算数——刻画「纯随机到达」的唯一连续分布。", "formula": "P(X > s+t \\mid X > s) = P(X > t)" },
+        { "title": "唯一性定理", "detail": "连续且无记忆 ⇒ 必为指数(解函数方程 G(s+t)=G(s)G(t));性质刻画分布,而非公式碰巧。" },
+        { "title": "与几何的对偶", "detail": "几何是离散无记忆,指数是连续无记忆;指数取整近似几何——两个家族一体两面。" }
+      ],
+      "terms": [
+        { "term": "exponential distribution 指数分布", "definition": "率为 λ 的连续等待时间分布" },
+        { "term": "memorylessness 无记忆性", "definition": "剩余等待与已等时间无关" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "Lecture 17 · 矩母函数(MGF):M(t)=E e^{tX} 把分布的全部矩打包进一个函数——泰勒展开的系数就是各阶矩。三大用途:算矩(求导取 0)、定分布(MGF 相同则同分布)、算独立和(MGF 相乘)。拉普拉斯生前问题与经典分布的 MGF 计算。",
+      "keyPoints": [
+        { "title": "MGF 定义与矩", "detail": "M(t)=E e^{tX} 在 0 附近存在时,M⁽ⁿ⁾(0)=E Xⁿ——「生成」矩的机器。", "formula": "M(t) = E\\,e^{tX}, \\quad M^{(n)}(0) = E X^n" },
+        { "title": "确定分布", "detail": "MGF 在 0 的邻域相等 ⇒ 分布相同——比逐阶对矩强得多的「指纹」。" },
+        { "title": "独立和的 MGF", "detail": "X ⊥ Y 时 M_{X+Y}=M_X·M_Y:卷积变乘法——下一讲用它秒证「正态+正态=正态」等结论。", "formula": "M_{X+Y}(t) = M_X(t)\\,M_Y(t)" },
+        { "title": "常用 MGF", "detail": "指数:λ/(λ-t);标准正态:e^{t²/2};泊松:e^{λ(e^t-1)}——背这三个,后面证明全是代数。" }
+      ],
+      "terms": [
+        { "term": "MGF 矩母函数", "definition": "E e^{tX},泰勒系数编码全部矩" },
+        { "term": "moment 矩", "definition": "E Xⁿ,分布形状的数值特征" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "Lecture 18 · MGF 续:实战演示——用 MGF 求指数分布全部矩(几何级数展开)、标准正态的偶数阶矩(2n)!/(2ⁿn!);证明泊松独立和仍是泊松、正态独立和仍是正态。顺带引出联合分布的预告:多维世界要来了。",
+      "keyPoints": [
+        { "title": "指数分布的全部矩", "detail": "M(t)=1/(1-t)(λ=1)展开成几何级数,读出 E Xⁿ = n!——一次展开,矩全到手。", "formula": "E X^n = \\frac{n!}{\\lambda^n}" },
+        { "title": "正态的矩", "detail": "e^{t²/2} 展开得奇数阶全零、偶数阶 (2n)!/(2ⁿn!)——对称性 + MGF 双保险。" },
+        { "title": "泊松可加性", "detail": "Pois(λ)+Pois(μ)=Pois(λ+μ)(独立):MGF 相乘立得;故事版:两条独立到达流合并。" },
+        { "title": "正态可加性", "detail": "独立正态之和仍正态,均值方差各自相加——统计推断里反复使用的地基。" }
+      ],
+      "terms": [
+        { "term": "convolution 卷积", "definition": "独立和的分布运算,MGF 下变为乘法" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "Lecture 19 · 联合、条件与边缘分布:多个随机变量同台。联合 PMF/PDF 给全景,边缘是对其他变量求和/积分,条件分布是固定一个看另一个;独立 ⇔ 联合等于边缘乘积;二维均匀(面积比)与「先条件再积分」的二维 LOTP 练习。",
+      "keyPoints": [
+        { "title": "联合/边缘/条件三件套", "detail": "联合含全部信息;边缘 = 对另一变量积分;条件 = 联合除以边缘——三者互相换算是多维概率的日常。", "formula": "f_{X}(x) = \\int f_{X,Y}(x,y)\\,dy" },
+        { "title": "独立的判据", "detail": "f(x,y)=f_X(x)f_Y(y) 对一切 x,y(且支撑集是矩形)——支撑集不矩形直接判死,不用算。" },
+        { "title": "条件密度", "detail": "f_{Y|X}(y|x) = f(x,y)/f_X(x):固定 x 的切片再归一——贝叶斯在密度世界的形态。", "formula": "f_{Y\\mid X}(y\\mid x) = \\frac{f_{X,Y}(x,y)}{f_X(x)}" },
+        { "title": "二维均匀", "detail": "区域上均匀分布,概率 = 面积比;圆内均匀的边缘并不均匀——直觉修正的好例子。" }
+      ],
+      "terms": [
+        { "term": "joint distribution 联合分布", "definition": "多个变量同时的分布,含全部依赖信息" },
+        { "term": "marginal distribution 边缘分布", "definition": "对其他变量求和/积分后的单变量分布" },
+        { "term": "conditional distribution 条件分布", "definition": "固定一个变量后另一个的分布" }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "Lecture 20 · 多项分布与柯西分布:二项的多类推广——n 次试验落进 k 个类别的计数向量,边缘是二项、类别合并仍多项、条件还是多项(lumping 性质)。柯西分布——两个独立标准正态之比,重尾到期望都不存在,样本均值不收敛:大数定律并非人人有份的提醒。",
+      "keyPoints": [
+        { "title": "多项分布", "detail": "PMF 带多项系数,参数 (n, p₁…p_k);「掷 n 次 k 面骰子记各面次数」。", "formula": "P(X_1=n_1,\\dots,X_k=n_k) = \\frac{n!}{n_1!\\cdots n_k!} p_1^{n_1}\\cdots p_k^{n_k}" },
+        { "title": "Lumping 与边缘", "detail": "把类别合并,计数向量仍是多项;单看一类是 Bin(n,pⱼ)——多项是「一堆相关二项」的打包。" },
+        { "title": "类别间负相关", "detail": "总数固定,你多我就少:Cov(Xᵢ,Xⱼ) = -n pᵢpⱼ——约束制造相关的典型。" },
+        { "title": "柯西分布", "detail": "Z₁/Z₂ 的分布,密度 1/(π(1+x²));期望不存在,均值化不掉噪声——重尾世界的路标。", "formula": "f(x) = \\frac{1}{\\pi (1 + x^2)}" }
+      ],
+      "terms": [
+        { "term": "multinomial 多项分布", "definition": "n 次试验按 k 类计数的联合分布" },
+        { "term": "Cauchy distribution 柯西分布", "definition": "正态之比的重尾分布,期望不存在" }
+      ]
+    },
+    {
+      "n": 22,
+      "summary": "Lecture 21 · 协方差与相关:Cov(X,Y)=E(XY)-EX·EY 度量共同波动;双线性性把复杂协方差拆成小块;相关系数是标准化协方差,|ρ|≤1(柯西-施瓦茨);独立 ⇒ 不相关但反之不然;方差可加性的完整版本(带 2Cov 项);用它算超几何方差。",
+      "keyPoints": [
+        { "title": "协方差定义", "detail": "Cov(X,Y)=E[(X-EX)(Y-EY)]=E(XY)-EX EY;正=同涨同落,负=此消彼长。", "formula": "\\mathrm{Cov}(X,Y) = E(XY) - E(X)E(Y)" },
+        { "title": "双线性性", "detail": "对每个坐标线性:Cov(ΣaᵢXᵢ, ΣbⱼYⱼ) 展开成网格求和——协方差计算的万能起手。" },
+        { "title": "完整方差公式", "detail": "Var(X+Y)=Var X+Var Y+2Cov(X,Y);指示变量+这条公式 = 各种「计数方差」的标准解法(如超几何)。", "formula": "\\mathrm{Var}(X+Y) = \\mathrm{Var}(X) + \\mathrm{Var}(Y) + 2\\,\\mathrm{Cov}(X,Y)" },
+        { "title": "相关系数", "detail": "ρ = Cov/(σ_X σ_Y) ∈ [-1,1];量纲无关;ρ=0 只排除线性关系——U 形依赖照样零相关。", "formula": "\\rho = \\frac{\\mathrm{Cov}(X,Y)}{\\sigma_X \\sigma_Y}" }
+      ],
+      "terms": [
+        { "term": "covariance 协方差", "definition": "两变量共同波动的度量" },
+        { "term": "correlation 相关系数", "definition": "标准化协方差,取值 [-1,1]" },
+        { "term": "uncorrelated 不相关", "definition": "协方差为零;弱于独立" }
+      ]
+    },
+    {
+      "n": 23,
+      "summary": "Lecture 22 · 变换与卷积:求 g(X) 的分布——一维用换元公式(带雅可比的绝对值),多维用雅可比行列式;独立和的分布 = 卷积积分;对数正态、Box-Muller 等例子演示「从已知造新分布」的标准手艺。",
+      "keyPoints": [
+        { "title": "一维变换公式", "detail": "Y=g(X) 严格单调时 f_Y(y) = f_X(x)|dx/dy|——密度要乘「拉伸率」,忘了绝对值是全班统一错误。", "formula": "f_Y(y) = f_X\\big(g^{-1}(y)\\big) \\left|\\frac{dx}{dy}\\right|" },
+        { "title": "多维雅可比", "detail": "向量变换的密度乘雅可比行列式的绝对值;极坐标变换是最常用的一例。" },
+        { "title": "卷积公式", "detail": "独立 X+Y 的密度 = ∫f_X(x)f_Y(t-x)dx;算不动时换 MGF 是常规逃生通道。", "formula": "f_{X+Y}(t) = \\int f_X(x)\\,f_Y(t-x)\\,dx" },
+        { "title": "对数正态与造分布", "detail": "e^Z(Z 正态)得对数正态——「先变换后命名」;许多常用分布都是老分布的函数。" }
+      ],
+      "terms": [
+        { "term": "change of variables 换元/变换", "definition": "由 X 的密度求 g(X) 密度的方法" },
+        { "term": "Jacobian 雅可比行列式", "definition": "多维变换的体积缩放因子" }
+      ]
+    },
+    {
+      "n": 24,
+      "summary": "Lecture 23 · Beta 分布:定义在 (0,1) 上的「概率的概率」分布,密度 ∝ x^{a-1}(1-x)^{b-1};与二项共轭——先验 Beta、看到二项数据后后验仍是 Beta(拉普拉斯连续律/明日日出问题);Bayes 台球的故事证明归一化常数,归一化常数里藏着 Beta 函数。",
+      "keyPoints": [
+        { "title": "Beta 密度", "detail": "支持在 (0,1),形状由 (a,b) 调:均匀、U 形、钟形都出得来——建模「未知概率」的首选。", "formula": "f(x) \\propto x^{a-1}(1-x)^{b-1}" },
+        { "title": "共轭先验", "detail": "Beta 先验 + 二项似然 → Beta 后验(参数加上成功/失败数):贝叶斯更新闭式进行,这就是「共轭」的含义。", "formula": "\\mathrm{Beta}(a,b) \\to \\mathrm{Beta}(a + k,\\; b + n - k)" },
+        { "title": "Bayes 台球", "detail": "对「n+1 个均匀点谁排第几」讲故事,证明 ∫x^k(1-x)^{n-k}dx 的值——不做积分做计数。" },
+        { "title": "连续律", "detail": "见过 n 天日出后明天日出的后验概率 (n+1)/(n+2)——拉普拉斯的著名(也著名有争议的)推断。" }
+      ],
+      "terms": [
+        { "term": "Beta distribution Beta 分布", "definition": "(0,1) 上的两参数分布,「概率的分布」" },
+        { "term": "conjugate prior 共轭先验", "definition": "后验与先验同族的先验选择" }
+      ]
+    },
+    {
+      "n": 25,
+      "summary": "Lecture 24 · Gamma 分布与泊松过程:Gamma 函数把阶乘延拓到实数;Gamma(n,λ) 是 n 个独立指数的和——第 n 次到达的等待时间。泊松过程把「计数」与「等待」缝合:到达数是泊松、间隔是指数、第 n 次到达是 Gamma,count-time 对偶(N≥n ⇔ T_n≤t)让两边互相换算。",
+      "keyPoints": [
+        { "title": "Gamma 函数", "detail": "Γ(a)=∫x^{a-1}e^{-x}dx,Γ(n)=(n-1)!;正态归一化、Beta 常数都绕不开它。", "formula": "\\Gamma(a) = \\int_0^\\infty x^{a-1} e^{-x}\\,dx" },
+        { "title": "Gamma = 指数之和", "detail": "n 个独立 Expo(λ) 相加 ~ Gamma(n,λ):等第 n 辆公交的总时间;MGF 乘 n 次立证。" },
+        { "title": "泊松过程", "detail": "率 λ 的随机到达流:任意时段计数 ~ Pois(λt),间隔独立 ~ Expo(λ)——连续时间随机事件的标准模型。" },
+        { "title": "count-time 对偶", "detail": "「t 前至少 n 次到达」=「第 n 次到达不晚于 t」:泊松尾概率与 Gamma CDF 互为表里。", "formula": "P(N_t \\ge n) = P(T_n \\le t)" }
+      ],
+      "terms": [
+        { "term": "Gamma distribution Gamma 分布", "definition": "n 个指数之和;第 n 次到达的等待时间" },
+        { "term": "Poisson process 泊松过程", "definition": "率 λ 的独立随机到达流" }
+      ]
+    },
+    {
+      "n": 26,
+      "summary": "Lecture 25 · 顺序统计量与条件期望入门:n 个独立均匀变量排序后第 j 小的分布是 Beta(j, n-j+1)——「谁排第几」用故事直接得密度;条件期望第一课:E(Y|A) 按条件分布加权,两个信封悖论预演条件化的微妙。",
+      "keyPoints": [
+        { "title": "顺序统计量", "detail": "把样本从小到大排,U₍ⱼ₎ ~ Beta(j, n-j+1);密度证明:第 j 小落在 x 附近 ⇔ j-1 个在左、n-j 个在右。", "formula": "U_{(j)} \\sim \\mathrm{Beta}(j,\\; n-j+1)" },
+        { "title": "最大最小的 CDF 技巧", "detail": "P(max≤x) = 各自≤x 的乘积;P(min>x) 同理——顺序统计量入门先抓两端。" },
+        { "title": "条件期望(给定事件)", "detail": "E(Y|A):在 A 的世界里重新加权平均;LOTP 的期望版把全局期望拆成分支平均。", "formula": "E(Y) = E(Y\\mid A)P(A) + E(Y\\mid A^c)P(A^c)" },
+        { "title": "两信封悖论", "detail": "「换信封期望更高」的推理错在无差别地条件化——直觉崩塌处正是条件期望规则登场时。" }
+      ],
+      "terms": [
+        { "term": "order statistics 顺序统计量", "definition": "样本排序后的第 j 小值" },
+        { "term": "conditional expectation 条件期望", "definition": "在给定信息下的加权平均" }
+      ]
+    },
+    {
+      "n": 27,
+      "summary": "Lecture 26 · 条件期望续:两信封悖论的完整拆解;首步条件化算期望的大型演练——分支样本空间、模式等待时间(等 HT vs 等 HH 平均要多久,答案居然不同);Gambler 类问题的期望版;「先条件化,再线性性」的组合拳定型。",
+      "keyPoints": [
+        { "title": "等待模式的期望", "detail": "抛硬币等 HT 平均 4 次、等 HH 平均 6 次——HH 失败后要从头再来,HT 失败还能续上;条件化把差异算得明明白白。" },
+        { "title": "首步分析(期望版)", "detail": "E = (第一步结果的分支期望的加权和):建立关于 E 的方程再解——递归结构的期望都这么打。" },
+        { "title": "分支图思维", "detail": "画树、标概率、标「剩余期望」,机械化地写方程——比灵光一现可靠。" },
+        { "title": "两信封的正解", "detail": "对金额条件化后「换与不换」对称抵消;悖论源自把「未知但固定」当成「均匀随机」。" }
+      ],
+      "terms": [
+        { "term": "waiting time 等待时间", "definition": "首次出现目标模式所需的试验次数" }
+      ]
+    },
+    {
+      "n": 28,
+      "summary": "Lecture 27 · 给定随机变量的条件期望:E(Y|X) 不再是数而是 X 的函数(随机变量!);两大基石:接管性质(已知 X 时 X 的函数可当常数提出)与 Adam 定律(迭代期望) E(E(Y|X))=E(Y);投影直觉:E(Y|X) 是用 X 预测 Y 的最佳猜测。",
+      "keyPoints": [
+        { "title": "E(Y|X) 是随机变量", "detail": "先定义 g(x)=E(Y|X=x),再令 E(Y|X)=g(X)——「知道 X 后对 Y 的最佳估计」本身随 X 波动。" },
+        { "title": "Adam 定律(塔性质)", "detail": "E[E(Y|X)] = E(Y):分组平均的平均等于总平均——期望计算的第一杠杆。", "formula": "E\\big[E(Y\\mid X)\\big] = E(Y)" },
+        { "title": "接管性质", "detail": "E(h(X)Y | X) = h(X)E(Y|X):在 X 已知的世界里,X 的函数就是常数。", "formula": "E\\big(h(X)\\,Y \\mid X\\big) = h(X)\\,E(Y \\mid X)" },
+        { "title": "最佳预测/投影", "detail": "在均方误差意义下,E(Y|X) 是所有「X 的函数」里最接近 Y 的——回归的概率论原型。" }
+      ],
+      "terms": [
+        { "term": "E(Y|X) 条件期望(给定变量)", "definition": "X 的函数,知道 X 后对 Y 的最佳估计" },
+        { "term": "Adam's law 迭代期望定律", "definition": "E[E(Y|X)]=E(Y)" }
+      ]
+    },
+    {
+      "n": 29,
+      "summary": "Lecture 28 · 不等式:没有精确分布也能说话。马尔可夫(非负变量的尾概率被均值控制)、切比雪夫(偏离均值 k 个标准差的概率 ≤ 1/k²)、詹森(凸函数与期望交换的方向)、柯西-施瓦茨——四把尺子,是下一讲大数定律的直接工具。",
+      "keyPoints": [
+        { "title": "马尔可夫不等式", "detail": "X≥0 时 P(X≥a) ≤ EX/a:只用均值就给尾概率上界——粗但普适。", "formula": "P(X \\ge a) \\le \\frac{E X}{a}" },
+        { "title": "切比雪夫不等式", "detail": "P(|X-μ|≥kσ) ≤ 1/k²:对马尔可夫用在 (X-μ)² 上即得;任何分布都被方差拴住尾巴。", "formula": "P(|X - \\mu| \\ge k\\sigma) \\le \\frac{1}{k^2}" },
+        { "title": "詹森不等式", "detail": "g 凸则 E g(X) ≥ g(EX)(凹反向):E(X²)≥(EX)²、E log X ≤ log EX 全是它——「期望穿过曲线会亏」。", "formula": "E\\,g(X) \\ge g(E X) \\;\\; (g \\text{ 凸})" },
+        { "title": "柯西-施瓦茨", "detail": "|E(XY)| ≤ √(EX² · EY²);相关系数 |ρ|≤1 的来源。", "formula": "|E(XY)| \\le \\sqrt{E X^2\\, E Y^2}" }
+      ],
+      "terms": [
+        { "term": "Markov inequality 马尔可夫不等式", "definition": "非负变量尾概率的均值上界" },
+        { "term": "Chebyshev inequality 切比雪夫不等式", "definition": "偏离均值的概率被方差控制" },
+        { "term": "Jensen inequality 詹森不等式", "definition": "凸函数与期望的交换方向" }
+      ]
+    },
+    {
+      "n": 30,
+      "summary": "Lecture 29 · 大数定律与中心极限定理:双子星登顶。LLN——样本均值收敛到真均值(弱版用切比雪夫两行证完),说的是「均值稳定」;CLT——均值围绕真值的涨落经 √n 放大后趋于正态,说的是「波动形状」。两者不矛盾:一个看位置,一个看放大镜下的形状;二项的正态近似与连续性校正收尾。",
+      "keyPoints": [
+        { "title": "大数定律", "detail": "iid 样本均值 X̄ₙ → μ(依概率/几乎必然);赌场、保险、蒙特卡洛全部立在这行字上。", "formula": "\\bar{X}_n \\to \\mu" },
+        { "title": "弱 LLN 的两行证明", "detail": "Var(X̄ₙ)=σ²/n → 0,套切比雪夫即得——上一讲的不等式立刻回本。" },
+        { "title": "中心极限定理", "detail": "√n(X̄ₙ-μ)/σ → N(0,1):不管原分布长啥样,加起来就往正态走——正态无处不在的原因。", "formula": "\\sqrt{n}\\,\\frac{\\bar{X}_n - \\mu}{\\sigma} \\;\\to\\; N(0,1)" },
+        { "title": "MGF 证明思路", "detail": "标准化和的 MGF 逐项泰勒展开,极限是 e^{t²/2}——MGF 那两讲埋的伏笔在此收割。" },
+        { "title": "二项正态近似", "detail": "np、nq 都大时 Bin≈N(np,npq);离散近似连续记得 ±0.5 连续性校正。" }
+      ],
+      "terms": [
+        { "term": "law of large numbers 大数定律", "definition": "样本均值收敛于总体均值" },
+        { "term": "central limit theorem 中心极限定理", "definition": "标准化的和趋于正态分布" }
+      ]
+    },
+    {
+      "n": 31,
+      "summary": "Lecture 30 · 卡方、t 分布与多元正态:统计推断的三件套。卡方(n) = n 个标准正态平方和;t = 正态 / √(卡方/n),重尾、自由度大时趋近正态;多元正态定义为「任意线性组合都是正态」,其内部「不相关 ⇒ 独立」——正态世界的特权。",
+      "keyPoints": [
+        { "title": "卡方分布", "detail": "χ²(n)=ΣZᵢ²,即 Gamma(n/2,1/2);样本方差的分布、拟合优度检验都出自它。", "formula": "\\chi^2_n = \\sum_{i=1}^n Z_i^2" },
+        { "title": "Student t 分布", "detail": "Z/√(χ²ₙ/n):小样本下用样本方差替代真方差的代价是更重的尾;n→∞ 回到正态。", "formula": "T = \\frac{Z}{\\sqrt{\\chi^2_n / n}}" },
+        { "title": "多元正态的定义", "detail": "每个线性组合 t'X 都是一维正态——比「每个分量正态」强得多(反例存在)。" },
+        { "title": "不相关即独立(仅限 MVN)", "detail": "多元正态内部,协方差为零 ⇒ 独立——在别处严禁使用的推理,这里合法。" }
+      ],
+      "terms": [
+        { "term": "chi-square 卡方分布", "definition": "标准正态平方和的分布" },
+        { "term": "Student-t t 分布", "definition": "小样本推断的重尾分布" },
+        { "term": "multivariate normal 多元正态", "definition": "一切线性组合皆正态的向量分布" }
+      ]
+    },
+    {
+      "n": 32,
+      "summary": "Lecture 31 · 马尔可夫链:随机过程首站。「未来只依赖现在,不依赖过去」的马尔可夫性;转移矩阵一步转移,n 步转移就是矩阵幂;状态分类(常返/瞬过、周期);平稳分布 sπ = πQ 的引入——链跑久了去哪儿。",
+      "keyPoints": [
+        { "title": "马尔可夫性", "detail": "P(下一步|全部历史) = P(下一步|当前状态):把「历史包袱」压缩进状态里——建模的艺术在于选状态。", "formula": "P(X_{n+1}=j \\mid X_n=i, \\dots) = P(X_{n+1}=j \\mid X_n=i)" },
+        { "title": "转移矩阵", "detail": "Q 的 (i,j) 元是 i→j 的概率,行和为 1;n 步转移概率就是 Qⁿ 的元素——线性代数接管概率。", "formula": "P(X_n = j \\mid X_0 = i) = (Q^n)_{ij}" },
+        { "title": "状态分类", "detail": "常返(必回来)vs 瞬过(可能一去不回);周期性;不可约(任意互达)——收敛定理的前置条件。" },
+        { "title": "平稳分布初见", "detail": "πQ = π:分布不再随时间变;它是否存在、唯一、被收敛到,是后两讲的主线。", "formula": "\\pi Q = \\pi" }
+      ],
+      "terms": [
+        { "term": "Markov chain 马尔可夫链", "definition": "未来只依赖当前状态的随机过程" },
+        { "term": "transition matrix 转移矩阵", "definition": "一步转移概率组成的行随机矩阵" },
+        { "term": "stationary distribution 平稳分布", "definition": "πQ=π 的不变分布" }
+      ]
+    },
+    {
+      "n": 33,
+      "summary": "Lecture 32 · 马尔可夫链续:平稳分布的存在唯一性(不可约有限链必有唯一 π,非周期时收敛到它);π 的另一层含义——1/πᵢ 是状态 i 的平均回访时间;可逆链与细致平衡:πᵢqᵢⱼ=πⱼqⱼᵢ 满足则 π 立得,随机游走在图上的平稳分布正比于度数。",
+      "keyPoints": [
+        { "title": "存在唯一与收敛", "detail": "不可约 ⇒ 平稳分布唯一;再加非周期 ⇒ 从任何初始分布收敛到 π——「跑久了都一样」的严格版。" },
+        { "title": "回访时间解释", "detail": "πᵢ = 1/E(回到 i 的时间):停留频率与回访周期互为倒数——平稳分布的物理感。", "formula": "\\pi_i = \\frac{1}{E(\\text{return time to } i)}" },
+        { "title": "细致平衡与可逆链", "detail": "πᵢqᵢⱼ = πⱼqⱼᵢ 逐对平衡 ⇒ π 平稳;验证细致平衡通常比解 πQ=π 容易得多。", "formula": "\\pi_i q_{ij} = \\pi_j q_{ji}" },
+        { "title": "图上随机游走", "detail": "无向图随机游走可逆,π ∝ 度数——连接越多的点被访问越勤;PageRank 的直系祖先。" }
+      ],
+      "terms": [
+        { "term": "reversible chain 可逆链", "definition": "满足细致平衡的马尔可夫链" },
+        { "term": "detailed balance 细致平衡", "definition": "逐对状态的概率流平衡条件" },
+        { "term": "random walk 随机游走", "definition": "图上按邻居均匀转移的马尔可夫链" }
+      ]
+    },
+    {
+      "n": 34,
+      "summary": "Lecture 33 · 马尔可夫链再续:综合演练与 MCMC 一瞥。用细致平衡速解经典链(生灭链、Ehrenfest 扩散模型的二项平稳分布);吸收链的吸收概率与期望吸收时间(赌徒破产的矩阵版);Metropolis 思想预告——想从复杂分布采样,就造一条以它为平稳分布的链。",
+      "keyPoints": [
+        { "title": "生灭链", "detail": "只在相邻状态间移动的链天然可逆,平稳分布沿链逐段乘出——排队论模型的骨架。" },
+        { "title": "Ehrenfest 模型", "detail": "两箱子换球,平稳分布是 Binomial(n,1/2)——热力学「不可逆」表象下的可逆链,回到全空箱并非不可能只是天文难得。" },
+        { "title": "吸收链", "detail": "有吸收态的链问「被哪个吸收、平均多久」:对首步条件化列方程组——赌徒破产的一般化。" },
+        { "title": "MCMC 思想", "detail": "反过来用平稳分布:目标分布难采样?构造细致平衡满足它的转移核,跑链即采样——现代贝叶斯计算的发动机。" }
+      ],
+      "terms": [
+        { "term": "birth-death chain 生灭链", "definition": "只在相邻状态间转移的可逆链" },
+        { "term": "absorbing state 吸收态", "definition": "进去就不再离开的状态" },
+        { "term": "MCMC", "definition": "构造马尔可夫链从复杂分布采样的方法族" }
+      ]
+    },
+    {
+      "n": 35,
+      "summary": "Lecture 34 · 展望:课程收官。回望全课的三根支柱——条件化思维、故事与分布家族、线性性与不等式工具箱;向前看统计推断(Stat 111)、随机过程(Stat 171)与贝叶斯方法的去处;Blitzstein 的告别忠告:概率是长期思维的训练,直觉要靠反复校准,而条件化永远是那把万能钥匙。",
+      "keyPoints": [
+        { "title": "全课地图", "detail": "计数→条件化→随机变量→分布家族→多维与条件期望→极限定理→马尔可夫链:每一环都建立在前一环的语言上。" },
+        { "title": "分布家族谱系", "detail": "伯努利长成二项/几何,泊松连着指数/Gamma,均匀生出一切(普适性),正态由 CLT 加冕——记谱系不记孤立公式。" },
+        { "title": "下一步去哪", "detail": "推断(从数据反推参数)、随机过程(时间中的随机性)、贝叶斯计算(MCMC)——本课的语言在哪都通用。" },
+        { "title": "长期思维", "detail": "概率训练的是「在不确定中下注」的纪律:期望、方差、尾部,分开问、分开管。" }
+      ],
+      "terms": []
+    }
+  ]
+}
