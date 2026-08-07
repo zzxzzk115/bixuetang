@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Copy, Download, Loader2, Share2, X } from "lucide-react";
+import {
+  ClipboardCopy,
+  Copy,
+  Download,
+  Loader2,
+  Share2,
+  X,
+} from "lucide-react";
 import { drawShareCard } from "@/lib/share-card";
 
 // 分享弹层:选「分享本站」或「分享原站(bilibili)」,生成对应风格的
@@ -84,6 +91,12 @@ export function SharePopup({
     setTimeout(() => setMsg(null), 2200);
   };
 
+  // 设备形态由服务端 UA 写在 <html data-device>(iPad 由客户端矫正),
+  // 桌面主按钮是「复制图片」——聊天窗口 Ctrl+V 直接贴,比存文件顺手
+  const isDesktop =
+    typeof document !== "undefined" &&
+    document.documentElement.dataset.device !== "mobile";
+
   const download = () => {
     if (!imgUrl) return;
     const a = document.createElement("a");
@@ -91,6 +104,19 @@ export function SharePopup({
     a.download = `${courseId}-ep${episodeN}-${mode}.png`;
     a.click();
     flash("已保存,微信里发图即可分享");
+  };
+
+  const copyImage = async () => {
+    if (!blob) return;
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({ "image/png": blob }),
+      ]);
+      flash("图片已复制,聊天窗口里粘贴即可");
+    } catch {
+      // 剪贴板被策略拦住就退回下载
+      download();
+    }
   };
 
   const copyLink = async () => {
@@ -159,9 +185,24 @@ export function SharePopup({
         </div>
 
         <div className="share-pop-actions">
-          <button className="app-btn-primary" onClick={download} disabled={!imgUrl}>
-            <Download size={16} aria-hidden /> 保存图片
-          </button>
+          {isDesktop ? (
+            // 桌面:复制到剪贴板,聊天窗口 Ctrl+V 直接贴,比存文件顺手
+            <button
+              className="app-btn-primary"
+              onClick={() => void copyImage()}
+              disabled={!imgUrl}
+            >
+              <ClipboardCopy size={16} aria-hidden /> 复制图片
+            </button>
+          ) : (
+            <button
+              className="app-btn-primary"
+              onClick={download}
+              disabled={!imgUrl}
+            >
+              <Download size={16} aria-hidden /> 保存图片
+            </button>
+          )}
           <button className="app-btn-plain" onClick={copyLink}>
             <Copy size={16} aria-hidden /> 复制链接
           </button>
@@ -170,8 +211,9 @@ export function SharePopup({
           </button>
         </div>
         <p className="share-pop-note">
-          「分享」走系统面板,手机上可直接选微信/QQ(带图带链接);
-          电脑端不支持时,保存图片发送即可,图上二维码就是入口。
+          {isDesktop
+            ? "复制后到微信/QQ 聊天窗口粘贴即可;图上二维码就是入口。"
+            : "「分享」走系统面板,可直接选微信/QQ(带图带链接);也可保存图片后发送。"}
         </p>
         {msg && <p className="share-pop-msg">{msg}</p>}
       </div>

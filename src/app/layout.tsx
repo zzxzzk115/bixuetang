@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import "./globals.css";
 import { CelebrationLayer } from "@/components/celebration-layer";
 import { PwaRegister } from "@/components/pwa-register";
@@ -37,11 +38,23 @@ export const viewport: Viewport = {
 // 可以走无壳全屏布局，让 Phaser 占满视口。
 const THEME_SCRIPT = `(function(){try{var p=localStorage.getItem("guild-theme")||"auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.dataset.theme=d?"dark":"light";}catch(e){document.documentElement.dataset.theme="dark";}})();`;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // 设备形态由服务端 UA 判定后写进 data-device,前端按它切交互
+  // (桌面「复制图片」/移动「保存图片」等)——不靠分辨率猜。
+  // iPad 桌面版 UA 伪装成 Mac,由 PwaRegister 在客户端用触点数矫正。
+  const ua = (await headers()).get("user-agent") ?? "";
+  const device = /Mobi|Android|iPhone|iPad|HarmonyOS/i.test(ua)
+    ? "mobile"
+    : "desktop";
   return (
-    <html lang="zh-CN" className="h-full antialiased" suppressHydrationWarning>
+    <html
+      lang="zh-CN"
+      className="h-full antialiased"
+      data-device={device}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>

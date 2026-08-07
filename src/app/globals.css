@@ -4175,17 +4175,20 @@ math-field {
   overflow-wrap: anywhere;
 }
 
-/* 行内公式不可拆词换行，窄屏放不下时会顶破卡片。
-   让它自己在原地横向滚，而不是把整张卡撑开。 */
+/* 内联公式:保持纯 inline 跟随正文基线;字号压到 1.02em——
+   KaTeX 默认 1.21em,夹在 13px 正文里大一圈很突兀。
+   之前给所有 .katex 强加 inline-block+overflow:auto,Windows 会画出
+   带箭头的迷你滚动条(用户截图里的「箭头」),一并撤掉。 */
 .analysis-rich-text {
   overflow-wrap: anywhere;
 }
 .analysis-rich-text .katex {
-  display: inline-block;
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  vertical-align: middle;
+  font-size: 1.02em;
+}
+/* 超长公式的横滚只发生在块级公式容器上,滚动条不画箭头不占位 */
+.analysis-rich-text .analysis-display-math,
+.kmap-formula-body {
+  scrollbar-width: thin;
 }
 
 /* 需要键盘的入口（工坊）在窄屏藏起来——点进去也只能看到一句

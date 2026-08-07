@@ -4,6 +4,9 @@ WORKDIR /app
 # better-sqlite3 没有 musl 预编译包，要在这里用 node-gyp 现编，
 # 而 alpine 基础镜像不带编译链。这几个包只存在于本层，不进运行镜像。
 RUN apk add --no-cache python3 make g++
+# node-gyp 默认去 unofficial-builds.nodejs.org 下载头文件,那个源时不时
+# 挂掉会把 CI 一起带走;官方镜像本身就带头文件,指过去让构建离线可复现
+ENV npm_config_nodedir=/usr/local
 COPY package.json package-lock.json ./
 # npm ci 在 Windows 生成的 lock 上可能缺可选依赖（npm/cli#4828），与 CI 保持一致用 install
 RUN npm install --no-audit --no-fund

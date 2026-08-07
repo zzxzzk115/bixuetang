@@ -21,6 +21,10 @@ export function PwaRegister() {
       /iP(hone|ad|od)/.test(navigator.userAgent) ||
       (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
     document.documentElement.dataset.ios = iosLike ? "1" : "0";
+    // iPad 桌面版 UA 伪装成 Mac,服务端会误判 desktop——用触点数矫正
+    if (iosLike || navigator.maxTouchPoints > 1) {
+      document.documentElement.dataset.device = "mobile";
+    }
 
     if (!("serviceWorker" in navigator)) return;
     // 开发环境不注册:SW 缓存的旧 chunk 会顶掉 HMR 的新代码,
