@@ -13,6 +13,11 @@ import {
 import { getTrialBatch } from "@/lib/game/quiz-actions";
 import type { QuizQuestion } from "@/lib/game/quiz-draw";
 import type { SessionPerks } from "@/lib/game/session-perks";
+import type { DailyQuestView, MonthlyQuestView } from "@/lib/game/quests";
+import { DailyQuestBoard } from "@/components/daily-quest-board";
+import { notifyQuestsChanged } from "@/lib/quest-events";
+import { RotateCcw } from "lucide-react";
+import Link from "next/link";
 import { AppShell } from "./app-shell";
 import { PkSession } from "./pk-session";
 import { QuizSession } from "./quiz-session";
@@ -36,9 +41,16 @@ type Session =
 export function TrialHome({
   bootstrap,
   pk,
+  quests,
+  monthly,
+  dueCount,
 }: {
   bootstrap: GameBootstrap;
   pk: PkOverview;
+  /** 每日任务(从地图页搬来:任务本就偏「今天该做什么」,和试炼同属日常) */
+  quests: DailyQuestView[];
+  monthly: MonthlyQuestView;
+  dueCount: number;
 }) {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
@@ -81,6 +93,7 @@ export function TrialHome({
   const exitSession = () => {
     setSession(null);
     router.refresh(); // 刷新排位分/今日奖励/顶栏金币
+    notifyQuestsChanged(); // 可能推进「今天打一场试炼」任务
   };
 
   if (session?.kind === "trial") {
@@ -110,6 +123,28 @@ export function TrialHome({
   return (
     <AppShell bootstrap={bootstrap}>
       <div className="trial-root">
+        {/* 每日任务与今日复习:日常清单,和试炼一起构成「今天的功课」 */}
+        <section className="trial-daily">
+          <div className="trial-section-head">
+            <span className="trial-section-kicker">TODAY</span>
+            <h2>今天的功课</h2>
+            <p>看一集 · 清复习 · 打一场,三件小事攒满今日</p>
+          </div>
+          {dueCount > 0 && (
+            <Link href="/review" className="review-entry">
+              <span className="review-entry-icon" aria-hidden>
+                <RotateCcw size={18} />
+              </span>
+              <span className="review-entry-body">
+                <b>今日复习</b>
+                <small>{dueCount} 张卡片到期,清空续上记忆曲线</small>
+              </span>
+              <span className="review-entry-count">{dueCount}</span>
+            </Link>
+          )}
+          <DailyQuestBoard quests={quests} monthly={monthly} />
+        </section>
+
         <section className="trial-mode">
           <span className="trial-mode-icon endless">
             <Swords size={30} strokeWidth={2.2} />

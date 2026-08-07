@@ -1,12 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpenCheck, Check, RotateCcw, Swords } from "lucide-react";
+import {
+  BookOpenCheck,
+  CalendarCheck,
+  Check,
+  RotateCcw,
+  Swords,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { celebrate } from "@/lib/celebrate";
-import { claimDailyQuest } from "@/lib/game/quest-actions";
-import type { DailyQuestView } from "@/lib/game/quests";
+import { claimDailyQuest, claimMonthlyQuest } from "@/lib/game/quest-actions";
+import type { DailyQuestView, MonthlyQuestView } from "@/lib/game/quests";
 
 // 每日任务板(App 风格卡片,目标梯度:进度条离满越近,行动意愿越强)。
 // 三条任务对应现役玩法:看一集 / 完成复习 / 打一场试炼。
@@ -19,16 +25,43 @@ const META = {
 
 export function DailyQuestBoard({
   quests,
+  monthly,
 }: {
   quests: DailyQuestView[];
+  /** 月度任务(本月累计任务数达标)——传入才显示月度进度条 */
+  monthly?: MonthlyQuestView;
   compact?: boolean;
 }) {
   const [claimed, setClaimed] = useState(
     () => new Set(quests.filter((q) => q.claimed).map((q) => q.id)),
   );
+  const [monthlyClaimed, setMonthlyClaimed] = useState(
+    () => monthly?.claimed ?? false,
+  );
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const router = useRouter();
+
+  const claimMonthly = () => {
+    if (!monthly) return;
+    setError(null);
+    startTransition(async () => {
+      const r = await claimMonthlyQuest();
+      if (!r.ok) {
+        setError(r.error ?? "月度奖励领取失败");
+        return;
+      }
+      setMonthlyClaimed(true);
+      if (r.reward) {
+        celebrate({
+          kind: "promote",
+          title: "🏆 月度任务达成!",
+          subtitle: `+${r.reward.xp} XP · +${r.reward.coins} 金币`,
+        });
+      }
+      router.refresh();
+    });
+  };
 
   const claim = (quest: DailyQuestView) => {
     setError(null);
@@ -44,6 +77,16 @@ export function DailyQuestBoard({
         title: "任务完成",
         subtitle: `获得 +${result.gained ?? 0} XP`,
       });
+      // 领完最后一条 → 全勤奖(在任务奖励弹窗之后再来一发,更有收尾感)
+      if (result.perfectDay) {
+        setTimeout(() => {
+          celebrate({
+            kind: "promote",
+            title: "🎉 今日全勤!",
+            subtitle: `额外 +${result.perfectDay!.xp} XP · +${result.perfectDay!.coins} 金币`,
+          });
+        }, 900);
+      }
       router.refresh();
     });
   };
@@ -100,6 +143,56 @@ export function DailyQuestBoard({
         );
       })}
       {error && <p className="app-quest-error">{error}</p>}
+      <p className="app-quest-perfect">
+        三条全部领取,再得全勤奖 +30 XP · +50 金币
+      </p>
+
+      {monthly && (
+        <div
+          className={`app-quest-month ${monthly.complete ? "complete" : ""}`}
+        >
+          <span className="app-quest-month-icon" aria-hidden>
+            <CalendarCheck size={18} />
+          </span>
+          <div className="app-quest-month-body">
+            <div className="app-quest-month-head">
+              <b>月度任务</b>
+              <em>
+                {Math.min(monthly.progress, monthly.target)}/{monthly.target}
+              </em>
+            </div>
+            <small>
+              本月累计完成任务 · 达标得 +{monthly.rewardXp} XP · +
+              {monthly.rewardCoins} 金币
+            </small>
+            <div className="app-quest-progress">
+              <i
+                style={{
+                  width: `${Math.min(100, (monthly.progress / monthly.target) * 100)}%`,
+                  background: monthly.complete
+                    ? "var(--app-gold)"
+                    : "var(--app-purple, #c084fc)",
+                }}
+                aria-hidden
+              />
+            </div>
+          </div>
+          {monthly.complete && !monthlyClaimed && (
+            <button
+              onClick={claimMonthly}
+              disabled={pending}
+              className="app-quest-claim"
+            >
+              领取
+            </button>
+          )}
+          {monthlyClaimed && (
+            <span className="app-quest-month-done" aria-hidden>
+              <Check size={18} strokeWidth={3} />
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 }

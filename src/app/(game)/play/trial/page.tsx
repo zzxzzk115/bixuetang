@@ -3,6 +3,8 @@ import { TrialHome } from "@/components/app/trial-home";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { getPkOverview } from "@/lib/game/pk";
+import { getDailyQuests, getMonthlyQuest } from "@/lib/game/quests";
+import { getDueCount } from "@/lib/game/review-actions";
 
 export const metadata = { title: "试炼场" };
 
@@ -11,5 +13,16 @@ export default async function TrialPage() {
   if (!user) redirect("/login");
 
   const bootstrap = getGameBootstrap(user);
-  return <TrialHome bootstrap={bootstrap} pk={getPkOverview(user.id)} />;
+  const quests = getDailyQuests(user.id);
+  const monthly = getMonthlyQuest(user.id);
+  const dueCount = await getDueCount();
+  return (
+    <TrialHome
+      bootstrap={bootstrap}
+      pk={getPkOverview(user.id)}
+      quests={quests}
+      monthly={monthly}
+      dueCount={dueCount}
+    />
+  );
 }

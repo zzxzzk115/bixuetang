@@ -24,6 +24,7 @@ import {
 import { NOTES_CHANGED_EVENT } from "@/lib/notes-events";
 import type { ToggleResult } from "@/lib/progress/actions";
 import { announceSettle, rewardToast } from "@/lib/reward-feedback";
+import { notifyQuestsChanged } from "@/lib/quest-events";
 import { buildSegments, segmentCoverage } from "@/lib/segments";
 import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
 import { detectPlayMode } from "./player-capability";
@@ -938,6 +939,8 @@ export function BiliPlayer({
 
       if (r.completed && !completedRef.current) {
         completedRef.current = true;
+        // 看完一集可能推进「今天看完一集」任务 → 触发完成特效 diff
+        notifyQuestsChanged();
         const terms = r.settle?.unlockedTerms ?? [];
         const fullscreen = art.fullscreen || art.fullscreenWeb;
         if (fullscreen) {

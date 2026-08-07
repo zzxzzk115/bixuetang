@@ -4,6 +4,7 @@ import "./globals.css";
 import { CelebrationLayer } from "@/components/celebration-layer";
 import { DevLanQr } from "@/components/dev-lan-qr";
 import { PwaRegister } from "@/components/pwa-register";
+import { QuestCompleteWatcher } from "@/components/quest-complete-watcher";
 import { RewardToastLayer } from "@/components/reward-toast";
 
 export const metadata: Metadata = {
@@ -92,6 +93,7 @@ export default async function RootLayout({
         <PwaRegister />
         <CelebrationLayer />
         <RewardToastLayer />
+        <QuestCompleteWatcher />
         <DevLanQr />
         {children}
       </body>

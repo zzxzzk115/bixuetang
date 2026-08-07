@@ -1,24 +1,25 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { RotateCcw } from "lucide-react";
-import { DailyQuestBoard } from "@/components/daily-quest-board";
 import { RouteMap } from "@/components/app/route-map";
+import { QuestFab } from "@/components/app/quest-fab";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
+import { getDailyQuests, getMonthlyQuest } from "@/lib/game/quests";
 import { getDueCount } from "@/lib/game/review-actions";
-import { getDailyQuests } from "@/lib/game/quests";
 
 export const metadata = { title: "冒险地图" };
 
 // App 主界面：多邻国式路线地图。server 注水一次，客户端纯 DOM 渲染。
-// 顶部挂每日任务板与「今日复习」入口——目标梯度:进度条与到期数
-// 摆在最显眼的位置,离完成越近越想清掉。
+// 每日任务：常驻卡片在试炼页；地图页用右下角悬浮任务栏（QuestFab），
+// 随手可展开、可领奖，又不占地图的垂直空间。顶部只留强时效的复习入口。
 export default async function PlayPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
 
   const bootstrap = getGameBootstrap(user);
   const quests = getDailyQuests(user.id);
+  const monthly = getMonthlyQuest(user.id);
   const dueCount = await getDueCount();
 
   return (
@@ -38,7 +39,8 @@ export default async function PlayPage() {
               <span className="review-entry-count">{dueCount}</span>
             </Link>
           )}
-          <DailyQuestBoard quests={quests} />
+          {/* fixed 定位的悬浮任务栏,放在注入位不影响地图布局 */}
+          <QuestFab quests={quests} monthly={monthly} />
         </>
       }
     />

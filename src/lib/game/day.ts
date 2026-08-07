@@ -24,3 +24,8 @@ export function addDays(key: string, n: number): string {
   const t = Date.parse(`${key}T00:00:00Z`);
   return new Date(t + n * DAY_MS).toISOString().slice(0, 10);
 }
+
+/** 形如 "2026-08" 的学习月键(UTC+8),月度任务用 */
+export function monthKey(now: number = Date.now()): string {
+  return new Date(now + TZ_OFFSET_MS).toISOString().slice(0, 7);
+}

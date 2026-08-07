@@ -1,10 +1,10 @@
 import "server-only";
 
-import { and, eq, gte, inArray, lt } from "drizzle-orm";
+import { and, eq, gte, inArray, lt, sql } from "drizzle-orm";
 import { getContent } from "@/lib/content/load";
 import { episodeProgress, questInstances, xpEvents } from "@/lib/db/schema";
 import { db } from "@/lib/db/client";
-import { dayKey } from "@/lib/game/day";
+import { dayKey, monthKey } from "@/lib/game/day";
 import {
   type QuestKind,
   type QuestEvidence,
@@ -147,6 +147,84 @@ function questCopy(
   return {
     title: "打一场试炼",
     description: "无限试炼或幽灵对战,任意一场",
+  };
+}
+
+// 每日全勤奖:三条任务全部领取后一次性发放,幂等按 dayKey。
+export const PERFECT_DAY_XP = 30;
+export const PERFECT_DAY_COINS = 50;
+
+export interface PerfectDayReward {
+  xp: number;
+  coins: number;
+}
+
+// 月度任务:本月累计领取的每日任务数达标即完成,给更大的奖励。
+// 心理学上是「长期目标 + 目标梯度」:每天的小任务汇成一个月度大目标,
+// 让「今天多做一条」有跨天的意义。进度按本月已领取的 daily-quest 事件计。
+export const MONTHLY_TARGET = 40;
+export const MONTHLY_REWARD_XP = 200;
+export const MONTHLY_REWARD_COINS = 300;
+
+export interface MonthlyQuestView {
+  monthKey: string;
+  progress: number;
+  target: number;
+  rewardXp: number;
+  rewardCoins: number;
+  complete: boolean;
+  claimed: boolean;
+}
+
+/** 某月的毫秒边界 [start, end)(UTC+8) */
+function monthBounds(mKey: string): [number, number] {
+  const start = Date.parse(`${mKey}-01T00:00:00+08:00`);
+  const [y, m] = mKey.split("-").map(Number);
+  const nextKey =
+    m === 12
+      ? `${y + 1}-01`
+      : `${y}-${String(m + 1).padStart(2, "0")}`;
+  const end = Date.parse(`${nextKey}-01T00:00:00+08:00`);
+  return [start, end];
+}
+
+export function getMonthlyQuest(
+  userId: number,
+  mKey = monthKey(),
+): MonthlyQuestView {
+  const [start, end] = monthBounds(mKey);
+  const row = db
+    .select({ n: sql<number>`count(*)` })
+    .from(xpEvents)
+    .where(
+      and(
+        eq(xpEvents.userId, userId),
+        eq(xpEvents.reason, "daily-quest"),
+        gte(xpEvents.createdAt, start),
+        lt(xpEvents.createdAt, end),
+      ),
+    )
+    .get();
+  const progress = Number(row?.n ?? 0);
+  const claimed = !!db
+    .select({ id: xpEvents.id })
+    .from(xpEvents)
+    .where(
+      and(
+        eq(xpEvents.userId, userId),
+        eq(xpEvents.reason, "monthly-quest"),
+        eq(xpEvents.ref, mKey),
+      ),
+    )
+    .get();
+  return {
+    monthKey: mKey,
+    progress,
+    target: MONTHLY_TARGET,
+    rewardXp: MONTHLY_REWARD_XP,
+    rewardCoins: MONTHLY_REWARD_COINS,
+    complete: progress >= MONTHLY_TARGET,
+    claimed,
   };
 }
 

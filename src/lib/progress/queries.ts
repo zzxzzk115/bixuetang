@@ -109,6 +109,10 @@ export function getXpLog(userId: number, limit = 20): XpLogEntry[] {
       label = `战后复述：${title} · 第 ${episodeN} 集`;
     } else if (r.reason === "daily-quest") {
       label = "每日委托结算";
+    } else if (r.reason === "daily-perfect") {
+      label = "每日全勤奖";
+    } else if (r.reason === "monthly-quest") {
+      label = `月度任务达成 · ${r.ref}`;
     } else if (r.reason === "quiz") {
       const [courseId, idx] = r.ref.split(":");
       const title = content.coursesById.get(courseId)?.title ?? courseId;
