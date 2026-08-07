@@ -6,8 +6,11 @@ import { rpgInventory, xpBoosts } from "../db/schema";
 import { boostedXp } from "./xp";
 
 // 经验药水：商店购买（即时生效 / 入包备用）。
-// 按「还能加成几集」计数而不是时间——长课单集就超过 30 分钟，
+// 按「还能加成几次结算」计数而不是时间——长课单集就超过 30 分钟，
 // 计时制会让药水在看完一集前就过期（用户点名的问题）。
+// 章节化改造后,一次「结算」= 看完一个章节(长视频分段)或一整集
+// (短视频);药水次数相应放大,单价不变——小额高频的奖励节奏
+// (变率/即时反馈)比一次性大额更符合强化学习的心理曲线。
 
 export type PotionKind = "x15" | "x3";
 
@@ -15,7 +18,7 @@ export interface PotionSpec {
   kind: PotionKind;
   title: string;
   multiplierPct: number;
-  /** 覆盖多少集 */
+  /** 覆盖多少次结算(整集或章节) */
   episodes: number;
   /** 立即生效价 */
   price: number;
@@ -29,19 +32,19 @@ export const POTIONS: Record<PotionKind, PotionSpec> = {
     kind: "x15",
     title: "经验药水 ×1.5",
     multiplierPct: 150,
-    episodes: 2,
+    episodes: 6,
     price: 100,
     bagPrice: 150,
-    blurb: "接下来 2 集的完成经验 ×1.5",
+    blurb: "接下来 6 次结算(整集或章节)的经验 ×1.5",
   },
   x3: {
     kind: "x3",
     title: "浓缩经验药水 ×3",
     multiplierPct: 300,
-    episodes: 4,
+    episodes: 12,
     price: 300,
     bagPrice: 450,
-    blurb: "接下来 4 集的完成经验 ×3",
+    blurb: "接下来 12 次结算(整集或章节)的经验 ×3",
   },
 };
 
@@ -124,18 +127,35 @@ export function previewEpisodeXp(
 }
 
 /**
- * 结算一集：应用加成并消耗一次药水次数。
- * 只有「看完一集」会消耗药水（测验/宝箱/试炼不消耗也不加成）。
+ * 结算入账：应用加成,可选消耗一次药水次数。
+ * 消耗点只有「看完一整集」和「看完一个章节」(测验/宝箱/试炼不消耗
+ * 也不加成);分段集的整集补差(remainder)只乘不耗。
+ * roundTo:整集经验取整到 10,章节小额经验取整到 5。
  */
-export function settleEpisodeXp(userId: number, baseXp: number): number {
+export function settleBoostedXp(
+  userId: number,
+  baseXp: number,
+  opts: { consume: boolean; roundTo?: 5 | 10 } = { consume: true },
+): number {
   const boost = getActiveBoost(userId);
   if (!boost) return baseXp;
-  db.update(xpBoosts)
-    .set({
-      episodesLeft: sql`${xpBoosts.episodesLeft} - 1`,
-      updatedAt: Date.now(),
-    })
-    .where(eq(xpBoosts.userId, userId))
-    .run();
-  return boostedXp(baseXp, boost.multiplierPct);
+  if (opts.consume) {
+    db.update(xpBoosts)
+      .set({
+        episodesLeft: sql`${xpBoosts.episodesLeft} - 1`,
+        updatedAt: Date.now(),
+      })
+      .where(eq(xpBoosts.userId, userId))
+      .run();
+  }
+  const round = opts.roundTo ?? 10;
+  return Math.max(
+    round,
+    Math.round((baseXp * boost.multiplierPct) / 100 / round) * round,
+  );
+}
+
+/** 结算一集(兼容旧调用):应用加成并消耗一次药水次数 */
+export function settleEpisodeXp(userId: number, baseXp: number): number {
+  return settleBoostedXp(userId, baseXp, { consume: true, roundTo: 10 });
 }

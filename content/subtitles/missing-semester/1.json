@@ -1,0 +1,5917 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 0.7,
+   "to": 7.8,
+   "text": "all right everyone thanks for coming in"
+  },
+  {
+   "from": 2.4,
+   "to": 7.8,
+   "text": "this is the missing semester of your CS Education"
+  },
+  {
+   "from": 7.8,
+   "to": 11.5,
+   "text": "at least that's what we chose to call"
+  },
+  {
+   "from": 10,
+   "to": 13.7,
+   "text": "the class if you're not here for this"
+  },
+  {
+   "from": 11.5,
+   "to": 15.9,
+   "text": "class then you're in the wrong room we"
+  },
+  {
+   "from": 13.7,
+   "to": 19.6,
+   "text": "will be here for about an hour just to"
+  },
+  {
+   "from": 15.9,
+   "to": 21.2,
+   "text": "set your expectations and I want to talk"
+  },
+  {
+   "from": 19.6,
+   "to": 23.8,
+   "text": "to you a little bit first about why"
+  },
+  {
+   "from": 21.2,
+   "to": 26,
+   "text": "we're doing this class so this class"
+  },
+  {
+   "from": 23.8,
+   "to": 29.7,
+   "text": "stems out of an observation that Anish"
+  },
+  {
+   "from": 26,
+   "to": 33,
+   "text": "and Jose and I have made while TA-ing various"
+  },
+  {
+   "from": 29.7,
+   "to": 34.7,
+   "text": "classes at MIT which is that basically"
+  },
+  {
+   "from": 31.3,
+   "to": 34.7,
+   "text": "all of us computer scientists we know"
+  },
+  {
+   "from": 34.7,
+   "to": 38.4,
+   "text": "that computers are great at doing these"
+  },
+  {
+   "from": 36.4,
+   "to": 41.3,
+   "text": "repetitive tasks and automating things"
+  },
+  {
+   "from": 38.4,
+   "to": 43,
+   "text": "but we often fail to realize that there"
+  },
+  {
+   "from": 41.3,
+   "to": 45.9,
+   "text": "are lots of tools that can make our own"
+  },
+  {
+   "from": 43,
+   "to": 47.5,
+   "text": "development processes better we can be a"
+  },
+  {
+   "from": 45.9,
+   "to": 49.6,
+   "text": "lot more efficient about how we use our"
+  },
+  {
+   "from": 47.5,
+   "to": 52,
+   "text": "computers because we can use the"
+  },
+  {
+   "from": 49.6,
+   "to": 54.4,
+   "text": "computer as a tool for ourselves not"
+  },
+  {
+   "from": 52,
+   "to": 57.8,
+   "text": "just for building websites or software"
+  },
+  {
+   "from": 54.4,
+   "to": 59.7,
+   "text": "those sorts of things and this class is"
+  },
+  {
+   "from": 57.8,
+   "to": 63,
+   "text": "an attempt to address this is an attempt"
+  },
+  {
+   "from": 59.7,
+   "to": 65.2,
+   "text": "to show you some of the tools that you"
+  },
+  {
+   "from": 63,
+   "to": 67.6,
+   "text": "can use to great effect in your day to"
+  },
+  {
+   "from": 65.2,
+   "to": 71.7,
+   "text": "day in your research and in your studies"
+  },
+  {
+   "from": 67.6,
+   "to": 75.2,
+   "text": "and it's going to be a class where we"
+  },
+  {
+   "from": 70.4,
+   "to": 75.2,
+   "text": "want you to teach you both how to make"
+  },
+  {
+   "from": 75.2,
+   "to": 79.2,
+   "text": "the most of the tools that you already"
+  },
+  {
+   "from": 76.4,
+   "to": 80.9,
+   "text": "know but also hopefully teach you about"
+  },
+  {
+   "from": 79.2,
+   "to": 83.5,
+   "text": "some tools so you don't know from before"
+  },
+  {
+   "from": 80.9,
+   "to": 86.3,
+   "text": "and how to combine those tools to"
+  },
+  {
+   "from": 83.5,
+   "to": 88.1,
+   "text": "produce more powerful things than you"
+  },
+  {
+   "from": 86.3,
+   "to": 91,
+   "text": "think you might be able to do with what"
+  },
+  {
+   "from": 88.1,
+   "to": 93.4,
+   "text": "you know today the class is going to be"
+  },
+  {
+   "from": 91,
+   "to": 96.6,
+   "text": "structured as a series of 11 one-hour"
+  },
+  {
+   "from": 93.4,
+   "to": 98.9,
+   "text": "lectures and each one is going to cover"
+  },
+  {
+   "from": 96.6,
+   "to": 100.9,
+   "text": "a particular topic you can see the"
+  },
+  {
+   "from": 98.9,
+   "to": 103.4,
+   "text": "website which is also listed there for"
+  },
+  {
+   "from": 100.9,
+   "to": 106,
+   "text": "the list of lecture topics and what date"
+  },
+  {
+   "from": 103.4,
+   "to": 108.2,
+   "text": "will do each one they will mostly be"
+  },
+  {
+   "from": 106,
+   "to": 109.4,
+   "text": "independent and so you can sort of show"
+  },
+  {
+   "from": 108.2,
+   "to": 111.5,
+   "text": "up for the ones that you're interested"
+  },
+  {
+   "from": 109.4,
+   "to": 113.6,
+   "text": "in but we will sort of assume that"
+  },
+  {
+   "from": 111.5,
+   "to": 115.6,
+   "text": "you've been following along so that as"
+  },
+  {
+   "from": 113.6,
+   "to": 117,
+   "text": "we get to later lectures I'm not going"
+  },
+  {
+   "from": 115.6,
+   "to": 122.3,
+   "text": "to be teaching you bash all over again"
+  },
+  {
+   "from": 117,
+   "to": 125.3,
+   "text": "for example we we are also going to post"
+  },
+  {
+   "from": 122.3,
+   "to": 128.5,
+   "text": "both the lecture notes and recordings of"
+  },
+  {
+   "from": 125.3,
+   "to": 130.1,
+   "text": "the lectures online exactly when we do"
+  },
+  {
+   "from": 128.5,
+   "to": 132.3,
+   "text": "that we haven't established yet but it"
+  },
+  {
+   "from": 130.1,
+   "to": 134.3,
+   "text": "will be after the lectures obviously the"
+  },
+  {
+   "from": 132.3,
+   "to": 136.6,
+   "text": "videos have to be posted after"
+  },
+  {
+   "from": 134.3,
+   "to": 139.4,
+   "text": "the class is gonna be run by me John and"
+  },
+  {
+   "from": 136.6,
+   "to": 141.1,
+   "text": "Anne each sitting over there and Jose"
+  },
+  {
+   "from": 139.4,
+   "to": 144.1,
+   "text": "who is not currently here but we'll be"
+  },
+  {
+   "from": 141.1,
+   "to": 145.7,
+   "text": "holding tomorrow's lecture and keep in"
+  },
+  {
+   "from": 144.1,
+   "to": 148,
+   "text": "mind that we're trying to cover a lot of"
+  },
+  {
+   "from": 145.7,
+   "to": 150.7,
+   "text": "ground over the course of just 11"
+  },
+  {
+   "from": 148,
+   "to": 153.2,
+   "text": "one-hour lectures and so we will be"
+  },
+  {
+   "from": 150.7,
+   "to": 155.5,
+   "text": "moving relatively rapidly but please do"
+  },
+  {
+   "from": 153.2,
+   "to": 157.1,
+   "text": "stop us if there's anything where you"
+  },
+  {
+   "from": 155.5,
+   "to": 158.4,
+   "text": "feel like you're not following along if"
+  },
+  {
+   "from": 157.1,
+   "to": 160.3,
+   "text": "you feel like there's something you wish"
+  },
+  {
+   "from": 158.4,
+   "to": 161.7,
+   "text": "we would spend more time on just let us"
+  },
+  {
+   "from": 160.3,
+   "to": 165.2,
+   "text": "know please interrupt us with questions"
+  },
+  {
+   "from": 161.7,
+   "to": 167.2,
+   "text": "and also after each lecture we're going"
+  },
+  {
+   "from": 165.2,
+   "to": 169.7,
+   "text": "to hold office hours on the ninth floor"
+  },
+  {
+   "from": 167.2,
+   "to": 171.6,
+   "text": "of building 30 to the Stata Center of"
+  },
+  {
+   "from": 169.7,
+   "to": 173.2,
+   "text": "the computer science building as if you"
+  },
+  {
+   "from": 171.6,
+   "to": 176,
+   "text": "show up up in the ninth floor lounge"
+  },
+  {
+   "from": 173.2,
+   "to": 178.1,
+   "text": "there and the gates tower then you can"
+  },
+  {
+   "from": 176,
+   "to": 180.8,
+   "text": "come and try some of the exercises that"
+  },
+  {
+   "from": 178.1,
+   "to": 182.9,
+   "text": "we give for each lecture or just ask us"
+  },
+  {
+   "from": 180.8,
+   "to": 184.4,
+   "text": "other questions about things we've"
+  },
+  {
+   "from": 182.9,
+   "to": 188,
+   "text": "talked about in lecturer or other things"
+  },
+  {
+   "from": 184.4,
+   "to": 188,
+   "text": "about using your computer efficiently"
+  },
+  {
+   "from": 188.2,
+   "to": 193.7,
+   "text": "due to the limited time that we have"
+  },
+  {
+   "from": 191.6,
+   "to": 196.5,
+   "text": "available we're not going to be able to"
+  },
+  {
+   "from": 193.7,
+   "to": 199.1,
+   "text": "cover all tools and full detail and so"
+  },
+  {
+   "from": 196.5,
+   "to": 201.2,
+   "text": "we'll try to do is highlight interesting"
+  },
+  {
+   "from": 199.1,
+   "to": 203.4,
+   "text": "tools and interesting ways to use them"
+  },
+  {
+   "from": 201.2,
+   "to": 205.1,
+   "text": "we won't necessarily dig into the deep"
+  },
+  {
+   "from": 203.4,
+   "to": 207.5,
+   "text": "details about how all of it works or"
+  },
+  {
+   "from": 205.1,
+   "to": 209.1,
+   "text": "more elaborate use cases but if you have"
+  },
+  {
+   "from": 207.5,
+   "to": 211.1,
+   "text": "questions about them please come ask us"
+  },
+  {
+   "from": 209.1,
+   "to": 213.7,
+   "text": "about that too many of these tools are"
+  },
+  {
+   "from": 211.1,
+   "to": 214.9,
+   "text": "tools that we have used for years and we"
+  },
+  {
+   "from": 213.7,
+   "to": 216.7,
+   "text": "might be able to point you to additional"
+  },
+  {
+   "from": 214.9,
+   "to": 219.1,
+   "text": "interesting things you can do with them"
+  },
+  {
+   "from": 216.7,
+   "to": 223,
+   "text": "sort of like take advantage of the fact"
+  },
+  {
+   "from": 219.1,
+   "to": 225.2,
+   "text": "that we're here this class is going to I"
+  },
+  {
+   "from": 223,
+   "to": 227,
+   "text": "don't wanna say ramped up quickly but"
+  },
+  {
+   "from": 225.2,
+   "to": 229.1,
+   "text": "what's going to happen over the course"
+  },
+  {
+   "from": 227,
+   "to": 231.3,
+   "text": "of this particular lecture is that we'll"
+  },
+  {
+   "from": 229.1,
+   "to": 232.5,
+   "text": "cover many of the basics that we assume"
+  },
+  {
+   "from": 231.3,
+   "to": 234.5,
+   "text": "that you will know for the rest of the"
+  },
+  {
+   "from": 232.5,
+   "to": 236,
+   "text": "semester things like how to use your"
+  },
+  {
+   "from": 234.5,
+   "to": 237.2,
+   "text": "shell and your terminal and I'll explain"
+  },
+  {
+   "from": 236,
+   "to": 239.9,
+   "text": "what those are - those who you're not"
+  },
+  {
+   "from": 237.2,
+   "to": 241.9,
+   "text": "familiar with them and then will pretty"
+  },
+  {
+   "from": 239.9,
+   "to": 243.8,
+   "text": "quickly ramp up into more advanced tools"
+  },
+  {
+   "from": 241.9,
+   "to": 245.3,
+   "text": "and how to use them you can already see"
+  },
+  {
+   "from": 243.8,
+   "to": 247.5,
+   "text": "from the lecture notes the kind of"
+  },
+  {
+   "from": 245.3,
+   "to": 250.1,
+   "text": "topics that we're going to be covering"
+  },
+  {
+   "from": 247.5,
+   "to": 252.1,
+   "text": "and so that brings us to today's lecture"
+  },
+  {
+   "from": 250.1,
+   "to": 254.6,
+   "text": "in which we are going to cover the shell"
+  },
+  {
+   "from": 252.1,
+   "to": 257,
+   "text": "and the shell is going to be one of the"
+  },
+  {
+   "from": 254.6,
+   "to": 259.3,
+   "text": "primary ways that you interact with your"
+  },
+  {
+   "from": 257,
+   "to": 261.3,
+   "text": "computer once you want to do more things"
+  },
+  {
+   "from": 259.3,
+   "to": 264.5,
+   "text": "than what the sort of visual interfaces"
+  },
+  {
+   "from": 261.3,
+   "to": 266.4,
+   "text": "you might be used to allow you to do the"
+  },
+  {
+   "from": 264.5,
+   "to": 266.6,
+   "text": "visual interfaces are sort of limited in"
+  },
+  {
+   "from": 266.4,
+   "to": 268.6,
+   "text": "what"
+  },
+  {
+   "from": 266.6,
+   "to": 269.7,
+   "text": "they allow you to do because you can"
+  },
+  {
+   "from": 268.6,
+   "to": 272,
+   "text": "only do the things that there are"
+  },
+  {
+   "from": 269.7,
+   "to": 274.9,
+   "text": "buttons for sliders for input fields for"
+  },
+  {
+   "from": 272,
+   "to": 277.5,
+   "text": "often these textual tools are built to"
+  },
+  {
+   "from": 274.9,
+   "to": 279.9,
+   "text": "be both composable with one another but"
+  },
+  {
+   "from": 277.5,
+   "to": 281.4,
+   "text": "also to have tons of different ways to"
+  },
+  {
+   "from": 279.9,
+   "to": 283,
+   "text": "combine them or ways to program and"
+  },
+  {
+   "from": 281.4,
+   "to": 284.9,
+   "text": "automate them and that is why in this"
+  },
+  {
+   "from": 283,
+   "to": 288.1,
+   "text": "class we will be focusing on these"
+  },
+  {
+   "from": 284.9,
+   "to": 289.9,
+   "text": "command line or text-based tools and the"
+  },
+  {
+   "from": 288.1,
+   "to": 291.9,
+   "text": "shell is the place that you would do"
+  },
+  {
+   "from": 289.9,
+   "to": 293.8,
+   "text": "most of this work so for those of you"
+  },
+  {
+   "from": 291.9,
+   "to": 296.7,
+   "text": "are not familiar with the shell most"
+  },
+  {
+   "from": 293.8,
+   "to": 299.2,
+   "text": "platform provides some kind of shell on"
+  },
+  {
+   "from": 296.7,
+   "to": 300.8,
+   "text": "Windows this is often PowerShell but"
+  },
+  {
+   "from": 299.2,
+   "to": 304.1,
+   "text": "there are also other shells available on"
+  },
+  {
+   "from": 300.8,
+   "to": 306.4,
+   "text": "Windows on Linux you will find tons of"
+  },
+  {
+   "from": 304.1,
+   "to": 308.2,
+   "text": "terminals these are windows that allow"
+  },
+  {
+   "from": 306.4,
+   "to": 310.5,
+   "text": "you to display shells and you'll also"
+  },
+  {
+   "from": 308.2,
+   "to": 313.2,
+   "text": "find many different types of shells the"
+  },
+  {
+   "from": 310.5,
+   "to": 315.8,
+   "text": "most common of which is bash or the born"
+  },
+  {
+   "from": 313.2,
+   "to": 317.5,
+   "text": "again shell because it's such a common"
+  },
+  {
+   "from": 315.8,
+   "to": 319,
+   "text": "shell it is the one we're primarily"
+  },
+  {
+   "from": 317.5,
+   "to": 321.3,
+   "text": "going to be covering in these lectures"
+  },
+  {
+   "from": 319,
+   "to": 323.6,
+   "text": "if you're on Mac OS you will probably"
+  },
+  {
+   "from": 321.3,
+   "to": 326.2,
+   "text": "also have bash maybe an older version of"
+  },
+  {
+   "from": 323.6,
+   "to": 327.5,
+   "text": "it if you open the terminal app and so"
+  },
+  {
+   "from": 326.2,
+   "to": 329.2,
+   "text": "if you want to follow along on any of"
+  },
+  {
+   "from": 327.5,
+   "to": 330.2,
+   "text": "these platforms feel free but keep in"
+  },
+  {
+   "from": 329.2,
+   "to": 332.5,
+   "text": "mind that most of this is going to be"
+  },
+  {
+   "from": 330.2,
+   "to": 334.2,
+   "text": "sort of Linux centric in terms of how we"
+  },
+  {
+   "from": 332.5,
+   "to": 339,
+   "text": "teach it even though most of these tools"
+  },
+  {
+   "from": 334.2,
+   "to": 340.4,
+   "text": "work on all the platforms if you want to"
+  },
+  {
+   "from": 339,
+   "to": 342.5,
+   "text": "install a terminal and a shell and you"
+  },
+  {
+   "from": 340.4,
+   "to": 345.3,
+   "text": "don't know how to do it well we're happy"
+  },
+  {
+   "from": 342.5,
+   "to": 347.4,
+   "text": "to show you at office hours or it's"
+  },
+  {
+   "from": 345.3,
+   "to": 351.6,
+   "text": "usually very easy to just Google like"
+  },
+  {
+   "from": 347.4,
+   "to": 357.1,
+   "text": "your platform plus like terminal and you"
+  },
+  {
+   "from": 351.6,
+   "to": 359,
+   "text": "will get one now when you open a"
+  },
+  {
+   "from": 357.1,
+   "to": 361.2,
+   "text": "terminal you get something that looks a"
+  },
+  {
+   "from": 359,
+   "to": 364.2,
+   "text": "little bit like this so it will usually"
+  },
+  {
+   "from": 361.2,
+   "to": 366,
+   "text": "have just a single line at the top and"
+  },
+  {
+   "from": 364.2,
+   "to": 367.7,
+   "text": "this is what's known as the shell prompt"
+  },
+  {
+   "from": 366,
+   "to": 370,
+   "text": "you can see that my shell prompt looks"
+  },
+  {
+   "from": 367.7,
+   "to": 372.1,
+   "text": "like this it has my user name the name"
+  },
+  {
+   "from": 370,
+   "to": 374.2,
+   "text": "of the machine that I'm on the current"
+  },
+  {
+   "from": 372.1,
+   "to": 376.8,
+   "text": "path I'm on and we will talk about paths"
+  },
+  {
+   "from": 374.2,
+   "to": 378.7,
+   "text": "a little bit later and then it's really"
+  },
+  {
+   "from": 376.8,
+   "to": 381,
+   "text": "just sort of blinking they're asking me"
+  },
+  {
+   "from": 378.7,
+   "to": 382.4,
+   "text": "for input and this is the shell prompt"
+  },
+  {
+   "from": 381,
+   "to": 385.9,
+   "text": "where you tell the shell what you want"
+  },
+  {
+   "from": 382.4,
+   "to": 387.5,
+   "text": "it to do and you can customize this"
+  },
+  {
+   "from": 385.9,
+   "to": 388.6,
+   "text": "prompt a lot and when you open it on"
+  },
+  {
+   "from": 387.5,
+   "to": 391.1,
+   "text": "your machine it might not look exactly"
+  },
+  {
+   "from": 388.6,
+   "to": 393.8,
+   "text": "like this it might look something like"
+  },
+  {
+   "from": 391.1,
+   "to": 395.4,
+   "text": "this if you've configured it a little or"
+  },
+  {
+   "from": 393.8,
+   "to": 398.3,
+   "text": "it might look all sorts of different"
+  },
+  {
+   "from": 395.4,
+   "to": 399.8,
+   "text": "ways we won't go too much into"
+  },
+  {
+   "from": 398.3,
+   "to": 400.4,
+   "text": "customizing your shell in this"
+  },
+  {
+   "from": 399.8,
+   "to": 401.9,
+   "text": "particularly"
+  },
+  {
+   "from": 400.4,
+   "to": 403.7,
+   "text": "we'll do that later here we're just"
+  },
+  {
+   "from": 401.9,
+   "to": 407.8,
+   "text": "going to talk about how do you use this"
+  },
+  {
+   "from": 403.7,
+   "to": 409.9,
+   "text": "shell to do useful things and this is"
+  },
+  {
+   "from": 407.8,
+   "to": 411.8,
+   "text": "our the main textual interface you have"
+  },
+  {
+   "from": 409.9,
+   "to": 413.4,
+   "text": "to your computer's through this shell on"
+  },
+  {
+   "from": 411.8,
+   "to": 416,
+   "text": "the shell prompt you get to write"
+  },
+  {
+   "from": 413.4,
+   "to": 418.9,
+   "text": "commands and commands can be relatively"
+  },
+  {
+   "from": 416,
+   "to": 420.6,
+   "text": "straightforward things usually it'll be"
+  },
+  {
+   "from": 418.9,
+   "to": 422.6,
+   "text": "something like executing programs with"
+  },
+  {
+   "from": 420.6,
+   "to": 424.5,
+   "text": "arguments what does that look like well"
+  },
+  {
+   "from": 422.6,
+   "to": 426.2,
+   "text": "one program we can execute is the date"
+  },
+  {
+   "from": 424.5,
+   "to": 427.4,
+   "text": "program we just type date and press"
+  },
+  {
+   "from": 426.2,
+   "to": 430.3,
+   "text": "enter and then it will show you"
+  },
+  {
+   "from": 427.4,
+   "to": 432.3,
+   "text": "unsurprisingly the date and time you can"
+  },
+  {
+   "from": 430.3,
+   "to": 434.9,
+   "text": "also execute a program with arguments"
+  },
+  {
+   "from": 432.3,
+   "to": 437.8,
+   "text": "this is one way to modify the behavior"
+  },
+  {
+   "from": 434.9,
+   "to": 440.8,
+   "text": "of the program so for example there is a"
+  },
+  {
+   "from": 437.8,
+   "to": 442.4,
+   "text": "program called echo and echo just prints"
+  },
+  {
+   "from": 440.8,
+   "to": 445.1,
+   "text": "out the arguments that you give it and"
+  },
+  {
+   "from": 442.4,
+   "to": 447.3,
+   "text": "arguments are just white space separated"
+  },
+  {
+   "from": 445.1,
+   "to": 449.8,
+   "text": "things that follow the program name so"
+  },
+  {
+   "from": 447.3,
+   "to": 450.7,
+   "text": "we can say hello and then it will print"
+  },
+  {
+   "from": 449.8,
+   "to": 452.9,
+   "text": "hello back"
+  },
+  {
+   "from": 450.7,
+   "to": 455.6,
+   "text": "perhaps not terribly surprising but this"
+  },
+  {
+   "from": 452.9,
+   "to": 457.1,
+   "text": "is the very basics of arguments one"
+  },
+  {
+   "from": 455.6,
+   "to": 458.6,
+   "text": "thing that you'll notice is that I said"
+  },
+  {
+   "from": 457.1,
+   "to": 460.4,
+   "text": "that arguments are separated by"
+  },
+  {
+   "from": 458.6,
+   "to": 462.1,
+   "text": "whitespace and you might wonder well"
+  },
+  {
+   "from": 460.4,
+   "to": 464.3,
+   "text": "what if I want an argument as multiple"
+  },
+  {
+   "from": 462.1,
+   "to": 467.2,
+   "text": "words you can also quote things so you"
+  },
+  {
+   "from": 464.3,
+   "to": 470.3,
+   "text": "can do things like echo hello space"
+  },
+  {
+   "from": 467.2,
+   "to": 472.7,
+   "text": "world and now the echo program receives"
+  },
+  {
+   "from": 470.3,
+   "to": 475.4,
+   "text": "one argument that contains the string"
+  },
+  {
+   "from": 472.7,
+   "to": 477.5,
+   "text": "hello world with a space well you can"
+  },
+  {
+   "from": 475.4,
+   "to": 478.8,
+   "text": "also use single quotes for this and the"
+  },
+  {
+   "from": 477.5,
+   "to": 480.5,
+   "text": "difference between single quotes and"
+  },
+  {
+   "from": 478.8,
+   "to": 483.4,
+   "text": "double quotes will get back to and when"
+  },
+  {
+   "from": 480.5,
+   "to": 486.1,
+   "text": "we talk about bash scripting you can"
+  },
+  {
+   "from": 483.4,
+   "to": 489,
+   "text": "also just escape single characters so"
+  },
+  {
+   "from": 486.1,
+   "to": 492.2,
+   "text": "for example hello world this will also"
+  },
+  {
+   "from": 489,
+   "to": 495.7,
+   "text": "work just fine all of these rules about"
+  },
+  {
+   "from": 492.2,
+   "to": 497.3,
+   "text": "how you escape and how you parse and"
+  },
+  {
+   "from": 495.7,
+   "to": 499.6,
+   "text": "quote various arguments and variables"
+  },
+  {
+   "from": 497.3,
+   "to": 501.3,
+   "text": "we'll cover a little bit later hopefully"
+  },
+  {
+   "from": 499.6,
+   "to": 503.5,
+   "text": "you won't run into too many we oughta"
+  },
+  {
+   "from": 501.3,
+   "to": 506.1,
+   "text": "tease about this just keep in mind at"
+  },
+  {
+   "from": 503.5,
+   "to": 507.9,
+   "text": "least that spaces separate arguments so"
+  },
+  {
+   "from": 506.1,
+   "to": 509.6,
+   "text": "if you want to do something like make a"
+  },
+  {
+   "from": 507.9,
+   "to": 511.9,
+   "text": "directory called my photos"
+  },
+  {
+   "from": 509.6,
+   "to": 513.8,
+   "text": "you can't just type like make directory"
+  },
+  {
+   "from": 511.9,
+   "to": 515.9,
+   "text": "my photos it will create two directories"
+  },
+  {
+   "from": 513.8,
+   "to": 520,
+   "text": "one called my and one called photos and"
+  },
+  {
+   "from": 515.9,
+   "to": 523.2,
+   "text": "that is probably not what you want now"
+  },
+  {
+   "from": 520,
+   "to": 525.6,
+   "text": "one thing you might ask is how does the"
+  },
+  {
+   "from": 523.2,
+   "to": 528.8,
+   "text": "shell know what these programs are when"
+  },
+  {
+   "from": 525.6,
+   "to": 530.7,
+   "text": "I type date or when I type echo how does"
+  },
+  {
+   "from": 528.8,
+   "to": 533.2,
+   "text": "it know what these programs are supposed"
+  },
+  {
+   "from": 530.7,
+   "to": 534,
+   "text": "to do and the answer to this is your"
+  },
+  {
+   "from": 533.2,
+   "to": 535.4,
+   "text": "program your"
+  },
+  {
+   "from": 534,
+   "to": 537,
+   "text": "computer has a bunch of built-in"
+  },
+  {
+   "from": 535.4,
+   "to": 539.8,
+   "text": "programs that comes with the machine"
+  },
+  {
+   "from": 537,
+   "to": 542.6,
+   "text": "just like you your machine my chip with"
+  },
+  {
+   "from": 539.8,
+   "to": 545.3,
+   "text": "like the terminal app or it might chip"
+  },
+  {
+   "from": 542.6,
+   "to": 547.8,
+   "text": "with like Windows Explorer or at my chip"
+  },
+  {
+   "from": 545.3,
+   "to": 549.6,
+   "text": "with some kind of browser it also ships"
+  },
+  {
+   "from": 547.8,
+   "to": 551.6,
+   "text": "with a bunch of terminal centric"
+  },
+  {
+   "from": 549.6,
+   "to": 554.8,
+   "text": "applications and these are stored on"
+  },
+  {
+   "from": 551.6,
+   "to": 558.2,
+   "text": "your file system and your shell has a"
+  },
+  {
+   "from": 554.8,
+   "to": 559.9,
+   "text": "way to determine where a program is"
+  },
+  {
+   "from": 558.2,
+   "to": 562.5,
+   "text": "located basically has a way to search"
+  },
+  {
+   "from": 559.9,
+   "to": 564.6,
+   "text": "for programs it does this through"
+  },
+  {
+   "from": 562.5,
+   "to": 567.4,
+   "text": "something called an invariant"
+  },
+  {
+   "from": 564.6,
+   "to": 570,
+   "text": "environment variable an environment"
+  },
+  {
+   "from": 567.4,
+   "to": 571.6,
+   "text": "variable is a variable like you might be"
+  },
+  {
+   "from": 570,
+   "to": 573.9,
+   "text": "used to for programming languages it"
+  },
+  {
+   "from": 571.6,
+   "to": 575.2,
+   "text": "turns out that the shell and the"
+  },
+  {
+   "from": 573.9,
+   "to": 577.4,
+   "text": "bourne-again shell in particular is"
+  },
+  {
+   "from": 575.2,
+   "to": 579.4,
+   "text": "really a programming language this"
+  },
+  {
+   "from": 577.4,
+   "to": 581.6,
+   "text": "prompt that you're given here is not"
+  },
+  {
+   "from": 579.4,
+   "to": 583.5,
+   "text": "just able to run a program with"
+  },
+  {
+   "from": 581.6,
+   "to": 586.5,
+   "text": "arguments. You can also do things like"
+  },
+  {
+   "from": 583.5,
+   "to": 587.9,
+   "text": "while loops, for loops, conditionals..."
+  },
+  {
+   "from": 586.5,
+   "to": 589.9,
+   "text": "All of these - you can define"
+  },
+  {
+   "from": 587.9,
+   "to": 591,
+   "text": "functions, you can have variables, and all"
+  },
+  {
+   "from": 589.9,
+   "to": 592.9,
+   "text": "of these things you can do in the shell."
+  },
+  {
+   "from": 591,
+   "to": 596.4,
+   "text": "We'll cover a lot of that in the next"
+  },
+  {
+   "from": 592.9,
+   "to": 598,
+   "text": "lecture, on shell scripting. For now,"
+  },
+  {
+   "from": 596.4,
+   "to": 599.8,
+   "text": "though, let's just look at this"
+  },
+  {
+   "from": 598,
+   "to": 601.2,
+   "text": "particular environment variable."
+  },
+  {
+   "from": 599.8,
+   "to": 602.7,
+   "text": "Environment variables are things that"
+  },
+  {
+   "from": 601.2,
+   "to": 604.8,
+   "text": "are set whenever you start your shell"
+  },
+  {
+   "from": 602.7,
+   "to": 606.6,
+   "text": "they're not things you have to set every"
+  },
+  {
+   "from": 604.8,
+   "to": 608.2,
+   "text": "time you run your shell there are a"
+  },
+  {
+   "from": 606.6,
+   "to": 609.8,
+   "text": "bunch of these that are set things like"
+  },
+  {
+   "from": 608.2,
+   "to": 611.9,
+   "text": "where is your home directory what is"
+  },
+  {
+   "from": 609.8,
+   "to": 613.1,
+   "text": "your username and there's also one"
+  },
+  {
+   "from": 611.9,
+   "to": 616.2,
+   "text": "that's critical for this particular"
+  },
+  {
+   "from": 613.1,
+   "to": 618.9,
+   "text": "purpose which is the path variable so if"
+  },
+  {
+   "from": 616.2,
+   "to": 622.6,
+   "text": "I echo out dollar path this is going to"
+  },
+  {
+   "from": 618.9,
+   "to": 625.1,
+   "text": "show me all of the paths on my machine"
+  },
+  {
+   "from": 622.6,
+   "to": 627.9,
+   "text": "that the shell will search for programs"
+  },
+  {
+   "from": 625.1,
+   "to": 630.9,
+   "text": "you'll notice that this is a list that"
+  },
+  {
+   "from": 627.9,
+   "to": 633,
+   "text": "is colon separated it might be kind of"
+  },
+  {
+   "from": 630.9,
+   "to": 636,
+   "text": "long and hard to read but the essentials"
+  },
+  {
+   "from": 633,
+   "to": 638.3,
+   "text": "is that - whenever you type the name of"
+  },
+  {
+   "from": 636,
+   "to": 641.6,
+   "text": "a program is gonna search through this"
+  },
+  {
+   "from": 638.3,
+   "to": 643.8,
+   "text": "list of paths on your machine and it's"
+  },
+  {
+   "from": 641.6,
+   "to": 646.9,
+   "text": "gonna look in each directory for a"
+  },
+  {
+   "from": 643.8,
+   "to": 649.1,
+   "text": "program or a file whose name matches the"
+  },
+  {
+   "from": 646.9,
+   "to": 651,
+   "text": "command you try to run so in my case"
+  },
+  {
+   "from": 649.1,
+   "to": 652.8,
+   "text": "when I try to run date or echo it's"
+  },
+  {
+   "from": 651,
+   "to": 654.5,
+   "text": "gonna walk through these one at a time"
+  },
+  {
+   "from": 652.8,
+   "to": 656.4,
+   "text": "until it finds one that contains the"
+  },
+  {
+   "from": 654.5,
+   "to": 658.4,
+   "text": "program called date or echo and then"
+  },
+  {
+   "from": 656.4,
+   "to": 660,
+   "text": "it's gonna run it if we want to know"
+  },
+  {
+   "from": 658.4,
+   "to": 661.6,
+   "text": "which one it actually runs there's a"
+  },
+  {
+   "from": 660,
+   "to": 664.6,
+   "text": "command called which which lets us do"
+  },
+  {
+   "from": 661.6,
+   "to": 667.5,
+   "text": "that so I can type which echo and will"
+  },
+  {
+   "from": 664.6,
+   "to": 670.8,
+   "text": "tell me that if I were to run a program"
+  },
+  {
+   "from": 667.5,
+   "to": 672.7,
+   "text": "called echo I would run this one it's"
+  },
+  {
+   "from": 670.8,
+   "to": 676.4,
+   "text": "worth pausing here to talk about what"
+  },
+  {
+   "from": 672.7,
+   "to": 678.6,
+   "text": "paths are so paths are a way to name the"
+  },
+  {
+   "from": 676.4,
+   "to": 681.6,
+   "text": "location of a file on your computer on"
+  },
+  {
+   "from": 678.6,
+   "to": 684.8,
+   "text": "Linux and Oh Mac OS these paths are"
+  },
+  {
+   "from": 681.6,
+   "to": 688.2,
+   "text": "separated by slashes forward slashes so"
+  },
+  {
+   "from": 684.8,
+   "to": 690.9,
+   "text": "you'll see here that this is in the in"
+  },
+  {
+   "from": 688.2,
+   "to": 692.8,
+   "text": "the root directory so the slash at the"
+  },
+  {
+   "from": 690.9,
+   "to": 694.9,
+   "text": "very beginning indicates that this is"
+  },
+  {
+   "from": 692.8,
+   "to": 697.7,
+   "text": "starting from the top of the file system"
+  },
+  {
+   "from": 694.9,
+   "to": 701,
+   "text": "then look inside the directory called"
+  },
+  {
+   "from": 697.7,
+   "to": 703.6,
+   "text": "USR then look inside the directory bin"
+  },
+  {
+   "from": 701,
+   "to": 706.4,
+   "text": "and then look for the file called echo"
+  },
+  {
+   "from": 703.6,
+   "to": 708.6,
+   "text": "on windows paths like this are usually"
+  },
+  {
+   "from": 706.4,
+   "to": 711.9,
+   "text": "separated by back slashes instead and"
+  },
+  {
+   "from": 708.6,
+   "to": 713.6,
+   "text": "we're on Linux and Mac OS everything"
+  },
+  {
+   "from": 711.9,
+   "to": 716.4,
+   "text": "lives under the root name space so all"
+  },
+  {
+   "from": 713.6,
+   "to": 720.3,
+   "text": "paths start with a slash or all absolute"
+  },
+  {
+   "from": 716.4,
+   "to": 722.1,
+   "text": "paths on Windows there is one root for"
+  },
+  {
+   "from": 720.3,
+   "to": 725.1,
+   "text": "every partition so you might have seen"
+  },
+  {
+   "from": 722.1,
+   "to": 728.2,
+   "text": "things like C colon backslash or D colon"
+  },
+  {
+   "from": 725.1,
+   "to": 731.3,
+   "text": "backslash so Windows has separate sort"
+  },
+  {
+   "from": 728.2,
+   "to": 733.1,
+   "text": "of file system path hierarchies for each"
+  },
+  {
+   "from": 731.3,
+   "to": 734.9,
+   "text": "each Drive that you have"
+  },
+  {
+   "from": 733.1,
+   "to": 738.5,
+   "text": "whereas on Linux and Mac OS these are"
+  },
+  {
+   "from": 734.9,
+   "to": 740,
+   "text": "all mounted under one namespace you'll"
+  },
+  {
+   "from": 738.5,
+   "to": 741.7,
+   "text": "notice that I said the word absolute"
+  },
+  {
+   "from": 740,
+   "to": 747.4,
+   "text": "path and you might not know what that"
+  },
+  {
+   "from": 741.7,
+   "to": 749.5,
+   "text": "means so absolute paths are paths that"
+  },
+  {
+   "from": 747.4,
+   "to": 751.9,
+   "text": "fully determine the location of a file"
+  },
+  {
+   "from": 749.5,
+   "to": 753.7,
+   "text": "so in this case this is saying this is"
+  },
+  {
+   "from": 751.9,
+   "to": 756.5,
+   "text": "talking only about a specific echo file"
+  },
+  {
+   "from": 753.7,
+   "to": 759,
+   "text": "and it's giving you the the full path to"
+  },
+  {
+   "from": 756.5,
+   "to": 762.8,
+   "text": "that file but there are also things"
+  },
+  {
+   "from": 759,
+   "to": 765.2,
+   "text": "known as relative paths so a relative"
+  },
+  {
+   "from": 762.8,
+   "to": 769.3,
+   "text": "path is relative to where you currently"
+  },
+  {
+   "from": 765.2,
+   "to": 772.5,
+   "text": "are and so the way we find out where we"
+  },
+  {
+   "from": 769.3,
+   "to": 776.2,
+   "text": "currently are is you can type PWD for"
+  },
+  {
+   "from": 772.5,
+   "to": 780.1,
+   "text": "present working directory present print"
+  },
+  {
+   "from": 776.2,
+   "to": 782.7,
+   "text": "working directory so if I type PWD it"
+  },
+  {
+   "from": 780.1,
+   "to": 785.8,
+   "text": "will print out the current path that I'm"
+  },
+  {
+   "from": 782.7,
+   "to": 788.2,
+   "text": "in right so currently I'm in the home"
+  },
+  {
+   "from": 785.8,
+   "to": 791,
+   "text": "directory under the root and then John"
+  },
+  {
+   "from": 788.2,
+   "to": 794.7,
+   "text": "under that and then dev under that etc"
+  },
+  {
+   "from": 791,
+   "to": 796.8,
+   "text": "from here I can then choose to change my"
+  },
+  {
+   "from": 794.7,
+   "to": 798.5,
+   "text": "current working directory and all"
+  },
+  {
+   "from": 796.8,
+   "to": 800.2,
+   "text": "relative paths are relative to the"
+  },
+  {
+   "from": 798.5,
+   "to": 801.3,
+   "text": "current working directory which is"
+  },
+  {
+   "from": 800.2,
+   "to": 804.6,
+   "text": "basically where you"
+  },
+  {
+   "from": 801.3,
+   "to": 808.7,
+   "text": "they are in this case for example I can"
+  },
+  {
+   "from": 804.6,
+   "to": 810.4,
+   "text": "do CD / home CDs change directory this"
+  },
+  {
+   "from": 808.7,
+   "to": 812.6,
+   "text": "is the way that I change what my current"
+  },
+  {
+   "from": 810.4,
+   "to": 814.8,
+   "text": "working directory is in this case I"
+  },
+  {
+   "from": 812.6,
+   "to": 817.9,
+   "text": "change to home and I am now you'll see"
+  },
+  {
+   "from": 814.8,
+   "to": 820.6,
+   "text": "my my shell prompt change to say that I"
+  },
+  {
+   "from": 817.9,
+   "to": 822.7,
+   "text": "am now in home it just gives me the name"
+  },
+  {
+   "from": 820.6,
+   "to": 824.2,
+   "text": "of the last segment of the path but you"
+  },
+  {
+   "from": 822.7,
+   "to": 825.5,
+   "text": "can also configure your terminal to give"
+  },
+  {
+   "from": 824.2,
+   "to": 830.3,
+   "text": "you the full path whenever you're"
+  },
+  {
+   "from": 825.5,
+   "to": 833.1,
+   "text": "anywhere and now if I type PWD again it"
+  },
+  {
+   "from": 830.3,
+   "to": 834.9,
+   "text": "will tell me I'm in slash home there are"
+  },
+  {
+   "from": 833.1,
+   "to": 839.1,
+   "text": "also a couple of special directories"
+  },
+  {
+   "from": 834.9,
+   "to": 843.1,
+   "text": "that exist there is dot and dot dot dot"
+  },
+  {
+   "from": 839.1,
+   "to": 845.1,
+   "text": "means the current directory dot dot"
+  },
+  {
+   "from": 843.1,
+   "to": 846.7,
+   "text": "means the parent directory so this is a"
+  },
+  {
+   "from": 845.1,
+   "to": 849.5,
+   "text": "way that you can easily navigate around"
+  },
+  {
+   "from": 846.7,
+   "to": 853.1,
+   "text": "the system for example here if I type CD"
+  },
+  {
+   "from": 849.5,
+   "to": 855.2,
+   "text": "dot dot it will tell me that I am now in"
+  },
+  {
+   "from": 853.1,
+   "to": 857.6,
+   "text": "slash so I'm now in the root of the file"
+  },
+  {
+   "from": 855.2,
+   "to": 862.1,
+   "text": "system I was in slash home now I'm in"
+  },
+  {
+   "from": 857.6,
+   "to": 864.9,
+   "text": "slash and indeed if I type PWD well it"
+  },
+  {
+   "from": 862.1,
+   "to": 866.8,
+   "text": "will do that right thing and I can also"
+  },
+  {
+   "from": 864.9,
+   "to": 869,
+   "text": "then use relative paths to go down into"
+  },
+  {
+   "from": 866.8,
+   "to": 871.8,
+   "text": "the file system right so I can do CD dot"
+  },
+  {
+   "from": 869,
+   "to": 874.1,
+   "text": "slash home and this is gonna CD into the"
+  },
+  {
+   "from": 871.8,
+   "to": 876.9,
+   "text": "home directory under the current"
+  },
+  {
+   "from": 874.1,
+   "to": 879.8,
+   "text": "directory right so this will bring me"
+  },
+  {
+   "from": 876.9,
+   "to": 882.1,
+   "text": "back to slash home if I now tried CD dot"
+  },
+  {
+   "from": 879.8,
+   "to": 884.1,
+   "text": "slash home again it will say there's no"
+  },
+  {
+   "from": 882.1,
+   "to": 885.6,
+   "text": "such directory because there is no home"
+  },
+  {
+   "from": 884.1,
+   "to": 889.4,
+   "text": "directory under the current directory"
+  },
+  {
+   "from": 885.6,
+   "to": 893.7,
+   "text": "I'm on which I changed by doing CD right"
+  },
+  {
+   "from": 889.4,
+   "to": 897.5,
+   "text": "and I can sort of see de all the way"
+  },
+  {
+   "from": 893.7,
+   "to": 901.1,
+   "text": "back to the place that I was using"
+  },
+  {
+   "from": 897.5,
+   "to": 907,
+   "text": "relative paths and I can also do things"
+  },
+  {
+   "from": 901.1,
+   "to": 909.1,
+   "text": "like dot dot dot dot dot to get back to"
+  },
+  {
+   "from": 907,
+   "to": 910.6,
+   "text": "somewhere deep in my file system this"
+  },
+  {
+   "from": 909.1,
+   "to": 913,
+   "text": "happens to be all the way back to the"
+  },
+  {
+   "from": 910.6,
+   "to": 915.6,
+   "text": "root so here there's a bin directory and"
+  },
+  {
+   "from": 913,
+   "to": 917.9,
+   "text": "another bin there's an echo file and so"
+  },
+  {
+   "from": 915.6,
+   "to": 920.3,
+   "text": "then I could do world and that runs the"
+  },
+  {
+   "from": 917.9,
+   "to": 922.1,
+   "text": "echo program under bin alright so this"
+  },
+  {
+   "from": 920.3,
+   "to": 924.4,
+   "text": "is a way that you can construct paths to"
+  },
+  {
+   "from": 922.1,
+   "to": 926.6,
+   "text": "arbitrarily traverse your filesystem"
+  },
+  {
+   "from": 924.4,
+   "to": 928.4,
+   "text": "sometimes you want to absolute paths and"
+  },
+  {
+   "from": 926.6,
+   "to": 929.8,
+   "text": "sometimes you want relative ones usually"
+  },
+  {
+   "from": 928.4,
+   "to": 933.2,
+   "text": "you want to use whichever one is shorter"
+  },
+  {
+   "from": 929.8,
+   "to": 934.4,
+   "text": "but if you want to for example run a"
+  },
+  {
+   "from": 930.6,
+   "to": 934.4,
+   "text": "program or write"
+  },
+  {
+   "from": 934.4,
+   "to": 939,
+   "text": "a program that runs the program like"
+  },
+  {
+   "from": 936.9,
+   "to": 941.8,
+   "text": "echo or date and you want it to be able"
+  },
+  {
+   "from": 939,
+   "to": 943.7,
+   "text": "to run be run from anywhere you either"
+  },
+  {
+   "from": 941.8,
+   "to": 945.6,
+   "text": "want to just give the name of the"
+  },
+  {
+   "from": 943.7,
+   "to": 947.8,
+   "text": "program like date or echo and let the the"
+  },
+  {
+   "from": 945.6,
+   "to": 949.7,
+   "text": "shell use the path to figure out where"
+  },
+  {
+   "from": 947.8,
+   "to": 951.7,
+   "text": "it is or you want to give its absolute"
+  },
+  {
+   "from": 949.7,
+   "to": 953.5,
+   "text": "path because if you gave a relative path"
+  },
+  {
+   "from": 951.7,
+   "to": 955.8,
+   "text": "then if I ran it in my home directory"
+  },
+  {
+   "from": 953.5,
+   "to": 961.7,
+   "text": "and you ran it in some other directory"
+  },
+  {
+   "from": 955.8,
+   "to": 964.6,
+   "text": "it might work for me but not for you in"
+  },
+  {
+   "from": 961.7,
+   "to": 966.3,
+   "text": "general when we run a program it is"
+  },
+  {
+   "from": 964.6,
+   "to": 968.3,
+   "text": "going to be operating on the current"
+  },
+  {
+   "from": 966.3,
+   "to": 969.9,
+   "text": "working directory at least by default"
+  },
+  {
+   "from": 968.3,
+   "to": 972,
+   "text": "unless we give it any other arguments"
+  },
+  {
+   "from": 969.9,
+   "to": 973.8,
+   "text": "and this is really handy because it"
+  },
+  {
+   "from": 972,
+   "to": 975.7,
+   "text": "means that often we don't have to give"
+  },
+  {
+   "from": 973.8,
+   "to": 977.7,
+   "text": "full paths for things we can just use"
+  },
+  {
+   "from": 975.7,
+   "to": 980.1,
+   "text": "the name of files and in the directory"
+  },
+  {
+   "from": 977.7,
+   "to": 982.6,
+   "text": "that we're currently in one thing that's"
+  },
+  {
+   "from": 980.1,
+   "to": 984.3,
+   "text": "really useful is to figure out what is"
+  },
+  {
+   "from": 982.6,
+   "to": 986.4,
+   "text": "in the current directory we're in so we"
+  },
+  {
+   "from": 984.3,
+   "to": 988.1,
+   "text": "already saw PWD which prints where you"
+  },
+  {
+   "from": 986.4,
+   "to": 991.1,
+   "text": "currently are there's a command called"
+  },
+  {
+   "from": 988.1,
+   "to": 993.3,
+   "text": "LS which will show you it will list the"
+  },
+  {
+   "from": 991.1,
+   "to": 996,
+   "text": "files in the current directory so if i"
+  },
+  {
+   "from": 993.3,
+   "to": 998.1,
+   "text": "type LS here this is all the files in"
+  },
+  {
+   "from": 996,
+   "to": 999.9,
+   "text": "the current directory right and this is"
+  },
+  {
+   "from": 998.1,
+   "to": 1003.4,
+   "text": "a handy way to just quickly navigate"
+  },
+  {
+   "from": 999.9,
+   "to": 1006.9,
+   "text": "through the filesystem you'll see that"
+  },
+  {
+   "from": 1003.4,
+   "to": 1008.5,
+   "text": "if I sort of CD dot and then do LS it'll"
+  },
+  {
+   "from": 1006.9,
+   "to": 1013.4,
+   "text": "show me the files in that directory"
+  },
+  {
+   "from": 1008.5,
+   "to": 1016.3,
+   "text": "instead but with LS I can also give it"
+  },
+  {
+   "from": 1013.4,
+   "to": 1018.4,
+   "text": "LS dot dot like I can give it a path and"
+  },
+  {
+   "from": 1016.3,
+   "to": 1019.9,
+   "text": "then will LS that file instead of the"
+  },
+  {
+   "from": 1018.4,
+   "to": 1024.3,
+   "text": "one that I'm currently in or LS that"
+  },
+  {
+   "from": 1019.9,
+   "to": 1025.8,
+   "text": "directory and you can see this if I go"
+  },
+  {
+   "from": 1024.3,
+   "to": 1029.2,
+   "text": "all the way to the root as well right"
+  },
+  {
+   "from": 1025.8,
+   "to": 1031.6,
+   "text": "root has different files one handy trick"
+  },
+  {
+   "from": 1029.2,
+   "to": 1033.6,
+   "text": "you might not know about here is there"
+  },
+  {
+   "from": 1031.6,
+   "to": 1036.6,
+   "text": "are two other special things you can do"
+  },
+  {
+   "from": 1033.6,
+   "to": 1038.3,
+   "text": "one is the tilde character this"
+  },
+  {
+   "from": 1036.6,
+   "to": 1041.1,
+   "text": "character brings you to your home"
+  },
+  {
+   "from": 1038.3,
+   "to": 1043.1,
+   "text": "directory so tilde always expands to the"
+  },
+  {
+   "from": 1041.1,
+   "to": 1045.8,
+   "text": "home directory and you can do relative"
+  },
+  {
+   "from": 1043.1,
+   "to": 1050,
+   "text": "paths to it so I can do tilde slash dev"
+  },
+  {
+   "from": 1045.8,
+   "to": 1053,
+   "text": "slash P DOS classes missing semester and"
+  },
+  {
+   "from": 1050,
+   "to": 1056.7,
+   "text": "now I'm there because tilde expanded to"
+  },
+  {
+   "from": 1053,
+   "to": 1059.5,
+   "text": "slash home slash John there is also for"
+  },
+  {
+   "from": 1056.7,
+   "to": 1062.3,
+   "text": "CD in particular a really handy argument"
+  },
+  {
+   "from": 1059.5,
+   "to": 1064.5,
+   "text": "you can give which is - if you do CD -"
+  },
+  {
+   "from": 1062.3,
+   "to": 1067.4,
+   "text": "it will CD to the directory you were"
+  },
+  {
+   "from": 1064.5,
+   "to": 1068.2,
+   "text": "previously in so if I do CD - I go back"
+  },
+  {
+   "from": 1067.4,
+   "to": 1072.2,
+   "text": "to root"
+  },
+  {
+   "from": 1068.2,
+   "to": 1073.9,
+   "text": "if I do CD - again I go back to missing"
+  },
+  {
+   "from": 1072.2,
+   "to": 1075.1,
+   "text": "semester so this is a handy way if you"
+  },
+  {
+   "from": 1073.9,
+   "to": 1081.3,
+   "text": "want to toggle between two different"
+  },
+  {
+   "from": 1075.1,
+   "to": 1083.6,
+   "text": "directories in the case of LS or in the"
+  },
+  {
+   "from": 1081.3,
+   "to": 1086.2,
+   "text": "case of CD there might be arguments do"
+  },
+  {
+   "from": 1083.6,
+   "to": 1087.6,
+   "text": "you don't know about right currently we"
+  },
+  {
+   "from": 1086.2,
+   "to": 1089.5,
+   "text": "haven't really been doing anything"
+  },
+  {
+   "from": 1087.6,
+   "to": 1091.5,
+   "text": "except giving paths but how do you even"
+  },
+  {
+   "from": 1089.5,
+   "to": 1094.3,
+   "text": "discover that you can give a path to LS"
+  },
+  {
+   "from": 1091.5,
+   "to": 1096.5,
+   "text": "in the first place well most programs"
+  },
+  {
+   "from": 1094.3,
+   "to": 1098.8,
+   "text": "take what are known as arguments like"
+  },
+  {
+   "from": 1096.5,
+   "to": 1101.6,
+   "text": "flags and options these are things that"
+  },
+  {
+   "from": 1098.8,
+   "to": 1104.8,
+   "text": "usually start with a - one of the Hemi"
+  },
+  {
+   "from": 1101.6,
+   "to": 1106.9,
+   "text": "is one of these is - help most programs"
+  },
+  {
+   "from": 1104.8,
+   "to": 1110,
+   "text": "implement this and if you run for"
+  },
+  {
+   "from": 1106.9,
+   "to": 1114,
+   "text": "example LS - help it all helpfully print"
+  },
+  {
+   "from": 1110,
+   "to": 1116,
+   "text": "out a bunch of information about that"
+  },
+  {
+   "from": 1114,
+   "to": 1118.4,
+   "text": "command and you'll see here that it says"
+  },
+  {
+   "from": 1116,
+   "to": 1120.3,
+   "text": "the usage is LS and you can give some"
+  },
+  {
+   "from": 1118.4,
+   "to": 1122,
+   "text": "number of options and you can give some"
+  },
+  {
+   "from": 1120.3,
+   "to": 1126.4,
+   "text": "number of files the way to read that"
+  },
+  {
+   "from": 1122,
+   "to": 1128.6,
+   "text": "usage line is triple dot means one like"
+  },
+  {
+   "from": 1126.4,
+   "to": 1130.9,
+   "text": "zero or one or more and the square"
+  },
+  {
+   "from": 1128.6,
+   "to": 1132.9,
+   "text": "bracket means optional so in this case"
+  },
+  {
+   "from": 1130.9,
+   "to": 1134.3,
+   "text": "there's an optional number of options"
+  },
+  {
+   "from": 1132.9,
+   "to": 1136.8,
+   "text": "and there's an optional number of files"
+  },
+  {
+   "from": 1134.3,
+   "to": 1138.7,
+   "text": "and you'll see that it says what the"
+  },
+  {
+   "from": 1136.8,
+   "to": 1140.7,
+   "text": "program does and also specifies a number"
+  },
+  {
+   "from": 1138.7,
+   "to": 1143,
+   "text": "of different types of flags and options"
+  },
+  {
+   "from": 1140.7,
+   "to": 1145,
+   "text": "you can give usually we call things that"
+  },
+  {
+   "from": 1143,
+   "to": 1147.8,
+   "text": "are a single dash in a single letter a"
+  },
+  {
+   "from": 1145,
+   "to": 1149.9,
+   "text": "flag and anything that or anything that"
+  },
+  {
+   "from": 1147.8,
+   "to": 1151.7,
+   "text": "doesn't take a value a flag and anything"
+  },
+  {
+   "from": 1149.9,
+   "to": 1156.6,
+   "text": "that does take a value an option so for"
+  },
+  {
+   "from": 1151.7,
+   "to": 1162.3,
+   "text": "example - a and - all are both flags and"
+  },
+  {
+   "from": 1156.6,
+   "to": 1164.2,
+   "text": "- C or - color R is an option one thing"
+  },
+  {
+   "from": 1162.3,
+   "to": 1170.3,
+   "text": "you'll see under here if you scroll down"
+  },
+  {
+   "from": 1164.2,
+   "to": 1177.1,
+   "text": "far enough is the - L flag and that's"
+  },
+  {
+   "from": 1170.3,
+   "to": 1179.5,
+   "text": "unhelpful the - L flag the - L flag uses"
+  },
+  {
+   "from": 1177.1,
+   "to": 1180.9,
+   "text": "a long listing format now that's"
+  },
+  {
+   "from": 1179.5,
+   "to": 1183.4,
+   "text": "particularly helpful in and of itself"
+  },
+  {
+   "from": 1180.9,
+   "to": 1186.9,
+   "text": "but let's see what it actually does so"
+  },
+  {
+   "from": 1183.4,
+   "to": 1188.5,
+   "text": "if I do LS dash L it still prints the"
+  },
+  {
+   "from": 1186.9,
+   "to": 1189.9,
+   "text": "files in the current directory but it"
+  },
+  {
+   "from": 1188.5,
+   "to": 1192.2,
+   "text": "gives me a lot more information about"
+  },
+  {
+   "from": 1189.9,
+   "to": 1194.6,
+   "text": "those files and this is something you'll"
+  },
+  {
+   "from": 1192.2,
+   "to": 1196.3,
+   "text": "find yourself using quite a lot because"
+  },
+  {
+   "from": 1194.6,
+   "to": 1200.8,
+   "text": "the additional information it gives you"
+  },
+  {
+   "from": 1196.3,
+   "to": 1202,
+   "text": "is often quite handy let's look at what"
+  },
+  {
+   "from": 1200.8,
+   "to": 1209,
+   "text": "some of that information"
+  },
+  {
+   "from": 1202,
+   "to": 1210.1,
+   "text": "ah so first of all the D at the"
+  },
+  {
+   "from": 1209,
+   "to": 1211.8,
+   "text": "beginning of some of these entries"
+  },
+  {
+   "from": 1210.1,
+   "to": 1214.8,
+   "text": "indicate that something is a directory"
+  },
+  {
+   "from": 1211.8,
+   "to": 1216,
+   "text": "so the underscore data entry here for"
+  },
+  {
+   "from": 1214.8,
+   "to": 1218.7,
+   "text": "example is a directory"
+  },
+  {
+   "from": 1216,
+   "to": 1222.7,
+   "text": "whereas for for hTML is not a directory"
+  },
+  {
+   "from": 1218.7,
+   "to": 1225.4,
+   "text": "it's a file the following letters after"
+  },
+  {
+   "from": 1222.7,
+   "to": 1228.7,
+   "text": "that indicate the permissions that are"
+  },
+  {
+   "from": 1225.4,
+   "to": 1230.8,
+   "text": "set for that file so this like we saw"
+  },
+  {
+   "from": 1228.7,
+   "to": 1232.6,
+   "text": "earlier I might not be able to open a"
+  },
+  {
+   "from": 1230.8,
+   "to": 1234.2,
+   "text": "given file or I might not be able to CD"
+  },
+  {
+   "from": 1232.6,
+   "to": 1235.8,
+   "text": "into a given directory and this is all"
+  },
+  {
+   "from": 1234.2,
+   "to": 1238,
+   "text": "dictated by the permissions on that"
+  },
+  {
+   "from": 1235.8,
+   "to": 1241.4,
+   "text": "particular file or directory the way to"
+  },
+  {
+   "from": 1238,
+   "to": 1243.5,
+   "text": "read these is that the the first group"
+  },
+  {
+   "from": 1241.4,
+   "to": 1245.8,
+   "text": "of three are the permissions are set for"
+  },
+  {
+   "from": 1243.5,
+   "to": 1249.6,
+   "text": "the owner of the file all of these files"
+  },
+  {
+   "from": 1245.8,
+   "to": 1252,
+   "text": "you'll see are owned by me the second"
+  },
+  {
+   "from": 1249.6,
+   "to": 1253.9,
+   "text": "group of three characters is for the"
+  },
+  {
+   "from": 1252,
+   "to": 1256.1,
+   "text": "permissions for the group that owns this"
+  },
+  {
+   "from": 1253.9,
+   "to": 1258.7,
+   "text": "file in this case all of these files are"
+  },
+  {
+   "from": 1256.1,
+   "to": 1261.8,
+   "text": "also known by the john group and a final"
+  },
+  {
+   "from": 1258.7,
+   "to": 1263.9,
+   "text": "group of three is a list of the"
+  },
+  {
+   "from": 1261.8,
+   "to": 1266.3,
+   "text": "permissions for everyone else so anyone"
+  },
+  {
+   "from": 1263.9,
+   "to": 1268.6,
+   "text": "who's not a user owner or a group owner"
+  },
+  {
+   "from": 1266.3,
+   "to": 1271,
+   "text": "this directory is perhaps kind of boring"
+  },
+  {
+   "from": 1268.6,
+   "to": 1274.2,
+   "text": "because all of the things are owned by"
+  },
+  {
+   "from": 1271,
+   "to": 1277.5,
+   "text": "me but if we do something like CD to"
+  },
+  {
+   "from": 1274.2,
+   "to": 1280.3,
+   "text": "slash and do LS dash L you'll see that"
+  },
+  {
+   "from": 1277.5,
+   "to": 1282.8,
+   "text": "here all of them are owned by root we'll"
+  },
+  {
+   "from": 1280.3,
+   "to": 1284.1,
+   "text": "get back to what the root user is but"
+  },
+  {
+   "from": 1282.8,
+   "to": 1286.4,
+   "text": "here you see some of the permissions are"
+  },
+  {
+   "from": 1284.1,
+   "to": 1291.4,
+   "text": "a little bit more interesting the groups"
+  },
+  {
+   "from": 1286.4,
+   "to": 1294.3,
+   "text": "of three are read write and execute what"
+  },
+  {
+   "from": 1291.4,
+   "to": 1296.5,
+   "text": "these mean differs for files and for"
+  },
+  {
+   "from": 1294.3,
+   "to": 1298,
+   "text": "directories for files it's pretty"
+  },
+  {
+   "from": 1296.5,
+   "to": 1300.2,
+   "text": "straightforward if you have read"
+  },
+  {
+   "from": 1298,
+   "to": 1301.8,
+   "text": "permissions on a file then you can read"
+  },
+  {
+   "from": 1300.2,
+   "to": 1304,
+   "text": "its contents if you have write"
+  },
+  {
+   "from": 1301.8,
+   "to": 1306.2,
+   "text": "permissions on a file then you can save"
+  },
+  {
+   "from": 1304,
+   "to": 1308.3,
+   "text": "the file you can add more to it or you"
+  },
+  {
+   "from": 1306.2,
+   "to": 1310.7,
+   "text": "can replace it entirely and if you have"
+  },
+  {
+   "from": 1308.3,
+   "to": 1312.6,
+   "text": "execute to the X bit on a file then"
+  },
+  {
+   "from": 1310.7,
+   "to": 1317.4,
+   "text": "you're allowed to execute that file so"
+  },
+  {
+   "from": 1312.6,
+   "to": 1320,
+   "text": "if we do LS al in slash bin that's a"
+  },
+  {
+   "from": 1317.4,
+   "to": 1322.6,
+   "text": "novel and user bin you'll see that all"
+  },
+  {
+   "from": 1320,
+   "to": 1324.6,
+   "text": "of them have the execute bit set even"
+  },
+  {
+   "from": 1322.6,
+   "to": 1326.5,
+   "text": "for people who are not the owner of the"
+  },
+  {
+   "from": 1324.6,
+   "to": 1328.3,
+   "text": "file and this is because the echo"
+  },
+  {
+   "from": 1326.5,
+   "to": 1329.4,
+   "text": "program for example we want everyone on"
+  },
+  {
+   "from": 1328.3,
+   "to": 1331.7,
+   "text": "the computer to be able to execute"
+  },
+  {
+   "from": 1329.4,
+   "to": 1333.9,
+   "text": "there's no reason to say only certain"
+  },
+  {
+   "from": 1331.7,
+   "to": 1335.6,
+   "text": "users can run echo that doesn't really"
+  },
+  {
+   "from": 1333.9,
+   "to": 1338.4,
+   "text": "make any make any sense"
+  },
+  {
+   "from": 1335.6,
+   "to": 1341,
+   "text": "for directories though these permissions"
+  },
+  {
+   "from": 1338.4,
+   "to": 1343.6,
+   "text": "are a little bit different so read"
+  },
+  {
+   "from": 1341,
+   "to": 1346.5,
+   "text": "translates - are you allowed to see"
+  },
+  {
+   "from": 1343.6,
+   "to": 1348.8,
+   "text": "which files are inside this directory so"
+  },
+  {
+   "from": 1346.5,
+   "to": 1350.5,
+   "text": "think of read as lists for a directory"
+  },
+  {
+   "from": 1348.8,
+   "to": 1353.4,
+   "text": "are you allowed to list its contents"
+  },
+  {
+   "from": 1350.5,
+   "to": 1356.2,
+   "text": "write for a directory is whether you are"
+  },
+  {
+   "from": 1353.4,
+   "to": 1359.1,
+   "text": "allowed to rename create or remove files"
+  },
+  {
+   "from": 1356.2,
+   "to": 1362,
+   "text": "within that directory so it's still kind"
+  },
+  {
+   "from": 1359.1,
+   "to": 1365.2,
+   "text": "of right but notice that this means that"
+  },
+  {
+   "from": 1362,
+   "to": 1367.6,
+   "text": "if you have write permissions on a file"
+  },
+  {
+   "from": 1365.2,
+   "to": 1370,
+   "text": "but you do not have write permissions on"
+  },
+  {
+   "from": 1367.6,
+   "to": 1372.1,
+   "text": "its directory you cannot delete the file"
+  },
+  {
+   "from": 1370,
+   "to": 1374.4,
+   "text": "you can empty it but you cannot delete"
+  },
+  {
+   "from": 1372.1,
+   "to": 1377.7,
+   "text": "it because that would require writing to"
+  },
+  {
+   "from": 1374.4,
+   "to": 1379.1,
+   "text": "the directory itself and finally execute"
+  },
+  {
+   "from": 1377.7,
+   "to": 1382,
+   "text": "on directories is something that trips"
+  },
+  {
+   "from": 1379.1,
+   "to": 1384.7,
+   "text": "people up a lot execute on a directory"
+  },
+  {
+   "from": 1382,
+   "to": 1387.2,
+   "text": "is what's known as search and that's not"
+  },
+  {
+   "from": 1384.7,
+   "to": 1390.2,
+   "text": "terribly helpful a name but what that"
+  },
+  {
+   "from": 1387.2,
+   "to": 1393.5,
+   "text": "means is are you allowed to enter this"
+  },
+  {
+   "from": 1390.2,
+   "to": 1395.2,
+   "text": "directory if you want to get to a file"
+  },
+  {
+   "from": 1393.5,
+   "to": 1396.7,
+   "text": "if you want to open it or read it or"
+  },
+  {
+   "from": 1395.2,
+   "to": 1400.3,
+   "text": "write it whatever you want to do"
+  },
+  {
+   "from": 1396.7,
+   "to": 1402.7,
+   "text": "basically to CD into a directory you"
+  },
+  {
+   "from": 1400.3,
+   "to": 1405.1,
+   "text": "must have the execute permission on all"
+  },
+  {
+   "from": 1402.7,
+   "to": 1408.2,
+   "text": "parent directories of that directory and"
+  },
+  {
+   "from": 1405.1,
+   "to": 1410.5,
+   "text": "the directory itself so for example for"
+  },
+  {
+   "from": 1408.2,
+   "to": 1414.1,
+   "text": "me to access a file inside slash user"
+  },
+  {
+   "from": 1410.5,
+   "to": 1415.8,
+   "text": "slash bin such as user bin echo I must"
+  },
+  {
+   "from": 1414.1,
+   "to": 1418.1,
+   "text": "have executed on route I must have"
+  },
+  {
+   "from": 1415.8,
+   "to": 1420.4,
+   "text": "execute on user and I must have execute"
+  },
+  {
+   "from": 1418.1,
+   "to": 1422.1,
+   "text": "on bin if I do not have all those"
+  },
+  {
+   "from": 1420.4,
+   "to": 1424.8,
+   "text": "execute bits I will not be allowed to"
+  },
+  {
+   "from": 1422.1,
+   "to": 1428.4,
+   "text": "access that file because I won't be able"
+  },
+  {
+   "from": 1424.8,
+   "to": 1430.7,
+   "text": "to enter the directories along the way"
+  },
+  {
+   "from": 1428.4,
+   "to": 1432.6,
+   "text": "there are a number of other bits that"
+  },
+  {
+   "from": 1430.7,
+   "to": 1435.3,
+   "text": "you might come across like you might see"
+  },
+  {
+   "from": 1432.6,
+   "to": 1438,
+   "text": "esses or T's in these lists you might"
+  },
+  {
+   "from": 1435.3,
+   "to": 1439,
+   "text": "see LS those we can talk about in office"
+  },
+  {
+   "from": 1438,
+   "to": 1441.3,
+   "text": "hours if you're curious"
+  },
+  {
+   "from": 1439,
+   "to": 1444.3,
+   "text": "they will mostly not matter for anything"
+  },
+  {
+   "from": 1441.3,
+   "to": 1445.7,
+   "text": "you will do in this class but they are"
+  },
+  {
+   "from": 1444.3,
+   "to": 1448.1,
+   "text": "handy to know about so if you're curious"
+  },
+  {
+   "from": 1445.7,
+   "to": 1451.3,
+   "text": "about them look them up on your own or"
+  },
+  {
+   "from": 1448.1,
+   "to": 1453.1,
+   "text": "come ask us in office hours there are"
+  },
+  {
+   "from": 1451.3,
+   "to": 1454.6,
+   "text": "some other programs that are handy to"
+  },
+  {
+   "from": 1453.1,
+   "to": 1456.2,
+   "text": "know about oh sorry there's one more"
+  },
+  {
+   "from": 1454.6,
+   "to": 1457.4,
+   "text": "thing as I mentioned if you just have a"
+  },
+  {
+   "from": 1456.2,
+   "to": 1459.5,
+   "text": "dash it means you do not have that"
+  },
+  {
+   "from": 1457.4,
+   "to": 1461.8,
+   "text": "permission right so if it says for"
+  },
+  {
+   "from": 1459.5,
+   "to": 1463.2,
+   "text": "example our dash X it means that you"
+  },
+  {
+   "from": 1461.8,
+   "to": 1467.4,
+   "text": "have read and execute but you do not"
+  },
+  {
+   "from": 1463.2,
+   "to": 1469.2,
+   "text": "have right there are some other handy"
+  },
+  {
+   "from": 1467.4,
+   "to": 1472.4,
+   "text": "programs to know about at this point"
+  },
+  {
+   "from": 1469.2,
+   "to": 1475.5,
+   "text": "one of them is move or the MV command so"
+  },
+  {
+   "from": 1472.4,
+   "to": 1479.4,
+   "text": "if I CD back to missing semester here MV"
+  },
+  {
+   "from": 1475.5,
+   "to": 1483,
+   "text": "lets me rename a file and rename here"
+  },
+  {
+   "from": 1479.4,
+   "to": 1485.3,
+   "text": "takes two paths it takes the old path in"
+  },
+  {
+   "from": 1483,
+   "to": 1487.9,
+   "text": "the new path this is means that move"
+  },
+  {
+   "from": 1485.3,
+   "to": 1490,
+   "text": "lets you both rename a file like if you"
+  },
+  {
+   "from": 1487.9,
+   "to": 1492.1,
+   "text": "change the name of the file but not the"
+  },
+  {
+   "from": 1490,
+   "to": 1494.3,
+   "text": "directory or it lets you move a file to"
+  },
+  {
+   "from": 1492.1,
+   "to": 1496.4,
+   "text": "a completely different directory it just"
+  },
+  {
+   "from": 1494.3,
+   "to": 1497.9,
+   "text": "you give the path to the current file"
+  },
+  {
+   "from": 1496.4,
+   "to": 1499.7,
+   "text": "and the path to where you want that file"
+  },
+  {
+   "from": 1497.9,
+   "to": 1502.7,
+   "text": "to be and that can change its location"
+  },
+  {
+   "from": 1499.7,
+   "to": 1505.5,
+   "text": "and its name so for example I can move"
+  },
+  {
+   "from": 1502.7,
+   "to": 1509,
+   "text": "dot files dot MD to be food MD"
+  },
+  {
+   "from": 1505.5,
+   "to": 1516.3,
+   "text": "unhelpfully right and similarly I can"
+  },
+  {
+   "from": 1509,
+   "to": 1519.4,
+   "text": "move it back there's also the CP command"
+  },
+  {
+   "from": 1516.3,
+   "to": 1521.9,
+   "text": "the CP or copy is very similar it lets"
+  },
+  {
+   "from": 1519.4,
+   "to": 1523.8,
+   "text": "you copy a file CP also takes two"
+  },
+  {
+   "from": 1521.9,
+   "to": 1525.6,
+   "text": "arguments it takes the path you want to"
+  },
+  {
+   "from": 1523.8,
+   "to": 1528.3,
+   "text": "copy from and the path you want to copy"
+  },
+  {
+   "from": 1525.6,
+   "to": 1530.9,
+   "text": "to and these are full paths so I could"
+  },
+  {
+   "from": 1528.3,
+   "to": 1533,
+   "text": "use this for example to say I want to"
+  },
+  {
+   "from": 1530.9,
+   "to": 1537.6,
+   "text": "copy dot files out MD - dot dot slash"
+  },
+  {
+   "from": 1533,
+   "to": 1539.7,
+   "text": "food MD sure food MD and now if I do LS"
+  },
+  {
+   "from": 1537.6,
+   "to": 1542.8,
+   "text": "dot you'll see that there's a food MD"
+  },
+  {
+   "from": 1539.7,
+   "to": 1544.6,
+   "text": "file in that directory so CP as well"
+  },
+  {
+   "from": 1542.8,
+   "to": 1547.8,
+   "text": "take two paths it does not have to be in"
+  },
+  {
+   "from": 1544.6,
+   "to": 1549.7,
+   "text": "the same directory and similarly there's"
+  },
+  {
+   "from": 1547.8,
+   "to": 1552.1,
+   "text": "the RM command which lets you remove a"
+  },
+  {
+   "from": 1549.7,
+   "to": 1554.1,
+   "text": "file and there - you can give paths in"
+  },
+  {
+   "from": 1552.1,
+   "to": 1556.8,
+   "text": "this case I'm removing dot dot slash"
+  },
+  {
+   "from": 1554.1,
+   "to": 1559.5,
+   "text": "food you should be aware for removing"
+  },
+  {
+   "from": 1556.8,
+   "to": 1561.9,
+   "text": "especially on Linux removal is by"
+  },
+  {
+   "from": 1559.5,
+   "to": 1565,
+   "text": "default not recursive so you cannot"
+  },
+  {
+   "from": 1561.9,
+   "to": 1567.1,
+   "text": "remove a directory using RM you can pass"
+  },
+  {
+   "from": 1565,
+   "to": 1569.3,
+   "text": "the - our flag which lets you do a"
+  },
+  {
+   "from": 1567.1,
+   "to": 1570.6,
+   "text": "recursive remove and then give a path"
+  },
+  {
+   "from": 1569.3,
+   "to": 1572.9,
+   "text": "that you want to remove and it will"
+  },
+  {
+   "from": 1570.6,
+   "to": 1576.4,
+   "text": "remove everything below it there is also"
+  },
+  {
+   "from": 1572.9,
+   "to": 1578.3,
+   "text": "the RM dr dir command which lets you"
+  },
+  {
+   "from": 1576.4,
+   "to": 1581.2,
+   "text": "remove a directory but it only lets you"
+  },
+  {
+   "from": 1578.3,
+   "to": 1583,
+   "text": "remove that directory if it is empty so"
+  },
+  {
+   "from": 1581.2,
+   "to": 1584,
+   "text": "the idea here is to sort of be a safety"
+  },
+  {
+   "from": 1583,
+   "to": 1585.4,
+   "text": "mechanism for you so you don't"
+  },
+  {
+   "from": 1584,
+   "to": 1588.6,
+   "text": "accidentally throw away a bunch of your"
+  },
+  {
+   "from": 1585.4,
+   "to": 1591,
+   "text": "files and the final little command"
+  },
+  {
+   "from": 1588.6,
+   "to": 1592.5,
+   "text": "that's handy to use is make there which"
+  },
+  {
+   "from": 1591,
+   "to": 1594.4,
+   "text": "lets you create a new directory and as"
+  },
+  {
+   "from": 1592.5,
+   "to": 1596.1,
+   "text": "we talked about before you don't want to"
+  },
+  {
+   "from": 1594.4,
+   "to": 1597.9,
+   "text": "do something like this because it will"
+  },
+  {
+   "from": 1596.1,
+   "to": 1600.6,
+   "text": "create two directories for you one"
+  },
+  {
+   "from": 1597.9,
+   "to": 1602.1,
+   "text": "called my and one called photos if you"
+  },
+  {
+   "from": 1600.6,
+   "to": 1603,
+   "text": "actually want to create a directory like"
+  },
+  {
+   "from": 1602.1,
+   "to": 1610.1,
+   "text": "this you would either"
+  },
+  {
+   "from": 1603,
+   "to": 1612.5,
+   "text": "escape the space or quote the string if"
+  },
+  {
+   "from": 1610.1,
+   "to": 1614.9,
+   "text": "you ever want more information about how"
+  },
+  {
+   "from": 1612.5,
+   "to": 1617,
+   "text": "any command to basically on these"
+  },
+  {
+   "from": 1614.9,
+   "to": 1618.2,
+   "text": "platforms work there's a really handy"
+  },
+  {
+   "from": 1617,
+   "to": 1620.6,
+   "text": "command for that as well"
+  },
+  {
+   "from": 1618.2,
+   "to": 1624.6,
+   "text": "there is the program called man for"
+  },
+  {
+   "from": 1620.6,
+   "to": 1626.4,
+   "text": "manual pages this program takes as an"
+  },
+  {
+   "from": 1624.6,
+   "to": 1629.1,
+   "text": "argument the name of another program and"
+  },
+  {
+   "from": 1626.4,
+   "to": 1632,
+   "text": "gives you its manual page so for example"
+  },
+  {
+   "from": 1629.1,
+   "to": 1635,
+   "text": "we could do man LS and this shows us a"
+  },
+  {
+   "from": 1632,
+   "to": 1636.7,
+   "text": "manual page for LS you'll notice that in"
+  },
+  {
+   "from": 1635,
+   "to": 1639.3,
+   "text": "the case of LS it is fairly similar to"
+  },
+  {
+   "from": 1636.7,
+   "to": 1640.9,
+   "text": "what we got with LS - help but it's a"
+  },
+  {
+   "from": 1639.3,
+   "to": 1643.6,
+   "text": "little easier to navigate a little"
+  },
+  {
+   "from": 1640.9,
+   "to": 1646.3,
+   "text": "easier to read usually towards the"
+  },
+  {
+   "from": 1643.6,
+   "to": 1648.6,
+   "text": "bottom you will also get examples"
+  },
+  {
+   "from": 1646.3,
+   "to": 1649.9,
+   "text": "information about who wrote it where you"
+  },
+  {
+   "from": 1648.6,
+   "to": 1652.4,
+   "text": "can find more information and that sort"
+  },
+  {
+   "from": 1649.9,
+   "to": 1653,
+   "text": "of stuff one thing that can be confusing"
+  },
+  {
+   "from": 1652.4,
+   "to": 1655.3,
+   "text": "sometimes"
+  },
+  {
+   "from": 1653,
+   "to": 1656.3,
+   "text": "at least until a recent version where"
+  },
+  {
+   "from": 1655.3,
+   "to": 1658.8,
+   "text": "they added this three at the bottom"
+  },
+  {
+   "from": 1656.3,
+   "to": 1661.4,
+   "text": "which says Q to quit they do not use to"
+  },
+  {
+   "from": 1658.8,
+   "to": 1663.3,
+   "text": "say this you press Q to quit this"
+  },
+  {
+   "from": 1661.4,
+   "to": 1668.2,
+   "text": "program it can be really hard to quit it"
+  },
+  {
+   "from": 1663.3,
+   "to": 1670.8,
+   "text": "if you do not know that a handy keyboard"
+  },
+  {
+   "from": 1668.2,
+   "to": 1673,
+   "text": "shortcut here by the way is ctrl L which"
+  },
+  {
+   "from": 1670.8,
+   "to": 1677,
+   "text": "lets you clear your terminal and go back"
+  },
+  {
+   "from": 1673,
+   "to": 1679.3,
+   "text": "to the top so so far we've only talked"
+  },
+  {
+   "from": 1677,
+   "to": 1681.4,
+   "text": "about programs in isolation but where"
+  },
+  {
+   "from": 1679.3,
+   "to": 1683,
+   "text": "much of the power of the shell really"
+  },
+  {
+   "from": 1681.4,
+   "to": 1686.4,
+   "text": "comes through is once you start"
+  },
+  {
+   "from": 1683,
+   "to": 1688.4,
+   "text": "combining different programs right so"
+  },
+  {
+   "from": 1686.4,
+   "to": 1690.8,
+   "text": "rather than just like running CDE"
+  },
+  {
+   "from": 1688.4,
+   "to": 1692.5,
+   "text": "running LS and etc you might want to"
+  },
+  {
+   "from": 1690.8,
+   "to": 1693.9,
+   "text": "chain multiple programs together you"
+  },
+  {
+   "from": 1692.5,
+   "to": 1696,
+   "text": "might want to interact with files and"
+  },
+  {
+   "from": 1693.9,
+   "to": 1699.3,
+   "text": "have files operate in between programs"
+  },
+  {
+   "from": 1696,
+   "to": 1701.2,
+   "text": "and the way we can do this is using this"
+  },
+  {
+   "from": 1699.3,
+   "to": 1704.6,
+   "text": "notion of streams that the shell gives"
+  },
+  {
+   "from": 1701.2,
+   "to": 1705.9,
+   "text": "us every program by default has I'm"
+  },
+  {
+   "from": 1704.6,
+   "to": 1708.6,
+   "text": "gonna simplify a little and say two"
+  },
+  {
+   "from": 1705.9,
+   "to": 1711.8,
+   "text": "primary streams it has an input stream"
+  },
+  {
+   "from": 1708.6,
+   "to": 1714,
+   "text": "and an output stream by default the"
+  },
+  {
+   "from": 1711.8,
+   "to": 1715.4,
+   "text": "input stream is your keyboard basically"
+  },
+  {
+   "from": 1714,
+   "to": 1716.9,
+   "text": "the input stream is your terminal and"
+  },
+  {
+   "from": 1715.4,
+   "to": 1718.9,
+   "text": "whatever you type into your terminal is"
+  },
+  {
+   "from": 1716.9,
+   "to": 1720.6,
+   "text": "going to end up into the program and it"
+  },
+  {
+   "from": 1718.9,
+   "to": 1722,
+   "text": "has a default output stream which is"
+  },
+  {
+   "from": 1720.6,
+   "to": 1724.3,
+   "text": "whenever the program prints something"
+  },
+  {
+   "from": 1722,
+   "to": 1726.3,
+   "text": "it's gonna print to that stream and by"
+  },
+  {
+   "from": 1724.3,
+   "to": 1728.5,
+   "text": "default that is also your terminal this"
+  },
+  {
+   "from": 1726.3,
+   "to": 1730.7,
+   "text": "is why when I type echo hello it gets"
+  },
+  {
+   "from": 1728.5,
+   "to": 1734.2,
+   "text": "printed back to my terminal but the"
+  },
+  {
+   "from": 1730.7,
+   "to": 1736.4,
+   "text": "shell gives you a way to rewire these"
+  },
+  {
+   "from": 1734.2,
+   "to": 1739.1,
+   "text": "streams to change where the input"
+  },
+  {
+   "from": 1736.4,
+   "to": 1741,
+   "text": "output of a programmer pointed the way"
+  },
+  {
+   "from": 1739.1,
+   "to": 1746.2,
+   "text": "the most straightforward way you do this"
+  },
+  {
+   "from": 1741,
+   "to": 1748.2,
+   "text": "is using the angle bracket signs so you"
+  },
+  {
+   "from": 1746.2,
+   "to": 1751.6,
+   "text": "can write something like this or you can"
+  },
+  {
+   "from": 1748.2,
+   "to": 1754.3,
+   "text": "write something like this the left angle"
+  },
+  {
+   "from": 1751.6,
+   "to": 1756.3,
+   "text": "bracket indicates rewire the input for"
+  },
+  {
+   "from": 1754.3,
+   "to": 1761,
+   "text": "this program to be the contents of this"
+  },
+  {
+   "from": 1756.3,
+   "to": 1763.6,
+   "text": "file and the end angle bracket means"
+  },
+  {
+   "from": 1761,
+   "to": 1767.6,
+   "text": "rewire the output of the preceding"
+  },
+  {
+   "from": 1763.6,
+   "to": 1768.6,
+   "text": "program into this file so let's look at"
+  },
+  {
+   "from": 1767.6,
+   "to": 1772.2,
+   "text": "an example of what that would look like"
+  },
+  {
+   "from": 1768.6,
+   "to": 1774.3,
+   "text": "if I do echo hello I can say I want that"
+  },
+  {
+   "from": 1772.2,
+   "to": 1776.7,
+   "text": "context the content to be stored in a"
+  },
+  {
+   "from": 1774.3,
+   "to": 1779,
+   "text": "file called hello dot text and because I"
+  },
+  {
+   "from": 1776.7,
+   "to": 1780.5,
+   "text": "gave this is a relative path right this"
+  },
+  {
+   "from": 1779,
+   "to": 1783,
+   "text": "will construct a file in the current"
+  },
+  {
+   "from": 1780.5,
+   "to": 1785.4,
+   "text": "directory called hello text and at least"
+  },
+  {
+   "from": 1783,
+   "to": 1787.8,
+   "text": "in theory its contents should be the"
+  },
+  {
+   "from": 1785.4,
+   "to": 1790.4,
+   "text": "word hello so if I run this notice that"
+  },
+  {
+   "from": 1787.8,
+   "to": 1792.1,
+   "text": "nothing got printed to my output the"
+  },
+  {
+   "from": 1790.4,
+   "to": 1792.7,
+   "text": "previous time when I ran echo hello it"
+  },
+  {
+   "from": 1792.1,
+   "to": 1795.3,
+   "text": "printed hello"
+  },
+  {
+   "from": 1792.7,
+   "to": 1797.8,
+   "text": "now that hello is going gone into a file"
+  },
+  {
+   "from": 1795.3,
+   "to": 1800.6,
+   "text": "called hello text and I can verify this"
+  },
+  {
+   "from": 1797.8,
+   "to": 1803.9,
+   "text": "by using the program called cat so cat"
+  },
+  {
+   "from": 1800.6,
+   "to": 1807.3,
+   "text": "prints the contents of a file so I can"
+  },
+  {
+   "from": 1803.9,
+   "to": 1811.1,
+   "text": "do cat hello dot txt and there it shows"
+  },
+  {
+   "from": 1807.3,
+   "to": 1813.2,
+   "text": "me hello but cat is a is also something"
+  },
+  {
+   "from": 1811.1,
+   "to": 1816.2,
+   "text": "that supports this kind of wiring so I"
+  },
+  {
+   "from": 1813.2,
+   "to": 1818,
+   "text": "can say cat which by default just prints"
+  },
+  {
+   "from": 1816.2,
+   "to": 1820.7,
+   "text": "its input it just duplicates its input"
+  },
+  {
+   "from": 1818,
+   "to": 1823.8,
+   "text": "to its output I can say I want you to"
+  },
+  {
+   "from": 1820.7,
+   "to": 1825.2,
+   "text": "take your input from Hello text what"
+  },
+  {
+   "from": 1823.8,
+   "to": 1827,
+   "text": "will happen in this case is that the"
+  },
+  {
+   "from": 1825.2,
+   "to": 1829.8,
+   "text": "shell is going to open hello dot txt"
+  },
+  {
+   "from": 1827,
+   "to": 1832.5,
+   "text": "take its contents and set that to be the"
+  },
+  {
+   "from": 1829.8,
+   "to": 1834.4,
+   "text": "input of cat and then cat is going to"
+  },
+  {
+   "from": 1832.5,
+   "to": 1836.5,
+   "text": "just print that to its output which"
+  },
+  {
+   "from": 1834.4,
+   "to": 1838.2,
+   "text": "since I haven't rewired it is gonna be"
+  },
+  {
+   "from": 1836.5,
+   "to": 1841.9,
+   "text": "my terminal so this will just print"
+  },
+  {
+   "from": 1838.2,
+   "to": 1843.5,
+   "text": "hello to the output and I can use both"
+  },
+  {
+   "from": 1841.9,
+   "to": 1845.5,
+   "text": "of these at the same time so for example"
+  },
+  {
+   "from": 1843.5,
+   "to": 1847,
+   "text": "if I want to copy a file and I don't"
+  },
+  {
+   "from": 1845.5,
+   "to": 1851.5,
+   "text": "want to use the CP command for some"
+  },
+  {
+   "from": 1847,
+   "to": 1854.5,
+   "text": "reason I can do this and in this case"
+  },
+  {
+   "from": 1851.5,
+   "to": 1856.5,
+   "text": "I'm telling the cat program nothing at"
+  },
+  {
+   "from": 1854.5,
+   "to": 1858,
+   "text": "all I'm just saying do your normal thing"
+  },
+  {
+   "from": 1856.5,
+   "to": 1860,
+   "text": "right the cat program does not know"
+  },
+  {
+   "from": 1858,
+   "to": 1862.2,
+   "text": "anything about this redirection but I'm"
+  },
+  {
+   "from": 1860,
+   "to": 1864.2,
+   "text": "telling the shell to use hello dot txt as"
+  },
+  {
+   "from": 1862.2,
+   "to": 1868.1,
+   "text": "the input for cat and to write anything"
+  },
+  {
+   "from": 1864.2,
+   "to": 1869.5,
+   "text": "that cat prints - hello - dot txt again"
+  },
+  {
+   "from": 1868.1,
+   "to": 1870,
+   "text": "this prints nothing to my terminal"
+  },
+  {
+   "from": 1869.5,
+   "to": 1873.3,
+   "text": "but if"
+  },
+  {
+   "from": 1870,
+   "to": 1875.6,
+   "text": "cat hello to text I get the output as I"
+  },
+  {
+   "from": 1873.3,
+   "to": 1880.6,
+   "text": "would have expected which is a copy of"
+  },
+  {
+   "from": 1875.6,
+   "to": 1883.4,
+   "text": "the original file there is also a double"
+  },
+  {
+   "from": 1880.6,
+   "to": 1886.6,
+   "text": "end bracket which is append instead of"
+  },
+  {
+   "from": 1883.4,
+   "to": 1887.4,
+   "text": "just overwrite so you'll notice that I"
+  },
+  {
+   "from": 1886.6,
+   "to": 1889.9,
+   "text": "if I do"
+  },
+  {
+   "from": 1887.4,
+   "to": 1892.3,
+   "text": "cat hello dot txt - hello - dot txt"
+  },
+  {
+   "from": 1889.9,
+   "to": 1894.2,
+   "text": "again and then I cat hello2 dot txt it"
+  },
+  {
+   "from": 1892.3,
+   "to": 1896.5,
+   "text": "still just contains hello even though it"
+  },
+  {
+   "from": 1894.2,
+   "to": 1898.8,
+   "text": "already contained hello if I switch that"
+  },
+  {
+   "from": 1896.5,
+   "to": 1901.1,
+   "text": "to instead be a double end bracket it"
+  },
+  {
+   "from": 1898.8,
+   "to": 1905.9,
+   "text": "means append and if I now cat that file"
+  },
+  {
+   "from": 1901.1,
+   "to": 1907.6,
+   "text": "it has a hello twice these are pretty"
+  },
+  {
+   "from": 1905.9,
+   "to": 1909.9,
+   "text": "straightforward they're usually just"
+  },
+  {
+   "from": 1907.6,
+   "to": 1911.6,
+   "text": "ways to interact with files but where it"
+  },
+  {
+   "from": 1909.9,
+   "to": 1913.4,
+   "text": "gets really interesting is an additional"
+  },
+  {
+   "from": 1911.6,
+   "to": 1916.2,
+   "text": "operator the shell gives you called the"
+  },
+  {
+   "from": 1913.4,
+   "to": 1920,
+   "text": "pipe character so pipe is just a"
+  },
+  {
+   "from": 1916.2,
+   "to": 1922.9,
+   "text": "vertical bar and what pipe means is take"
+  },
+  {
+   "from": 1920,
+   "to": 1925.3,
+   "text": "the output of the program to the left"
+  },
+  {
+   "from": 1922.9,
+   "to": 1929.7,
+   "text": "and make it the input of the program to"
+  },
+  {
+   "from": 1925.3,
+   "to": 1933.9,
+   "text": "the right right so what does this look"
+  },
+  {
+   "from": 1929.7,
+   "to": 1937.5,
+   "text": "like well let's take the example of ls /"
+  },
+  {
+   "from": 1933.9,
+   "to": 1939.6,
+   "text": "or ls dash l / this prints a bunch of"
+  },
+  {
+   "from": 1937.5,
+   "to": 1942.5,
+   "text": "things let's say that I only wanted the"
+  },
+  {
+   "from": 1939.6,
+   "to": 1945.7,
+   "text": "last line of this output well there's a"
+  },
+  {
+   "from": 1942.5,
+   "to": 1948.9,
+   "text": "command called tail and tail prints the"
+  },
+  {
+   "from": 1945.7,
+   "to": 1952.4,
+   "text": "last n lines of its input and I can do"
+  },
+  {
+   "from": 1948.9,
+   "to": 1954.5,
+   "text": "-n1 so this is a flag called n you"
+  },
+  {
+   "from": 1952.4,
+   "to": 1956.9,
+   "text": "can also use dash dash lines if you want"
+  },
+  {
+   "from": 1954.5,
+   "to": 1958.7,
+   "text": "to use it as a longer option but in this"
+  },
+  {
+   "from": 1956.9,
+   "to": 1962.3,
+   "text": "case this is saying just print the last"
+  },
+  {
+   "from": 1958.7,
+   "to": 1966.6,
+   "text": "line and I can wire these together so I"
+  },
+  {
+   "from": 1962.3,
+   "to": 1970.8,
+   "text": "can say ls dash l / pipe tail -n1"
+  },
+  {
+   "from": 1966.6,
+   "to": 1973.1,
+   "text": "and notice here that ls does not know"
+  },
+  {
+   "from": 1970.8,
+   "to": 1975.3,
+   "text": "about tail and tail does not know about"
+  },
+  {
+   "from": 1973.1,
+   "to": 1976.9,
+   "text": "ls they are different programs and have"
+  },
+  {
+   "from": 1975.3,
+   "to": 1979.1,
+   "text": "never been programmed to be compatible"
+  },
+  {
+   "from": 1976.9,
+   "to": 1980.7,
+   "text": "with one another all they know how to do"
+  },
+  {
+   "from": 1979.1,
+   "to": 1982.9,
+   "text": "is read from input and write to output"
+  },
+  {
+   "from": 1980.7,
+   "to": 1985.4,
+   "text": "and then the pipe is what wires them"
+  },
+  {
+   "from": 1982.9,
+   "to": 1987.7,
+   "text": "together and in this particular case I'm"
+  },
+  {
+   "from": 1985.4,
+   "to": 1989.4,
+   "text": "saying I want the output of LS to be the"
+  },
+  {
+   "from": 1987.7,
+   "to": 1990.9,
+   "text": "input to tail and then I want the output"
+  },
+  {
+   "from": 1989.4,
+   "to": 1992.1,
+   "text": "of tail to just go to my terminal"
+  },
+  {
+   "from": 1990.9,
+   "to": 1994.2,
+   "text": "because I haven't rewired it"
+  },
+  {
+   "from": 1992.1,
+   "to": 1996.7,
+   "text": "I could also rewire this to say I want"
+  },
+  {
+   "from": 1994.2,
+   "to": 1998.8,
+   "text": "the output to go to ls dot text and in this"
+  },
+  {
+   "from": 1996.7,
+   "to": 2001,
+   "text": "case if I cat ls dot text I would get"
+  },
+  {
+   "from": 1998.8,
+   "to": 2002.6,
+   "text": "the appropriate output and it turns out"
+  },
+  {
+   "from": 2001,
+   "to": 2001.8,
+   "text": "you can do some really neat things with this"
+  },
+  {
+   "from": 2003.3,
+   "to": 2007.7,
+   "text": "gonna cover this a lot more in the data"
+  },
+  {
+   "from": 2005.1,
+   "to": 2010.7,
+   "text": "wrangling lecture there will be in like"
+  },
+  {
+   "from": 2007.7,
+   "to": 2012.5,
+   "text": "four days or something on the kind of"
+  },
+  {
+   "from": 2010.7,
+   "to": 2016.1,
+   "text": "fancy stuff you can do when you start"
+  },
+  {
+   "from": 2012.5,
+   "to": 2017.6,
+   "text": "building more advanced pipelines one to"
+  },
+  {
+   "from": 2016.1,
+   "to": 2022.3,
+   "text": "give you one example we can do something"
+  },
+  {
+   "from": 2017.6,
+   "to": 2026.3,
+   "text": "like curl - -head --silent google.com"
+  },
+  {
+   "from": 2022.3,
+   "to": 2028.9,
+   "text": "so just to show you what that looks"
+  },
+  {
+   "from": 2026.3,
+   "to": 2032.7,
+   "text": "like this gives me all the HTTP headers"
+  },
+  {
+   "from": 2028.9,
+   "to": 2036.5,
+   "text": "for accessing google.com and I can pipe"
+  },
+  {
+   "from": 2032.7,
+   "to": 2041.3,
+   "text": "that to grep a - like a --ignore-case"
+  },
+  {
+   "from": 2036.5,
+   "to": 2044.2,
+   "text": "or just -i if I want content"
+  },
+  {
+   "from": 2041.3,
+   "to": 2046.1,
+   "text": "length so this is gonna print the"
+  },
+  {
+   "from": 2044.2,
+   "to": 2047.5,
+   "text": "content length header, grep is a program"
+  },
+  {
+   "from": 2046.1,
+   "to": 2049.1,
+   "text": "that we'll talk about later they'll let"
+  },
+  {
+   "from": 2047.5,
+   "to": 2052.7,
+   "text": "you search in an input stream for a"
+  },
+  {
+   "from": 2049.1,
+   "to": 2055.6,
+   "text": "given keyword we can pipe that through"
+  },
+  {
+   "from": 2052.7,
+   "to": 2060.2,
+   "text": "say the cut command which takes a"
+  },
+  {
+   "from": 2055.6,
+   "to": 2062.3,
+   "text": "delimiter set that to be space and I"
+  },
+  {
+   "from": 2060.2,
+   "to": 2064.4,
+   "text": "want the second field and this prints"
+  },
+  {
+   "from": 2062.3,
+   "to": 2066,
+   "text": "just the content length this is sort of"
+  },
+  {
+   "from": 2064.4,
+   "to": 2068.4,
+   "text": "a silly example right like this just"
+  },
+  {
+   "from": 2066,
+   "to": 2070.2,
+   "text": "lets you extract the content length in"
+  },
+  {
+   "from": 2068.4,
+   "to": 2072.7,
+   "text": "bytes of google.com from the command"
+  },
+  {
+   "from": 2070.2,
+   "to": 2074.7,
+   "text": "line it's not a very useful thing to do"
+  },
+  {
+   "from": 2072.7,
+   "to": 2076.3,
+   "text": "but you can see how by chaining these"
+  },
+  {
+   "from": 2074.7,
+   "to": 2078.3,
+   "text": "together you can achieve a bunch of"
+  },
+  {
+   "from": 2076.3,
+   "to": 2081,
+   "text": "really interesting text manipulation"
+  },
+  {
+   "from": 2078.3,
+   "to": 2083.3,
+   "text": "effects and it turns out pipes are not"
+  },
+  {
+   "from": 2081,
+   "to": 2085.3,
+   "text": "just for textual data you can do this"
+  },
+  {
+   "from": 2083.3,
+   "to": 2087.9,
+   "text": "for things like images as well you can"
+  },
+  {
+   "from": 2085.3,
+   "to": 2089.6,
+   "text": "have a program that manipulates a binary"
+  },
+  {
+   "from": 2087.9,
+   "to": 2091.5,
+   "text": "image on its input and writes a binary"
+  },
+  {
+   "from": 2089.6,
+   "to": 2093.4,
+   "text": "image to its output and you can chain"
+  },
+  {
+   "from": 2091.5,
+   "to": 2094.8,
+   "text": "them together in this way and we'll talk"
+  },
+  {
+   "from": 2093.4,
+   "to": 2097,
+   "text": "about some of those kinds of examples"
+  },
+  {
+   "from": 2094.8,
+   "to": 2099.4,
+   "text": "later on - you can even do this for"
+  },
+  {
+   "from": 2097,
+   "to": 2100.9,
+   "text": "video if you want you can stream this is"
+  },
+  {
+   "from": 2099.4,
+   "to": 2102.9,
+   "text": "for example a great way if you have a"
+  },
+  {
+   "from": 2100.9,
+   "to": 2105.8,
+   "text": "chromecast at home you can stream a"
+  },
+  {
+   "from": 2102.9,
+   "to": 2107.9,
+   "text": "video file like this by having the last"
+  },
+  {
+   "from": 2105.8,
+   "to": 2111.2,
+   "text": "program in your pipe be a chromecast"
+  },
+  {
+   "from": 2107.9,
+   "to": 2113.1,
+   "text": "send program so you stream a video file"
+  },
+  {
+   "from": 2111.2,
+   "to": 2119.1,
+   "text": "into it and it streams or HTTP to your"
+  },
+  {
+   "from": 2113.1,
+   "to": 2120.4,
+   "text": "chromecast we'll take we'll talk a lot"
+  },
+  {
+   "from": 2119.1,
+   "to": 2122.4,
+   "text": "more about this in the data wrangling"
+  },
+  {
+   "from": 2120.4,
+   "to": 2125.1,
+   "text": "lecture but there's one more thing that"
+  },
+  {
+   "from": 2122.4,
+   "to": 2127.8,
+   "text": "I wanted to talk to you about about sort"
+  },
+  {
+   "from": 2125.1,
+   "to": 2130.4,
+   "text": "of how to use the terminal and a more"
+  },
+  {
+   "from": 2127.8,
+   "to": 2131.9,
+   "text": "interesting and perhaps more powerful"
+  },
+  {
+   "from": 2130.4,
+   "to": 2133.8,
+   "text": "way that you might be used to and this"
+  },
+  {
+   "from": 2131.9,
+   "to": 2135.6,
+   "text": "is perhaps even going to be interesting"
+  },
+  {
+   "from": 2133.8,
+   "to": 2137.7,
+   "text": "for the ones of you who feel like you're"
+  },
+  {
+   "from": 2135.6,
+   "to": 2141,
+   "text": "already comfortable with the term"
+  },
+  {
+   "from": 2137.7,
+   "to": 2143,
+   "text": "but first we need to cover a important"
+  },
+  {
+   "from": 2141,
+   "to": 2144.9,
+   "text": "topic when it comes to Linux systems and"
+  },
+  {
+   "from": 2143,
+   "to": 2147.6,
+   "text": "Mac OS systems in particular which is"
+  },
+  {
+   "from": 2144.9,
+   "to": 2149.3,
+   "text": "the notion of the root user the root"
+  },
+  {
+   "from": 2147.6,
+   "to": 2152.5,
+   "text": "user is sort of like the administrator"
+  },
+  {
+   "from": 2149.3,
+   "to": 2155,
+   "text": "user on Windows and it has user IDs zero"
+  },
+  {
+   "from": 2152.5,
+   "to": 2156.8,
+   "text": "the root user is special because it is"
+  },
+  {
+   "from": 2155,
+   "to": 2159.7,
+   "text": "allowed to do whatever it wants on your"
+  },
+  {
+   "from": 2156.8,
+   "to": 2161.5,
+   "text": "system even if a file is like not"
+  },
+  {
+   "from": 2159.7,
+   "to": 2163.8,
+   "text": "readable by anyone or if it's not"
+  },
+  {
+   "from": 2161.5,
+   "to": 2166,
+   "text": "writable by anyone root can still access"
+  },
+  {
+   "from": 2163.8,
+   "to": 2169,
+   "text": "that file root is sort of a super user"
+  },
+  {
+   "from": 2166,
+   "to": 2171.3,
+   "text": "that gets to do whatever they want and"
+  },
+  {
+   "from": 2169,
+   "to": 2173.3,
+   "text": "most of the time you will not be"
+  },
+  {
+   "from": 2171.3,
+   "to": 2175.6,
+   "text": "operating as the super user you will not"
+  },
+  {
+   "from": 2173.3,
+   "to": 2177.4,
+   "text": "be root you will be a user like John or"
+  },
+  {
+   "from": 2175.6,
+   "to": 2179.7,
+   "text": "whatever your name is and that's going"
+  },
+  {
+   "from": 2177.4,
+   "to": 2181.4,
+   "text": "to be the user you act with because if"
+  },
+  {
+   "from": 2179.7,
+   "to": 2183.5,
+   "text": "you were operating your computer as the"
+  },
+  {
+   "from": 2181.4,
+   "to": 2184.7,
+   "text": "root user at all times if you ran the"
+  },
+  {
+   "from": 2183.5,
+   "to": 2186.7,
+   "text": "wrong program they could just completely"
+  },
+  {
+   "from": 2184.7,
+   "to": 2190,
+   "text": "destroy your computer and you don't want"
+  },
+  {
+   "from": 2186.7,
+   "to": 2191.8,
+   "text": "that right but every now and again you"
+  },
+  {
+   "from": 2190,
+   "to": 2194.5,
+   "text": "want to do something that requires that"
+  },
+  {
+   "from": 2191.8,
+   "to": 2198.6,
+   "text": "you are root usually for these cases you"
+  },
+  {
+   "from": 2194.5,
+   "to": 2202.8,
+   "text": "will use a program called sudo su do or"
+  },
+  {
+   "from": 2198.6,
+   "to": 2204.7,
+   "text": "do as su and su in this case is Super"
+  },
+  {
+   "from": 2202.8,
+   "to": 2206.6,
+   "text": "User so this is a way to do the"
+  },
+  {
+   "from": 2204.7,
+   "to": 2209.8,
+   "text": "following thing as the super user"
+  },
+  {
+   "from": 2206.6,
+   "to": 2211.5,
+   "text": "usually the way sudo works is you write"
+  },
+  {
+   "from": 2209.8,
+   "to": 2213,
+   "text": "sudo and then a command like you would"
+  },
+  {
+   "from": 2211.5,
+   "to": 2214.6,
+   "text": "normally on your terminal and it will"
+  },
+  {
+   "from": 2213,
+   "to": 2216.2,
+   "text": "just run that command as if you were"
+  },
+  {
+   "from": 2214.6,
+   "to": 2221.2,
+   "text": "root as opposed to the user you actually"
+  },
+  {
+   "from": 2216.2,
+   "to": 2224.5,
+   "text": "are where might you need something like"
+  },
+  {
+   "from": 2221.2,
+   "to": 2225.8,
+   "text": "this well there is a special there are"
+  },
+  {
+   "from": 2224.5,
+   "to": 2227.5,
+   "text": "many special file system on your"
+  },
+  {
+   "from": 2225.8,
+   "to": 2231.1,
+   "text": "computer but in particular there's one"
+  },
+  {
+   "from": 2227.5,
+   "to": 2234.8,
+   "text": "called sysfs if you CD to slash sys"
+  },
+  {
+   "from": 2231.1,
+   "to": 2237.3,
+   "text": "this is a whole new world this file"
+  },
+  {
+   "from": 2234.8,
+   "to": 2239.7,
+   "text": "system is are not actually files on your"
+  },
+  {
+   "from": 2237.3,
+   "to": 2242.1,
+   "text": "computer instead these are various"
+  },
+  {
+   "from": 2239.7,
+   "to": 2244.2,
+   "text": "kernel parameters so the kernel is like"
+  },
+  {
+   "from": 2242.1,
+   "to": 2246.7,
+   "text": "basically the the core of your computer"
+  },
+  {
+   "from": 2244.2,
+   "to": 2249.6,
+   "text": "this is a way for you to access various"
+  },
+  {
+   "from": 2246.7,
+   "to": 2252.7,
+   "text": "kernel parameters through what looks"
+  },
+  {
+   "from": 2249.6,
+   "to": 2256,
+   "text": "like a file system you'll see here that"
+  },
+  {
+   "from": 2252.7,
+   "to": 2257.7,
+   "text": "if I CD into class for example it has"
+  },
+  {
+   "from": 2256,
+   "to": 2259.9,
+   "text": "directories for a bunch of different"
+  },
+  {
+   "from": 2257.7,
+   "to": 2263.8,
+   "text": "types of devices that I can interact"
+  },
+  {
+   "from": 2259.9,
+   "to": 2267.9,
+   "text": "with or various queues I can access or all"
+  },
+  {
+   "from": 2263.8,
+   "to": 2270,
+   "text": "sorts of weird knobs internally and"
+  },
+  {
+   "from": 2267.9,
+   "to": 2270.4,
+   "text": "because they're exposed as files it means"
+  },
+  {
+   "from": 2270.4,
+   "to": 2274.3,
+   "text": "we can also use all the tools have been"
+  },
+  {
+   "from": 2272,
+   "to": 2277.6,
+   "text": "using so far in order to manipulate them"
+  },
+  {
+   "from": 2274.3,
+   "to": 2281.4,
+   "text": "one example of this is if you go into"
+  },
+  {
+   "from": 2277.6,
+   "to": 2282.4,
+   "text": "sys class backlight so this backlight"
+  },
+  {
+   "from": 2281.4,
+   "to": 2284.2,
+   "text": "directly and lets you configure the"
+  },
+  {
+   "from": 2282.4,
+   "to": 2286.8,
+   "text": "backlight on your laptop if you have one"
+  },
+  {
+   "from": 2284.2,
+   "to": 2288.9,
+   "text": "so I can CD in to intel backlight this"
+  },
+  {
+   "from": 2286.8,
+   "to": 2291,
+   "text": "is an Intel laptop inside here you'll"
+  },
+  {
+   "from": 2288.9,
+   "to": 2292.8,
+   "text": "see there's a file called brightness and"
+  },
+  {
+   "from": 2291,
+   "to": 2296.1,
+   "text": "I can cat the brightness this is the"
+  },
+  {
+   "from": 2292.8,
+   "to": 2298.9,
+   "text": "current brightness of my screen but not"
+  },
+  {
+   "from": 2296.1,
+   "to": 2301.5,
+   "text": "only that I can modify this too in order"
+  },
+  {
+   "from": 2298.9,
+   "to": 2303.7,
+   "text": "to change the brightness of my screen so"
+  },
+  {
+   "from": 2301.5,
+   "to": 2305.8,
+   "text": "you might think that I could do let's"
+  },
+  {
+   "from": 2303.7,
+   "to": 2306.8,
+   "text": "see what the max brightness is here okay"
+  },
+  {
+   "from": 2305.8,
+   "to": 2309.6,
+   "text": "so it's currently set to the max"
+  },
+  {
+   "from": 2306.8,
+   "to": 2312.3,
+   "text": "brightness you might imagine that I"
+  },
+  {
+   "from": 2309.6,
+   "to": 2315.4,
+   "text": "could do something like if I do echo"
+  },
+  {
+   "from": 2312.3,
+   "to": 2319,
+   "text": "let's do half or something"
+  },
+  {
+   "from": 2315.4,
+   "to": 2318,
+   "text": "echo 500 to brightness"
+  },
+  {
+   "from": 2318,
+   "to": 2319,
+   "text": "if I do this it says"
+  },
+  {
+   "from": 2319,
+   "to": 2323.1,
+   "text": "permission denied I'm not allowed to"
+  },
+  {
+   "from": 2320.8,
+   "to": 2325.2,
+   "text": "modify brightness because in order to"
+  },
+  {
+   "from": 2323.1,
+   "to": 2326.6,
+   "text": "basically in order to change things in"
+  },
+  {
+   "from": 2325.2,
+   "to": 2328.5,
+   "text": "the kernel you need to be the"
+  },
+  {
+   "from": 2326.6,
+   "to": 2330.6,
+   "text": "administrator and you might imagine that"
+  },
+  {
+   "from": 2328.5,
+   "to": 2333,
+   "text": "the way to solve this is to write sudo"
+  },
+  {
+   "from": 2330.6,
+   "to": 2335.8,
+   "text": "echo 500 but I still get a permission"
+  },
+  {
+   "from": 2333,
+   "to": 2338.3,
+   "text": "denied error but why is that it's"
+  },
+  {
+   "from": 2335.8,
+   "to": 2340.5,
+   "text": "because as I mentioned before these"
+  },
+  {
+   "from": 2338.3,
+   "to": 2343.1,
+   "text": "redirections of input and output is not"
+  },
+  {
+   "from": 2340.5,
+   "to": 2345.5,
+   "text": "something the programs know about when"
+  },
+  {
+   "from": 2343.1,
+   "to": 2347.2,
+   "text": "we piped Elison to tail tail did not"
+  },
+  {
+   "from": 2345.5,
+   "to": 2349.6,
+   "text": "know about LS and LS did not know about"
+  },
+  {
+   "from": 2347.2,
+   "to": 2351.9,
+   "text": "tail the pipe and the redirection was"
+  },
+  {
+   "from": 2349.6,
+   "to": 2354.1,
+   "text": "set up by the shell so in this case"
+  },
+  {
+   "from": 2351.9,
+   "to": 2358,
+   "text": "what's happening is I'm telling my shell"
+  },
+  {
+   "from": 2354.1,
+   "to": 2361.2,
+   "text": "run the program sudo with the arguments"
+  },
+  {
+   "from": 2358,
+   "to": 2364.1,
+   "text": "echo and 500 and send its output to the"
+  },
+  {
+   "from": 2361.2,
+   "to": 2365.9,
+   "text": "file called brightness but the shell is"
+  },
+  {
+   "from": 2364.1,
+   "to": 2369.4,
+   "text": "what is opening the brightness file it"
+  },
+  {
+   "from": 2365.9,
+   "to": 2372.4,
+   "text": "is not the sudo program so in this case"
+  },
+  {
+   "from": 2369.4,
+   "to": 2373.8,
+   "text": "the shell which is running as me tries"
+  },
+  {
+   "from": 2372.4,
+   "to": 2375.5,
+   "text": "to open the brightness file for writing"
+  },
+  {
+   "from": 2373.8,
+   "to": 2377.1,
+   "text": "and it's not allowed to do that and"
+  },
+  {
+   "from": 2375.5,
+   "to": 2379.8,
+   "text": "therefore I get a permission down error"
+  },
+  {
+   "from": 2377.1,
+   "to": 2382.3,
+   "text": "you might have seen this if you like"
+  },
+  {
+   "from": 2379.8,
+   "to": 2383.8,
+   "text": "search for something end up on Stack"
+  },
+  {
+   "from": 2382.3,
+   "to": 2385.4,
+   "text": "Overflow and it tells just run this"
+  },
+  {
+   "from": 2383.8,
+   "to": 2387.4,
+   "text": "command and you'll see that it does"
+  },
+  {
+   "from": 2385.4,
+   "to": 2392.9,
+   "text": "something like they give you"
+  },
+  {
+   "from": 2387.4,
+   "to": 2398,
+   "text": "instructions like one two sis what's an"
+  },
+  {
+   "from": 2392.9,
+   "to": 2399.6,
+   "text": "example net ipv4 for word for example"
+  },
+  {
+   "from": 2398,
+   "to": 2402.6,
+   "text": "this is something you may have seen if"
+  },
+  {
+   "from": 2399.6,
+   "to": 2404.2,
+   "text": "you're setting up a firewall and this"
+  },
+  {
+   "from": 2402.6,
+   "to": 2405.7,
+   "text": "command is intended to work"
+  },
+  {
+   "from": 2404.2,
+   "to": 2408.2,
+   "text": "because this little pound symbol"
+  },
+  {
+   "from": 2405.7,
+   "to": 2409.6,
+   "text": "indicates run this as root this is"
+  },
+  {
+   "from": 2408.2,
+   "to": 2411.2,
+   "text": "something that is very rarely explained"
+  },
+  {
+   "from": 2409.6,
+   "to": 2413,
+   "text": "but that is what the pound symbol means"
+  },
+  {
+   "from": 2411.2,
+   "to": 2415.1,
+   "text": "you'll see on my prompt there's a dollar"
+  },
+  {
+   "from": 2413,
+   "to": 2417.7,
+   "text": "symbol instead and the dollar indicates"
+  },
+  {
+   "from": 2415.1,
+   "to": 2418.8,
+   "text": "you are not running as root so the"
+  },
+  {
+   "from": 2417.7,
+   "to": 2422.3,
+   "text": "question is how do I get around this"
+  },
+  {
+   "from": 2418.8,
+   "to": 2424.7,
+   "text": "well I could switch into a root terminal"
+  },
+  {
+   "from": 2422.3,
+   "to": 2427.4,
+   "text": "so one way to do this is to run sudo su"
+  },
+  {
+   "from": 2424.7,
+   "to": 2432.1,
+   "text": "sudo su is saying run the following"
+  },
+  {
+   "from": 2427.4,
+   "to": 2434.3,
+   "text": "command s root and su is a complicated"
+  },
+  {
+   "from": 2432.1,
+   "to": 2437.3,
+   "text": "command that effectively gets you a"
+  },
+  {
+   "from": 2434.3,
+   "to": 2440.6,
+   "text": "shell as the super user so if I do this"
+  },
+  {
+   "from": 2437.3,
+   "to": 2442,
+   "text": "type of password then now you'll see"
+  },
+  {
+   "from": 2440.6,
+   "to": 2444.5,
+   "text": "that the username at the beginning"
+  },
+  {
+   "from": 2442,
+   "to": 2447.1,
+   "text": "changed from jon to root and the prompt"
+  },
+  {
+   "from": 2444.5,
+   "to": 2449.4,
+   "text": "changed from a dollar to a pound if I"
+  },
+  {
+   "from": 2447.1,
+   "to": 2452.2,
+   "text": "now I come in to that file if I do echo"
+  },
+  {
+   "from": 2449.4,
+   "to": 2454,
+   "text": "500 to brightness my screen got a little"
+  },
+  {
+   "from": 2452.2,
+   "to": 2457,
+   "text": "dimmer but you can't see it you just"
+  },
+  {
+   "from": 2454,
+   "to": 2459,
+   "text": "have to trust me and now I didn't get an"
+  },
+  {
+   "from": 2457,
+   "to": 2461.6,
+   "text": "error and this is because the shell is"
+  },
+  {
+   "from": 2459,
+   "to": 2464.5,
+   "text": "now running as root it is not running as"
+  },
+  {
+   "from": 2461.6,
+   "to": 2467.4,
+   "text": "Jon and the root user is allowed to open"
+  },
+  {
+   "from": 2464.5,
+   "to": 2469.8,
+   "text": "this file but given our knowledge that"
+  },
+  {
+   "from": 2467.4,
+   "to": 2471.3,
+   "text": "we have of the terminal now there's"
+  },
+  {
+   "from": 2469.8,
+   "to": 2473.7,
+   "text": "actually a way for us to do this without"
+  },
+  {
+   "from": 2471.3,
+   "to": 2479.1,
+   "text": "having to drop to a root shell and that"
+  },
+  {
+   "from": 2473.7,
+   "to": 2483,
+   "text": "is as follows that's I guess restore it"
+  },
+  {
+   "from": 2479.1,
+   "to": 2486.6,
+   "text": "to 1060 so do you see why this is"
+  },
+  {
+   "from": 2483,
+   "to": 2489,
+   "text": "different here I'm telling my shell to"
+  },
+  {
+   "from": 2486.6,
+   "to": 2491.3,
+   "text": "run the echo 1060 command which is gonna"
+  },
+  {
+   "from": 2489,
+   "to": 2493.4,
+   "text": "echo 1060 and I'm telling it to run the"
+  },
+  {
+   "from": 2491.3,
+   "to": 2495.9,
+   "text": "sudo tee brightness command and I'm"
+  },
+  {
+   "from": 2493.4,
+   "to": 2499.2,
+   "text": "telling you to send the output of echo"
+  },
+  {
+   "from": 2495.9,
+   "to": 2500.5,
+   "text": "into sudo tee in order to understand this"
+  },
+  {
+   "from": 2499.2,
+   "to": 2503.5,
+   "text": "you need to know what the tee command does"
+  },
+  {
+   "from": 2500.5,
+   "to": 2507.1,
+   "text": "the tee command takes its input and writes"
+  },
+  {
+   "from": 2503.5,
+   "to": 2509.5,
+   "text": "it to a file but also to standard out so"
+  },
+  {
+   "from": 2507.1,
+   "to": 2512.3,
+   "text": "tee is a convenient way if you have say a"
+  },
+  {
+   "from": 2509.5,
+   "to": 2514.2,
+   "text": "log file that you want to like send to a"
+  },
+  {
+   "from": 2512.3,
+   "to": 2516.2,
+   "text": "file to store for later but you also"
+  },
+  {
+   "from": 2514.2,
+   "to": 2518.1,
+   "text": "want to see it to yourself then you can"
+  },
+  {
+   "from": 2516.2,
+   "to": 2519.8,
+   "text": "pipe it through tee give it the name of a"
+  },
+  {
+   "from": 2518.1,
+   "to": 2521.8,
+   "text": "file and it will write whatever its"
+  },
+  {
+   "from": 2519.8,
+   "to": 2524.3,
+   "text": "input is both to that file and to your"
+  },
+  {
+   "from": 2521.8,
+   "to": 2527.6,
+   "text": "screen and here I'm taking advantage of"
+  },
+  {
+   "from": 2524.3,
+   "to": 2529.9,
+   "text": "that program I'm saying run tee as route"
+  },
+  {
+   "from": 2527.6,
+   "to": 2533,
+   "text": "and have tee right into the brightness"
+  },
+  {
+   "from": 2529.9,
+   "to": 2534.4,
+   "text": "file and so in this case the tee program"
+  },
+  {
+   "from": 2533,
+   "to": 2536.2,
+   "text": "which is what is opening the brightness"
+  },
+  {
+   "from": 2534.4,
+   "to": 2537.4,
+   "text": "file is running as root and so it is"
+  },
+  {
+   "from": 2536.2,
+   "to": 2540.2,
+   "text": "allowed to do"
+  },
+  {
+   "from": 2537.4,
+   "to": 2541.4,
+   "text": "if I run this it will now again you"
+  },
+  {
+   "from": 2540.2,
+   "to": 2543.9,
+   "text": "can't see but the brightness and I've"
+  },
+  {
+   "from": 2541.4,
+   "to": 2545.8,
+   "text": "been turned on by a laptop and I don't"
+  },
+  {
+   "from": 2543.9,
+   "to": 2547.4,
+   "text": "get any errors and I never had to drop"
+  },
+  {
+   "from": 2545.8,
+   "to": 2550.9,
+   "text": "into a root shell and run commands there"
+  },
+  {
+   "from": 2547.4,
+   "to": 2552.2,
+   "text": "which can often be somewhat dangerous if"
+  },
+  {
+   "from": 2550.9,
+   "to": 2553.5,
+   "text": "you want to explore this filesystem a"
+  },
+  {
+   "from": 2552.2,
+   "to": 2555.9,
+   "text": "little bit more there's a lot of"
+  },
+  {
+   "from": 2553.5,
+   "to": 2559.5,
+   "text": "interesting stuff in here if you just"
+  },
+  {
+   "from": 2555.9,
+   "to": 2561.4,
+   "text": "sort of start browsing around you can"
+  },
+  {
+   "from": 2559.5,
+   "to": 2562.9,
+   "text": "find all sorts of fun things so for"
+  },
+  {
+   "from": 2561.4,
+   "to": 2565.1,
+   "text": "example we noticed that there was a fun"
+  },
+  {
+   "from": 2562.9,
+   "to": 2568.5,
+   "text": "brightness command here I wonder what"
+  },
+  {
+   "from": 2565.1,
+   "to": 2570,
+   "text": "other kinds of brightness I can set so I"
+  },
+  {
+   "from": 2568.5,
+   "to": 2571.9,
+   "text": "can use the find command which we will"
+  },
+  {
+   "from": 2570,
+   "to": 2576,
+   "text": "also talk about in a coming lecture I"
+  },
+  {
+   "from": 2571.9,
+   "to": 2578.9,
+   "text": "wouldn't look on any file whose name"
+  },
+  {
+   "from": 2576,
+   "to": 2581.9,
+   "text": "it's a little like brightness in the"
+  },
+  {
+   "from": 2578.9,
+   "to": 2585.1,
+   "text": "current directory that's unhelpful maybe"
+  },
+  {
+   "from": 2581.9,
+   "to": 2588.9,
+   "text": "they're not files did I misspell"
+  },
+  {
+   "from": 2585.1,
+   "to": 2597,
+   "text": "brightness yeah why is it being annoying"
+  },
+  {
+   "from": 2588.9,
+   "to": 2600.5,
+   "text": "Oh apparently it does not want to search"
+  },
+  {
+   "from": 2597,
+   "to": 2603.9,
+   "text": "for brightness for me how well luckily"
+  },
+  {
+   "from": 2600.5,
+   "to": 2607.5,
+   "text": "for you I know of one already handy that"
+  },
+  {
+   "from": 2603.9,
+   "to": 2610.1,
+   "text": "there is a subdirectory called LEDs and"
+  },
+  {
+   "from": 2607.5,
+   "to": 2612.4,
+   "text": "LEDs have brightness too what kind of"
+  },
+  {
+   "from": 2610.1,
+   "to": 2617,
+   "text": "LEDs are there ooh lots of things for"
+  },
+  {
+   "from": 2612.4,
+   "to": 2618.3,
+   "text": "example the scroll lock led now most of"
+  },
+  {
+   "from": 2617,
+   "to": 2620.3,
+   "text": "you probably don't know what the scroll"
+  },
+  {
+   "from": 2618.3,
+   "to": 2622.8,
+   "text": "lock LED is or much less what scroll"
+  },
+  {
+   "from": 2620.3,
+   "to": 2625.8,
+   "text": "lock is you might have seen a key on"
+  },
+  {
+   "from": 2622.8,
+   "to": 2627.7,
+   "text": "your keyboard neighbor named scroll lock"
+  },
+  {
+   "from": 2625.8,
+   "to": 2629.7,
+   "text": "basically no one knows what it means"
+  },
+  {
+   "from": 2627.7,
+   "to": 2631.8,
+   "text": "anymore no one really uses it for"
+  },
+  {
+   "from": 2629.7,
+   "to": 2635.7,
+   "text": "anything it's mostly just a dead key and"
+  },
+  {
+   "from": 2631.8,
+   "to": 2637.2,
+   "text": "also a dead LED what if you wanted to"
+  },
+  {
+   "from": 2635.7,
+   "to": 2639.2,
+   "text": "configure it so that every time you get"
+  },
+  {
+   "from": 2637.2,
+   "to": 2641,
+   "text": "email your scroll lock LED lights up"
+  },
+  {
+   "from": 2639.2,
+   "to": 2643.3,
+   "text": "because there's no other reason why it"
+  },
+  {
+   "from": 2641,
+   "to": 2646,
+   "text": "would light up well if we seed you into"
+  },
+  {
+   "from": 2643.3,
+   "to": 2648.1,
+   "text": "this particular directory that has a"
+  },
+  {
+   "from": 2646,
+   "to": 2652.3,
+   "text": "brightness place and it's set to zero"
+  },
+  {
+   "from": 2648.1,
+   "to": 2652.3,
+   "text": "well what happens if I write one into it"
+  },
+  {
+   "from": 2652.6,
+   "to": 2657.2,
+   "text": "you probably should not just be writing"
+  },
+  {
+   "from": 2655.3,
+   "to": 2658.7,
+   "text": "random numbers into random files in this"
+  },
+  {
+   "from": 2657.2,
+   "to": 2660.3,
+   "text": "directory because you are affecting your"
+  },
+  {
+   "from": 2658.7,
+   "to": 2662.6,
+   "text": "kernel directly like look up what the"
+  },
+  {
+   "from": 2660.3,
+   "to": 2664.2,
+   "text": "files do in this particular case I have"
+  },
+  {
+   "from": 2662.6,
+   "to": 2668.1,
+   "text": "warned safety goggles and I've done my"
+  },
+  {
+   "from": 2664.2,
+   "to": 2670.6,
+   "text": "research so now you can't tell but on my"
+  },
+  {
+   "from": 2668.1,
+   "to": 2673.5,
+   "text": "keyboard the scroll lock LED is now lit"
+  },
+  {
+   "from": 2670.6,
+   "to": 2675.4,
+   "text": "so now if I wrote a program that like"
+  },
+  {
+   "from": 2673.5,
+   "to": 2677.8,
+   "text": "did some checking of mail and stuff I"
+  },
+  {
+   "from": 2675.4,
+   "to": 2680.2,
+   "text": "could have it at the end run a program"
+  },
+  {
+   "from": 2677.8,
+   "to": 2683.5,
+   "text": "that echoes one into this file and now I"
+  },
+  {
+   "from": 2680.2,
+   "to": 2687.5,
+   "text": "have a way for my led to my keyboard to"
+  },
+  {
+   "from": 2683.5,
+   "to": 2689.7,
+   "text": "indicate when I've new email at this"
+  },
+  {
+   "from": 2687.5,
+   "to": 2690.9,
+   "text": "point you should know roughly your way"
+  },
+  {
+   "from": 2689.7,
+   "to": 2694.3,
+   "text": "around"
+  },
+  {
+   "from": 2690.9,
+   "to": 2696.2,
+   "text": "the terminal around the shell and and"
+  },
+  {
+   "from": 2694.3,
+   "to": 2698.9,
+   "text": "know enough to accomplish these basic"
+  },
+  {
+   "from": 2696.2,
+   "to": 2701.3,
+   "text": "tasks at least in theory now you"
+  },
+  {
+   "from": 2698.9,
+   "to": 2702.8,
+   "text": "shouldn't need to use like"
+  },
+  {
+   "from": 2701.3,
+   "to": 2703.4,
+   "text": "point-and-click interfaces to find files"
+  },
+  {
+   "from": 2702.8,
+   "to": 2705.3,
+   "text": "anymore"
+  },
+  {
+   "from": 2703.4,
+   "to": 2707.5,
+   "text": "there's one remaining trick you might"
+  },
+  {
+   "from": 2705.3,
+   "to": 2710.5,
+   "text": "need and that is the ability to open a"
+  },
+  {
+   "from": 2707.5,
+   "to": 2714,
+   "text": "file so far I've only really given you"
+  },
+  {
+   "from": 2710.5,
+   "to": 2717.7,
+   "text": "ways to find files but one thing you"
+  },
+  {
+   "from": 2714,
+   "to": 2721.4,
+   "text": "should know about is missing semester"
+  },
+  {
+   "from": 2717.7,
+   "to": 2723.6,
+   "text": "xdg-open this will probably only work"
+  },
+  {
+   "from": 2721.4,
+   "to": 2727.1,
+   "text": "on Linux on Mac OS I think it's just"
+  },
+  {
+   "from": 2723.6,
+   "to": 2729.4,
+   "text": "called open on Windows who knows"
+  },
+  {
+   "from": 2727.1,
+   "to": 2731.7,
+   "text": "xdg-open you give the name of a file and"
+  },
+  {
+   "from": 2729.4,
+   "to": 2734.8,
+   "text": "it will open it in the appropriate program"
+  },
+  {
+   "from": 2731.7,
+   "to": 2736.2,
+   "text": "so if you open if you do xdg-open an"
+  },
+  {
+   "from": 2734.8,
+   "to": 2739.3,
+   "text": "HTML file that will open your browser"
+  },
+  {
+   "from": 2736.2,
+   "to": 2741,
+   "text": "and open that file and once you have"
+  },
+  {
+   "from": 2739.3,
+   "to": 2742.9,
+   "text": "that program in theory you should no"
+  },
+  {
+   "from": 2741,
+   "to": 2745.1,
+   "text": "longer need to open like a Finder window"
+  },
+  {
+   "from": 2742.9,
+   "to": 2746.8,
+   "text": "ever again you might want to for other"
+  },
+  {
+   "from": 2745.1,
+   "to": 2748.2,
+   "text": "reasons but in theory you can accomplish"
+  },
+  {
+   "from": 2746.8,
+   "to": 2750.8,
+   "text": "at all using the tools that we've"
+  },
+  {
+   "from": 2748.2,
+   "to": 2753.8,
+   "text": "learned today this might all seem"
+  },
+  {
+   "from": 2750.8,
+   "to": 2755.6,
+   "text": "relatively basic for some of you but as"
+  },
+  {
+   "from": 2753.8,
+   "to": 2757.5,
+   "text": "I mentioned this is sort of the ramp-up"
+  },
+  {
+   "from": 2755.6,
+   "to": 2759.5,
+   "text": "period of now we all know how the shell"
+  },
+  {
+   "from": 2757.5,
+   "to": 2762,
+   "text": "works and a lot of what we'll be doing"
+  },
+  {
+   "from": 2759.5,
+   "to": 2763.5,
+   "text": "in future lectures is using this"
+  },
+  {
+   "from": 2762,
+   "to": 2767,
+   "text": "knowledge to do really interesting"
+  },
+  {
+   "from": 2763.5,
+   "to": 2769.5,
+   "text": "things using the shell that sort of this"
+  },
+  {
+   "from": 2767,
+   "to": 2771,
+   "text": "is learning the the interface that we're"
+  },
+  {
+   "from": 2769.5,
+   "to": 2774.8,
+   "text": "going to be using and so it's important"
+  },
+  {
+   "from": 2771,
+   "to": 2776.7,
+   "text": "we all know it we're gonna talk a lot"
+  },
+  {
+   "from": 2774.8,
+   "to": 2778.3,
+   "text": "more in the next lecture about how to"
+  },
+  {
+   "from": 2776.7,
+   "to": 2780.3,
+   "text": "automate tasks like this how to write"
+  },
+  {
+   "from": 2778.3,
+   "to": 2782.1,
+   "text": "scripts that run a bunch of programs for"
+  },
+  {
+   "from": 2780.3,
+   "to": 2784.4,
+   "text": "you and have to do things like"
+  },
+  {
+   "from": 2782.1,
+   "to": 2786.7,
+   "text": "conditionals and loops and stuff in your"
+  },
+  {
+   "from": 2784.4,
+   "to": 2789,
+   "text": "terminal and do things like run a"
+  },
+  {
+   "from": 2786.7,
+   "to": 2790.4,
+   "text": "program until it fails which can be"
+  },
+  {
+   "from": 2789,
+   "to": 2792,
+   "text": "handy in classes where you want to run"
+  },
+  {
+   "from": 2790.4,
+   "to": 2795.4,
+   "text": "something until your test suite fails"
+  },
+  {
+   "from": 2792,
+   "to": 2798.6,
+   "text": "for example so that's the topic for next"
+  },
+  {
+   "from": 2795.4,
+   "to": 2799.9,
+   "text": "week's lecture did you have a question"
+  },
+  {
+   "from": 2798.6,
+   "to": 2802.4,
+   "text": "it's what you've been demoing this"
+  },
+  {
+   "from": 2799.9,
+   "to": 2809.8,
+   "text": "assist directory that presumably will"
+  },
+  {
+   "from": 2802.4,
+   "to": 2812.5,
+   "text": "only work if you're running that is a"
+  },
+  {
+   "from": 2809.8,
+   "to": 2815.4,
+   "text": "good question I don't know whether the"
+  },
+  {
+   "from": 2812.5,
+   "to": 2817.6,
+   "text": "windows subsystem for Linux will expose"
+  },
+  {
+   "from": 2815.4,
+   "to": 2819.3,
+   "text": "the sis file system if it does it"
+  },
+  {
+   "from": 2817.6,
+   "to": 2823.2,
+   "text": "probably only exposes a very small"
+  },
+  {
+   "from": 2819.3,
+   "to": 2828.5,
+   "text": "number of things it might because there"
+  },
+  {
+   "from": 2823.2,
+   "to": 2830.3,
+   "text": "are I don't know check it out"
+  },
+  {
+   "from": 2828.5,
+   "to": 2831.6,
+   "text": "one thing you'll see is the lecture"
+  },
+  {
+   "from": 2830.3,
+   "to": 2834.4,
+   "text": "notes for this lecture are already"
+  },
+  {
+   "from": 2831.6,
+   "to": 2836.8,
+   "text": "online and at the very bottom of the"
+  },
+  {
+   "from": 2834.4,
+   "to": 2838.4,
+   "text": "file there are a bunch of exercises some"
+  },
+  {
+   "from": 2836.8,
+   "to": 2840.2,
+   "text": "of them are relatively easy some of them"
+  },
+  {
+   "from": 2838.4,
+   "to": 2842.6,
+   "text": "are a little bit harder and what we"
+  },
+  {
+   "from": 2840.2,
+   "to": 2844.1,
+   "text": "encourage you to do is to take a stab at"
+  },
+  {
+   "from": 2842.6,
+   "to": 2845.4,
+   "text": "going through them if you know this"
+  },
+  {
+   "from": 2844.1,
+   "to": 2847.7,
+   "text": "stuff already it should go really"
+  },
+  {
+   "from": 2845.4,
+   "to": 2849.4,
+   "text": "quickly if you don't it might teach you"
+  },
+  {
+   "from": 2847.7,
+   "to": 2851.7,
+   "text": "a bunch of things that you might not"
+  },
+  {
+   "from": 2849.4,
+   "to": 2853.2,
+   "text": "realize you didn't know and for the"
+  },
+  {
+   "from": 2851.7,
+   "to": 2855.2,
+   "text": "office hours that we're gonna do right"
+  },
+  {
+   "from": 2853.2,
+   "to": 2856.8,
+   "text": "after this lecture we will happily help"
+  },
+  {
+   "from": 2855.2,
+   "to": 2858.2,
+   "text": "you get through all of those or if there"
+  },
+  {
+   "from": 2856.8,
+   "to": 2859.5,
+   "text": "are other commands and you learn in the"
+  },
+  {
+   "from": 2858.2,
+   "to": 2862.3,
+   "text": "process you want to know how to use more"
+  },
+  {
+   "from": 2859.5,
+   "to": 2864.9,
+   "text": "efficiently and then in next lecture"
+  },
+  {
+   "from": 2862.3,
+   "to": 2866.7,
+   "text": "which is tomorrow will basically be"
+  },
+  {
+   "from": 2864.9,
+   "to": 2868.3,
+   "text": "assuming that you know the kind of stuff"
+  },
+  {
+   "from": 2866.7,
+   "to": 2871.8,
+   "text": "that the exercise is going to teach you"
+  },
+  {
+   "from": 2868.3,
+   "to": 2873,
+   "text": "there's also a an email address on the"
+  },
+  {
+   "from": 2871.8,
+   "to": 2876.1,
+   "text": "website where you can send us questions"
+  },
+  {
+   "from": 2873,
+   "to": 2878.9,
+   "text": "if you think of something like after the"
+  },
+  {
+   "from": 2876.1,
+   "to": 2885.2,
+   "text": "office hours are finished are there any"
+  },
+  {
+   "from": 2878.9,
+   "to": 2887.1,
+   "text": "questions before we end today no no all"
+  },
+  {
+   "from": 2885.2,
+   "to": 2889.5,
+   "text": "right well we will have office hours on"
+  },
+  {
+   "from": 2887.1,
+   "to": 2892.2,
+   "text": "the ninth floor of the gates building of"
+  },
+  {
+   "from": 2889.5,
+   "to": 2895.8,
+   "text": "building 32 in like five minutes"
+  },
+  {
+   "from": 2892.2,
+   "to": 2895.8,
+   "text": "sweet see you there"
+  }
+ ]
+}

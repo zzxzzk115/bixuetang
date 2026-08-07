@@ -11,13 +11,16 @@ import {
   useImperativeHandle,
 } from "react";
 import { createPortal } from "react-dom";
-import { Loader2, X } from "lucide-react";
+import { Loader2, NotebookPen, X } from "lucide-react";
 import type Artplayer from "artplayer";
 import type { Setting as ArtSetting } from "artplayer";
 import type { MediaPlayerClass } from "dashjs";
-import { reportWatchProgress } from "@/lib/game/watch-actions";
+import { reportWatchProgress, type WatchReport } from "@/lib/game/watch-actions";
+import { addVideoNote } from "@/lib/game/notes-actions";
 import { saveCcOffset, savePlayerPrefs } from "@/lib/game/user-state-actions";
-import { announceSettle } from "@/lib/reward-feedback";
+import { NOTES_CHANGED_EVENT } from "@/lib/notes-events";
+import type { ToggleResult } from "@/lib/progress/actions";
+import { announceSettle, rewardToast } from "@/lib/reward-feedback";
 import { buildSegments, segmentCoverage } from "@/lib/segments";
 import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
 import { detectPlayMode } from "./player-capability";
@@ -51,6 +54,8 @@ interface PlayPayload {
   durationSec: number;
   bound: boolean;
   viewPoints: { content: string; from: number; to: number }[];
+  /** UP 主(credit 展示 + 关注入口) */
+  owner?: { mid: number; name: string; face: string } | null;
   dash: { mpd: string; qualities: DashQuality[] } | null;
   progressive: { qualities: Mp4Quality[] } | null;
   error?: string;
@@ -68,6 +73,8 @@ export interface BiliPlayerHandle {
   /** 跳到绝对秒(知识点地图的时间戳跳转走这里) */
   seek: (seconds: number) => void;
   currentTime: () => number;
+  /** 暂停(写笔记时自动暂停用) */
+  pause: () => void;
 }
 
 /** 读主题色给 ArtPlayer 当强调色 */
@@ -86,7 +93,6 @@ export function BiliPlayer({
   courseId,
   episodeN,
   resumeAt = 0,
-  initialRatioPct = 0,
   serverPrefs = null,
   keyPointMarks = [],
   onCompleted,
@@ -98,14 +104,16 @@ export function BiliPlayer({
   courseId: string;
   episodeN: number;
   resumeAt?: number;
-  /** 库里已累计的观看覆盖率,显示时不能被本次会话打回 0 */
-  initialRatioPct?: number;
   /** 服务端存的播放偏好 JSON(权威值,跨设备一致) */
   serverPrefs?: string | null;
   /** 本集 AI 分析里带时间戳的关键点(进度条刻度 + 分段边界) */
   keyPointMarks?: { t: number; title: string }[];
   onCompleted?: () => void;
-  onLoaded?: (info: { aid: number; cid: number }) => void;
+  onLoaded?: (info: {
+    aid: number;
+    cid: number;
+    owner?: { mid: number; name: string; face: string } | null;
+  }) => void;
   ref?: Ref<BiliPlayerHandle>;
 }) {
   const hostRef = useRef<HTMLDivElement | null>(null);
@@ -126,6 +134,29 @@ export function BiliPlayer({
   const [chapters, setChapters] = useState<{ title: string; from: number }[]>(
     [],
   );
+  /** 章节缩略图:from 秒 → dataURL(前端抓帧,懒生成) */
+  const [thumbs, setThumbs] = useState<Record<number, string>>({});
+  const thumbsStartedRef = useRef(false);
+  /** 只在组件卸载时置真——面板开开关关不该腰斩生成 */
+  const thumbsCancelRef = useRef(false);
+  /** 全屏内的轻量奖励特效层(类抖音角标,不打断观看) */
+  const [fxHost, setFxHost] = useState<HTMLElement | null>(null);
+  const [fxItems, setFxItems] = useState<
+    { id: number; text: string; tone: string }[]
+  >([]);
+  const fxSeq = useRef(0);
+  /** 全屏中攒下的打卡结算,退出全屏再弹完整 popup/庆祝 */
+  const deferredRef = useRef<{
+    settle: ToggleResult;
+    terms: UnlockedTerm[];
+  } | null>(null);
+  /** 视频笔记速记层(全屏可用) */
+  const [noteHost, setNoteHost] = useState<HTMLElement | null>(null);
+  const [noteOpen, setNoteOpen] = useState(false);
+  const [noteAt, setNoteAt] = useState(0);
+  const [noteDraft, setNoteDraft] = useState("");
+  const [noteSaving, setNoteSaving] = useState(false);
+  const [noteMsg, setNoteMsg] = useState<string | null>(null);
 
   const prefs = useSyncExternalStore(
     prefsStore.subscribe,
@@ -168,7 +199,7 @@ export function BiliPlayer({
           return;
         }
         setPayload(data);
-        onLoaded?.({ aid: data.aid, cid: data.cid });
+        onLoaded?.({ aid: data.aid, cid: data.cid, owner: data.owner });
       })
       .catch(() => {
         if (!cancelled) setError("播放地址解析失败");
@@ -205,13 +236,15 @@ export function BiliPlayer({
   // 中英都有就叠加双语)。只有 AI/可疑轨时不自动开——bilibili 的 AI
   // 字幕经常是别的视频的内容,自动挂上去只会误导人。
   const activeTracks = useMemo(() => {
+    // 仓库轨(YouTube CC)的 lan 带 yt- 前缀,归一后按语言匹配
+    const langOf = (lan: string) => lan.toLowerCase().replace(/^yt-/, "");
     const pickList = (() => {
       if (tracks.length === 0) return [] as SubtitleTrack[];
       const picked = tracks.filter((t) => prefs.cc.lans.includes(t.lan));
       if (picked.length > 0) return picked;
       const human = tracks.filter((t) => !t.ai && !t.suspect);
-      const zh = human.find((t) => t.lan.toLowerCase().startsWith("zh"));
-      const en = human.find((t) => t.lan.toLowerCase().startsWith("en"));
+      const zh = human.find((t) => langOf(t.lan).startsWith("zh"));
+      const en = human.find((t) => langOf(t.lan).startsWith("en"));
       if (zh && en) return [zh, en];
       if (zh) return [zh];
       if (en) return [en];
@@ -221,7 +254,7 @@ export function BiliPlayer({
     // 主语言排最前(渲染在最上、字号最大)。默认中文在上;
     // 英语为主的学习者可在设置里换成英文在上。
     const primaryFirst = (t: SubtitleTrack) =>
-      t.lan.toLowerCase().startsWith(prefs.cc.primary) ? 0 : 1;
+      langOf(t.lan).startsWith(prefs.cc.primary) ? 0 : 1;
     return [...pickList].sort((a, b) => primaryFirst(a) - primaryFirst(b));
   }, [tracks, prefs.cc.lans, prefs.cc.primary]);
   const activeTracksRef = useRef(activeTracks);
@@ -246,6 +279,35 @@ export function BiliPlayer({
       art.currentTime = next;
       void art.play();
     }
+  }, []);
+
+  /** 全屏内的轻量角标特效(类抖音):自动消失,不挡画面不打断播放 */
+  const pushFx = useCallback((text: string, tone = "xp") => {
+    const id = ++fxSeq.current;
+    setFxItems((items) => [...items.slice(-4), { id, text, tone }]);
+    setTimeout(() => {
+      setFxItems((items) => items.filter((i) => i.id !== id));
+    }, 3200);
+  }, []);
+
+  /** 奖励反馈分流:全屏 → 播放器内角标;非全屏 → 全局吐司 */
+  const notifyReward = useCallback(
+    (text: string, tone: "coin" | "xp" | "streak" | "review" | "lucky") => {
+      const art = artRef.current;
+      if (art && (art.fullscreen || art.fullscreenWeb)) pushFx(text, tone);
+      else rewardToast({ text, tone });
+    },
+    [pushFx],
+  );
+
+  /** 打开笔记速记层:抓当前时间戳并暂停(全屏里也能记) */
+  const openNote = useCallback(() => {
+    const art = artRef.current;
+    if (!art) return;
+    setNoteAt(Math.floor(art.currentTime));
+    setNoteMsg(null);
+    setNoteOpen(true);
+    art.pause();
   }, []);
 
   const nudgeCcOffset = useCallback((deltaMs: number) => {
@@ -301,6 +363,10 @@ export function BiliPlayer({
       ccEl.className = "artcc-host";
       const chapterEl = document.createElement("div");
       chapterEl.className = "artchapter-host";
+      const fxEl = document.createElement("div");
+      fxEl.className = "artfx-host";
+      const noteEl = document.createElement("div");
+      noteEl.className = "artnote-host";
 
       // 进度条刻度 = UP 主章节 ∪ AI 关键点(5 秒内视为同一处,章节优先)
       const marks: { time: number; text: string }[] = payload.viewPoints.map(
@@ -426,23 +492,12 @@ export function BiliPlayer({
         layers: [
           { name: "cc", html: ccEl },
           { name: "chapters", html: chapterEl },
+          { name: "fx", html: fxEl },
+          { name: "note", html: noteEl },
         ],
+        // 右侧控件从简:下一知识点只留 n 键(按钮太多会溢出),
+        // PIP 同理砍掉;章节/覆盖率/笔记是高频入口才上按钮
         controls: [
-          ...(marks.length > 0
-            ? [
-                {
-                  // 下一知识点:长视频里「跳去下一个讲点」比盲目快进有用得多
-                  name: "nextMark",
-                  position: "right" as const,
-                  index: 3,
-                  tooltip: "下一知识点(n)",
-                  html: `<span class="artp-next">⏭</span>`,
-                  click: () => {
-                    jumpNextMark();
-                  },
-                },
-              ]
-            : []),
           ...(payload.viewPoints.length > 0 || segmentsRef.current.length > 0
             ? [
                 {
@@ -458,10 +513,15 @@ export function BiliPlayer({
               ]
             : []),
           {
-            name: "watch",
+            // 时间戳笔记:全屏里也能随手记(b 键同款)
+            name: "note",
             position: "right",
-            index: 5,
-            html: `<span class="artp-watch" title="本集观看覆盖率,≥90% 自动打卡">${initialRatioPct}%</span>`,
+            index: 6,
+            tooltip: "记笔记(b)",
+            html: `<span class="artp-notebtn">✎</span>`,
+            click: () => {
+              openNote();
+            },
           },
         ],
         settings: buildSettings(isDash, payload.dash?.qualities ?? []),
@@ -510,6 +570,24 @@ export function BiliPlayer({
       artRef.current = art;
       setCcHost(ccEl);
       setChapterHost(chapterEl);
+      setFxHost(fxEl);
+      setNoteHost(noteEl);
+
+      // 全屏中攒下的完整反馈(庆祝/卷宗弹窗)在退出全屏时统一补发——
+      // 观看中只给角落轻特效,不打断;退出即结算,反馈也不丢
+      const flushDeferred = () => {
+        const d = deferredRef.current;
+        if (!d) return;
+        deferredRef.current = null;
+        announceSettle(d.settle);
+        if (d.terms.length > 0) setNewTerms(d.terms);
+      };
+      art.on("fullscreen", (on: boolean) => {
+        if (!on) flushDeferred();
+      });
+      art.on("fullscreenWeb", (on: boolean) => {
+        if (!on) flushDeferred();
+      });
 
       // 服务端存的跨设备进度种进 autoPlayback 的 storage(取两边的较大值),
       // ready 时它会读这个键弹出「上次看到 X · 跳转播放」小条
@@ -571,23 +649,11 @@ export function BiliPlayer({
       });
 
       // 覆盖率追踪 + CC 字幕行,都挂在 timeupdate 上
-      const watchEl = () => {
-        const el = art?.controls?.watch as HTMLElement | undefined;
-        return el?.querySelector<HTMLElement>(".artp-watch") ?? el ?? null;
-      };
+      // (覆盖率百分比不再占控制栏按钮位,分段 chips 与打卡反馈足够)
       art.on("video:timeupdate", () => {
         if (!art) return;
         const t = art.currentTime;
         seenRef.current.add(Math.floor(t));
-        const total = art.duration || payload.durationSec || 0;
-        if (total > 0) {
-          const pct = Math.max(
-            initialRatioPct,
-            Math.min(100, Math.round((seenRef.current.size / total) * 100)),
-          );
-          const el = watchEl();
-          if (el) el.textContent = `${pct}%`;
-        }
         // 正偏移 = 字幕延后出现,查表时把时间轴往回拨
         if (prefsStore.get().cc.on && activeTracksRef.current.length > 0) {
           const at = t - ccOffsetRef.current / 1000;
@@ -617,6 +683,12 @@ export function BiliPlayer({
       setCcHost(null);
       setChapterHost(null);
       setChaptersOpen(false);
+      setFxHost(null);
+      setNoteHost(null);
+      setNoteOpen(false);
+      thumbsStartedRef.current = false;
+      setThumbs({});
+      deferredRef.current = null;
       try {
         dashRef.current?.destroy();
       } catch {
@@ -813,7 +885,7 @@ export function BiliPlayer({
       const art = artRef.current;
       const total = art?.duration || payload.durationSec || 0;
       if (!art || total <= 0 || seenRef.current.size === 0) return;
-      const r = await reportWatchProgress(
+      const r: WatchReport = await reportWatchProgress(
         courseId,
         episodeN,
         art.currentTime,
@@ -824,13 +896,43 @@ export function BiliPlayer({
           ? segmentCoverage(seenRef.current, segmentsRef.current)
           : undefined,
       );
+
+      // 章节阶段性奖励:小额高频,全屏走角标特效、页面走吐司
+      if (r.segments) {
+        for (const s of r.segments.settles) {
+          notifyReward(`📚 ${s.title} · +${s.xp} XP`, "xp");
+        }
+        if (r.segments.chestCoins > 0) {
+          notifyReward(
+            `🎁 章节连击宝箱 +${r.segments.chestCoins} 金币`,
+            "coin",
+          );
+        }
+        if (r.segments.potionAwarded) {
+          notifyReward("🧪 章节里程碑:经验药水 ×1.5 入包", "lucky");
+        }
+        const st = r.segments.streak;
+        if (st?.changed && st.current > 1) {
+          notifyReward(`🔥 连续学习 ${st.current} 天`, "streak");
+        }
+      }
+
       if (r.completed && !completedRef.current) {
         completedRef.current = true;
-        // 自动打卡的主路径也要有完整反馈:XP/金币/彩蛋/连胜/升级庆祝——
-        // 之前这里只弹词条弹窗,最常见的学习行为反而最没回报感
-        if (r.settle) announceSettle(r.settle);
         const terms = r.settle?.unlockedTerms ?? [];
-        if (terms.length > 0) setNewTerms(terms);
+        const fullscreen = art.fullscreen || art.fullscreenWeb;
+        if (fullscreen) {
+          // 全屏观看中不弹大窗:角落轻特效即时确认,完整反馈
+          // (庆祝动效 + 卷宗弹窗)攒到退出全屏统一补发
+          if (r.settle) deferredRef.current = { settle: r.settle, terms };
+          const xp = r.settle?.gained ?? 0;
+          pushFx(`✅ 本集完成${xp > 0 ? ` +${xp} XP` : ""}`, "xp");
+          if (terms.length > 0) pushFx(`📜 卷宗解锁 ×${terms.length}`, "lucky");
+        } else {
+          // 自动打卡的主路径也要有完整反馈:XP/金币/彩蛋/连胜/升级庆祝
+          if (r.settle) announceSettle(r.settle);
+          if (terms.length > 0) setNewTerms(terms);
+        }
         onCompleted?.();
       }
     };
@@ -845,7 +947,7 @@ export function BiliPlayer({
       document.removeEventListener("visibilitychange", onHide);
       void send();
     };
-  }, [payload, courseId, episodeN, onCompleted]);
+  }, [payload, courseId, episodeN, onCompleted, notifyReward, pushFx]);
 
   // 键盘控制。只在鼠标停在播放器上、全屏中、或播放器内有焦点时接管——
   // 否则在页面别处敲空格会莫名其妙地暂停视频。
@@ -907,6 +1009,9 @@ export function BiliPlayer({
         case "n":
           jumpNextMark();
           break;
+        case "b":
+          openNote();
+          break;
         case "c": {
           const cur = prefsStore.get().cc;
           prefsStore.set({ cc: { ...cur, on: !cur.on } });
@@ -939,7 +1044,93 @@ export function BiliPlayer({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [payload, jumpNextMark]);
+  }, [payload, jumpNextMark, openNote]);
+
+  // 组件卸载才取消缩略图生成(换集时外层 key 变化必定卸载重挂)
+  useEffect(() => {
+    thumbsCancelRef.current = false;
+    return () => {
+      thumbsCancelRef.current = true;
+    };
+  }, []);
+
+  // 章节缩略图:面板首次展开时才生成(懒)。取最低清晰度的渐进流
+  // (同源代理,canvas 不受污染),隐藏 video 逐章 seek 抓帧;
+  // seeked 后再等一帧真正解码(requestVideoFrameCallback)才画,
+  // 否则抓到的是黑帧。纯锦上添花:失败静默放弃,面板退回纯文字。
+  useEffect(() => {
+    if (!chaptersOpen || thumbsStartedRef.current || chapters.length === 0) {
+      return;
+    }
+    thumbsStartedRef.current = true;
+    const video = document.createElement("video");
+    (async () => {
+      try {
+        const res = await fetch(
+          `/api/bili/play?bvid=${encodeURIComponent(bvid)}&page=${page}&mode=mp4`,
+        );
+        const data = (await res.json()) as {
+          progressive?: { qualities: { url: string }[] } | null;
+        };
+        const qualities = data.progressive?.qualities ?? [];
+        if (qualities.length === 0) return;
+        // bilibili 返回按清晰度降序,末位最低——缩略图够用还省流量
+        video.muted = true;
+        video.preload = "auto";
+        video.playsInline = true;
+        video.src = qualities[qualities.length - 1].url;
+        await new Promise<void>((resolve, reject) => {
+          video.onloadedmetadata = () => resolve();
+          video.onerror = () => reject(new Error("load"));
+          setTimeout(() => reject(new Error("timeout")), 15_000);
+        });
+        const ratio = video.videoWidth / Math.max(1, video.videoHeight);
+        const canvas = document.createElement("canvas");
+        canvas.width = 168;
+        canvas.height = Math.max(64, Math.round(168 / (ratio || 16 / 9)));
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        for (const c of chapters) {
+          if (thumbsCancelRef.current) return;
+          await new Promise<void>((resolve) => {
+            let settled = false;
+            const finish = () => {
+              if (settled) return;
+              settled = true;
+              resolve();
+            };
+            const onSeeked = () => {
+              video.removeEventListener("seeked", onSeeked);
+              // seeked 只保证位置,还要等帧真正呈现
+              const withFrame = (
+                video as HTMLVideoElement & {
+                  requestVideoFrameCallback?: (cb: () => void) => void;
+                }
+              ).requestVideoFrameCallback;
+              if (withFrame) withFrame.call(video, finish);
+              else setTimeout(finish, 150);
+            };
+            video.addEventListener("seeked", onSeeked);
+            // 章节起点常是黑场转场,进 2 秒再抓更有内容
+            video.currentTime = Math.min(
+              c.from + 2,
+              Math.max(0, (video.duration || c.from + 2) - 0.5),
+            );
+            setTimeout(finish, 6000);
+          });
+          if (thumbsCancelRef.current) return;
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const url = canvas.toDataURL("image/jpeg", 0.62);
+          setThumbs((t) => ({ ...t, [c.from]: url }));
+        }
+      } catch {
+        // 拿不到就不显示缩略图
+      } finally {
+        video.removeAttribute("src");
+        video.load();
+      }
+    })();
+  }, [chaptersOpen, chapters, bvid, page]);
 
   useImperativeHandle(
     ref,
@@ -959,6 +1150,7 @@ export function BiliPlayer({
         else art.once("ready", apply);
       },
       currentTime: () => artRef.current?.currentTime ?? 0,
+      pause: () => artRef.current?.pause(),
     }),
     [],
   );
@@ -1048,6 +1240,15 @@ export function BiliPlayer({
                         setChaptersOpen(false);
                       }}
                     >
+                      {thumbs[c.from] ? (
+                        // 前端抓帧生成的 dataURL,非外链
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          className="artchapter-thumb"
+                          src={thumbs[c.from]}
+                          alt=""
+                        />
+                      ) : null}
                       <i>
                         {Math.floor(c.from / 60)}:
                         {String(Math.floor(c.from % 60)).padStart(2, "0")}
@@ -1060,6 +1261,94 @@ export function BiliPlayer({
             </ol>
           </div>,
           chapterHost,
+        )}
+
+      {/* 全屏轻量奖励角标(类抖音):右上角滑入,自动消失 */}
+      {fxHost &&
+        fxItems.length > 0 &&
+        createPortal(
+          <div className="artfx" aria-live="polite">
+            {fxItems.map((item) => (
+              <span key={item.id} className={`artfx-chip tone-${item.tone}`}>
+                {item.text}
+              </span>
+            ))}
+          </div>,
+          fxHost,
+        )}
+
+      {/* 时间戳笔记速记层:全屏中也能记,保存后自动收起 */}
+      {noteHost &&
+        noteOpen &&
+        createPortal(
+          <div className="artnote-panel" onClick={(e) => e.stopPropagation()}>
+            <header>
+              <b>
+                <NotebookPen size={16} aria-hidden /> 记笔记 ·{" "}
+                {Math.floor(noteAt / 60)}:
+                {String(noteAt % 60).padStart(2, "0")}
+              </b>
+              <button
+                onClick={() => setNoteOpen(false)}
+                aria-label="关闭"
+                type="button"
+              >
+                <X size={18} strokeWidth={2.6} aria-hidden />
+              </button>
+            </header>
+            <textarea
+              value={noteDraft}
+              onChange={(e) => setNoteDraft(e.target.value)}
+              placeholder="支持 Markdown:**重点**、`代码`、- 列表…"
+              rows={5}
+              maxLength={8000}
+              autoFocus
+            />
+            {noteMsg && <p className="artnote-msg">{noteMsg}</p>}
+            <footer>
+              <button
+                type="button"
+                className="app-btn-plain"
+                onClick={() => setNoteOpen(false)}
+              >
+                取消
+              </button>
+              <button
+                type="button"
+                className="app-btn-primary"
+                disabled={noteSaving || !noteDraft.trim()}
+                onClick={async () => {
+                  setNoteSaving(true);
+                  setNoteMsg(null);
+                  try {
+                    const r = await addVideoNote(
+                      courseId,
+                      episodeN,
+                      noteAt,
+                      noteDraft,
+                    );
+                    if (!r.ok) {
+                      setNoteMsg(r.error ?? "没存上,再试一次");
+                      return;
+                    }
+                    setNoteDraft("");
+                    setNoteOpen(false);
+                    notifyReward("📝 笔记已记下", "review");
+                    window.dispatchEvent(
+                      new CustomEvent(NOTES_CHANGED_EVENT, {
+                        detail: { courseId, episodeN },
+                      }),
+                    );
+                  } finally {
+                    setNoteSaving(false);
+                  }
+                }}
+              >
+                {noteSaving ? "保存中…" : "保存"}
+              </button>
+            </footer>
+          </div>,
+          noteHost,
         )}
 
       {ccOffset !== 0 && prefs.cc.on && (

@@ -64,6 +64,8 @@ export async function GET(request: NextRequest) {
         title: target.part,
         bound: !!sessdata,
         viewPoints,
+        // UP 主信息(credit:互动区展示 + 关注入口)
+        owner: view.owner ?? null,
       };
 
       if (mode === "dash") {

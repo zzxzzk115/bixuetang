@@ -1,0 +1,3582 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 0,
+   "to": 4.2,
+   "text": "So welcome back. Today we are gonna cover debugging and profiling."
+  },
+  {
+   "from": 4.7,
+   "to": 9.3,
+   "text": "Before I get into it we're gonna make another reminder to fill in the survey."
+  },
+  {
+   "from": 9.5,
+   "to": 14.6,
+   "text": "Just one of the main things we want to get from you is questions, because the last day"
+  },
+  {
+   "from": 14.8,
+   "to": 18.1,
+   "text": "is gonna be questions from you guys: about things that"
+  },
+  {
+   "from": 18.1,
+   "to": 22,
+   "text": "we haven't covered, or like you want us to kind of talk more in depth."
+  },
+  {
+   "from": 23.4,
+   "to": 27,
+   "text": "The more questions we get, the more interesting we can make that section,"
+  },
+  {
+   "from": 27,
+   "to": 28.9,
+   "text": "so please go on and fill in the survey."
+  },
+  {
+   "from": 28.9,
+   "to": 35.7,
+   "text": "So today's lecture is gonna be a lot of topics. All the topics revolve around the concept of"
+  },
+  {
+   "from": 35.8,
+   "to": 39.9,
+   "text": "what do you do when you have a program that has some bugs."
+  },
+  {
+   "from": 39.9,
+   "to": 42.5,
+   "text": "Which is most of the time, like when you are programming, you're kind of thinking"
+  },
+  {
+   "from": 42.7,
+   "to": 47.4,
+   "text": "about how you implement something and there's like a half life of fixing all the issues that"
+  },
+  {
+   "from": 47.6,
+   "to": 52.1,
+   "text": "that program has. And even if your program behaves like you want, it might be that it's"
+  },
+  {
+   "from": 52.4,
+   "to": 55.7,
+   "text": "really slow, or it's taking a lot of resources in the process."
+  },
+  {
+   "from": 55.7,
+   "to": 60.6,
+   "text": "So today we're gonna see a lot of different approaches of dealing with these problems."
+  },
+  {
+   "from": 61.3,
+   "to": 65.1,
+   "text": "So first, the first section is on debugging."
+  },
+  {
+   "from": 66.2,
+   "to": 68.3,
+   "text": "Debugging can be done in many different ways,"
+  },
+  {
+   "from": 68.4,
+   "to": 70.1,
+   "text": "there are all kinds of..."
+  },
+  {
+   "from": 70.1,
+   "to": 73.6,
+   "text": "The most simple approach that, pretty much, all"
+  },
+  {
+   "from": 73.6,
+   "to": 77.1,
+   "text": "CS students will go through, will be just: you have some code, and it's not behaving"
+  },
+  {
+   "from": 77.2,
+   "to": 80.3,
+   "text": "like you want, so you probe the code by adding"
+  },
+  {
+   "from": 80.3,
+   "to": 83.4,
+   "text": "print statements. This is called \"printf debugging\" and"
+  },
+  {
+   "from": 83.4,
+   "to": 84.5,
+   "text": "it works pretty well."
+  },
+  {
+   "from": 84.5,
+   "to": 86.7,
+   "text": "Like, I have to be honest,"
+  },
+  {
+   "from": 86.8,
+   "to": 93.1,
+   "text": "I use it a lot of the time because of how simple to set up and how quick the feedback can be."
+  },
+  {
+   "from": 94.4,
+   "to": 99.3,
+   "text": "One of the issues with printf debugging is that you can get a lot of output"
+  },
+  {
+   "from": 99.3,
+   "to": 100.7,
+   "text": "and maybe you don't want"
+  },
+  {
+   "from": 100.8,
+   "to": 103.2,
+   "text": "to get as much output as you're getting."
+  },
+  {
+   "from": 103.8,
+   "to": 109.3,
+   "text": "There has... people have thought of slightly more complex ways of doing printf debugging and"
+  },
+  {
+   "from": 113.9,
+   "to": 118.3,
+   "text": "one of these ways is what is usually referred to as \"logging\"."
+  },
+  {
+   "from": 118.4,
+   "to": 124.5,
+   "text": "So the advantage of doing logging versus doing printf debugging is that, when you're creating logs,"
+  },
+  {
+   "from": 125.1,
+   "to": 129.8,
+   "text": "you're not necessarily creating the logs because there's a specific issue you want to fix;"
+  },
+  {
+   "from": 129.8,
+   "to": 132.5,
+   "text": "it's mostly because you have built a"
+  },
+  {
+   "from": 132.5,
+   "to": 136.8,
+   "text": "more complex software system and you want to log when some events happen."
+  },
+  {
+   "from": 137.4,
+   "to": 141.6,
+   "text": "One of the core advantages of using a logging library is that"
+  },
+  {
+   "from": 142.2,
+   "to": 147,
+   "text": "you can can define severity levels, and you can filter based on those."
+  },
+  {
+   "from": 147.4,
+   "to": 151.6,
+   "text": "Let's see an example of how we can do something like that."
+  },
+  {
+   "from": 152.3,
+   "to": 155.8,
+   "text": "Yeah, everything fits here. This is a really silly example:"
+  },
+  {
+   "from": 156.3,
+   "to": 157.5,
+   "text": "We're just gonna"
+  },
+  {
+   "from": 157.5,
+   "to": 161,
+   "text": "sample random numbers and, depending on the value of the number,"
+  },
+  {
+   "from": 161.1,
+   "to": 164.7,
+   "text": "that we can interpret as a kind of \"how wrong things are going\"."
+  },
+  {
+   "from": 164.7,
+   "to": 168.8,
+   "text": "We're going to log the value of the number and then"
+  },
+  {
+   "from": 169.3,
+   "to": 171.6,
+   "text": "we can see what is going on."
+  },
+  {
+   "from": 172.6,
+   "to": 179.3,
+   "text": "I need to disable these formatters..."
+  },
+  {
+   "from": 179.6,
+   "to": 183.7,
+   "text": "And if we were just to execute the code as it is,"
+  },
+  {
+   "from": 184.2,
+   "to": 187.4,
+   "text": "we just get the output and we just keep getting more and more output."
+  },
+  {
+   "from": 187.4,
+   "to": 193.6,
+   "text": "But you have to kind of stare at it and make sense of what is going on, and we don't know"
+  },
+  {
+   "from": 193.6,
+   "to": 199.6,
+   "text": "what is the relative timing between printfs, we don't really know whether this is just an information message"
+  },
+  {
+   "from": 199.6,
+   "to": 203,
+   "text": "or a message of whether something went wrong."
+  },
+  {
+   "from": 203.8,
+   "to": 205.8,
+   "text": "If we just go in,"
+  },
+  {
+   "from": 207.3,
+   "to": 209.8,
+   "text": "and undo, not that one..."
+  },
+  {
+   "from": 214.2,
+   "to": 217.1,
+   "text": "That one, we can set that formatter."
+  },
+  {
+   "from": 218.6,
+   "to": 221.6,
+   "text": "Now the output looks something more like this"
+  },
+  {
+   "from": 221.6,
+   "to": 224.8,
+   "text": "So for example, if you have several different modules that you are programming with,"
+  },
+  {
+   "from": 224.8,
+   "to": 226.9,
+   "text": "you can identify them with like different levels."
+  },
+  {
+   "from": 226.9,
+   "to": 229.8,
+   "text": "Here, we have, we have debug levels,"
+  },
+  {
+   "from": 230.3,
+   "to": 231.9,
+   "text": "we have critical"
+  },
+  {
+   "from": 231.9,
+   "to": 237.5,
+   "text": "info, different levels. And it might be handy because here we might only care about the error messages."
+  },
+  {
+   "from": 237.7,
+   "to": 240.6,
+   "text": "Like those are like, the... We have been"
+  },
+  {
+   "from": 240.7,
+   "to": 244,
+   "text": "working on our code, so far so good, and suddenly we get some error."
+  },
+  {
+   "from": 244,
+   "to": 246.5,
+   "text": "We can log that to identify where it's happening."
+  },
+  {
+   "from": 246.6,
+   "to": 251.6,
+   "text": "But maybe there's a lot of information messages, but we can deal with that"
+  },
+  {
+   "from": 252.7,
+   "to": 256.8,
+   "text": "by just changing the level to error level."
+  },
+  {
+   "from": 257.4,
+   "to": 257.9,
+   "text": "And"
+  },
+  {
+   "from": 258.9,
+   "to": 263,
+   "text": "now if we were to run this again, we are only going to get those"
+  },
+  {
+   "from": 263.6,
+   "to": 268.2,
+   "text": "errors in the output, and we can just look through those to make sense of what is going on."
+  },
+  {
+   "from": 268.9,
+   "to": 273.3,
+   "text": "Another really useful tool when you're dealing with logs is"
+  },
+  {
+   "from": 274.1,
+   "to": 276.7,
+   "text": "As you kind of look at this,"
+  },
+  {
+   "from": 276.7,
+   "to": 282.6,
+   "text": "it has become easier because now we have this critical and error levels that we can quickly identify."
+  },
+  {
+   "from": 283.3,
+   "to": 286.8,
+   "text": "But since humans are fairly visual creatures,"
+  },
+  {
+   "from": 288.7,
+   "to": 293.1,
+   "text": "one thing that you can do is use colors from your terminal to"
+  },
+  {
+   "from": 293.6,
+   "to": 297.4,
+   "text": "identify these things. So now, changing the formatter,"
+  },
+  {
+   "from": 297.4,
+   "to": 303.3,
+   "text": "what I've done is slightly change how the output is formatted."
+  },
+  {
+   "from": 303.6,
+   "to": 309.3,
+   "text": "When I do that, now whenever I get a warning message, it's color coded by yellow;"
+  },
+  {
+   "from": 309.3,
+   "to": 310.9,
+   "text": "whenever I get like an error,"
+  },
+  {
+   "from": 311,
+   "to": 316.1,
+   "text": "faded red; and when it's critical, I have a bold red indicating something went wrong."
+  },
+  {
+   "from": 316.3,
+   "to": 322.6,
+   "text": "And here it's a really short output, but when you start having thousands and thousands of lines of log,"
+  },
+  {
+   "from": 322.6,
+   "to": 326.4,
+   "text": "which is not unrealistic and happens every single day in a lot of apps,"
+  },
+  {
+   "from": 327.1,
+   "to": 332.5,
+   "text": "quickly browsing through them and identifying where the error or the red patches are"
+  },
+  {
+   "from": 332.6,
+   "to": 335.3,
+   "text": "can be really useful."
+  },
+  {
+   "from": 335.6,
+   "to": 341.4,
+   "text": "A quick aside is, you might be curious about how the terminal is displaying these colors."
+  },
+  {
+   "from": 341.6,
+   "to": 345.3,
+   "text": "At the end of the day, the terminal is only outputting characters."
+  },
+  {
+   "from": 347.2,
+   "to": 349.5,
+   "text": "Like, how is this program or how are other programs, like LS,"
+  },
+  {
+   "from": 350.1,
+   "to": 356.1,
+   "text": "that has all these fancy colors. How are they telling the terminal that it should use these different colors?"
+  },
+  {
+   "from": 356.4,
+   "to": 358.8,
+   "text": "This is nothing extremely fancy,"
+  },
+  {
+   "from": 359.4,
+   "to": 363.4,
+   "text": "what these tools are doing, is something along these lines."
+  },
+  {
+   "from": 363.7,
+   "to": 364.5,
+   "text": "Here we have..."
+  },
+  {
+   "from": 365.4,
+   "to": 368.3,
+   "text": "I can clear the rest of the output, so we can focus on this."
+  },
+  {
+   "from": 368.7,
+   "to": 374,
+   "text": "There's some special characters, some escape characters here,"
+  },
+  {
+   "from": 374.3,
+   "to": 379.7,
+   "text": "then we have some text and then we have some other special characters. And if we execute this line"
+  },
+  {
+   "from": 379.9,
+   "to": 382.4,
+   "text": "we get a red \"This is red\"."
+  },
+  {
+   "from": 382.5,
+   "to": 386.6,
+   "text": "And you might have picked up on the fact that we have a \"255;0;0\" here,"
+  },
+  {
+   "from": 386.7,
+   "to": 391.4,
+   "text": "this is just telling the RGB values of the color we want in the terminal."
+  },
+  {
+   "from": 391.4,
+   "to": 398.1,
+   "text": "And you pretty much can do this in any piece of code that you have, and like that you can color code the output."
+  },
+  {
+   "from": 398.1,
+   "to": 402.5,
+   "text": "Your terminal is fairly fancy and supports a lot of different colors in the output."
+  },
+  {
+   "from": 402.6,
+   "to": 405.4,
+   "text": "This is not even all of them, this is like a sixteenth of them."
+  },
+  {
+   "from": 406.1,
+   "to": 409.1,
+   "text": "I think it can be fairly useful to know about that."
+  },
+  {
+   "from": 412.1,
+   "to": 416,
+   "text": "Another thing is maybe you don't enjoy or you don't think"
+  },
+  {
+   "from": 416.2,
+   "to": 418.6,
+   "text": "logs are really fit for you."
+  },
+  {
+   "from": 418.6,
+   "to": 422.5,
+   "text": "The thing is a lot of other systems that you might start using will use logs."
+  },
+  {
+   "from": 422.8,
+   "to": 425.4,
+   "text": "As you start building larger and larger systems,"
+  },
+  {
+   "from": 425.4,
+   "to": 430.1,
+   "text": "you might rely on other dependencies. Common dependencies might be web servers or"
+  },
+  {
+   "from": 430.2,
+   "to": 432.3,
+   "text": "databases, it's a really common one."
+  },
+  {
+   "from": 432.4,
+   "to": 437.7,
+   "text": "And those will be logging their errors or exceptions in their own logs."
+  },
+  {
+   "from": 437.7,
+   "to": 440.5,
+   "text": "Of course, you will get some client-side error,"
+  },
+  {
+   "from": 440.6,
+   "to": 445.1,
+   "text": "but those sometimes are not informative enough for you to figure out what is going on."
+  },
+  {
+   "from": 445.9,
+   "to": 453.9,
+   "text": "In most UNIX systems, the logs are usually placed under a folder called \"/var/log\""
+  },
+  {
+   "from": 453.9,
+   "to": 458,
+   "text": "and if we list it, we can see there's a bunch of logs in here."
+  },
+  {
+   "from": 462.7,
+   "to": 468,
+   "text": "So we have like the shutdown monitor log, or some weekly logs."
+  },
+  {
+   "from": 469.7,
+   "to": 476.2,
+   "text": "Things related to the Wi-Fi, for example. And if we output the"
+  },
+  {
+   "from": 477.6,
+   "to": 480.8,
+   "text": "System log, which contains a lot of information about the system,"
+  },
+  {
+   "from": 480.8,
+   "to": 483.9,
+   "text": "we can get information about what's going on."
+  },
+  {
+   "from": 484.1,
+   "to": 486.8,
+   "text": "Similarly, there are tools that will let you"
+  },
+  {
+   "from": 487.5,
+   "to": 493.1,
+   "text": "more sanely go through this output. But here, looking at the system log,"
+  },
+  {
+   "from": 493.1,
+   "to": 495.5,
+   "text": "I can look at this, and say:"
+  },
+  {
+   "from": 495.8,
+   "to": 500,
+   "text": "oh there's some service that is exiting with some abnormal code"
+  },
+  {
+   "from": 500.4,
+   "to": 505.5,
+   "text": "and based on that information, I can go and try to figure out what's going on,"
+  },
+  {
+   "from": 505.5,
+   "to": 507.5,
+   "text": "like what's going wrong."
+  },
+  {
+   "from": 509,
+   "to": 512,
+   "text": "One thing to know when you're working with logs is that"
+  },
+  {
+   "from": 512,
+   "to": 515.9,
+   "text": "more traditionally, every software had their own"
+  },
+  {
+   "from": 515.9,
+   "to": 522.5,
+   "text": "log, but it has been increasingly more popular to have a unified system log where everything is placed."
+  },
+  {
+   "from": 523,
+   "to": 529.3,
+   "text": "Pretty much any application can log into the system log, but instead of being in a plain text format,"
+  },
+  {
+   "from": 529.3,
+   "to": 532.4,
+   "text": "it will be compressed in some special format."
+  },
+  {
+   "from": 532.4,
+   "to": 536.5,
+   "text": "An example of this, it was what we covered in the data wrangling lecture."
+  },
+  {
+   "from": 536.5,
+   "to": 539.9,
+   "text": "In the data wrangling lecture we were using the \"journalctl\","
+  },
+  {
+   "from": 540.2,
+   "to": 544.3,
+   "text": "which is accessing the log and outputting all that output."
+  },
+  {
+   "from": 544.3,
+   "to": 547.4,
+   "text": "Here in Mac, now the command is \"log show\","
+  },
+  {
+   "from": 547.4,
+   "to": 550,
+   "text": "which will display a lot of information."
+  },
+  {
+   "from": 550.1,
+   "to": 555.8,
+   "text": "I'm gonna just display the last ten seconds, because logs are really, really verbose and"
+  },
+  {
+   "from": 557.1,
+   "to": 563.7,
+   "text": "just displaying the last 10 seconds is still gonna output a fairly large amount of lines."
+  },
+  {
+   "from": 563.9,
+   "to": 568.2,
+   "text": "So if we go back through what's going on,"
+  },
+  {
+   "from": 568.2,
+   "to": 573.5,
+   "text": "we here see that a lot of Apple things are going on, since this is a macbook."
+  },
+  {
+   "from": 573.5,
+   "to": 578.5,
+   "text": "Maybe we could find errors about like some system issue here."
+  },
+  {
+   "from": 579.3,
+   "to": 586.9,
+   "text": "Again they're fairly verbose, so you might want to practice your data wrangling techniques here,"
+  },
+  {
+   "from": 586.9,
+   "to": 590.4,
+   "text": "like 10 seconds equal to like 500 lines of logs, so you can kind of"
+  },
+  {
+   "from": 591,
+   "to": 595,
+   "text": "get an idea of how many lines per second you're getting."
+  },
+  {
+   "from": 596.4,
+   "to": 601.1,
+   "text": "They're not only useful for figuring out some other programs' output,"
+  },
+  {
+   "from": 601.1,
+   "to": 605.6,
+   "text": "they're also useful for you, if you want to log there instead of into your own file."
+  },
+  {
+   "from": 605.8,
+   "to": 611.3,
+   "text": "So using the \"logger\" command, in both linux and mac,"
+  },
+  {
+   "from": 611.8,
+   "to": 613.5,
+   "text": "You can say okay"
+  },
+  {
+   "from": 613.5,
+   "to": 618.9,
+   "text": "I'm gonna log this \"Hello Logs\" into this system log."
+  },
+  {
+   "from": 618.9,
+   "to": 621.9,
+   "text": "We execute the command and then"
+  },
+  {
+   "from": 622.8,
+   "to": 627.6,
+   "text": "we can check by going through the last minute of logs,"
+  },
+  {
+   "from": 627.6,
+   "to": 631.8,
+   "text": "since it's gonna be fairly recent, and grepping for that \"Hello\""
+  },
+  {
+   "from": 631.8,
+   "to": 638.3,
+   "text": "we find our entry. Fairly recent entry, that we just created that said \"Hello Logs\"."
+  },
+  {
+   "from": 639.2,
+   "to": 646.8,
+   "text": "As you become more and more familiar with these tools, you will find yourself using"
+  },
+  {
+   "from": 648.8,
+   "to": 651.3,
+   "text": "the logs more and more often, since"
+  },
+  {
+   "from": 651.5,
+   "to": 656.3,
+   "text": "even if you have some bug that you haven't detected, and the program has been running for a while,"
+  },
+  {
+   "from": 656.3,
+   "to": 662.2,
+   "text": "maybe the information is already in the log and can tell you enough to figure out what is going on."
+  },
+  {
+   "from": 662.8,
+   "to": 668.3,
+   "text": "However, printf debugging is not everything. So now I'm going to be covering debuggers."
+  },
+  {
+   "from": 668.3,
+   "to": 670.4,
+   "text": "But first any questions on logs so far?"
+  },
+  {
+   "from": 671.7,
+   "to": 675,
+   "text": "So what kind of things can you figure out from the logs?"
+  },
+  {
+   "from": 675,
+   "to": 678.8,
+   "text": "like this Hello Logs says that you did something with Hello at that time?"
+  },
+  {
+   "from": 678.9,
+   "to": 685,
+   "text": "Yeah, like say, for example, I can write a bash script that detects..."
+  },
+  {
+   "from": 685.1,
+   "to": 689.5,
+   "text": "Well, that checks every time what Wi-Fi network I'm connected to."
+  },
+  {
+   "from": 689.5,
+   "to": 694.2,
+   "text": "And every time it detects that it has changed, it makes an entry in the logs and says"
+  },
+  {
+   "from": 694.2,
+   "to": 697.4,
+   "text": "Oh now it looks like we have changed Wi-Fi networks."
+  },
+  {
+   "from": 697.4,
+   "to": 701.4,
+   "text": "and then you might go back and parse through the logs and take like, okay"
+  },
+  {
+   "from": 701.5,
+   "to": 707.6,
+   "text": "When did my computer change from one Wi-Fi network to another. And this is just kind of a simple example"
+  },
+  {
+   "from": 707.6,
+   "to": 710.3,
+   "text": "But there are many, many ways,"
+  },
+  {
+   "from": 710.7,
+   "to": 714,
+   "text": "many types of information that you could be logging here."
+  },
+  {
+   "from": 714,
+   "to": 719,
+   "text": "More commonly, you will probably want to check if your computer, for example, is"
+  },
+  {
+   "from": 719.1,
+   "to": 722.5,
+   "text": "entering sleep, for example, for some unknown reason."
+  },
+  {
+   "from": 722.7,
+   "to": 724.7,
+   "text": "Like it's on hibernation mode."
+  },
+  {
+   "from": 724.8,
+   "to": 729.1,
+   "text": "There's probably some information in the logs about who asked that to happen,"
+  },
+  {
+   "from": 729.1,
+   "to": 730.2,
+   "text": "or why it's that happening."
+  },
+  {
+   "from": 731.7,
+   "to": 734.9,
+   "text": "Any other questions? Okay."
+  },
+  {
+   "from": 734.9,
+   "to": 737.4,
+   "text": "So when printf debugging is not enough,"
+  },
+  {
+   "from": 738.3,
+   "to": 742.4,
+   "text": "the best alternative after that is using..."
+  },
+  {
+   "from": 743.4,
+   "to": 745.4,
+   "text": "[Exit that]"
+  },
+  {
+   "from": 748.5,
+   "to": 750.3,
+   "text": "So, it's using a debugger."
+  },
+  {
+   "from": 750.6,
+   "to": 757.6,
+   "text": "So a debugger is a tool that will wrap around your code and will let you run your code,"
+  },
+  {
+   "from": 758.1,
+   "to": 760.5,
+   "text": "but it will kind of keep control over it."
+  },
+  {
+   "from": 760.5,
+   "to": 762.5,
+   "text": "So it will let you step"
+  },
+  {
+   "from": 762.5,
+   "to": 767.1,
+   "text": "through the code and execute it and set breakpoints."
+  },
+  {
+   "from": 767.1,
+   "to": 770,
+   "text": "You probably have seen debuggers in some way, if you have"
+  },
+  {
+   "from": 770,
+   "to": 775.8,
+   "text": "ever used something like an IDE, because IDEs have this kind of fancy: set a breakpoint here, execute, ..."
+  },
+  {
+   "from": 776.1,
+   "to": 779,
+   "text": "But at the end of the day what these tools are using is just"
+  },
+  {
+   "from": 779,
+   "to": 784.7,
+   "text": "these command line debuggers and they're just presenting them in a really fancy format."
+  },
+  {
+   "from": 784.9,
+   "to": 790,
+   "text": "Here we have a completely broken bubble sort, a simple sorting algorithm."
+  },
+  {
+   "from": 790,
+   "to": 791.6,
+   "text": "Don't worry about the details,"
+  },
+  {
+   "from": 791.6,
+   "to": 795,
+   "text": "but we just want to sort this array that we have here."
+  },
+  {
+   "from": 797.4,
+   "to": 799.5,
+   "text": "We can try doing that by just doing"
+  },
+  {
+   "from": 801.3,
+   "to": 803.3,
+   "text": "Python bubble.py"
+  },
+  {
+   "from": 803.5,
+   "to": 808.4,
+   "text": "And when we do that... Oh there's some index error, list index out of range."
+  },
+  {
+   "from": 808.5,
+   "to": 811.2,
+   "text": "We could start adding prints"
+  },
+  {
+   "from": 811.2,
+   "to": 813.7,
+   "text": "but if have a really long string, we can get a lot of information."
+  },
+  {
+   "from": 813.8,
+   "to": 817.8,
+   "text": "So how about we go up to the moment that we crashed?"
+  },
+  {
+   "from": 817.9,
+   "to": 821,
+   "text": "We can go to that moment and examine what the"
+  },
+  {
+   "from": 821,
+   "to": 823.4,
+   "text": "current state of the program was."
+  },
+  {
+   "from": 823.5,
+   "to": 829.1,
+   "text": "So for doing that I'm gonna run the program using the Python debugger."
+  },
+  {
+   "from": 829.1,
+   "to": 833.8,
+   "text": "Here I'm using technically the ipython debugger, just because it has nice coloring syntax"
+  },
+  {
+   "from": 834.1,
+   "to": 839.1,
+   "text": "so it's probably easier for both of us to understand"
+  },
+  {
+   "from": 839.3,
+   "to": 841.3,
+   "text": "what's going on in the output."
+  },
+  {
+   "from": 841.3,
+   "to": 844.9,
+   "text": "But they're pretty much identical anyway."
+  },
+  {
+   "from": 845.1,
+   "to": 849.4,
+   "text": "So we execute this, and now we are given a prompt"
+  },
+  {
+   "from": 849.4,
+   "to": 853.1,
+   "text": "where we're being told that we are here, at the very first line of our program."
+  },
+  {
+   "from": 853.1,
+   "to": 855.4,
+   "text": "And we can..."
+  },
+  {
+   "from": 856,
+   "to": 860.4,
+   "text": "\"L\" stands for \"List\", so as with many of these tools"
+  },
+  {
+   "from": 861.1,
+   "to": 864.4,
+   "text": "there's kind of like a language of operations that you can do,"
+  },
+  {
+   "from": 864.4,
+   "to": 868.2,
+   "text": "and they are often mnemonic, as it was the case with VIM or TMUX."
+  },
+  {
+   "from": 868.9,
+   "to": 872.9,
+   "text": "So here, \"L\" is for \"Listing\" the code, and we can see the entire code."
+  },
+  {
+   "from": 874.5,
+   "to": 878.9,
+   "text": "\"S\" is for \"Step\" and will let us kind of one"
+  },
+  {
+   "from": 878.9,
+   "to": 882.2,
+   "text": "line at a time, go through the execution."
+  },
+  {
+   "from": 882.3,
+   "to": 887.4,
+   "text": "The thing is we're only triggering the error some time later."
+  },
+  {
+   "from": 887.4,
+   "to": 888.7,
+   "text": "So"
+  },
+  {
+   "from": 888.7,
+   "to": 895.2,
+   "text": "we can restart the program and instead of trying to step until we get to the issue,"
+  },
+  {
+   "from": 895.2,
+   "to": 900.8,
+   "text": "we can just ask for the program to continue which is the \"C\" command and"
+  },
+  {
+   "from": 901.5,
+   "to": 904.2,
+   "text": "hey, we reached the issue."
+  },
+  {
+   "from": 904.6,
+   "to": 908.1,
+   "text": "We got to this line where everything crashed,"
+  },
+  {
+   "from": 908.1,
+   "to": 911,
+   "text": "we're getting this list index out of range."
+  },
+  {
+   "from": 911,
+   "to": 913.6,
+   "text": "And now that we are here we can say, huh?"
+  },
+  {
+   "from": 914.1,
+   "to": 917.5,
+   "text": "Okay, first, let's print the value of the array."
+  },
+  {
+   "from": 918.1,
+   "to": 921.5,
+   "text": "This is the value of the current array"
+  },
+  {
+   "from": 923.1,
+   "to": 926.8,
+   "text": "So we have six items. Okay. What is the value of \"J\" here?"
+  },
+  {
+   "from": 927.2,
+   "to": 931.9,
+   "text": "So we look at the value of \"J\". \"J\" is 5 here, which will be the last element, but"
+  },
+  {
+   "from": 932.5,
+   "to": 937.1,
+   "text": "\"J\" plus 1 is going to be 6, so that's triggering the out of bounds error."
+  },
+  {
+   "from": 938,
+   "to": 940.4,
+   "text": "So what we have to do is"
+  },
+  {
+   "from": 940.7,
+   "to": 947.7,
+   "text": "this \"N\", instead of \"N\" has to be \"N minus one\". We have identified that the error lies there."
+  },
+  {
+   "from": 947.7,
+   "to": 950.8,
+   "text": "So we can quit, which is \"Q\"."
+  },
+  {
+   "from": 952,
+   "to": 954.7,
+   "text": "Again, because it's a post-mortem debugger."
+  },
+  {
+   "from": 956.1,
+   "to": 960.2,
+   "text": "We go back to the code and say okay,"
+  },
+  {
+   "from": 962.9,
+   "to": 966.2,
+   "text": "we need to append this \"N minus one\"."
+  },
+  {
+   "from": 966.8,
+   "to": 971.1,
+   "text": "That will prevent the list index out of range and"
+  },
+  {
+   "from": 971.5,
+   "to": 974.3,
+   "text": "if we run this again without the debugger,"
+  },
+  {
+   "from": 975,
+   "to": 978.7,
+   "text": "okay, no errors now. But this is not our sorted list."
+  },
+  {
+   "from": 978.7,
+   "to": 981.2,
+   "text": "This is sorted, but it's not our list."
+  },
+  {
+   "from": 981.3,
+   "to": 983,
+   "text": "We are missing entries from our list,"
+  },
+  {
+   "from": 983.2,
+   "to": 987.4,
+   "text": "so there is some behavioral issue that we're reaching here."
+  },
+  {
+   "from": 987.9,
+   "to": 992.4,
+   "text": "Again, we could start using printf debugging but kind of a hunch now"
+  },
+  {
+   "from": 992.4,
+   "to": 997.9,
+   "text": "is that probably the way we're swapping entries in the bubble sort program is wrong."
+  },
+  {
+   "from": 998.5,
+   "to": 1005.9,
+   "text": "We can use the debugger for this. We can go through them to the moment we're doing a swap and"
+  },
+  {
+   "from": 1006.1,
+   "to": 1008.3,
+   "text": "check how the swap is being performed."
+  },
+  {
+   "from": 1008.5,
+   "to": 1010.6,
+   "text": "So a quick overview,"
+  },
+  {
+   "from": 1010.6,
+   "to": 1016.6,
+   "text": "we have two for loops and in the most nested loop,"
+  },
+  {
+   "from": 1016.7,
+   "to": 1023.2,
+   "text": "we are checking if the array is larger than the other array. The thing is if we just try to execute until this line,"
+  },
+  {
+   "from": 1023.6,
+   "to": 1026.6,
+   "text": "it's only going to trigger whenever we make a swap."
+  },
+  {
+   "from": 1026.7,
+   "to": 1031.6,
+   "text": "So what we can do is we can set a breakpoint in the sixth line."
+  },
+  {
+   "from": 1031.8,
+   "to": 1035.5,
+   "text": "We can create a breakpoint in this line and then"
+  },
+  {
+   "from": 1035.6,
+   "to": 1040.8,
+   "text": "the program will execute and the moment we try to swap variables is when the program is going to stop."
+  },
+  {
+   "from": 1041.1,
+   "to": 1042.9,
+   "text": "So we create a breakpoint there"
+  },
+  {
+   "from": 1042.9,
+   "to": 1047,
+   "text": "and then we continue the execution of the program. The program halts"
+  },
+  {
+   "from": 1047,
+   "to": 1050.5,
+   "text": "and says hey, I have executed and I have reached this line."
+  },
+  {
+   "from": 1050.8,
+   "to": 1051.9,
+   "text": "Now"
+  },
+  {
+   "from": 1051.9,
+   "to": 1059.1,
+   "text": "I can use \"locals()\", which is a Python function that returns a dictionary with all the values"
+  },
+  {
+   "from": 1059.1,
+   "to": 1061.2,
+   "text": "to quickly see the entire context."
+  },
+  {
+   "from": 1063.1,
+   "to": 1068.1,
+   "text": "The string, the array is fine and is six, again, just the beginning and"
+  },
+  {
+   "from": 1068.7,
+   "to": 1071.1,
+   "text": "I step, go to the next line."
+  },
+  {
+   "from": 1071.8,
+   "to": 1072.6,
+   "text": "Oh,"
+  },
+  {
+   "from": 1072.6,
+   "to": 1077,
+   "text": "and I identify the issue: I'm swapping one item at a time, instead of simultaneously,"
+  },
+  {
+   "from": 1077,
+   "to": 1081.8,
+   "text": "so that's what's triggering the fact that we're losing variables as we go through."
+  },
+  {
+   "from": 1083.2,
+   "to": 1086.7,
+   "text": "That's kind of a very simple example, but"
+  },
+  {
+   "from": 1087.5,
+   "to": 1089.1,
+   "text": "debuggers are really powerful."
+  },
+  {
+   "from": 1089.1,
+   "to": 1093.3,
+   "text": "Most programming languages will give you some sort of debugger,"
+  },
+  {
+   "from": 1093.5,
+   "to": 1099.9,
+   "text": "and when you go to more low level debugging you might run into tools like..."
+  },
+  {
+   "from": 1099.9,
+   "to": 1101.9,
+   "text": "You might want to use something like"
+  },
+  {
+   "from": 1105.3,
+   "to": 1107.3,
+   "text": "GDB."
+  },
+  {
+   "from": 1111.6,
+   "to": 1114.4,
+   "text": "And GDB has one nice property:"
+  },
+  {
+   "from": 1114.5,
+   "to": 1117.7,
+   "text": "GDB works really well with C/C++ and all these C-like languages."
+  },
+  {
+   "from": 1117.8,
+   "to": 1122.7,
+   "text": "But GDB actually lets you work with pretty much any binary that you can execute."
+  },
+  {
+   "from": 1122.7,
+   "to": 1127.8,
+   "text": "So for example here we have sleep, which is just a program that's going to sleep for 20 seconds."
+  },
+  {
+   "from": 1128.5,
+   "to": 1135.3,
+   "text": "It's loaded and then we can do run, and then we can interrupt this sending an interrupt signal."
+  },
+  {
+   "from": 1135.3,
+   "to": 1142,
+   "text": "And GDB is displaying for us, here, very low-level information about what's going on in the program."
+  },
+  {
+   "from": 1142,
+   "to": 1146.8,
+   "text": "So we're getting the stack trace, we're seeing we are in this nanosleep function,"
+  },
+  {
+   "from": 1147.1,
+   "to": 1151.7,
+   "text": "we can see the values of all the hardware registers in your machine. So"
+  },
+  {
+   "from": 1152.3,
+   "to": 1157.2,
+   "text": "you can get a lot of low-level detail using these tools."
+  },
+  {
+   "from": 1158.6,
+   "to": 1162.5,
+   "text": "I think that's all I want to cover for debuggers."
+  },
+  {
+   "from": 1162.5,
+   "to": 1165.5,
+   "text": "Any questions related to that?"
+  },
+  {
+   "from": 1173.5,
+   "to": 1179,
+   "text": "Another interesting tool when you're trying to debug is that sometimes you want to debug as if"
+  },
+  {
+   "from": 1179.5,
+   "to": 1182.2,
+   "text": "your program is a black box."
+  },
+  {
+   "from": 1182.2,
+   "to": 1186.1,
+   "text": "So you, maybe, know what the internals of the program but at the same time"
+  },
+  {
+   "from": 1186.4,
+   "to": 1192.1,
+   "text": "your computer knows whenever your program is trying to do some operations."
+  },
+  {
+   "from": 1192.3,
+   "to": 1194.7,
+   "text": "So this is in UNIX systems,"
+  },
+  {
+   "from": 1194.8,
+   "to": 1198.1,
+   "text": "there's this notion of like user level code and kernel level code."
+  },
+  {
+   "from": 1198.1,
+   "to": 1203.2,
+   "text": "And when you try to do some operations like reading a file or like reading the network connection"
+  },
+  {
+   "from": 1203.3,
+   "to": 1206,
+   "text": "you will have to do something called system calls."
+  },
+  {
+   "from": 1206.2,
+   "to": 1212.6,
+   "text": "You can get a program and go through those operations and ask"
+  },
+  {
+   "from": 1214,
+   "to": 1218.3,
+   "text": "what operations did this software do?"
+  },
+  {
+   "from": 1218.3,
+   "to": 1220.9,
+   "text": "So for example, if you have like a Python function"
+  },
+  {
+   "from": 1221,
+   "to": 1226.7,
+   "text": "that is only supposed to do a mathematical operation and you run it through this program,"
+  },
+  {
+   "from": 1226.7,
+   "to": 1228.5,
+   "text": "and it's actually reading files,"
+  },
+  {
+   "from": 1228.5,
+   "to": 1231.9,
+   "text": "Why is it reading files? It shouldn't be reading files. So, let's see."
+  },
+  {
+   "from": 1234.5,
+   "to": 1237.2,
+   "text": "This is \"strace\"."
+  },
+  {
+   "from": 1237.2,
+   "to": 1238.7,
+   "text": "So for example, we can do it something like this."
+  },
+  {
+   "from": 1238.7,
+   "to": 1241.3,
+   "text": "So here we're gonna run the \"LS - L\""
+  },
+  {
+   "from": 1242.2,
+   "to": 1247.9,
+   "text": "And then we're ignoring the output of LS, but we are not ignoring the output of STRACE."
+  },
+  {
+   "from": 1247.9,
+   "to": 1249.7,
+   "text": "So if we execute that..."
+  },
+  {
+   "from": 1252.3,
+   "to": 1254.7,
+   "text": "We're gonna get a lot of output."
+  },
+  {
+   "from": 1254.9,
+   "to": 1258.7,
+   "text": "This is all the different system calls"
+  },
+  {
+   "from": 1260.5,
+   "to": 1262.1,
+   "text": "That this"
+  },
+  {
+   "from": 1262.1,
+   "to": 1267.5,
+   "text": "LS has executed. You will see a bunch of OPEN, you will see FSTAT."
+  },
+  {
+   "from": 1268.2,
+   "to": 1274.2,
+   "text": "And for example, since it has to list all the properties of the files that are in this folder, we can"
+  },
+  {
+   "from": 1275.1,
+   "to": 1280.4,
+   "text": "check for the LSTAT call. So the LSTAT call will check for the properties of the files and"
+  },
+  {
+   "from": 1281,
+   "to": 1287.4,
+   "text": "we can see that, effectively, all the files and folders that are in this directory"
+  },
+  {
+   "from": 1287.7,
+   "to": 1291.5,
+   "text": "have been accessed through a system call, through LS."
+  },
+  {
+   "from": 1294.1,
+   "to": 1303.4,
+   "text": "Interestingly, sometimes you actually don't need to run your code to"
+  },
+  {
+   "from": 1304.4,
+   "to": 1307,
+   "text": "figure out that there is something wrong with your code."
+  },
+  {
+   "from": 1308,
+   "to": 1312.4,
+   "text": "So far we have seen enough ways of identifying issues by running the code,"
+  },
+  {
+   "from": 1312.5,
+   "to": 1314.4,
+   "text": "but what if you..."
+  },
+  {
+   "from": 1314.4,
+   "to": 1319,
+   "text": "you can look at a piece of code like this, like the one I have shown right now in this screen,"
+  },
+  {
+   "from": 1319,
+   "to": 1320.6,
+   "text": "and identify an issue."
+  },
+  {
+   "from": 1320.6,
+   "to": 1322,
+   "text": "So for example here,"
+  },
+  {
+   "from": 1322,
+   "to": 1326.7,
+   "text": "we have some really silly piece of code. It defines a function, prints a few variables,"
+  },
+  {
+   "from": 1327.7,
+   "to": 1331.8,
+   "text": "multiplies some variables, it sleeps for a while and then we try to print BAZ."
+  },
+  {
+   "from": 1332,
+   "to": 1334.8,
+   "text": "And you could try to look at this and say, hey, BAZ has"
+  },
+  {
+   "from": 1335.5,
+   "to": 1340.7,
+   "text": "never been defined anywhere. This is a new variable. You probably meant to say BAR"
+  },
+  {
+   "from": 1340.7,
+   "to": 1342.5,
+   "text": "but you just mistyped it."
+  },
+  {
+   "from": 1342.5,
+   "to": 1346.5,
+   "text": "Thing is, if we try to run this program,"
+  },
+  {
+   "from": 1348.8,
+   "to": 1356.8,
+   "text": "it's gonna take 60 seconds, because like we have to wait until this time.sleep function finishes. Here, sleep is just for"
+  },
+  {
+   "from": 1357.8,
+   "to": 1362.1,
+   "text": "motivating the example but in general you may be loading a data set that takes really long"
+  },
+  {
+   "from": 1362.1,
+   "to": 1364.7,
+   "text": "because you have to copy everything into memory."
+  },
+  {
+   "from": 1364.7,
+   "to": 1368.8,
+   "text": "And the thing is, there are programs that will take source code as input,"
+  },
+  {
+   "from": 1369.3,
+   "to": 1374.9,
+   "text": "will process it and will say, oh probably this is wrong about this piece of code. So in Python,"
+  },
+  {
+   "from": 1375.8,
+   "to": 1380.6,
+   "text": "or in general, these are called static analysis tools."
+  },
+  {
+   "from": 1380.8,
+   "to": 1382.9,
+   "text": "In Python we have for example pyflakes."
+  },
+  {
+   "from": 1382.9,
+   "to": 1386.6,
+   "text": "If we get this piece of code and run it through pyflakes,"
+  },
+  {
+   "from": 1386.9,
+   "to": 1389.8,
+   "text": "pyflakes is gonna give us a couple of issues."
+  },
+  {
+   "from": 1390,
+   "to": 1395.7,
+   "text": "First one is the one.... The second one is the one we identified: here's an undefined name called BAZ."
+  },
+  {
+   "from": 1395.7,
+   "to": 1397.8,
+   "text": "You probably should be doing something about that."
+  },
+  {
+   "from": 1397.8,
+   "to": 1402.7,
+   "text": "And the other one is like oh, you're redefining the"
+  },
+  {
+   "from": 1403.1,
+   "to": 1407.2,
+   "text": "the FOO variable name in that line."
+  },
+  {
+   "from": 1407.5,
+   "to": 1411.4,
+   "text": "So here we have a FOO function and then we are kind of"
+  },
+  {
+   "from": 1411.4,
+   "to": 1414.6,
+   "text": "shadowing that function by using a loop variable here."
+  },
+  {
+   "from": 1414.8,
+   "to": 1418.5,
+   "text": "So now that FOO function that we defined is not accessible anymore"
+  },
+  {
+   "from": 1418.5,
+   "to": 1421.7,
+   "text": "and then if we try to call it afterwards, we will get into errors."
+  },
+  {
+   "from": 1423.5,
+   "to": 1425.5,
+   "text": "There are other types of"
+  },
+  {
+   "from": 1426.3,
+   "to": 1433.2,
+   "text": "Static Analysis tools. MYPY is a different one. MYPY is gonna report the same two errors, but it's also"
+  },
+  {
+   "from": 1433.8,
+   "to": 1440.2,
+   "text": "going to complain about type checking. So it's gonna say, oh here you're multiplying an int by a float and"
+  },
+  {
+   "from": 1440.7,
+   "to": 1446.3,
+   "text": "if you care about the type checking of your code, you should not be mixing those up."
+  },
+  {
+   "from": 1447.5,
+   "to": 1452.2,
+   "text": "it can be kind of inconvenient, having to run this, look at the line, going back to your"
+  },
+  {
+   "from": 1452.8,
+   "to": 1457.4,
+   "text": "VIM or like your editor, and figuring out what the error matches to."
+  },
+  {
+   "from": 1458.4,
+   "to": 1461.2,
+   "text": "There are already solutions for that. One"
+  },
+  {
+   "from": 1462.3,
+   "to": 1467.1,
+   "text": "way is that you can integrate most editors with these tools and here.."
+  },
+  {
+   "from": 1468.3,
+   "to": 1474.1,
+   "text": "You can see there is like some red highlighting on the bash, and it will read the last line here."
+  },
+  {
+   "from": 1474.1,
+   "to": 1476.1,
+   "text": "So, undefined named 'baz'."
+  },
+  {
+   "from": 1476.2,
+   "to": 1479.1,
+   "text": "So as I'm editing this piece of Python code,"
+  },
+  {
+   "from": 1479.1,
+   "to": 1483.4,
+   "text": "my editor is gonna give me feedback about what's going wrong with this."
+  },
+  {
+   "from": 1483.6,
+   "to": 1488.5,
+   "text": "Or like here have another one saying the redefinition of unused foo."
+  },
+  {
+   "from": 1489.8,
+   "to": 1491.8,
+   "text": "And"
+  },
+  {
+   "from": 1493.1,
+   "to": 1496.1,
+   "text": "even, there are some stylistic complaints."
+  },
+  {
+   "from": 1496.1,
+   "to": 1498.1,
+   "text": "So, oh, I will expect two empty lines."
+  },
+  {
+   "from": 1498.1,
+   "to": 1503.7,
+   "text": "So like in Python, you should be having two empty lines between a function definition."
+  },
+  {
+   "from": 1505.8,
+   "to": 1507,
+   "text": "There are..."
+  },
+  {
+   "from": 1507,
+   "to": 1509.3,
+   "text": "there is a resource on the lecture notes"
+  },
+  {
+   "from": 1509.3,
+   "to": 1513.2,
+   "text": "about pretty much static analyzers for a lot of different programming languages."
+  },
+  {
+   "from": 1513.7,
+   "to": 1518.5,
+   "text": "There are even static analyzers for English."
+  },
+  {
+   "from": 1518.8,
+   "to": 1524.3,
+   "text": "So I have my notes"
+  },
+  {
+   "from": 1524.6,
+   "to": 1530.3,
+   "text": "for the class here, and if I run it through this static analyzer for English, that is \"writegood\"."
+  },
+  {
+   "from": 1530.4,
+   "to": 1533,
+   "text": "It's going to complain about some stylistic properties."
+  },
+  {
+   "from": 1533,
+   "to": 1533.5,
+   "text": "So like, oh,"
+  },
+  {
+   "from": 1533.5,
+   "to": 1537.5,
+   "text": "I'm using \"very\", which is a weasel word and I shouldn't be using it."
+  },
+  {
+   "from": 1537.5,
+   "to": 1543.1,
+   "text": "Or \"quickly\" can weaken meaning, and you can have this for spell checking, or for a lot of different"
+  },
+  {
+   "from": 1543.6,
+   "to": 1548,
+   "text": "types of stylistic analysis."
+  },
+  {
+   "from": 1548.8,
+   "to": 1552,
+   "text": "Any questions so far?"
+  },
+  {
+   "from": 1557.5,
+   "to": 1559.5,
+   "text": "Oh,"
+  },
+  {
+   "from": 1559.5,
+   "to": 1561.5,
+   "text": "I forgot to mention..."
+  },
+  {
+   "from": 1561.6,
+   "to": 1567.3,
+   "text": "Depending on the task that you're performing, there will be different types of debuggers."
+  },
+  {
+   "from": 1567.3,
+   "to": 1569.7,
+   "text": "For example, if you're doing web development,"
+  },
+  {
+   "from": 1569.9,
+   "to": 1573.5,
+   "text": "both Firefox and Chrome"
+  },
+  {
+   "from": 1573.7,
+   "to": 1580.6,
+   "text": "have a really really good set of tools for doing debugging for websites."
+  },
+  {
+   "from": 1580.6,
+   "to": 1583.9,
+   "text": "So here we go and say inspect element,"
+  },
+  {
+   "from": 1583.9,
+   "to": 1585.9,
+   "text": "we can get the... do you know? how to make this larger..."
+  },
+  {
+   "from": 1587.7,
+   "to": 1589.2,
+   "text": "We're getting"
+  },
+  {
+   "from": 1589.2,
+   "to": 1593.4,
+   "text": "the entire source code for the web page for the class."
+  },
+  {
+   "from": 1595.5,
+   "to": 1597.5,
+   "text": "Oh, yeah, here we go."
+  },
+  {
+   "from": 1598.6,
+   "to": 1600.6,
+   "text": "Is that better?"
+  },
+  {
+   "from": 1600.8,
+   "to": 1607.1,
+   "text": "And we can actually go and change properties about the course. So we can say... we can edit the title."
+  },
+  {
+   "from": 1607.4,
+   "to": 1611.3,
+   "text": "Say, this is not a class on debugging and profiling."
+  },
+  {
+   "from": 1611.6,
+   "to": 1613.9,
+   "text": "And now the code for the website has changed."
+  },
+  {
+   "from": 1614.1,
+   "to": 1616,
+   "text": "This is one of the reasons why you should never trust"
+  },
+  {
+   "from": 1616.2,
+   "to": 1620.6,
+   "text": "any screenshots of websites, because they can be completely modified."
+  },
+  {
+   "from": 1621.3,
+   "to": 1625,
+   "text": "And you can also modify this style. Like, here I have things"
+  },
+  {
+   "from": 1626.1,
+   "to": 1627.6,
+   "text": "using the"
+  },
+  {
+   "from": 1627.6,
+   "to": 1629.5,
+   "text": "the dark mode preference,"
+  },
+  {
+   "from": 1629.7,
+   "to": 1631.9,
+   "text": "but we can alter that."
+  },
+  {
+   "from": 1631.9,
+   "to": 1636.6,
+   "text": "Because at the end of the day, the browser is rendering this for us."
+  },
+  {
+   "from": 1637.8,
+   "to": 1641.8,
+   "text": "We can check the cookies, but there's like a lot of different operations."
+  },
+  {
+   "from": 1641.8,
+   "to": 1647.6,
+   "text": "There's also a built-in debugger for JavaScript, so you can step through JavaScript code."
+  },
+  {
+   "from": 1647.6,
+   "to": 1654,
+   "text": "So kind of the takeaway is, depending on what you are doing, you will probably want to search for what tools"
+  },
+  {
+   "from": 1654.3,
+   "to": 1656.8,
+   "text": "programmers have built for them."
+  },
+  {
+   "from": 1664.9,
+   "to": 1667.6,
+   "text": "Now I'm gonna switch gears and"
+  },
+  {
+   "from": 1668.2,
+   "to": 1671.8,
+   "text": "stop talking about debugging, which is kind of finding issues with the code, right?"
+  },
+  {
+   "from": 1671.8,
+   "to": 1674.2,
+   "text": "kind of more about the behavior, and then start talking"
+  },
+  {
+   "from": 1674.2,
+   "to": 1676.9,
+   "text": "about like how you can use profiling."
+  },
+  {
+   "from": 1676.9,
+   "to": 1679.2,
+   "text": "And profiling is how to optimize the code."
+  },
+  {
+   "from": 1681.1,
+   "to": 1685.9,
+   "text": "It might be because you want to optimize the CPU, the memory, the network, ..."
+  },
+  {
+   "from": 1686.3,
+   "to": 1689.9,
+   "text": "There are many different reasons that you want to be optimizing it."
+  },
+  {
+   "from": 1690.4,
+   "to": 1694,
+   "text": "As it was the case with debugging, the kind of first-order approach"
+  },
+  {
+   "from": 1694,
+   "to": 1696.7,
+   "text": "that a lot of people have experience with already is"
+  },
+  {
+   "from": 1696.9,
+   "to": 1701.9,
+   "text": "oh, let's use just printf profiling, so to say, like we can just take..."
+  },
+  {
+   "from": 1702.8,
+   "to": 1705.6,
+   "text": "Let me make this larger. We can"
+  },
+  {
+   "from": 1706.1,
+   "to": 1708.1,
+   "text": "take the current time here,"
+  },
+  {
+   "from": 1708.1,
+   "to": 1714.6,
+   "text": "then we can check, we can do some execution and then we can take the time again and"
+  },
+  {
+   "from": 1715.1,
+   "to": 1717.3,
+   "text": "subtract it from the original time."
+  },
+  {
+   "from": 1717.3,
+   "to": 1719.3,
+   "text": "And by doing this you can kind of narrow down"
+  },
+  {
+   "from": 1719.5,
+   "to": 1726,
+   "text": "and fence some different parts of your code and try to figure out what is the time taken between those two parts."
+  },
+  {
+   "from": 1727,
+   "to": 1732.6,
+   "text": "And that's good. But sometimes it can be interesting, the results. So here, we're sleeping for"
+  },
+  {
+   "from": 1733.7,
+   "to": 1739.8,
+   "text": "0.5 seconds and the output is saying, oh it's 0.5 plus some extra time,"
+  },
+  {
+   "from": 1739.8,
+   "to": 1745.9,
+   "text": "which is kind of interesting. And if we keep running it, we see there's like some small error and the thing is"
+  },
+  {
+   "from": 1746.2,
+   "to": 1751.7,
+   "text": "here, what we're actually measuring is what is usually referred to as the \"real time\"."
+  },
+  {
+   "from": 1752.1,
+   "to": 1754.3,
+   "text": "Real time is as if you get"
+  },
+  {
+   "from": 1754.3,
+   "to": 1755.9,
+   "text": "like a"
+  },
+  {
+   "from": 1755.9,
+   "to": 1759.2,
+   "text": "clock, and you start it when your program starts, and you stop it when your program ends."
+  },
+  {
+   "from": 1759.5,
+   "to": 1763.1,
+   "text": "But the thing is, in your computer it is not only your program that is running."
+  },
+  {
+   "from": 1763.1,
+   "to": 1767.5,
+   "text": "There are many other programs running at the same time and those might"
+  },
+  {
+   "from": 1767.8,
+   "to": 1774.6,
+   "text": "be the ones that are taking the CPU. So, to try to make sense of that,"
+  },
+  {
+   "from": 1775.8,
+   "to": 1779.3,
+   "text": "A lot of... you'll see a lot of programs"
+  },
+  {
+   "from": 1780.6,
+   "to": 1783.3,
+   "text": "using the terminology that is"
+  },
+  {
+   "from": 1784.1,
+   "to": 1786.8,
+   "text": "real time, user time and system time."
+  },
+  {
+   "from": 1786.8,
+   "to": 1791.5,
+   "text": "Real time is what I explained, which is kind of the entire length of time from start to finish."
+  },
+  {
+   "from": 1791.8,
+   "to": 1799.8,
+   "text": "Then there is the user time, which is the amount of time your program spent on the CPU doing user level cycles."
+  },
+  {
+   "from": 1799.8,
+   "to": 1806.1,
+   "text": "So as I was mentioning, in UNIX, you can be running user level code or kernel level code."
+  },
+  {
+   "from": 1806.9,
+   "to": 1812.9,
+   "text": "System is kind of the opposite, it's the amount of CPU, like the amount of time that your program spent on the CPU"
+  },
+  {
+   "from": 1813.5,
+   "to": 1818.5,
+   "text": "executing kernel mode instructions. So let's show this with an example."
+  },
+  {
+   "from": 1818.6,
+   "to": 1822.2,
+   "text": "Here I'm going to \"time\", which is a command,"
+  },
+  {
+   "from": 1822.5,
+   "to": 1827.8,
+   "text": "a shell command that's gonna get these three metrics for the following command, and then I'm just"
+  },
+  {
+   "from": 1828.1,
+   "to": 1830.6,
+   "text": "grabbing a URL from"
+  },
+  {
+   "from": 1831.2,
+   "to": 1836.8,
+   "text": "a website that is hosted in Spain. So that's gonna take some extra time to go over there and then go back."
+  },
+  {
+   "from": 1837.4,
+   "to": 1839.5,
+   "text": "If we see, here, if we were to just..."
+  },
+  {
+   "from": 1839.8,
+   "to": 1843.7,
+   "text": "We have two prints, between the beginning and the end of the program."
+  },
+  {
+   "from": 1843.7,
+   "to": 1849,
+   "text": "We could think that this program is taking like 600 milliseconds to execute, but actually"
+  },
+  {
+   "from": 1849.5,
+   "to": 1856.9,
+   "text": "most of that time was spent just waiting for the response on the other side of the network and"
+  },
+  {
+   "from": 1857.3,
+   "to": 1864.9,
+   "text": "we actually only spent 16 milliseconds at the user level and like 9 seconds, in total 25 milliseconds, actually"
+  },
+  {
+   "from": 1865.3,
+   "to": 1868.1,
+   "text": "executing CURL code. Everything else was just waiting."
+  },
+  {
+   "from": 1872.1,
+   "to": 1874.5,
+   "text": "Any questions related to timing?"
+  },
+  {
+   "from": 1879.9,
+   "to": 1881.9,
+   "text": "Ok, so"
+  },
+  {
+   "from": 1882,
+   "to": 1883.6,
+   "text": "timing can be"
+  },
+  {
+   "from": 1883.6,
+   "to": 1889.5,
+   "text": "can become tricky, it's also kind of a black box solution. Or if you start adding print statements,"
+  },
+  {
+   "from": 1889.7,
+   "to": 1895.9,
+   "text": "it's kind of hard to add print statements, with time everywhere. So programmers have figured out better tools."
+  },
+  {
+   "from": 1896.1,
+   "to": 1898.7,
+   "text": "These are usually referred to as \"profilers\"."
+  },
+  {
+   "from": 1900,
+   "to": 1904.3,
+   "text": "One quick note that I'm gonna make, is that"
+  },
+  {
+   "from": 1904.7,
+   "to": 1906.7,
+   "text": "profilers, like usually when people"
+  },
+  {
+   "from": 1906.8,
+   "to": 1908.8,
+   "text": "refer to profilers they usually talk about"
+  },
+  {
+   "from": 1909.1,
+   "to": 1915.2,
+   "text": "CPU profilers because they are the most common, at identifying where like time is being spent on the CPU."
+  },
+  {
+   "from": 1916.8,
+   "to": 1919.2,
+   "text": "Profilers usually come in kind of two flavors:"
+  },
+  {
+   "from": 1919.2,
+   "to": 1922.1,
+   "text": "there's tracing profilers and sampling profilers."
+  },
+  {
+   "from": 1922.1,
+   "to": 1926.4,
+   "text": "and it's kind of good to know the difference because the output might be different."
+  },
+  {
+   "from": 1927.6,
+   "to": 1930.3,
+   "text": "Tracing profilers kind of instrument your code."
+  },
+  {
+   "from": 1930.7,
+   "to": 1935.8,
+   "text": "So they kind of execute with your code and every time your code enters a function call,"
+  },
+  {
+   "from": 1935.8,
+   "to": 1940.5,
+   "text": "they kind of take a note of it. It's like, oh we're entering this function call at this moment in time and"
+  },
+  {
+   "from": 1941.9,
+   "to": 1944.9,
+   "text": "they keep going and, once they finish, they can report"
+  },
+  {
+   "from": 1944.9,
+   "to": 1948.3,
+   "text": "oh, you spent this much time executing in this function and"
+  },
+  {
+   "from": 1948.6,
+   "to": 1953.8,
+   "text": "this much time in this other function. So on, so forth, which is the example that we're gonna see now."
+  },
+  {
+   "from": 1954.6,
+   "to": 1958.3,
+   "text": "Another type of tools are tracing, sorry, sampling profilers."
+  },
+  {
+   "from": 1958.4,
+   "to": 1964.8,
+   "text": "The issue with tracing profilers is they add a lot of overhead. Like you might be running your code and having these kind of"
+  },
+  {
+   "from": 1966.3,
+   "to": 1969.4,
+   "text": "profiling next to you making all these counts,"
+  },
+  {
+   "from": 1969.4,
+   "to": 1974.3,
+   "text": "will hinder the performance of your program, so you might get counts that are slightly off."
+  },
+  {
+   "from": 1975.4,
+   "to": 1979.5,
+   "text": "A sampling profiler, what it's gonna do is gonna execute your program and every"
+  },
+  {
+   "from": 1979.9,
+   "to": 1985.2,
+   "text": "100 milliseconds, 10 milliseconds, like some defined period, it's gonna stop your program. It's gonna halt it,"
+  },
+  {
+   "from": 1985.6,
+   "to": 1992.4,
+   "text": "it's gonna look at the stack trace and say, oh, you're right now in this point in the hierarchy, and"
+  },
+  {
+   "from": 1992.6,
+   "to": 1995.5,
+   "text": "identify which function is gonna be executing at that point."
+  },
+  {
+   "from": 1996.3,
+   "to": 1999.8,
+   "text": "The idea is that as long as you execute this for long enough,"
+  },
+  {
+   "from": 1999.8,
+   "to": 2004.3,
+   "text": "you're gonna get enough statistics to know where most of the time is being spent."
+  },
+  {
+   "from": 2005.8,
+   "to": 2008.8,
+   "text": "So, let's see an example of a tracing profiling."
+  },
+  {
+   "from": 2008.8,
+   "to": 2012.3,
+   "text": "So here we have a piece of code that is just like a"
+  },
+  {
+   "from": 2013.5,
+   "to": 2015.5,
+   "text": "really simple re-implementation of grep"
+  },
+  {
+   "from": 2016.3,
+   "to": 2018.3,
+   "text": "done in Python."
+  },
+  {
+   "from": 2018.4,
+   "to": 2024,
+   "text": "What we want to check is what is the bottleneck of this program? Like we're just opening a bunch of files,"
+  },
+  {
+   "from": 2024.9,
+   "to": 2029.6,
+   "text": "trying to match this pattern, and then printing whenever we find a match."
+  },
+  {
+   "from": 2029.6,
+   "to": 2032.3,
+   "text": "And maybe it's the regex, maybe it's the print..."
+  },
+  {
+   "from": 2032.5,
+   "to": 2033.9,
+   "text": "We don't really know."
+  },
+  {
+   "from": 2033.9,
+   "to": 2039,
+   "text": "So to do this in Python, we have the \"cProfile\"."
+  },
+  {
+   "from": 2039,
+   "to": 2040.1,
+   "text": "And"
+  },
+  {
+   "from": 2041,
+   "to": 2046.6,
+   "text": "here I'm just calling this module and saying I want to sort this by the total amount of time, that"
+  },
+  {
+   "from": 2046.8,
+   "to": 2053.4,
+   "text": "we're gonna see briefly. I'm calling the program we just saw in the editor."
+  },
+  {
+   "from": 2053.4,
+   "to": 2058.7,
+   "text": "I'm gonna execute this a thousand times and then I want to match (the grep"
+  },
+  {
+   "from": 2059,
+   "to": 2061.8,
+   "text": "Arguments here) is I want to match these regex"
+  },
+  {
+   "from": 2062.9,
+   "to": 2067.5,
+   "text": "to all the Python files in here. And this is gonna output some..."
+  },
+  {
+   "from": 2070.8,
+   "to": 2074.4,
+   "text": "This is gonna produce some output, then we're gonna look at it. First,"
+  },
+  {
+   "from": 2074.4,
+   "to": 2078.5,
+   "text": "is all the output from the greps, but at the very end, we're getting"
+  },
+  {
+   "from": 2079.1,
+   "to": 2083,
+   "text": "output from the profiler itself. If we go up"
+  },
+  {
+   "from": 2084.1,
+   "to": 2086.9,
+   "text": "we can see that, hey,"
+  },
+  {
+   "from": 2087.7,
+   "to": 2095.3,
+   "text": "by sorting we can see that the total number of calls. So we did 8000 calls, because we executed this 1000 times and"
+  },
+  {
+   "from": 2097.4,
+   "to": 2103.4,
+   "text": "this is the total amount of time we spent in this function (cumulative time). And here we can start to identify"
+  },
+  {
+   "from": 2103.9,
+   "to": 2106,
+   "text": "where the bottleneck is."
+  },
+  {
+   "from": 2106.1,
+   "to": 2111.4,
+   "text": "So here, this built-in method IO open, is saying that we're spending a lot of the time just waiting for"
+  },
+  {
+   "from": 2112.1,
+   "to": 2114.3,
+   "text": "reading from the disk or..."
+  },
+  {
+   "from": 2114.3,
+   "to": 2115.7,
+   "text": "There, we can check, hey,"
+  },
+  {
+   "from": 2115.7,
+   "to": 2119.8,
+   "text": "a lot of time is also being spent trying to match the regex."
+  },
+  {
+   "from": 2119.8,
+   "to": 2122.6,
+   "text": "Which is something that you will expect."
+  },
+  {
+   "from": 2122.6,
+   "to": 2126.2,
+   "text": "One of the caveats of using this"
+  },
+  {
+   "from": 2126.5,
+   "to": 2129.5,
+   "text": "tracing profiler is that, as you can see, here"
+  },
+  {
+   "from": 2129.5,
+   "to": 2135.2,
+   "text": "we're seeing our function but we're also seeing a lot of functions that correspond to built-ins."
+  },
+  {
+   "from": 2135.2,
+   "to": 2135.9,
+   "text": "So like,"
+  },
+  {
+   "from": 2135.9,
+   "to": 2141.9,
+   "text": "functions that are third party functions from the libraries. And as you start building more and more complex code,"
+  },
+  {
+   "from": 2141.9,
+   "to": 2143.6,
+   "text": "This is gonna be much harder."
+  },
+  {
+   "from": 2144.2,
+   "to": 2144.8,
+   "text": "So"
+  },
+  {
+   "from": 2146.1,
+   "to": 2149.7,
+   "text": "here is another piece of Python code that,"
+  },
+  {
+   "from": 2151.5,
+   "to": 2153.8,
+   "text": "don't read through it, what it's doing is just"
+  },
+  {
+   "from": 2154.4,
+   "to": 2157.6,
+   "text": "grabbing the course website and then it's printing all the..."
+  },
+  {
+   "from": 2158.4,
+   "to": 2162,
+   "text": "It's parsing it, and then it's printing all the hyperlinks that it has found."
+  },
+  {
+   "from": 2162,
+   "to": 2163.5,
+   "text": "So there are like these two operations:"
+  },
+  {
+   "from": 2163.5,
+   "to": 2167.8,
+   "text": "going there, grabbing a website, and then parsing it, printing the links."
+  },
+  {
+   "from": 2167.8,
+   "to": 2169.7,
+   "text": "And we might want to get a sense of"
+  },
+  {
+   "from": 2169.7,
+   "to": 2176.2,
+   "text": "how those two operations compare to each other. If we just try to execute the"
+  },
+  {
+   "from": 2176.7,
+   "to": 2178.7,
+   "text": "cProfiler here and"
+  },
+  {
+   "from": 2179.3,
+   "to": 2184.9,
+   "text": "we're gonna do the same, this is not gonna print anything. I'm using a tool we haven't seen so far,"
+  },
+  {
+   "from": 2185,
+   "to": 2185.7,
+   "text": "but I think it's pretty nice."
+  },
+  {
+   "from": 2185.7,
+   "to": 2192.8,
+   "text": "It's \"TAC\", which is the opposite of \"CAT\", and it is going to reverse the output so I don't have to go up and look."
+  },
+  {
+   "from": 2193.4,
+   "to": 2195.4,
+   "text": "So we do this and..."
+  },
+  {
+   "from": 2196.3,
+   "to": 2199.2,
+   "text": "Hey, we get some interesting output."
+  },
+  {
+   "from": 2199.9,
+   "to": 2206.2,
+   "text": "we're spending a bunch of time in this built-in method socket_getaddr_info and like in _imp_create_dynamic and"
+  },
+  {
+   "from": 2206.5,
+   "to": 2208.5,
+   "text": "method_connect and posix_stat..."
+  },
+  {
+   "from": 2209.2,
+   "to": 2215.7,
+   "text": "nothing in my code is directly calling these functions so I don't really know what is the split between the operation of"
+  },
+  {
+   "from": 2216.3,
+   "to": 2223.9,
+   "text": "making a web request and parsing the output of that web request. So, for that, we can use"
+  },
+  {
+   "from": 2224.9,
+   "to": 2227.9,
+   "text": "a different type of profiler which is"
+  },
+  {
+   "from": 2229.8,
+   "to": 2234.3,
+   "text": "a line profiler. And the line profiler is just going to present the same results"
+  },
+  {
+   "from": 2234.3,
+   "to": 2240.9,
+   "text": "but in a more human-readable way, which is just, for this line of code, this is the amount of time things took."
+  },
+  {
+   "from": 2244.8,
+   "to": 2251.1,
+   "text": "So it knows it has to do that, we have to add a decorator to the Python function, we do that."
+  },
+  {
+   "from": 2254.9,
+   "to": 2256.9,
+   "text": "And as we do that,"
+  },
+  {
+   "from": 2257.1,
+   "to": 2259.7,
+   "text": "we now get slightly cropped output,"
+  },
+  {
+   "from": 2259.8,
+   "to": 2266.2,
+   "text": "but the main idea, we can look at the percentage of time and we can see that making this request, get operation, took"
+  },
+  {
+   "from": 2266.5,
+   "to": 2272.8,
+   "text": "88% of the time, whereas parsing the response took only 10.9% of the time."
+  },
+  {
+   "from": 2274.1,
+   "to": 2280.9,
+   "text": "This can be really informative and a lot of different programming languages will support this type of a line profiling."
+  },
+  {
+   "from": 2284.6,
+   "to": 2287.4,
+   "text": "Sometimes, you might not care about CPU."
+  },
+  {
+   "from": 2287.4,
+   "to": 2295,
+   "text": "Maybe you care about the memory or like some other resource. Similarly, there are memory profilers: in Python"
+  },
+  {
+   "from": 2295,
+   "to": 2301.6,
+   "text": "there is \"memory_profiler\", for C you will have \"Valgrind\". So here is a fairly simple example,"
+  },
+  {
+   "from": 2301.8,
+   "to": 2308.5,
+   "text": "we just create this list with a million elements. That's going to consume like megabytes of space and"
+  },
+  {
+   "from": 2309.2,
+   "to": 2313.9,
+   "text": "we do the same, creating another one with 20 million elements."
+  },
+  {
+   "from": 2314.9,
+   "to": 2318.2,
+   "text": "To check, what was the memory allocation?"
+  },
+  {
+   "from": 2319,
+   "to": 2324.4,
+   "text": "How it's gonna happen, what's the consumption? We can go through one memory profiler and"
+  },
+  {
+   "from": 2325,
+   "to": 2326.6,
+   "text": "we execute it,"
+  },
+  {
+   "from": 2326.6,
+   "to": 2331.4,
+   "text": "and it's telling us the total memory usage and the increments."
+  },
+  {
+   "from": 2331.4,
+   "to": 2338,
+   "text": "And we can see that we have some overhead, because this is an interpreted language and when we create"
+  },
+  {
+   "from": 2338.5,
+   "to": 2340.6,
+   "text": "this million,"
+  },
+  {
+   "from": 2343.5,
+   "to": 2347.3,
+   "text": "this list with a million entries, we're gonna need this many megabytes of information."
+  },
+  {
+   "from": 2347.7,
+   "to": 2355.3,
+   "text": "Then we were getting another 150 megabytes. Then, we're freeing this entry and that's decreasing the total amount."
+  },
+  {
+   "from": 2355.3,
+   "to": 2359.2,
+   "text": "We are not getting a negative increment because of a bug, probably in the profiler."
+  },
+  {
+   "from": 2359.5,
+   "to": 2366.5,
+   "text": "But if you know that your program is taking a huge amount of memory and you don't know why, maybe because you're copying"
+  },
+  {
+   "from": 2366.9,
+   "to": 2370.3,
+   "text": "objects where you should be doing things in place, then"
+  },
+  {
+   "from": 2371.1,
+   "to": 2373.3,
+   "text": "using a memory profiler can be really useful."
+  },
+  {
+   "from": 2373.3,
+   "to": 2377.8,
+   "text": "And in fact there's an exercise that will kind of work you through that, comparing"
+  },
+  {
+   "from": 2378,
+   "to": 2380,
+   "text": "an in-place version of quicksort with like a"
+  },
+  {
+   "from": 2380.1,
+   "to": 2384,
+   "text": "non-inplace, that keeps making new and new copies. And if you using the memory profiler"
+  },
+  {
+   "from": 2384,
+   "to": 2387.9,
+   "text": "you can get a really good comparison between the two of them"
+  },
+  {
+   "from": 2391.1,
+   "to": 2393.5,
+   "text": "Any questions so far, with profiling?"
+  },
+  {
+   "from": 2393.5,
+   "to": 2397.9,
+   "text": "Is the memory profiler running the program in order to get that?"
+  },
+  {
+   "from": 2398.1,
+   "to": 2403.2,
+   "text": "Yeah... you might be able to figure out like just looking at the code."
+  },
+  {
+   "from": 2403.2,
+   "to": 2405.8,
+   "text": "But as you get more and more complex (for this code at least)"
+  },
+  {
+   "from": 2406,
+   "to": 2410.7,
+   "text": "But you get more and more complex programs what this is doing is running through the program"
+  },
+  {
+   "from": 2410.7,
+   "to": 2416.7,
+   "text": "and for every line, at the very beginning, it's looking at the heap and saying"
+  },
+  {
+   "from": 2416.7,
+   "to": 2419.3,
+   "text": "\"What are the objects that I have allocated now?\""
+  },
+  {
+   "from": 2419.3,
+   "to": 2423,
+   "text": "\"I have seven megabytes of objects\", and then goes to the next line,"
+  },
+  {
+   "from": 2423.2,
+   "to": 2427.9,
+   "text": "looks again, \"Oh now I have 50, so I have now added 43 there\"."
+  },
+  {
+   "from": 2428.8,
+   "to": 2434.7,
+   "text": "Again, you could do this yourself by asking for those operations in your code, every single line."
+  },
+  {
+   "from": 2434.9,
+   "to": 2439.9,
+   "text": "But that's not how you should be doing things since people have already written these tools for you to use."
+  },
+  {
+   "from": 2443.1,
+   "to": 2446.1,
+   "text": "As it was the case with..."
+  },
+  {
+   "from": 2451.5,
+   "to": 2458.2,
+   "text": "So as in the case with strace, you can do something similar in profiling."
+  },
+  {
+   "from": 2458.3,
+   "to": 2463.4,
+   "text": "You might not care about the specific lines of code that you have,"
+  },
+  {
+   "from": 2463.4,
+   "to": 2468.2,
+   "text": "but maybe you want to check for outside events. Like, you maybe want to check how many"
+  },
+  {
+   "from": 2469.4,
+   "to": 2474.5,
+   "text": "CPU cycles your computer program is using, or how many page faults it's creating."
+  },
+  {
+   "from": 2474.5,
+   "to": 2479.2,
+   "text": "Maybe you have like bad cache locality and that's being manifested somehow."
+  },
+  {
+   "from": 2479.3,
+   "to": 2483,
+   "text": "So for that, there is the \"perf\" command."
+  },
+  {
+   "from": 2483,
+   "to": 2487.2,
+   "text": "The perf command is gonna do this, where it is gonna run your program and it's gonna"
+  },
+  {
+   "from": 2488.7,
+   "to": 2493.4,
+   "text": "keep track of all these statistics and report them back to you. And this can be really helpful if you are"
+  },
+  {
+   "from": 2493.7,
+   "to": 2496.1,
+   "text": "working at a lower level. So"
+  },
+  {
+   "from": 2497.3,
+   "to": 2502.8,
+   "text": "we execute this command, I'm gonna explain briefly what it's doing."
+  },
+  {
+   "from": 2508.7,
+   "to": 2511.6,
+   "text": "And this stress program is just"
+  },
+  {
+   "from": 2512.2,
+   "to": 2514.7,
+   "text": "running in the CPU, and it's just a program to just"
+  },
+  {
+   "from": 2514.8,
+   "to": 2519.5,
+   "text": "hog one CPU and like test that you can hog the CPU. And now if we Ctrl-C,"
+  },
+  {
+   "from": 2520.6,
+   "to": 2522.7,
+   "text": "we can go back and"
+  },
+  {
+   "from": 2523.4,
+   "to": 2528.6,
+   "text": "we get some information about the number of page faults that we have or the number of"
+  },
+  {
+   "from": 2529.8,
+   "to": 2531.8,
+   "text": "CPU cycles that we utilize, and other"
+  },
+  {
+   "from": 2532.5,
+   "to": 2534.3,
+   "text": "useful"
+  },
+  {
+   "from": 2534.3,
+   "to": 2539,
+   "text": "metrics from our code. For some programs you can"
+  },
+  {
+   "from": 2541.5,
+   "to": 2545.1,
+   "text": "look at what the functions that were being used were."
+  },
+  {
+   "from": 2546.1,
+   "to": 2550.1,
+   "text": "So we can record what this program is doing,"
+  },
+  {
+   "from": 2550.9,
+   "to": 2554.9,
+   "text": "which we don't know about because it's a program someone else has written."
+  },
+  {
+   "from": 2555.2,
+   "to": 2557.2,
+   "text": "And"
+  },
+  {
+   "from": 2558.2,
+   "to": 2562.3,
+   "text": "we can report what it was doing by looking at the stack trace and we can say oh,"
+  },
+  {
+   "from": 2562.3,
+   "to": 2564.3,
+   "text": "It's spending a bunch of time in this"
+  },
+  {
+   "from": 2564.7,
+   "to": 2566.6,
+   "text": "__random_r"
+  },
+  {
+   "from": 2566.6,
+   "to": 2573.2,
+   "text": "standard library function. And it's mainly because the way of hogging a CPU is by just creating more and more pseudo-random numbers."
+  },
+  {
+   "from": 2573.8,
+   "to": 2575.8,
+   "text": "There are some other"
+  },
+  {
+   "from": 2575.8,
+   "to": 2578.1,
+   "text": "functions that have not been mapped, because they"
+  },
+  {
+   "from": 2578.4,
+   "to": 2581.4,
+   "text": "belong to the program, but if you know about your program"
+  },
+  {
+   "from": 2581.4,
+   "to": 2585.1,
+   "text": "you can display this information using more flags, about perf."
+  },
+  {
+   "from": 2585.1,
+   "to": 2590.2,
+   "text": "There are really good tutorials online about how to use this tool."
+  },
+  {
+   "from": 2592,
+   "to": 2594,
+   "text": "Oh"
+  },
+  {
+   "from": 2594.1,
+   "to": 2597.3,
+   "text": "One one more thing regarding profilers is, so far,"
+  },
+  {
+   "from": 2597.4,
+   "to": 2600.1,
+   "text": "we have seen that these profilers are really good at"
+  },
+  {
+   "from": 2600.5,
+   "to": 2605.4,
+   "text": "aggregating all this information and giving you a lot of these numbers so you can"
+  },
+  {
+   "from": 2605.8,
+   "to": 2609.7,
+   "text": "optimize your code or you can reason about what is happening, but"
+  },
+  {
+   "from": 2610.6,
+   "to": 2611.6,
+   "text": "the thing is"
+  },
+  {
+   "from": 2611.6,
+   "to": 2615.9,
+   "text": "humans are not really good at making sense of lots of numbers and since"
+  },
+  {
+   "from": 2616.1,
+   "to": 2619.2,
+   "text": "humans are more visual creatures, it's much"
+  },
+  {
+   "from": 2619.9,
+   "to": 2623,
+   "text": "easier to kind of have some sort of visualization."
+  },
+  {
+   "from": 2623,
+   "to": 2628.7,
+   "text": "Again, programmers have already thought about this and have come up with solutions."
+  },
+  {
+   "from": 2629.5,
+   "to": 2636.2,
+   "text": "A couple of popular ones, is a FlameGraph. A FlameGraph is a"
+  },
+  {
+   "from": 2636.8,
+   "to": 2640.2,
+   "text": "sampling profiler. So this is just running your code and taking samples"
+  },
+  {
+   "from": 2640.2,
+   "to": 2643.3,
+   "text": "And then on the y-axis here"
+  },
+  {
+   "from": 2643.3,
+   "to": 2651,
+   "text": "we have the depth of the stack so we know that the bash function called this other function, and this called this other function,"
+  },
+  {
+   "from": 2651.3,
+   "to": 2654.5,
+   "text": "so on, so forth. And on the x-axis it's"
+  },
+  {
+   "from": 2654.6,
+   "to": 2657.5,
+   "text": "not time, it's not the timestamps."
+  },
+  {
+   "from": 2657.5,
+   "to": 2663.3,
+   "text": "Like it's not this function run before, but it's just time taken. Because, again, this is a sampling profiler:"
+  },
+  {
+   "from": 2663.3,
+   "to": 2668.5,
+   "text": "we're just getting small glimpses of what was it going on in the program. But we know that, for example,"
+  },
+  {
+   "from": 2669.1,
+   "to": 2672.9,
+   "text": "this main program took the most time because the"
+  },
+  {
+   "from": 2673.5,
+   "to": 2675.5,
+   "text": "x-axis is proportional to that."
+  },
+  {
+   "from": 2676,
+   "to": 2683.1,
+   "text": "They are interactive and they can be really useful to identify the hot spots in your program."
+  },
+  {
+   "from": 2684.7,
+   "to": 2690.5,
+   "text": "Another way of displaying information, and there is also an exercise on how to do this, is using a call graph."
+  },
+  {
+   "from": 2690.7,
+   "to": 2698.3,
+   "text": "So a call graph is going to be displaying information, and it's gonna create a graph of which function called which other function."
+  },
+  {
+   "from": 2698.6,
+   "to": 2700.9,
+   "text": "And then you get information about, like,"
+  },
+  {
+   "from": 2700.9,
+   "to": 2705.8,
+   "text": "oh, we know that \"__main__\" called this \"Person\" function ten times and"
+  },
+  {
+   "from": 2706.1,
+   "to": 2708.9,
+   "text": "it took this much time. And as you have"
+  },
+  {
+   "from": 2709.1,
+   "to": 2713,
+   "text": "larger and larger programs, looking at one of these call graphs can be useful to identify"
+  },
+  {
+   "from": 2714.3,
+   "to": 2719.7,
+   "text": "what piece of your code is calling this really expensive IO operation, for example."
+  },
+  {
+   "from": 2724.6,
+   "to": 2730.4,
+   "text": "With that I'm gonna cover the last part of the lecture, which is that"
+  },
+  {
+   "from": 2730.4,
+   "to": 2736.6,
+   "text": "sometimes, you might not even know what exact resource is constrained in your program."
+  },
+  {
+   "from": 2736.6,
+   "to": 2739,
+   "text": "Like how do I know how much CPU"
+  },
+  {
+   "from": 2739.4,
+   "to": 2744.1,
+   "text": "my program is using, and I can quickly look in there, or how much memory."
+  },
+  {
+   "from": 2744.1,
+   "to": 2746.7,
+   "text": "So there are a bunch of really"
+  },
+  {
+   "from": 2746.7,
+   "to": 2749.8,
+   "text": "nifty tools for doing that one of them is"
+  },
+  {
+   "from": 2750.4,
+   "to": 2753.3,
+   "text": "HTOP. so HTOP is an"
+  },
+  {
+   "from": 2754,
+   "to": 2759.8,
+   "text": "interactive command-line tool and here it's displaying all the CPUs this machine has,"
+  },
+  {
+   "from": 2760.2,
+   "to": 2767.7,
+   "text": "which is 12. It's displaying the amount of memory, it says I'm consuming almost a gigabyte of the 32 gigabytes my machine has."
+  },
+  {
+   "from": 2767.7,
+   "to": 2771.7,
+   "text": "And then I'm getting all the different processes."
+  },
+  {
+   "from": 2771.7,
+   "to": 2773.3,
+   "text": "So for example we have"
+  },
+  {
+   "from": 2773.3,
+   "to": 2780.3,
+   "text": "zsh, mysql and other processes that are running in this machine, and I can sort through the amount of CPU"
+  },
+  {
+   "from": 2780.3,
+   "to": 2784.4,
+   "text": "they're consuming or through the priority they're running at."
+  },
+  {
+   "from": 2786,
+   "to": 2788.1,
+   "text": "We can check this, for example. Here"
+  },
+  {
+   "from": 2788.1,
+   "to": 2790.2,
+   "text": "we have the stress command again"
+  },
+  {
+   "from": 2790.2,
+   "to": 2791.5,
+   "text": "and we're going to"
+  },
+  {
+   "from": 2791.5,
+   "to": 2797,
+   "text": "run it to take over four CPUs and check that we can see that in HTOP."
+  },
+  {
+   "from": 2797,
+   "to": 2802.9,
+   "text": "So we did spot those four CPU jobs, and now I have seen that"
+  },
+  {
+   "from": 2803.7,
+   "to": 2806.4,
+   "text": "besides the ones we had before, now I have this..."
+  },
+  {
+   "from": 2810.3,
+   "to": 2816.1,
+   "text": "Like this \"stress -c\" command running and taking a bunch of our CPU."
+  },
+  {
+   "from": 2816.8,
+   "to": 2823.2,
+   "text": "Even though you could use a profiler to get similar information to this, the way HTOP displays this kind of in a live interactive"
+  },
+  {
+   "from": 2823.3,
+   "to": 2827.1,
+   "text": "fashion can be much quicker and much easier to parse."
+  },
+  {
+   "from": 2827.9,
+   "to": 2829.9,
+   "text": "In the notes, there's a"
+  },
+  {
+   "from": 2830.2,
+   "to": 2835.2,
+   "text": "really long list of different tools for evaluating different parts of your system."
+  },
+  {
+   "from": 2835.2,
+   "to": 2837.2,
+   "text": "So that might be tools for analyzing the"
+  },
+  {
+   "from": 2837.2,
+   "to": 2839.7,
+   "text": "network performance, about looking the"
+  },
+  {
+   "from": 2840.4,
+   "to": 2844.5,
+   "text": "number of IO operations, so you know whether you're saturating the"
+  },
+  {
+   "from": 2846,
+   "to": 2848,
+   "text": "the reads from your disks,"
+  },
+  {
+   "from": 2848.8,
+   "to": 2851.4,
+   "text": "you can also look at what is the space usage."
+  },
+  {
+   "from": 2852.1,
+   "to": 2854.4,
+   "text": "Which, I think, here..."
+  },
+  {
+   "from": 2858.7,
+   "to": 2864.8,
+   "text": "So NCDU... There's a tool called \"du\" which stands for \"disk usage\" and"
+  },
+  {
+   "from": 2865.4,
+   "to": 2869.5,
+   "text": "we have the \"-h\" flag for \"human readable output\"."
+  },
+  {
+   "from": 2871.7,
+   "to": 2879,
+   "text": "We can do videos and we can get output about the size of all the files in this folder."
+  },
+  {
+   "from": 2888.1,
+   "to": 2890.1,
+   "text": "Yeah, there we go."
+  },
+  {
+   "from": 2890.4,
+   "to": 2895,
+   "text": "There are also interactive versions, like HTOP was an interactive version."
+  },
+  {
+   "from": 2895.3,
+   "to": 2901.2,
+   "text": "So NCDU is an interactive version that will let me navigate through the folders and I can see quickly that"
+  },
+  {
+   "from": 2901.2,
+   "to": 2905.7,
+   "text": "oh, we have... This is one of the folders for the video lectures,"
+  },
+  {
+   "from": 2906.3,
+   "to": 2909,
+   "text": "and we can see there are these four files"
+  },
+  {
+   "from": 2909.7,
+   "to": 2916.6,
+   "text": "that have like almost 9 GB each and I could quickly delete them through this interface."
+  },
+  {
+   "from": 2917.8,
+   "to": 2923.8,
+   "text": "Another neat tool is \"LSOF\" which stands for \"LIST OF OPEN FILES\"."
+  },
+  {
+   "from": 2924.2,
+   "to": 2927.5,
+   "text": "Another pattern that you may encounter is you know"
+  },
+  {
+   "from": 2927.8,
+   "to": 2934.6,
+   "text": "some process is using a file, but you don't know exactly which process is using that file. Or, similarly, some process is listening in"
+  },
+  {
+   "from": 2935.4,
+   "to": 2939,
+   "text": "a port, but again, how do you find out which one it is?"
+  },
+  {
+   "from": 2939,
+   "to": 2940.8,
+   "text": "So to set an example."
+  },
+  {
+   "from": 2940.8,
+   "to": 2944.3,
+   "text": "We just run a Python HTTP server on port"
+  },
+  {
+   "from": 2945.2,
+   "to": 2946.6,
+   "text": "444"
+  },
+  {
+   "from": 2946.6,
+   "to": 2950.9,
+   "text": "Running there. Maybe we don't know that that's running, but then we can"
+  },
+  {
+   "from": 2953.1,
+   "to": 2955.1,
+   "text": "use..."
+  },
+  {
+   "from": 2957.1,
+   "to": 2959.1,
+   "text": "we can use LSOF."
+  },
+  {
+   "from": 2962.7,
+   "to": 2969.2,
+   "text": "Yeah, we can use LSOF, and the thing is LSOF is gonna print a lot of information."
+  },
+  {
+   "from": 2970.4,
+   "to": 2972.7,
+   "text": "You need SUDO permissions because"
+  },
+  {
+   "from": 2974.1,
+   "to": 2979.2,
+   "text": "this is gonna ask for who has all these items."
+  },
+  {
+   "from": 2979.8,
+   "to": 2983.9,
+   "text": "Since we only care about the one who is listening in this 444 port"
+  },
+  {
+   "from": 2984.6,
+   "to": 2986.4,
+   "text": "we can ask"
+  },
+  {
+   "from": 2986.4,
+   "to": 2988,
+   "text": "grep for that."
+  },
+  {
+   "from": 2988,
+   "to": 2995.8,
+   "text": "And we can see, oh, there's like this Python process, with this identifier, that is using the port and then we can"
+  },
+  {
+   "from": 2996.7,
+   "to": 2998,
+   "text": "kill it,"
+  },
+  {
+   "from": 2998,
+   "to": 3001,
+   "text": "and that terminates that process."
+  },
+  {
+   "from": 3002.3,
+   "to": 3006.7,
+   "text": "Again, there's a lot of different tools. There's even tools for"
+  },
+  {
+   "from": 3008.5,
+   "to": 3010.6,
+   "text": "doing what is called benchmarking."
+  },
+  {
+   "from": 3011.7,
+   "to": 3018.8,
+   "text": "So in the shell tools and scripting lecture, I said like for some tasks \"fd\" is much faster than \"find\""
+  },
+  {
+   "from": 3019,
+   "to": 3021.5,
+   "text": "But like how will you check that?"
+  },
+  {
+   "from": 3022.1,
+   "to": 3030,
+   "text": "I can test that with \"hyperfine\" and I have here two commands: one with \"fd\" that is just"
+  },
+  {
+   "from": 3030.5,
+   "to": 3034,
+   "text": "searching for JPEG files and the same one with \"find\"."
+  },
+  {
+   "from": 3034.6,
+   "to": 3041.1,
+   "text": "If I execute them, it's gonna benchmark these scripts and give me some output about"
+  },
+  {
+   "from": 3041.9,
+   "to": 3044.1,
+   "text": "how much faster \"fd\" is"
+  },
+  {
+   "from": 3045.4,
+   "to": 3047.4,
+   "text": "compared to \"find\"."
+  },
+  {
+   "from": 3047.7,
+   "to": 3052.3,
+   "text": "So I think that kind of concludes... yeah, like 23 times for this task."
+  },
+  {
+   "from": 3052.9,
+   "to": 3056,
+   "text": "So that kind of concludes the whole overview."
+  },
+  {
+   "from": 3056.5,
+   "to": 3060.3,
+   "text": "I know that there's like a lot of different topics and there's like a lot of"
+  },
+  {
+   "from": 3060.7,
+   "to": 3064.5,
+   "text": "perspectives on doing these things, but again I want to reinforce the idea"
+  },
+  {
+   "from": 3064.5,
+   "to": 3068.5,
+   "text": "that you don't need to be a master of all these topics but more..."
+  },
+  {
+   "from": 3068.8,
+   "to": 3071.2,
+   "text": "To be aware that all these things exist."
+  },
+  {
+   "from": 3071.2,
+   "to": 3077.6,
+   "text": "So if you run into these issues you don't reinvent the wheel, and you reuse all that other programmers have done."
+  },
+  {
+   "from": 3078.3,
+   "to": 3083.7,
+   "text": "Given that, I'm happy to take any questions related to this last section or anything in the lecture."
+  },
+  {
+   "from": 3085.9,
+   "to": 3090.1,
+   "text": "Is there any way to sort of think about how long a program should take?"
+  },
+  {
+   "from": 3090.1,
+   "to": 3093.2,
+   "text": "You know, if it's taking a while to run"
+  },
+  {
+   "from": 3093.2,
+   "to": 3102.8,
+   "text": "you know, should you be worried? Or depending on your process, let me wait another ten minutes before I start looking at why it's taking so long."
+  },
+  {
+   "from": 3103.2,
+   "to": 3105.2,
+   "text": "Okay, so the..."
+  },
+  {
+   "from": 3106.1,
+   "to": 3109.1,
+   "text": "The task of knowing how long a program"
+  },
+  {
+   "from": 3109.1,
+   "to": 3113.9,
+   "text": "should run is pretty infeasible to figure out. It will depend on the type of program."
+  },
+  {
+   "from": 3114.3,
+   "to": 3121.9,
+   "text": "It depends on whether you're making HTTP requests or you're reading data... one thing that you can do is if you have"
+  },
+  {
+   "from": 3122.4,
+   "to": 3123,
+   "text": "for example,"
+  },
+  {
+   "from": 3123,
+   "to": 3130.7,
+   "text": "if you know you have to read two gigabytes from memory, like from disk, and load that into memory, you can make"
+  },
+  {
+   "from": 3131.5,
+   "to": 3136.7,
+   "text": "back-of-the-envelope calculation. So like that shouldn't take longer than like X seconds because this is"
+  },
+  {
+   "from": 3136.9,
+   "to": 3140.1,
+   "text": "how things are set up. Or if you are"
+  },
+  {
+   "from": 3140.8,
+   "to": 3147.5,
+   "text": "reading some files from the network and you know kind of what the network link is and they are taking say five times longer than"
+  },
+  {
+   "from": 3147.5,
+   "to": 3149.5,
+   "text": "what you would expect then you could"
+  },
+  {
+   "from": 3150,
+   "to": 3151.2,
+   "text": "try to do that."
+  },
+  {
+   "from": 3151.2,
+   "to": 3157.8,
+   "text": "Otherwise, if you don't really know. Say you're trying to do some mathematical operation in your code and you're not really sure"
+  },
+  {
+   "from": 3157.8,
+   "to": 3164.1,
+   "text": "about how long that will take you can use something like logging and try to kind of print intermediate"
+  },
+  {
+   "from": 3164.6,
+   "to": 3170.5,
+   "text": "stages to get a sense of like, oh I need to do a thousand operations of this and"
+  },
+  {
+   "from": 3171.8,
+   "to": 3173.6,
+   "text": "three iterations"
+  },
+  {
+   "from": 3173.6,
+   "to": 3180.7,
+   "text": "took ten seconds. Then this is gonna take much longer than I can handle in my case."
+  },
+  {
+   "from": 3180.9,
+   "to": 3184.6,
+   "text": "So I think there are there are ways, it will again like depend on the task,"
+  },
+  {
+   "from": 3184.6,
+   "to": 3188.8,
+   "text": "but definitely, given all the tools we've seen really, we probably have like"
+  },
+  {
+   "from": 3189.6,
+   "to": 3193.2,
+   "text": "a couple of really good ways to start tackling that."
+  },
+  {
+   "from": 3194.8,
+   "to": 3196.8,
+   "text": "Any other questions?"
+  },
+  {
+   "from": 3196.8,
+   "to": 3198.8,
+   "text": "You can also do things like"
+  },
+  {
+   "from": 3198.8,
+   "to": 3201.1,
+   "text": "run HTOP and see if anything is running."
+  },
+  {
+   "from": 3202.4,
+   "to": 3205.5,
+   "text": "Like if your CPU is at 0%, something is probably wrong."
+  },
+  {
+   "from": 3211.1,
+   "to": 3212.6,
+   "text": "Okay."
+  },
+  {
+   "from": 3212.6,
+   "to": 3218.3,
+   "text": "There's a lot of exercises for all the topics that we have covered in today's class,"
+  },
+  {
+   "from": 3218.3,
+   "to": 3221.4,
+   "text": "so feel free to do the ones that are more interesting."
+  },
+  {
+   "from": 3222.2,
+   "to": 3224.5,
+   "text": "We're gonna be holding office hours again today."
+  },
+  {
+   "from": 3225.1,
+   "to": 3229,
+   "text": "Just a reminder, office hours. You can come and ask questions about any lecture."
+  },
+  {
+   "from": 3229,
+   "to": 3233.5,
+   "text": "Like we're not gonna expect you to kind of do the exercises in a couple of minutes."
+  },
+  {
+   "from": 3233.5,
+   "to": 3238,
+   "text": "They take a really long while to get through them, but we're gonna be there"
+  },
+  {
+   "from": 3238.5,
+   "to": 3244.3,
+   "text": "to answer any questions from previous classes, or even not related to exercises. Like if you want to know more about how you"
+  },
+  {
+   "from": 3244.6,
+   "to": 3249.9,
+   "text": "would use TMUX in a way to kind of quickly switch between panes, anything that comes to your mind."
+  }
+ ]
+}

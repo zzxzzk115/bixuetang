@@ -40,9 +40,29 @@ export const XP_REASON = {
   episode: "episode",
   courseDone: "course-done",
   labTask: "lab-task",
+  /** 长视频章节(分段)阶段性结算——目标梯度:大目标拆成小里程碑 */
+  segment: "segment",
 } as const;
 
 /** 幂等键 */
 export function episodeRef(courseId: string, n: number): string {
   return `${courseId}:ep:${n}`;
+}
+
+export function segmentRef(courseId: string, n: number, idx: number): string {
+  return `${courseId}:seg:${n}:${idx}`;
+}
+
+/** 某集全部章节事件的 ref 前缀(整集补差时汇总已发放额度用) */
+export function segmentRefPrefix(courseId: string, n: number): string {
+  return `${courseId}:seg:${n}:`;
+}
+
+/**
+ * 单个章节的 XP 份额:整集 XP 均摊到各段,取整到 5、下限 5。
+ * 整集完成时只补「整集 XP − 已发章节 XP」的差额,总量不膨胀。
+ */
+export function segmentXpShare(episodeTotal: number, segmentCount: number): number {
+  if (segmentCount <= 0) return 0;
+  return Math.max(5, Math.round(episodeTotal / segmentCount / 5) * 5);
 }

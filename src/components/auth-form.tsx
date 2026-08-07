@@ -1,14 +1,29 @@
 "use client";
 
-import { useActionState } from "react";
-import { Loader2 } from "lucide-react";
+import { useActionState, useCallback, useEffect, useState } from "react";
+import { Loader2, RefreshCw } from "lucide-react";
 import { login, register, type AuthFormState } from "@/lib/auth/actions";
 
-// 账号密码登录。扫码是主路径，这个是备选——所以不做成独立卡片，
+// 账号密码登录/注册。扫码是主路径，这个是备选——所以不做成独立卡片，
 // 直接嵌在登录页的分隔线下面，跟扫码区共用一个容器。
-//
-// 注册入口不在这里：新账号统一走扫码开号（见 bili-auth.tsx），
-// 那条路径会顺便绑好 bilibili，不然开出来的号看不了视频。
+// 注册出来的号没绑 bilibili 也能学习（标清播放），设置页随时可补绑。
+// 注册带三道闸:自托管 SVG 验证码 / 密码强度(字母数字混合起步)/
+// 二次确认输入;最终校验都在服务端,前端只是提前给反馈。
+
+/** 与服务端 passwordStrength 同口径的前端预估(仅提示用) */
+function strengthOf(pwd: string): 0 | 1 | 2 {
+  if (pwd.length < 8) return 0;
+  const classes =
+    Number(/[a-z]/.test(pwd)) +
+    Number(/[A-Z]/.test(pwd)) +
+    Number(/\d/.test(pwd)) +
+    Number(/[^a-zA-Z0-9]/.test(pwd));
+  if (classes >= 3 && pwd.length >= 10) return 2;
+  if (classes >= 2) return 1;
+  return 0;
+}
+
+const STRENGTH_LABEL = ["弱", "中", "强"] as const;
 
 export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const action = mode === "login" ? login : register;
@@ -16,6 +31,30 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
     action,
     null,
   );
+  const [pwd, setPwd] = useState("");
+  const [pwd2, setPwd2] = useState("");
+  const [captcha, setCaptcha] = useState<{ svg: string; token: string } | null>(
+    null,
+  );
+
+  const refreshCaptcha = useCallback(() => {
+    fetch("/api/captcha")
+      .then((r) => r.json())
+      .then(setCaptcha)
+      .catch(() => setCaptcha(null));
+  }, []);
+
+  useEffect(() => {
+    if (mode === "register") refreshCaptcha();
+  }, [mode, refreshCaptcha]);
+
+  // 提交失败(多半是验证码错/过期)自动换一张
+  useEffect(() => {
+    if (mode === "register" && state?.error) refreshCaptcha();
+  }, [mode, state, refreshCaptcha]);
+
+  const strength = strengthOf(pwd);
+  const mismatch = pwd2.length > 0 && pwd !== pwd2;
 
   return (
     <form action={formAction} className="auth-pwd">
@@ -46,11 +85,77 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           required
           minLength={mode === "register" ? 8 : undefined}
           autoComplete={mode === "login" ? "current-password" : "new-password"}
-          placeholder={mode === "register" ? "至少 8 位" : ""}
+          placeholder={mode === "register" ? "至少 8 位,字母数字混合" : ""}
+          onChange={
+            mode === "register" ? (e) => setPwd(e.target.value) : undefined
+          }
         />
       </label>
 
-      <button className="app-btn-primary" disabled={pending}>
+      {mode === "register" && (
+        <>
+          {pwd.length > 0 && (
+            <div className={`auth-strength s${strength}`}>
+              <i />
+              <i />
+              <i />
+              <small>
+                强度:{STRENGTH_LABEL[strength]}
+                {strength === 0 ? "(需字母数字混合且 ≥8 位)" : ""}
+              </small>
+            </div>
+          )}
+          <label className="bili-signup-field">
+            <span>确认密码</span>
+            <input
+              name="password2"
+              type="password"
+              required
+              minLength={8}
+              autoComplete="new-password"
+              placeholder="再输一遍"
+              onChange={(e) => setPwd2(e.target.value)}
+            />
+          </label>
+          {mismatch && <p className="bili-bind-error">两次输入的密码不一致</p>}
+
+          <div className="auth-captcha">
+            <label className="bili-signup-field">
+              <span>验证码</span>
+              <input
+                name="captchaAnswer"
+                required
+                maxLength={4}
+                autoComplete="off"
+                placeholder="输入右图字符"
+              />
+            </label>
+            <input
+              type="hidden"
+              name="captchaToken"
+              value={captcha?.token ?? ""}
+            />
+            <button
+              type="button"
+              className="auth-captcha-img"
+              onClick={refreshCaptcha}
+              title="看不清?换一张"
+            >
+              {captcha ? (
+                <span dangerouslySetInnerHTML={{ __html: captcha.svg }} />
+              ) : (
+                <Loader2 size={16} className="spin" aria-hidden />
+              )}
+              <RefreshCw size={13} aria-hidden />
+            </button>
+          </div>
+        </>
+      )}
+
+      <button
+        className="app-btn-primary"
+        disabled={pending || (mode === "register" && (strength < 1 || mismatch))}
+      >
         {pending ? (
           <>
             <Loader2 size={15} className="spin" aria-hidden />

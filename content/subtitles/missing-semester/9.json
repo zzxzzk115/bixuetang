@@ -1,0 +1,8652 @@
+{
+ "lan": "yt-en-auto",
+ "lanDoc": "English · 自动",
+ "ai": true,
+ "cues": [
+  {
+   "from": 1.8,
+   "to": 3.7,
+   "text": "Okay, so let's get started with today's"
+  },
+  {
+   "from": 3.7,
+   "to": 5.4,
+   "text": "lecture. So today we're going to be"
+  },
+  {
+   "from": 5.4,
+   "to": 8.1,
+   "text": "talking about security and cryptography."
+  },
+  {
+   "from": 8.1,
+   "to": 9.5,
+   "text": "And today's lecture is going to be a"
+  },
+  {
+   "from": 9.5,
+   "to": 10.9,
+   "text": "little bit different than our treatment"
+  },
+  {
+   "from": 10.9,
+   "to": 13.6,
+   "text": "of this topic in last year's class. So"
+  },
+  {
+   "from": 13.6,
+   "to": 15.1,
+   "text": "last year we focused a little bit more"
+  },
+  {
+   "from": 15.1,
+   "to": 17.2,
+   "text": "on security and privacy and from the"
+  },
+  {
+   "from": 17.2,
+   "to": 20.5,
+   "text": "perspective of a user of a computer, but"
+  },
+  {
+   "from": 20.5,
+   "to": 22.1,
+   "text": "today we're going to focus a little bit"
+  },
+  {
+   "from": 22.1,
+   "to": 23.4,
+   "text": "more on security and cryptography"
+  },
+  {
+   "from": 23.4,
+   "to": 25,
+   "text": "concepts that are relevant in"
+  },
+  {
+   "from": 25,
+   "to": 26.8,
+   "text": "understanding some of the tools that we"
+  },
+  {
+   "from": 26.8,
+   "to": 29.3,
+   "text": "talked about earlier in this class. So"
+  },
+  {
+   "from": 29.3,
+   "to": 30.9,
+   "text": "for example, we talked about hash"
+  },
+  {
+   "from": 30.9,
+   "to": 32.2,
+   "text": "functions or cryptographic hash"
+  },
+  {
+   "from": 32.2,
+   "to": 35.1,
+   "text": "functions like SHA-1 in the Git lecture"
+  },
+  {
+   "from": 35.1,
+   "to": 37.8,
+   "text": "or we talked about public keys when we"
+  },
+  {
+   "from": 37.8,
+   "to": 39.3,
+   "text": "talked about SSH in the command line"
+  },
+  {
+   "from": 39.3,
+   "to": 40.6,
+   "text": "environment and"
+  },
+  {
+   "from": 40.6,
+   "to": 42.6,
+   "text": "command line environment lecture. And so"
+  },
+  {
+   "from": 42.6,
+   "to": 44.5,
+   "text": "today we'll talk about those different"
+  },
+  {
+   "from": 44.5,
+   "to": 46.6,
+   "text": "cryptographic primitives in more detail"
+  },
+  {
+   "from": 46.6,
+   "to": 47.8,
+   "text": "and get an understanding of how they"
+  },
+  {
+   "from": 47.8,
+   "to": 49.4,
+   "text": "work and how they're used in these"
+  },
+  {
+   "from": 49.4,
+   "to": 50.5,
+   "text": "different tools that we're teaching in"
+  },
+  {
+   "from": 50.5,
+   "to": 52.4,
+   "text": "this class."
+  },
+  {
+   "from": 52.4,
+   "to": 54.6,
+   "text": "This lecture is not a substitute for a"
+  },
+  {
+   "from": 54.6,
+   "to": 57.4,
+   "text": "more rigorous class in security. So"
+  },
+  {
+   "from": 57.4,
+   "to": 58.5,
+   "text": "there there are a bunch of really good"
+  },
+  {
+   "from": 58.5,
+   "to": 60.6,
+   "text": "classes at MIT like 6.858 which is on"
+  },
+  {
+   "from": 60.6,
+   "to": 64.3,
+   "text": "computer system security or 6.857 and"
+  },
+  {
+   "from": 64.3,
+   "to": 66.8,
+   "text": "6.875 which are more focused on"
+  },
+  {
+   "from": 66.8,
+   "to": 69.6,
+   "text": "cryptography. So don't do security work"
+  },
+  {
+   "from": 69.6,
+   "to": 72.2,
+   "text": "without formal training in security from"
+  },
+  {
+   "from": 72.2,
+   "to": 74.9,
+   "text": "these classes or elsewhere. And unless"
+  },
+  {
+   "from": 74.9,
+   "to": 76.7,
+   "text": "you're an expert, don't roll your own"
+  },
+  {
+   "from": 76.7,
+   "to": 78.4,
+   "text": "crypto, don't build your own crypto"
+  },
+  {
+   "from": 78.4,
+   "to": 80.3,
+   "text": "implementations or protocols."
+  },
+  {
+   "from": 80.3,
+   "to": 81.6,
+   "text": "And the same principle applies to"
+  },
+  {
+   "from": 81.6,
+   "to": 83.7,
+   "text": "computer system security. This lecture"
+  },
+  {
+   "from": 83.7,
+   "to": 85.2,
+   "text": "is not about building your own stuff,"
+  },
+  {
+   "from": 85.2,
+   "to": 87.4,
+   "text": "it's about understanding what's already"
+  },
+  {
+   "from": 87.4,
+   "to": 89,
+   "text": "out there. And so this lecture will have"
+  },
+  {
+   "from": 89,
+   "to": 91.3,
+   "text": "a very informal but we think practical"
+  },
+  {
+   "from": 91.3,
+   "to": 92.8,
+   "text": "treatment of these basic cryptography"
+  },
+  {
+   "from": 92.8,
+   "to": 94.1,
+   "text": "concepts."
+  },
+  {
+   "from": 94.1,
+   "to": 95.5,
+   "text": "And yeah, hopefully it'll help you"
+  },
+  {
+   "from": 95.5,
+   "to": 96.8,
+   "text": "understand some of the tools we talked"
+  },
+  {
+   "from": 96.8,
+   "to": 99.3,
+   "text": "about earlier in this class."
+  },
+  {
+   "from": 99.3,
+   "to": 100.5,
+   "text": "Any questions about the plan for today's"
+  },
+  {
+   "from": 100.5,
+   "to": 102.3,
+   "text": "lecture?"
+  },
+  {
+   "from": 102.3,
+   "to": 103.6,
+   "text": "Great."
+  },
+  {
+   "from": 103.6,
+   "to": 105.6,
+   "text": "So the first topic for today is"
+  },
+  {
+   "from": 105.6,
+   "to": 107.6,
+   "text": "something called entropy. Entropy is a"
+  },
+  {
+   "from": 107.6,
+   "to": 109.6,
+   "text": "measure of randomness and this is useful"
+  },
+  {
+   "from": 109.6,
+   "to": 111.6,
+   "text": "for example when trying to determine the"
+  },
+  {
+   "from": 111.6,
+   "to": 114.2,
+   "text": "strength of a password. So let's take a"
+  },
+  {
+   "from": 114.2,
+   "to": 116.4,
+   "text": "look at this comic from XKCD. We're big"
+  },
+  {
+   "from": 116.4,
+   "to": 119.6,
+   "text": "fan of XKCD comics. So this comic uh"
+  },
+  {
+   "from": 119.6,
+   "to": 120.5,
+   "text": "raise your hand if you've seen this"
+  },
+  {
+   "from": 120.5,
+   "to": 121.9,
+   "text": "before."
+  },
+  {
+   "from": 121.9,
+   "to": 124.4,
+   "text": "Oh, good number of you. So this comic is"
+  },
+  {
+   "from": 124.4,
+   "to": 126.9,
+   "text": "complaining about this common pattern"
+  },
+  {
+   "from": 126.9,
+   "to": 128.8,
+   "text": "that's been taught to users of computers"
+  },
+  {
+   "from": 128.8,
+   "to": 130.5,
+   "text": "that when you design passwords, they"
+  },
+  {
+   "from": 130.5,
+   "to": 131.6,
+   "text": "should be"
+  },
+  {
+   "from": 131.6,
+   "to": 136.3,
+   "text": "things like that t r 0 u b 4 d o r & 3"
+  },
+  {
+   "from": 136.3,
+   "to": 138.8,
+   "text": "uh string in the top left."
+  },
+  {
+   "from": 138.8,
+   "to": 140.4,
+   "text": "Like we should design passwords that are"
+  },
+  {
+   "from": 140.4,
+   "to": 142,
+   "text": "full of funny characters and things like"
+  },
+  {
+   "from": 142,
+   "to": 143.4,
+   "text": "that to make it hard for attackers to"
+  },
+  {
+   "from": 143.4,
+   "to": 144.7,
+   "text": "guess."
+  },
+  {
+   "from": 144.7,
+   "to": 146.3,
+   "text": "And yet turns out that passwords like"
+  },
+  {
+   "from": 146.3,
+   "to": 147.6,
+   "text": "that are actually pretty weak and"
+  },
+  {
+   "from": 147.6,
+   "to": 149.6,
+   "text": "guessable by computers that can guess"
+  },
+  {
+   "from": 149.6,
+   "to": 151.2,
+   "text": "passwords really fast in brute force"
+  },
+  {
+   "from": 151.2,
+   "to": 153.2,
+   "text": "attacks. And on the other hand,"
+  },
+  {
+   "from": 153.2,
+   "to": 156,
+   "text": "passwords which maybe intuitively don't"
+  },
+  {
+   "from": 156,
+   "to": 157.8,
+   "text": "look as secure like the one on the"
+  },
+  {
+   "from": 157.8,
+   "to": 159.4,
+   "text": "bottom left, correct horse battery"
+  },
+  {
+   "from": 159.4,
+   "to": 160.8,
+   "text": "staple,"
+  },
+  {
+   "from": 160.8,
+   "to": 162.2,
+   "text": "that one turns out to be way more"
+  },
+  {
+   "from": 162.2,
+   "to": 164.2,
+   "text": "secure."
+  },
+  {
+   "from": 164.2,
+   "to": 166.1,
+   "text": "So how do you actually quantify the"
+  },
+  {
+   "from": 166.1,
+   "to": 168.5,
+   "text": "security of these different passwords?"
+  },
+  {
+   "from": 168.5,
+   "to": 170.2,
+   "text": "It's by measuring the amount of"
+  },
+  {
+   "from": 170.2,
+   "to": 171.9,
+   "text": "randomness in the password, how many"
+  },
+  {
+   "from": 171.9,
+   "to": 175.3,
+   "text": "bits of randomness are in there. And so"
+  },
+  {
+   "from": 175.3,
+   "to": 177.5,
+   "text": "uh entropy is measured in bits. This is"
+  },
+  {
+   "from": 177.5,
+   "to": 178.9,
+   "text": "like the same bits from information"
+  },
+  {
+   "from": 178.9,
+   "to": 180.6,
+   "text": "theory."
+  },
+  {
+   "from": 180.6,
+   "to": 186.2,
+   "text": "And"
+  },
+  {
+   "from": 186.2,
+   "to": 187.3,
+   "text": "we're only going to talk about the"
+  },
+  {
+   "from": 187.3,
+   "to": 189.2,
+   "text": "simple case where you're trying to"
+  },
+  {
+   "from": 189.2,
+   "to": 191,
+   "text": "measure the amount of randomness when"
+  },
+  {
+   "from": 191,
+   "to": 192.7,
+   "text": "you're choosing from a set of things"
+  },
+  {
+   "from": 192.7,
+   "to": 195.4,
+   "text": "uniformly at random. So for example,"
+  },
+  {
+   "from": 195.4,
+   "to": 196.9,
+   "text": "when you're constructing a password"
+  },
+  {
+   "from": 196.9,
+   "to": 198.9,
+   "text": "that's in the format of four random"
+  },
+  {
+   "from": 198.9,
+   "to": 201.6,
+   "text": "words, you're kind of considering all"
+  },
+  {
+   "from": 201.6,
+   "to": 203.9,
+   "text": "possible sequences of four random words"
+  },
+  {
+   "from": 203.9,
+   "to": 205.4,
+   "text": "maybe from some dictionary you have. You"
+  },
+  {
+   "from": 205.4,
+   "to": 207,
+   "text": "might have a dictionary with say 100,000"
+  },
+  {
+   "from": 207,
+   "to": 208.7,
+   "text": "words and you're selecting each word"
+  },
+  {
+   "from": 208.7,
+   "to": 210.8,
+   "text": "uniformly at random."
+  },
+  {
+   "from": 210.8,
+   "to": 212.6,
+   "text": "How many possibilities are there? Well,"
+  },
+  {
+   "from": 212.6,
+   "to": 213.7,
+   "text": "you can go and figure that out in that"
+  },
+  {
+   "from": 213.7,
+   "to": 215.2,
+   "text": "example."
+  },
+  {
+   "from": 215.2,
+   "to": 216.4,
+   "text": "Once you know how many possibilities"
+  },
+  {
+   "from": 216.4,
+   "to": 219.4,
+   "text": "there are, the measure of entropy is log"
+  },
+  {
+   "from": 219.4,
+   "to": 227.2,
+   "text": "base 2 of the number of possibilities."
+  },
+  {
+   "from": 227.2,
+   "to": 228.2,
+   "text": "And"
+  },
+  {
+   "from": 228.2,
+   "to": 230,
+   "text": "as that comic suggests, this is related"
+  },
+  {
+   "from": 230,
+   "to": 232.3,
+   "text": "to how long it'll take an attacker to"
+  },
+  {
+   "from": 232.3,
+   "to": 233.4,
+   "text": "try to brute force through your"
+  },
+  {
+   "from": 233.4,
+   "to": 235.3,
+   "text": "different passwords. Like if you have a"
+  },
+  {
+   "from": 235.3,
+   "to": 236.5,
+   "text": "thousand possibilities and you're"
+  },
+  {
+   "from": 236.5,
+   "to": 237.7,
+   "text": "guessing passwords at a thousand"
+  },
+  {
+   "from": 237.7,
+   "to": 239.6,
+   "text": "passwords a second, that's not a very"
+  },
+  {
+   "from": 239.6,
+   "to": 242.8,
+   "text": "good password."
+  },
+  {
+   "from": 242.8,
+   "to": 246,
+   "text": "So this is a couple of quick examples."
+  },
+  {
+   "from": 246,
+   "to": 248.6,
+   "text": "A coin flip has two possibilities and"
+  },
+  {
+   "from": 248.6,
+   "to": 254,
+   "text": "let's assume we have a fair coin. And so"
+  },
+  {
+   "from": 254,
+   "to": 258.3,
+   "text": "a coin flip has log base 2 of 2 is one"
+  },
+  {
+   "from": 258.4,
+   "to": 259.9,
+   "text": "bit of entropy."
+  },
+  {
+   "from": 260,
+   "to": 261.4,
+   "text": "And another thing we might look at is"
+  },
+  {
+   "from": 261.4,
+   "to": 264.5,
+   "text": "something like a dice roll."
+  },
+  {
+   "from": 264.5,
+   "to": 266.4,
+   "text": "So there's six possibilities and log"
+  },
+  {
+   "from": 266.4,
+   "to": 272.1,
+   "text": "base 2 of 6 is something like 2.6"
+  },
+  {
+   "from": 272.1,
+   "to": 274.5,
+   "text": "bits of entropy."
+  },
+  {
+   "from": 274.5,
+   "to": 276.3,
+   "text": "So that's how we quantify the amount of"
+  },
+  {
+   "from": 276.3,
+   "to": 279.7,
+   "text": "randomness in something."
+  },
+  {
+   "from": 279.7,
+   "to": 280.9,
+   "text": "So now going back to that example in the"
+  },
+  {
+   "from": 280.9,
+   "to": 283.1,
+   "text": "XKCD comic, when we want to figure out"
+  },
+  {
+   "from": 283.1,
+   "to": 284.4,
+   "text": "how much entropy is in a password, we"
+  },
+  {
+   "from": 284.4,
+   "to": 286.4,
+   "text": "have to consider kind of the model for"
+  },
+  {
+   "from": 286.4,
+   "to": 288.2,
+   "text": "how the password was generated. For"
+  },
+  {
+   "from": 288.2,
+   "to": 289.7,
+   "text": "example, in the top left, you could"
+  },
+  {
+   "from": 289.7,
+   "to": 292.4,
+   "text": "consider, okay, we take one dictionary"
+  },
+  {
+   "from": 292.4,
+   "to": 294.4,
+   "text": "word, make some substitutions of some of"
+  },
+  {
+   "from": 294.4,
+   "to": 297,
+   "text": "the characters with numbers that look"
+  },
+  {
+   "from": 297,
+   "to": 298.8,
+   "text": "similar to that character, add one"
+  },
+  {
+   "from": 298.8,
+   "to": 300.5,
+   "text": "punctuation mark at the end and add one"
+  },
+  {
+   "from": 300.5,
+   "to": 303.6,
+   "text": "numeral that. And we can take that model"
+  },
+  {
+   "from": 303.6,
+   "to": 305.3,
+   "text": "and then use combinatorics to figure out"
+  },
+  {
+   "from": 305.3,
+   "to": 306.9,
+   "text": "how many possibilities there are and"
+  },
+  {
+   "from": 306.9,
+   "to": 308.8,
+   "text": "from that we can derive how many bits of"
+  },
+  {
+   "from": 308.8,
+   "to": 310.4,
+   "text": "entropy are in that password. So in that"
+  },
+  {
+   "from": 310.4,
+   "to": 312,
+   "text": "particular example,"
+  },
+  {
+   "from": 312,
+   "to": 313.1,
+   "text": "I don't know exactly what model they"
+  },
+  {
+   "from": 313.1,
+   "to": 314.2,
+   "text": "were using for the password, but they"
+  },
+  {
+   "from": 314.2,
+   "to": 315.7,
+   "text": "calculated that there are 28 bits of"
+  },
+  {
+   "from": 315.7,
+   "to": 317.5,
+   "text": "entropy."
+  },
+  {
+   "from": 317.5,
+   "to": 319.2,
+   "text": "Whereas in the bottom left example, that"
+  },
+  {
+   "from": 319.2,
+   "to": 321.5,
+   "text": "correct horse battery staple,"
+  },
+  {
+   "from": 321.5,
+   "to": 323.2,
+   "text": "they assume that you're working from a"
+  },
+  {
+   "from": 323.2,
+   "to": 326.3,
+   "text": "dictionary of about 2,000 words. And so"
+  },
+  {
+   "from": 326.3,
+   "to": 327.9,
+   "text": "when you combine four of those words"
+  },
+  {
+   "from": 327.9,
+   "to": 330.1,
+   "text": "together, you get about 44 bits of"
+  },
+  {
+   "from": 330.1,
+   "to": 331.2,
+   "text": "entropy from that. So it's much more"
+  },
+  {
+   "from": 331.2,
+   "to": 333.9,
+   "text": "secure than the example before it."
+  },
+  {
+   "from": 333.9,
+   "to": 335.6,
+   "text": "So any questions about this definition"
+  },
+  {
+   "from": 335.6,
+   "to": 342.7,
+   "text": "of entropy or why it's useful?"
+  },
+  {
+   "from": 342.7,
+   "to": 343.9,
+   "text": "And so when you're generating your own"
+  },
+  {
+   "from": 343.9,
+   "to": 345.8,
+   "text": "passwords, keep this in mind. You want a"
+  },
+  {
+   "from": 345.8,
+   "to": 347.3,
+   "text": "high entropy password and the exact"
+  },
+  {
+   "from": 347.3,
+   "to": 349.2,
+   "text": "number you need depends on exactly what"
+  },
+  {
+   "from": 349.2,
+   "to": 350.7,
+   "text": "you're trying to protect against. Like"
+  },
+  {
+   "from": 350.7,
+   "to": 352.2,
+   "text": "in general, a concept in security is you"
+  },
+  {
+   "from": 352.2,
+   "to": 353.8,
+   "text": "have to keep in mind what your threat"
+  },
+  {
+   "from": 353.8,
+   "to": 355.8,
+   "text": "model is. Like what attackers you're"
+  },
+  {
+   "from": 355.8,
+   "to": 356.8,
+   "text": "concerned about, what kinds of"
+  },
+  {
+   "from": 356.8,
+   "to": 358.8,
+   "text": "techniques the attackers might be using."
+  },
+  {
+   "from": 358.8,
+   "to": 361.4,
+   "text": "So for example, this comic refers to"
+  },
+  {
+   "from": 361.4,
+   "to": 362.8,
+   "text": "an attacker that can guess a thousand"
+  },
+  {
+   "from": 362.8,
+   "to": 365.1,
+   "text": "passwords a second. This might be"
+  },
+  {
+   "from": 365.1,
+   "to": 367.1,
+   "text": "something that's possible for say a web"
+  },
+  {
+   "from": 367.1,
+   "to": 369.1,
+   "text": "service that allows people to try to log"
+  },
+  {
+   "from": 369.1,
+   "to": 371.4,
+   "text": "in with your email and then random"
+  },
+  {
+   "from": 371.4,
+   "to": 373.3,
+   "text": "passwords that the attacker is trying."
+  },
+  {
+   "from": 373.3,
+   "to": 375.9,
+   "text": "But this thousand passwords a second uh"
+  },
+  {
+   "from": 375.9,
+   "to": 377.6,
+   "text": "model might not be accurate for other"
+  },
+  {
+   "from": 377.6,
+   "to": 380,
+   "text": "scenarios. For example, an offline"
+  },
+  {
+   "from": 380,
+   "to": 381.4,
+   "text": "password cracking scenario where maybe"
+  },
+  {
+   "from": 381.4,
+   "to": 383.7,
+   "text": "the attacker has broken into a website"
+  },
+  {
+   "from": 383.7,
+   "to": 385.5,
+   "text": "and downloaded their database and they"
+  },
+  {
+   "from": 385.5,
+   "to": 387.4,
+   "text": "have some obfuscated form of your"
+  },
+  {
+   "from": 387.4,
+   "to": 388.4,
+   "text": "password and they're trying to figure"
+  },
+  {
+   "from": 388.4,
+   "to": 390,
+   "text": "out what the password is. Maybe they can"
+  },
+  {
+   "from": 390,
+   "to": 391.5,
+   "text": "parallelize this attack and make it go"
+  },
+  {
+   "from": 391.5,
+   "to": 393.4,
+   "text": "to a million guesses a second. And so"
+  },
+  {
+   "from": 393.4,
+   "to": 394.6,
+   "text": "exactly how much entropy you need"
+  },
+  {
+   "from": 394.6,
+   "to": 395.8,
+   "text": "depends on exactly what you're trying to"
+  },
+  {
+   "from": 395.8,
+   "to": 398.7,
+   "text": "protect against. But roughly 40 bits of"
+  },
+  {
+   "from": 398.7,
+   "to": 399.9,
+   "text": "entropy might be good enough for a"
+  },
+  {
+   "from": 399.9,
+   "to": 402.5,
+   "text": "password which is protected by a website"
+  },
+  {
+   "from": 402.5,
+   "to": 403.9,
+   "text": "and you're concerned about online"
+  },
+  {
+   "from": 403.9,
+   "to": 405.9,
+   "text": "password guesses."
+  },
+  {
+   "from": 405.9,
+   "to": 407.7,
+   "text": "And then maybe something like 80 bits of"
+  },
+  {
+   "from": 407.7,
+   "to": 409.5,
+   "text": "entropy might be good if you're"
+  },
+  {
+   "from": 409.5,
+   "to": 410.9,
+   "text": "concerned about offline attacks and you"
+  },
+  {
+   "from": 410.9,
+   "to": 412.4,
+   "text": "want to be really really secure. So"
+  },
+  {
+   "from": 412.4,
+   "to": 418.9,
+   "text": "they're rough guidelines you can use."
+  },
+  {
+   "from": 418.9,
+   "to": 420.1,
+   "text": "And then how do you actually generate"
+  },
+  {
+   "from": 420.1,
+   "to": 421.8,
+   "text": "strong passwords? Well, you have some"
+  },
+  {
+   "from": 421.8,
+   "to": 423.2,
+   "text": "model for password, for example, the"
+  },
+  {
+   "from": 423.2,
+   "to": 424.8,
+   "text": "four dictionary words thing. And you can"
+  },
+  {
+   "from": 424.8,
+   "to": 426.5,
+   "text": "actually get a dictionary and then you"
+  },
+  {
+   "from": 426.5,
+   "to": 428.4,
+   "text": "can use methods like diceware. So this"
+  },
+  {
+   "from": 428.4,
+   "to": 429.9,
+   "text": "is something we linked to in the lecture"
+  },
+  {
+   "from": 429.9,
+   "to": 431.4,
+   "text": "notes where you're going to actually get"
+  },
+  {
+   "from": 431.4,
+   "to": 433.6,
+   "text": "physical die and roll them and then map"
+  },
+  {
+   "from": 433.6,
+   "to": 435.4,
+   "text": "dice rolls to dictionary words in order"
+  },
+  {
+   "from": 435.4,
+   "to": 437.4,
+   "text": "to eventually turn that into a password."
+  },
+  {
+   "from": 437.4,
+   "to": 439,
+   "text": "And doing something like this using some"
+  },
+  {
+   "from": 439,
+   "to": 441,
+   "text": "kind of physical token that you know is"
+  },
+  {
+   "from": 441,
+   "to": 443.8,
+   "text": "random like a balanced die or a coin"
+  },
+  {
+   "from": 443.8,
+   "to": 445.8,
+   "text": "that you know is balanced is a good"
+  },
+  {
+   "from": 445.8,
+   "to": 447.3,
+   "text": "thing to do because humans are actually"
+  },
+  {
+   "from": 447.3,
+   "to": 449.1,
+   "text": "not good at choosing random numbers,"
+  },
+  {
+   "from": 449.1,
+   "to": 450.4,
+   "text": "right? If I just asked you to name a"
+  },
+  {
+   "from": 450.4,
+   "to": 452.5,
+   "text": "random number from 1 to 100, chances are"
+  },
+  {
+   "from": 452.5,
+   "to": 453.6,
+   "text": "that you're probably not doing so"
+  },
+  {
+   "from": 453.6,
+   "to": 455.3,
+   "text": "uniformly at random very well. And so"
+  },
+  {
+   "from": 455.3,
+   "to": 456.2,
+   "text": "that's why it's actually good to use"
+  },
+  {
+   "from": 456.2,
+   "to": 457.5,
+   "text": "these physical tokens in order to"
+  },
+  {
+   "from": 457.5,
+   "to": 461.8,
+   "text": "produce randomness."
+  },
+  {
+   "from": 461.8,
+   "to": 463.5,
+   "text": "So entropy, that's our first concept"
+  },
+  {
+   "from": 463.5,
+   "to": 465,
+   "text": "we're covering. Any questions about"
+  },
+  {
+   "from": 465,
+   "to": 466.9,
+   "text": "that?"
+  },
+  {
+   "from": 466.9,
+   "to": 470,
+   "text": "Or about this comic?"
+  },
+  {
+   "from": 470,
+   "to": 472.8,
+   "text": "Great. So getting into slightly more"
+  },
+  {
+   "from": 472.8,
+   "to": 474.5,
+   "text": "interesting and complicated topics, the"
+  },
+  {
+   "from": 474.5,
+   "to": 476,
+   "text": "next thing we're going to talk about is"
+  },
+  {
+   "from": 476,
+   "to": 477.8,
+   "text": "hash functions."
+  },
+  {
+   "from": 477.8,
+   "to": 479,
+   "text": "So hopefully most of you were here"
+  },
+  {
+   "from": 479,
+   "to": 480.8,
+   "text": "during the Git lecture where we talked"
+  },
+  {
+   "from": 480.8,
+   "to": 482.6,
+   "text": "about the SHA-1 hash function used in"
+  },
+  {
+   "from": 482.6,
+   "to": 484.8,
+   "text": "Git. So now going into that topic in a"
+  },
+  {
+   "from": 484.8,
+   "to": 491.9,
+   "text": "little bit more detail."
+  },
+  {
+   "from": 491.9,
+   "to": 493.6,
+   "text": "Hash functions at a high level are"
+  },
+  {
+   "from": 493.6,
+   "to": 495.5,
+   "text": "functions that map a variable amount of"
+  },
+  {
+   "from": 495.5,
+   "to": 498.9,
+   "text": "data into a fixed size output. So for"
+  },
+  {
+   "from": 498.9,
+   "to": 502,
+   "text": "example, the SHA-1 hash function, this"
+  },
+  {
+   "from": 502,
+   "to": 504.2,
+   "text": "is one example of a hash function, takes"
+  },
+  {
+   "from": 504.2,
+   "to": 508.9,
+   "text": "in some input of some number of bytes"
+  },
+  {
+   "from": 508.9,
+   "to": 514.6,
+   "text": "and outputs exactly 160 bits of output."
+  },
+  {
+   "from": 514.6,
+   "to": 516.4,
+   "text": "So that's kind of the type signature of"
+  },
+  {
+   "from": 516.4,
+   "to": 518.7,
+   "text": "this particular hash function. And then"
+  },
+  {
+   "from": 518.7,
+   "to": 520.3,
+   "text": "these functions have some number of"
+  },
+  {
+   "from": 520.3,
+   "to": 522.3,
+   "text": "properties that are useful. So at a high"
+  },
+  {
+   "from": 522.3,
+   "to": 525.5,
+   "text": "level, these can be thought about as uh"
+  },
+  {
+   "from": 525.5,
+   "to": 527.6,
+   "text": "kind of hard to invert functions that"
+  },
+  {
+   "from": 527.6,
+   "to": 529.7,
+   "text": "have random looking outputs. We can"
+  },
+  {
+   "from": 529.7,
+   "to": 532.8,
+   "text": "actually try this out on some random"
+  },
+  {
+   "from": 532.8,
+   "to": 534.9,
+   "text": "piece of data."
+  },
+  {
+   "from": 534.9,
+   "to": 536.2,
+   "text": "For example, if I enter into my"
+  },
+  {
+   "from": 536.2,
+   "to": 537.5,
+   "text": "terminal,"
+  },
+  {
+   "from": 537.5,
+   "to": 539.6,
+   "text": "print out hello, this does exactly what"
+  },
+  {
+   "from": 539.6,
+   "to": 541.5,
+   "text": "you would expect it does."
+  },
+  {
+   "from": 541.5,
+   "to": 543,
+   "text": "Prints this out to standard out. And I"
+  },
+  {
+   "from": 543,
+   "to": 546,
+   "text": "can pipe this to the SHA-1 sum command."
+  },
+  {
+   "from": 546,
+   "to": 548,
+   "text": "So this is a command line program that"
+  },
+  {
+   "from": 548,
+   "to": 550.2,
+   "text": "accepts input via standard in and"
+  },
+  {
+   "from": 550.2,
+   "to": 552.4,
+   "text": "computes this SHA-1 function which takes"
+  },
+  {
+   "from": 552.4,
+   "to": 553.8,
+   "text": "in some variable number of bytes from"
+  },
+  {
+   "from": 553.8,
+   "to": 556.8,
+   "text": "the input and produces a 160 bit output,"
+  },
+  {
+   "from": 556.8,
+   "to": 558.9,
+   "text": "which in this particular case is"
+  },
+  {
+   "from": 558.9,
+   "to": 560.8,
+   "text": "represented encoded as a hexadecimal"
+  },
+  {
+   "from": 560.8,
+   "to": 562.7,
+   "text": "string. So it's a length 40 hexadecimal"
+  },
+  {
+   "from": 562.7,
+   "to": 564.4,
+   "text": "string. And you see this output right"
+  },
+  {
+   "from": 564.4,
+   "to": 566.6,
+   "text": "here. This dash just means it took it"
+  },
+  {
+   "from": 566.6,
+   "to": 569.4,
+   "text": "took its input from standard in."
+  },
+  {
+   "from": 569.4,
+   "to": 571.1,
+   "text": "So this output just looks like some"
+  },
+  {
+   "from": 571.1,
+   "to": 572.8,
+   "text": "random number. But one important thing"
+  },
+  {
+   "from": 572.8,
+   "to": 576,
+   "text": "is that this is a deterministic number."
+  },
+  {
+   "from": 576,
+   "to": 578,
+   "text": "If you try the same command on your own"
+  },
+  {
+   "from": 578,
+   "to": 580.2,
+   "text": "computer, print out hello SHA-1 sum, you"
+  },
+  {
+   "from": 580.2,
+   "to": 582.6,
+   "text": "will get the same number out. So SHA-1"
+  },
+  {
+   "from": 582.6,
+   "to": 584.2,
+   "text": "is some well-known function that people"
+  },
+  {
+   "from": 584.2,
+   "to": 587,
+   "text": "have agreed upon for all its parameters."
+  },
+  {
+   "from": 587,
+   "to": 588.2,
+   "text": "We'll see that if we tweak the input a"
+  },
+  {
+   "from": 588.2,
+   "to": 591.4,
+   "text": "little bit, like say change hello to"
+  },
+  {
+   "from": 591.4,
+   "to": 593.4,
+   "text": "hello with a capital H,"
+  },
+  {
+   "from": 593.4,
+   "to": 594.6,
+   "text": "now we get a completely different"
+  },
+  {
+   "from": 594.6,
+   "to": 596.3,
+   "text": "looking output. And this also looks like"
+  },
+  {
+   "from": 596.3,
+   "to": 597.9,
+   "text": "some other kind of randomish number,"
+  },
+  {
+   "from": 597.9,
+   "to": 599.1,
+   "text": "even though it is deterministic and you"
+  },
+  {
+   "from": 599.1,
+   "to": 606.7,
+   "text": "can reproduce this on your own computer."
+  },
+  {
+   "from": 606.7,
+   "to": 607.8,
+   "text": "Hash functions have a number of"
+  },
+  {
+   "from": 607.8,
+   "to": 616.1,
+   "text": "properties that are pretty important."
+  },
+  {
+   "from": 616.1,
+   "to": 617.4,
+   "text": "The first property that cryptographic"
+  },
+  {
+   "from": 617.4,
+   "to": 618.8,
+   "text": "hash functions have is that they're"
+  },
+  {
+   "from": 618.8,
+   "to": 620.3,
+   "text": "non-invertible."
+  },
+  {
+   "from": 620.3,
+   "to": 621.4,
+   "text": "And what that means is that if you take"
+  },
+  {
+   "from": 621.4,
+   "to": 623.4,
+   "text": "the output from this function, for"
+  },
+  {
+   "from": 623.4,
+   "to": 626.8,
+   "text": "example, that aaff 4 blah blah blah 34d"
+  },
+  {
+   "from": 626.8,
+   "to": 628.4,
+   "text": "string shown there."
+  },
+  {
+   "from": 628.4,
+   "to": 630.3,
+   "text": "From that output, it's hard to figure"
+  },
+  {
+   "from": 630.3,
+   "to": 632.6,
+   "text": "out what the input was that produced"
+  },
+  {
+   "from": 632.6,
+   "to": 634.2,
+   "text": "that output."
+  },
+  {
+   "from": 634.2,
+   "to": 636.4,
+   "text": "So, you can go one way, compute the"
+  },
+  {
+   "from": 636.4,
+   "to": 638.2,
+   "text": "SHA-1 hash easily, but you can't go"
+  },
+  {
+   "from": 638.2,
+   "to": 640.3,
+   "text": "backwards."
+  },
+  {
+   "from": 640.3,
+   "to": 641.9,
+   "text": "Another property that these functions"
+  },
+  {
+   "from": 641.9,
+   "to": 643.4,
+   "text": "have is that they're collision"
+  },
+  {
+   "from": 643.4,
+   "to": 649.8,
+   "text": "resistant."
+  },
+  {
+   "from": 649.8,
+   "to": 651.6,
+   "text": "And what this property means is that"
+  },
+  {
+   "from": 651.6,
+   "to": 654.2,
+   "text": "it's hard to find two different inputs"
+  },
+  {
+   "from": 654.2,
+   "to": 657.5,
+   "text": "that produce the same output."
+  },
+  {
+   "from": 657.5,
+   "to": 658.7,
+   "text": "And so,"
+  },
+  {
+   "from": 658.7,
+   "to": 659.8,
+   "text": "this basically describes what a"
+  },
+  {
+   "from": 659.8,
+   "to": 662.2,
+   "text": "cryptographic hash function is."
+  },
+  {
+   "from": 662.2,
+   "to": 664.2,
+   "text": "So, any questions about the kind of"
+  },
+  {
+   "from": 664.2,
+   "to": 666.5,
+   "text": "specification of a cryptographic hash"
+  },
+  {
+   "from": 666.5,
+   "to": 670.1,
+   "text": "function?"
+  },
+  {
+   "from": 670.1,
+   "to": 671.6,
+   "text": "Okay, so what are these hash functions"
+  },
+  {
+   "from": 671.6,
+   "to": 673.4,
+   "text": "actually useful for? Well, we've already"
+  },
+  {
+   "from": 673.4,
+   "to": 675.6,
+   "text": "seen one application in Git for"
+  },
+  {
+   "from": 675.6,
+   "to": 677.9,
+   "text": "content-addressed storage. So, we wanted"
+  },
+  {
+   "from": 677.9,
+   "to": 681.6,
+   "text": "to in Git we want some uniform way of"
+  },
+  {
+   "from": 681.6,
+   "to": 683.7,
+   "text": "naming different objects that are in the"
+  },
+  {
+   "from": 683.7,
+   "to": 685,
+   "text": "object store."
+  },
+  {
+   "from": 685,
+   "to": 686.9,
+   "text": "And it turns out that Git addresses all"
+  },
+  {
+   "from": 686.9,
+   "to": 688.3,
+   "text": "of them by their SHA-1 hash. So, you"
+  },
+  {
+   "from": 688.3,
+   "to": 691.6,
+   "text": "have the actual data you want to store."
+  },
+  {
+   "from": 691.6,
+   "to": 693.6,
+   "text": "And then to name that particular piece"
+  },
+  {
+   "from": 693.6,
+   "to": 695.6,
+   "text": "of data, you just name the SHA-1 hash."
+  },
+  {
+   "from": 695.6,
+   "to": 696.8,
+   "text": "And all of that is stored in the object"
+  },
+  {
+   "from": 696.8,
+   "to": 700,
+   "text": "store in that particular way."
+  },
+  {
+   "from": 700,
+   "to": 701.8,
+   "text": "We we see this when looking at many"
+  },
+  {
+   "from": 701.8,
+   "to": 703,
+   "text": "different parts of Git. For example,"
+  },
+  {
+   "from": 703,
+   "to": 704.9,
+   "text": "right here I'm in a Git repository. If I"
+  },
+  {
+   "from": 704.9,
+   "to": 707.3,
+   "text": "do get log, it shows me the commits. And"
+  },
+  {
+   "from": 707.3,
+   "to": 710.6,
+   "text": "for example, this number up here is the"
+  },
+  {
+   "from": 710.6,
+   "to": 712.9,
+   "text": "cryptographic hash function SHA-1"
+  },
+  {
+   "from": 712.9,
+   "to": 714.6,
+   "text": "applied to the commit object that"
+  },
+  {
+   "from": 714.6,
+   "to": 717.8,
+   "text": "describes this particular commit."
+  },
+  {
+   "from": 717.8,
+   "to": 719.5,
+   "text": "So, does anybody know why Git uses a"
+  },
+  {
+   "from": 719.5,
+   "to": 721.5,
+   "text": "cryptographic hash function here as"
+  },
+  {
+   "from": 721.5,
+   "to": 722.7,
+   "text": "opposed to So, you might have heard in"
+  },
+  {
+   "from": 722.7,
+   "to": 724.1,
+   "text": "your other computer science classes,"
+  },
+  {
+   "from": 724.1,
+   "to": 725.8,
+   "text": "like say your introductory algorithms"
+  },
+  {
+   "from": 725.8,
+   "to": 727.8,
+   "text": "class, there things called hash"
+  },
+  {
+   "from": 727.8,
+   "to": 729.6,
+   "text": "functions without the word cryptographic"
+  },
+  {
+   "from": 729.6,
+   "to": 732,
+   "text": "appended in front of them."
+  },
+  {
+   "from": 732,
+   "to": 734,
+   "text": "And they have similar properties that"
+  },
+  {
+   "from": 734,
+   "to": 736.2,
+   "text": "they turn a variable-size input into"
+  },
+  {
+   "from": 736.2,
+   "to": 738.2,
+   "text": "some fixed-size output."
+  },
+  {
+   "from": 738.2,
+   "to": 740.1,
+   "text": "But they don't quite have these"
+  },
+  {
+   "from": 740.1,
+   "to": 742.6,
+   "text": "properties where it's hard to find an"
+  },
+  {
+   "from": 742.6,
+   "to": 744.2,
+   "text": "input that produces a particular output"
+  },
+  {
+   "from": 744.2,
+   "to": 745.8,
+   "text": "or things like that. It's It's a kind of"
+  },
+  {
+   "from": 745.8,
+   "to": 747.9,
+   "text": "weaker definition than this. So, why is"
+  },
+  {
+   "from": 747.9,
+   "to": 749.4,
+   "text": "it that in Git we care about having a"
+  },
+  {
+   "from": 749.4,
+   "to": 751.6,
+   "text": "cryptographic hash function as opposed"
+  },
+  {
+   "from": 751.6,
+   "to": 753.1,
+   "text": "to just a regular old hash function?"
+  },
+  {
+   "from": 753.1,
+   "to": 758.5,
+   "text": "Does anybody have any ideas?"
+  },
+  {
+   "from": 758.5,
+   "to": 760.5,
+   "text": "They can keep track of all of the"
+  },
+  {
+   "from": 760.5,
+   "to": 762,
+   "text": "times you commit and when you"
+  },
+  {
+   "from": 762,
+   "to": 766.2,
+   "text": "modify"
+  },
+  {
+   "from": 766.2,
+   "to": 769,
+   "text": "Yeah, that's that's basically it. That"
+  },
+  {
+   "from": 769,
+   "to": 772,
+   "text": "we don't want to have kind of conflicts"
+  },
+  {
+   "from": 772,
+   "to": 773.8,
+   "text": "in the output from this hash function."
+  },
+  {
+   "from": 773.8,
+   "to": 775.4,
+   "text": "Like every commit is identified by a"
+  },
+  {
+   "from": 775.4,
+   "to": 777.5,
+   "text": "hash function, every file is identified"
+  },
+  {
+   "from": 777.5,
+   "to": 779.3,
+   "text": "by the hash of that file. If it were"
+  },
+  {
+   "from": 779.3,
+   "to": 780.9,
+   "text": "ever the case that two different pieces"
+  },
+  {
+   "from": 780.9,
+   "to": 783.2,
+   "text": "of content in practice produce the same"
+  },
+  {
+   "from": 783.2,
+   "to": 785.6,
+   "text": "output, that is if the function were not"
+  },
+  {
+   "from": 785.6,
+   "to": 787.2,
+   "text": "collision resistant, that could be"
+  },
+  {
+   "from": 787.2,
+   "to": 789.4,
+   "text": "really problematic, right? Cuz then you"
+  },
+  {
+   "from": 789.4,
+   "to": 791.4,
+   "text": "and I we could have two diff two Git"
+  },
+  {
+   "from": 791.4,
+   "to": 793.1,
+   "text": "repos that we think are the same, we"
+  },
+  {
+   "from": 793.1,
+   "to": 795.1,
+   "text": "check out the same commit hash, and we"
+  },
+  {
+   "from": 795.1,
+   "to": 797.7,
+   "text": "might end up with different files."
+  },
+  {
+   "from": 797.7,
+   "to": 799.8,
+   "text": "And this is concerning cuz Git is used"
+  },
+  {
+   "from": 799.8,
+   "to": 802.2,
+   "text": "to track software uh track development"
+  },
+  {
+   "from": 802.2,
+   "to": 804.4,
+   "text": "of software. And it's also kind of"
+  },
+  {
+   "from": 804.4,
+   "to": 806.6,
+   "text": "involved in making sure that the right"
+  },
+  {
+   "from": 806.6,
+   "to": 808.4,
+   "text": "people are authoring the software"
+  },
+  {
+   "from": 808.4,
+   "to": 809.4,
+   "text": "nothing funny has happened in the"
+  },
+  {
+   "from": 809.4,
+   "to": 810.7,
+   "text": "process. For example, there all these"
+  },
+  {
+   "from": 810.7,
+   "to": 812.6,
+   "text": "open source projects, like the Linux"
+  },
+  {
+   "from": 812.6,
+   "to": 814.6,
+   "text": "kernel, where development is done using"
+  },
+  {
+   "from": 814.6,
+   "to": 817.1,
+   "text": "Git. It'd be really bad if some"
+  },
+  {
+   "from": 817.1,
+   "to": 819.5,
+   "text": "contributor to Git could say edit some"
+  },
+  {
+   "from": 819.5,
+   "to": 821.2,
+   "text": "file and propose some change that looks"
+  },
+  {
+   "from": 821.2,
+   "to": 822.9,
+   "text": "pretty benign, like oh, let me go and"
+  },
+  {
+   "from": 822.9,
+   "to": 825,
+   "text": "improve this part of Linux, submit that"
+  },
+  {
+   "from": 825,
+   "to": 827.2,
+   "text": "change request to the Linux developers,"
+  },
+  {
+   "from": 827.2,
+   "to": 829,
+   "text": "and then in practice actually supply a"
+  },
+  {
+   "from": 829,
+   "to": 832.1,
+   "text": "Git repository that has the same commit"
+  },
+  {
+   "from": 832.1,
+   "to": 834.3,
+   "text": "hash and whatnot, but actually the file"
+  },
+  {
+   "from": 834.3,
+   "to": 835.3,
+   "text": "contents are different and there's"
+  },
+  {
+   "from": 835.3,
+   "to": 837,
+   "text": "something malicious. So, Git actually"
+  },
+  {
+   "from": 837,
+   "to": 838.9,
+   "text": "relies on"
+  },
+  {
+   "from": 838.9,
+   "to": 841,
+   "text": "the SHA-1 function being a cryptographic"
+  },
+  {
+   "from": 841,
+   "to": 843.6,
+   "text": "hash function in order to achieve"
+  },
+  {
+   "from": 843.6,
+   "to": 845.8,
+   "text": "security."
+  },
+  {
+   "from": 845.8,
+   "to": 850,
+   "text": "Any questions about that?"
+  },
+  {
+   "from": 850,
+   "to": 851.5,
+   "text": "And some other interesting applications"
+  },
+  {
+   "from": 851.5,
+   "to": 853.2,
+   "text": "of hash functions."
+  },
+  {
+   "from": 853.2,
+   "to": 854.9,
+   "text": "So, as we saw, hash functions turn big"
+  },
+  {
+   "from": 854.9,
+   "to": 857.3,
+   "text": "inputs into small outputs. And in a way,"
+  },
+  {
+   "from": 857.3,
+   "to": 858.8,
+   "text": "because the hash function is collision"
+  },
+  {
+   "from": 858.8,
+   "to": 860.7,
+   "text": "resistant, the output can be used to"
+  },
+  {
+   "from": 860.7,
+   "to": 863.4,
+   "text": "kind of attest to or identify the input."
+  },
+  {
+   "from": 863.4,
+   "to": 865.5,
+   "text": "And so, you can think of a hash as a"
+  },
+  {
+   "from": 865.5,
+   "to": 868.9,
+   "text": "short summary of a file."
+  },
+  {
+   "from": 868.9,
+   "to": 870,
+   "text": "For example, in this directory I have a"
+  },
+  {
+   "from": 870,
+   "to": 871.9,
+   "text": "bunch of files, and I can compute the"
+  },
+  {
+   "from": 871.9,
+   "to": 874.3,
+   "text": "SHA-1 sum of some file in this"
+  },
+  {
+   "from": 874.3,
+   "to": 876.9,
+   "text": "directory. And this is the SHA-1"
+  },
+  {
+   "from": 876.9,
+   "to": 878.8,
+   "text": "algorithm applied to this readme.md"
+  },
+  {
+   "from": 878.8,
+   "to": 880.2,
+   "text": "file."
+  },
+  {
+   "from": 880.2,
+   "to": 881.7,
+   "text": "And what's interesting is that it is"
+  },
+  {
+   "from": 881.7,
+   "to": 884,
+   "text": "computationally hard or like impossible,"
+  },
+  {
+   "from": 884,
+   "to": 884.7,
+   "text": "you can kind of think of it as"
+  },
+  {
+   "from": 884.7,
+   "to": 887.6,
+   "text": "impossible, to find any other files, a"
+  },
+  {
+   "from": 887.6,
+   "to": 890.2,
+   "text": "different file, that has the same hash"
+  },
+  {
+   "from": 890.2,
+   "to": 892.7,
+   "text": "output. And one scenario in which this"
+  },
+  {
+   "from": 892.7,
+   "to": 894.9,
+   "text": "is useful is when you download files"
+  },
+  {
+   "from": 894.9,
+   "to": 896.9,
+   "text": "from the internet."
+  },
+  {
+   "from": 896.9,
+   "to": 898.2,
+   "text": "For example,"
+  },
+  {
+   "from": 898.2,
+   "to": 900.2,
+   "text": "there lots of Linux distributions that"
+  },
+  {
+   "from": 900.2,
+   "to": 902.8,
+   "text": "distribute large CD or DVD images from"
+  },
+  {
+   "from": 902.8,
+   "to": 903.8,
+   "text": "their website. Like I can go to"
+  },
+  {
+   "from": 903.8,
+   "to": 905.4,
+   "text": "debian.org and download the latest"
+  },
+  {
+   "from": 905.4,
+   "to": 907.5,
+   "text": "version of Debian."
+  },
+  {
+   "from": 907.5,
+   "to": 909.2,
+   "text": "The thing is that hosting those files"
+  },
+  {
+   "from": 909.2,
+   "to": 910.6,
+   "text": "can be expensive. And so, a lot of"
+  },
+  {
+   "from": 910.6,
+   "to": 912.1,
+   "text": "people are nice enough to host mirrors"
+  },
+  {
+   "from": 912.1,
+   "to": 913.6,
+   "text": "of these files. So, instead of"
+  },
+  {
+   "from": 913.6,
+   "to": 915.9,
+   "text": "downloading Debian from debian.org, I"
+  },
+  {
+   "from": 915.9,
+   "to": 919,
+   "text": "can go to one of many other sites and"
+  },
+  {
+   "from": 919,
+   "to": 920.8,
+   "text": "download what are supposed to be the"
+  },
+  {
+   "from": 920.8,
+   "to": 922,
+   "text": "same files that are hosted at"
+  },
+  {
+   "from": 922,
+   "to": 923.8,
+   "text": "debian.org. But how do I know that I"
+  },
+  {
+   "from": 923.8,
+   "to": 926.3,
+   "text": "actually got the correct file?"
+  },
+  {
+   "from": 926.3,
+   "to": 927.6,
+   "text": "Like what if"
+  },
+  {
+   "from": 927.6,
+   "to": 929.4,
+   "text": "I set up a malicious mirror and you go"
+  },
+  {
+   "from": 929.4,
+   "to": 932.1,
+   "text": "to like Anisha's evil debianwebsite.com"
+  },
+  {
+   "from": 932.1,
+   "to": 933.6,
+   "text": "and then try to download Debian and it"
+  },
+  {
+   "from": 933.6,
+   "to": 935.6,
+   "text": "turns out that your Linux installation"
+  },
+  {
+   "from": 935.6,
+   "to": 937,
+   "text": "is backdoored."
+  },
+  {
+   "from": 937,
+   "to": 938.5,
+   "text": "Well, one thing you could do is download"
+  },
+  {
+   "from": 938.5,
+   "to": 940.7,
+   "text": "a copy from the original Debian website"
+  },
+  {
+   "from": 940.7,
+   "to": 941.9,
+   "text": "and then download my version and compare"
+  },
+  {
+   "from": 942,
+   "to": 943.4,
+   "text": "them. But that kind of defeats the"
+  },
+  {
+   "from": 943.4,
+   "to": 944.7,
+   "text": "purpose, right? Cuz we want to avoid"
+  },
+  {
+   "from": 944.7,
+   "to": 946.3,
+   "text": "downloading things from debian.org cuz"
+  },
+  {
+   "from": 946.3,
+   "to": 948.1,
+   "text": "hosting these files is expensive. And we"
+  },
+  {
+   "from": 948.1,
+   "to": 949.1,
+   "text": "want all these different people to be"
+  },
+  {
+   "from": 949.1,
+   "to": 950.6,
+   "text": "able to mirror copies of the files"
+  },
+  {
+   "from": 950.6,
+   "to": 952.1,
+   "text": "elsewhere."
+  },
+  {
+   "from": 952.1,
+   "to": 954.9,
+   "text": "So, does anybody see how cryptographic"
+  },
+  {
+   "from": 955,
+   "to": 956.4,
+   "text": "hash functions could be useful to solve"
+  },
+  {
+   "from": 956.4,
+   "to": 958,
+   "text": "this problem? That I want to download a"
+  },
+  {
+   "from": 958,
+   "to": 960.8,
+   "text": "file from an untrusted source,"
+  },
+  {
+   "from": 960.8,
+   "to": 963.1,
+   "text": "but and not from like the trusted source"
+  },
+  {
+   "from": 963.1,
+   "to": 965.1,
+   "text": "itself. But maybe I can get some small"
+  },
+  {
+   "from": 965.1,
+   "to": 966.5,
+   "text": "piece of information from this trusted"
+  },
+  {
+   "from": 966.5,
+   "to": 968.6,
+   "text": "source in order to know whether the file"
+  },
+  {
+   "from": 968.6,
+   "to": 970.2,
+   "text": "I downloaded from the untrusted source"
+  },
+  {
+   "from": 970.2,
+   "to": 975.2,
+   "text": "is the thing I was supposed to get."
+  },
+  {
+   "from": 975.2,
+   "to": 976.7,
+   "text": "Cryptographic hash function."
+  },
+  {
+   "from": 976.7,
+   "to": 977.9,
+   "text": "Yes, like it's basically just a"
+  },
+  {
+   "from": 978,
+   "to": 979.2,
+   "text": "straightforward application of"
+  },
+  {
+   "from": 979.2,
+   "to": 981,
+   "text": "cryptographic hash functions."
+  },
+  {
+   "from": 981,
+   "to": 982.9,
+   "text": "So, what debian.org can do is they can"
+  },
+  {
+   "from": 983,
+   "to": 985.7,
+   "text": "produce their kind of correct ISO file"
+  },
+  {
+   "from": 985.7,
+   "to": 987.8,
+   "text": "or whatever they want. And instead of"
+  },
+  {
+   "from": 987.8,
+   "to": 989.7,
+   "text": "publishing the file itself on their"
+  },
+  {
+   "from": 989.7,
+   "to": 992.7,
+   "text": "website, they can publish a hash of that"
+  },
+  {
+   "from": 992.7,
+   "to": 995.2,
+   "text": "file. So, compared to the file itself,"
+  },
+  {
+   "from": 995.2,
+   "to": 996.9,
+   "text": "which may be many gigabytes, this is"
+  },
+  {
+   "from": 996.9,
+   "to": 998.9,
+   "text": "only like in this particular case 160"
+  },
+  {
+   "from": 998.9,
+   "to": 1000.6,
+   "text": "bits of data, right? So, very cheap to"
+  },
+  {
+   "from": 1000.6,
+   "to": 1001.6,
+   "text": "host."
+  },
+  {
+   "from": 1001.6,
+   "to": 1003.4,
+   "text": "And then what I can do as a user is I"
+  },
+  {
+   "from": 1003.4,
+   "to": 1006.4,
+   "text": "can download that file from any random"
+  },
+  {
+   "from": 1006.4,
+   "to": 1007.6,
+   "text": "website. It could be an untrusted"
+  },
+  {
+   "from": 1007.6,
+   "to": 1009.8,
+   "text": "website. And after I download it, I just"
+  },
+  {
+   "from": 1009.8,
+   "to": 1012.1,
+   "text": "double-check the SHA-1 hash."
+  },
+  {
+   "from": 1012.1,
+   "to": 1014.5,
+   "text": "And if the hash matches,"
+  },
+  {
+   "from": 1014.5,
+   "to": 1016.2,
+   "text": "then I know that I have the right file."
+  },
+  {
+   "from": 1016.2,
+   "to": 1017.7,
+   "text": "Because it's computationally infeasible"
+  },
+  {
+   "from": 1017.7,
+   "to": 1020.2,
+   "text": "for somebody to give me some different"
+  },
+  {
+   "from": 1020.2,
+   "to": 1022.3,
+   "text": "file that happens to have the same hash."
+  },
+  {
+   "from": 1022.3,
+   "to": 1024.2,
+   "text": "Because hash functions are collision"
+  },
+  {
+   "from": 1024.2,
+   "to": 1026.5,
+   "text": "resistant."
+  },
+  {
+   "from": 1026.5,
+   "to": 1027.2,
+   "text": "So, any questions about that"
+  },
+  {
+   "from": 1027.2,
+   "to": 1029.2,
+   "text": "application? Yeah? I don't understand"
+  },
+  {
+   "from": 1029.2,
+   "to": 1030.8,
+   "text": "why different people are hosting the"
+  },
+  {
+   "from": 1030.8,
+   "to": 1033.1,
+   "text": "same information. Like if it's expensive"
+  },
+  {
+   "from": 1033.1,
+   "to": 1034.5,
+   "text": "for the first person to host, isn't it"
+  },
+  {
+   "from": 1034.5,
+   "to": 1035.8,
+   "text": "more expensive for the second? Or are"
+  },
+  {
+   "from": 1035.8,
+   "to": 1036.9,
+   "text": "different people hosting different"
+  },
+  {
+   "from": 1036.9,
+   "to": 1038.6,
+   "text": "parts? Or like what are"
+  },
+  {
+   "from": 1038.6,
+   "to": 1040.2,
+   "text": "Uh yeah, so that's a good question. Like"
+  },
+  {
+   "from": 1040.2,
+   "to": 1042.2,
+   "text": "why do you need different people to host"
+  },
+  {
+   "from": 1042.2,
+   "to": 1043.7,
+   "text": "the information? Like wouldn't it be"
+  },
+  {
+   "from": 1043.7,
+   "to": 1045.8,
+   "text": "equally expensive for everybody? So, the"
+  },
+  {
+   "from": 1045.8,
+   "to": 1046.9,
+   "text": "answer to that question is a little bit"
+  },
+  {
+   "from": 1046.9,
+   "to": 1049,
+   "text": "complicated, but like here's a here's a"
+  },
+  {
+   "from": 1049,
+   "to": 1051.2,
+   "text": "partial answer. One thing is that"
+  },
+  {
+   "from": 1051.2,
+   "to": 1052.9,
+   "text": "downloading files from a server is"
+  },
+  {
+   "from": 1052.9,
+   "to": 1054.4,
+   "text": "affected by how far away the server is"
+  },
+  {
+   "from": 1054.4,
+   "to": 1055.9,
+   "text": "from you. So, for example, if the"
+  },
+  {
+   "from": 1055.9,
+   "to": 1058.2,
+   "text": "server's in Massachusetts and you're in"
+  },
+  {
+   "from": 1058.2,
+   "to": 1060.4,
+   "text": "say China, like you have to kind of make"
+  },
+  {
+   "from": 1060.4,
+   "to": 1061.9,
+   "text": "a big round trip across the internet and"
+  },
+  {
+   "from": 1061.9,
+   "to": 1063.6,
+   "text": "that may be expensive for a number of"
+  },
+  {
+   "from": 1063.6,
+   "to": 1065.6,
+   "text": "reasons. Like the latency is high and"
+  },
+  {
+   "from": 1065.6,
+   "to": 1067.1,
+   "text": "the traffic traffic needs to go through"
+  },
+  {
+   "from": 1067.1,
+   "to": 1068.5,
+   "text": "kind of lots of different wires to make"
+  },
+  {
+   "from": 1068.5,
+   "to": 1070.1,
+   "text": "its way all the way to where you are."
+  },
+  {
+   "from": 1070.1,
+   "to": 1072.3,
+   "text": "And so, one thing that these websites do"
+  },
+  {
+   "from": 1072.3,
+   "to": 1073.7,
+   "text": "is that they distribute their content to"
+  },
+  {
+   "from": 1073.7,
+   "to": 1075.4,
+   "text": "servers that are all over the world. And"
+  },
+  {
+   "from": 1075.4,
+   "to": 1076.7,
+   "text": "then as a user, you download from the"
+  },
+  {
+   "from": 1076.7,
+   "to": 1078.4,
+   "text": "server that's closest to you. Like for"
+  },
+  {
+   "from": 1078.4,
+   "to": 1080.9,
+   "text": "example, MIT maintains a Debian package"
+  },
+  {
+   "from": 1080.9,
+   "to": 1082.4,
+   "text": "repository and like kind of mirrors all"
+  },
+  {
+   "from": 1082.4,
+   "to": 1085,
+   "text": "the Debian stuff. So, if you're a Debian"
+  },
+  {
+   "from": 1085,
+   "to": 1088.4,
+   "text": "user at MIT, you can use the MIT copy of"
+  },
+  {
+   "from": 1088.4,
+   "to": 1090.2,
+   "text": "everything, and then you can kind of"
+  },
+  {
+   "from": 1090.2,
+   "to": 1092.3,
+   "text": "access it over our fast local network,"
+  },
+  {
+   "from": 1092.3,
+   "to": 1094,
+   "text": "and that traffic never needs to go to"
+  },
+  {
+   "from": 1094,
+   "to": 1095.5,
+   "text": "the outside internet at all. So, it's"
+  },
+  {
+   "from": 1095.5,
+   "to": 1097.3,
+   "text": "very fast."
+  },
+  {
+   "from": 1097.3,
+   "to": 1098.6,
+   "text": "That's a good question. Any other"
+  },
+  {
+   "from": 1098.6,
+   "to": 1101.5,
+   "text": "questions?"
+  },
+  {
+   "from": 1101.5,
+   "to": 1103.1,
+   "text": "Okay, and then one final kind of"
+  },
+  {
+   "from": 1103.1,
+   "to": 1104.2,
+   "text": "interesting application of hash"
+  },
+  {
+   "from": 1104.2,
+   "to": 1105.4,
+   "text": "functions is something called a"
+  },
+  {
+   "from": 1105.4,
+   "to": 1108,
+   "text": "commitment scheme. So,"
+  },
+  {
+   "from": 1108,
+   "to": 1109.2,
+   "text": "uh I want to play a game and I need a"
+  },
+  {
+   "from": 1109.2,
+   "to": 1110.6,
+   "text": "volunteer for this. So, you don't"
+  },
+  {
+   "from": 1110.6,
+   "to": 1111.8,
+   "text": "actually need to get up from your seat"
+  },
+  {
+   "from": 1111.8,
+   "to": 1113.1,
+   "text": "or anything. I just need you to talk"
+  },
+  {
+   "from": 1113.1,
+   "to": 1114.8,
+   "text": "with me. So, any volunteers? Raise your"
+  },
+  {
+   "from": 1114.8,
+   "to": 1117.1,
+   "text": "hand. Yeah, okay. You, what's your name?"
+  },
+  {
+   "from": 1117.2,
+   "to": 1119.9,
+   "text": "Um Abdul Aziz. Abdul Aziz. Okay, great."
+  },
+  {
+   "from": 1119.9,
+   "to": 1121.2,
+   "text": "So, Abdul Aziz, we're going to play a"
+  },
+  {
+   "from": 1121.2,
+   "to": 1123.5,
+   "text": "game. We're going to play a game where"
+  },
+  {
+   "from": 1123.5,
+   "to": 1125.3,
+   "text": "I'm going to flip a coin, and then"
+  },
+  {
+   "from": 1125.3,
+   "to": 1127,
+   "text": "you're going to call heads or tails. And"
+  },
+  {
+   "from": 1127,
+   "to": 1128.6,
+   "text": "if you call it right, you win. And if"
+  },
+  {
+   "from": 1128.6,
+   "to": 1130.7,
+   "text": "you call it wrong, you lose. And there"
+  },
+  {
+   "from": 1130.7,
+   "to": 1132.8,
+   "text": "are no stakes for this game, but uh just"
+  },
+  {
+   "from": 1132.8,
+   "to": 1134.2,
+   "text": "the pride of winning."
+  },
+  {
+   "from": 1134.2,
+   "to": 1135.7,
+   "text": "So,"
+  },
+  {
+   "from": 1135.7,
+   "to": 1137.2,
+   "text": "sadly, I checked my wallet and all I"
+  },
+  {
+   "from": 1137.2,
+   "to": 1138.5,
+   "text": "have is dollar bills. I don't have any"
+  },
+  {
+   "from": 1138.5,
+   "to": 1140.1,
+   "text": "coins with me. So, instead I'm going to"
+  },
+  {
+   "from": 1140.1,
+   "to": 1141.9,
+   "text": "just flip the coin in my head."
+  },
+  {
+   "from": 1141.9,
+   "to": 1144.2,
+   "text": "All right? So, okay, I flipped the coin."
+  },
+  {
+   "from": 1144.2,
+   "to": 1146,
+   "text": "Uh call heads or tails. Tails."
+  },
+  {
+   "from": 1146,
+   "to": 1148.3,
+   "text": "Uh sorry, you lost. It was heads."
+  },
+  {
+   "from": 1148.3,
+   "to": 1149.6,
+   "text": "Uh do you want to play again?"
+  },
+  {
+   "from": 1149.6,
+   "to": 1152,
+   "text": "No, this seems like it's rigged. Yeah."
+  },
+  {
+   "from": 1152,
+   "to": 1153.1,
+   "text": "Uh"
+  },
+  {
+   "from": 1153.1,
+   "to": 1154.9,
+   "text": "I can cheat, right? I can just see what"
+  },
+  {
+   "from": 1154.9,
+   "to": 1156.8,
+   "text": "you say and say the opposite thing. So,"
+  },
+  {
+   "from": 1156.8,
+   "to": 1159,
+   "text": "let's try fixing this game. How about"
+  },
+  {
+   "from": 1159,
+   "to": 1162,
+   "text": "you call heads or tails after I say what"
+  },
+  {
+   "from": 1162,
+   "to": 1164.3,
+   "text": "the coin flip result was? Okay? That's"
+  },
+  {
+   "from": 1164.3,
+   "to": 1165.3,
+   "text": "also rigged."
+  },
+  {
+   "from": 1165.3,
+   "to": 1166.8,
+   "text": "Yeah. So, if I say, \"Oh, the result is"
+  },
+  {
+   "from": 1166.8,
+   "to": 1168.2,
+   "text": "tails.\" what are you going to say? No,"
+  },
+  {
+   "from": 1168.2,
+   "to": 1169.4,
+   "text": "heads."
+  },
+  {
+   "from": 1169.4,
+   "to": 1172.1,
+   "text": "Wait. Or you call tails. Yeah."
+  },
+  {
+   "from": 1172.2,
+   "to": 1173.6,
+   "text": "Um"
+  },
+  {
+   "from": 1173.6,
+   "to": 1175.1,
+   "text": "So,"
+  },
+  {
+   "from": 1175.1,
+   "to": 1178.8,
+   "text": "is it possible to play this guess what"
+  },
+  {
+   "from": 1178.8,
+   "to": 1180.6,
+   "text": "guess what the coin flip result is game"
+  },
+  {
+   "from": 1180.6,
+   "to": 1182.7,
+   "text": "in a fair way without having a physical"
+  },
+  {
+   "from": 1182.7,
+   "to": 1184.5,
+   "text": "coin that we share? Like cuz I can't"
+  },
+  {
+   "from": 1184.5,
+   "to": 1186,
+   "text": "really manipulate your physical reality."
+  },
+  {
+   "from": 1186,
+   "to": 1187.1,
+   "text": "If I flip a coin in front of you, you"
+  },
+  {
+   "from": 1187.1,
+   "to": 1189.4,
+   "text": "probably trust that it's okay, right?"
+  },
+  {
+   "from": 1189.4,
+   "to": 1190.6,
+   "text": "So, it turns out that hash functions"
+  },
+  {
+   "from": 1190.6,
+   "to": 1192,
+   "text": "give us a kind of cool way to solve this"
+  },
+  {
+   "from": 1192,
+   "to": 1194.7,
+   "text": "problem, too, through a idea called a"
+  },
+  {
+   "from": 1194.7,
+   "to": 1198.1,
+   "text": "commitment scheme. So, I can say like"
+  },
+  {
+   "from": 1198.1,
+   "to": 1199.3,
+   "text": "here here's the construction of the"
+  },
+  {
+   "from": 1199.3,
+   "to": 1201.2,
+   "text": "solution."
+  },
+  {
+   "from": 1201.2,
+   "to": 1203.7,
+   "text": "I can pick heads or tails, and I'm"
+  },
+  {
+   "from": 1203.7,
+   "to": 1205.3,
+   "text": "actually going to pick a big random"
+  },
+  {
+   "from": 1205.3,
+   "to": 1207,
+   "text": "number."
+  },
+  {
+   "from": 1207,
+   "to": 1210.1,
+   "text": "Say like this number here, and what I"
+  },
+  {
+   "from": 1210.1,
+   "to": 1213.3,
+   "text": "can do is compute the"
+  },
+  {
+   "from": 1213.3,
+   "to": 1216.4,
+   "text": "SHA-1 sum of this number. Uh at this"
+  },
+  {
+   "from": 1216.4,
+   "to": 1217.6,
+   "text": "moment, you haven't seen this number"
+  },
+  {
+   "from": 1217.6,
+   "to": 1219.6,
+   "text": "yet. I'm just doing all this in my head."
+  },
+  {
+   "from": 1219.6,
+   "to": 1221.9,
+   "text": "And then what I do is I tell you, \"Okay,"
+  },
+  {
+   "from": 1221.9,
+   "to": 1223.5,
+   "text": "I flipped a coin,"
+  },
+  {
+   "from": 1223.5,
+   "to": 1225.1,
+   "text": "and I'm not going to tell you what the"
+  },
+  {
+   "from": 1225.1,
+   "to": 1226.4,
+   "text": "result is just yet, cuz you haven't"
+  },
+  {
+   "from": 1226.4,
+   "to": 1228.4,
+   "text": "called heads or tails. But, I'll tell"
+  },
+  {
+   "from": 1228.4,
+   "to": 1230.2,
+   "text": "you what the SHA-1 sum of the result is."
+  },
+  {
+   "from": 1230.2,
+   "to": 1232.4,
+   "text": "Here you go.\" And I tell you this value."
+  },
+  {
+   "from": 1232.4,
+   "to": 1234.1,
+   "text": "Now, after this, you can call heads or"
+  },
+  {
+   "from": 1234.1,
+   "to": 1236,
+   "text": "tails. So, what do you say? Like say say"
+  },
+  {
+   "from": 1236,
+   "to": 1237,
+   "text": "heads."
+  },
+  {
+   "from": 1237,
+   "to": 1238.4,
+   "text": "Afterwards, what I can do is I can"
+  },
+  {
+   "from": 1238.4,
+   "to": 1240,
+   "text": "reveal to you what my input to this"
+  },
+  {
+   "from": 1240,
+   "to": 1241.4,
+   "text": "function was,"
+  },
+  {
+   "from": 1241.4,
+   "to": 1242.7,
+   "text": "and then you can cross-check this,"
+  },
+  {
+   "from": 1242.7,
+   "to": 1244.3,
+   "text": "right? You can compute the SHA-1 sum on"
+  },
+  {
+   "from": 1244.3,
+   "to": 1246.4,
+   "text": "the input to verify that the output is"
+  },
+  {
+   "from": 1246.4,
+   "to": 1248.2,
+   "text": "what I said it was earlier. And then we"
+  },
+  {
+   "from": 1248.2,
+   "to": 1249.6,
+   "text": "can have some way of mapping these"
+  },
+  {
+   "from": 1249.6,
+   "to": 1251.1,
+   "text": "numbers to heads or tails. So, I might"
+  },
+  {
+   "from": 1251.1,
+   "to": 1253.3,
+   "text": "have agreed upon beforehand that even"
+  },
+  {
+   "from": 1253.3,
+   "to": 1254.8,
+   "text": "numbers are heads, and odd numbers are"
+  },
+  {
+   "from": 1254.8,
+   "to": 1255.8,
+   "text": "tails."
+  },
+  {
+   "from": 1255.8,
+   "to": 1257.2,
+   "text": "And so, this is a way of fixing that"
+  },
+  {
+   "from": 1257.2,
+   "to": 1258.3,
+   "text": "game, so we can actually play this game"
+  },
+  {
+   "from": 1258.3,
+   "to": 1260.9,
+   "text": "in in our heads, right?"
+  },
+  {
+   "from": 1260.9,
+   "to": 1263.2,
+   "text": "I can pick a value, but not reveal that"
+  },
+  {
+   "from": 1263.2,
+   "to": 1265.3,
+   "text": "value to you, but I can commit to the"
+  },
+  {
+   "from": 1265.3,
+   "to": 1266.8,
+   "text": "value. So, this is a kind of binding"
+  },
+  {
+   "from": 1266.8,
+   "to": 1268.8,
+   "text": "commitment scheme that I can't change my"
+  },
+  {
+   "from": 1268.8,
+   "to": 1270.7,
+   "text": "mind after I've told you this,"
+  },
+  {
+   "from": 1270.7,
+   "to": 1271.9,
+   "text": "but it doesn't reveal the original value"
+  },
+  {
+   "from": 1271.9,
+   "to": 1273.7,
+   "text": "to you."
+  },
+  {
+   "from": 1273.7,
+   "to": 1274.9,
+   "text": "And so, this is one other neat"
+  },
+  {
+   "from": 1274.9,
+   "to": 1276.2,
+   "text": "application of cryptographic hash"
+  },
+  {
+   "from": 1276.2,
+   "to": 1277.2,
+   "text": "functions."
+  },
+  {
+   "from": 1277.2,
+   "to": 1278.2,
+   "text": "Are there any questions about this"
+  },
+  {
+   "from": 1278.2,
+   "to": 1282.3,
+   "text": "particular construction?"
+  },
+  {
+   "from": 1282.3,
+   "to": 1284.5,
+   "text": "Okay, great. So, moving on to the next"
+  },
+  {
+   "from": 1284.5,
+   "to": 1286,
+   "text": "topic,"
+  },
+  {
+   "from": 1286,
+   "to": 1287.8,
+   "text": "we're going to talk about key derivation"
+  },
+  {
+   "from": 1287.8,
+   "to": 1299.3,
+   "text": "functions."
+  },
+  {
+   "from": 1299.3,
+   "to": 1304.1,
+   "text": "Often abbreviated as KDFs."
+  },
+  {
+   "from": 1304.1,
+   "to": 1305.9,
+   "text": "So, this is a concept that's very"
+  },
+  {
+   "from": 1305.9,
+   "to": 1308.1,
+   "text": "similar to hash functions,"
+  },
+  {
+   "from": 1308.1,
+   "to": 1310.8,
+   "text": "except it has kind of one extra property"
+  },
+  {
+   "from": 1310.8,
+   "to": 1313.4,
+   "text": "that it is slow to compute."
+  },
+  {
+   "from": 1313.4,
+   "to": 1315.6,
+   "text": "For example, there's a hash function of"
+  },
+  {
+   "from": 1315.6,
+   "to": 1321.6,
+   "text": "key derivation function known as uh"
+  },
+  {
+   "from": 1321.6,
+   "to": 1324.8,
+   "text": "PBKDF2."
+  },
+  {
+   "from": 1324.8,
+   "to": 1327.8,
+   "text": "PBKDF2,"
+  },
+  {
+   "from": 1327.8,
+   "to": 1329.5,
+   "text": "password-based key derivation function"
+  },
+  {
+   "from": 1329.5,
+   "to": 1331.4,
+   "text": "two."
+  },
+  {
+   "from": 1331.4,
+   "to": 1333.6,
+   "text": "That has a kind of similar form as these"
+  },
+  {
+   "from": 1333.6,
+   "to": 1335.1,
+   "text": "hash functions we're talking about here,"
+  },
+  {
+   "from": 1335.1,
+   "to": 1336.4,
+   "text": "that they take in some variable length"
+  },
+  {
+   "from": 1336.4,
+   "to": 1338.2,
+   "text": "input and produce a fixed length output,"
+  },
+  {
+   "from": 1338.2,
+   "to": 1339.3,
+   "text": "but they're meant to be used for one"
+  },
+  {
+   "from": 1339.3,
+   "to": 1341.4,
+   "text": "particular purpose. The the purpose is"
+  },
+  {
+   "from": 1341.4,
+   "to": 1343.4,
+   "text": "generally to use the fixed length output"
+  },
+  {
+   "from": 1343.4,
+   "to": 1345.4,
+   "text": "as a key in another cryptographic"
+  },
+  {
+   "from": 1345.4,
+   "to": 1346.8,
+   "text": "algorithm, and we'll talk about those"
+  },
+  {
+   "from": 1346.8,
+   "to": 1348.6,
+   "text": "algorithms, like what use the output of"
+  },
+  {
+   "from": 1348.6,
+   "to": 1351.1,
+   "text": "this thing for, in a moment."
+  },
+  {
+   "from": 1351.1,
+   "to": 1352.9,
+   "text": "But, uh one property of these things is"
+  },
+  {
+   "from": 1352.9,
+   "to": 1355.3,
+   "text": "that they're slow."
+  },
+  {
+   "from": 1355.3,
+   "to": 1357,
+   "text": "Does anybody have any idea why you'd"
+  },
+  {
+   "from": 1357,
+   "to": 1358.3,
+   "text": "want"
+  },
+  {
+   "from": 1358.3,
+   "to": 1359.9,
+   "text": "an algorithm to be slow? Like normally,"
+  },
+  {
+   "from": 1359.9,
+   "to": 1361.9,
+   "text": "you want algorithms to be fast, right?"
+  },
+  {
+   "from": 1361.9,
+   "to": 1363.4,
+   "text": "So, why would we want an algorithm to be"
+  },
+  {
+   "from": 1363.4,
+   "to": 1365.5,
+   "text": "slow? Yes? Because if someone has the"
+  },
+  {
+   "from": 1365.5,
+   "to": 1367.4,
+   "text": "database full of hashes, that and"
+  },
+  {
+   "from": 1367.4,
+   "to": 1370.1,
+   "text": "they're trying to brute force it, um"
+  },
+  {
+   "from": 1370.1,
+   "to": 1371.6,
+   "text": "like then they'll have a hard time."
+  },
+  {
+   "from": 1371.6,
+   "to": 1373,
+   "text": "Whereas, like if someone types in the"
+  },
+  {
+   "from": 1373,
+   "to": 1374.1,
+   "text": "right password, they only need to type"
+  },
+  {
+   "from": 1374.1,
+   "to": 1375.2,
+   "text": "it once."
+  },
+  {
+   "from": 1375.2,
+   "to": 1377.2,
+   "text": "Yeah, that's exactly it. So, I'll I'll"
+  },
+  {
+   "from": 1377.2,
+   "to": 1379.2,
+   "text": "repeat so it goes into the microphone."
+  },
+  {
+   "from": 1379.2,
+   "to": 1381.6,
+   "text": "The reason you want these to be slow is"
+  },
+  {
+   "from": 1381.6,
+   "to": 1383.7,
+   "text": "when you're actually using it for"
+  },
+  {
+   "from": 1383.7,
+   "to": 1385.3,
+   "text": "something like password authentication,"
+  },
+  {
+   "from": 1385.3,
+   "to": 1387,
+   "text": "where you have the hash of a password"
+  },
+  {
+   "from": 1387,
+   "to": 1388.1,
+   "text": "saved, and then somebody inputs the"
+  },
+  {
+   "from": 1388.1,
+   "to": 1389.2,
+   "text": "password, you want to know if that"
+  },
+  {
+   "from": 1389.2,
+   "to": 1391.4,
+   "text": "corresponds to the hash, it's okay if"
+  },
+  {
+   "from": 1391.4,
+   "to": 1392.7,
+   "text": "it's slow, cuz you're only doing this"
+  },
+  {
+   "from": 1392.7,
+   "to": 1394.6,
+   "text": "check kind of once. But, the other"
+  },
+  {
+   "from": 1394.6,
+   "to": 1395.7,
+   "text": "scenario in which you're going to be"
+  },
+  {
+   "from": 1395.7,
+   "to": 1397.3,
+   "text": "using this function is when somebody's"
+  },
+  {
+   "from": 1397.3,
+   "to": 1399.5,
+   "text": "trying to brute force a password. Say a"
+  },
+  {
+   "from": 1399.5,
+   "to": 1401.3,
+   "text": "website has their password database"
+  },
+  {
+   "from": 1401.3,
+   "to": 1402.8,
+   "text": "stolen, and somebody's going through all"
+  },
+  {
+   "from": 1402.8,
+   "to": 1403.8,
+   "text": "the accounts and trying to break all the"
+  },
+  {
+   "from": 1403.8,
+   "to": 1405.2,
+   "text": "passwords."
+  },
+  {
+   "from": 1405.2,
+   "to": 1407.2,
+   "text": "Well, in that case, you want this to be"
+  },
+  {
+   "from": 1407.2,
+   "to": 1408.5,
+   "text": "slow, cuz someone's going to be doing"
+  },
+  {
+   "from": 1408.5,
+   "to": 1409.4,
+   "text": "this like millions and millions of"
+  },
+  {
+   "from": 1409.4,
+   "to": 1410.8,
+   "text": "times, and you can slow down the"
+  },
+  {
+   "from": 1410.8,
+   "to": 1412.2,
+   "text": "attacker a lot by making this function"
+  },
+  {
+   "from": 1412.2,
+   "to": 1413.9,
+   "text": "slow. And so, it's fine if this takes"
+  },
+  {
+   "from": 1413.9,
+   "to": 1415.9,
+   "text": "you like 1 second upon logging in to"
+  },
+  {
+   "from": 1415.9,
+   "to": 1417.3,
+   "text": "compute this function, but when you're"
+  },
+  {
+   "from": 1417.3,
+   "to": 1419.3,
+   "text": "brute forcing it, we don't go at 1,000"
+  },
+  {
+   "from": 1419.3,
+   "to": 1420.8,
+   "text": "guesses a second like in that XKCD"
+  },
+  {
+   "from": 1420.8,
+   "to": 1424.7,
+   "text": "comic, we can slow it down a little bit."
+  },
+  {
+   "from": 1424.7,
+   "to": 1426.7,
+   "text": "So, what is the output of key derivation"
+  },
+  {
+   "from": 1426.7,
+   "to": 1428.7,
+   "text": "functions actually used for?"
+  },
+  {
+   "from": 1428.7,
+   "to": 1430.2,
+   "text": "Well, the next topic we're going to talk"
+  },
+  {
+   "from": 1430.2,
+   "to": 1431.6,
+   "text": "about"
+  },
+  {
+   "from": 1431.6,
+   "to": 1433,
+   "text": "probably like one of the most classic"
+  },
+  {
+   "from": 1433,
+   "to": 1434.5,
+   "text": "things when you think about cryptography"
+  },
+  {
+   "from": 1434.5,
+   "to": 1438.6,
+   "text": "is encryption and decryption."
+  },
+  {
+   "from": 1438.6,
+   "to": 1440.6,
+   "text": "The next topic is symmetric key"
+  },
+  {
+   "from": 1440.6,
+   "to": 1454.6,
+   "text": "cryptography."
+  },
+  {
+   "from": 1454.6,
+   "to": 1455.9,
+   "text": "And"
+  },
+  {
+   "from": 1455.9,
+   "to": 1458,
+   "text": "like the rest of this lecture, we're not"
+  },
+  {
+   "from": 1458,
+   "to": 1459.3,
+   "text": "going to talk about how you implement"
+  },
+  {
+   "from": 1459.3,
+   "to": 1461.2,
+   "text": "these, we're going to talk about the API"
+  },
+  {
+   "from": 1461.2,
+   "to": 1463.8,
+   "text": "for symmetric key symmetric key crypto,"
+  },
+  {
+   "from": 1463.8,
+   "to": 1466.4,
+   "text": "like how it's used. So, symmetric key"
+  },
+  {
+   "from": 1466.4,
+   "to": 1468.6,
+   "text": "crypto systems have a couple different"
+  },
+  {
+   "from": 1468.6,
+   "to": 1470.1,
+   "text": "functions."
+  },
+  {
+   "from": 1470.1,
+   "to": 1472.6,
+   "text": "They have a key generation function,"
+  },
+  {
+   "from": 1472.6,
+   "to": 1474.4,
+   "text": "which is a randomized function that"
+  },
+  {
+   "from": 1474.4,
+   "to": 1475.7,
+   "text": "produces"
+  },
+  {
+   "from": 1475.7,
+   "to": 1478,
+   "text": "a thing we call the key."
+  },
+  {
+   "from": 1478,
+   "to": 1480,
+   "text": "And then they have a pair of functions,"
+  },
+  {
+   "from": 1480,
+   "to": 1486.6,
+   "text": "encrypt and decrypt."
+  },
+  {
+   "from": 1486.6,
+   "to": 1489.1,
+   "text": "And encrypt takes as input something we"
+  },
+  {
+   "from": 1489.1,
+   "to": 1492.5,
+   "text": "refer to as the plain text,"
+  },
+  {
+   "from": 1492.5,
+   "to": 1494.1,
+   "text": "and this is just some sequence of bytes,"
+  },
+  {
+   "from": 1494.1,
+   "to": 1497.2,
+   "text": "some data, and it takes in a key, so"
+  },
+  {
+   "from": 1497.2,
+   "to": 1498.7,
+   "text": "something that came as an output of this"
+  },
+  {
+   "from": 1498.7,
+   "to": 1504.8,
+   "text": "key generation function, and produces"
+  },
+  {
+   "from": 1504.8,
+   "to": 1506.8,
+   "text": "what we call the cipher text, and then"
+  },
+  {
+   "from": 1506.8,
+   "to": 1508.6,
+   "text": "decrypt does the opposite of this. So,"
+  },
+  {
+   "from": 1508.6,
+   "to": 1513.9,
+   "text": "it takes the cipher text"
+  },
+  {
+   "from": 1513.9,
+   "to": 1516.2,
+   "text": "along with the key, and produces the"
+  },
+  {
+   "from": 1516.2,
+   "to": 1521.7,
+   "text": "plain text."
+  },
+  {
+   "from": 1521.7,
+   "to": 1522.8,
+   "text": "And"
+  },
+  {
+   "from": 1522.8,
+   "to": 1524.8,
+   "text": "this triple of functions has a couple"
+  },
+  {
+   "from": 1524.8,
+   "to": 1526.4,
+   "text": "properties."
+  },
+  {
+   "from": 1526.4,
+   "to": 1528.2,
+   "text": "One is that"
+  },
+  {
+   "from": 1528.2,
+   "to": 1530,
+   "text": "like one one thing you might expect is"
+  },
+  {
+   "from": 1530,
+   "to": 1532.9,
+   "text": "that this thing doesn't really tell you"
+  },
+  {
+   "from": 1532.9,
+   "to": 1534.8,
+   "text": "all that much about this input to the"
+  },
+  {
+   "from": 1534.8,
+   "to": 1537.4,
+   "text": "encrypt function. So, property number"
+  },
+  {
+   "from": 1537.4,
+   "to": 1544.3,
+   "text": "one is"
+  },
+  {
+   "from": 1544.3,
+   "to": 1546.3,
+   "text": "given the cipher text, you can't figure"
+  },
+  {
+   "from": 1546.3,
+   "to": 1555.2,
+   "text": "out the plain text"
+  },
+  {
+   "from": 1555.2,
+   "to": 1561.4,
+   "text": "without the key."
+  },
+  {
+   "from": 1561.4,
+   "to": 1563.2,
+   "text": "And the other property is kind of the"
+  },
+  {
+   "from": 1563.2,
+   "to": 1565.7,
+   "text": "obvious correctness property, that if"
+  },
+  {
+   "from": 1565.7,
+   "to": 1572,
+   "text": "you"
+  },
+  {
+   "from": 1572,
+   "to": 1574.2,
+   "text": "take something and you encrypt it,"
+  },
+  {
+   "from": 1574.2,
+   "to": 1576.6,
+   "text": "some message M with a key K, and then"
+  },
+  {
+   "from": 1576.6,
+   "to": 1579.3,
+   "text": "you decrypt that cipher text using the"
+  },
+  {
+   "from": 1579.3,
+   "to": 1580.6,
+   "text": "same key,"
+  },
+  {
+   "from": 1580.6,
+   "to": 1585.3,
+   "text": "that gives you back the same message."
+  },
+  {
+   "from": 1585.3,
+   "to": 1586.7,
+   "text": "This is just the the kind of obvious"
+  },
+  {
+   "from": 1586.7,
+   "to": 1589.2,
+   "text": "correctness property."
+  },
+  {
+   "from": 1589.2,
+   "to": 1590.9,
+   "text": "So, does this description make sense?"
+  },
+  {
+   "from": 1590.9,
+   "to": 1592.2,
+   "text": "Does it fit your kind of intuitive"
+  },
+  {
+   "from": 1592.2,
+   "to": 1594,
+   "text": "understanding of taking some piece of"
+  },
+  {
+   "from": 1594,
+   "to": 1596.5,
+   "text": "data and obscuring it so you can't"
+  },
+  {
+   "from": 1596.5,
+   "to": 1597.7,
+   "text": "really tell anything about the original"
+  },
+  {
+   "from": 1597.7,
+   "to": 1600.6,
+   "text": "input, but then taking that obscured"
+  },
+  {
+   "from": 1600.6,
+   "to": 1602.4,
+   "text": "result, and then passing it through some"
+  },
+  {
+   "from": 1602.4,
+   "to": 1604.9,
+   "text": "decryption function given that key to"
+  },
+  {
+   "from": 1604.9,
+   "to": 1609.6,
+   "text": "retrieve the original input?"
+  },
+  {
+   "from": 1609.6,
+   "to": 1611.5,
+   "text": "And this this isn't really a rigorous"
+  },
+  {
+   "from": 1611.5,
+   "to": 1612.7,
+   "text": "definition of what it means for"
+  },
+  {
+   "from": 1612.7,
+   "to": 1614.8,
+   "text": "something to be secure, but it's a good"
+  },
+  {
+   "from": 1614.8,
+   "to": 1616.6,
+   "text": "enough intuitive definition that we can"
+  },
+  {
+   "from": 1616.6,
+   "to": 1620,
+   "text": "work with it."
+  },
+  {
+   "from": 1620,
+   "to": 1621.6,
+   "text": "Um"
+  },
+  {
+   "from": 1621.6,
+   "to": 1623.1,
+   "text": "So, any questions about that description"
+  },
+  {
+   "from": 1623.1,
+   "to": 1626,
+   "text": "there?"
+  },
+  {
+   "from": 1626,
+   "to": 1628,
+   "text": "So, where can symmetric key cryptography"
+  },
+  {
+   "from": 1628,
+   "to": 1629.5,
+   "text": "be useful? We'll talk about a whole"
+  },
+  {
+   "from": 1629.5,
+   "to": 1631.2,
+   "text": "bunch of examples later in this lecture,"
+  },
+  {
+   "from": 1631.2,
+   "to": 1632.6,
+   "text": "but one example we'll talk about right"
+  },
+  {
+   "from": 1632.6,
+   "to": 1635,
+   "text": "now is encrypting files for storage in"
+  },
+  {
+   "from": 1635,
+   "to": 1637.5,
+   "text": "an untrusted cloud service."
+  },
+  {
+   "from": 1637.5,
+   "to": 1638.8,
+   "text": "So,"
+  },
+  {
+   "from": 1638.8,
+   "to": 1640.7,
+   "text": "consider say something like Dropbox or"
+  },
+  {
+   "from": 1640.7,
+   "to": 1643.3,
+   "text": "Google Drive or things like that."
+  },
+  {
+   "from": 1643.3,
+   "to": 1645,
+   "text": "When you upload files there, you're"
+  },
+  {
+   "from": 1645,
+   "to": 1647.1,
+   "text": "trusting the service to not look at your"
+  },
+  {
+   "from": 1647.1,
+   "to": 1648.6,
+   "text": "files or do anything malicious with"
+  },
+  {
+   "from": 1648.6,
+   "to": 1650,
+   "text": "them."
+  },
+  {
+   "from": 1650,
+   "to": 1651.9,
+   "text": "These services, like at least the ones I"
+  },
+  {
+   "from": 1651.9,
+   "to": 1653.9,
+   "text": "named, are not end-to-end encrypted or"
+  },
+  {
+   "from": 1653.9,
+   "to": 1656,
+   "text": "anything like that. Like in theory, any"
+  },
+  {
+   "from": 1656,
+   "to": 1657.6,
+   "text": "employee at those companies could look"
+  },
+  {
+   "from": 1657.6,
+   "to": 1659.2,
+   "text": "at your files. Now, of course, these"
+  },
+  {
+   "from": 1659.2,
+   "to": 1660.6,
+   "text": "companies have lots of policies and"
+  },
+  {
+   "from": 1660.6,
+   "to": 1662.5,
+   "text": "technical controls in place for making"
+  },
+  {
+   "from": 1662.5,
+   "to": 1663.5,
+   "text": "sure that that sort of thing doesn't"
+  },
+  {
+   "from": 1663.5,
+   "to": 1665.5,
+   "text": "happen, but that doesn't mean that it's"
+  },
+  {
+   "from": 1665.5,
+   "to": 1667.6,
+   "text": "not technically possible. And so, one"
+  },
+  {
+   "from": 1667.6,
+   "to": 1669,
+   "text": "thing you might want to do if you don't"
+  },
+  {
+   "from": 1669,
+   "to": 1670.8,
+   "text": "want to trust these cloud services to"
+  },
+  {
+   "from": 1670.8,
+   "to": 1672.7,
+   "text": "not peek at your data, not do like"
+  },
+  {
+   "from": 1672.7,
+   "to": 1674,
+   "text": "machine learning over them, or do other"
+  },
+  {
+   "from": 1674,
+   "to": 1675.4,
+   "text": "sorts of things that you wouldn't really"
+  },
+  {
+   "from": 1675.4,
+   "to": 1677.8,
+   "text": "want, is you can just take your files"
+  },
+  {
+   "from": 1677.8,
+   "to": 1679.4,
+   "text": "and encrypt them before uploading them"
+  },
+  {
+   "from": 1679.4,
+   "to": 1680.4,
+   "text": "to these"
+  },
+  {
+   "from": 1680.4,
+   "to": 1683.6,
+   "text": "these web services."
+  },
+  {
+   "from": 1683.6,
+   "to": 1685.4,
+   "text": "So, does that idea make sense that I can"
+  },
+  {
+   "from": 1685.4,
+   "to": 1686.7,
+   "text": "take my file, like say pictures or"
+  },
+  {
+   "from": 1686.7,
+   "to": 1688.4,
+   "text": "whatever, pass it through an encryption"
+  },
+  {
+   "from": 1688.4,
+   "to": 1689.8,
+   "text": "function, produce a cipher text, and"
+  },
+  {
+   "from": 1689.8,
+   "to": 1691.2,
+   "text": "then place that cipher text on the web"
+  },
+  {
+   "from": 1691.2,
+   "to": 1693.1,
+   "text": "service, say for backup purposes or"
+  },
+  {
+   "from": 1693.1,
+   "to": 1694.7,
+   "text": "whatever. And if I ever need that, I can"
+  },
+  {
+   "from": 1694.7,
+   "to": 1697,
+   "text": "retrieve the cipher text, then use my"
+  },
+  {
+   "from": 1697,
+   "to": 1698.8,
+   "text": "key to decrypt it back into the plain"
+  },
+  {
+   "from": 1698.8,
+   "to": 1700,
+   "text": "text, and then I can use the result for"
+  },
+  {
+   "from": 1700,
+   "to": 1701.7,
+   "text": "doing whatever I need to do."
+  },
+  {
+   "from": 1701.7,
+   "to": 1703.3,
+   "text": "Does that make sense?"
+  },
+  {
+   "from": 1703.3,
+   "to": 1705.8,
+   "text": "Yeah? Can everyone else also run it"
+  },
+  {
+   "from": 1705.8,
+   "to": 1707.8,
+   "text": "through the same encryption program?"
+  },
+  {
+   "from": 1707.8,
+   "to": 1709.5,
+   "text": "Yeah, so that's that's a good question."
+  },
+  {
+   "from": 1709.5,
+   "to": 1710.9,
+   "text": "The question is, couldn't anybody else"
+  },
+  {
+   "from": 1710.9,
+   "to": 1712.1,
+   "text": "run it through the same encryption"
+  },
+  {
+   "from": 1712.1,
+   "to": 1713.4,
+   "text": "program?"
+  },
+  {
+   "from": 1713.4,
+   "to": 1715.3,
+   "text": "One detail maybe I should have explained"
+  },
+  {
+   "from": 1715.3,
+   "to": 1718,
+   "text": "in a little bit more detail is this key"
+  },
+  {
+   "from": 1718,
+   "to": 1724.7,
+   "text": "generation function is randomized."
+  },
+  {
+   "from": 1724.7,
+   "to": 1727.5,
+   "text": "And this key has high entropy, so going"
+  },
+  {
+   "from": 1727.5,
+   "to": 1728.6,
+   "text": "back to that topic we talked about"
+  },
+  {
+   "from": 1728.6,
+   "to": 1731.7,
+   "text": "earlier. So, like an example is we might"
+  },
+  {
+   "from": 1731.7,
+   "to": 1734.8,
+   "text": "have AES-256."
+  },
+  {
+   "from": 1734.8,
+   "to": 1737.7,
+   "text": "This is one particular symmetric cipher,"
+  },
+  {
+   "from": 1737.7,
+   "to": 1740,
+   "text": "and this, as the name might indicate,"
+  },
+  {
+   "from": 1740,
+   "to": 1743.1,
+   "text": "has 256 bits of entropy in the key. And"
+  },
+  {
+   "from": 1743.1,
+   "to": 1744.8,
+   "text": "so, that means that as long as the"
+  },
+  {
+   "from": 1744.8,
+   "to": 1746.5,
+   "text": "attacker, like whoever downloads the"
+  },
+  {
+   "from": 1746.5,
+   "to": 1747.9,
+   "text": "cipher text from the web service,"
+  },
+  {
+   "from": 1747.9,
+   "to": 1749.8,
+   "text": "doesn't know your key, unless they have"
+  },
+  {
+   "from": 1749.8,
+   "to": 1751.5,
+   "text": "some better attack in place, they'll"
+  },
+  {
+   "from": 1751.5,
+   "to": 1753.5,
+   "text": "have to try all the different possible"
+  },
+  {
+   "from": 1753.5,
+   "to": 1755.1,
+   "text": "keys. And if there are 2 to the 256"
+  },
+  {
+   "from": 1755.2,
+   "to": 1757,
+   "text": "keys, that's too many keys to try in a"
+  },
+  {
+   "from": 1757,
+   "to": 1759.3,
+   "text": "reasonable amount of time."
+  },
+  {
+   "from": 1759.3,
+   "to": 1761,
+   "text": "Does that answer the question? Great."
+  },
+  {
+   "from": 1761,
+   "to": 1763.9,
+   "text": "Any other questions?"
+  },
+  {
+   "from": 1763.9,
+   "to": 1765.2,
+   "text": "Yeah? Uh"
+  },
+  {
+   "from": 1765.2,
+   "to": 1768,
+   "text": "let's say I lost my key. How can I"
+  },
+  {
+   "from": 1768,
+   "to": 1769.4,
+   "text": "decrypt it?"
+  },
+  {
+   "from": 1769.4,
+   "to": 1771.4,
+   "text": "My hard my laptop died, and everything"
+  },
+  {
+   "from": 1771.4,
+   "to": 1772.7,
+   "text": "is in the cloud. When I download it"
+  },
+  {
+   "from": 1772.7,
+   "to": 1774.8,
+   "text": "back, it could randomize. How can I"
+  },
+  {
+   "from": 1774.8,
+   "to": 1776.5,
+   "text": "decrypt again? That's an excellent"
+  },
+  {
+   "from": 1776.5,
+   "to": 1778.2,
+   "text": "question, and that leads into what I was"
+  },
+  {
+   "from": 1778.2,
+   "to": 1779.4,
+   "text": "going to talk about next. So, thanks for"
+  },
+  {
+   "from": 1779.4,
+   "to": 1782.4,
+   "text": "that question. So, as you point out,"
+  },
+  {
+   "from": 1782.4,
+   "to": 1784.3,
+   "text": "like if I lose my key, I'm kind of"
+  },
+  {
+   "from": 1784.3,
+   "to": 1786.2,
+   "text": "stuck, right? I need my key to decrypt."
+  },
+  {
+   "from": 1786.2,
+   "to": 1787.4,
+   "text": "That's kind of the point of this thing."
+  },
+  {
+   "from": 1787.4,
+   "to": 1789,
+   "text": "Like if I didn't need my key to decrypt,"
+  },
+  {
+   "from": 1789,
+   "to": 1790.2,
+   "text": "then this wouldn't be a very good crypto"
+  },
+  {
+   "from": 1790.2,
+   "to": 1793,
+   "text": "system. And so I can combine this idea"
+  },
+  {
+   "from": 1793,
+   "to": 1794.9,
+   "text": "of symmetric key cryptography with the"
+  },
+  {
+   "from": 1794.9,
+   "to": 1796.2,
+   "text": "topic we just talked about, key"
+  },
+  {
+   "from": 1796.2,
+   "to": 1797.8,
+   "text": "derivation functions."
+  },
+  {
+   "from": 1797.8,
+   "to": 1799.6,
+   "text": "So instead of having some key that's"
+  },
+  {
+   "from": 1799.6,
+   "to": 1800.8,
+   "text": "randomly generated with my key"
+  },
+  {
+   "from": 1800.8,
+   "to": 1802.8,
+   "text": "generation function, say sampling"
+  },
+  {
+   "from": 1802.8,
+   "to": 1804.6,
+   "text": "entropy from somewhere on my machine, I"
+  },
+  {
+   "from": 1804.6,
+   "to": 1810.6,
+   "text": "can have a passphrase"
+  },
+  {
+   "from": 1810.6,
+   "to": 1812.8,
+   "text": "and pass it through my key derivation"
+  },
+  {
+   "from": 1812.8,
+   "to": 1814.5,
+   "text": "function box"
+  },
+  {
+   "from": 1814.5,
+   "to": 1817,
+   "text": "and this gives me my key."
+  },
+  {
+   "from": 1817,
+   "to": 1821.9,
+   "text": "And then I can take my plain text"
+  },
+  {
+   "from": 1821.9,
+   "to": 1824.4,
+   "text": "and combine it with my key"
+  },
+  {
+   "from": 1824.4,
+   "to": 1828.9,
+   "text": "in my encrypt function"
+  },
+  {
+   "from": 1828.9,
+   "to": 1834.2,
+   "text": "and this produces my cipher text."
+  },
+  {
+   "from": 1834.2,
+   "to": 1836.2,
+   "text": "And I store this cipher text on the web"
+  },
+  {
+   "from": 1836.2,
+   "to": 1838.2,
+   "text": "service, but now I don't need to save"
+  },
+  {
+   "from": 1838.2,
+   "to": 1840.3,
+   "text": "this key. Instead, I can just remember"
+  },
+  {
+   "from": 1840.3,
+   "to": 1843,
+   "text": "my passphrase and whenever I need my"
+  },
+  {
+   "from": 1843,
+   "to": 1844.6,
+   "text": "key, I can reconstruct it from the key"
+  },
+  {
+   "from": 1844.6,
+   "to": 1847.1,
+   "text": "derivation function. Question? Is the"
+  },
+  {
+   "from": 1847.1,
+   "to": 1850,
+   "text": "key derivation function slow enough to"
+  },
+  {
+   "from": 1850,
+   "to": 1851.8,
+   "text": "prevent brute force"
+  },
+  {
+   "from": 1851.8,
+   "to": 1853.6,
+   "text": "on on like if you're guessing different"
+  },
+  {
+   "from": 1853.6,
+   "to": 1854.9,
+   "text": "passphrases? Cuz I'm assuming your"
+  },
+  {
+   "from": 1854.9,
+   "to": 1856.8,
+   "text": "passphrase isn't going to be 256 bytes"
+  },
+  {
+   "from": 1856.8,
+   "to": 1858.5,
+   "text": "long. Yeah, so that's a good question."
+  },
+  {
+   "from": 1858.5,
+   "to": 1860.1,
+   "text": "The question is, is the key derivation"
+  },
+  {
+   "from": 1860.1,
+   "to": 1862.8,
+   "text": "function slow enough to prevent brute"
+  },
+  {
+   "from": 1862.8,
+   "to": 1865.3,
+   "text": "force guessing? And the answer is it"
+  },
+  {
+   "from": 1865.3,
+   "to": 1867.2,
+   "text": "depends on how long your passphrase is."
+  },
+  {
+   "from": 1867.2,
+   "to": 1868.6,
+   "text": "So for example, if your passphrase is"
+  },
+  {
+   "from": 1868.6,
+   "to": 1871,
+   "text": "like the string password is probably"
+  },
+  {
+   "from": 1871,
+   "to": 1872.8,
+   "text": "going to get broken very quickly. But as"
+  },
+  {
+   "from": 1872.8,
+   "to": 1874.3,
+   "text": "long as there's enough entropy in your"
+  },
+  {
+   "from": 1874.3,
+   "to": 1876.4,
+   "text": "passphrase, this is good enough. So like"
+  },
+  {
+   "from": 1876.4,
+   "to": 1877.9,
+   "text": "if I was uploading something to Dropbox"
+  },
+  {
+   "from": 1877.9,
+   "to": 1879.6,
+   "text": "and I really wanted to stay secret, I"
+  },
+  {
+   "from": 1879.6,
+   "to": 1881.8,
+   "text": "think like a 64-bit passphrase or like a"
+  },
+  {
+   "from": 1881.8,
+   "to": 1883.6,
+   "text": "passphrase with 64 bits of entropy would"
+  },
+  {
+   "from": 1883.6,
+   "to": 1885.1,
+   "text": "be more than enough in that scenario,"
+  },
+  {
+   "from": 1885.1,
+   "to": 1887.6,
+   "text": "for example."
+  },
+  {
+   "from": 1887.6,
+   "to": 1889.4,
+   "text": "And just a quick demo of this. So there"
+  },
+  {
+   "from": 1889.4,
+   "to": 1890.9,
+   "text": "are tools to make this really easy to"
+  },
+  {
+   "from": 1890.9,
+   "to": 1892.1,
+   "text": "do. This is actually one of the"
+  },
+  {
+   "from": 1892.1,
+   "to": 1894.7,
+   "text": "exercises. But we can take a tool for"
+  },
+  {
+   "from": 1894.7,
+   "to": 1897.4,
+   "text": "example called OpenSSL and use it to"
+  },
+  {
+   "from": 1897.4,
+   "to": 1900.2,
+   "text": "apply a symmetric cipher to some file."
+  },
+  {
+   "from": 1900.2,
+   "to": 1902.9,
+   "text": "So I had my readme.txt here for example,"
+  },
+  {
+   "from": 1902.9,
+   "to": 1904.9,
+   "text": "readme.md it has a bunch of stuff in it."
+  },
+  {
+   "from": 1904.9,
+   "to": 1908.9,
+   "text": "And I can do OpenSSL AES-256-CBC."
+  },
+  {
+   "from": 1908.9,
+   "to": 1911.2,
+   "text": "This is the name of a particular"
+  },
+  {
+   "from": 1911.2,
+   "to": 1913.3,
+   "text": "symmetric cipher."
+  },
+  {
+   "from": 1913.3,
+   "to": 1915.5,
+   "text": "And I can say that I want to apply this"
+  },
+  {
+   "from": 1915.5,
+   "to": 1921.4,
+   "text": "to readme.md and produce readme.enc.md."
+  },
+  {
+   "from": 1921.4,
+   "to": 1922.9,
+   "text": "I'll just give it some name. And it's"
+  },
+  {
+   "from": 1922.9,
+   "to": 1924.6,
+   "text": "asking me for a password. So by default,"
+  },
+  {
+   "from": 1924.6,
+   "to": 1926.1,
+   "text": "this works in this mode where I provide"
+  },
+  {
+   "from": 1926.1,
+   "to": 1927.7,
+   "text": "a passphrase that's run through a KDF to"
+  },
+  {
+   "from": 1927.7,
+   "to": 1929.2,
+   "text": "produce a key and that's used for"
+  },
+  {
+   "from": 1929.2,
+   "to": 1930.7,
+   "text": "encryption. So I'll type in some"
+  },
+  {
+   "from": 1930.7,
+   "to": 1933.2,
+   "text": "password, type it in again, and now I"
+  },
+  {
+   "from": 1933.2,
+   "to": 1936,
+   "text": "produced this readme.enc.md file. And if"
+  },
+  {
+   "from": 1936,
+   "to": 1938.4,
+   "text": "I look at this,"
+  },
+  {
+   "from": 1938.4,
+   "to": 1940.4,
+   "text": "it kind of looks like garbage. And"
+  },
+  {
+   "from": 1940.4,
+   "to": 1941.8,
+   "text": "that's at a high level the point of a"
+  },
+  {
+   "from": 1941.8,
+   "to": 1943.5,
+   "text": "symmetric cipher. It produces some"
+  },
+  {
+   "from": 1943.5,
+   "to": 1945.1,
+   "text": "cipher text that should be kind of"
+  },
+  {
+   "from": 1945.1,
+   "to": 1948.3,
+   "text": "indistinguishable from random data."
+  },
+  {
+   "from": 1948.3,
+   "to": 1950.4,
+   "text": "And when I want to decrypt this, I can"
+  },
+  {
+   "from": 1950.4,
+   "to": 1951.5,
+   "text": "run"
+  },
+  {
+   "from": 1951.5,
+   "to": 1955.4,
+   "text": "a similar command, OpenSSL AES-256-CBC,"
+  },
+  {
+   "from": 1955.4,
+   "to": 1958.2,
+   "text": "dash D for decrypt, take the input from"
+  },
+  {
+   "from": 1958.2,
+   "to": 1960,
+   "text": "readme.enc.md,"
+  },
+  {
+   "from": 1960,
+   "to": 1963.1,
+   "text": "and I'll do like readme."
+  },
+  {
+   "from": 1963.1,
+   "to": 1966,
+   "text": "readme.decrypted.md"
+  },
+  {
+   "from": 1966,
+   "to": 1968,
+   "text": "as the output."
+  },
+  {
+   "from": 1968,
+   "to": 1973.1,
+   "text": "And I can compare these two files."
+  },
+  {
+   "from": 1973.1,
+   "to": 1975.4,
+   "text": "And the correctness property of"
+  },
+  {
+   "from": 1975.4,
+   "to": 1977.2,
+   "text": "symmetric cryptography tells me that"
+  },
+  {
+   "from": 1977.2,
+   "to": 1978.9,
+   "text": "this should be identical and this indeed"
+  },
+  {
+   "from": 1978.9,
+   "to": 1980.7,
+   "text": "is identical. If I look at the return"
+  },
+  {
+   "from": 1980.7,
+   "to": 1982.2,
+   "text": "value, compare return zero, so that"
+  },
+  {
+   "from": 1982.2,
+   "to": 1989.7,
+   "text": "means they're the same file."
+  },
+  {
+   "from": 1989.7,
+   "to": 1991.5,
+   "text": "So any questions about symmetric key"
+  },
+  {
+   "from": 1991.5,
+   "to": 1993.6,
+   "text": "cryptography? Yeah. So when you did this"
+  },
+  {
+   "from": 1993.6,
+   "to": 1996.3,
+   "text": "file, it rewrote everything you had in"
+  },
+  {
+   "from": 1996.3,
+   "to": 1998,
+   "text": "this file with this new stuff. It's not"
+  },
+  {
+   "from": 1998,
+   "to": 2000.2,
+   "text": "like it made a new file somewhere else."
+  },
+  {
+   "from": 2000.2,
+   "to": 2001,
+   "text": "Uh"
+  },
+  {
+   "from": 2001,
+   "to": 2003.6,
+   "text": "so the this particular command did make"
+  },
+  {
+   "from": 2003.6,
+   "to": 2005.2,
+   "text": "a new file. So it took as input"
+  },
+  {
+   "from": 2005.2,
+   "to": 2007.6,
+   "text": "readme.md and produced as output this"
+  },
+  {
+   "from": 2007.6,
+   "to": 2010.2,
+   "text": "file. So that is the encrypted version"
+  },
+  {
+   "from": 2010.2,
+   "to": 2012,
+   "text": "of the file. It left the original"
+  },
+  {
+   "from": 2012,
+   "to": 2013.2,
+   "text": "untouched, but then of course I could"
+  },
+  {
+   "from": 2013.2,
+   "to": 2016.5,
+   "text": "delete it if I wanted to."
+  },
+  {
+   "from": 2016.5,
+   "to": 2017.4,
+   "text": "Yeah?"
+  },
+  {
+   "from": 2017.4,
+   "to": 2020.3,
+   "text": "Um I see that you provided"
+  },
+  {
+   "from": 2020.3,
+   "to": 2023.5,
+   "text": "salt options for the algorithm."
+  },
+  {
+   "from": 2023.5,
+   "to": 2025.7,
+   "text": "Uh where is the salt stored in this"
+  },
+  {
+   "from": 2025.7,
+   "to": 2027.6,
+   "text": "case? Uh that's a good question. This is"
+  },
+  {
+   "from": 2027.6,
+   "to": 2028.4,
+   "text": "something I wasn't going to talk about"
+  },
+  {
+   "from": 2028.4,
+   "to": 2030.6,
+   "text": "in too much detail. The question is, I I"
+  },
+  {
+   "from": 2030.6,
+   "to": 2033.2,
+   "text": "provided the salt argument here and"
+  },
+  {
+   "from": 2033.2,
+   "to": 2035.8,
+   "text": "where is that stored? So the answer is"
+  },
+  {
+   "from": 2035.8,
+   "to": 2039.2,
+   "text": "that that is stored in this output here."
+  },
+  {
+   "from": 2039.2,
+   "to": 2041.8,
+   "text": "So this output format stores both the"
+  },
+  {
+   "from": 2041.8,
+   "to": 2045.2,
+   "text": "salt and the actual output cipher text."
+  },
+  {
+   "from": 2045.2,
+   "to": 2046.8,
+   "text": "So it can be used in the reconstruction"
+  },
+  {
+   "from": 2046.8,
+   "to": 2049.2,
+   "text": "and decrypt. So it doesn't keep any"
+  },
+  {
+   "from": 2049.2,
+   "to": 2052.1,
+   "text": "database of salts used for"
+  },
+  {
+   "from": 2052.1,
+   "to": 2053.4,
+   "text": "Yeah, that's correct. It doesn't keep"
+  },
+  {
+   "from": 2053.4,
+   "to": 2055.2,
+   "text": "any database or anything. This is fully"
+  },
+  {
+   "from": 2055.2,
+   "to": 2057.4,
+   "text": "self-contained. The salt is not the"
+  },
+  {
+   "from": 2057.4,
+   "to": 2058.3,
+   "text": "secret."
+  },
+  {
+   "from": 2058.4,
+   "to": 2060.6,
+   "text": "Uh yeah, and as John says, the salt is"
+  },
+  {
+   "from": 2060.6,
+   "to": 2062.8,
+   "text": "not the secret."
+  },
+  {
+   "from": 2062.8,
+   "to": 2064.4,
+   "text": "Like the the passphrase is what is the"
+  },
+  {
+   "from": 2064.4,
+   "to": 2066.5,
+   "text": "secret thing here."
+  },
+  {
+   "from": 2066.5,
+   "to": 2068,
+   "text": "What what is salt?"
+  },
+  {
+   "from": 2068,
+   "to": 2069.3,
+   "text": "Uh"
+  },
+  {
+   "from": 2069.3,
+   "to": 2071.7,
+   "text": "okay, so"
+  },
+  {
+   "from": 2071.7,
+   "to": 2074.1,
+   "text": "let's go back to So the So the question"
+  },
+  {
+   "from": 2074.1,
+   "to": 2076.4,
+   "text": "is, what is salt?"
+  },
+  {
+   "from": 2076.4,
+   "to": 2079.3,
+   "text": "The idea of a cryptographic salt"
+  },
+  {
+   "from": 2079.3,
+   "to": 2080.8,
+   "text": "is probably best explained in the"
+  },
+  {
+   "from": 2080.8,
+   "to": 2086.1,
+   "text": "context of hash functions."
+  },
+  {
+   "from": 2086.1,
+   "to": 2087.9,
+   "text": "So one common application of hash"
+  },
+  {
+   "from": 2087.9,
+   "to": 2089.5,
+   "text": "functions is to store passwords in a"
+  },
+  {
+   "from": 2089.5,
+   "to": 2091.5,
+   "text": "password database. If I have a website"
+  },
+  {
+   "from": 2091.5,
+   "to": 2093.6,
+   "text": "and I have logins for users, like people"
+  },
+  {
+   "from": 2093.6,
+   "to": 2095.9,
+   "text": "log in with their username and password,"
+  },
+  {
+   "from": 2095.9,
+   "to": 2097.4,
+   "text": "I don't actually want to store people's"
+  },
+  {
+   "from": 2097.4,
+   "to": 2100,
+   "text": "passwords in plain text just like as is."
+  },
+  {
+   "from": 2100,
+   "to": 2101.3,
+   "text": "Does anybody know why I wouldn't want to"
+  },
+  {
+   "from": 2101.3,
+   "to": 2104.2,
+   "text": "do that?"
+  },
+  {
+   "from": 2104.2,
+   "to": 2105.6,
+   "text": "Yes? What if there was a breach and"
+  },
+  {
+   "from": 2105.6,
+   "to": 2107.5,
+   "text": "someone got all your data? Exactly. What"
+  },
+  {
+   "from": 2107.5,
+   "to": 2108.7,
+   "text": "if there was a breach and someone got"
+  },
+  {
+   "from": 2108.7,
+   "to": 2110.9,
+   "text": "all your data? So it's really bad if you"
+  },
+  {
+   "from": 2110.9,
+   "to": 2112.8,
+   "text": "leak all your users' passwords. It's"
+  },
+  {
+   "from": 2112.8,
+   "to": 2114.4,
+   "text": "especially bad cuz a lot of people reuse"
+  },
+  {
+   "from": 2114.4,
+   "to": 2116.2,
+   "text": "their passwords across different sites."
+  },
+  {
+   "from": 2116.2,
+   "to": 2117.6,
+   "text": "So you'll see attackers break into one"
+  },
+  {
+   "from": 2117.6,
+   "to": 2118.8,
+   "text": "thing, like there was this big Yahoo"
+  },
+  {
+   "from": 2118.8,
+   "to": 2120.3,
+   "text": "breach a while ago, and they find all"
+  },
+  {
+   "from": 2120.3,
+   "to": 2122.2,
+   "text": "these usernames and password pairs. And"
+  },
+  {
+   "from": 2122.2,
+   "to": 2123.6,
+   "text": "then they go and try those same login"
+  },
+  {
+   "from": 2123.6,
+   "to": 2125.6,
+   "text": "credentials on Google and on Facebook"
+  },
+  {
+   "from": 2125.6,
+   "to": 2127.2,
+   "text": "and on YouTube and whatnot, cuz people"
+  },
+  {
+   "from": 2127.2,
+   "to": 2128.9,
+   "text": "reuse passwords."
+  },
+  {
+   "from": 2128.9,
+   "to": 2130.6,
+   "text": "So it's bad to store plain text"
+  },
+  {
+   "from": 2130.6,
+   "to": 2131.9,
+   "text": "passwords."
+  },
+  {
+   "from": 2131.9,
+   "to": 2133.2,
+   "text": "So one thing you should do is you should"
+  },
+  {
+   "from": 2133.2,
+   "to": 2135,
+   "text": "store hashed passwords with a hash"
+  },
+  {
+   "from": 2135,
+   "to": 2137.2,
+   "text": "function, ideally a password hashing"
+  },
+  {
+   "from": 2137.2,
+   "to": 2138.6,
+   "text": "function that's intentionally designed"
+  },
+  {
+   "from": 2138.6,
+   "to": 2140,
+   "text": "to be slow."
+  },
+  {
+   "from": 2140,
+   "to": 2142.2,
+   "text": "But one thing attackers oops, uh one"
+  },
+  {
+   "from": 2142.2,
+   "to": 2143.8,
+   "text": "thing attackers started doing once they"
+  },
+  {
+   "from": 2143.8,
+   "to": 2145,
+   "text": "realized that people started storing"
+  },
+  {
+   "from": 2145,
+   "to": 2146.8,
+   "text": "like hashed passwords, is they built"
+  },
+  {
+   "from": 2146.8,
+   "to": 2148.7,
+   "text": "these things called rainbow tables. What"
+  },
+  {
+   "from": 2148.7,
+   "to": 2150.7,
+   "text": "people did was they took"
+  },
+  {
+   "from": 2150.7,
+   "to": 2151.6,
+   "text": "a"
+  },
+  {
+   "from": 2151.6,
+   "to": 2153.2,
+   "text": "way of generating big password lists,"
+  },
+  {
+   "from": 2153.2,
+   "to": 2155.2,
+   "text": "like they kind of model what passwords"
+  },
+  {
+   "from": 2155.2,
+   "to": 2156.8,
+   "text": "might look like. Say take all the"
+  },
+  {
+   "from": 2156.8,
+   "to": 2159,
+   "text": "dictionary words, take all strings of"
+  },
+  {
+   "from": 2159,
+   "to": 2161.3,
+   "text": "like length from zero to eight and"
+  },
+  {
+   "from": 2161.3,
+   "to": 2163.4,
+   "text": "whatnot. Take all of those and then hash"
+  },
+  {
+   "from": 2163.4,
+   "to": 2165.7,
+   "text": "them and produce a big database mapping"
+  },
+  {
+   "from": 2165.7,
+   "to": 2168.3,
+   "text": "hashes back to their pre-image. And so"
+  },
+  {
+   "from": 2168.4,
+   "to": 2170.1,
+   "text": "given the output of a hash function,"
+  },
+  {
+   "from": 2170.1,
+   "to": 2171.5,
+   "text": "rather than have to like brute force it"
+  },
+  {
+   "from": 2171.5,
+   "to": 2173.1,
+   "text": "on the fly, you can just go look up in"
+  },
+  {
+   "from": 2173.1,
+   "to": 2174.6,
+   "text": "this database, oh what is the input that"
+  },
+  {
+   "from": 2174.6,
+   "to": 2176.3,
+   "text": "corresponds to this output? And people"
+  },
+  {
+   "from": 2176.3,
+   "to": 2178.4,
+   "text": "have built these for reasonably large"
+  },
+  {
+   "from": 2178.4,
+   "to": 2180.4,
+   "text": "password databases."
+  },
+  {
+   "from": 2180.4,
+   "to": 2182.6,
+   "text": "And so one thing that you can do in"
+  },
+  {
+   "from": 2182.6,
+   "to": 2185.2,
+   "text": "reaction to that as a defense is rather"
+  },
+  {
+   "from": 2185.2,
+   "to": 2188,
+   "text": "than storing in your database"
+  },
+  {
+   "from": 2188,
+   "to": 2189.6,
+   "text": "let's see where to write it."
+  },
+  {
+   "from": 2189.6,
+   "to": 2192.4,
+   "text": "Rather than storing just the hash of the"
+  },
+  {
+   "from": 2192.4,
+   "to": 2193.8,
+   "text": "password,"
+  },
+  {
+   "from": 2193.8,
+   "to": 2195.9,
+   "text": "what you do is you compute what's called"
+  },
+  {
+   "from": 2195.9,
+   "to": 2202.7,
+   "text": "a a salt value."
+  },
+  {
+   "from": 2202.7,
+   "to": 2204.3,
+   "text": "And what this is is a large random"
+  },
+  {
+   "from": 2204.3,
+   "to": 2205.6,
+   "text": "string."
+  },
+  {
+   "from": 2205.6,
+   "to": 2206.9,
+   "text": "And then what you do is you store in"
+  },
+  {
+   "from": 2206.9,
+   "to": 2209.2,
+   "text": "your password database"
+  },
+  {
+   "from": 2209.2,
+   "to": 2211.7,
+   "text": "the salt, which is not really"
+  },
+  {
+   "from": 2211.7,
+   "to": 2213.2,
+   "text": "a secret, like you you can store this in"
+  },
+  {
+   "from": 2213.2,
+   "to": 2215.2,
+   "text": "your password database, along with a"
+  },
+  {
+   "from": 2215.2,
+   "to": 2219.3,
+   "text": "hash of the password"
+  },
+  {
+   "from": 2219.3,
+   "to": 2223.6,
+   "text": "with the salt appended to it."
+  },
+  {
+   "from": 2223.6,
+   "to": 2226.8,
+   "text": "Why is this useful? Well, this salt is a"
+  },
+  {
+   "from": 2226.8,
+   "to": 2229.3,
+   "text": "random unique value for every user. And"
+  },
+  {
+   "from": 2229.3,
+   "to": 2231,
+   "text": "so if someone has the password say"
+  },
+  {
+   "from": 2231,
+   "to": 2233.7,
+   "text": "password123 on one web service,"
+  },
+  {
+   "from": 2233.7,
+   "to": 2235.1,
+   "text": "if you were just storing the hash of the"
+  },
+  {
+   "from": 2235.1,
+   "to": 2236.7,
+   "text": "password, then the hash would be the"
+  },
+  {
+   "from": 2236.7,
+   "to": 2238.3,
+   "text": "same on both web services, right? Cuz"
+  },
+  {
+   "from": 2238.3,
+   "to": 2239.8,
+   "text": "this hash function is a deterministic"
+  },
+  {
+   "from": 2239.8,
+   "to": 2242,
+   "text": "function. But now since we're using this"
+  },
+  {
+   "from": 2242,
+   "to": 2244,
+   "text": "randomized salt value,"
+  },
+  {
+   "from": 2244,
+   "to": 2246.9,
+   "text": "we store the hash of the password plus"
+  },
+  {
+   "from": 2246.9,
+   "to": 2248.8,
+   "text": "the salt. And so even if someone's using"
+  },
+  {
+   "from": 2248.8,
+   "to": 2251.2,
+   "text": "the same password on multiple sites,"
+  },
+  {
+   "from": 2251.2,
+   "to": 2253.3,
+   "text": "this thing looks different in both"
+  },
+  {
+   "from": 2253.3,
+   "to": 2255,
+   "text": "cases. And it makes it so these big"
+  },
+  {
+   "from": 2255,
+   "to": 2257.4,
+   "text": "databases mapping kind of these short"
+  },
+  {
+   "from": 2257.4,
+   "to": 2261,
+   "text": "passwords or ha hash outputs to the"
+  },
+  {
+   "from": 2261,
+   "to": 2262.7,
+   "text": "short passwords that they came from,"
+  },
+  {
+   "from": 2262.7,
+   "to": 2264.7,
+   "text": "those are no longer useful when you have"
+  },
+  {
+   "from": 2264.7,
+   "to": 2266.3,
+   "text": "salted passwords."
+  },
+  {
+   "from": 2266.4,
+   "to": 2267.6,
+   "text": "You kind of need to do the brute force"
+  },
+  {
+   "from": 2267.6,
+   "to": 2269.7,
+   "text": "attack for every user once you find"
+  },
+  {
+   "from": 2269.7,
+   "to": 2271.6,
+   "text": "their salt value, rather than being able"
+  },
+  {
+   "from": 2271.6,
+   "to": 2273.7,
+   "text": "to use this big precomputed database."
+  },
+  {
+   "from": 2273.7,
+   "to": 2274.8,
+   "text": "Does that answer the question of what a"
+  },
+  {
+   "from": 2274.8,
+   "to": 2278,
+   "text": "salt is?"
+  },
+  {
+   "from": 2278,
+   "to": 2280.2,
+   "text": "Um and so that's what that salt argument"
+  },
+  {
+   "from": 2280.2,
+   "to": 2285.8,
+   "text": "is related to."
+  },
+  {
+   "from": 2285.8,
+   "to": 2287.6,
+   "text": "Let's see."
+  },
+  {
+   "from": 2287.6,
+   "to": 2288.6,
+   "text": "So any questions about anything we"
+  },
+  {
+   "from": 2288.6,
+   "to": 2292,
+   "text": "talked about so far?"
+  },
+  {
+   "from": 2292,
+   "to": 2293.3,
+   "text": "Great."
+  },
+  {
+   "from": 2293.4,
+   "to": 2295.8,
+   "text": "Okay, so the"
+  },
+  {
+   "from": 2295.8,
+   "to": 2297.3,
+   "text": "I'm going to go ahead and erase this and"
+  },
+  {
+   "from": 2297.3,
+   "to": 2299.2,
+   "text": "then the last"
+  },
+  {
+   "from": 2299.2,
+   "to": 2301.4,
+   "text": "topic we'll talk about is one of the"
+  },
+  {
+   "from": 2301.4,
+   "to": 2302.6,
+   "text": "most exciting developments in"
+  },
+  {
+   "from": 2302.6,
+   "to": 2304,
+   "text": "cryptography. Happened quite a while"
+  },
+  {
+   "from": 2304,
+   "to": 2305.2,
+   "text": "ago, but it's still a really cool"
+  },
+  {
+   "from": 2305.2,
+   "to": 2307.4,
+   "text": "concept, something called asymmetric key"
+  },
+  {
+   "from": 2307.4,
+   "to": 2320.8,
+   "text": "cryptography."
+  },
+  {
+   "from": 2320.8,
+   "to": 2322.9,
+   "text": "And so this is an idea that actually"
+  },
+  {
+   "from": 2322.9,
+   "to": 2324.8,
+   "text": "enables a lot of the security and"
+  },
+  {
+   "from": 2324.8,
+   "to": 2327.9,
+   "text": "privacy related features of basically"
+  },
+  {
+   "from": 2327.9,
+   "to": 2329.6,
+   "text": "anything you use today. Like when you go"
+  },
+  {
+   "from": 2329.6,
+   "to": 2332.2,
+   "text": "and type in like www.google.com,"
+  },
+  {
+   "from": 2332.2,
+   "to": 2333.8,
+   "text": "asymmetric key cryptography is used as"
+  },
+  {
+   "from": 2333.8,
+   "to": 2336.6,
+   "text": "part of what goes on there."
+  },
+  {
+   "from": 2336.6,
+   "to": 2338.2,
+   "text": "So this is going to look pretty similar"
+  },
+  {
+   "from": 2338.2,
+   "to": 2339.6,
+   "text": "to what we talked about in symmetric key"
+  },
+  {
+   "from": 2339.6,
+   "to": 2341,
+   "text": "cryptography,"
+  },
+  {
+   "from": 2341,
+   "to": 2344.6,
+   "text": "except for the twist."
+  },
+  {
+   "from": 2344.6,
+   "to": 2346.3,
+   "text": "There's a key generation function, which"
+  },
+  {
+   "from": 2346.4,
+   "to": 2348.3,
+   "text": "similarly is randomized, but instead of"
+  },
+  {
+   "from": 2348.3,
+   "to": 2350.5,
+   "text": "producing a single key, it produces a"
+  },
+  {
+   "from": 2350.5,
+   "to": 2356.5,
+   "text": "pair of keys, two different things."
+  },
+  {
+   "from": 2356.5,
+   "to": 2358.1,
+   "text": "One of which is referred to as a public"
+  },
+  {
+   "from": 2358.1,
+   "to": 2363.3,
+   "text": "key."
+  },
+  {
+   "from": 2363.3,
+   "to": 2364.8,
+   "text": "And the other is referred to as a"
+  },
+  {
+   "from": 2364.8,
+   "to": 2366.7,
+   "text": "private key."
+  },
+  {
+   "from": 2366.7,
+   "to": 2367.7,
+   "text": "And then these can be used for"
+  },
+  {
+   "from": 2367.7,
+   "to": 2369.6,
+   "text": "encryption and decryption in a manner"
+  },
+  {
+   "from": 2369.6,
+   "to": 2371.8,
+   "text": "kind of similar to symmetric key crypto,"
+  },
+  {
+   "from": 2371.8,
+   "to": 2373.2,
+   "text": "except these different keys have"
+  },
+  {
+   "from": 2373.2,
+   "to": 2375.3,
+   "text": "different uses now. So we have an"
+  },
+  {
+   "from": 2375.3,
+   "to": 2378.3,
+   "text": "encryption function"
+  },
+  {
+   "from": 2378.3,
+   "to": 2379.8,
+   "text": "which takes in the plain text, I'll just"
+  },
+  {
+   "from": 2379.8,
+   "to": 2382.4,
+   "text": "write P here, and it takes in the public"
+  },
+  {
+   "from": 2382.4,
+   "to": 2386.1,
+   "text": "key"
+  },
+  {
+   "from": 2386.1,
+   "to": 2388.2,
+   "text": "and produces the cipher text. And then I"
+  },
+  {
+   "from": 2388.2,
+   "to": 2392,
+   "text": "have a decryption function"
+  },
+  {
+   "from": 2392,
+   "to": 2393.8,
+   "text": "which takes in my cipher text and the"
+  },
+  {
+   "from": 2393.8,
+   "to": 2398.2,
+   "text": "private key"
+  },
+  {
+   "from": 2398.2,
+   "to": 2403.6,
+   "text": "and gives me back my plain text."
+  },
+  {
+   "from": 2403.6,
+   "to": 2406,
+   "text": "And then similarly to those two"
+  },
+  {
+   "from": 2406,
+   "to": 2408,
+   "text": "properties we had over there,"
+  },
+  {
+   "from": 2408,
+   "to": 2410.6,
+   "text": "given just the cipher text, we can't"
+  },
+  {
+   "from": 2410.6,
+   "to": 2413.4,
+   "text": "figure out the plain text unless we have"
+  },
+  {
+   "from": 2413.4,
+   "to": 2415.3,
+   "text": "the private key. And then we have the"
+  },
+  {
+   "from": 2415.3,
+   "to": 2417.1,
+   "text": "obvious correctness property that if we"
+  },
+  {
+   "from": 2417.1,
+   "to": 2419,
+   "text": "encrypt something with the private key"
+  },
+  {
+   "from": 2419,
+   "to": 2420.7,
+   "text": "Sorry, encrypt something with the public"
+  },
+  {
+   "from": 2420.7,
+   "to": 2423.1,
+   "text": "key and then take that cipher text and"
+  },
+  {
+   "from": 2423.1,
+   "to": 2425.3,
+   "text": "try decrypting it with the corresponding"
+  },
+  {
+   "from": 2425.3,
+   "to": 2426.8,
+   "text": "private key that came from this key"
+  },
+  {
+   "from": 2426.8,
+   "to": 2428.7,
+   "text": "generation process that outputs these"
+  },
+  {
+   "from": 2428.7,
+   "to": 2430.9,
+   "text": "two different things at once, then I get"
+  },
+  {
+   "from": 2430.9,
+   "to": 2433.6,
+   "text": "the same result back."
+  },
+  {
+   "from": 2433.6,
+   "to": 2435.4,
+   "text": "So,"
+  },
+  {
+   "from": 2435.4,
+   "to": 2437.4,
+   "text": "this is very similar to what's above,"
+  },
+  {
+   "from": 2437.4,
+   "to": 2438.8,
+   "text": "but there's a twist that we have these"
+  },
+  {
+   "from": 2438.8,
+   "to": 2440.1,
+   "text": "two different keys that have different"
+  },
+  {
+   "from": 2440.1,
+   "to": 2442.2,
+   "text": "functions. And it's really neat that"
+  },
+  {
+   "from": 2442.2,
+   "to": 2444.7,
+   "text": "this public key can actually be made as"
+  },
+  {
+   "from": 2444.7,
+   "to": 2446.8,
+   "text": "the name indicates public. Like I could"
+  },
+  {
+   "from": 2446.8,
+   "to": 2448.3,
+   "text": "be using a cryptosystem that works like"
+  },
+  {
+   "from": 2448.3,
+   "to": 2450.6,
+   "text": "this, post a public key on the internet"
+  },
+  {
+   "from": 2450.6,
+   "to": 2452.7,
+   "text": "for anybody to see, but keep my private"
+  },
+  {
+   "from": 2452.7,
+   "to": 2454.4,
+   "text": "key secret, and then I have this"
+  },
+  {
+   "from": 2454.4,
+   "to": 2456,
+   "text": "interesting property that anybody on the"
+  },
+  {
+   "from": 2456,
+   "to": 2458.3,
+   "text": "internet can take any piece of content"
+  },
+  {
+   "from": 2458.3,
+   "to": 2460.5,
+   "text": "and encrypt it for me using my public"
+  },
+  {
+   "from": 2460.5,
+   "to": 2463,
+   "text": "key and send it over the internet to me,"
+  },
+  {
+   "from": 2463,
+   "to": 2464.4,
+   "text": "and then I can decrypt it using my"
+  },
+  {
+   "from": 2464.4,
+   "to": 2466.3,
+   "text": "private key. And as long as my private"
+  },
+  {
+   "from": 2466.3,
+   "to": 2468.5,
+   "text": "key stays secret, it doesn't matter if"
+  },
+  {
+   "from": 2468.5,
+   "to": 2470.5,
+   "text": "my public key is available to anybody on"
+  },
+  {
+   "from": 2470.5,
+   "to": 2471.8,
+   "text": "the internet. So, here's where this"
+  },
+  {
+   "from": 2471.8,
+   "to": 2474.4,
+   "text": "asymmetry comes from."
+  },
+  {
+   "from": 2474.4,
+   "to": 2476.6,
+   "text": "Before we were in a scenario where like"
+  },
+  {
+   "from": 2476.6,
+   "to": 2479.7,
+   "text": "suppose I was on the internet but you"
+  },
+  {
+   "from": 2479.7,
+   "to": 2481.4,
+   "text": "weren't like talking to me face-to-face"
+  },
+  {
+   "from": 2481.4,
+   "to": 2482.8,
+   "text": "and you wanted to send me some data over"
+  },
+  {
+   "from": 2482.8,
+   "to": 2484.6,
+   "text": "the internet over some"
+  },
+  {
+   "from": 2484.6,
+   "to": 2486.2,
+   "text": "unencrypted channel where anybody could"
+  },
+  {
+   "from": 2486.2,
+   "to": 2487.8,
+   "text": "listen on what you were saying, and you"
+  },
+  {
+   "from": 2487.8,
+   "to": 2488.8,
+   "text": "wanted to use symmetric key"
+  },
+  {
+   "from": 2488.8,
+   "to": 2490.6,
+   "text": "cryptography. Well, we'd need some way"
+  },
+  {
+   "from": 2490.6,
+   "to": 2492.7,
+   "text": "of exchanging a key in advance so that"
+  },
+  {
+   "from": 2492.7,
+   "to": 2494,
+   "text": "you can encrypt some plain text with a"
+  },
+  {
+   "from": 2494,
+   "to": 2495.4,
+   "text": "key and give me that cipher text over"
+  },
+  {
+   "from": 2495.4,
+   "to": 2497,
+   "text": "the internet so that then I could then"
+  },
+  {
+   "from": 2497,
+   "to": 2498.9,
+   "text": "decrypt it with that key."
+  },
+  {
+   "from": 2498.9,
+   "to": 2500.9,
+   "text": "In symmetric key crypto, if the key's"
+  },
+  {
+   "from": 2500.9,
+   "to": 2502.5,
+   "text": "public, it's game over. Like anybody can"
+  },
+  {
+   "from": 2502.5,
+   "to": 2504,
+   "text": "decrypt your stuff."
+  },
+  {
+   "from": 2504,
+   "to": 2506.1,
+   "text": "Whereas in asymmetric key cryptography,"
+  },
+  {
+   "from": 2506.1,
+   "to": 2508.1,
+   "text": "I could take my public key and like post"
+  },
+  {
+   "from": 2508.1,
+   "to": 2509.7,
+   "text": "it on a bulletin board on the internet,"
+  },
+  {
+   "from": 2509.7,
+   "to": 2511.4,
+   "text": "and you could go look at that, take some"
+  },
+  {
+   "from": 2511.4,
+   "to": 2513.3,
+   "text": "contents and encrypt them for me, and"
+  },
+  {
+   "from": 2513.3,
+   "to": 2514.9,
+   "text": "then send them over, and that would be"
+  },
+  {
+   "from": 2514.9,
+   "to": 2516.6,
+   "text": "totally fine. You can only decrypt it"
+  },
+  {
+   "from": 2516.6,
+   "to": 2518.5,
+   "text": "with the private key."
+  },
+  {
+   "from": 2518.5,
+   "to": 2520.6,
+   "text": "And so, one analogy that may be helpful"
+  },
+  {
+   "from": 2520.6,
+   "to": 2523,
+   "text": "is comparing these mathematical ideas to"
+  },
+  {
+   "from": 2523,
+   "to": 2526.1,
+   "text": "physical locks. So, you probably have a"
+  },
+  {
+   "from": 2526.1,
+   "to": 2528,
+   "text": "lock on your door to your house, and you"
+  },
+  {
+   "from": 2528,
+   "to": 2530,
+   "text": "can put in a key and like turn the thing"
+  },
+  {
+   "from": 2530,
+   "to": 2531.4,
+   "text": "in order to lock the door or you can"
+  },
+  {
+   "from": 2531.4,
+   "to": 2532.6,
+   "text": "turn it the other way to unlock the"
+  },
+  {
+   "from": 2532.6,
+   "to": 2534.2,
+   "text": "door. So, there's a single key and it"
+  },
+  {
+   "from": 2534.2,
+   "to": 2536.4,
+   "text": "can both lock and unlock the door. But"
+  },
+  {
+   "from": 2536.4,
+   "to": 2537.4,
+   "text": "now, consider this alternative"
+  },
+  {
+   "from": 2537.4,
+   "to": 2539,
+   "text": "construction, which you might use if"
+  },
+  {
+   "from": 2539,
+   "to": 2540.6,
+   "text": "say, I want you to be able to send me a"
+  },
+  {
+   "from": 2540.6,
+   "to": 2543.3,
+   "text": "message and have it be sent over the"
+  },
+  {
+   "from": 2543.3,
+   "to": 2545,
+   "text": "internet and you I don't really need a"
+  },
+  {
+   "from": 2545,
+   "to": 2547.2,
+   "text": "way to exchange a key with you"
+  },
+  {
+   "from": 2547.2,
+   "to": 2549.5,
+   "text": "beforehand. I could get a box, which you"
+  },
+  {
+   "from": 2549.5,
+   "to": 2550.6,
+   "text": "can put a letter inside and you can"
+  },
+  {
+   "from": 2550.6,
+   "to": 2552.1,
+   "text": "close the box, and I can get one of"
+  },
+  {
+   "from": 2552.1,
+   "to": 2554.2,
+   "text": "those padlock things, which I can give"
+  },
+  {
+   "from": 2554.2,
+   "to": 2557,
+   "text": "you uh by I could like take this padlock"
+  },
+  {
+   "from": 2557,
+   "to": 2559,
+   "text": "and open it and give it to you, and you"
+  },
+  {
+   "from": 2559,
+   "to": 2561.1,
+   "text": "at at your own leisure could put your"
+  },
+  {
+   "from": 2561.1,
+   "to": 2562.8,
+   "text": "message inside a box and take this"
+  },
+  {
+   "from": 2562.8,
+   "to": 2565,
+   "text": "padlock, which is open, and shut it"
+  },
+  {
+   "from": 2565,
+   "to": 2567.8,
+   "text": "around the box, and then send it over to"
+  },
+  {
+   "from": 2567.8,
+   "to": 2569,
+   "text": "me, and then I could put in my key and"
+  },
+  {
+   "from": 2569,
+   "to": 2570.7,
+   "text": "unlock it. So, do you see how there's"
+  },
+  {
+   "from": 2570.7,
+   "to": 2573.4,
+   "text": "this asymmetry there as opposed to the"
+  },
+  {
+   "from": 2573.4,
+   "to": 2574.7,
+   "text": "key that I used to open the door to my"
+  },
+  {
+   "from": 2574.7,
+   "to": 2576.4,
+   "text": "house, where the same key opens and"
+  },
+  {
+   "from": 2576.4,
+   "to": 2578.1,
+   "text": "closes the thing? Instead, I give you"
+  },
+  {
+   "from": 2578.1,
+   "to": 2579.9,
+   "text": "this open padlock that you have the"
+  },
+  {
+   "from": 2579.9,
+   "to": 2582.4,
+   "text": "ability to close but not open, and after"
+  },
+  {
+   "from": 2582.4,
+   "to": 2584,
+   "text": "you close it, I can use my key, which"
+  },
+  {
+   "from": 2584,
+   "to": 2585.7,
+   "text": "I've kept secret, in order to open the"
+  },
+  {
+   "from": 2585.7,
+   "to": 2587.7,
+   "text": "thing and retrieve what's inside."
+  },
+  {
+   "from": 2587.7,
+   "to": 2589,
+   "text": "Maybe this analogy's helpful, maybe it's"
+  },
+  {
+   "from": 2589,
+   "to": 2590.9,
+   "text": "not. The mathematical construction works"
+  },
+  {
+   "from": 2590.9,
+   "to": 2593.5,
+   "text": "just fine if that works for you."
+  },
+  {
+   "from": 2593.5,
+   "to": 2595.8,
+   "text": "So, any questions about"
+  },
+  {
+   "from": 2595.8,
+   "to": 2597.9,
+   "text": "uh asymmetric key encryption and"
+  },
+  {
+   "from": 2597.9,
+   "to": 2599.6,
+   "text": "decryption and how it relates to"
+  },
+  {
+   "from": 2599.6,
+   "to": 2601.2,
+   "text": "symmetric key crypto, but how it's a"
+  },
+  {
+   "from": 2601.2,
+   "to": 2605.3,
+   "text": "little bit different?"
+  },
+  {
+   "from": 2605.3,
+   "to": 2606.9,
+   "text": "So, before we talk about applications of"
+  },
+  {
+   "from": 2606.9,
+   "to": 2608.9,
+   "text": "this idea, I'm going to talk about one"
+  },
+  {
+   "from": 2608.9,
+   "to": 2612.8,
+   "text": "other set of concepts in asymmetric key"
+  },
+  {
+   "from": 2612.8,
+   "to": 2615.4,
+   "text": "cryptography. So, these cryptosystems"
+  },
+  {
+   "from": 2615.4,
+   "to": 2617.2,
+   "text": "give you another set of tools, which are"
+  },
+  {
+   "from": 2617.2,
+   "to": 2619.6,
+   "text": "related to encryption and decryption,"
+  },
+  {
+   "from": 2619.6,
+   "to": 2621.9,
+   "text": "something called signing and verifying."
+  },
+  {
+   "from": 2621.9,
+   "to": 2623.8,
+   "text": "And this is kind of similar to the real"
+  },
+  {
+   "from": 2623.8,
+   "to": 2625.6,
+   "text": "world, like I can get a document and"
+  },
+  {
+   "from": 2625.6,
+   "to": 2627.6,
+   "text": "sign it with my signature. Except real"
+  },
+  {
+   "from": 2627.6,
+   "to": 2629.6,
+   "text": "world signatures are I don't think that"
+  },
+  {
+   "from": 2629.6,
+   "to": 2631.7,
+   "text": "hard to forge. These are pretty hard to"
+  },
+  {
+   "from": 2631.7,
+   "to": 2635.8,
+   "text": "forge and therefore more useful. Um"
+  },
+  {
+   "from": 2635.8,
+   "to": 2637.6,
+   "text": "What do signature schemes look like?"
+  },
+  {
+   "from": 2637.6,
+   "to": 2639.8,
+   "text": "There's a function sign that takes in"
+  },
+  {
+   "from": 2639.8,
+   "to": 2643,
+   "text": "some message"
+  },
+  {
+   "from": 2643,
+   "to": 2647.3,
+   "text": "and the private key."
+  },
+  {
+   "from": 2647.3,
+   "to": 2649.1,
+   "text": "So, notice this this is the private key,"
+  },
+  {
+   "from": 2649.1,
+   "to": 2650.9,
+   "text": "not the public key, and it produces a"
+  },
+  {
+   "from": 2650.9,
+   "to": 2654.3,
+   "text": "signature."
+  },
+  {
+   "from": 2654.3,
+   "to": 2655.5,
+   "text": "And then there's another function"
+  },
+  {
+   "from": 2655.5,
+   "to": 2658.1,
+   "text": "verify,"
+  },
+  {
+   "from": 2658.1,
+   "to": 2662,
+   "text": "which takes in the message,"
+  },
+  {
+   "from": 2662,
+   "to": 2664.2,
+   "text": "the signature,"
+  },
+  {
+   "from": 2664.2,
+   "to": 2672.2,
+   "text": "and the public key this time."
+  },
+  {
+   "from": 2672.2,
+   "to": 2674,
+   "text": "And it tells me it returns a boolean"
+  },
+  {
+   "from": 2674,
+   "to": 2677.1,
+   "text": "whether or not the signature checks out."
+  },
+  {
+   "from": 2677.1,
+   "to": 2680,
+   "text": "And then this pair of functions"
+  },
+  {
+   "from": 2680,
+   "to": 2682.5,
+   "text": "has the property that And again, these"
+  },
+  {
+   "from": 2682.5,
+   "to": 2683.3,
+   "text": "are"
+  },
+  {
+   "from": 2683.4,
+   "to": 2684.5,
+   "text": "kind of properties that follow the"
+  },
+  {
+   "from": 2684.5,
+   "to": 2686.2,
+   "text": "intuition that come from physical"
+  },
+  {
+   "from": 2686.2,
+   "to": 2688.7,
+   "text": "signatures,"
+  },
+  {
+   "from": 2688.7,
+   "to": 2691.3,
+   "text": "that uh"
+  },
+  {
+   "from": 2691.4,
+   "to": 2693.5,
+   "text": "without the private key,"
+  },
+  {
+   "from": 2693.5,
+   "to": 2696,
+   "text": "it's hard to produce a signature for any"
+  },
+  {
+   "from": 2696,
+   "to": 2698.3,
+   "text": "message such that you can give the"
+  },
+  {
+   "from": 2698.3,
+   "to": 2699.8,
+   "text": "message and the signature and the public"
+  },
+  {
+   "from": 2699.8,
+   "to": 2701.8,
+   "text": "key to the verify function to get it to"
+  },
+  {
+   "from": 2701.8,
+   "to": 2704.6,
+   "text": "return true. Like at a high level, it's"
+  },
+  {
+   "from": 2704.6,
+   "to": 2710.4,
+   "text": "hard to forge."
+  },
+  {
+   "from": 2710.4,
+   "to": 2711.7,
+   "text": "It's hard to forge a signature, of"
+  },
+  {
+   "from": 2711.7,
+   "to": 2720.2,
+   "text": "course, without the private key."
+  },
+  {
+   "from": 2720.2,
+   "to": 2721.6,
+   "text": "And then there's the obvious correctness"
+  },
+  {
+   "from": 2721.6,
+   "to": 2723.2,
+   "text": "property"
+  },
+  {
+   "from": 2723.2,
+   "to": 2725.3,
+   "text": "that if you sign a thing with a public"
+  },
+  {
+   "from": 2725.3,
+   "to": 2726.6,
+   "text": "key and then try verifying it with the"
+  },
+  {
+   "from": 2726.6,
+   "to": 2728.6,
+   "text": "corresponding Sorry, if you sign a thing"
+  },
+  {
+   "from": 2728.6,
+   "to": 2730.2,
+   "text": "with the private key and try to verify"
+  },
+  {
+   "from": 2730.2,
+   "to": 2731.9,
+   "text": "it with the corresponding public key, it"
+  },
+  {
+   "from": 2731.9,
+   "to": 2734.2,
+   "text": "returns okay. That this verification"
+  },
+  {
+   "from": 2734.2,
+   "to": 2737.1,
+   "text": "checks out."
+  },
+  {
+   "from": 2737.1,
+   "to": 2739,
+   "text": "So, these are two different kinds of"
+  },
+  {
+   "from": 2739,
+   "to": 2741.2,
+   "text": "things you can do with"
+  },
+  {
+   "from": 2741.2,
+   "to": 2743.1,
+   "text": "asymmetric key"
+  },
+  {
+   "from": 2743.1,
+   "to": 2744.8,
+   "text": "cryptosystems."
+  },
+  {
+   "from": 2744.8,
+   "to": 2746.2,
+   "text": "An example of an asymmetric key"
+  },
+  {
+   "from": 2746.2,
+   "to": 2747.4,
+   "text": "cryptosystem that you might have heard"
+  },
+  {
+   "from": 2747.4,
+   "to": 2749.7,
+   "text": "of is something called RSA."
+  },
+  {
+   "from": 2749.7,
+   "to": 2751.1,
+   "text": "So, RSA is designed by a number of"
+  },
+  {
+   "from": 2751.1,
+   "to": 2752.6,
+   "text": "people, one of whom is Ron Rivest, who's"
+  },
+  {
+   "from": 2752.6,
+   "to": 2758.3,
+   "text": "a professor here."
+  },
+  {
+   "from": 2758.3,
+   "to": 2759.2,
+   "text": "So, there are a couple interesting"
+  },
+  {
+   "from": 2759.2,
+   "to": 2761.7,
+   "text": "applications of asymmetric key crypto."
+  },
+  {
+   "from": 2761.7,
+   "to": 2763,
+   "text": "Actually, like tons and tons and tons."
+  },
+  {
+   "from": 2763,
+   "to": 2764.4,
+   "text": "We could spend like days talking about"
+  },
+  {
+   "from": 2764.4,
+   "to": 2766.7,
+   "text": "this. But a couple examples are email"
+  },
+  {
+   "from": 2766.7,
+   "to": 2768.5,
+   "text": "encryption. So, we talked a little bit"
+  },
+  {
+   "from": 2768.5,
+   "to": 2770.5,
+   "text": "about sending messages. What we can do"
+  },
+  {
+   "from": 2770.5,
+   "to": 2772.3,
+   "text": "with asymmetric key crypto is that you"
+  },
+  {
+   "from": 2772.3,
+   "to": 2774.6,
+   "text": "can have public keys posted online. I"
+  },
+  {
+   "from": 2774.6,
+   "to": 2776.6,
+   "text": "think some of the instructors have PGP"
+  },
+  {
+   "from": 2776.6,
+   "to": 2778.4,
+   "text": "public keys on their websites. So, for"
+  },
+  {
+   "from": 2778.4,
+   "to": 2779.8,
+   "text": "example, you go to my website or John's"
+  },
+  {
+   "from": 2779.8,
+   "to": 2782,
+   "text": "website, you'll find a public key. And"
+  },
+  {
+   "from": 2782,
+   "to": 2784.7,
+   "text": "then what you can do is you can send us"
+  },
+  {
+   "from": 2784.7,
+   "to": 2787.3,
+   "text": "an encrypted email. And so, even if that"
+  },
+  {
+   "from": 2787.4,
+   "to": 2789,
+   "text": "message goes through Gmail or whatever"
+  },
+  {
+   "from": 2789,
+   "to": 2790.3,
+   "text": "other mail service through MIT's mail"
+  },
+  {
+   "from": 2790.4,
+   "to": 2791.8,
+   "text": "service, if there happens to be an"
+  },
+  {
+   "from": 2791.8,
+   "to": 2794,
+   "text": "attacker snooping on the messages, they"
+  },
+  {
+   "from": 2794,
+   "to": 2795.6,
+   "text": "can't make any sense of the contents cuz"
+  },
+  {
+   "from": 2795.6,
+   "to": 2797.7,
+   "text": "they're all encrypted."
+  },
+  {
+   "from": 2797.7,
+   "to": 2799.4,
+   "text": "And this is really cool cuz you can do"
+  },
+  {
+   "from": 2799.4,
+   "to": 2801.8,
+   "text": "this without kind of finding us in"
+  },
+  {
+   "from": 2801.8,
+   "to": 2803.4,
+   "text": "person and exchanging keys, which you"
+  },
+  {
+   "from": 2803.4,
+   "to": 2804.6,
+   "text": "might have to do in a symmetric key"
+  },
+  {
+   "from": 2804.6,
+   "to": 2806.2,
+   "text": "cryptosystem. You can just find our"
+  },
+  {
+   "from": 2806.2,
+   "to": 2807.9,
+   "text": "public key, which can be posted online"
+  },
+  {
+   "from": 2807.9,
+   "to": 2809.7,
+   "text": "without causing any issues, and then"
+  },
+  {
+   "from": 2809.7,
+   "to": 2811.9,
+   "text": "send us encrypted email."
+  },
+  {
+   "from": 2811.9,
+   "to": 2813.3,
+   "text": "Another thing asymmetric key crypto's"
+  },
+  {
+   "from": 2813.4,
+   "to": 2815.8,
+   "text": "used for is private messaging. So, raise"
+  },
+  {
+   "from": 2815.8,
+   "to": 2817.3,
+   "text": "your hand if you've used anything like"
+  },
+  {
+   "from": 2817.4,
+   "to": 2820,
+   "text": "Signal or Telegram or I think WhatsApp"
+  },
+  {
+   "from": 2820,
+   "to": 2821.8,
+   "text": "is in theory end-to-end encrypted. So, a"
+  },
+  {
+   "from": 2821.8,
+   "to": 2823.8,
+   "text": "good number of you."
+  },
+  {
+   "from": 2823.8,
+   "to": 2825.8,
+   "text": "These private messaging applications"
+  },
+  {
+   "from": 2825.8,
+   "to": 2828.4,
+   "text": "also use asymmetric key crypto to"
+  },
+  {
+   "from": 2828.4,
+   "to": 2830,
+   "text": "establish private communication"
+  },
+  {
+   "from": 2830,
+   "to": 2833,
+   "text": "channels. Basically, every person has"
+  },
+  {
+   "from": 2833,
+   "to": 2835,
+   "text": "associated with them a key pair, and so"
+  },
+  {
+   "from": 2835,
+   "to": 2836.9,
+   "text": "your device has run this key generation"
+  },
+  {
+   "from": 2836.9,
+   "to": 2838.6,
+   "text": "function, produced a public key and a"
+  },
+  {
+   "from": 2838.6,
+   "to": 2840.8,
+   "text": "private key, and automatically posted"
+  },
+  {
+   "from": 2840.8,
+   "to": 2842.4,
+   "text": "your public key to the internet. So, for"
+  },
+  {
+   "from": 2842.4,
+   "to": 2843.9,
+   "text": "example, if you're using Signal, your"
+  },
+  {
+   "from": 2843.9,
+   "to": 2846,
+   "text": "public key is on the Signal servers. And"
+  },
+  {
+   "from": 2846,
+   "to": 2848,
+   "text": "then when someone wants to contact you,"
+  },
+  {
+   "from": 2848,
+   "to": 2850.5,
+   "text": "their phone can look up your public key,"
+  },
+  {
+   "from": 2850.5,
+   "to": 2851.6,
+   "text": "retrieve And once it's retrieved your"
+  },
+  {
+   "from": 2851.6,
+   "to": 2853.5,
+   "text": "public key, they can encrypt information"
+  },
+  {
+   "from": 2853.5,
+   "to": 2855.3,
+   "text": "for you. This is a kind of approximation"
+  },
+  {
+   "from": 2855.3,
+   "to": 2856.5,
+   "text": "of how their algorithm works, but at a"
+  },
+  {
+   "from": 2856.5,
+   "to": 2859.1,
+   "text": "high level, that's what's going on."
+  },
+  {
+   "from": 2859.1,
+   "to": 2860.9,
+   "text": "Another neat application of asymmetric"
+  },
+  {
+   "from": 2860.9,
+   "to": 2862.8,
+   "text": "key crypto is"
+  },
+  {
+   "from": 2862.8,
+   "to": 2864.2,
+   "text": "we were talking about earlier, like"
+  },
+  {
+   "from": 2864.2,
+   "to": 2865.3,
+   "text": "making sure you have the right software"
+  },
+  {
+   "from": 2865.4,
+   "to": 2866.8,
+   "text": "you downloaded from the internet."
+  },
+  {
+   "from": 2866.8,
+   "to": 2868.5,
+   "text": "Asymmetric key crypto can be used to"
+  },
+  {
+   "from": 2868.5,
+   "to": 2870.5,
+   "text": "sign software releases. And this is"
+  },
+  {
+   "from": 2870.5,
+   "to": 2873.2,
+   "text": "something that people do, for example,"
+  },
+  {
+   "from": 2873.2,
+   "to": 2875.1,
+   "text": "like Debian packages or whatever things"
+  },
+  {
+   "from": 2875.1,
+   "to": 2876.4,
+   "text": "you download from the internet, the"
+  },
+  {
+   "from": 2876.4,
+   "to": 2877.8,
+   "text": "developer will try to sign their"
+  },
+  {
+   "from": 2877.8,
+   "to": 2879.6,
+   "text": "software so that you can make sure that"
+  },
+  {
+   "from": 2879.6,
+   "to": 2880.6,
+   "text": "whatever you've downloaded from the"
+  },
+  {
+   "from": 2880.6,
+   "to": 2881.7,
+   "text": "internet is actually like the right"
+  },
+  {
+   "from": 2881.7,
+   "to": 2884.6,
+   "text": "thing that came from the right person."
+  },
+  {
+   "from": 2884.6,
+   "to": 2886.5,
+   "text": "We talked about in the Git lecture all"
+  },
+  {
+   "from": 2886.5,
+   "to": 2887.6,
+   "text": "the interesting things you can do with"
+  },
+  {
+   "from": 2887.6,
+   "to": 2890.1,
+   "text": "Git. One thing we didn't cover was"
+  },
+  {
+   "from": 2890.1,
+   "to": 2893.6,
+   "text": "signing related functionality in Git."
+  },
+  {
+   "from": 2893.6,
+   "to": 2894.6,
+   "text": "So,"
+  },
+  {
+   "from": 2894.6,
+   "to": 2897.6,
+   "text": "Git has commits, and you can associate"
+  },
+  {
+   "from": 2897.6,
+   "to": 2899.6,
+   "text": "with commit something called tags. At a"
+  },
+  {
+   "from": 2899.6,
+   "to": 2901.1,
+   "text": "high level, you can basically take a Git"
+  },
+  {
+   "from": 2901.1,
+   "to": 2903.1,
+   "text": "commit and attach a signature to it,"
+  },
+  {
+   "from": 2903.1,
+   "to": 2906.8,
+   "text": "which binds your public key to this"
+  },
+  {
+   "from": 2906.8,
+   "to": 2908.6,
+   "text": "commit. And then anybody who has your"
+  },
+  {
+   "from": 2908.6,
+   "to": 2911.1,
+   "text": "public key can take the commit and your"
+  },
+  {
+   "from": 2911.1,
+   "to": 2912.7,
+   "text": "public key and make sure that there's a"
+  },
+  {
+   "from": 2912.7,
+   "to": 2915.2,
+   "text": "legitimate signature on the key or"
+  },
+  {
+   "from": 2915.2,
+   "to": 2920,
+   "text": "sorry, on the commit."
+  },
+  {
+   "from": 2920,
+   "to": 2921.4,
+   "text": "So, let me go to like some random"
+  },
+  {
+   "from": 2921.4,
+   "to": 2924.2,
+   "text": "repository that I have."
+  },
+  {
+   "from": 2924.2,
+   "to": 2926.4,
+   "text": "I can look at a bunch of tags associated"
+  },
+  {
+   "from": 2926.4,
+   "to": 2931.2,
+   "text": "with this repository. If I do"
+  },
+  {
+   "from": 2931.2,
+   "to": 2932.8,
+   "text": "look at the raw data associated with"
+  },
+  {
+   "from": 2932.8,
+   "to": 2936.3,
+   "text": "this tag,"
+  },
+  {
+   "from": 2936.3,
+   "to": 2938.7,
+   "text": "it has some metadata, and then"
+  },
+  {
+   "from": 2938.7,
+   "to": 2942.5,
+   "text": "a blob of like ASCII encoded information"
+  },
+  {
+   "from": 2942.5,
+   "to": 2945.2,
+   "text": "that I can use the Git tag {dash} V for"
+  },
+  {
+   "from": 2945.2,
+   "to": 2947,
+   "text": "verify command"
+  },
+  {
+   "from": 2947,
+   "to": 2949.2,
+   "text": "to make sure that oh, this is a good"
+  },
+  {
+   "from": 2949.2,
+   "to": 2951,
+   "text": "signature from this person, happens to"
+  },
+  {
+   "from": 2951,
+   "to": 2953,
+   "text": "be me. So, I signed the software release"
+  },
+  {
+   "from": 2953,
+   "to": 2954.2,
+   "text": "so that anybody who downloads it from"
+  },
+  {
+   "from": 2954.2,
+   "to": 2955.6,
+   "text": "the internet can make sure that they"
+  },
+  {
+   "from": 2955.6,
+   "to": 2957.9,
+   "text": "actually got an authentic copy."
+  },
+  {
+   "from": 2957.9,
+   "to": 2959.7,
+   "text": "Yes? Question. What is the verify"
+  },
+  {
+   "from": 2959.7,
+   "to": 2961,
+   "text": "function"
+  },
+  {
+   "from": 2961,
+   "to": 2963.1,
+   "text": "checking against? What is it verifying"
+  },
+  {
+   "from": 2963.1,
+   "to": 2964.3,
+   "text": "against? Specifically, the boolean"
+  },
+  {
+   "from": 2964.3,
+   "to": 2966.2,
+   "text": "output."
+  },
+  {
+   "from": 2966.2,
+   "to": 2967.6,
+   "text": "I don't really understand how it"
+  },
+  {
+   "from": 2967.6,
+   "to": 2969.2,
+   "text": "kind of verifies"
+  },
+  {
+   "from": 2969.2,
+   "to": 2972,
+   "text": "Uh so, the question is what exactly is"
+  },
+  {
+   "from": 2972,
+   "to": 2973.6,
+   "text": "the verify function doing or what is it"
+  },
+  {
+   "from": 2973.6,
+   "to": 2977.2,
+   "text": "checking against?"
+  },
+  {
+   "from": 2977.2,
+   "to": 2979.1,
+   "text": "The Like if you want to mathematically"
+  },
+  {
+   "from": 2979.1,
+   "to": 2980.6,
+   "text": "what's going on,"
+  },
+  {
+   "from": 2980.6,
+   "to": 2983.2,
+   "text": "talk to me after this lecture. But for"
+  },
+  {
+   "from": 2983.2,
+   "to": 2984.8,
+   "text": "from kind of an API perspective, what's"
+  },
+  {
+   "from": 2984.8,
+   "to": 2987.6,
+   "text": "going on here is that the signature and"
+  },
+  {
+   "from": 2987.6,
+   "to": 2989.5,
+   "text": "also the message here are just a blob of"
+  },
+  {
+   "from": 2989.5,
+   "to": 2990.6,
+   "text": "bytes."
+  },
+  {
+   "from": 2990.6,
+   "to": 2992.3,
+   "text": "And it happens to be the case that these"
+  },
+  {
+   "from": 2992.3,
+   "to": 2995.7,
+   "text": "things are designed such that"
+  },
+  {
+   "from": 2995.7,
+   "to": 2998,
+   "text": "basically if I take for some particular"
+  },
+  {
+   "from": 2998,
+   "to": 2999.6,
+   "text": "public key, like if you take my public"
+  },
+  {
+   "from": 2999.6,
+   "to": 3000.5,
+   "text": "key,"
+  },
+  {
+   "from": 3000.5,
+   "to": 3002.4,
+   "text": "it's impossible for you without"
+  },
+  {
+   "from": 3002.4,
+   "to": 3004.5,
+   "text": "knowledge of my private key"
+  },
+  {
+   "from": 3004.5,
+   "to": 3006.7,
+   "text": "for any message to find a second"
+  },
+  {
+   "from": 3006.7,
+   "to": 3008.3,
+   "text": "argument to this function that makes it"
+  },
+  {
+   "from": 3008.3,
+   "to": 3010.3,
+   "text": "return true."
+  },
+  {
+   "from": 3010.3,
+   "to": 3012.2,
+   "text": "You can kind of compare it to signing a"
+  },
+  {
+   "from": 3012.2,
+   "to": 3013.9,
+   "text": "document. Like you don't know how to"
+  },
+  {
+   "from": 3013.9,
+   "to": 3016,
+   "text": "forge my signature. I can take any piece"
+  },
+  {
+   "from": 3016,
+   "to": 3018.5,
+   "text": "of paper and sign it. And then anybody"
+  },
+  {
+   "from": 3018.5,
+   "to": 3020.4,
+   "text": "who knows what my signature looks like,"
+  },
+  {
+   "from": 3020.4,
+   "to": 3021.6,
+   "text": "I can show my document to you and you"
+  },
+  {
+   "from": 3021.6,
+   "to": 3023.3,
+   "text": "can be like, \"Yeah, that checks out.\""
+  },
+  {
+   "from": 3023.3,
+   "to": 3025.7,
+   "text": "But nobody without the private key can"
+  },
+  {
+   "from": 3025.7,
+   "to": 3027.6,
+   "text": "produce a signature that will make this"
+  },
+  {
+   "from": 3027.6,
+   "to": 3029.8,
+   "text": "function return true"
+  },
+  {
+   "from": 3029.8,
+   "to": 3034.3,
+   "text": "for any particular message."
+  },
+  {
+   "from": 3034.3,
+   "to": 3036,
+   "text": "Any related questions so far? Do you"
+  },
+  {
+   "from": 3036,
+   "to": 3037,
+   "text": "want me to explain it any other way or"
+  },
+  {
+   "from": 3037,
+   "to": 3049.2,
+   "text": "does that make sense?"
+  },
+  {
+   "from": 3049.2,
+   "to": 3051,
+   "text": "Um"
+  },
+  {
+   "from": 3051,
+   "to": 3052.6,
+   "text": "So any questions about signing software"
+  },
+  {
+   "from": 3052.6,
+   "to": 3054,
+   "text": "or any of the other handful of"
+  },
+  {
+   "from": 3054,
+   "to": 3055.4,
+   "text": "applications we talked about of"
+  },
+  {
+   "from": 3055.4,
+   "to": 3059.4,
+   "text": "asymmetric key crypto?"
+  },
+  {
+   "from": 3059.4,
+   "to": 3061.4,
+   "text": "Cool. So one final thing I want to talk"
+  },
+  {
+   "from": 3061.4,
+   "to": 3063.7,
+   "text": "about, we're almost out of time, is key"
+  },
+  {
+   "from": 3063.7,
+   "to": 3065.4,
+   "text": "distribution. This is a kind of"
+  },
+  {
+   "from": 3065.4,
+   "to": 3067.1,
+   "text": "interesting side effect of asymmetric"
+  },
+  {
+   "from": 3067.1,
+   "to": 3069,
+   "text": "key cryptography. It enables a bunch of"
+  },
+  {
+   "from": 3069,
+   "to": 3070.9,
+   "text": "interesting functionality. Like I can"
+  },
+  {
+   "from": 3070.9,
+   "to": 3072.4,
+   "text": "post my public key on the internet, you"
+  },
+  {
+   "from": 3072.4,
+   "to": 3073.6,
+   "text": "can go find it and send me encrypted"
+  },
+  {
+   "from": 3073.6,
+   "to": 3075.2,
+   "text": "email. But how do you know that the"
+  },
+  {
+   "from": 3075.2,
+   "to": 3076.6,
+   "text": "public key you found is actually my"
+  },
+  {
+   "from": 3076.6,
+   "to": 3078.2,
+   "text": "public key? Seems like there's a"
+  },
+  {
+   "from": 3078.2,
+   "to": 3081.5,
+   "text": "bootstrapping problem here, right?"
+  },
+  {
+   "from": 3081.5,
+   "to": 3082.7,
+   "text": "So there are a couple This is like a"
+  },
+  {
+   "from": 3082.7,
+   "to": 3085,
+   "text": "really interesting and really hard real"
+  },
+  {
+   "from": 3085,
+   "to": 3086.4,
+   "text": "world problem."
+  },
+  {
+   "from": 3086.4,
+   "to": 3087.5,
+   "text": "And"
+  },
+  {
+   "from": 3087.5,
+   "to": 3089.1,
+   "text": "there are a couple different approaches"
+  },
+  {
+   "from": 3089.1,
+   "to": 3091.4,
+   "text": "you might take to this problem. One is"
+  },
+  {
+   "from": 3091.4,
+   "to": 3093.3,
+   "text": "kind of a lame solution, but this thing"
+  },
+  {
+   "from": 3093.3,
+   "to": 3094.8,
+   "text": "solves a lot of cryptography problems."
+  },
+  {
+   "from": 3094.8,
+   "to": 3095.6,
+   "text": "This"
+  },
+  {
+   "from": 3095.6,
+   "to": 3097.7,
+   "text": "exchange the information out of band."
+  },
+  {
+   "from": 3097.7,
+   "to": 3099.7,
+   "text": "What that means is you want to send me"
+  },
+  {
+   "from": 3099.7,
+   "to": 3101.3,
+   "text": "encrypted email, well just talk to me"
+  },
+  {
+   "from": 3101.3,
+   "to": 3103.6,
+   "text": "after class. I'll give you my public key"
+  },
+  {
+   "from": 3103.6,
+   "to": 3105.2,
+   "text": "on a piece of paper, and since you were"
+  },
+  {
+   "from": 3105.2,
+   "to": 3106.5,
+   "text": "talking to me in person, like you know"
+  },
+  {
+   "from": 3106.5,
+   "to": 3108.2,
+   "text": "that it's actually my public key, not"
+  },
+  {
+   "from": 3108.2,
+   "to": 3109.7,
+   "text": "just somebody like hacked my website and"
+  },
+  {
+   "from": 3109.7,
+   "to": 3111.6,
+   "text": "stuck some random number on there."
+  },
+  {
+   "from": 3111.6,
+   "to": 3112.8,
+   "text": "That solves the problem, but it's not"
+  },
+  {
+   "from": 3112.8,
+   "to": 3114.2,
+   "text": "the most elegant. There are a couple"
+  },
+  {
+   "from": 3114.2,
+   "to": 3115.2,
+   "text": "other approaches that different"
+  },
+  {
+   "from": 3115.2,
+   "to": 3117.3,
+   "text": "applications use. So those of you who"
+  },
+  {
+   "from": 3117.3,
+   "to": 3119.1,
+   "text": "who use Signal, have you ever"
+  },
+  {
+   "from": 3119.1,
+   "to": 3121.3,
+   "text": "encountered the phrase like safety"
+  },
+  {
+   "from": 3121.3,
+   "to": 3123,
+   "text": "number, like verify your safety number"
+  },
+  {
+   "from": 3123,
+   "to": 3124.2,
+   "text": "with so-and-so?"
+  },
+  {
+   "from": 3124.2,
+   "to": 3125.5,
+   "text": "So"
+  },
+  {
+   "from": 3125.5,
+   "to": 3127.6,
+   "text": "with Signal, they have a way of"
+  },
+  {
+   "from": 3127.6,
+   "to": 3129.3,
+   "text": "exchanging public keys, which is through"
+  },
+  {
+   "from": 3129.3,
+   "to": 3131,
+   "text": "the Signal servers. Whoever runs the"
+  },
+  {
+   "from": 3131,
+   "to": 3132.9,
+   "text": "Signal service just maintains on their"
+  },
+  {
+   "from": 3132.9,
+   "to": 3134.5,
+   "text": "servers basically a mapping from phone"
+  },
+  {
+   "from": 3134.5,
+   "to": 3136.4,
+   "text": "numbers to public keys. And when I say,"
+  },
+  {
+   "from": 3136.4,
+   "to": 3137.7,
+   "text": "\"Oh, I want to message this person with"
+  },
+  {
+   "from": 3137.7,
+   "to": 3139,
+   "text": "this number,\" my phone just goes and"
+  },
+  {
+   "from": 3139,
+   "to": 3140.2,
+   "text": "retrieves their public key from the"
+  },
+  {
+   "from": 3140.2,
+   "to": 3141.9,
+   "text": "internet and then encrypts the message"
+  },
+  {
+   "from": 3141.9,
+   "to": 3143.8,
+   "text": "for that public key. Now does anybody"
+  },
+  {
+   "from": 3143.8,
+   "to": 3150.5,
+   "text": "see a problem with this setup?"
+  },
+  {
+   "from": 3150.5,
+   "to": 3151.5,
+   "text": "Yeah?"
+  },
+  {
+   "from": 3151.5,
+   "to": 3153.8,
+   "text": "Could it be that like Signal servers are"
+  },
+  {
+   "from": 3153.8,
+   "to": 3155.4,
+   "text": "a point of failure?"
+  },
+  {
+   "from": 3155.4,
+   "to": 3156.8,
+   "text": "Yeah, exactly. The Signal servers are a"
+  },
+  {
+   "from": 3156.8,
+   "to": 3158.9,
+   "text": "point of failure there because if the"
+  },
+  {
+   "from": 3158.9,
+   "to": 3160.8,
+   "text": "Signal servers give me the wrong public"
+  },
+  {
+   "from": 3160.8,
+   "to": 3162.8,
+   "text": "key, like suppose Signal just produces a"
+  },
+  {
+   "from": 3162.8,
+   "to": 3164.6,
+   "text": "new key pair and give me their public"
+  },
+  {
+   "from": 3164.6,
+   "to": 3166.6,
+   "text": "key, now they can read all my messages."
+  },
+  {
+   "from": 3166.6,
+   "to": 3168.1,
+   "text": "And they could even sit in between and"
+  },
+  {
+   "from": 3168.1,
+   "to": 3170.2,
+   "text": "transparently decrypt the messages I"
+  },
+  {
+   "from": 3170.2,
+   "to": 3171.4,
+   "text": "send them and then re-encrypt them and"
+  },
+  {
+   "from": 3171.4,
+   "to": 3173.2,
+   "text": "send them on to their final destination."
+  },
+  {
+   "from": 3173.2,
+   "to": 3175.1,
+   "text": "Like basically, I need some way of"
+  },
+  {
+   "from": 3175.1,
+   "to": 3177.8,
+   "text": "authenticating the public key I get."
+  },
+  {
+   "from": 3177.8,
+   "to": 3179.6,
+   "text": "And so Signal has one solution to this,"
+  },
+  {
+   "from": 3179.6,
+   "to": 3181,
+   "text": "which is also just kind of punting the"
+  },
+  {
+   "from": 3181,
+   "to": 3184,
+   "text": "issue to out of band key exchange. You"
+  },
+  {
+   "from": 3184,
+   "to": 3185.2,
+   "text": "can meet up with somebody and have a"
+  },
+  {
+   "from": 3185.2,
+   "to": 3187,
+   "text": "slightly streamlined flow where they"
+  },
+  {
+   "from": 3187,
+   "to": 3188.6,
+   "text": "show QR codes on the screen, you take"
+  },
+  {
+   "from": 3188.6,
+   "to": 3189.7,
+   "text": "one phone take a picture of the other"
+  },
+  {
+   "from": 3189.7,
+   "to": 3191.5,
+   "text": "phone's screen and vice versa. And now"
+  },
+  {
+   "from": 3191.5,
+   "to": 3193.4,
+   "text": "you've exchanged public keys in person,"
+  },
+  {
+   "from": 3193.4,
+   "to": 3194.6,
+   "text": "and from that point on you've"
+  },
+  {
+   "from": 3194.6,
+   "to": 3196.1,
+   "text": "bootstrapped your encrypted end-to-end"
+  },
+  {
+   "from": 3196.1,
+   "to": 3198,
+   "text": "communication."
+  },
+  {
+   "from": 3198,
+   "to": 3200.1,
+   "text": "It also has this issue of or it also has"
+  },
+  {
+   "from": 3200.1,
+   "to": 3202.5,
+   "text": "the approach of pinning a public key. So"
+  },
+  {
+   "from": 3202.5,
+   "to": 3204.5,
+   "text": "once you know that a particular phone"
+  },
+  {
+   "from": 3204.5,
+   "to": 3206.3,
+   "text": "number has a particular public key, your"
+  },
+  {
+   "from": 3206.3,
+   "to": 3207.8,
+   "text": "phone remembers that, and if that ever"
+  },
+  {
+   "from": 3207.8,
+   "to": 3210.7,
+   "text": "changes, it'll complain to you."
+  },
+  {
+   "from": 3210.7,
+   "to": 3211.8,
+   "text": "And then there are a couple other"
+  },
+  {
+   "from": 3211.8,
+   "to": 3214.4,
+   "text": "solutions to this problem. PGP, one pop"
+  },
+  {
+   "from": 3214.4,
+   "to": 3216.1,
+   "text": "to let you see be popular a while ago,"
+  },
+  {
+   "from": 3216.1,
+   "to": 3217.9,
+   "text": "has this idea of web of trust. So like I"
+  },
+  {
+   "from": 3217.9,
+   "to": 3219.7,
+   "text": "trust people whom my friends trust. So"
+  },
+  {
+   "from": 3219.7,
+   "to": 3220.9,
+   "text": "if like John has done an out of band"
+  },
+  {
+   "from": 3220.9,
+   "to": 3222.8,
+   "text": "exchange with say my professor, then I"
+  },
+  {
+   "from": 3222.8,
+   "to": 3225,
+   "text": "can probably email my professor cuz like"
+  },
+  {
+   "from": 3225,
+   "to": 3226.5,
+   "text": "I know that John trusts my professor and"
+  },
+  {
+   "from": 3226.5,
+   "to": 3228.2,
+   "text": "I trust John, so you get this chain of"
+  },
+  {
+   "from": 3228.2,
+   "to": 3229.6,
+   "text": "trust through there. That's one"
+  },
+  {
+   "from": 3229.6,
+   "to": 3231.1,
+   "text": "interesting approach. And then another"
+  },
+  {
+   "from": 3231.1,
+   "to": 3233.1,
+   "text": "model that's come pretty recently is"
+  },
+  {
+   "from": 3233.1,
+   "to": 3234.6,
+   "text": "something that a tool called Keybase"
+  },
+  {
+   "from": 3234.6,
+   "to": 3237.5,
+   "text": "uses. This is a really neat"
+  },
+  {
+   "from": 3237.5,
+   "to": 3241.3,
+   "text": "uh whoops."
+  },
+  {
+   "from": 3241.3,
+   "to": 3243.7,
+   "text": "There's a website called keybase.io, and"
+  },
+  {
+   "from": 3243.7,
+   "to": 3245.3,
+   "text": "they have a really interesting solution"
+  },
+  {
+   "from": 3245.4,
+   "to": 3246.8,
+   "text": "to this bootstrapping problem, which is"
+  },
+  {
+   "from": 3246.8,
+   "to": 3248.3,
+   "text": "social proof."
+  },
+  {
+   "from": 3248.3,
+   "to": 3249.5,
+   "text": "So they're saying you probably have your"
+  },
+  {
+   "from": 3249.5,
+   "to": 3251.2,
+   "text": "friends on Facebook and on Twitter and"
+  },
+  {
+   "from": 3251.2,
+   "to": 3253.8,
+   "text": "whatnot. And it's probably pretty hard"
+  },
+  {
+   "from": 3253.8,
+   "to": 3255.6,
+   "text": "for an attacker to break into your"
+  },
+  {
+   "from": 3255.6,
+   "to": 3257.2,
+   "text": "friend's Facebook account at the same"
+  },
+  {
+   "from": 3257.2,
+   "to": 3258.3,
+   "text": "time as their Twitter account as the"
+  },
+  {
+   "from": 3258.3,
+   "to": 3259.6,
+   "text": "same time as their Hacker News account"
+  },
+  {
+   "from": 3259.6,
+   "to": 3260.9,
+   "text": "and so on. And so they have this"
+  },
+  {
+   "from": 3260.9,
+   "to": 3263.6,
+   "text": "interesting way of binding public keys"
+  },
+  {
+   "from": 3263.6,
+   "to": 3265.8,
+   "text": "to a set of social identities such that"
+  },
+  {
+   "from": 3265.8,
+   "to": 3267.7,
+   "text": "you can retrieve a public key once you"
+  },
+  {
+   "from": 3267.7,
+   "to": 3270.2,
+   "text": "trust some number of social identities"
+  },
+  {
+   "from": 3270.2,
+   "to": 3272.2,
+   "text": "corresponding to your friend."
+  },
+  {
+   "from": 3272.2,
+   "to": 3273.3,
+   "text": "And so we have links to these in the"
+  },
+  {
+   "from": 3273.3,
+   "to": 3274.5,
+   "text": "lecture notes if you want to see these"
+  },
+  {
+   "from": 3274.5,
+   "to": 3277,
+   "text": "things in more detail."
+  },
+  {
+   "from": 3277,
+   "to": 3278.3,
+   "text": "So that's it for our security and"
+  },
+  {
+   "from": 3278.3,
+   "to": 3281,
+   "text": "cryptography lecture. And tomorrow's"
+  },
+  {
+   "from": 3281,
+   "to": 3282.7,
+   "text": "lecture will be on a random collection"
+  },
+  {
+   "from": 3282.7,
+   "to": 3284.6,
+   "text": "of topics that your instructors find"
+  },
+  {
+   "from": 3284.6,
+   "to": 3286.2,
+   "text": "interesting. So hopefully see you in"
+  },
+  {
+   "from": 3286.2,
+   "to": 3292.1,
+   "text": "lecture tomorrow."
+  },
+  {
+   "from": 3292.1,
+   "to": 3293.2,
+   "text": "I'll also be here for a couple minutes"
+  },
+  {
+   "from": 3293.2,
+   "to": 3295.4,
+   "text": "after class if anybody has questions."
+  },
+  {
+   "from": 3295.4,
+   "to": 3297.2,
+   "text": "Uh wildly follow up on that."
+  },
+  {
+   "from": 3297.2,
+   "to": 3300.5,
+   "text": "Um can you talk about why asymmetric how"
+  },
+  {
+   "from": 3300.5,
+   "to": 3303.2,
+   "text": "asymmetric asymmetric key crypto is slow"
+  },
+  {
+   "from": 3303.2,
+   "to": 3305,
+   "text": "and symmetric key crypto is fast? And"
+  },
+  {
+   "from": 3305,
+   "to": 3307.2,
+   "text": "how you bridge them? Yes. Uh okay, so"
+  },
+  {
+   "from": 3307.2,
+   "to": 3308.5,
+   "text": "John uh"
+  },
+  {
+   "from": 3308.5,
+   "to": 3309.4,
+   "text": "Feel free to leave if you have to leave,"
+  },
+  {
+   "from": 3309.4,
+   "to": 3310.7,
+   "text": "but I think nobody's using the classroom"
+  },
+  {
+   "from": 3310.7,
+   "to": 3311.8,
+   "text": "after us. So I'm going to talk about one"
+  },
+  {
+   "from": 3311.8,
+   "to": 3314,
+   "text": "other interesting topic."
+  },
+  {
+   "from": 3314,
+   "to": 3315.9,
+   "text": "So John brought up the fact that"
+  },
+  {
+   "from": 3315.9,
+   "to": 3318.6,
+   "text": "asymmetric key cryptography is slow and"
+  },
+  {
+   "from": 3318.6,
+   "to": 3321.2,
+   "text": "symmetric key cryptography is fast."
+  },
+  {
+   "from": 3321.2,
+   "to": 3324,
+   "text": "And so in practice, you don't really use"
+  },
+  {
+   "from": 3324,
+   "to": 3326.4,
+   "text": "just asymmetric key cryptography by"
+  },
+  {
+   "from": 3326.4,
+   "to": 3330.5,
+   "text": "itself. It's usually used to bootstrap"
+  },
+  {
+   "from": 3330.5,
+   "to": 3332.2,
+   "text": "a more sophisticated protocol that"
+  },
+  {
+   "from": 3332.2,
+   "to": 3337.8,
+   "text": "you're using."
+  },
+  {
+   "from": 3337.8,
+   "to": 3339.8,
+   "text": "One thing you might want to do is"
+  },
+  {
+   "from": 3339.8,
+   "to": 3342.2,
+   "text": "use asymmetric key cryptography for"
+  },
+  {
+   "from": 3342.2,
+   "to": 3343.8,
+   "text": "signing encrypted email, right? We"
+  },
+  {
+   "from": 3343.8,
+   "to": 3345.8,
+   "text": "talked about that example. And the way"
+  },
+  {
+   "from": 3345.8,
+   "to": 3347.6,
+   "text": "that works isn't what you might have"
+  },
+  {
+   "from": 3347.6,
+   "to": 3349.2,
+   "text": "guessed from our straightforward"
+  },
+  {
+   "from": 3349.2,
+   "to": 3351.1,
+   "text": "explanation of asymmetric key crypto."
+  },
+  {
+   "from": 3351.1,
+   "to": 3352.8,
+   "text": "Like you don't just use that encrypt"
+  },
+  {
+   "from": 3352.8,
+   "to": 3355,
+   "text": "function up there and call it a day."
+  },
+  {
+   "from": 3355,
+   "to": 3357.3,
+   "text": "In practice, what you do is you use"
+  },
+  {
+   "from": 3357.4,
+   "to": 3364.2,
+   "text": "hybrid encryption"
+  },
+  {
+   "from": 3364.2,
+   "to": 3366.4,
+   "text": "to use a combination of symmetric key"
+  },
+  {
+   "from": 3366.4,
+   "to": 3369.9,
+   "text": "and asymmetric key cryptography."
+  },
+  {
+   "from": 3369.9,
+   "to": 3372,
+   "text": "What you do is Here, I'll draw this as a"
+  },
+  {
+   "from": 3372,
+   "to": 3374.2,
+   "text": "big block diagram. You take your message"
+  },
+  {
+   "from": 3374.2,
+   "to": 3375.2,
+   "text": "M,"
+  },
+  {
+   "from": 3375.2,
+   "to": 3381,
+   "text": "and then I have my public key"
+  },
+  {
+   "from": 3381,
+   "to": 3383.1,
+   "text": "that I want to encrypt for. But rather"
+  },
+  {
+   "from": 3383.1,
+   "to": 3384.9,
+   "text": "than just take these two things and pass"
+  },
+  {
+   "from": 3384.9,
+   "to": 3386.1,
+   "text": "it through the encrypt function up"
+  },
+  {
+   "from": 3386.1,
+   "to": 3395.8,
+   "text": "there, what I do is I use the symmetric"
+  },
+  {
+   "from": 3395.8,
+   "to": 3398.6,
+   "text": "key gen function to produce a symmetric"
+  },
+  {
+   "from": 3398.6,
+   "to": 3401.3,
+   "text": "key."
+  },
+  {
+   "from": 3401.3,
+   "to": 3403.3,
+   "text": "K. I'm going to like pre-pend this with"
+  },
+  {
+   "from": 3403.3,
+   "to": 3404.8,
+   "text": "symmetric so we can distinguish it from"
+  },
+  {
+   "from": 3404.8,
+   "to": 3408,
+   "text": "the public key key generation function."
+  },
+  {
+   "from": 3408,
+   "to": 3409.6,
+   "text": "And then what I do is I take these two"
+  },
+  {
+   "from": 3409.6,
+   "to": 3410.6,
+   "text": "things,"
+  },
+  {
+   "from": 3410.6,
+   "to": 3412.4,
+   "text": "pass them through my symmetric"
+  },
+  {
+   "from": 3412.4,
+   "to": 3423,
+   "text": "encryption box."
+  },
+  {
+   "from": 3423,
+   "to": 3429,
+   "text": "This produces the cipher text."
+  },
+  {
+   "from": 3429,
+   "to": 3432.3,
+   "text": "And now this by itself to"
+  },
+  {
+   "from": 3432.4,
+   "to": 3434.3,
+   "text": "the sender or sorry, this by itself to"
+  },
+  {
+   "from": 3434.3,
+   "to": 3436.5,
+   "text": "the receiver who has the private key"
+  },
+  {
+   "from": 3436.5,
+   "to": 3438.7,
+   "text": "corresponding to this public key here,"
+  },
+  {
+   "from": 3438.7,
+   "to": 3440,
+   "text": "this is not really useful, right? Cuz"
+  },
+  {
+   "from": 3440,
+   "to": 3441.2,
+   "text": "this is encrypted with a symmetric"
+  },
+  {
+   "from": 3441.2,
+   "to": 3445.8,
+   "text": "cipher with this key K"
+  },
+  {
+   "from": 3445.8,
+   "to": 3448.3,
+   "text": "that came from this function that I ran"
+  },
+  {
+   "from": 3448.4,
+   "to": 3450.5,
+   "text": "on my local machine. So I need some way"
+  },
+  {
+   "from": 3450.5,
+   "to": 3452.6,
+   "text": "of getting this to the person who"
+  },
+  {
+   "from": 3452.6,
+   "to": 3454.3,
+   "text": "actually needs to decrypt the email. And"
+  },
+  {
+   "from": 3454.3,
+   "to": 3456.9,
+   "text": "so what I do is I take this thing"
+  },
+  {
+   "from": 3456.9,
+   "to": 3459.2,
+   "text": "and now this email might have been big"
+  },
+  {
+   "from": 3459.2,
+   "to": 3460.6,
+   "text": "and I use symmetric encryption with that"
+  },
+  {
+   "from": 3460.6,
+   "to": 3462.5,
+   "text": "cuz symmetric encryption is fast, but"
+  },
+  {
+   "from": 3462.5,
+   "to": 3464.7,
+   "text": "this key is small, like it might be 256"
+  },
+  {
+   "from": 3464.7,
+   "to": 3466.3,
+   "text": "bits or something. So I can take this"
+  },
+  {
+   "from": 3466.4,
+   "to": 3468.9,
+   "text": "thing and encrypt it with asymmetric"
+  },
+  {
+   "from": 3468.9,
+   "to": 3485.2,
+   "text": "encryption using the public key."
+  },
+  {
+   "from": 3485.2,
+   "to": 3488.4,
+   "text": "And this gives me an encrypted key."
+  },
+  {
+   "from": 3488.4,
+   "to": 3491.5,
+   "text": "And this thing can be decrypted using"
+  },
+  {
+   "from": 3491.5,
+   "to": 3493.6,
+   "text": "the private key corresponding to that"
+  },
+  {
+   "from": 3493.6,
+   "to": 3497.2,
+   "text": "public key to reconstruct this."
+  },
+  {
+   "from": 3497.2,
+   "to": 3500.2,
+   "text": "So this is on the sender's end. Now the"
+  },
+  {
+   "from": 3500.2,
+   "to": 3502.7,
+   "text": "receiver gets this and this"
+  },
+  {
+   "from": 3502.7,
+   "to": 3504,
+   "text": "and kind of does these things backwards."
+  },
+  {
+   "from": 3504,
+   "to": 3506.2,
+   "text": "So you start with the encrypted key"
+  },
+  {
+   "from": 3506.2,
+   "to": 3508.9,
+   "text": "and use asymmetric decryption using your"
+  },
+  {
+   "from": 3508.9,
+   "to": 3510.4,
+   "text": "pub using your private key that"
+  },
+  {
+   "from": 3510.4,
+   "to": 3512.7,
+   "text": "corresponds to the posted public key to"
+  },
+  {
+   "from": 3512.7,
+   "to": 3515,
+   "text": "reconstruct this key that we used for"
+  },
+  {
+   "from": 3515,
+   "to": 3516.8,
+   "text": "the symmetric encryption box. And then"
+  },
+  {
+   "from": 3516.8,
+   "to": 3519.1,
+   "text": "use symmetric key decryption using that"
+  },
+  {
+   "from": 3519.1,
+   "to": 3521.2,
+   "text": "key that was reconstructed to take this"
+  },
+  {
+   "from": 3521.2,
+   "to": 3523.5,
+   "text": "cipher text and produce the original"
+  },
+  {
+   "from": 3523.5,
+   "to": 3525.6,
+   "text": "message."
+  },
+  {
+   "from": 3525.6,
+   "to": 3527.4,
+   "text": "So this is a kind of interesting example"
+  },
+  {
+   "from": 3527.4,
+   "to": 3529.5,
+   "text": "of how in practice symmetric and"
+  },
+  {
+   "from": 3529.5,
+   "to": 3534.5,
+   "text": "asymmetric key cryptography is combined."
+  },
+  {
+   "from": 3534.5,
+   "to": 3535,
+   "text": "Question?"
+  },
+  {
+   "from": 3535,
+   "to": 3536.4,
+   "text": "You got to be using the same symmetric"
+  },
+  {
+   "from": 3536.4,
+   "to": 3539,
+   "text": "key generators in the same against key"
+  },
+  {
+   "from": 3539,
+   "to": 3541.1,
+   "text": "gen as well."
+  },
+  {
+   "from": 3541.1,
+   "to": 3542.6,
+   "text": "Uh so the question is will you be using"
+  },
+  {
+   "from": 3542.6,
+   "to": 3546,
+   "text": "the same symmetric key generators? Yes."
+  },
+  {
+   "from": 3546,
+   "to": 3547.9,
+   "text": "The cipher as it is as well. Uh yes."
+  },
+  {
+   "from": 3547.9,
+   "to": 3549.1,
+   "text": "Okay, so"
+  },
+  {
+   "from": 3549.1,
+   "to": 3551.7,
+   "text": "you need to kind of agree ahead of time"
+  },
+  {
+   "from": 3551.7,
+   "to": 3553.6,
+   "text": "which box you're using here. So you"
+  },
+  {
+   "from": 3553.6,
+   "to": 3555,
+   "text": "might be like, \"Oh, I'm going to use"
+  },
+  {
+   "from": 3555,
+   "to": 3557.9,
+   "text": "AES-256"
+  },
+  {
+   "from": 3557.9,
+   "to": 3560.1,
+   "text": "GCM here.\""
+  },
+  {
+   "from": 3560.1,
+   "to": 3562.8,
+   "text": "But this is a well-known function. And"
+  },
+  {
+   "from": 3562.8,
+   "to": 3565.2,
+   "text": "it's public. Like the attacker is"
+  },
+  {
+   "from": 3565.2,
+   "to": 3566.4,
+   "text": "allowed to know all the parameters of"
+  },
+  {
+   "from": 3566.4,
+   "to": 3568.4,
+   "text": "this function. This is the only secret"
+  },
+  {
+   "from": 3568.4,
+   "to": 3569.9,
+   "text": "thing that the attacker doesn't know,"
+  },
+  {
+   "from": 3569.9,
+   "to": 3572.2,
+   "text": "the the"
+  },
+  {
+   "from": 3572.2,
+   "to": 3575,
+   "text": "Any other questions?"
+  },
+  {
+   "from": 3575,
+   "to": 3576.9,
+   "text": "Yeah. What kind of data is important"
+  },
+  {
+   "from": 3576.9,
+   "to": 3579.2,
+   "text": "enough to encrypt?"
+  },
+  {
+   "from": 3579.2,
+   "to": 3580.8,
+   "text": "That's a really good question. What kind"
+  },
+  {
+   "from": 3580.8,
+   "to": 3583.2,
+   "text": "of data is important enough to encrypt?"
+  },
+  {
+   "from": 3583.2,
+   "to": 3584.7,
+   "text": "And uh"
+  },
+  {
+   "from": 3584.7,
+   "to": 3586.3,
+   "text": "I think that depends on your threat"
+  },
+  {
+   "from": 3586.3,
+   "to": 3588.3,
+   "text": "model. Like who what kind of attackers"
+  },
+  {
+   "from": 3588.3,
+   "to": 3589.4,
+   "text": "are you concerned about? What are you"
+  },
+  {
+   "from": 3589.4,
+   "to": 3591.4,
+   "text": "trying to protect against?"
+  },
+  {
+   "from": 3591.4,
+   "to": 3592.9,
+   "text": "So,"
+  },
+  {
+   "from": 3592.9,
+   "to": 3594.1,
+   "text": "you might have the stance that you just"
+  },
+  {
+   "from": 3594.1,
+   "to": 3596.3,
+   "text": "don't really care and that like anything"
+  },
+  {
+   "from": 3596.3,
+   "to": 3597.6,
+   "text": "you communicate with anybody is allowed"
+  },
+  {
+   "from": 3597.6,
+   "to": 3599.2,
+   "text": "to be public. I might be willing to like"
+  },
+  {
+   "from": 3599.2,
+   "to": 3600.9,
+   "text": "post all my conversations with everybody"
+  },
+  {
+   "from": 3600.9,
+   "to": 3602,
+   "text": "for"
+  },
+  {
+   "from": 3602,
+   "to": 3603.3,
+   "text": "everybody to see publicly on the"
+  },
+  {
+   "from": 3603.3,
+   "to": 3605.5,
+   "text": "internet. On the other hand, maybe"
+  },
+  {
+   "from": 3605.5,
+   "to": 3607.5,
+   "text": "you're doing some like security"
+  },
+  {
+   "from": 3607.5,
+   "to": 3609.5,
+   "text": "sensitive work. So, you're working under"
+  },
+  {
+   "from": 3609.5,
+   "to": 3610.9,
+   "text": "a contract for the US government"
+  },
+  {
+   "from": 3610.9,
+   "to": 3612.5,
+   "text": "developing some sensitive military"
+  },
+  {
+   "from": 3612.5,
+   "to": 3613.9,
+   "text": "stuff. If you're sending that through"
+  },
+  {
+   "from": 3613.9,
+   "to": 3615,
+   "text": "the open internet while you're"
+  },
+  {
+   "from": 3615,
+   "to": 3616.2,
+   "text": "traveling, you probably want to be"
+  },
+  {
+   "from": 3616.2,
+   "to": 3618.7,
+   "text": "pretty darn sure that no eavesdroppers"
+  },
+  {
+   "from": 3618.7,
+   "to": 3620.4,
+   "text": "or anybody else along the way can see"
+  },
+  {
+   "from": 3620.4,
+   "to": 3621.9,
+   "text": "what you're sending and that whatever"
+  },
+  {
+   "from": 3621.9,
+   "to": 3622.8,
+   "text": "you're sending is in fact going to the"
+  },
+  {
+   "from": 3622.8,
+   "to": 3624.4,
+   "text": "right place and that whoever is"
+  },
+  {
+   "from": 3624.4,
+   "to": 3625.9,
+   "text": "receiving it can authenticate that it in"
+  },
+  {
+   "from": 3625.9,
+   "to": 3628.8,
+   "text": "fact came from you."
+  },
+  {
+   "from": 3628.8,
+   "to": 3630.1,
+   "text": "So, you might be worried about all"
+  },
+  {
+   "from": 3630.1,
+   "to": 3631.6,
+   "text": "different kinds of adversaries depending"
+  },
+  {
+   "from": 3631.6,
+   "to": 3633.6,
+   "text": "on your scenario from random script"
+  },
+  {
+   "from": 3633.6,
+   "to": 3634.6,
+   "text": "kiddies who are trying to break into"
+  },
+  {
+   "from": 3634.6,
+   "to": 3636.7,
+   "text": "websites to nation-state level"
+  },
+  {
+   "from": 3636.7,
+   "to": 3639,
+   "text": "attackers. And you'll need different"
+  },
+  {
+   "from": 3639,
+   "to": 3640.2,
+   "text": "types of techniques for defending"
+  },
+  {
+   "from": 3640.2,
+   "to": 3641.3,
+   "text": "against the different categories of"
+  },
+  {
+   "from": 3641.3,
+   "to": 3645.2,
+   "text": "attackers."
+  },
+  {
+   "from": 3645.2,
+   "to": 3651.6,
+   "text": "Any other questions?"
+  },
+  {
+   "from": 3651.6,
+   "to": 3653.5,
+   "text": "Cool. So, hopefully see you some of you"
+  },
+  {
+   "from": 3653.5,
+   "to": 3655.3,
+   "text": "tomorrow for a random collection of"
+  },
+  {
+   "from": 3655.3,
+   "to": 3657.2,
+   "text": "things that John, Jose, and I find"
+  },
+  {
+   "from": 3657.2,
+   "to": 3659.8,
+   "text": "interesting."
+  }
+ ]
+}

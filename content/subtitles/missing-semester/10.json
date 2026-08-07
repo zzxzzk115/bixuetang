@@ -1,0 +1,4042 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 1,
+   "to": 3.4,
+   "text": "Hi, can everyone hear me okay?"
+  },
+  {
+   "from": 3.4,
+   "to": 6.6,
+   "text": "Okay, so welcome back to"
+  },
+  {
+   "from": 6.6,
+   "to": 9.4,
+   "text": "the missing semester of your CS education,"
+  },
+  {
+   "from": 9.4,
+   "to": 12.4,
+   "text": "today we're having as a lecture topic \"potpourri\""
+  },
+  {
+   "from": 12.4,
+   "to": 15.2,
+   "text": "It's gonna be some miscellaneous combination of topics"
+  },
+  {
+   "from": 15.2,
+   "to": 18.8,
+   "text": "that we the instructors find that are interesting"
+  },
+  {
+   "from": 19,
+   "to": 21.2,
+   "text": "But none of them were on their own lecture"
+  },
+  {
+   "from": 21.2,
+   "to": 24.9,
+   "text": "because they're certain topics that we just want you to know about"
+  },
+  {
+   "from": 24.9,
+   "to": 27.5,
+   "text": "because they can be really helpful"
+  },
+  {
+   "from": 28.6,
+   "to": 33.1,
+   "text": "And since we're not gonna delve into a lot of detail in the topics"
+  },
+  {
+   "from": 33.1,
+   "to": 37,
+   "text": "If you're more interested about them just feel free to come and ask us questions"
+  },
+  {
+   "from": 37,
+   "to": 40.9,
+   "text": "at the end or as we go over them in the lecture"
+  },
+  {
+   "from": 40.9,
+   "to": 45.7,
+   "text": "So the first thing I want to talk about is keyboard re-mappings"
+  },
+  {
+   "from": 46.2,
+   "to": 48.5,
+   "text": "So by now you probably realized that"
+  },
+  {
+   "from": 48.5,
+   "to": 52.5,
+   "text": "we have encouraged you to use the keyboard as your main input method"
+  },
+  {
+   "from": 52.5,
+   "to": 55.1,
+   "text": "so for example, when we went into the editors lecture,"
+  },
+  {
+   "from": 55.1,
+   "to": 59.6,
+   "text": "one of the main ideas of Vim was using your keyboard as much as possible"
+  },
+  {
+   "from": 59.6,
+   "to": 65.1,
+   "text": "so you don't have to rely on going to the mouse because going to the mouse is slow"
+  },
+  {
+   "from": 65.2,
+   "to": 68.5,
+   "text": "And the thing is your keyboard, as with many things in your computer"
+  },
+  {
+   "from": 68.5,
+   "to": 71.6,
+   "text": "is nothing kind of magical, it can be configured"
+  },
+  {
+   "from": 71.6,
+   "to": 76.7,
+   "text": "And it's worth configuring because a lot of the defaults might not be optimal"
+  },
+  {
+   "from": 77,
+   "to": 82.1,
+   "text": "The most simple modification that you can do is just to remap keys"
+  },
+  {
+   "from": 82.5,
+   "to": 85.6,
+   "text": "So one of the things we alerted in the editor lecture"
+  },
+  {
+   "from": 85.6,
+   "to": 88.4,
+   "text": "is the Caps Lock key is a really good key"
+  },
+  {
+   "from": 88.4,
+   "to": 91,
+   "text": "because it's kind of right in the home row"
+  },
+  {
+   "from": 91,
+   "to": 95.3,
+   "text": "and it's kind of large and there, but it's not useful"
+  },
+  {
+   "from": 95.3,
+   "to": 98.5,
+   "text": "You'll probably realize that you don't use your Caps Lock as often"
+  },
+  {
+   "from": 98.5,
+   "to": 100.2,
+   "text": "as when you'd want to use that"
+  },
+  {
+   "from": 100.2,
+   "to": 102.6,
+   "text": "So you can just remap your Caps Lock key"
+  },
+  {
+   "from": 102.6,
+   "to": 104.5,
+   "text": "to something more useful as we mentioned"
+  },
+  {
+   "from": 104.5,
+   "to": 106.3,
+   "text": "like Escape if you're a Vim user"
+  },
+  {
+   "from": 106.3,
+   "to": 109.1,
+   "text": "or like Control if you're an Emacs user"
+  },
+  {
+   "from": 109.1,
+   "to": 112.2,
+   "text": "or useful re-mappings, like a lot of the"
+  },
+  {
+   "from": 112.2,
+   "to": 116,
+   "text": "upper row 'F' function keys, or like Print Screen"
+  },
+  {
+   "from": 116,
+   "to": 118.6,
+   "text": "You can remap them for example to your media key"
+  },
+  {
+   "from": 118.6,
+   "to": 121.1,
+   "text": "so like when you type Print Screen,"
+  },
+  {
+   "from": 121.1,
+   "to": 123.6,
+   "text": "you probably don't have to do Print Screen that often"
+  },
+  {
+   "from": 123.6,
+   "to": 127,
+   "text": "but you probably want to play or pause your music"
+  },
+  {
+   "from": 127.9,
+   "to": 131.3,
+   "text": "And pretty much every operating system has"
+  },
+  {
+   "from": 131.3,
+   "to": 134.3,
+   "text": "some tools that you can use to configure this"
+  },
+  {
+   "from": 134.3,
+   "to": 136.3,
+   "text": "I'm not gonna go into the details"
+  },
+  {
+   "from": 136.3,
+   "to": 139.5,
+   "text": "but there's some of them listed in the notes"
+  },
+  {
+   "from": 140.1,
+   "to": 143.1,
+   "text": "Erm... Let me check"
+  },
+  {
+   "from": 143.1,
+   "to": 146.6,
+   "text": "Oh yeah, another thing that you can do with keyboard re-mappings is"
+  },
+  {
+   "from": 146.6,
+   "to": 149.2,
+   "text": "that you can do more complex combinations"
+  },
+  {
+   "from": 149.2,
+   "to": 153.4,
+   "text": "You can have a combination of keys mapped to some action"
+  },
+  {
+   "from": 153.4,
+   "to": 156.3,
+   "text": "So for example, I have keyboard re-mappings that"
+  },
+  {
+   "from": 156.3,
+   "to": 160.2,
+   "text": "whenever I do Ctrl+Enter, I open a new terminal window"
+  },
+  {
+   "from": 160.2,
+   "to": 162.7,
+   "text": "because that's a thing I do fairly often and"
+  },
+  {
+   "from": 162.7,
+   "to": 165.6,
+   "text": "by default on Mac there is no key binding to do that"
+  },
+  {
+   "from": 165.8,
+   "to": 169.1,
+   "text": "or Ctrl+Shift+Enter will open a new browser window,"
+  },
+  {
+   "from": 169.1,
+   "to": 171.5,
+   "text": "another operation that I do on a daily basis"
+  },
+  {
+   "from": 171.5,
+   "to": 176.2,
+   "text": "So I don't have to grab my mouse and go to Chrome to do that"
+  },
+  {
+   "from": 176.5,
+   "to": 179.7,
+   "text": "You can also do remapping to perform actions"
+  },
+  {
+   "from": 179.7,
+   "to": 182.6,
+   "text": "If you don't want to be typing your password all the..."
+  },
+  {
+   "from": 182.6,
+   "to": 183.8,
+   "text": "Sorry, not your password"
+  },
+  {
+   "from": 183.8,
+   "to": 186.8,
+   "text": "Your Email or your password, or for example, your MIT ID"
+  },
+  {
+   "from": 186.8,
+   "to": 188.9,
+   "text": "like, you may not remember it by heart"
+  },
+  {
+   "from": 188.9,
+   "to": 192.3,
+   "text": "then you can just have a keyboard combination that"
+  },
+  {
+   "from": 192.3,
+   "to": 196.8,
+   "text": "will just perform the action of pasting that text"
+  },
+  {
+   "from": 199.6,
+   "to": 201.4,
+   "text": "Lastly, there are more..."
+  },
+  {
+   "from": 201.4,
+   "to": 204.7,
+   "text": "Right now it looks like you just have to do some function of"
+  },
+  {
+   "from": 204.7,
+   "to": 208.4,
+   "text": "\"this is the keys that you press and this is the action that happens\""
+  },
+  {
+   "from": 208.4,
+   "to": 212.2,
+   "text": "But actually there are more complex keyboard combinations, and"
+  },
+  {
+   "from": 212.2,
+   "to": 217,
+   "text": "as you go through you'll learn so you can do keyboard sequences"
+  },
+  {
+   "from": 217,
+   "to": 219.1,
+   "text": "So for example when we were dealing with tmux,"
+  },
+  {
+   "from": 219.1,
+   "to": 221.2,
+   "text": "in tmux there was this notion of"
+  },
+  {
+   "from": 221.2,
+   "to": 226.1,
+   "text": "first you press Ctrl+A or Ctrl+B, like you press some prefix"
+  },
+  {
+   "from": 226.1,
+   "to": 229.7,
+   "text": "and then some other key and that means something"
+  },
+  {
+   "from": 229.7,
+   "to": 231.4,
+   "text": "A lot of these softwares allow that"
+  },
+  {
+   "from": 231.4,
+   "to": 235.9,
+   "text": "So for example, in my keyboard, since I'm not using Caps Lock at all, but"
+  },
+  {
+   "from": 235.9,
+   "to": 240.2,
+   "text": "every so often I have to use when my undergrad has some software that"
+  },
+  {
+   "from": 240.2,
+   "to": 243.2,
+   "text": "relied on Caps Lock for changing modes"
+  },
+  {
+   "from": 243.2,
+   "to": 248.8,
+   "text": "Then I can press Shift five times in a row quickly, and then"
+  },
+  {
+   "from": 248.8,
+   "to": 252.5,
+   "text": "this software that is in the middle interpreting these commands and"
+  },
+  {
+   "from": 252.5,
+   "to": 257,
+   "text": "remapping to some other, will send a single Caps Lock command for that"
+  },
+  {
+   "from": 257.8,
+   "to": 260.2,
+   "text": "Some more examples of that is that"
+  },
+  {
+   "from": 260.2,
+   "to": 267.8,
+   "text": "I mentioned that you can use your Caps Lock key to map to Escape or Control"
+  },
+  {
+   "from": 267.8,
+   "to": 269.7,
+   "text": "but you actually can remap it to both"
+  },
+  {
+   "from": 269.7,
+   "to": 271.4,
+   "text": "So in my computer when"
+  },
+  {
+   "from": 271.4,
+   "to": 275.1,
+   "text": "I just tap the Caps Lock key, that's interpreted as an Escape"
+  },
+  {
+   "from": 275.1,
+   "to": 280.1,
+   "text": "However if I press it and hold it, this software can understand the"
+  },
+  {
+   "from": 280.1,
+   "to": 282.1,
+   "text": "difference between quickly pressing it and"
+  },
+  {
+   "from": 282.1,
+   "to": 286.2,
+   "text": "just holding it for using in combination with some other key"
+  },
+  {
+   "from": 286.2,
+   "to": 288.8,
+   "text": "and then in that case it's mapped to Control"
+  },
+  {
+   "from": 288.9,
+   "to": 291.8,
+   "text": "So a lot of these more advanced configurations are"
+  },
+  {
+   "from": 291.8,
+   "to": 295.2,
+   "text": "supported on a lot of these tools"
+  },
+  {
+   "from": 295.6,
+   "to": 299.9,
+   "text": "As I mentioned we have a short list of good defaults"
+  },
+  {
+   "from": 300.2,
+   "to": 305.4,
+   "text": "for these programs for Windows, Mac OS and Linux"
+  },
+  {
+   "from": 305.7,
+   "to": 308.4,
+   "text": "Any questions on this topic?"
+  },
+  {
+   "from": 313.1,
+   "to": 316.8,
+   "text": "Okay, now I'm going to cover an unrelated topic to keyboard mappings"
+  },
+  {
+   "from": 316.8,
+   "to": 317.5,
+   "text": "[chuckles]"
+  },
+  {
+   "from": 317.5,
+   "to": 320.9,
+   "text": "We're going to see a lot of these unrelated transitions in this lecture"
+  },
+  {
+   "from": 320.9,
+   "to": 323.6,
+   "text": "And it's the concept of \"daemons\""
+  },
+  {
+   "from": 323.6,
+   "to": 325.2,
+   "text": "So probably you have..."
+  },
+  {
+   "from": 325.2,
+   "to": 328.5,
+   "text": "Maybe if you are not familiar with the world, it might seem alien,"
+  },
+  {
+   "from": 328.5,
+   "to": 331,
+   "text": "but the concept of daemon you're pretty familiar with"
+  },
+  {
+   "from": 331,
+   "to": 333.2,
+   "text": "Most computers when you are running them"
+  },
+  {
+   "from": 333.2,
+   "to": 336.9,
+   "text": "there's software that you start and run,"
+  },
+  {
+   "from": 336.9,
+   "to": 338.9,
+   "text": "like the commands that we have been seeing"
+  },
+  {
+   "from": 338.9,
+   "to": 342.7,
+   "text": "You'd type \"ls\" and then you're calling the List command"
+  },
+  {
+   "from": 342.7,
+   "to": 346.8,
+   "text": "The \"ls\" command executes because you asked it to execute and then it finishes"
+  },
+  {
+   "from": 347.3,
+   "to": 351.5,
+   "text": "But a lot of other programs are just running as background processes"
+  },
+  {
+   "from": 351.5,
+   "to": 354.8,
+   "text": "and they're just executing in the background"
+  },
+  {
+   "from": 354.8,
+   "to": 357.4,
+   "text": "and waiting for events to happen"
+  },
+  {
+   "from": 357.4,
+   "to": 360.5,
+   "text": "or enabling some sort of functionality in your computer"
+  },
+  {
+   "from": 361.7,
+   "to": 365.3,
+   "text": "Examples of these processes may be like your Network Man[ager],"
+  },
+  {
+   "from": 365.3,
+   "to": 368.4,
+   "text": "like the part of your computer that is managing the network"
+  },
+  {
+   "from": 368.4,
+   "to": 372.3,
+   "text": "or the part of your computer that is managing the display"
+  },
+  {
+   "from": 372.3,
+   "to": 374.1,
+   "text": "Things like that"
+  },
+  {
+   "from": 374.6,
+   "to": 378.9,
+   "text": "You will see that a lot of what is enabled by daemons is"
+  },
+  {
+   "from": 378.9,
+   "to": 381.4,
+   "text": "usually programs that end with a 'd'"
+  },
+  {
+   "from": 381.4,
+   "to": 385.9,
+   "text": "So for instance, when you are SSHing into a computer,"
+  },
+  {
+   "from": 385.9,
+   "to": 390.4,
+   "text": "the receiving computer has to have a SSH daemon"
+  },
+  {
+   "from": 390.4,
+   "to": 392.6,
+   "text": "and the program is called \"sshd\""
+  },
+  {
+   "from": 392.6,
+   "to": 394.9,
+   "text": "and if this program is not running then"
+  },
+  {
+   "from": 394.9,
+   "to": 397.8,
+   "text": "there's no way for me to SSH into the computer"
+  },
+  {
+   "from": 397.8,
+   "to": 401.4,
+   "text": "If the program is running, then that program will be listening"
+  },
+  {
+   "from": 401.4,
+   "to": 404.4,
+   "text": "and when you do SSH to that server,"
+  },
+  {
+   "from": 404.4,
+   "to": 408.2,
+   "text": "then some incoming request is gonna enter the computer"
+  },
+  {
+   "from": 408.2,
+   "to": 412.5,
+   "text": "the computer is gonna send it to this daemon that is running in the background"
+  },
+  {
+   "from": 412.5,
+   "to": 416.3,
+   "text": "and then the daemon is gonna check whether you have authorization,"
+  },
+  {
+   "from": 416.3,
+   "to": 421.1,
+   "text": "and if so, it's gonna start some login shell that you can start executing from"
+  },
+  {
+   "from": 421.4,
+   "to": 426.6,
+   "text": "And different OSes handle this somewhat differently"
+  },
+  {
+   "from": 426.6,
+   "to": 431.4,
+   "text": "The main idea is they all have some sort of system daemon"
+  },
+  {
+   "from": 431.4,
+   "to": 434.8,
+   "text": "that responds a lot of these smaller daemons"
+  },
+  {
+   "from": 434.8,
+   "to": 439.1,
+   "text": "In Linux, which is one of the OSes that we are choosing for lot of the examples,"
+  },
+  {
+   "from": 439.1,
+   "to": 444.3,
+   "text": "the tool that you're using is the \"systemd\""
+  },
+  {
+   "from": 444.3,
+   "to": 449.2,
+   "text": "Again, first the system daemon is gonna start a lot of these processes"
+  },
+  {
+   "from": 449.2,
+   "to": 453.4,
+   "text": "and if you use this \"systemctl\" command,"
+  },
+  {
+   "from": 453.4,
+   "to": 457.5,
+   "text": "you can check for the status of different daemons"
+  },
+  {
+   "from": 457.5,
+   "to": 460.6,
+   "text": "you can check for which ones are running,"
+  },
+  {
+   "from": 463.4,
+   "to": 467.2,
+   "text": "you can ask it to start processes, to stop them"
+  },
+  {
+   "from": 467.2,
+   "to": 469.7,
+   "text": "This is kind of an once-off operation"
+  },
+  {
+   "from": 469.7,
+   "to": 473.4,
+   "text": "You can also enable it and then disable them,"
+  },
+  {
+   "from": 473.4,
+   "to": 477.3,
+   "text": "which will tell the system to run them at boot"
+  },
+  {
+   "from": 477.3,
+   "to": 480.4,
+   "text": "or stop running the boot if they were enabled"
+  },
+  {
+   "from": 481.3,
+   "to": 487.5,
+   "text": "And perhaps more interestingly, you can configure your own \"systemd\" units"
+  },
+  {
+   "from": 487.5,
+   "to": 493.2,
+   "text": "So, so far all the examples are a lot of what the computer has to do,"
+  },
+  {
+   "from": 493.2,
+   "to": 497.9,
+   "text": "but say you want to run a web server. One solution, you could just like,"
+  },
+  {
+   "from": 497.9,
+   "to": 503,
+   "text": "every time you start your computer you could open a tmux session"
+  },
+  {
+   "from": 503,
+   "to": 504.9,
+   "text": "and then execute the command,"
+  },
+  {
+   "from": 504.9,
+   "to": 510.1,
+   "text": "but that's not really the way that your computer expects daemons to be run"
+  },
+  {
+   "from": 510.1,
+   "to": 512.7,
+   "text": "The way your computer expects daemons to be run is"
+  },
+  {
+   "from": 512.7,
+   "to": 515.4,
+   "text": "by using some sort of \"systemd\" unit"
+  },
+  {
+   "from": 515.4,
+   "to": 520.5,
+   "text": "It's like a configuration that tells \"systemd\" how to execute this process"
+  },
+  {
+   "from": 520.5,
+   "to": 524,
+   "text": "So an example of this is..."
+  },
+  {
+   "from": 525.4,
+   "to": 527.9,
+   "text": "Here's a very simple example"
+  },
+  {
+   "from": 527.9,
+   "to": 531.1,
+   "text": "So what is happening here is"
+  },
+  {
+   "from": 531.1,
+   "to": 536.7,
+   "text": "we're describing to \"systemd\" what needs to be done for this program to execute."
+  },
+  {
+   "from": 536.7,
+   "to": 540.9,
+   "text": "This example is just running a simple Python app"
+  },
+  {
+   "from": 540.9,
+   "to": 544.9,
+   "text": "You can think of it as a web server that can be implemented using"
+  },
+  {
+   "from": 544.9,
+   "to": 548.3,
+   "text": "some Python web server library. And here we're saying"
+  },
+  {
+   "from": 548.3,
+   "to": 552.5,
+   "text": "this is the description, we're saying after, like this is important"
+  },
+  {
+   "from": 552.5,
+   "to": 556.8,
+   "text": "\"Systemd\" has a list of services that have to start"
+  },
+  {
+   "from": 556.8,
+   "to": 559,
+   "text": "Like, all these daemons have to be started"
+  },
+  {
+   "from": 559,
+   "to": 562.8,
+   "text": "but maybe there are dependencies between these daemons, so here"
+  },
+  {
+   "from": 562.8,
+   "to": 567.9,
+   "text": "we're saying \"no, you should only start this after the network has been set up\""
+  },
+  {
+   "from": 567.9,
+   "to": 570.7,
+   "text": "because otherwise how will you even try to"
+  },
+  {
+   "from": 570.7,
+   "to": 575.4,
+   "text": "configure our web server if I cannot listen to a network port?"
+  },
+  {
+   "from": 575.4,
+   "to": 578.7,
+   "text": "And then we are defining what users should run this, because"
+  },
+  {
+   "from": 578.7,
+   "to": 582.1,
+   "text": "you may want to run this as your user, or maybe other user,"
+  },
+  {
+   "from": 582.1,
+   "to": 585.4,
+   "text": "or maybe the root user should be running this,"
+  },
+  {
+   "from": 585.4,
+   "to": 588.8,
+   "text": "and then what command to run and under what directory"
+  },
+  {
+   "from": 589.1,
+   "to": 590.8,
+   "text": "And whenever you have this,"
+  },
+  {
+   "from": 590.8,
+   "to": 595.1,
+   "text": "there can be small corner cases that you might have to debug, but"
+  },
+  {
+   "from": 595.1,
+   "to": 598,
+   "text": "this is kind of the core idea and it can be really useful to"
+  },
+  {
+   "from": 598,
+   "to": 601.3,
+   "text": "automate the process of running processes in the background"
+  },
+  {
+   "from": 601.7,
+   "to": 606.2,
+   "text": "A small side note to this is the fact that if you just want"
+  },
+  {
+   "from": 606.2,
+   "to": 610.9,
+   "text": "to run a command every so often, like in some periodicity,"
+  },
+  {
+   "from": 610.9,
+   "to": 614.6,
+   "text": "say every morning I want to do something in my computer,"
+  },
+  {
+   "from": 614.6,
+   "to": 620,
+   "text": "you could write a daemon that just does something and then sleeps for a day, but"
+  },
+  {
+   "from": 620,
+   "to": 627,
+   "text": "actually Linux and Mac OS have already a daemon that does this called \"crond\""
+  },
+  {
+   "from": 627,
+   "to": 631.2,
+   "text": "and \"crond\" will take another type of configuration file where you can say"
+  },
+  {
+   "from": 631.2,
+   "to": 635.7,
+   "text": "oh, I want to run a command every day at 8 AM,"
+  },
+  {
+   "from": 635.7,
+   "to": 638.1,
+   "text": "or I want to run a command every 5 minutes,"
+  },
+  {
+   "from": 638.1,
+   "to": 642.2,
+   "text": "and it will just check for this event and execute it"
+  },
+  {
+   "from": 642.5,
+   "to": 644.6,
+   "text": "And with a lot of things you will find that"
+  },
+  {
+   "from": 644.6,
+   "to": 647.8,
+   "text": "there are already daemons that have been configured for that"
+  },
+  {
+   "from": 648.4,
+   "to": 652,
+   "text": "Any questions regarding daemons?"
+  },
+  {
+   "from": 653.9,
+   "to": 657.2,
+   "text": "[student talking indistinctly]"
+  },
+  {
+   "from": 657.8,
+   "to": 659.9,
+   "text": "So the question is whether there is"
+  },
+  {
+   "from": 659.9,
+   "to": 662.7,
+   "text": "a folder in the computer where all of these are"
+  },
+  {
+   "from": 662.7,
+   "to": 664.6,
+   "text": "So yeah, like yes and no"
+  },
+  {
+   "from": 664.6,
+   "to": 669.3,
+   "text": "Some of these configuration files are in a couple of different folders"
+  },
+  {
+   "from": 669.3,
+   "to": 673.3,
+   "text": "depending on whether they are system daemons or they are user daemons"
+  },
+  {
+   "from": 673.3,
+   "to": 678.3,
+   "text": "Here you can see at the very first line is where you will place this"
+  },
+  {
+   "from": 678.3,
+   "to": 683,
+   "text": "for the system daemon to recognize that it has been installed"
+  },
+  {
+   "from": 683,
+   "to": 686,
+   "text": "but if you just want to list all the daemons that are running,"
+  },
+  {
+   "from": 686,
+   "to": 690,
+   "text": "in Linux for example, you can just do \"systemctl status\""
+  },
+  {
+   "from": 690,
+   "to": 693.7,
+   "text": "and that's gonna print a tree of all the systems"
+  },
+  {
+   "from": 693.7,
+   "to": 697.9,
+   "text": "and which daemon was spawned by which other daemon"
+  },
+  {
+   "from": 697.9,
+   "to": 702.1,
+   "text": "and a lot of them will be spawned directly by \"systemd\""
+  },
+  {
+   "from": 704.2,
+   "to": 709.1,
+   "text": "The next topic is going to be file systems in user space"
+  },
+  {
+   "from": 709.1,
+   "to": 715.8,
+   "text": "So, kind of a quick intro to this is the fact that whenever you're using a modern.."
+  },
+  {
+   "from": 715.8,
+   "to": 718.3,
+   "text": "Oh, yeah, sorry"
+  },
+  {
+   "from": 718.3,
+   "to": 722.3,
+   "text": "And whenever you're using a modern operating system,"
+  },
+  {
+   "from": 722.3,
+   "to": 727.1,
+   "text": "you are not tied to a specific file system"
+  },
+  {
+   "from": 727.1,
+   "to": 731.5,
+   "text": "So modern systems are fairly modular and you can for example,"
+  },
+  {
+   "from": 731.5,
+   "to": 735.9,
+   "text": "in Linux there are different file systems that you can use, and"
+  },
+  {
+   "from": 735.9,
+   "to": 742.8,
+   "text": "the way this works is because the kernel, which is what is running most of the"
+  },
+  {
+   "from": 742.8,
+   "to": 749.5,
+   "text": "operating system, has some modules that know how to interact with a file system"
+  },
+  {
+   "from": 749.5,
+   "to": 757.5,
+   "text": "So usually when you do something like \"touch foobar\","
+  },
+  {
+   "from": 758.9,
+   "to": 764.5,
+   "text": "this is happening at a user level"
+  },
+  {
+   "from": 764.5,
+   "to": 769.7,
+   "text": "and then this is going through to the kernel level"
+  },
+  {
+   "from": 769.7,
+   "to": 775,
+   "text": "and there is some kind of layer here that is checking"
+  },
+  {
+   "from": 775,
+   "to": 779.9,
+   "text": "where this action is happening to figure out what file system it is under"
+  },
+  {
+   "from": 779.9,
+   "to": 782.6,
+   "text": "So for example, you will have multiple disks"
+  },
+  {
+   "from": 782.6,
+   "to": 785.3,
+   "text": "and all the different disks have different file systems,"
+  },
+  {
+   "from": 785.3,
+   "to": 790.1,
+   "text": "so the kernel has to figure out which file system operations to use,"
+  },
+  {
+   "from": 790.1,
+   "to": 798.5,
+   "text": "and say this file might be in an \"Ext4\", which is the most common Linux one,"
+  },
+  {
+   "from": 798.5,
+   "to": 803.6,
+   "text": "then whenever you do \"touch foobar\", the kernel will hear that"
+  },
+  {
+   "from": 803.6,
+   "to": 808.4,
+   "text": "and then it will try to figure out like, oh, this lives in an Ext4 file system and"
+  },
+  {
+   "from": 808.4,
+   "to": 815.9,
+   "text": "it will perform the associated instruction for creating a file in an Ext4 file system"
+  },
+  {
+   "from": 815.9,
+   "to": 819.1,
+   "text": "However, the caveat of having a system like this is"
+  },
+  {
+   "from": 819.1,
+   "to": 824.9,
+   "text": "right now I cannot have user code that defines how to create a file"
+  },
+  {
+   "from": 824.9,
+   "to": 827.9,
+   "text": "and that might be kind of useful in some cases"
+  },
+  {
+   "from": 827.9,
+   "to": 832.7,
+   "text": "Say I want to have a file system that every time someone creates a file,"
+  },
+  {
+   "from": 832.7,
+   "to": 837.6,
+   "text": "it sends me an email, so I can know that people are creating these files"
+  },
+  {
+   "from": 837.6,
+   "to": 841.7,
+   "text": "Here I cannot modify the kernel to add this"
+  },
+  {
+   "from": 841.7,
+   "to": 846,
+   "text": "So the solution to this is something called \"FUSE\""
+  },
+  {
+   "from": 846,
+   "to": 853.5,
+   "text": "And FUSE is a way of having file systems in user space"
+  },
+  {
+   "from": 853.5,
+   "to": 855.3,
+   "text": "So what FUSE will do is,"
+  },
+  {
+   "from": 855.3,
+   "to": 864.9,
+   "text": "if this file instead of being in Ext4, if this file is in a FUSE file system,"
+  },
+  {
+   "from": 864.9,
+   "to": 871.6,
+   "text": "FUSE will forward this operation to some other part of user call"
+  },
+  {
+   "from": 871.6,
+   "to": 875.3,
+   "text": "that will say \"oh, create this file\""
+  },
+  {
+   "from": 875.3,
+   "to": 880.6,
+   "text": "And here I can have the part of the code that sends an email to me,"
+  },
+  {
+   "from": 880.6,
+   "to": 883.5,
+   "text": "saying \"oh, this file has been created\""
+  },
+  {
+   "from": 883.5,
+   "to": 886.8,
+   "text": "And in case you want to still create the file,"
+  },
+  {
+   "from": 886.8,
+   "to": 893.6,
+   "text": "it can forward back the request to do some more kernel operations"
+  },
+  {
+   "from": 894.2,
+   "to": 898.3,
+   "text": "It might not seem really practical, but this is just the theory"
+  },
+  {
+   "from": 898.3,
+   "to": 901.8,
+   "text": "In practice, why this is useful is because"
+  },
+  {
+   "from": 901.8,
+   "to": 906.2,
+   "text": "now you can have user level code that executes arbitrary actions"
+  },
+  {
+   "from": 906.2,
+   "to": 909.2,
+   "text": "when you try to perform file system operations"
+  },
+  {
+   "from": 909.6,
+   "to": 915.1,
+   "text": "A really Interesting example of this is called \"SSHFS\""
+  },
+  {
+   "from": 919.6,
+   "to": 922.5,
+   "text": "On an SSHFS FUSE file system,"
+  },
+  {
+   "from": 922.5,
+   "to": 928,
+   "text": "whenever you try to create, open, read, write to a file,"
+  },
+  {
+   "from": 928,
+   "to": 930.7,
+   "text": "instead of trying to do that to a local file,"
+  },
+  {
+   "from": 930.7,
+   "to": 935.2,
+   "text": "it has an SSH connection to a remote server"
+  },
+  {
+   "from": 935.2,
+   "to": 939.3,
+   "text": "So if I try to create a file here, It will use that SSH connection to"
+  },
+  {
+   "from": 939.3,
+   "to": 942.8,
+   "text": "forward that operation to the remote system"
+  },
+  {
+   "from": 942.8,
+   "to": 944.8,
+   "text": "and then it will perform it there"
+  },
+  {
+   "from": 944.8,
+   "to": 950.4,
+   "text": "So to all my local computer, to the rest of the programs running in my computer,"
+  },
+  {
+   "from": 950.4,
+   "to": 954.3,
+   "text": "there is this path that looks like it is here, but"
+  },
+  {
+   "from": 954.3,
+   "to": 958.2,
+   "text": "all the operations that are performed to the path are forwarded"
+  },
+  {
+   "from": 958.2,
+   "to": 960,
+   "text": "to the remote file system"
+  },
+  {
+   "from": 960,
+   "to": 964.2,
+   "text": "And with this idea, you will get some examples in the notes,"
+  },
+  {
+   "from": 964.2,
+   "to": 967.8,
+   "text": "and you will find more online, of ways people have"
+  },
+  {
+   "from": 967.8,
+   "to": 971.1,
+   "text": "leveraged this capability to do fairly interesting file systems"
+  },
+  {
+   "from": 971.1,
+   "to": 974,
+   "text": "So for example, if instead of having SSH,"
+  },
+  {
+   "from": 974,
+   "to": 978.7,
+   "text": "you don't care about SSH because you use Dropbox or Google Drive,"
+  },
+  {
+   "from": 978.7,
+   "to": 984.2,
+   "text": "it's fine, people have implemented FUSE file systems that will mount locally"
+  },
+  {
+   "from": 984.2,
+   "to": 987.3,
+   "text": "and every time you try to do an operation locally,"
+  },
+  {
+   "from": 987.3,
+   "to": 990.8,
+   "text": "actually it goes to one of these cloud storage providers"
+  },
+  {
+   "from": 990.8,
+   "to": 995.1,
+   "text": "so you can also use something like Amazon S3, or Google Cloud Storage,"
+  },
+  {
+   "from": 995.1,
+   "to": 1002,
+   "text": "that don't have the same kind of UI system"
+  },
+  {
+   "from": 1002,
+   "to": 1005.4,
+   "text": "that we synchronize, as Dropbox or Google Drive"
+  },
+  {
+   "from": 1006,
+   "to": 1010.9,
+   "text": "Another application of this that is not related to doing something remotely,"
+  },
+  {
+   "from": 1010.9,
+   "to": 1013.1,
+   "text": "is something like an encrypted file system"
+  },
+  {
+   "from": 1013.1,
+   "to": 1018.1,
+   "text": "You may have a file system that every time you try to write to a file,"
+  },
+  {
+   "from": 1018.1,
+   "to": 1022.4,
+   "text": "you will try to write it in plain text, but it will capture that operation"
+  },
+  {
+   "from": 1022.4,
+   "to": 1024.6,
+   "text": "it will encrypt on the go,"
+  },
+  {
+   "from": 1024.6,
+   "to": 1027.7,
+   "text": "and then it will save it as a regular file in your file system,"
+  },
+  {
+   "from": 1027.7,
+   "to": 1029.6,
+   "text": "but that's actually encrypted"
+  },
+  {
+   "from": 1029.6,
+   "to": 1035.1,
+   "text": "And once you dismount the file system, once you remove the FUSE connection,"
+  },
+  {
+   "from": 1035.1,
+   "to": 1039.3,
+   "text": "all that is left in your computer are just regular files that are encrypted"
+  },
+  {
+   "from": 1039.6,
+   "to": 1047.4,
+   "text": "The last topic I wanna cover is backups and some good practices about them"
+  },
+  {
+   "from": 1048.6,
+   "to": 1054.1,
+   "text": "The main idea is that for every file that you care about,"
+  },
+  {
+   "from": 1054.1,
+   "to": 1056.3,
+   "text": "if you don't have a backup of that file,"
+  },
+  {
+   "from": 1056.3,
+   "to": 1058.5,
+   "text": "if you don't have a backup stored of that file,"
+  },
+  {
+   "from": 1058.5,
+   "to": 1060.5,
+   "text": "you can pretty much lose it at any moment"
+  },
+  {
+   "from": 1060.5,
+   "to": 1062.8,
+   "text": "There are many different failure scenarios"
+  },
+  {
+   "from": 1062.8,
+   "to": 1069.2,
+   "text": "One of them is just hardware failure. So your hard drive can fail at any moment"
+  },
+  {
+   "from": 1069.2,
+   "to": 1074.5,
+   "text": "So if you are just making a copy of your files in the same drive, that's not useful"
+  },
+  {
+   "from": 1074.5,
+   "to": 1077.9,
+   "text": "If your hard drive fails, the files are gone"
+  },
+  {
+   "from": 1077.9,
+   "to": 1082.1,
+   "text": "The same goes if you have an external drive where you are making a copy,"
+  },
+  {
+   "from": 1082.1,
+   "to": 1086.8,
+   "text": "but if you are storing everything in your home, and your home burns down..."
+  },
+  {
+   "from": 1087,
+   "to": 1091.6,
+   "text": "Which yes, it's unlikely, but if it happens you just lost all your data"
+  },
+  {
+   "from": 1091.6,
+   "to": 1095.8,
+   "text": "So you'd have some sort of off-site backup for having this solution"
+  },
+  {
+   "from": 1097.2,
+   "to": 1099.7,
+   "text": "Another thing to take into account is that"
+  },
+  {
+   "from": 1099.7,
+   "to": 1102.9,
+   "text": "synchronization or mirroring options are not backups"
+  },
+  {
+   "from": 1102.9,
+   "to": 1105.9,
+   "text": "So Google Drive, Dropbox that I was mentioning,"
+  },
+  {
+   "from": 1105.9,
+   "to": 1110.3,
+   "text": "they will just propagate whatever is happening in your computer"
+  },
+  {
+   "from": 1110.3,
+   "to": 1113.1,
+   "text": "This goes also for hardware mirroring, like RAID"
+  },
+  {
+   "from": 1113.1,
+   "to": 1114.8,
+   "text": "They are just making a copy"
+  },
+  {
+   "from": 1114.8,
+   "to": 1116.8,
+   "text": "If you accidentally delete a file,"
+  },
+  {
+   "from": 1116.8,
+   "to": 1122.1,
+   "text": "or someone maliciously deletes your files, or encrypts them using some ransomware,"
+  },
+  {
+   "from": 1122.1,
+   "to": 1126.6,
+   "text": "then you might have a copy, but you have a copy of the same useless data"
+  },
+  {
+   "from": 1126.6,
+   "to": 1130.9,
+   "text": "You actually have to have a solution of how you're running your backups"
+  },
+  {
+   "from": 1130.9,
+   "to": 1133,
+   "text": "And you should be asking yourself"
+  },
+  {
+   "from": 1133,
+   "to": 1141.3,
+   "text": "what actually someone needs to know/have about you in order to delete all your data"
+  },
+  {
+   "from": 1141.3,
+   "to": 1149.4,
+   "text": "And we have linked different softwares in the notes about how to do this"
+  },
+  {
+   "from": 1149.4,
+   "to": 1153.5,
+   "text": "The last thing I want to mention about backups is that a lot of the time"
+  },
+  {
+   "from": 1153.5,
+   "to": 1156.7,
+   "text": "when you think about backups, you just think about the local files"
+  },
+  {
+   "from": 1156.7,
+   "to": 1161.1,
+   "text": "and like, all my photos and my tax return, and how can I make a backup of that?"
+  },
+  {
+   "from": 1161.1,
+   "to": 1165.2,
+   "text": "But increasingly in the modern age, there are more and more web applications"
+  },
+  {
+   "from": 1165.2,
+   "to": 1168.7,
+   "text": "and a lot of data might only live in some cloud provider,"
+  },
+  {
+   "from": 1168.7,
+   "to": 1170.6,
+   "text": "like for example if you have Webmail,"
+  },
+  {
+   "from": 1170.6,
+   "to": 1172.9,
+   "text": "and you're not synchronizing it to your computer,"
+  },
+  {
+   "from": 1172.9,
+   "to": 1176.7,
+   "text": "It's only living in that provider's servers"
+  },
+  {
+   "from": 1176.7,
+   "to": 1179,
+   "text": "And if you don't have a copy for that"
+  },
+  {
+   "from": 1179,
+   "to": 1181.7,
+   "text": "and for some reason you lose access to that account"
+  },
+  {
+   "from": 1181.7,
+   "to": 1184.5,
+   "text": "because you forgot your password, you got hacked,"
+  },
+  {
+   "from": 1184.5,
+   "to": 1189.1,
+   "text": "they think you have violated the terms of service... All that data is gone"
+  },
+  {
+   "from": 1189.1,
+   "to": 1193.2,
+   "text": "So you should look into some tools that people have developed"
+  },
+  {
+   "from": 1193.2,
+   "to": 1197.6,
+   "text": "for making offline copies of all that data"
+  },
+  {
+   "from": 1197.6,
+   "to": 1200.5,
+   "text": "so you can make regular backups of that"
+  },
+  {
+   "from": 1200.8,
+   "to": 1204.9,
+   "text": "And that kind of ends this short section on backups"
+  },
+  {
+   "from": 1204.9,
+   "to": 1207.1,
+   "text": "Any questions so far?"
+  },
+  {
+   "from": 1209.6,
+   "to": 1212.6,
+   "text": "(student) When you said that a hard drive can fail at any time"
+  },
+  {
+   "from": 1212.6,
+   "to": 1215.5,
+   "text": "Is there a reason for it to fail?"
+  },
+  {
+   "from": 1215.5,
+   "to": 1217,
+   "text": "[unintelligible]"
+  },
+  {
+   "from": 1217,
+   "to": 1221.2,
+   "text": "Like if I have my external hard drive sitting at my parents house or something"
+  },
+  {
+   "from": 1221.2,
+   "to": 1226.3,
+   "text": "And my computer here, is that enough? Or any drive can just fail?"
+  },
+  {
+   "from": 1226.4,
+   "to": 1230.4,
+   "text": "(Jose) Any drive can fail at any moment. Like we don't..."
+  },
+  {
+   "from": 1230.4,
+   "to": 1234,
+   "text": "Different media have different rates of failure"
+  },
+  {
+   "from": 1234,
+   "to": 1236.7,
+   "text": "and there are really good statistics online"
+  },
+  {
+   "from": 1236.7,
+   "to": 1237.8,
+   "text": "So for example,"
+  },
+  {
+   "from": 1237.8,
+   "to": 1242.4,
+   "text": "spinning hard drives have a higher rate of failure than SSDs for example,"
+  },
+  {
+   "from": 1242.4,
+   "to": 1243.9,
+   "text": "like Solid-State Drives"
+  },
+  {
+   "from": 1243.9,
+   "to": 1247.4,
+   "text": "And what's another case? Or like CD drives for example"
+  },
+  {
+   "from": 1248.3,
+   "to": 1254.4,
+   "text": "But if you drop a hard drive it's a higher rate of that failing, of course"
+  },
+  {
+   "from": 1254.4,
+   "to": 1259.8,
+   "text": "But in general we don't really have an end-all solution"
+  },
+  {
+   "from": 1259.8,
+   "to": 1262.1,
+   "text": "for saying \"this media is not gonna fail\""
+  },
+  {
+   "from": 1262.1,
+   "to": 1268.4,
+   "text": "Like pretty much, like SD cards, SSDs, hard drives, CDs, degrade with time"
+  },
+  {
+   "from": 1268.4,
+   "to": 1272.5,
+   "text": "Pretty much every data is kind of bound to this degradation"
+  },
+  {
+   "from": 1272.5,
+   "to": 1276.1,
+   "text": "or like this fact that it could be lost at any moment"
+  },
+  {
+   "from": 1276.1,
+   "to": 1279.2,
+   "text": "And you should also know that data can become corrupted,"
+  },
+  {
+   "from": 1279.2,
+   "to": 1283.9,
+   "text": "your disk might look like it's okay, but maybe some files were corrupted"
+  },
+  {
+   "from": 1283.9,
+   "to": 1286.2,
+   "text": "and something like synchronization techniques,"
+  },
+  {
+   "from": 1286.2,
+   "to": 1290.5,
+   "text": "like Google Drive or Dropbox, will propagate that corruption"
+  },
+  {
+   "from": 1290.5,
+   "to": 1295,
+   "text": "And by the time that you realize that things have gone wrong it's maybe too late"
+  },
+  {
+   "from": 1299.6,
+   "to": 1306.5,
+   "text": "(Jon) Alright, we're gonna continue this trend of jumping between random topics and talk about APIs"
+  },
+  {
+   "from": 1306.7,
+   "to": 1312.6,
+   "text": "So so far we've really been talking about how do you do things more efficiently locally on your computer?"
+  },
+  {
+   "from": 1312.6,
+   "to": 1318.9,
+   "text": "Like I want to accomplish this task more efficiently. How do I like configure my editor? How do I use my shell?"
+  },
+  {
+   "from": 1318.9,
+   "to": 1323.5,
+   "text": "But one thing you should realize is that very often you can integrate with the outside world as well"
+  },
+  {
+   "from": 1323.7,
+   "to": 1328,
+   "text": "Most services that you interact with in your day-to-day provide some kind of API"
+  },
+  {
+   "from": 1328.2,
+   "to": 1332.3,
+   "text": "For you to interact with the data that they store or the services that they provide"
+  },
+  {
+   "from": 1332.4,
+   "to": 1335.4,
+   "text": "And usually those APIs are pretty well documented"
+  },
+  {
+   "from": 1335.5,
+   "to": 1342.1,
+   "text": "If you looked at the APIs for things like Facebook, or Twitter, or Google Drive, or Gmail"
+  },
+  {
+   "from": 1342.1,
+   "to": 1348.9,
+   "text": "Many of these have interfaces that you can interact with in order to use those services from your local machine"
+  },
+  {
+   "from": 1349.1,
+   "to": 1354.2,
+   "text": "What's really neat is that you can often combine this with some of the stuff that we've talked about in lecture so far"
+  },
+  {
+   "from": 1354.3,
+   "to": 1358.2,
+   "text": "Like for example in the Data Wrangling lecture, we looked at how you can create"
+  },
+  {
+   "from": 1358.2,
+   "to": 1363.1,
+   "text": "These pipelines to extract data from some source that has a different format than you expected"
+  },
+  {
+   "from": 1363.6,
+   "to": 1367.7,
+   "text": "So for instance, the US government has a free service"
+  },
+  {
+   "from": 1367.8,
+   "to": 1371.9,
+   "text": "Where you can request the weather forecast for any given location in the US"
+  },
+  {
+   "from": 1372.2,
+   "to": 1375.6,
+   "text": "And what you do is there is a URL that you request"
+  },
+  {
+   "from": 1375.8,
+   "to": 1381.2,
+   "text": "And if you set the right parameters in that URL and then just fetch it, what you get back is JSON"
+  },
+  {
+   "from": 1381.2,
+   "to": 1385.7,
+   "text": "Which is sort of a well-defined data format that you can then parse"
+  },
+  {
+   "from": 1385.8,
+   "to": 1390.8,
+   "text": "And you can extract things like your 14-day weather forecast"
+  },
+  {
+   "from": 1391,
+   "to": 1394.9,
+   "text": "And maybe you then pipe that into your shell and produce some kind of like"
+  },
+  {
+   "from": 1395,
+   "to": 1397.9,
+   "text": "Handy alias in your terminal that's just gonna print..."
+  },
+  {
+   "from": 1398,
+   "to": 1403.5,
+   "text": "Of some handy reference for the next 14 days of weather in whatever location you were in"
+  },
+  {
+   "from": 1403.6,
+   "to": 1407.5,
+   "text": "These are things you can pretty easily construct and there's some notes..."
+  },
+  {
+   "from": 1407.6,
+   "to": 1412,
+   "text": "There are some notes in the notes about how you might go about this"
+  },
+  {
+   "from": 1412.1,
+   "to": 1417.8,
+   "text": "In general when you interact with these APIs, you're going to be using URLs of one form or another"
+  },
+  {
+   "from": 1417.9,
+   "to": 1421.2,
+   "text": "And the exact format varies from service to service"
+  },
+  {
+   "from": 1421.3,
+   "to": 1424.5,
+   "text": "But in general the URL is going to contain some set of parameters"
+  },
+  {
+   "from": 1424.6,
+   "to": 1429.9,
+   "text": "But ultimately you're just gonna issue a web request to them and you're gonna get data back in some format"
+  },
+  {
+   "from": 1430,
+   "to": 1434.8,
+   "text": "One command you should be aware of for interacting with these types of things is one called \"curl\""
+  },
+  {
+   "from": 1434.9,
+   "to": 1438.6,
+   "text": "So curl is a program that you invoke, you give it a URL"
+  },
+  {
+   "from": 1438.6,
+   "to": 1441.3,
+   "text": "And it just fetches that URL and gives you back the response"
+  },
+  {
+   "from": 1441.3,
+   "to": 1444,
+   "text": "What you do with that response is entirely up to you"
+  },
+  {
+   "from": 1444.1,
+   "to": 1448.7,
+   "text": "Maybe you pipe it through a program like \"gq\". Sorry, \"jq\""
+  },
+  {
+   "from": 1448.8,
+   "to": 1455,
+   "text": "So jq is a JSON query tool that lets you take in data that's formatted as JSON"
+  },
+  {
+   "from": 1455,
+   "to": 1459.7,
+   "text": "And then write a query over it to extract data that you're interested in"
+  },
+  {
+   "from": 1459.8,
+   "to": 1464.6,
+   "text": "And this is one of the ways in which you can layer these tools to extract the data that you're interested in"
+  },
+  {
+   "from": 1465.4,
+   "to": 1470.4,
+   "text": "Some of these services also require that you authenticate in one way or another"
+  },
+  {
+   "from": 1470.5,
+   "to": 1473.4,
+   "text": "Like for example if you want to interact with a Facebook API"
+  },
+  {
+   "from": 1473.5,
+   "to": 1478.9,
+   "text": "You need to have some authenticated token that proves who you are as far as Facebook is concerned"
+  },
+  {
+   "from": 1479,
+   "to": 1483.7,
+   "text": "Otherwise, they can't say whether you're allowed to say, create a post as a given user"
+  },
+  {
+   "from": 1483.9,
+   "to": 1487.6,
+   "text": "Very often these things are gonna use something called \"OAuth\", although not always"
+  },
+  {
+   "from": 1487.8,
+   "to": 1491.7,
+   "text": "And you should look at the documentation for every service you care about"
+  },
+  {
+   "from": 1491.7,
+   "to": 1495.7,
+   "text": "In general though you will get some kind of secret token back from the service"
+  },
+  {
+   "from": 1495.8,
+   "to": 1498.6,
+   "text": "That you have to include in the requests that you make to them"
+  },
+  {
+   "from": 1498.7,
+   "to": 1504.1,
+   "text": "Either in the URL or in additional sort of web headers, which you can also send with curl"
+  },
+  {
+   "from": 1504.2,
+   "to": 1510.6,
+   "text": "Keep in mind though that these tokens are secret. They are another representation of your user"
+  },
+  {
+   "from": 1510.7,
+   "to": 1514.1,
+   "text": "And anyone who gets their hand on them can basically pretend to be you"
+  },
+  {
+   "from": 1514.2,
+   "to": 1517.4,
+   "text": "They can do whatever you can do with that token"
+  },
+  {
+   "from": 1517.4,
+   "to": 1521.8,
+   "text": "So keep this in mind, don't stick them in your \"dotfiles\" and then push them onto GitHub"
+  },
+  {
+   "from": 1521.9,
+   "to": 1526.4,
+   "text": "That will land you in trouble. You should think of them as a password"
+  },
+  {
+   "from": 1526.5,
+   "to": 1529.4,
+   "text": "There are also really neat tools online for integrating services"
+  },
+  {
+   "from": 1529.4,
+   "to": 1532.5,
+   "text": "So there's a service called \"If This Then That\""
+  },
+  {
+   "from": 1532.7,
+   "to": 1538.6,
+   "text": "Which basically provides integrations with a bunch of different services and lets you chain them together"
+  },
+  {
+   "from": 1538.7,
+   "to": 1542,
+   "text": "And then also access them partially locally if you wish"
+  },
+  {
+   "from": 1542,
+   "to": 1544,
+   "text": "This is something that's worth looking into"
+  },
+  {
+   "from": 1544,
+   "to": 1549.2,
+   "text": "If there's a particular service you would like to interact with in a more efficient manner"
+  },
+  {
+   "from": 1549.5,
+   "to": 1552.7,
+   "text": "Any questions about APIs?"
+  },
+  {
+   "from": 1555.2,
+   "to": 1556.5,
+   "text": "Alright"
+  },
+  {
+   "from": 1556.5,
+   "to": 1559.9,
+   "text": "Switching gears entirely, let's talk about command-line arguments"
+  },
+  {
+   "from": 1560,
+   "to": 1564.1,
+   "text": "So command-line tools. There are a lot of them"
+  },
+  {
+   "from": 1564.1,
+   "to": 1568.1,
+   "text": "And most of them take different arguments because they do different things"
+  },
+  {
+   "from": 1568.2,
+   "to": 1573.4,
+   "text": "We've talked about looking at man pages for commands and that will tell you how this particular command works"
+  },
+  {
+   "from": 1573.4,
+   "to": 1576.8,
+   "text": "What kind of flags and options you might give to it"
+  },
+  {
+   "from": 1576.9,
+   "to": 1579.4,
+   "text": "And what it actually does when you invoke it"
+  },
+  {
+   "from": 1579.6,
+   "to": 1583.4,
+   "text": "But there are some common themes that are useful to know about"
+  },
+  {
+   "from": 1583.4,
+   "to": 1589.4,
+   "text": "Either in arguments that many programs take, or just concepts the many of them apply"
+  },
+  {
+   "from": 1589.6,
+   "to": 1595.1,
+   "text": "The first of these we already mentioned a little bit in the lecture on command-line environments"
+  },
+  {
+   "from": 1595.1,
+   "to": 1600.7,
+   "text": "Which is the \"--help\" flag. Very often you can pass this to a program and instead of running,"
+  },
+  {
+   "from": 1600.7,
+   "to": 1606.8,
+   "text": "It will just print out information about how you can run this program, often in a very short, condensed way"
+  },
+  {
+   "from": 1607.9,
+   "to": 1615,
+   "text": "A similar one is the \"--version\" flag, which just prints the version of the software you're using"
+  },
+  {
+   "from": 1615.1,
+   "to": 1618,
+   "text": "This can be really handy if you're doing something like filing a bug report,"
+  },
+  {
+   "from": 1618,
+   "to": 1620,
+   "text": "Which Anish is going to talk a little bit about later"
+  },
+  {
+   "from": 1620.1,
+   "to": 1624.5,
+   "text": "And you want to report what version you're running on in case the bug has been fixed since"
+  },
+  {
+   "from": 1624.7,
+   "to": 1630.5,
+   "text": "Often you can also do \"-V\" and that means the same as version. But again, check the man page"
+  },
+  {
+   "from": 1631.5,
+   "to": 1636.7,
+   "text": "There's also \"--verbose\", or \"-v\" often"
+  },
+  {
+   "from": 1636.8,
+   "to": 1640.8,
+   "text": "Which is a flag that lets you increase the output of the program"
+  },
+  {
+   "from": 1641,
+   "to": 1646.3,
+   "text": "It makes the program print more about what it is doing. And very often you can repeat this flag"
+  },
+  {
+   "from": 1646.3,
+   "to": 1651.3,
+   "text": "So you can do like \"-vvvvv\" in order to get more information from that tool"
+  },
+  {
+   "from": 1651.5,
+   "to": 1654.7,
+   "text": "And this can be especially useful if you're trying to debug a problem"
+  },
+  {
+   "from": 1654.8,
+   "to": 1659.1,
+   "text": "If you're like running \"rsync\" and you want to know why did it decide to copy this file?"
+  },
+  {
+   "from": 1659.1,
+   "to": 1664.1,
+   "text": "Or why did it decide not to copy this file? That kind of debug output can be useful"
+  },
+  {
+   "from": 1664.2,
+   "to": 1668,
+   "text": "And often there's a sort of an inverse flag called \"quiet\" or \"silent\""
+  },
+  {
+   "from": 1668,
+   "to": 1672.9,
+   "text": "Which means that the tool will not print anything unless it was like an error"
+  },
+  {
+   "from": 1673,
+   "to": 1675.1,
+   "text": "Anything else, it will stay quiet about"
+  },
+  {
+   "from": 1676.1,
+   "to": 1679.4,
+   "text": "Many tools, especially those that do destructive actions"
+  },
+  {
+   "from": 1679.5,
+   "to": 1683.4,
+   "text": "Or some kind of action that you cannot undo"
+  },
+  {
+   "from": 1683.5,
+   "to": 1686.3,
+   "text": "Provide what's known as a \"dry run flag\""
+  },
+  {
+   "from": 1686.6,
+   "to": 1689.8,
+   "text": "Exactly how this is represented in the command line varies from tool to tool"
+  },
+  {
+   "from": 1689.9,
+   "to": 1696.9,
+   "text": "But essentially what this dry run mode will do is it will run the tool, but it will not actually make any changes"
+  },
+  {
+   "from": 1697,
+   "to": 1703,
+   "text": "Instead it will just inform you of what it would have done if you hadn't run it with dry run"
+  },
+  {
+   "from": 1703.9,
+   "to": 1710.4,
+   "text": "Many of these tools also have an interactive mode. So for example, th \"rm\" and \"mv\" tools both do"
+  },
+  {
+   "from": 1710.5,
+   "to": 1713.2,
+   "text": "Often just \"-i\", although not always"
+  },
+  {
+   "from": 1713.3,
+   "to": 1715.7,
+   "text": "When you run a tool in interactive mode"
+  },
+  {
+   "from": 1715.7,
+   "to": 1720.3,
+   "text": "It will usually prompt you whenever it's about to do an action that you can't undo"
+  },
+  {
+   "from": 1720.5,
+   "to": 1724.4,
+   "text": "And it will sort of prompt you for a confirmation that it should actually go ahead"
+  },
+  {
+   "from": 1726.7,
+   "to": 1730.1,
+   "text": "When we're talking about destructive tools"
+  },
+  {
+   "from": 1730.1,
+   "to": 1732.7,
+   "text": "Many of them are non-recursive by default"
+  },
+  {
+   "from": 1732.8,
+   "to": 1737,
+   "text": "If you try to remove a directory or you try to operate on a full directory"
+  },
+  {
+   "from": 1737.2,
+   "to": 1740.3,
+   "text": "They will not continue into the files inside of that directory"
+  },
+  {
+   "from": 1740.5,
+   "to": 1745.2,
+   "text": "The reason being you might accidentally like, remove your entire hard drive and that seems bad"
+  },
+  {
+   "from": 1745.6,
+   "to": 1748.1,
+   "text": "Therefore for many of these tools, they have a \"recurse\" flag"
+  },
+  {
+   "from": 1748.2,
+   "to": 1750.7,
+   "text": "Often \"-r\", but again not always"
+  },
+  {
+   "from": 1750.8,
+   "to": 1757.2,
+   "text": "Which lets them traverse down into the tree to go deeper, but you need to opt-in to this behavior"
+  },
+  {
+   "from": 1757.2,
+   "to": 1761.8,
+   "text": "So this is for example, the case for \"rm\". This is also the case for \"cp\""
+  },
+  {
+   "from": 1763.7,
+   "to": 1768.2,
+   "text": "In many tools, when they ask you to give a file name or a path"
+  },
+  {
+   "from": 1768.3,
+   "to": 1771.4,
+   "text": "And we talked about this a little bit in the data wrangling lecture"
+  },
+  {
+   "from": 1771.4,
+   "to": 1774.7,
+   "text": "Instead of giving a file name, you can often just give a dash"
+  },
+  {
+   "from": 1774.8,
+   "to": 1780,
+   "text": "Just a single \"-\", and what that means is standard input or standard output"
+  },
+  {
+   "from": 1780,
+   "to": 1783.3,
+   "text": "Depending on whether that argument is an input file or an output file"
+  },
+  {
+   "from": 1783.4,
+   "to": 1788.9,
+   "text": "This is handy to know about if you're trying to construct those kinds of data wrangling pipelines that we've talked about before"
+  },
+  {
+   "from": 1789.1,
+   "to": 1794.9,
+   "text": "Many tools will also default to using standard in or standard out if you don't give any file name at all"
+  },
+  {
+   "from": 1797.4,
+   "to": 1803.5,
+   "text": "Sometimes you want to pass something that looks like a flag or an option to a command"
+  },
+  {
+   "from": 1803.6,
+   "to": 1807.1,
+   "text": "But you don't actually want it to be interpreted as a flag or an option"
+  },
+  {
+   "from": 1807.2,
+   "to": 1814.7,
+   "text": "Consider for example, if you wanted to remove a file called \"-i\", what would you do?"
+  },
+  {
+   "from": 1814.8,
+   "to": 1817.5,
+   "text": "Right, if you write the following command..."
+  },
+  {
+   "from": 1819.5,
+   "to": 1822,
+   "text": "\"rm -i\""
+  },
+  {
+   "from": 1822.2,
+   "to": 1828.9,
+   "text": "Well, \"-i\" is a flag to \"rm\", so \"rm\" would, when you run this command say"
+  },
+  {
+   "from": 1828.9,
+   "to": 1832.6,
+   "text": "Tell me what file to remove, you haven't given me a file"
+  },
+  {
+   "from": 1832.9,
+   "to": 1835.6,
+   "text": "And it's because it interprets this as a flag"
+  },
+  {
+   "from": 1836.1,
+   "to": 1838.5,
+   "text": "Similarly, if you do something like..."
+  },
+  {
+   "from": 1838.8,
+   "to": 1848.8,
+   "text": "\"ssh some machine, some command, and let's say, dash r\""
+  },
+  {
+   "from": 1849.7,
+   "to": 1856.4,
+   "text": "So this is saying - run command \"foo\" on this machine over SSH, and I wanna pass \"-r\" to \"foo\""
+  },
+  {
+   "from": 1857.2,
+   "to": 1862.5,
+   "text": "Well, the way that both of these are gonna get interpreted is that these are flags"
+  },
+  {
+   "from": 1862.6,
+   "to": 1867.2,
+   "text": "Or in this case, this is a flag. But to this command"
+  },
+  {
+   "from": 1868,
+   "to": 1870.5,
+   "text": "Which is probably not what you expected"
+  },
+  {
+   "from": 1870.9,
+   "to": 1874.5,
+   "text": "Actually in the case of SSH, it has some weird special behavior for some of these"
+  },
+  {
+   "from": 1874.6,
+   "to": 1878.1,
+   "text": "But often if you want something to not be interpreted as a flag"
+  },
+  {
+   "from": 1878.1,
+   "to": 1882.4,
+   "text": "There's a very simple way to opt-out of that, and that is using double dash"
+  },
+  {
+   "from": 1882.8,
+   "to": 1886,
+   "text": "If you use double dash, what you tell the command"
+  },
+  {
+   "from": 1886.1,
+   "to": 1890.5,
+   "text": "Is that verything following this, you should not interpret"
+  },
+  {
+   "from": 1891,
+   "to": 1896.5,
+   "text": "So it will not be considered a flag or an option. In the case of \"rm\" you can do this"
+  },
+  {
+   "from": 1896.8,
+   "to": 1900.5,
+   "text": "And now \"rm\" you will see that the first argument is a \"--\""
+  },
+  {
+   "from": 1900.9,
+   "to": 1904.5,
+   "text": "And then it will keep reading arguments, but it will not interpret them as flags"
+  },
+  {
+   "from": 1904.8,
+   "to": 1910.7,
+   "text": "So when it gets the \"-i\", it will not interpret it as the dash i flag, but just as an argument dash i"
+  },
+  {
+   "from": 1911.5,
+   "to": 1918.6,
+   "text": "Similarly, for SSH you can do this to indicate that these are both positional arguments"
+  },
+  {
+   "from": 1918.7,
+   "to": 1924,
+   "text": "They are not flags or options and you should not interpret things that start with a dash"
+  },
+  {
+   "from": 1928.7,
+   "to": 1932.9,
+   "text": "(student) But if you do like \"--version\", it's not gonna trigger that?"
+  },
+  {
+   "from": 1933.2,
+   "to": 1937.9,
+   "text": "(Jon) No, so this is a \" -- \", with a space on both sides"
+  },
+  {
+   "from": 1940.2,
+   "to": 1945,
+   "text": "Any questions about any of this sort of command line conventions business?"
+  },
+  {
+   "from": 1948.8,
+   "to": 1950.9,
+   "text": "Alright then let's talk about window managers"
+  },
+  {
+   "from": 1951.8,
+   "to": 1955.4,
+   "text": "So most of you are used to some kind of drag-and-drop window manager"
+  },
+  {
+   "from": 1956,
+   "to": 1962.6,
+   "text": "If you're running Windows, or Mac OS, or Ubuntu - what comes with the machine is like, there are windows and"
+  },
+  {
+   "from": 1962.6,
+   "to": 1967.1,
+   "text": "They overlap partially on screen and you can like drag-and-drop and move them around and resize them and stuff"
+  },
+  {
+   "from": 1967.8,
+   "to": 1971.1,
+   "text": "And that works fine"
+  },
+  {
+   "from": 1971.2,
+   "to": 1976.2,
+   "text": "But it is not the only way to manage windows on your computer it turns out"
+  },
+  {
+   "from": 1976.7,
+   "to": 1982.3,
+   "text": "So what you are used to is something called a floating window manager, but not all window managers are floating"
+  },
+  {
+   "from": 1983.1,
+   "to": 1989.8,
+   "text": "Often you can opt-in to other types of window managers that have different behavior for how they arrange your desktop"
+  },
+  {
+   "from": 1990.6,
+   "to": 1993.5,
+   "text": "A common alternative is a tiling window manager"
+  },
+  {
+   "from": 1993.6,
+   "to": 1997.5,
+   "text": "So in a tiling window manager, rather than having floating windows,"
+  },
+  {
+   "from": 1997.8,
+   "to": 2003.8,
+   "text": "Everything is set up into a tiled layout. When you start a program, its window is maximized"
+  },
+  {
+   "from": 2004.2,
+   "to": 2008.4,
+   "text": "If you start another program, the original window shrinks in size"
+  },
+  {
+   "from": 2008.4,
+   "to": 2012.3,
+   "text": "And then the new window takes up some subset of the total desktop space"
+  },
+  {
+   "from": 2012.5,
+   "to": 2016.7,
+   "text": "At no time is your desktop background visible unless you have no programs open"
+  },
+  {
+   "from": 2017.2,
+   "to": 2022.2,
+   "text": "All of the programs you have open on any given desktop are going to share that space"
+  },
+  {
+   "from": 2022.7,
+   "to": 2028.2,
+   "text": "This looks a little bit like tmux panes, like we talked about earlier, where you can sort of split them in various directions"
+  },
+  {
+   "from": 2029.1,
+   "to": 2034.6,
+   "text": "And one of the reasons why this is handy is it means you basically never need to go to your mouse"
+  },
+  {
+   "from": 2034.9,
+   "to": 2038.9,
+   "text": "In order to move between windows, there are keyboard shortcuts to move to different windows"
+  },
+  {
+   "from": 2038.9,
+   "to": 2043,
+   "text": "There are keyboard shortcuts for resizing the windows or swapping them around on screen"
+  },
+  {
+   "from": 2043.1,
+   "to": 2047.4,
+   "text": "And this turns out to be a pretty efficient way to manage windows in your computer"
+  },
+  {
+   "from": 2050.1,
+   "to": 2055.1,
+   "text": "Well, I won't go into too much of detail of what kind of window managers you might use"
+  },
+  {
+   "from": 2055.1,
+   "to": 2059.3,
+   "text": "Just know that these exist out there and they're worth giving a look. They can be a lot more efficient to work with"
+  },
+  {
+   "from": 2060.5,
+   "to": 2063.1,
+   "text": "Questions about window managers?"
+  },
+  {
+   "from": 2064.4,
+   "to": 2068.1,
+   "text": "All right, VPNs. Totally related to the previous topic"
+  },
+  {
+   "from": 2068.4,
+   "to": 2072.5,
+   "text": "So VPNs are like all the rage these days and this makes me really sad"
+  },
+  {
+   "from": 2072.7,
+   "to": 2075.7,
+   "text": "It's not clear that VPNs are all the rage for any good reason"
+  },
+  {
+   "from": 2076.2,
+   "to": 2079.8,
+   "text": "Because you should be aware of what a VPN does and does not get you"
+  },
+  {
+   "from": 2080.5,
+   "to": 2087.7,
+   "text": "A VPN, in the best case, is really just a way for you to change your internet service provider"
+  },
+  {
+   "from": 2088,
+   "to": 2094.4,
+   "text": "It's a way for you to make traffic on the Internet seem like it's coming from somewhere else than where you actually are"
+  },
+  {
+   "from": 2097.5,
+   "to": 2100.8,
+   "text": "While that might seem attractive for certain purposes,"
+  },
+  {
+   "from": 2100.8,
+   "to": 2104,
+   "text": "It's a little unclear what it buys you in terms of security"
+  },
+  {
+   "from": 2104.1,
+   "to": 2107.5,
+   "text": "Because all you're really doing is shifting who you are trusting"
+  },
+  {
+   "from": 2107.6,
+   "to": 2111.2,
+   "text": "Rather than trusting who is providing your current internet service,"
+  },
+  {
+   "from": 2111.2,
+   "to": 2116.3,
+   "text": "You're trusting that whatever business is giving you that VPN service..."
+  },
+  {
+   "from": 2116.4,
+   "to": 2120.2,
+   "text": "You're trusting that they, first of all, have set up this VPN business correctly,"
+  },
+  {
+   "from": 2120.2,
+   "to": 2123.8,
+   "text": "But also that they are not tracking what you are doing"
+  },
+  {
+   "from": 2124,
+   "to": 2128.8,
+   "text": "And it's not clear whether that change of trust is actually worth it"
+  },
+  {
+   "from": 2128.9,
+   "to": 2133.6,
+   "text": "If you're sitting at some like dodgy public Wi-Fi network then maybe"
+  },
+  {
+   "from": 2133.6,
+   "to": 2136.5,
+   "text": "But if you're sitting at MIT, it's not clear"
+  },
+  {
+   "from": 2136.5,
+   "to": 2140.7,
+   "text": "Do you trust your VPN provider more than you trust MIT's IS&T?"
+  },
+  {
+   "from": 2140.7,
+   "to": 2144.1,
+   "text": "Or maybe you do, but that is a decision that you need to make"
+  },
+  {
+   "from": 2144.1,
+   "to": 2147.4,
+   "text": "About what you trust, who you trust and why?"
+  },
+  {
+   "from": 2147.7,
+   "to": 2151.7,
+   "text": "You should also know that much of your traffic,"
+  },
+  {
+   "from": 2151.7,
+   "to": 2157.3,
+   "text": "Especially the stuff that's on a sensitive nature on the Internet, is already encrypted"
+  },
+  {
+   "from": 2157.3,
+   "to": 2163.5,
+   "text": "Whether that's sort of HTTPS or other protocols that use something like TLS, a lot of the sensitive data is already"
+  },
+  {
+   "from": 2163.6,
+   "to": 2169.6,
+   "text": "Sent over encrypted channels and it doesn't really matter who your network provider is if you're on a dodgy Wi-Fi network"
+  },
+  {
+   "from": 2169.6,
+   "to": 2175.2,
+   "text": "The stuff that matters is probably encrypted anyway. Might not be, but if it's not"
+  },
+  {
+   "from": 2175.3,
+   "to": 2180.6,
+   "text": "Then your VPN provider can also see it in plain text just as much as whoever's hosting this dodgy Wi-Fi network"
+  },
+  {
+   "from": 2181.1,
+   "to": 2185.8,
+   "text": "And notice that I said \"in the best case above\""
+  },
+  {
+   "from": 2185.8,
+   "to": 2191.8,
+   "text": "There are VPN providers who have been shown to be malicious, that do logging of all your traffic,"
+  },
+  {
+   "from": 2191.9,
+   "to": 2198.4,
+   "text": "That sell that traffic to third parties. There are VPN providers that have forgotten to enable encryption on the VPN"
+  },
+  {
+   "from": 2198.5,
+   "to": 2201.6,
+   "text": "All of these are real problems"
+  },
+  {
+   "from": 2201.8,
+   "to": 2208.8,
+   "text": "And so you should think very carefully about whether a VPN actually serves any good purpose for you"
+  },
+  {
+   "from": 2209,
+   "to": 2212.6,
+   "text": "Questions about VPNs? Yes?"
+  },
+  {
+   "from": 2212.7,
+   "to": 2216.1,
+   "text": "(student) So I have a question about public Wi-Fi networks, because"
+  },
+  {
+   "from": 2216.1,
+   "to": 2222.8,
+   "text": "The traffic from your computer to the router isn't encrypted between the computer and the router, right?"
+  },
+  {
+   "from": 2222.9,
+   "to": 2226.9,
+   "text": "Except for what normally is via HTTPS and [unintelligible]"
+  },
+  {
+   "from": 2227,
+   "to": 2233.6,
+   "text": "So then doesn't that mean that people could sniff out what domains I'm going to via the DNS request?"
+  },
+  {
+   "from": 2233.7,
+   "to": 2235.7,
+   "text": "(Jon) So, it's a very good question"
+  },
+  {
+   "from": 2235.7,
+   "to": 2242.1,
+   "text": "If you're on a public Wi-Fi network, then the traffic between you and the wireless access point is not encrypted"
+  },
+  {
+   "from": 2242.3,
+   "to": 2247.2,
+   "text": "At least it's not encrypted sort of on the outer layer, but it might be encrypted in like HTTPS, for example"
+  },
+  {
+   "from": 2247.4,
+   "to": 2254.1,
+   "text": "And it is totally true the people observing that Wi-Fi network will be able to see anything that is not encrypted"
+  },
+  {
+   "from": 2254.1,
+   "to": 2259.8,
+   "text": "But the solution to that is to encrypt all your traffic, rather than necessarily going through a VPN"
+  },
+  {
+   "from": 2259.9,
+   "to": 2266.8,
+   "text": "So one way to do this for example is to use DNS over TLS or DNS over HTTPS, which gives you"
+  },
+  {
+   "from": 2266.9,
+   "to": 2271.5,
+   "text": "A way to actually encrypt even information that might otherwise leak in plain text"
+  },
+  {
+   "from": 2272,
+   "to": 2275.9,
+   "text": "Rather than try to sort of trust some provider to do that for you"
+  },
+  {
+   "from": 2275.9,
+   "to": 2282.5,
+   "text": "Now that said, in some cases you might have a trusted institution that provides a VPN network for you"
+  },
+  {
+   "from": 2282.5,
+   "to": 2289.1,
+   "text": "So for example, MIT provides a VPN network for all MIT students and staff that you can sign up to use"
+  },
+  {
+   "from": 2289.1,
+   "to": 2293.8,
+   "text": "And in that case you probably trust MIT more than the other networks you might be on"
+  },
+  {
+   "from": 2293.8,
+   "to": 2298,
+   "text": "So it might be worth it, but it's something for you to think about"
+  },
+  {
+   "from": 2298,
+   "to": 2302.5,
+   "text": "(student) When you say you could encrypt it with, what was it, DNS, how would you do that?"
+  },
+  {
+   "from": 2304.2,
+   "to": 2308.7,
+   "text": "(Jon) So, DNS is the way that people turn domain names,"
+  },
+  {
+   "from": 2308.7,
+   "to": 2312.3,
+   "text": "Or your computer turns domain names into IP addresses to know what computer to connect to"
+  },
+  {
+   "from": 2312.5,
+   "to": 2317.2,
+   "text": "And that protocol by default is in plain text. There's nothing encrypted about it"
+  },
+  {
+   "from": 2317.2,
+   "to": 2320.9,
+   "text": "There are various ways to encrypt your DNS traffic"
+  },
+  {
+   "from": 2321.1,
+   "to": 2323.9,
+   "text": "Some of them are standardized and some of them are not"
+  },
+  {
+   "from": 2324,
+   "to": 2329.2,
+   "text": "I won't go into the exact mechanics here, but you should google it and look at some of the ways"
+  },
+  {
+   "from": 2330.1,
+   "to": 2332.7,
+   "text": "Okay. The last thing I want to talk about is Markdown"
+  },
+  {
+   "from": 2332.8,
+   "to": 2339.3,
+   "text": "So there is a high chance that some of you are going to write text over the remaining part of your life"
+  },
+  {
+   "from": 2339.5,
+   "to": 2342.9,
+   "text": "And you will want to mark up that text in various simple ways"
+  },
+  {
+   "from": 2343,
+   "to": 2348.9,
+   "text": "And one thing you could do is start up Word or use LaTeX or something like that to mark up your documents"
+  },
+  {
+   "from": 2348.9,
+   "to": 2350.9,
+   "text": "But that is a pretty heavy-handed approach"
+  },
+  {
+   "from": 2350.9,
+   "to": 2353.3,
+   "text": "Instead it would be nice if we could just sort of"
+  },
+  {
+   "from": 2353.4,
+   "to": 2356.4,
+   "text": "Write things the way we feel like they should be"
+  },
+  {
+   "from": 2356.4,
+   "to": 2361,
+   "text": "I don't know how to describe it in a better way but sort of the natural way where if you want something,"
+  },
+  {
+   "from": 2361,
+   "to": 2365.3,
+   "text": "If you want to put emphasis on a word you just put like stars around it or something, and then it just works"
+  },
+  {
+   "from": 2365.4,
+   "to": 2371.8,
+   "text": "Markdown is essentially that. It is a way to try to encode the way that we often write text somewhat naturally"
+  },
+  {
+   "from": 2371.9,
+   "to": 2377.4,
+   "text": "Into a markup language that lets you write things like bold text, links, lists, that sort of stuff"
+  },
+  {
+   "from": 2377.6,
+   "to": 2381.5,
+   "text": "In fact, all of the lecture notes for this class have been written using Markdown"
+  },
+  {
+   "from": 2381.7,
+   "to": 2386.3,
+   "text": "And Markdown is really very straightforward. The basic rules are in the notes"
+  },
+  {
+   "from": 2386.3,
+   "to": 2393.7,
+   "text": "But the basic things you need to know is, in Markdown if you put stars"
+  },
+  {
+   "from": 2393.8,
+   "to": 2400.5,
+   "text": "Around a word, that word is emphasized. Or some sequence of words. If you put double stars"
+  },
+  {
+   "from": 2400.6,
+   "to": 2404.8,
+   "text": "That word is emphasized strongly, also known as bold"
+  },
+  {
+   "from": 2404.8,
+   "to": 2411.1,
+   "text": "There are various other things you could do, like if you put a dash before a line it is now a list"
+  },
+  {
+   "from": 2411.1,
+   "to": 2414.2,
+   "text": "And there's one list item and you can amend list items"
+  },
+  {
+   "from": 2414.2,
+   "to": 2418.5,
+   "text": "If you put \"1.\" in front, or some other number, it becomes a numbered list"
+  },
+  {
+   "from": 2418.7,
+   "to": 2425,
+   "text": "If you put a pound sign in front of something it becomes a header, like some kind of title header"
+  },
+  {
+   "from": 2425.1,
+   "to": 2430.3,
+   "text": "If you put multiple of them, they become subheadings and you can keep adding more to these"
+  },
+  {
+   "from": 2430.6,
+   "to": 2437.8,
+   "text": "If you want to write code you can put a single backtick, followed by some code, followed by a backtick"
+  },
+  {
+   "from": 2437.9,
+   "to": 2441.4,
+   "text": "And now that is rendered in Monospaced Font"
+  },
+  {
+   "from": 2441.4,
+   "to": 2446.9,
+   "text": "If you want multiple lines of code, you do a triple backtick, and then code,"
+  },
+  {
+   "from": 2446.9,
+   "to": 2451,
+   "text": "And then maybe some more code and then triple backtick"
+  },
+  {
+   "from": 2451.2,
+   "to": 2453.8,
+   "text": "And in many cases like if you're on GitHub for example,"
+  },
+  {
+   "from": 2453.9,
+   "to": 2458.4,
+   "text": "You can even type the name of a language up here after the backticks, without a space"
+  },
+  {
+   "from": 2458.5,
+   "to": 2461.5,
+   "text": "And it will be syntax highlighted in the language of your choice"
+  },
+  {
+   "from": 2461.7,
+   "to": 2467.9,
+   "text": "This is a really handy thing that is supported in so many websites nowadays you might not even realize"
+  },
+  {
+   "from": 2467.9,
+   "to": 2471.3,
+   "text": "Like in Facebook Messenger you can use many of these"
+  },
+  {
+   "from": 2471.5,
+   "to": 2474.4,
+   "text": "They don't actually officially say they support Markdown anywhere"
+  },
+  {
+   "from": 2474.4,
+   "to": 2477.7,
+   "text": "But many of these things just like sort of happen to work and it's worth learning"
+  },
+  {
+   "from": 2477.8,
+   "to": 2483,
+   "text": "At least the basics and just start using them. You can do links and stuff as well, but that's already in the notes"
+  },
+  {
+   "from": 2483.9,
+   "to": 2486.4,
+   "text": "Any questions about Markdown?"
+  },
+  {
+   "from": 2487.9,
+   "to": 2491.8,
+   "text": "Right, Anish, you're up"
+  },
+  {
+   "from": 2494.7,
+   "to": 2497,
+   "text": "(Anish) Is my microphone working?"
+  },
+  {
+   "from": 2498.4,
+   "to": 2501.2,
+   "text": "Is this working? Can you guys hear me in the back?"
+  },
+  {
+   "from": 2502.4,
+   "to": 2506.4,
+   "text": "The light's green. Oh, I think I can hear it. Okay, great"
+  },
+  {
+   "from": 2508.3,
+   "to": 2513.5,
+   "text": "So, continuing with our theme of random topics that are all unrelated to the previous topics we've been talking about,"
+  },
+  {
+   "from": 2513.5,
+   "to": 2516.8,
+   "text": "The next thing we're going to talk about is a program called \"Hammerspoon\""
+  },
+  {
+   "from": 2516.9,
+   "to": 2520.5,
+   "text": "Which is a tool for doing desktop automation on Mac OS"
+  },
+  {
+   "from": 2520.6,
+   "to": 2525.2,
+   "text": "And I think there's similar tools for Windows and Linux, a lot of the ideas can carry over"
+  },
+  {
+   "from": 2525.2,
+   "to": 2528.6,
+   "text": "You can google it if you want to figure out how to do these things on other platforms"
+  },
+  {
+   "from": 2528.6,
+   "to": 2533,
+   "text": "But basically Hammerspoon is a program that lets you write Lua scripts, scripts in a programming language"
+  },
+  {
+   "from": 2533.3,
+   "to": 2535.8,
+   "text": "That interact with various operating system functionality"
+  },
+  {
+   "from": 2536,
+   "to": 2540.3,
+   "text": "So you can write code that interacts with the keyboard and mouse and connects that to window management,"
+  },
+  {
+   "from": 2540.4,
+   "to": 2546,
+   "text": "To display management, the file system, battery and power management, Wi-Fi... All sorts of stuff"
+  },
+  {
+   "from": 2546,
+   "to": 2550.6,
+   "text": "Like basically all the things that your operating system manages, this tool lets you hook into those things"
+  },
+  {
+   "from": 2550.6,
+   "to": 2554.3,
+   "text": "And so it can let you do all sorts of neat things by writing just a couple lines of code"
+  },
+  {
+   "from": 2554.4,
+   "to": 2559.5,
+   "text": "Just some examples of cool things you can do with this tool are - you can bind hotkeys to move windows to"
+  },
+  {
+   "from": 2559.7,
+   "to": 2565.2,
+   "text": "Specific locations. So a demonstration of this is here. I have this window open. I press, in my particular setup,"
+  },
+  {
+   "from": 2565.3,
+   "to": 2569.7,
+   "text": "\"Option+Command+Right\" and this window moves to the right. \"Option+Command+Left\", this window moves to the left"
+  },
+  {
+   "from": 2569.7,
+   "to": 2572.4,
+   "text": "And I have a couple other shortcuts for moving things to various places"
+  },
+  {
+   "from": 2572.4,
+   "to": 2577.5,
+   "text": "And so I can kind of have an effect similar to tiling window managers that Jon was talking about earlier"
+  },
+  {
+   "from": 2577.7,
+   "to": 2582.9,
+   "text": "I can move windows to different parts of my screen to set things up in a particular way rather than have to use the mouse"
+  },
+  {
+   "from": 2582.9,
+   "to": 2587.7,
+   "text": "To position things where I want them to be and then like click and drag to resize windows to the right shape"
+  },
+  {
+   "from": 2587.8,
+   "to": 2590.4,
+   "text": "Just a keyboard shortcut can do the trick"
+  },
+  {
+   "from": 2590.5,
+   "to": 2595.1,
+   "text": "But this tool is not limited to just moving windows around and binding that to particularly keyboard shortcuts"
+  },
+  {
+   "from": 2595.1,
+   "to": 2599,
+   "text": "You can do other things like create a menu bar button with a bunch of different options"
+  },
+  {
+   "from": 2599,
+   "to": 2602.6,
+   "text": "And you can bind those different options to do different things. So in my particular case"
+  },
+  {
+   "from": 2602.6,
+   "to": 2608.4,
+   "text": "I've created this little menu and then I have a bunch of different things that I do reasonably frequently and clicking on these things"
+  },
+  {
+   "from": 2608.9,
+   "to": 2613.4,
+   "text": "Invokes a particular Lua function that I've written that interacts with this library. So for example"
+  },
+  {
+   "from": 2614.2,
+   "to": 2618.8,
+   "text": "Here, this \"Rescue windows\" thing is a particular thing where I often work with multiple displays"
+  },
+  {
+   "from": 2618.9,
+   "to": 2624.7,
+   "text": "And sometimes my operating system gets confused and I have some window that ends up off of my display and"
+  },
+  {
+   "from": 2624.7,
+   "to": 2627.3,
+   "text": "How do I how do I get this thing back?"
+  },
+  {
+   "from": 2627.5,
+   "to": 2629.8,
+   "text": "Well, that's what this... Whoops, not that"
+  },
+  {
+   "from": 2632.2,
+   "to": 2636.6,
+   "text": "That's what this \"Rescue windows\" thing does. It brings windows that are off the screen back onto the screen"
+  },
+  {
+   "from": 2637.6,
+   "to": 2641.8,
+   "text": "Another neat thing I have setup here is I have particular layouts that I've named"
+  },
+  {
+   "from": 2641.9,
+   "to": 2643.6,
+   "text": "So like a dorm, and a Lab and a Laptop layout"
+  },
+  {
+   "from": 2643.7,
+   "to": 2644.9,
+   "text": "So for example in my Lab"
+  },
+  {
+   "from": 2644.9,
+   "to": 2648.7,
+   "text": "I have this screen and I have another screen and have another screen besides that in a different orientation"
+  },
+  {
+   "from": 2648.8,
+   "to": 2651.6,
+   "text": "And I have this particular setup that I want where I want"
+  },
+  {
+   "from": 2651.8,
+   "to": 2655.1,
+   "text": "Maybe my terminal full screen on here, and my chat program over here and"
+  },
+  {
+   "from": 2655.3,
+   "to": 2658.4,
+   "text": "This screen split up into five segments with different programs in different places"
+  },
+  {
+   "from": 2659,
+   "to": 2666.5,
+   "text": "Here I can, when I show up to Lab I can just go here and click \"Layout Lab\" and it will invoke some code"
+  },
+  {
+   "from": 2666.8,
+   "to": 2672.2,
+   "text": "Which is not all that complicated like 10 lines of code describes a particular layout"
+  },
+  {
+   "from": 2672.3,
+   "to": 2675.8,
+   "text": "And it will instantiate that layout and put all the things where they need to go"
+  },
+  {
+   "from": 2676.1,
+   "to": 2682,
+   "text": "I could even in theory automate some of these things where my computer could figure out like I plug in a display and my computer knows"
+  },
+  {
+   "from": 2682,
+   "to": 2686.4,
+   "text": "Oh, this is the display that you have in your lab. Let me automatically instantiate this layout for you"
+  },
+  {
+   "from": 2686.4,
+   "to": 2690.9,
+   "text": "That's another thing you can do with Hammerspoon. And also other wacky things you can do like you can do things like"
+  },
+  {
+   "from": 2691.7,
+   "to": 2695,
+   "text": "It can detect your Wi-Fi network that you're on so it knows kind of where you are"
+  },
+  {
+   "from": 2695,
+   "to": 2700.1,
+   "text": "Maybe I have a different Wi-Fi network name at home versus in lab and I can do things like when I show up to lab"
+  },
+  {
+   "from": 2700.4,
+   "to": 2704,
+   "text": "Automatically mute my speakers. So I don't have like embarrassing music play out loud in my lab"
+  },
+  {
+   "from": 2705.3,
+   "to": 2707.3,
+   "text": "Another kind of cool example is"
+  },
+  {
+   "from": 2707.9,
+   "to": 2709.4,
+   "text": "So I have a Mac"
+  },
+  {
+   "from": 2709.4,
+   "to": 2712.1,
+   "text": "It has a fancy power supply and a lot of my friends have"
+  },
+  {
+   "from": 2712.2,
+   "to": 2715.5,
+   "text": "Computers that look the same as this and their power supply bricks look the same as mine and"
+  },
+  {
+   "from": 2715.7,
+   "to": 2718.9,
+   "text": "Sometimes I use their power brick because I forgot mine at home or something"
+  },
+  {
+   "from": 2719.1,
+   "to": 2721.6,
+   "text": "This tool can actually with like three or four lines of code"
+  },
+  {
+   "from": 2721.8,
+   "to": 2727.5,
+   "text": "Do neat things like show you a warning like it'll pop up a warning if you've accidentally taken your friend's power supply and plugged it"
+  },
+  {
+   "from": 2727.5,
+   "to": 2729.5,
+   "text": "Into your computer instead of using your own"
+  },
+  {
+   "from": 2729.6,
+   "to": 2735.1,
+   "text": "So at a high level this tool lets you run arbitrary Lua code and do things like bind it to menu buttons or key presses and"
+  },
+  {
+   "from": 2735.3,
+   "to": 2739.2,
+   "text": "It interacts with a large part of the operating system in order to do all sorts of cool stuff"
+  },
+  {
+   "from": 2739.6,
+   "to": 2742.5,
+   "text": "So that is Hammerspoon, any questions about that?"
+  },
+  {
+   "from": 2744.5,
+   "to": 2746.5,
+   "text": "Cool. Moving on to the next topic"
+  },
+  {
+   "from": 2747.5,
+   "to": 2751.2,
+   "text": "Completely unrelated to the previous one, it's booting and live USBs"
+  },
+  {
+   "from": 2752.1,
+   "to": 2755.3,
+   "text": "So the operating system on your computer, Windows or Mac OS"
+  },
+  {
+   "from": 2755.5,
+   "to": 2760.8,
+   "text": "or whatever you're used to is not exactly the first thing that runs on your machine when it turns on. There's something else that"
+  },
+  {
+   "from": 2760.8,
+   "to": 2764.1,
+   "text": "happens in the boot process before your operating system is loaded and"
+  },
+  {
+   "from": 2764.7,
+   "to": 2768.5,
+   "text": "There's some interesting stuff that you can do there. So you might have seen when you turn on your computer"
+  },
+  {
+   "from": 2768.5,
+   "to": 2773.3,
+   "text": "It says something like press F9 to configure the BIOS or press F12 to enter the boot menu"
+  },
+  {
+   "from": 2773.6,
+   "to": 2777.9,
+   "text": "The particular key sequences may depend on your machine and specific configuration"
+  },
+  {
+   "from": 2777.9,
+   "to": 2782.8,
+   "text": "But this is a general pattern and you can configure all sorts of interesting Hardware related stuff here"
+  },
+  {
+   "from": 2782.8,
+   "to": 2784,
+   "text": "So it's worth checking out"
+  },
+  {
+   "from": 2784,
+   "to": 2789.4,
+   "text": "And another thing you can do in this boot menu is you can have your computer start off from an alternate boot device"
+  },
+  {
+   "from": 2789.4,
+   "to": 2794.2,
+   "text": "so by default like my laptop here has a solid-state drive and it boots Mac OS when it turns on but I can also"
+  },
+  {
+   "from": 2794.3,
+   "to": 2800.4,
+   "text": "say plug in a USB flash drive that has an operating system installed on the flash drive and then at boot tell my computer to"
+  },
+  {
+   "from": 2800.4,
+   "to": 2804.8,
+   "text": "Boot from that flash drive instead of the built-in solid-state disk, and this is useful"
+  },
+  {
+   "from": 2804.8,
+   "to": 2805.2,
+   "text": "for example"
+  },
+  {
+   "from": 2805.2,
+   "to": 2807,
+   "text": "If I've broken my operating system"
+  },
+  {
+   "from": 2807,
+   "to": 2812.2,
+   "text": "Install and I want to do something like get the data off my computer or maybe want to fix the operating system"
+  },
+  {
+   "from": 2812.2,
+   "to": 2815.5,
+   "text": "Like maybe there's some critical files somewhere that I've deleted or I forgot my password"
+  },
+  {
+   "from": 2815.5,
+   "to": 2819.4,
+   "text": "I need to go like tweak some files in order to reset it booting from a live USB"
+  },
+  {
+   "from": 2820,
+   "to": 2824.4,
+   "text": "Booting from the separate operating system that's installed on a flash drive can let me do that like boot up my operating system"
+  },
+  {
+   "from": 2824.8,
+   "to": 2827.3,
+   "text": "Mount the hard disk that's on my current machine"
+  },
+  {
+   "from": 2827.3,
+   "to": 2829.9,
+   "text": "I'm working on and then go make some tweaks or copy data off of that"
+  },
+  {
+   "from": 2830.3,
+   "to": 2836.1,
+   "text": "And so live USBs are really useful and in the lecture notes, we've linked to a tool that can help you create them really easily"
+  },
+  {
+   "from": 2837,
+   "to": 2839.8,
+   "text": "Any questions about the boot process or live USBs?"
+  },
+  {
+   "from": 2842.5,
+   "to": 2848.8,
+   "text": "All right, next topic is virtual machines, Vagrant, Docker, the cloud and OpenStack"
+  },
+  {
+   "from": 2848.8,
+   "to": 2851.6,
+   "text": "I think last year we had an entire lecture on this topic this year"
+  },
+  {
+   "from": 2851.6,
+   "to": 2854,
+   "text": "We're going to condense it into like one minute"
+  },
+  {
+   "from": 2854.1,
+   "to": 2861.2,
+   "text": "So at a high level virtual machines and similar tools like containers let you emulate a whole computer system within your current machine"
+  },
+  {
+   "from": 2861.2,
+   "to": 2864.4,
+   "text": "so like I'm running Mac OS here, but within my Mac OS"
+  },
+  {
+   "from": 2865.4,
+   "to": 2866.5,
+   "text": "environment I can"
+  },
+  {
+   "from": 2866.5,
+   "to": 2869.8,
+   "text": "Simulate a machine that's running say Ubuntu or some other operating system"
+  },
+  {
+   "from": 2869.8,
+   "to": 2875.2,
+   "text": "And this is a nice way of creating an isolated environment for testing or for development or for exploration"
+  },
+  {
+   "from": 2875.7,
+   "to": 2880.6,
+   "text": "For example doing things like running potentially malicious code that should be isolated from my current environment. I"
+  },
+  {
+   "from": 2881.2,
+   "to": 2886.9,
+   "text": "Think the most common use case for programmers is to use virtual machines are containers to create development environments"
+  },
+  {
+   "from": 2886.9,
+   "to": 2891.9,
+   "text": "So I'm using Mac OS and I have some of services and stuff and libraries installed in my current machine"
+  },
+  {
+   "from": 2892,
+   "to": 2893.3,
+   "text": "But I might want for example"
+  },
+  {
+   "from": 2893.3,
+   "to": 2898.3,
+   "text": "I'm working on some web programming project and I want it to run on an"
+  },
+  {
+   "from": 2898.8,
+   "to": 2900.1,
+   "text": "Debian machine and I need"
+  },
+  {
+   "from": 2900.1,
+   "to": 2904.5,
+   "text": "Postgres, like a database server installed rather than install that all on my Mac OS machine"
+  },
+  {
+   "from": 2904.5,
+   "to": 2908.9,
+   "text": "I can instantiate this new machine just for the development purposes"
+  },
+  {
+   "from": 2910.1,
+   "to": 2914.6,
+   "text": "Now virtual machines, like that's a general concept. There are a bunch of programs that let you"
+  },
+  {
+   "from": 2915.3,
+   "to": 2917.8,
+   "text": "that are called virtual machine hypervisors that"
+  },
+  {
+   "from": 2918.3,
+   "to": 2924.7,
+   "text": "Support this functionality on your machine and then there are tools that let you script these hypervisors in order to specify machine"
+  },
+  {
+   "from": 2925,
+   "to": 2931,
+   "text": "Configurations like operating system and like what packages you want installed and what services you want installed in plain text"
+  },
+  {
+   "from": 2931,
+   "to": 2936.7,
+   "text": "And so this is an example on the screen right here. And this is done using a system called Vagrant."
+  },
+  {
+   "from": 2937.9,
+   "to": 2940.8,
+   "text": "It's linked in the lecture notes. You can look into this if you're curious."
+  },
+  {
+   "from": 2940.8,
+   "to": 2945.4,
+   "text": "So basically and the short plain text file I can specify okay. I want a machine that's running Debian"
+  },
+  {
+   "from": 2945.4,
+   "to": 2949.2,
+   "text": "It should have \"postgres\" and Redis and Python and stuff installed on it."
+  },
+  {
+   "from": 2949.2,
+   "to": 2950.9,
+   "text": "And then, once I have this configuration,"
+  },
+  {
+   "from": 2950.9,
+   "to": 2956.8,
+   "text": "I can just type in \"vagrant up\", and what it does is, it reads this file and instantiates a new machine based on this"
+  },
+  {
+   "from": 2957,
+   "to": 2962.7,
+   "text": "configuration. And then, after I've done that I can do \"vagrant ssh\" to SSH into this virtual machine."
+  },
+  {
+   "from": 2962.7,
+   "to": 2965.5,
+   "text": "So it's not a remote machine running on some other piece of hardware somewhere,"
+  },
+  {
+   "from": 2965.5,
+   "to": 2970.8,
+   "text": "It's just simulated on my own machine, but now here I have an Ubuntu box like I do now, let's be really stashe"
+  },
+  {
+   "from": 2970.8,
+   "to": 2974.6,
+   "text": "It's like or sorry not a bunch of debian here with all the things"
+  },
+  {
+   "from": 2974.6,
+   "to": 2978.3,
+   "text": "I want installed in here and I can do my development inside this isolated environment,"
+  },
+  {
+   "from": 2978.4,
+   "to": 2982.2,
+   "text": "and not, kind of, install all this junk on my MacOS machine."
+  },
+  {
+   "from": 2983,
+   "to": 2990.1,
+   "text": "Now so that's vagrant there's similar tools like docker that are conceptually similar but use containers instead of virtual machines"
+  },
+  {
+   "from": 2990.1,
+   "to": 2992.7,
+   "text": "It's a distinction that we're not going to talk about in too much detail right now"
+  },
+  {
+   "from": 2993.7,
+   "to": 2995.7,
+   "text": "And so you can run VMs on your own computer"
+  },
+  {
+   "from": 2995.8,
+   "to": 2998.6,
+   "text": "but you can also rent virtual machines on the cloud and so"
+  },
+  {
+   "from": 2998.7,
+   "to": 3002.9,
+   "text": "It's a nice way to get instant access to like one example is you might want a computer"
+  },
+  {
+   "from": 3002.9,
+   "to": 3007.8,
+   "text": "That's always on always connected to the internet and has a public IP address. Like maybe you want to run a web server"
+  },
+  {
+   "from": 3007.8,
+   "to": 3012.2,
+   "text": "That's always available or you want to run some other service like say a slack bot or something like that"
+  },
+  {
+   "from": 3012.4,
+   "to": 3014,
+   "text": "Well a virtual machine"
+  },
+  {
+   "from": 3014,
+   "to": 3019.2,
+   "text": "rented on the cloud is one nice way to get that and these are pretty cheap for like a low capacity machine with a"
+  },
+  {
+   "from": 3019.4,
+   "to": 3021.4,
+   "text": "small CP and small amount of disk space and"
+  },
+  {
+   "from": 3022.2,
+   "to": 3026.9,
+   "text": "You might want to do is get access to a machine that's really powerful like with a lot of CPU cores or with a lot"
+  },
+  {
+   "from": 3026.9,
+   "to": 3031.5,
+   "text": "Of RAM or with a whole bunch of GPUs for some specific purpose like say you're doing deep learning or so"
+  },
+  {
+   "from": 3031.5,
+   "to": 3033.4,
+   "text": "You're doing some other sorts of sensitive computation"
+  },
+  {
+   "from": 3033.4,
+   "to": 3035.4,
+   "text": "Well, that's another thing you can do with VMs on the cloud"
+  },
+  {
+   "from": 3035.4,
+   "to": 3041.1,
+   "text": "And finally, you can get access to many more machines than you have physical access to. Like if I need a thousand machines"
+  },
+  {
+   "from": 3041.1,
+   "to": 3046.5,
+   "text": "But only for two minutes to do some very parallel tasks. That's something I can easily do with virtual machines and"
+  },
+  {
+   "from": 3047.8,
+   "to": 3051,
+   "text": "Popular services for doing this are things like Amazon AWS or Google cloud"
+  },
+  {
+   "from": 3051.3,
+   "to": 3056.6,
+   "text": "And if you're a member of MIT CSAIL, you can also get free VMs for research purposes using the CSAIL OpenStack"
+  },
+  {
+   "from": 3056.7,
+   "to": 3059,
+   "text": "And so this is also linked in the lecture notes"
+  },
+  {
+   "from": 3059.5,
+   "to": 3063.5,
+   "text": "So any questions about virtual machines, or Vagrant, Docker, or anything like that?"
+  },
+  {
+   "from": 3072.5,
+   "to": 3077.2,
+   "text": "So the question is when I say I'm running Ubuntu, or, actually, in this case, it's Debian"
+  },
+  {
+   "from": 3078.1,
+   "to": 3082.2,
+   "text": "when I'm running Ubuntu here, do I have, like, Ubuntu installed on my machine, or"
+  },
+  {
+   "from": 3082.9,
+   "to": 3088.1,
+   "text": "What exactly is going on here? So, basically, what Vagrant did for me when I type \"vagrant up\" is,"
+  },
+  {
+   "from": 3089,
+   "to": 3095.2,
+   "text": "because I've specified I want Debian here, it downloaded Debian from the internet, like, set up a disk image for this new machine,"
+  },
+  {
+   "from": 3095.5,
+   "to": 3098.9,
+   "text": "installed Debian into that disk image, then went to install these programs"
+  },
+  {
+   "from": 3099.1,
+   "to": 3104.1,
+   "text": "So, like, yes, this is on my computer. But, all of this is just in a particular file that's a disk image."
+  },
+  {
+   "from": 3104.1,
+   "to": 3108.5,
+   "text": "And then, I'm emulating a machine that is basically completely isolated from my current machine."
+  },
+  {
+   "from": 3108.5,
+   "to": 3114.9,
+   "text": "This is being run as a process on my current machine. Does that answer the question? Any other questions about VMs?"
+  },
+  {
+   "from": 3117,
+   "to": 3118.1,
+   "text": "Great."
+  },
+  {
+   "from": 3118.1,
+   "to": 3120.1,
+   "text": "Next topic is also going to be a quick mention -"
+  },
+  {
+   "from": 3120.4,
+   "to": 3121.8,
+   "text": "So,"
+  },
+  {
+   "from": 3121.8,
+   "to": 3125,
+   "text": "a lot of you are programmers, and you're used to writing programs"
+  },
+  {
+   "from": 3125.2,
+   "to": 3127.7,
+   "text": "in a tool like Vim, or some other editor that you're comfortable with."
+  },
+  {
+   "from": 3128,
+   "to": 3133,
+   "text": "Another thing that can be really neat to use for particular tasks, is something called a notebook programming environment."
+  },
+  {
+   "from": 3133,
+   "to": 3137.5,
+   "text": "And this is a more interactive way of writing programs. Here on the screen, I have a demo."
+  },
+  {
+   "from": 3137.5,
+   "to": 3143.4,
+   "text": "This is something called Jupiter notebook and it can be used for writing Python programs. I think they also support some other languages."
+  },
+  {
+   "from": 3144.1,
+   "to": 3146.4,
+   "text": "And, basically, this is a nice way of doing interactive programming."
+  },
+  {
+   "from": 3146.4,
+   "to": 3149.9,
+   "text": "So, normally, you're used to writing a big program in a file, or a collection of files,"
+  },
+  {
+   "from": 3149.9,
+   "to": 3155,
+   "text": "and once you're done writing it, you can just run the whole program. But, this lets you be a little bit more flexible and"
+  },
+  {
+   "from": 3155.6,
+   "to": 3159.8,
+   "text": "run little snippets of code at a time. Like, for example, I can break my program into these little pieces."
+  },
+  {
+   "from": 3159.9,
+   "to": 3166,
+   "text": "It's just some random code I wrote. And, I can say, \"execute this cell\", and I press a particular key combination to execute the cell."
+  },
+  {
+   "from": 3166.1,
+   "to": 3170.8,
+   "text": "But then, I can go back, and tweak my program a little bit. Like, say I want to have this be lowercase instead."
+  },
+  {
+   "from": 3170.8,
+   "to": 3174.6,
+   "text": "Then, I can execute this cell, and then go and evaluate this thing, and"
+  },
+  {
+   "from": 3175,
+   "to": 3179.9,
+   "text": "this way I can, kind of, run little snippets of code, within a Python environment."
+  },
+  {
+   "from": 3180.8,
+   "to": 3185.6,
+   "text": "And, it's a nice way of building up programs, piece by piece, rather than having to write everything at once."
+  },
+  {
+   "from": 3185.7,
+   "to": 3190.7,
+   "text": "This is really useful for particular research purposes, like I think a lot of people use these for doing machine learning work, for example."
+  },
+  {
+   "from": 3193.2,
+   "to": 3197.8,
+   "text": "Any questions about the idea of notebook programming environments? They're worth checking out."
+  },
+  {
+   "from": 3204.3,
+   "to": 3208,
+   "text": "Oh, so the question is, \"This looks like it's online, is there an offline version of Jupiter notebooks?\""
+  },
+  {
+   "from": 3208,
+   "to": 3212.7,
+   "text": "So, actually, this is the thing that runs in the browser, but it's running locally..."
+  },
+  {
+   "from": 3212.7,
+   "to": 3215.5,
+   "text": "So, I don't know if you can see it on the screen, because it's kind of small, but up here"
+  },
+  {
+   "from": 3215.5,
+   "to": 3217.5,
+   "text": "it says, \"localhost:8888\"."
+  },
+  {
+   "from": 3217.8,
+   "to": 3224.3,
+   "text": "Here, I have running on my own local machine, a Jupiter notebook. And, they've just built it"
+  },
+  {
+   "from": 3224.3,
+   "to": 3226.3,
+   "text": "so it runs within the web browser."
+  },
+  {
+   "from": 3227,
+   "to": 3229,
+   "text": "That being said, there are also online"
+  },
+  {
+   "from": 3229.4,
+   "to": 3234.7,
+   "text": "Jupiter notebooks that you can use, where the Python kernel is actually running on some remote machine. You might want to do this"
+  },
+  {
+   "from": 3234.7,
+   "to": 3236,
+   "text": "for example, like on my laptop,"
+  },
+  {
+   "from": 3236,
+   "to": 3240.2,
+   "text": "I don't have a fancy GPU, but in my room, I have a machine with a fancy GPU. And so, when I'm doing machine learning"
+  },
+  {
+   "from": 3240.2,
+   "to": 3247.1,
+   "text": "work, I often SSH into that machine, run a Jupiter notebook on there, and then open up the interface, in my local web browser,"
+  },
+  {
+   "from": 3247.1,
+   "to": 3249.8,
+   "text": "so I have access to that powerful GPU running on my different machine."
+  },
+  {
+   "from": 3251.9,
+   "to": 3253.9,
+   "text": "Any other questions?"
+  },
+  {
+   "from": 3256.3,
+   "to": 3257.7,
+   "text": "Great."
+  },
+  {
+   "from": 3257.7,
+   "to": 3259.7,
+   "text": "The final thing we're going to talk about today is"
+  },
+  {
+   "from": 3260.3,
+   "to": 3264.5,
+   "text": "Github. So, we touched on this a little bit during the version control lecture."
+  },
+  {
+   "from": 3264.5,
+   "to": 3268.1,
+   "text": "But, Github is one of the most popular platforms for open-source software development."
+  },
+  {
+   "from": 3268.4,
+   "to": 3275.4,
+   "text": "It hosts source code. It hosts git repositories. But, they also have other tools for managing a project."
+  },
+  {
+   "from": 3276.3,
+   "to": 3282.1,
+   "text": "And, like, a lot of the tools we've talked about in this class are hosted on Github. For example,"
+  },
+  {
+   "from": 3282.1,
+   "to": 3285.6,
+   "text": "like, Hammerspoon, the thing we just talked about, is developed on Github"
+  },
+  {
+   "from": 3286.4,
+   "to": 3287.9,
+   "text": "It's really easy to get started"
+  },
+  {
+   "from": 3287.9,
+   "to": 3294,
+   "text": "contributing to open-source projects on Github to help improve the tools that you use every day."
+  },
+  {
+   "from": 3294.3,
+   "to": 3297.5,
+   "text": "There are two primary ways you can contribute to projects on Github."
+  },
+  {
+   "from": 3299.3,
+   "to": 3306.3,
+   "text": "Let's open up some repository. We can actually go to the Github repository for the class website."
+  },
+  {
+   "from": 3306.3,
+   "to": 3308.3,
+   "text": "So, this is an open-source software project."
+  },
+  {
+   "from": 3309.1,
+   "to": 3310.6,
+   "text": "And..."
+  },
+  {
+   "from": 3310.6,
+   "to": 3314.8,
+   "text": "Let's zoom in a little bit. So the two ways you can contribute to projects on Github -"
+  },
+  {
+   "from": 3314.8,
+   "to": 3317.4,
+   "text": "The two main ways are through issues and pull requests"
+  },
+  {
+   "from": 3317.5,
+   "to": 3323.9,
+   "text": "One thing that's actually really helpful to developers, and also pretty lightweight and easy for users to do, is to report issues with a"
+  },
+  {
+   "from": 3324,
+   "to": 3327.3,
+   "text": "software project. Like, say you're using somebody's program and you encounter some bug..."
+  },
+  {
+   "from": 3327.6,
+   "to": 3332,
+   "text": "Writing a high quality issue is actually super helpful to developers and hopefully doesn't take you too much time."
+  },
+  {
+   "from": 3332,
+   "to": 3337.5,
+   "text": "And so, you can go to here, like find the project on GitHub, go to the issues page, and click on new issue, and then"
+  },
+  {
+   "from": 3337.5,
+   "to": 3342,
+   "text": "write some high quality bug report. And then, hopefully the developer will respond and fix the issue for you."
+  },
+  {
+   "from": 3342.2,
+   "to": 3343.4,
+   "text": "So, for example, for this class,"
+  },
+  {
+   "from": 3343.4,
+   "to": 3349.1,
+   "text": "like, one of the students in this class pointed out an issue with our lecture notes, and after she pointed it out,"
+  },
+  {
+   "from": 3349.1,
+   "to": 3354.8,
+   "text": "I said, okay, like, that looks like a reasonable thing. Let's fix it. And in this particular case, instead of fixing it myself,"
+  },
+  {
+   "from": 3354.8,
+   "to": 3359.6,
+   "text": "I actually asked this person, \"Do they just want to fix it for me?\" And so, that leads into the other thing"
+  },
+  {
+   "from": 3359.6,
+   "to": 3366,
+   "text": "I want to talk about: issues and pull requests. So, pull requests are the second way to contribute to projects on Github. And,"
+  },
+  {
+   "from": 3366.6,
+   "to": 3369.9,
+   "text": "this involves actually contributing code back to the project. And"
+  },
+  {
+   "from": 3370.6,
+   "to": 3376.8,
+   "text": "so if we look at the pull request for this particular project, you'll see that a bunch of people have submitted code changes."
+  },
+  {
+   "from": 3377.5,
+   "to": 3378.8,
+   "text": "And,"
+  },
+  {
+   "from": 3378.8,
+   "to": 3384.2,
+   "text": "the process for doing so - so this is showing the difference, the patch, that this person submitted."
+  },
+  {
+   "from": 3385.2,
+   "to": 3390.3,
+   "text": "Basically, the process for creating pull requests is a little bit more involved than submitting issues. Like you're not just submitting text:"
+  },
+  {
+   "from": 3390.3,
+   "to": 3392.1,
+   "text": "you're actually going to modify their source code."
+  },
+  {
+   "from": 3392.1,
+   "to": 3396.5,
+   "text": "And so, we've linked to some guides that explain the process in a little bit more detail."
+  },
+  {
+   "from": 3396.5,
+   "to": 3401.9,
+   "text": "But, at a high level, what you do is, you take the repository on Github, \"fork\" it, and then download it locally,"
+  },
+  {
+   "from": 3401.9,
+   "to": 3403,
+   "text": "so now have your own, local copy."
+  },
+  {
+   "from": 3403,
+   "to": 3408.1,
+   "text": "Then, you can go and work on it, do some development work, and fix a bug or add a feature, and then, eventually, you"
+  },
+  {
+   "from": 3408.1,
+   "to": 3412,
+   "text": "send what's called a \"pull request\" back to the original developer. So, you say, 'Here. I've made some changes."
+  },
+  {
+   "from": 3412,
+   "to": 3414.6,
+   "text": "Can you please incorporate them back into the original project?'"
+  },
+  {
+   "from": 3414.6,
+   "to": 3420.4,
+   "text": "And, after that point, what usually happens with these projects, is that the maintainer will go back and forth with you, giving you feedback on"
+  },
+  {
+   "from": 3420.4,
+   "to": 3426.1,
+   "text": "the changes you've proposed. And, eventually, once everybody's happy, they will \"merge\" in your changes, and they'll be available to everybody who uses the project."
+  },
+  {
+   "from": 3427.5,
+   "to": 3434.2,
+   "text": "So, that is how you can contribute to projects on GitHub and make software better for everybody. And, so any questions about GitHub?"
+  },
+  {
+   "from": 3439.2,
+   "to": 3444.4,
+   "text": "Cool, okay. So, that is it for the topics for today. Any questions about the lecture overall?"
+  },
+  {
+   "from": 3445.9,
+   "to": 3447.8,
+   "text": "Great, okay, so before -"
+  },
+  {
+   "from": 3447.8,
+   "to": 3453.4,
+   "text": "before we finish, a quick description about tomorrow's lecture: so, today was all the topics we thought are interesting,"
+  },
+  {
+   "from": 3453.4,
+   "to": 3454.1,
+   "text": "we should talk about,"
+  },
+  {
+   "from": 3454.1,
+   "to": 3458.9,
+   "text": "tomorrow's lecture is gonna be about all the topics you think are interesting and that we should talk about. So, tomorrow is going to be"
+  },
+  {
+   "from": 3458.9,
+   "to": 3460.9,
+   "text": "a Q&A lecture. And, after today,"
+  },
+  {
+   "from": 3461.4,
+   "to": 3463.2,
+   "text": "uh, after the lecture, we'll submit,"
+  },
+  {
+   "from": 3463.2,
+   "to": 3468,
+   "text": "we'll email out a link where you can submit questions for us to answer. And so, please go and fill that out,"
+  },
+  {
+   "from": 3468,
+   "to": 3470,
+   "text": "otherwise, we won't have too much to talk about tomorrow."
+  },
+  {
+   "from": 3471.2,
+   "to": 3473.9,
+   "text": "Great, so hopefully, see you tomorrow in our Q&A lecture."
+  }
+ ]
+}

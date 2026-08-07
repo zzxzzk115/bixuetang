@@ -7,6 +7,7 @@ import { SEEK_EVENT, type SeekRequest } from "@/lib/seek";
 import { EmbedPlayer } from "../embed-player";
 import { BiliInteract } from "./bili-interact";
 import { BiliPlayer, type BiliPlayerHandle } from "./art-player";
+import { VideoNotes } from "./video-notes";
 
 // 播放区:bilibili 源用自研播放器(弹幕 + 真实观看进度),
 // 其他平台(YouTube 等)回退到原来的嵌入播放器。
@@ -39,18 +40,34 @@ export function CoursePlayer({
   const router = useRouter();
   const [episodeN, setEpisodeN] = useState(initialEpisode);
   const [aid, setAid] = useState<number | null>(null);
+  /** UP 主(credit 展示 + 关注) */
+  const [owner, setOwner] = useState<{
+    mid: number;
+    name: string;
+    face: string;
+  } | null>(null);
+  /** 笔记面板默认收起(不挤互动按钮行),互动区「笔记」按钮开关 */
+  const [notesOpen, setNotesOpen] = useState(false);
   const playerRef = useRef<BiliPlayerHandle | null>(null);
   /** 跨集跳转时待应用的秒数:等新一集的播放器就绪(onLoaded)再 seek */
   const pendingSeekRef = useRef<number | null>(null);
 
-  const onLoaded = useCallback((info: { aid: number; cid: number }) => {
-    setAid(info.aid);
-    const pending = pendingSeekRef.current;
-    if (pending != null) {
-      pendingSeekRef.current = null;
-      playerRef.current?.seek(pending);
-    }
-  }, []);
+  const onLoaded = useCallback(
+    (info: {
+      aid: number;
+      cid: number;
+      owner?: { mid: number; name: string; face: string } | null;
+    }) => {
+      setAid(info.aid);
+      setOwner(info.owner ?? null);
+      const pending = pendingSeekRef.current;
+      if (pending != null) {
+        pendingSeekRef.current = null;
+        playerRef.current?.seek(pending);
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     const onSeek = (event: Event) => {
@@ -106,7 +123,6 @@ export function CoursePlayer({
         courseId={courseId}
         episodeN={episode.n}
         resumeAt={resumeByEpisode[episode.n]?.positionSec ?? 0}
-        initialRatioPct={resumeByEpisode[episode.n]?.ratioPct ?? 0}
         serverPrefs={serverPrefs}
         keyPointMarks={keyPointsByEpisode[episode.n] ?? []}
         onCompleted={() => router.refresh()}
@@ -121,7 +137,23 @@ export function CoursePlayer({
         courseTitle={courseTitle}
         episodeTitle={episode.title}
         episodeN={episode.n}
+        owner={owner}
+        notesOpen={notesOpen}
+        onToggleNotes={() => {
+          // 展开笔记 = 进入记录状态,视频同步暂停(收起不打扰)
+          if (!notesOpen) playerRef.current?.pause();
+          setNotesOpen(!notesOpen);
+        }}
       />
+      {/* 笔记面板:点互动区「笔记」才展开,全宽排在下方不挤按钮行 */}
+      {notesOpen && (
+        <VideoNotes
+          courseId={courseId}
+          episodeN={episode.n}
+          getCurrentTime={() => playerRef.current?.currentTime() ?? 0}
+          onStartCompose={() => playerRef.current?.pause()}
+        />
+      )}
     </div>
   );
 }

@@ -237,14 +237,15 @@ export function AppEpisodeList({
                 )}
               </button>
               {/* 长视频的分段 chips:每段一个可完成的小目标,
-                  通勤路上也能啃一段(碎片化学习) */}
+                  通勤路上也能啃一段(碎片化学习)。
+                  已完成的集也保留(全金 100%)——老玩家不该看到 0% */}
               {!locked &&
-                !isWatched &&
                 (segmentsByEpisode[episode.n]?.length ?? 0) > 1 && (
                   <div className="app-eps-segs">
                     {segmentsByEpisode[episode.n]!.map((seg) => {
-                      const pct =
-                        segmentCoverageByEpisode[episode.n]?.[seg.idx] ?? 0;
+                      const pct = isWatched
+                        ? 100
+                        : (segmentCoverageByEpisode[episode.n]?.[seg.idx] ?? 0);
                       const segDone = pct >= 90;
                       return (
                         <button

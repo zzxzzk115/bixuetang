@@ -1,0 +1,3807 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 0,
+   "to": 6.5,
+   "text": "I guess we should do an intro to to this as well,"
+  },
+  {
+   "from": 6.5,
+   "to": 9.6,
+   "text": "so this is a just sort of a"
+  },
+  {
+   "from": 9.6,
+   "to": 14.7,
+   "text": "free-form Q&A lecture where you, as in the two people sitting here, but also"
+  },
+  {
+   "from": 14.7,
+   "to": 19.8,
+   "text": "everyone at home who did not come here in person get to ask questions and we"
+  },
+  {
+   "from": 19.8,
+   "to": 23,
+   "text": "have a bunch of questions people asked in advance but you can also ask"
+  },
+  {
+   "from": 23,
+   "to": 27.4,
+   "text": "additional questions during, for the two of you who are here, you can do it either"
+  },
+  {
+   "from": 27.4,
+   "to": 33.6,
+   "text": "by raising your hand or you can submit it on the forum and be anonymous, it's up to you"
+  },
+  {
+   "from": 33.6,
+   "to": 35.7,
+   "text": "regardless though, what we're gonna do is just go through some of the"
+  },
+  {
+   "from": 35.7,
+   "to": 40.2,
+   "text": "questions have been asked and try to give as helpful answers as we can"
+  },
+  {
+   "from": 40.2,
+   "to": 43.7,
+   "text": "although they are unprepared on our side and"
+  },
+  {
+   "from": 43.8,
+   "to": 45.6,
+   "text": "yeah that's the plan I guess we go"
+  },
+  {
+   "from": 45.6,
+   "to": 48.9,
+   "text": "from popular to least popular"
+  },
+  {
+   "from": 48.9,
+   "to": 50,
+   "text": "fire away"
+  },
+  {
+   "from": 50,
+   "to": 52.1,
+   "text": "all right so for our first question any"
+  },
+  {
+   "from": 52.1,
+   "to": 56,
+   "text": "recommendations on learning operating system related topics like processes,"
+  },
+  {
+   "from": 56,
+   "to": 59.9,
+   "text": "virtual memory, interrupts, memory management, etc"
+  },
+  {
+   "from": 59.9,
+   "to": 61.8,
+   "text": "so I think this is a"
+  },
+  {
+   "from": 61.8,
+   "to": 67.2,
+   "text": "is an interesting question because these are really low level concepts that often"
+  },
+  {
+   "from": 67.2,
+   "to": 71.4,
+   "text": "do not matter, unless you have to deal with this in some capacity,"
+  },
+  {
+   "from": 71.4,
+   "to": 72.8,
+   "text": "right so"
+  },
+  {
+   "from": 72.9,
+   "to": 77.7,
+   "text": "one instance where this matters is you're writing really low level code like"
+  },
+  {
+   "from": 77.7,
+   "to": 80.5,
+   "text": "you're implementing a kernel or something like that, or you want to"
+  },
+  {
+   "from": 80.5,
+   "to": 82.8,
+   "text": "just hack on the Linux kernel."
+  },
+  {
+   "from": 82.8,
+   "to": 84.8,
+   "text": "It's rare otherwise that you need to work with"
+  },
+  {
+   "from": 84.8,
+   "to": 87.7,
+   "text": "especially like virtual memory and interrupts and stuff yourself"
+  },
+  {
+   "from": 87.9,
+   "to": 92.1,
+   "text": "processes, I think are a more general concept that we've talked a little bit about in"
+  },
+  {
+   "from": 92.1,
+   "to": 96.6,
+   "text": "this class as well and tools like htop, pgrep, kill, and signals and"
+  },
+  {
+   "from": 96.8,
+   "to": 97.7,
+   "text": "that sort of stuff"
+  },
+  {
+   "from": 97.7,
+   "to": 99.3,
+   "text": "in terms of learning it"
+  },
+  {
+   "from": 99.3,
+   "to": 105.4,
+   "text": "maybe one of the best ways, is to try to take either an introductory class on the"
+  },
+  {
+   "from": 105.4,
+   "to": 111.4,
+   "text": "topic, so for example MIT has a class called 6.828, which is where"
+  },
+  {
+   "from": 111.4,
+   "to": 115.1,
+   "text": "you essentially build and develop your own operating system based on some code"
+  },
+  {
+   "from": 115.1,
+   "to": 118.6,
+   "text": "that you're given, and all of those labs are publicly available and all the"
+  },
+  {
+   "from": 118.6,
+   "to": 121.6,
+   "text": "resources for the class are publicly available, and so that is a good way to"
+  },
+  {
+   "from": 121.6,
+   "to": 124,
+   "text": "really learn them is by doing them yourself."
+  },
+  {
+   "from": 124,
+   "to": 125.2,
+   "text": "There are also various"
+  },
+  {
+   "from": 125.2,
+   "to": 131.2,
+   "text": "tutorials online that basically guide you through how do you write a kernel"
+  },
+  {
+   "from": 131.2,
+   "to": 135.4,
+   "text": "from scratch. Not necessarily a very elaborate one, not one you would want"
+  },
+  {
+   "from": 135.4,
+   "to": 140.6,
+   "text": "to run any real software on, but just to teach you the basics and so that would"
+  },
+  {
+   "from": 140.6,
+   "to": 141.9,
+   "text": "be another thing to look up."
+  },
+  {
+   "from": 141.9,
+   "to": 144.1,
+   "text": "Like how do I write a kernel in and then your"
+  },
+  {
+   "from": 144.1,
+   "to": 147.6,
+   "text": "language of choice. You will probably not find one that lets you do it in Python"
+  },
+  {
+   "from": 147.6,
+   "to": 153.6,
+   "text": "but in like C, C++, Rust, there are a bunch of topics like this"
+  },
+  {
+   "from": 153.6,
+   "to": 157,
+   "text": "one other note on operating systems"
+  },
+  {
+   "from": 157,
+   "to": 159.9,
+   "text": "so like Jon mentioned MIT has a 6.828 class but"
+  },
+  {
+   "from": 159.9,
+   "to": 163.4,
+   "text": "if you're looking for a more high-level overview, not necessarily programming or"
+  },
+  {
+   "from": 163.4,
+   "to": 166,
+   "text": "an operating system, but just learning about the concepts another good resource"
+  },
+  {
+   "from": 166,
+   "to": 171.3,
+   "text": "is a book called \"Modern Operating Systems\" by Andy Tannenbaum"
+  },
+  {
+   "from": 171.3,
+   "to": 178.4,
+   "text": "there's also actually a book called the \"The FreeBSD Operating System\" which is really good,"
+  },
+  {
+   "from": 178.4,
+   "to": 183,
+   "text": "It doesn't go through Linux, but it goes through FreeBSD and the BSD kernel is"
+  },
+  {
+   "from": 183,
+   "to": 187.2,
+   "text": "arguably better organized than the Linux one and better documented and so it"
+  },
+  {
+   "from": 187.2,
+   "to": 191.6,
+   "text": "might be a gentler introduction to some of those topics than trying to understand Linux"
+  },
+  {
+   "from": 191.6,
+   "to": 195,
+   "text": "You want to check it as answered?"
+  },
+  {
+   "from": 195,
+   "to": 196.5,
+   "text": "- Yes + Nice"
+  },
+  {
+   "from": 196.5,
+   "to": 197.5,
+   "text": "Answered"
+  },
+  {
+   "from": 197.5,
+   "to": 199.4,
+   "text": "For our next question,"
+  },
+  {
+   "from": 199.4,
+   "to": 204,
+   "text": "What are some of the tools you'd prioritize learning first?"
+  },
+  {
+   "from": 204,
+   "to": 209.6,
+   "text": "- Maybe we can all go through and give our opinion on this? + Yeah"
+  },
+  {
+   "from": 209.6,
+   "to": 211.7,
+   "text": "Tools to prioritize learning first?"
+  },
+  {
+   "from": 211.7,
+   "to": 216.5,
+   "text": "I think learning your editor well, just serves you in all capacities"
+  },
+  {
+   "from": 216.5,
+   "to": 220.5,
+   "text": "like being efficient at editing files, is just like a majority of"
+  },
+  {
+   "from": 220.5,
+   "to": 225,
+   "text": "what you're going to spend your time doing. And in general, just using your"
+  },
+  {
+   "from": 225,
+   "to": 229.2,
+   "text": "keyboard more and your mouse less. It means that you get to spend more of your"
+  },
+  {
+   "from": 229.3,
+   "to": 233.8,
+   "text": "time doing useful things and less of your time moving"
+  },
+  {
+   "from": 233.8,
+   "to": 236.3,
+   "text": "I think that would be my top priority,"
+  },
+  {
+   "from": 244.5,
+   "to": 246.8,
+   "text": "so I would say that for what"
+  },
+  {
+   "from": 246.8,
+   "to": 249.7,
+   "text": "tool to prioritize will depend on what exactly you're doing"
+  },
+  {
+   "from": 249.7,
+   "to": 256.2,
+   "text": "I think the core idea is you should try to find the types of tasks that you are"
+  },
+  {
+   "from": 256.2,
+   "to": 258.4,
+   "text": "doing repetitively and so"
+  },
+  {
+   "from": 258.4,
+   "to": 263.8,
+   "text": "if you are doing some sort of like machine learning workload and"
+  },
+  {
+   "from": 264,
+   "to": 267.1,
+   "text": "you find yourself using Jupyter notebooks, like the one we presented"
+  },
+  {
+   "from": 267.1,
+   "to": 272.6,
+   "text": "yesterday, a lot. Then again, using a mouse for that might not be"
+  },
+  {
+   "from": 272.6,
+   "to": 275.8,
+   "text": "the best idea and you want to familiarize with the keyboard shortcuts"
+  },
+  {
+   "from": 275.8,
+   "to": 280.8,
+   "text": "and pretty much with anything you will end up figuring out that there are some"
+  },
+  {
+   "from": 280.8,
+   "to": 285.6,
+   "text": "repetitive tasks, and you're running a computer, and just trying to figure out"
+  },
+  {
+   "from": 285.6,
+   "to": 288.3,
+   "text": "oh there's probably a better way to do this"
+  },
+  {
+   "from": 288.4,
+   "to": 290.9,
+   "text": "be it a terminal, be it an editor"
+  },
+  {
+   "from": 291.1,
+   "to": 295.9,
+   "text": "And it might be really interesting to learn to use some of the topics that"
+  },
+  {
+   "from": 295.9,
+   "to": 301.1,
+   "text": "we have covered, but if they're not extremely useful in a everyday"
+  },
+  {
+   "from": 301.1,
+   "to": 305.4,
+   "text": "basis then it might not be worth prioritizing them"
+  },
+  {
+   "from": 306.6,
+   "to": 307.5,
+   "text": "Out of the topics"
+  },
+  {
+   "from": 307.5,
+   "to": 311.6,
+   "text": "covered in this class, in my opinion, two of the most useful things are version"
+  },
+  {
+   "from": 311.6,
+   "to": 315.2,
+   "text": "control and text editors, and I think they're a little bit different from each"
+  },
+  {
+   "from": 315.2,
+   "to": 318.9,
+   "text": "other, in the sense that text editors I think are really useful to learn well,"
+  },
+  {
+   "from": 318.9,
+   "to": 322,
+   "text": "but it was probably the case that before we started using Vim and all its fancy"
+  },
+  {
+   "from": 322,
+   "to": 325.4,
+   "text": "keyboard shortcuts you had some other text editor you were using before and"
+  },
+  {
+   "from": 325.4,
+   "to": 329.9,
+   "text": "you could edit text just fine maybe a little bit inefficiently, whereas I think"
+  },
+  {
+   "from": 329.9,
+   "to": 333.1,
+   "text": "version control is another really useful skill and that's one where if you don't"
+  },
+  {
+   "from": 333.1,
+   "to": 336.6,
+   "text": "really know the tool properly, it can actually lead to some problems like loss"
+  },
+  {
+   "from": 336.6,
+   "to": 339.5,
+   "text": "of data or just inability to collaborate properly with people. So I"
+  },
+  {
+   "from": 339.5,
+   "to": 342.7,
+   "text": "think version control is one of the first things that's worth learning well."
+  },
+  {
+   "from": 342.7,
+   "to": 346.9,
+   "text": "Yeah, I agree with that. I think learning a tool like Git is just"
+  },
+  {
+   "from": 346.9,
+   "to": 349.7,
+   "text": "gonna save you so much heartache down the line."
+  },
+  {
+   "from": 349.7,
+   "to": 351.4,
+   "text": "It, also, to add on to that,"
+  },
+  {
+   "from": 351.6,
+   "to": 357.3,
+   "text": "it really helps you collaborate with others, and Anish touched a little bit on GitHub"
+  },
+  {
+   "from": 357.3,
+   "to": 361.3,
+   "text": "in the last lecture, and just learning to use that tool well in order"
+  },
+  {
+   "from": 361.3,
+   "to": 365.3,
+   "text": "to work on larger software projects that other people are working on is"
+  },
+  {
+   "from": 365.3,
+   "to": 366.4,
+   "text": "an invaluable skill."
+  },
+  {
+   "from": 370.1,
+   "to": 371.4,
+   "text": "For our next question,"
+  },
+  {
+   "from": 371.4,
+   "to": 372.9,
+   "text": "\"When do I use Python versus a"
+  },
+  {
+   "from": 372.9,
+   "to": 376.1,
+   "text": "Bash script versus some other language?\""
+  },
+  {
+   "from": 376.1,
+   "to": 379.7,
+   "text": "This is tough, because I think this comes"
+  },
+  {
+   "from": 379.7,
+   "to": 381.6,
+   "text": "down to what Jose was saying earlier too,"
+  },
+  {
+   "from": 381.8,
+   "to": 383.7,
+   "text": "that it really depends on what you're trying to do."
+  },
+  {
+   "from": 383.7,
+   "to": 387.2,
+   "text": "For me, I think for Bash scripts in particular,"
+  },
+  {
+   "from": 387.2,
+   "to": 388.8,
+   "text": "Bash scripts are for"
+  },
+  {
+   "from": 388.9,
+   "to": 393.4,
+   "text": "automating running a bunch of commands. You don't want to write any"
+  },
+  {
+   "from": 393.4,
+   "to": 395.4,
+   "text": "other, like, business logic in Bash."
+  },
+  {
+   "from": 395.4,
+   "to": 399,
+   "text": "Like, it is just for, 'I want to run these"
+  },
+  {
+   "from": 399,
+   "to": 404.1,
+   "text": "commands, in this order... maybe with arguments?' But - but, like, even that,"
+  },
+  {
+   "from": 404.1,
+   "to": 407.6,
+   "text": "it's unclear that you want a Bash script once you start taking arguments."
+  },
+  {
+   "from": 407.6,
+   "to": 412.7,
+   "text": "Similarly, like, once you start doing any kind of, like, text processing, or"
+  },
+  {
+   "from": 412.7,
+   "to": 415.1,
+   "text": "configuration, all that,"
+  },
+  {
+   "from": 415.1,
+   "to": 419.1,
+   "text": "reach for a language that is... a more, a more serious"
+  },
+  {
+   "from": 419.1,
+   "to": 421,
+   "text": "programming language than Bash is."
+  },
+  {
+   "from": 421.1,
+   "to": 423.5,
+   "text": "Bash is really for short, one-off"
+  },
+  {
+   "from": 423.5,
+   "to": 430.2,
+   "text": "scripts, or ones that have a very well-defined use case, on the terminal, in"
+  },
+  {
+   "from": 430.2,
+   "to": 432.9,
+   "text": "the shell, probably."
+  },
+  {
+   "from": 432.9,
+   "to": 435.9,
+   "text": "For a slightly more concrete guideline, you might say, 'Write a"
+  },
+  {
+   "from": 435.9,
+   "to": 439.2,
+   "text": "Bash script if it's less than a hundred lines of code or so', but once it gets"
+  },
+  {
+   "from": 439.2,
+   "to": 441.6,
+   "text": "beyond that point, Bash is kind of unwieldy, and it's probably worth"
+  },
+  {
+   "from": 441.6,
+   "to": 445.1,
+   "text": "switching to a more serious programming language, like Python."
+  },
+  {
+   "from": 445.1,
+   "to": 446.5,
+   "text": "And, to add to that,"
+  },
+  {
+   "from": 446.5,
+   "to": 452.2,
+   "text": "I would say, like, I found myself writing, sometimes, scripts in Python, because"
+  },
+  {
+   "from": 452.2,
+   "to": 456.9,
+   "text": "if I have already solved some subproblem that covers part of the problem in Python,"
+  },
+  {
+   "from": 456.9,
+   "to": 460.6,
+   "text": "I find it much easier to compose the previous solution that I found out in"
+  },
+  {
+   "from": 460.6,
+   "to": 465.7,
+   "text": "Python than just try to reuse Bash code, that I don't find as reusable as Python."
+  },
+  {
+   "from": 465.7,
+   "to": 469.6,
+   "text": "And in the same way it's kind of nice that a lot of people have written something"
+  },
+  {
+   "from": 469.6,
+   "to": 472.6,
+   "text": "like Python libraries or like Ruby libraries to do a lot of these things,"
+  },
+  {
+   "from": 472.6,
+   "to": 478.5,
+   "text": "whereas, in Bash, it's kind of hard to have, like, code reuse."
+  },
+  {
+   "from": 478.5,
+   "to": 481.7,
+   "text": "And, in fact,"
+  },
+  {
+   "from": 481.7,
+   "to": 487.6,
+   "text": "I think to add to that, usually, if you find a library, in some language that"
+  },
+  {
+   "from": 487.6,
+   "to": 492.1,
+   "text": "helps with the task you're trying to do, use that language for the job."
+  },
+  {
+   "from": 492.1,
+   "to": 495.7,
+   "text": "And in Bash, there are no libraries. There are only the programs on your computer."
+  },
+  {
+   "from": 495.8,
+   "to": 498.9,
+   "text": "So you probably don't want to use it, unless like there's a program"
+  },
+  {
+   "from": 498.9,
+   "to": 503.7,
+   "text": "you can just invoke. I do think another thing worth remembering about Bash is:"
+  },
+  {
+   "from": 503.7,
+   "to": 506.5,
+   "text": "Bash is really hard to get right."
+  },
+  {
+   "from": 506.5,
+   "to": 510.5,
+   "text": "It's very easy to get it right for the particular use case you're trying to solve right now,"
+  },
+  {
+   "from": 510.5,
+   "to": 512.5,
+   "text": "but, like, things like,"
+  },
+  {
+   "from": 512.5,
+   "to": 515.9,
+   "text": "\"What if one of the filenames has a space in it?\""
+  },
+  {
+   "from": 515.9,
+   "to": 518.9,
+   "text": "It has caused so many bugs, and so"
+  },
+  {
+   "from": 518.9,
+   "to": 523.2,
+   "text": "many problems in Bash scripts. And, if you use a - a real programming language, then"
+  },
+  {
+   "from": 523.2,
+   "to": 526.6,
+   "text": "those problems just go away."
+  },
+  {
+   "from": 526.7,
+   "to": 530.5,
+   "text": "Yes! Checked it."
+  },
+  {
+   "from": 530.6,
+   "to": 531.6,
+   "text": "For our next question,"
+  },
+  {
+   "from": 531.6,
+   "to": 536.2,
+   "text": "what is the difference between sourcing a script, and executing that script?"
+  },
+  {
+   "from": 537.1,
+   "to": 542.7,
+   "text": "Ooh. So, this, actually, we got in office hours a - a while back, as well, which is,"
+  },
+  {
+   "from": 542.9,
+   "to": 547,
+   "text": "'Aren't they the same? Like, aren't they both just running the Bash script?'"
+  },
+  {
+   "from": 547,
+   "to": 548.1,
+   "text": "And, it is true"
+  },
+  {
+   "from": 548.1,
+   "to": 552.2,
+   "text": "both of these will end up executing the lines of code that are in the script."
+  },
+  {
+   "from": 552.2,
+   "to": 556.6,
+   "text": "The ways in which they differ is that sourcing a script is telling your"
+  },
+  {
+   "from": 556.6,
+   "to": 563,
+   "text": "current Bash script, your current Bash session, to execute that program,"
+  },
+  {
+   "from": 563.1,
+   "to": 568.9,
+   "text": "whereas the other one is, 'Start up a new instance of Bash, and run the program there, instead.'"
+  },
+  {
+   "from": 569.3,
+   "to": 574.9,
+   "text": "And, this matters for things like... Imagine that \"script.sh\" tries to change directories."
+  },
+  {
+   "from": 574.9,
+   "to": 577.8,
+   "text": "If you are running the script, as in the second invocation,"
+  },
+  {
+   "from": 577.8,
+   "to": 582.8,
+   "text": "\"./script.sh\", then the new process is going to change"
+  },
+  {
+   "from": 582.8,
+   "to": 586.9,
+   "text": "directories. But, by the time that script exits, and returns to your shell,"
+  },
+  {
+   "from": 586.9,
+   "to": 591.8,
+   "text": "your shell still remains in the same place. However, if you do \"cd\" in a script, and you \"source\" it,"
+  },
+  {
+   "from": 591.8,
+   "to": 595.2,
+   "text": "your current instance of Bash is the one that ends up running it, and"
+  },
+  {
+   "from": 595.2,
+   "to": 598,
+   "text": "so, it ends up \"cd\"-ing where you are."
+  },
+  {
+   "from": 598,
+   "to": 601.2,
+   "text": "This is also why, if you define functions,"
+  },
+  {
+   "from": 601.2,
+   "to": 604.8,
+   "text": "for example, that you may want to execute in your shell session,"
+  },
+  {
+   "from": 604.8,
+   "to": 607,
+   "text": "you need to source the script, not run it,"
+  },
+  {
+   "from": 607,
+   "to": 610.3,
+   "text": "because if you run it, that function will be defined in the"
+  },
+  {
+   "from": 610.3,
+   "to": 611.9,
+   "text": "instance of Bash,"
+  },
+  {
+   "from": 611.9,
+   "to": 616.8,
+   "text": "in the Bash process that gets launched, but it will not be defined in your current shell."
+  },
+  {
+   "from": 616.8,
+   "to": 622.9,
+   "text": "I think those are two of the biggest differences between the two."
+  },
+  {
+   "from": 629.2,
+   "to": 629.7,
+   "text": "Next question..."
+  },
+  {
+   "from": 629.9,
+   "to": 635.1,
+   "text": "\"What are the places where various packages and tools are stored and how does referencing them work?"
+  },
+  {
+   "from": 635.1,
+   "to": 639.2,
+   "text": "What even is /bin or /lib?\""
+  },
+  {
+   "from": 639.2,
+   "to": 645.1,
+   "text": "So, as we covered in the first lecture, there is this PATH environment variable,"
+  },
+  {
+   "from": 645.1,
+   "to": 649.6,
+   "text": "which is like a semicolon-separated- string of all the places"
+  },
+  {
+   "from": 649.6,
+   "to": 655.1,
+   "text": "where your shell is gonna look for binaries. And, if you just do something like"
+  },
+  {
+   "from": 655.1,
+   "to": 658.2,
+   "text": "\"echo $PATH\", you're gonna get this list;"
+  },
+  {
+   "from": 658.2,
+   "to": 662.3,
+   "text": "all these places are gonna be consulted, in order."
+  },
+  {
+   "from": 662.3,
+   "to": 663.6,
+   "text": "It's gonna go through all of them, and, in fact,"
+  },
+  {
+   "from": 663.6,
+   "to": 667,
+   "text": "- There is already... Did we cover which? + Yeah"
+  },
+  {
+   "from": 667.2,
+   "to": 670,
+   "text": "So, if you run \"which\", and a specific command,"
+  },
+  {
+   "from": 670,
+   "to": 674.1,
+   "text": "the shell is actually gonna tell you where it's finding this (command)."
+  },
+  {
+   "from": 674.1,
+   "to": 675.4,
+   "text": "Beyond that,"
+  },
+  {
+   "from": 675.4,
+   "to": 680.4,
+   "text": "there is like some conventions where a lot of programs will install their binaries"
+  },
+  {
+   "from": 680.4,
+   "to": 684.1,
+   "text": "and they're like /usr/bin (or at least they will include symlinks)"
+  },
+  {
+   "from": 684.1,
+   "to": 686.1,
+   "text": "in /usr/bin so you can find them"
+  },
+  {
+   "from": 686.2,
+   "to": 688.2,
+   "text": "There's also a /usr/local/bin"
+  },
+  {
+   "from": 688.2,
+   "to": 694,
+   "text": "There are special directories. For example, /usr/sbin it's only for sudo user and"
+  },
+  {
+   "from": 694,
+   "to": 698.5,
+   "text": "some of these conventions are slightly different between different distros so"
+  },
+  {
+   "from": 698.5,
+   "to": 707.6,
+   "text": "I know like some distros for example install the user libraries under /opt for example"
+  },
+  {
+   "from": 711.2,
+   "to": 715.5,
+   "text": "Yeah I think one thing just to talk a little bit of more"
+  },
+  {
+   "from": 715.7,
+   "to": 720.6,
+   "text": "about /bin and then Anish maybe you can do the other folders so when it comes to"
+  },
+  {
+   "from": 720.6,
+   "to": 722.8,
+   "text": "/bin the convention"
+  },
+  {
+   "from": 722.8,
+   "to": 730.1,
+   "text": "There are conventions, and the conventions are usually /bin are for essential system utilities"
+  },
+  {
+   "from": 730.1,
+   "to": 732.5,
+   "text": "/usr/bin are for user programs and"
+  },
+  {
+   "from": 732.5,
+   "to": 737.4,
+   "text": "/usr/local/bin are for user compiled programs, sort of"
+  },
+  {
+   "from": 737.4,
+   "to": 741.7,
+   "text": "so things that you installed that you intend the user to run, are in /usr/bin"
+  },
+  {
+   "from": 741.7,
+   "to": 746.7,
+   "text": "things that a user has compiled themselves and stuck on your system, probably goes in /usr/local/bin"
+  },
+  {
+   "from": 746.7,
+   "to": 750,
+   "text": "but again, this varies a lot from machine to machine, and distro to distro"
+  },
+  {
+   "from": 750,
+   "to": 754,
+   "text": "On Arch Linux, for example, /bin is a symlink to /usr/bin"
+  },
+  {
+   "from": 754,
+   "to": 760.3,
+   "text": "They're the same and as Jose mentioned, there's also /sbin which is for programs that are"
+  },
+  {
+   "from": 760.3,
+   "to": 763.8,
+   "text": "intended to only be run as root, that also varies from distro to distro"
+  },
+  {
+   "from": 763.8,
+   "to": 767.3,
+   "text": "whether you even have that directory, and on many systems like /usr/local/bin"
+  },
+  {
+   "from": 767.3,
+   "to": 771.2,
+   "text": "might not even be in your PATH, or might not even exist on your system"
+  },
+  {
+   "from": 771.2,
+   "to": 775.8,
+   "text": "On BSD on the other hand /usr/local/bin is often used a lot more heavily"
+  },
+  {
+   "from": 776.7,
+   "to": 777.2,
+   "text": "yeah so"
+  },
+  {
+   "from": 777.2,
+   "to": 781.1,
+   "text": "What we were talking about so far, these are all ways that files and folders are"
+  },
+  {
+   "from": 781.1,
+   "to": 785.1,
+   "text": "organized on Linux things or Linux or BSD things vary a little bit between"
+  },
+  {
+   "from": 785.1,
+   "to": 787.2,
+   "text": "that and macOS or other platforms"
+  },
+  {
+   "from": 787.2,
+   "to": 789.3,
+   "text": "I think for the specific locations,"
+  },
+  {
+   "from": 789.3,
+   "to": 791.5,
+   "text": "if you to know exactly what it's used for, you can look it up"
+  },
+  {
+   "from": 791.5,
+   "to": 797.3,
+   "text": "But some general patterns to keep in mind or anything with /bin in it has binary executable programs in it,"
+  },
+  {
+   "from": 797.3,
+   "to": 799.9,
+   "text": "anything with \\lib in it, has libraries in it so things that"
+  },
+  {
+   "from": 799.9,
+   "to": 805.1,
+   "text": "programs can link against, and then some other things that are useful to know are"
+  },
+  {
+   "from": 805.1,
+   "to": 809.4,
+   "text": "there's a /etc on many systems, which has configuration files in it and"
+  },
+  {
+   "from": 809.4,
+   "to": 814.3,
+   "text": "then there's /home, which underneath that directory contains each user's home directory"
+  },
+  {
+   "from": 814.3,
+   "to": 818.5,
+   "text": "so like on a linux box my username or if it's Anish will"
+  },
+  {
+   "from": 818.7,
+   "to": 821.4,
+   "text": "correspond to a home directory /home/anish"
+  },
+  {
+   "from": 822.1,
+   "to": 823.4,
+   "text": "Yeah I guess there are"
+  },
+  {
+   "from": 823.4,
+   "to": 827.7,
+   "text": "a couple of others like /tmp is usually a temporary directory that gets"
+  },
+  {
+   "from": 827.7,
+   "to": 831.4,
+   "text": "erased when you reboot not always but sometimes, you should check on your system"
+  },
+  {
+   "from": 831.7,
+   "to": 839.2,
+   "text": "There's a /var which often holds like files the change over time so"
+  },
+  {
+   "from": 839.2,
+   "to": 846.2,
+   "text": "these these are usually going to be things like lock files for package managers"
+  },
+  {
+   "from": 846.2,
+   "to": 852.4,
+   "text": "they're gonna be things like log files files to keep track of process IDs"
+  },
+  {
+   "from": 852.4,
+   "to": 856.5,
+   "text": "then there's /dev which shows devices so"
+  },
+  {
+   "from": 856.5,
+   "to": 860.6,
+   "text": "usually so these are special files that correspond to devices on your system we"
+  },
+  {
+   "from": 860.6,
+   "to": 867.4,
+   "text": "talked about /sys, Anish mentioned /etc"
+  },
+  {
+   "from": 869.1,
+   "to": 876,
+   "text": "/opt is a common one for just like third-party software that basically it's usually for"
+  },
+  {
+   "from": 876,
+   "to": 881,
+   "text": "companies ported their software to Linux but they don't actually understand what"
+  },
+  {
+   "from": 881,
+   "to": 885.4,
+   "text": "running software on Linux is like, and so they just have a directory with all"
+  },
+  {
+   "from": 885.4,
+   "to": 891.4,
+   "text": "their stuff in it and when those get installed they usually get installed into /opt"
+  },
+  {
+   "from": 891.4,
+   "to": 895.7,
+   "text": "I think those are the ones off the top of my head"
+  },
+  {
+   "from": 895.7,
+   "to": 897.8,
+   "text": "yeah"
+  },
+  {
+   "from": 897.8,
+   "to": 902.3,
+   "text": "And we will list these in our lecture notes which will produce after this lecture"
+  },
+  {
+   "from": 902.3,
+   "to": 904.4,
+   "text": "Next question"
+  },
+  {
+   "from": 904.4,
+   "to": 907.1,
+   "text": "Should I apt-get install a Python whatever"
+  },
+  {
+   "from": 907.1,
+   "to": 910.7,
+   "text": "package or pip install that package"
+  },
+  {
+   "from": 910.7,
+   "to": 913.9,
+   "text": "so this is a good question that I think at"
+  },
+  {
+   "from": 913.9,
+   "to": 917.3,
+   "text": "a higher level this question is asking should I use my systems package manager"
+  },
+  {
+   "from": 917.3,
+   "to": 920.9,
+   "text": "to install things or should I use some other package manager. Like in this case"
+  },
+  {
+   "from": 920.9,
+   "to": 925,
+   "text": "one that's more specific to a particular language. And the answer here is also"
+  },
+  {
+   "from": 925,
+   "to": 928.6,
+   "text": "kind of it depends, sometimes it's nice to manage things using a system package"
+  },
+  {
+   "from": 928.6,
+   "to": 932,
+   "text": "manager so everything can be installed and upgraded in a single place but"
+  },
+  {
+   "from": 932,
+   "to": 935.2,
+   "text": "I think oftentimes whatever is available in the system repositories the things"
+  },
+  {
+   "from": 935.2,
+   "to": 937.8,
+   "text": "you can get via a tool like apt-get or something similar"
+  },
+  {
+   "from": 937.8,
+   "to": 941,
+   "text": "might be slightly out of date compared to the more language specific repository"
+  },
+  {
+   "from": 941,
+   "to": 945.1,
+   "text": "so for example a lot of the Python packages I use I really want the most"
+  },
+  {
+   "from": 945.1,
+   "to": 947.8,
+   "text": "up-to-date version and so I use pip to install them"
+  },
+  {
+   "from": 948.6,
+   "to": 951.1,
+   "text": "Then, to extend on that is"
+  },
+  {
+   "from": 951.1,
+   "to": 957.8,
+   "text": "sometimes the case the system packages might require some other"
+  },
+  {
+   "from": 957.8,
+   "to": 962.5,
+   "text": "dependencies that you might not have realized about, and it's also might be"
+  },
+  {
+   "from": 962.5,
+   "to": 967.2,
+   "text": "the case or like for some systems, at least for like alpine Linux they"
+  },
+  {
+   "from": 967.2,
+   "to": 971.2,
+   "text": "don't have wheels for like a lot of the Python packages so it will just take"
+  },
+  {
+   "from": 971.2,
+   "to": 975.3,
+   "text": "longer to compile them, it will take more space because they have to compile them"
+  },
+  {
+   "from": 975.3,
+   "to": 980.8,
+   "text": "from scratch. Whereas if you just go to pip, pip has binaries for a lot of"
+  },
+  {
+   "from": 980.8,
+   "to": 983.5,
+   "text": "different platforms and that will probably work"
+  },
+  {
+   "from": 983.5,
+   "to": 989.2,
+   "text": "You also should be aware that pip might not do the exact same thing in different computers"
+  },
+  {
+   "from": 989.2,
+   "to": 993.6,
+   "text": "So, for example, if you are in a kind of laptop or like a desktop that is running like"
+  },
+  {
+   "from": 993.6,
+   "to": 999,
+   "text": "a x86 or x86_64 you probably have binaries, but if you're running something"
+  },
+  {
+   "from": 999,
+   "to": 1003.5,
+   "text": "like Raspberry Pi or some other kind of embedded device. These are running on a"
+  },
+  {
+   "from": 1003.5,
+   "to": 1007.6,
+   "text": "different kind of hardware architecture and you might not have binaries"
+  },
+  {
+   "from": 1007.6,
+   "to": 1011.8,
+   "text": "I think that's also good to take into account, in that case in might be worthwhile to"
+  },
+  {
+   "from": 1011.8,
+   "to": 1018.6,
+   "text": "use the system packages just because they will take much shorter to get them"
+  },
+  {
+   "from": 1018.6,
+   "to": 1021.7,
+   "text": "than to just to compile from scratch the entire Python installation"
+  },
+  {
+   "from": 1021.7,
+   "to": 1026.7,
+   "text": "Apart from that, I don't think I can think of any exceptions where I would actually use the system packages"
+  },
+  {
+   "from": 1026.7,
+   "to": 1029.3,
+   "text": "instead of the Python provided ones"
+  },
+  {
+   "from": 1039,
+   "to": 1040.9,
+   "text": "So, one other thing to keep in mind is that"
+  },
+  {
+   "from": 1040.9,
+   "to": 1046.2,
+   "text": "sometimes you will have more than one program on your computer and you might"
+  },
+  {
+   "from": 1046.2,
+   "to": 1050,
+   "text": "be developing more than one program on your computer and for some reason not"
+  },
+  {
+   "from": 1050,
+   "to": 1053.9,
+   "text": "all programs are always built with the latest version of things, sometimes they"
+  },
+  {
+   "from": 1053.9,
+   "to": 1059.4,
+   "text": "are a little bit behind, and when you install something system-wide you can"
+  },
+  {
+   "from": 1059.4,
+   "to": 1064.7,
+   "text": "only... depends on your exact system, but often you just have one version"
+  },
+  {
+   "from": 1064.7,
+   "to": 1069.7,
+   "text": "what pip lets you do, especially combined with something like python's virtualenv,"
+  },
+  {
+   "from": 1069.7,
+   "to": 1074.5,
+   "text": "and similar concepts exist for other languages, where you can sort of say"
+  },
+  {
+   "from": 1074.5,
+   "to": 1079.7,
+   "text": "I want to (NPM does the same thing as well with its node modules, for example) where"
+  },
+  {
+   "from": 1079.7,
+   "to": 1086,
+   "text": "I'm gonna compile the dependencies of this package in sort of a subdirectory"
+  },
+  {
+   "from": 1086,
+   "to": 1090.4,
+   "text": "of its own, and all of the versions that it requires are going to be built in there"
+  },
+  {
+   "from": 1090.4,
+   "to": 1093.9,
+   "text": "and you can do this separately for separate projects so there they have"
+  },
+  {
+   "from": 1093.9,
+   "to": 1096.9,
+   "text": "different dependencies or the same dependencies with different versions"
+  },
+  {
+   "from": 1096.9,
+   "to": 1100.9,
+   "text": "they still sort of kept separate. And that is one thing that's hard to achieve"
+  },
+  {
+   "from": 1100.9,
+   "to": 1102.7,
+   "text": "with system packages"
+  },
+  {
+   "from": 1107.1,
+   "to": 1107.9,
+   "text": "Next question"
+  },
+  {
+   "from": 1107.9,
+   "to": 1112.8,
+   "text": "What's the easiest and best profiling tools to use to improve performance of my code?"
+  },
+  {
+   "from": 1114.4,
+   "to": 1119.2,
+   "text": "This is a topic we could talk about for a very long time"
+  },
+  {
+   "from": 1119.2,
+   "to": 1122.9,
+   "text": "The easiest and best is to print stuff using time"
+  },
+  {
+   "from": 1122.9,
+   "to": 1128.4,
+   "text": "Like, I'm not joking, very often the easiest thing is in your code"
+  },
+  {
+   "from": 1129,
+   "to": 1133.8,
+   "text": "At the top you figure out what the current time is, and then you do sort of"
+  },
+  {
+   "from": 1133.8,
+   "to": 1137.9,
+   "text": "a binary search over your program of add a print statement that prints how much"
+  },
+  {
+   "from": 1137.9,
+   "to": 1142.5,
+   "text": "time has elapsed since the start of your program and then you do that until you"
+  },
+  {
+   "from": 1142.5,
+   "to": 1146.3,
+   "text": "find the segment of code that took the longest. And then you go into that"
+  },
+  {
+   "from": 1146.3,
+   "to": 1149.5,
+   "text": "function and then you do the same thing again and you keep doing this until you"
+  },
+  {
+   "from": 1149.5,
+   "to": 1154,
+   "text": "find roughly where the time was spent. It's not foolproof, but it is really easy"
+  },
+  {
+   "from": 1154,
+   "to": 1156.7,
+   "text": "and it gives you good information quickly"
+  },
+  {
+   "from": 1156.7,
+   "to": 1165.4,
+   "text": "if you do need more advanced information Valgrind has a tool called cache-grind?"
+  },
+  {
+   "from": 1165.4,
+   "to": 1169.4,
+   "text": "call grind? Cache grind? One of the two."
+  },
+  {
+   "from": 1169.4,
+   "to": 1173.3,
+   "text": "and this tool lets you run your program and"
+  },
+  {
+   "from": 1173.3,
+   "to": 1178.7,
+   "text": "measure how long everything takes and all of the call stacks, like which"
+  },
+  {
+   "from": 1178.7,
+   "to": 1182.5,
+   "text": "function called which function, and what you end up with is a really neat"
+  },
+  {
+   "from": 1182.5,
+   "to": 1187.1,
+   "text": "annotation of your entire program source with the heat of every line basically"
+  },
+  {
+   "from": 1187.1,
+   "to": 1191.8,
+   "text": "how much time was spent there. It does slow down your program by like an order"
+  },
+  {
+   "from": 1191.8,
+   "to": 1196,
+   "text": "of magnitude or more, and it doesn't really support threads but it is really"
+  },
+  {
+   "from": 1196,
+   "to": 1201.1,
+   "text": "useful if you can use it. If you can't, then tools like perf or similar tools"
+  },
+  {
+   "from": 1201.1,
+   "to": 1205.2,
+   "text": "for other languages that do usually some kind of sampling profiling like we"
+  },
+  {
+   "from": 1205.2,
+   "to": 1209.8,
+   "text": "talked about in the profiler lecture, can give you pretty useful data quickly,"
+  },
+  {
+   "from": 1209.8,
+   "to": 1215.2,
+   "text": "but it's a lot of data around this, but they're a little bit"
+  },
+  {
+   "from": 1215.2,
+   "to": 1219,
+   "text": "biased and what kind of things they usually highlight as a problem and it"
+  },
+  {
+   "from": 1219,
+   "to": 1223,
+   "text": "can sometimes be hard to extract meaningful information about what should"
+  },
+  {
+   "from": 1223,
+   "to": 1227.7,
+   "text": "I change in response to them. Whereas the sort of print approach very quickly"
+  },
+  {
+   "from": 1227.7,
+   "to": 1232.2,
+   "text": "gives you like this section of code is bad or slow"
+  },
+  {
+   "from": 1232.2,
+   "to": 1234.9,
+   "text": "I think would be my answer"
+  },
+  {
+   "from": 1234.9,
+   "to": 1240.4,
+   "text": "Flamegraphs are great, they're a good way to visualize some of this information"
+  },
+  {
+   "from": 1241.5,
+   "to": 1245.6,
+   "text": "Yeah I just have one thing to add, oftentimes programming languages"
+  },
+  {
+   "from": 1245.6,
+   "to": 1248.9,
+   "text": "have language specific tools for profiling so to figure out what's the"
+  },
+  {
+   "from": 1248.9,
+   "to": 1252.2,
+   "text": "right tool to use for your language like if you're doing JavaScript in the web browser"
+  },
+  {
+   "from": 1252.2,
+   "to": 1255.4,
+   "text": "the web browser has a really nice tool for doing profiling you should just use that"
+  },
+  {
+   "from": 1255.4,
+   "to": 1260.5,
+   "text": "or if you are using go, for example, go has a built-in profiler is really good you should just use that"
+  },
+  {
+   "from": 1261.7,
+   "to": 1264.3,
+   "text": "A last thing to add to that"
+  },
+  {
+   "from": 1264.3,
+   "to": 1270,
+   "text": "Sometimes you might find that doing this binary search over time that you're kind of"
+  },
+  {
+   "from": 1270,
+   "to": 1274.4,
+   "text": "finding where the time is going, but this time is sometimes happening because"
+  },
+  {
+   "from": 1274.4,
+   "to": 1278.5,
+   "text": "you're waiting on the network, or you're waiting for some file, and in that case"
+  },
+  {
+   "from": 1278.5,
+   "to": 1283.4,
+   "text": "you want to make sure that the time that is, if I want to write"
+  },
+  {
+   "from": 1283.4,
+   "to": 1287.3,
+   "text": "like 1 gigabyte file or like read 1 gigabyte file and put it into memory"
+  },
+  {
+   "from": 1287.3,
+   "to": 1292.3,
+   "text": "you want to check that the actual time there, is the minimum amount of time"
+  },
+  {
+   "from": 1292.3,
+   "to": 1296.2,
+   "text": "you actually have to wait. If it's ten times longer, you should try to use some"
+  },
+  {
+   "from": 1296.2,
+   "to": 1299.4,
+   "text": "other tools that we covered in the debugging and profiling section to see"
+  },
+  {
+   "from": 1299.4,
+   "to": 1305.7,
+   "text": "why you're not utilizing all your resources because that might..."
+  },
+  {
+   "from": 1310.5,
+   "to": 1316.1,
+   "text": "Because that might be a lot of what's happening thing, like for example, in my research"
+  },
+  {
+   "from": 1316.1,
+   "to": 1319.4,
+   "text": "in machine learning workloads, a lot of time is loading data and you have to"
+  },
+  {
+   "from": 1319.4,
+   "to": 1323,
+   "text": "make sure well like the time it takes to load data is actually the minimum amount"
+  },
+  {
+   "from": 1323,
+   "to": 1327.5,
+   "text": "of time you want to have that happening"
+  },
+  {
+   "from": 1328,
+   "to": 1333.5,
+   "text": "And to build on that, there are actually specialized tools for doing things like"
+  },
+  {
+   "from": 1333.5,
+   "to": 1337.4,
+   "text": "analyzing wait times. Very often when you're waiting for something what's"
+  },
+  {
+   "from": 1337.4,
+   "to": 1340.6,
+   "text": "really happening is you're issuing your system call, and that system call takes"
+  },
+  {
+   "from": 1340.6,
+   "to": 1344.2,
+   "text": "some amount of time to respond. Like you do a really large write, or a really large read"
+  },
+  {
+   "from": 1344.2,
+   "to": 1348.4,
+   "text": "or you do many of them, and one thing that can be really handy here is"
+  },
+  {
+   "from": 1348.4,
+   "to": 1351.8,
+   "text": "to try to get information out of the kernel about where your program is"
+  },
+  {
+   "from": 1351.8,
+   "to": 1357,
+   "text": "spending its time. And so there's (it's not new), but there's a relatively"
+  },
+  {
+   "from": 1357,
+   "to": 1362.8,
+   "text": "newly available thing called BPF or eBPF. Which is essentially kernel tracing"
+  },
+  {
+   "from": 1362.8,
+   "to": 1368.5,
+   "text": "and you can do some really cool things with it, and that includes tracing user programs."
+  },
+  {
+   "from": 1368.5,
+   "to": 1371.8,
+   "text": "It can be a little bit awkward to get started with, there's a tool"
+  },
+  {
+   "from": 1371.8,
+   "to": 1376.2,
+   "text": "called BPF trace that i would recommend you looking to, if you need to do like"
+  },
+  {
+   "from": 1376.2,
+   "to": 1380,
+   "text": "this kind of low-level performance debugging. But it is really good for this"
+  },
+  {
+   "from": 1380,
+   "to": 1384.6,
+   "text": "kind of stuff. You can get things like histograms over how much time was spent"
+  },
+  {
+   "from": 1384.6,
+   "to": 1386.7,
+   "text": "in particular system calls"
+  },
+  {
+   "from": 1386.7,
+   "to": 1389.7,
+   "text": "It's a great tool"
+  },
+  {
+   "from": 1392.3,
+   "to": 1395.4,
+   "text": "What browser plugins do you use?"
+  },
+  {
+   "from": 1396.7,
+   "to": 1399.7,
+   "text": "I try to use as few as I can get away with using"
+  },
+  {
+   "from": 1399.7,
+   "to": 1406,
+   "text": "because I don't like things being in my browser, but there are a couple of"
+  },
+  {
+   "from": 1406,
+   "to": 1410.3,
+   "text": "ones that are sort of staples. The first one is uBlock Origin."
+  },
+  {
+   "from": 1410.3,
+   "to": 1416.6,
+   "text": "So uBlock Origin is one of many ad blockers but it's a little bit more than an ad blocker."
+  },
+  {
+   "from": 1416.6,
+   "to": 1422.5,
+   "text": "It is (a what do they call it?) a network filtering tool so it lets"
+  },
+  {
+   "from": 1422.5,
+   "to": 1427.3,
+   "text": "you do more things than just block ads. It also lets you like block connections"
+  },
+  {
+   "from": 1427.3,
+   "to": 1431.4,
+   "text": "to certain domains, block connections for certain types of resources"
+  },
+  {
+   "from": 1431.4,
+   "to": 1436,
+   "text": "So I have mine set up in what they call the Advanced Mode, where basically"
+  },
+  {
+   "from": 1436,
+   "to": 1442.5,
+   "text": "you can disable basically all network requests. But it's not just Network requests,"
+  },
+  {
+   "from": 1442.5,
+   "to": 1447.4,
+   "text": "It's also like I have disabled all inline scripts on every page and all"
+  },
+  {
+   "from": 1447.4,
+   "to": 1451.5,
+   "text": "third-party images and resources, and then you can sort of create a whitelist"
+  },
+  {
+   "from": 1451.5,
+   "to": 1456.4,
+   "text": "for every page so it gives you really low-level tools around how to"
+  },
+  {
+   "from": 1456.4,
+   "to": 1460.3,
+   "text": "how to improve the security of your browsing. But you can also set it in not the"
+  },
+  {
+   "from": 1460.3,
+   "to": 1464,
+   "text": "advanced mode, and then it does much of the same as a regular ad blocker would"
+  },
+  {
+   "from": 1464,
+   "to": 1468.1,
+   "text": "do, although in a fairly efficient way if you're looking at an ad blocker it's"
+  },
+  {
+   "from": 1468.1,
+   "to": 1471.5,
+   "text": "probably the one to use and it works on like every browser"
+  },
+  {
+   "from": 1471.5,
+   "to": 1474.5,
+   "text": "That would be my top pick I think,"
+  },
+  {
+   "from": 1479.1,
+   "to": 1484.4,
+   "text": "I think probably the one I use like the most actively"
+  },
+  {
+   "from": 1484.4,
+   "to": 1490.4,
+   "text": "is one called Stylus. It lets you modify the CSS or like the stylesheets"
+  },
+  {
+   "from": 1490.4,
+   "to": 1494.6,
+   "text": "that webpages have. And it's pretty neat, because sometimes you're"
+  },
+  {
+   "from": 1494.6,
+   "to": 1498.6,
+   "text": "looking at a website and you want to hide some part of the website"
+  },
+  {
+   "from": 1498.6,
+   "to": 1504.2,
+   "text": "you don't care about. Like maybe a ad, maybe some sidebar you're not finding useful"
+  },
+  {
+   "from": 1504.2,
+   "to": 1506.3,
+   "text": "The thing is, at the end of the day these things are"
+  },
+  {
+   "from": 1506.3,
+   "to": 1509.6,
+   "text": "displaying in your browser, and you have control of what code is"
+  },
+  {
+   "from": 1509.6,
+   "to": 1513.1,
+   "text": "executing and similar to what Jon was saying, like you can customize this"
+  },
+  {
+   "from": 1513.1,
+   "to": 1518.5,
+   "text": "to no end, and what I have for a lot of web pages like hide this this part, or"
+  },
+  {
+   "from": 1518.5,
+   "to": 1523.4,
+   "text": "also trying to make like dark modes for them like you can change pretty much the"
+  },
+  {
+   "from": 1523.4,
+   "to": 1526.8,
+   "text": "color for every single website. And what is actually pretty neat is that there's"
+  },
+  {
+   "from": 1526.8,
+   "to": 1531.5,
+   "text": "like a repository online of people that have contributed this is stylesheets"
+  },
+  {
+   "from": 1531.5,
+   "to": 1535,
+   "text": "for the websites. So someone probably has (done) one for GitHub"
+  },
+  {
+   "from": 1535,
+   "to": 1538.8,
+   "text": "Like I want dark GitHub and someone has already contributed one that makes"
+  },
+  {
+   "from": 1538.8,
+   "to": 1544.6,
+   "text": "that much more pleasing to browse. Apart from that, one that it's not really"
+  },
+  {
+   "from": 1544.6,
+   "to": 1549.5,
+   "text": "fancy, but I have found incredibly helpful is one that just takes a screenshot an"
+  },
+  {
+   "from": 1549.5,
+   "to": 1553.1,
+   "text": "entire website. And It will scroll for you and make"
+  },
+  {
+   "from": 1553.1,
+   "to": 1557.7,
+   "text": "compound image of the entire website and that's really great for when you're trying to"
+  },
+  {
+   "from": 1557.7,
+   "to": 1560.1,
+   "text": "print a website and is just terrible."
+  },
+  {
+   "from": 1560.1,
+   "to": 1560.6,
+   "text": "(It's built into Firefox)"
+  },
+  {
+   "from": 1560.6,
+   "to": 1562.7,
+   "text": "oh interesting"
+  },
+  {
+   "from": 1562.7,
+   "to": 1565.8,
+   "text": "oh now that you mention builtin to Firefox, another one that I really like about"
+  },
+  {
+   "from": 1565.8,
+   "to": 1569.1,
+   "text": "Firefox is the multi account containers"
+  },
+  {
+   "from": 1569.1,
+   "to": 1570.8,
+   "text": "(Oh yeah, it's fantastic)"
+  },
+  {
+   "from": 1570.8,
+   "to": 1572.3,
+   "text": "Which kind of lets you"
+  },
+  {
+   "from": 1572.3,
+   "to": 1576.7,
+   "text": "By default a lot of web browsers, like for example Chrome, have this"
+  },
+  {
+   "from": 1576.7,
+   "to": 1580.6,
+   "text": "notion of like there's session that you have, where you have all your cookies"
+  },
+  {
+   "from": 1580.6,
+   "to": 1584.6,
+   "text": "and they are kind of all shared from the different websites in the sense of"
+  },
+  {
+   "from": 1584.6,
+   "to": 1590.8,
+   "text": "you keep opening new tabs and unless you go into incognito you kind of have the same profile"
+  },
+  {
+   "from": 1590.8,
+   "to": 1594.2,
+   "text": "And that profile is the same for all websites, there is this"
+  },
+  {
+   "from": 1594.2,
+   "to": 1595.9,
+   "text": "Is it an extension or is it built in?"
+  },
+  {
+   "from": 1595.9,
+   "to": 1600.6,
+   "text": "(it's a mix, it's complicated)"
+  },
+  {
+   "from": 1601.1,
+   "to": 1606.2,
+   "text": "So I think you actually have to say you want to install it or enable it and again"
+  },
+  {
+   "from": 1606.2,
+   "to": 1609.9,
+   "text": "the name is Multi Account Containers and these let you tell Firefox to have"
+  },
+  {
+   "from": 1609.9,
+   "to": 1614,
+   "text": "separate isolated sessions. So for example, you want to say"
+  },
+  {
+   "from": 1614,
+   "to": 1618.9,
+   "text": "I have a separate sessions for whenever I visit to Google or whenever I visit Amazon"
+  },
+  {
+   "from": 1618.9,
+   "to": 1621.8,
+   "text": "and that can be pretty neat, because then you can"
+  },
+  {
+   "from": 1621.8,
+   "to": 1628.2,
+   "text": "At a browser level it's ensuring that no information sharing is happening between the two of them"
+  },
+  {
+   "from": 1628.2,
+   "to": 1632,
+   "text": "And it's much more convenient than having to open a incognito window"
+  },
+  {
+   "from": 1632,
+   "to": 1634.5,
+   "text": "where it's gonna clean all the time the stuff"
+  },
+  {
+   "from": 1634.5,
+   "to": 1637.3,
+   "text": "(One thing to mention is Stylus vs Stylish)"
+  },
+  {
+   "from": 1637.5,
+   "to": 1639.7,
+   "text": "Oh yeah, I forgot about that"
+  },
+  {
+   "from": 1639.7,
+   "to": 1644.9,
+   "text": "One important thing is the browser extension for side loading CSS Stylesheets"
+  },
+  {
+   "from": 1644.9,
+   "to": 1651.9,
+   "text": "it's called a Stylus and that's different from the older one that was"
+  },
+  {
+   "from": 1651.9,
+   "to": 1657.4,
+   "text": "called Stylish, because that one got bought at some point by some shady"
+  },
+  {
+   "from": 1657.4,
+   "to": 1660.7,
+   "text": "company, that started abusing it not only to have"
+  },
+  {
+   "from": 1660.7,
+   "to": 1665.8,
+   "text": "that functionality, but also to read your entire browser history and send that"
+  },
+  {
+   "from": 1665.8,
+   "to": 1668.5,
+   "text": "back to their servers so they could data mine it."
+  },
+  {
+   "from": 1668.5,
+   "to": 1673.7,
+   "text": "So, then people just built this open-source alternative that is called Stylus, and that's the one"
+  },
+  {
+   "from": 1673.7,
+   "to": 1679,
+   "text": "we recommend. Said that, I think the repository for styles is the same for the"
+  },
+  {
+   "from": 1679,
+   "to": 1683.6,
+   "text": "two of them, but I would have to double check that."
+  },
+  {
+   "from": 1683.6,
+   "to": 1686,
+   "text": "Do you have any browser plugins Anish?"
+  },
+  {
+   "from": 1686.1,
+   "to": 1689.3,
+   "text": "Yes, so I also have some recommendations for browser plugins"
+  },
+  {
+   "from": 1689.3,
+   "to": 1694,
+   "text": "I also use uBlock Origin and I also use Stylus,"
+  },
+  {
+   "from": 1694,
+   "to": 1698.5,
+   "text": "but one other one that I'd recommend is integration with a password manager"
+  },
+  {
+   "from": 1698.5,
+   "to": 1701.6,
+   "text": "So this is a topic that we have in the lecture notes for the security"
+  },
+  {
+   "from": 1701.6,
+   "to": 1704.8,
+   "text": "lecture, but we didn't really get to talk about in detail. But basically password"
+  },
+  {
+   "from": 1704.8,
+   "to": 1707.8,
+   "text": "managers do a really good job of increasing your security when working"
+  },
+  {
+   "from": 1707.8,
+   "to": 1711.8,
+   "text": "with online accounts, and having browser integration with your password manager"
+  },
+  {
+   "from": 1711.8,
+   "to": 1714.4,
+   "text": "can save you a lot of time like you can open up a website then it can"
+  },
+  {
+   "from": 1714.4,
+   "to": 1717.4,
+   "text": "autofill your login information for you sir and you go and copy and paste it"
+  },
+  {
+   "from": 1717.4,
+   "to": 1720.3,
+   "text": "back and forth between a separate program if it's not integrated with your"
+  },
+  {
+   "from": 1720.3,
+   "to": 1723.4,
+   "text": "web browser, and it can also, this integration, can save you from certain"
+  },
+  {
+   "from": 1723.4,
+   "to": 1727.7,
+   "text": "attacks that would otherwise be possible if you were doing this manual copy pasting."
+  },
+  {
+   "from": 1727.7,
+   "to": 1730.8,
+   "text": "For example, phishing attacks. So you find a website that looks very"
+  },
+  {
+   "from": 1730.8,
+   "to": 1734.2,
+   "text": "similar to Facebook and you go to log in with your facebook login credentials and"
+  },
+  {
+   "from": 1734.2,
+   "to": 1736.9,
+   "text": "you go to your password manager and copy paste the correct credentials into this"
+  },
+  {
+   "from": 1736.9,
+   "to": 1740.1,
+   "text": "funny web site and now all of a sudden it has your password but if you have"
+  },
+  {
+   "from": 1740.1,
+   "to": 1743.1,
+   "text": "browser integration then the extension can automatically check"
+  },
+  {
+   "from": 1743.1,
+   "to": 1747,
+   "text": "like. Am I on F A C E B O O K.com,or is it some other domain"
+  },
+  {
+   "from": 1747,
+   "to": 1750.7,
+   "text": "that maybe look similar and it will not enter the login information if it's the wrong domain"
+  },
+  {
+   "from": 1750.7,
+   "to": 1755.8,
+   "text": "so browser extension for password managing is good"
+  },
+  {
+   "from": 1755.8,
+   "to": 1757.9,
+   "text": "Yeah I agree"
+  },
+  {
+   "from": 1759.5,
+   "to": 1760.7,
+   "text": "Next question"
+  },
+  {
+   "from": 1760.7,
+   "to": 1764,
+   "text": "What are other useful data wrangling tools?"
+  },
+  {
+   "from": 1764,
+   "to": 1772.4,
+   "text": "So in yesterday's lecture, I mentioned curl, so curl is a fantastic tool for just making web"
+  },
+  {
+   "from": 1772.4,
+   "to": 1775.8,
+   "text": "requests and dumping them to your terminal. You can also use it for things"
+  },
+  {
+   "from": 1775.8,
+   "to": 1781.2,
+   "text": "like uploading files which is really handy."
+  },
+  {
+   "from": 1781.2,
+   "to": 1788.4,
+   "text": "In the exercises of that lecture we also talked about JQ and pup which are command line tools that let you"
+  },
+  {
+   "from": 1788.4,
+   "to": 1793,
+   "text": "basically write queries over JSON and HTML documents respectively"
+  },
+  {
+   "from": 1793,
+   "to": 1800.4,
+   "text": "that can be really handy. Other data wrangling tools?"
+  },
+  {
+   "from": 1800.4,
+   "to": 1803.8,
+   "text": "Ah Perl, the Perl programming language is"
+  },
+  {
+   "from": 1803.8,
+   "to": 1808.1,
+   "text": "often referred to as a write only programming language because it's"
+  },
+  {
+   "from": 1808.1,
+   "to": 1813.4,
+   "text": "impossible to read even if you wrote it. But it is fantastic at doing just like"
+  },
+  {
+   "from": 1813.4,
+   "to": 1821.6,
+   "text": "straight up text processing, like nothing beats it there, so maybe worth learning"
+  },
+  {
+   "from": 1821.6,
+   "to": 1824.3,
+   "text": "some very rudimentary Perl just to write some of those scripts"
+  },
+  {
+   "from": 1824.3,
+   "to": 1829.4,
+   "text": "It's easier often than writing some like hacked-up combination of grep and awk and sed,"
+  },
+  {
+   "from": 1829.4,
+   "to": 1836.3,
+   "text": "and it will be much faster to just tack something up than writing it up in Python, for example"
+  },
+  {
+   "from": 1836.3,
+   "to": 1844,
+   "text": "but apart from that, other data wrangling"
+  },
+  {
+   "from": 1844,
+   "to": 1847.1,
+   "text": "No, not off the top of my head really"
+  },
+  {
+   "from": 1847.1,
+   "to": 1853.7,
+   "text": "column -t, if you pipe any white space separated"
+  },
+  {
+   "from": 1853.7,
+   "to": 1858.8,
+   "text": "input into column -t it will align all the white space of the columns so that"
+  },
+  {
+   "from": 1858.8,
+   "to": 1865.8,
+   "text": "you get nicely aligned columns that's, and head and tail but we talked about those"
+  },
+  {
+   "from": 1869,
+   "to": 1873.8,
+   "text": "I think a couple of additions to that, that I find myself using commonly"
+  },
+  {
+   "from": 1873.8,
+   "to": 1879.9,
+   "text": "one is vim. Vim can be pretty useful for like data wrangling on itself"
+  },
+  {
+   "from": 1879.9,
+   "to": 1882.5,
+   "text": "Sometimes you might find that the operation that you're trying to do is"
+  },
+  {
+   "from": 1882.5,
+   "to": 1887.7,
+   "text": "hard to put down in terms of piping different operators but if you"
+  },
+  {
+   "from": 1887.7,
+   "to": 1892.5,
+   "text": "can just open the file and just record"
+  },
+  {
+   "from": 1892.5,
+   "to": 1897.3,
+   "text": "a couple of quick vim macros to do what you want it to do, it might be like much,"
+  },
+  {
+   "from": 1897.3,
+   "to": 1902.3,
+   "text": "much easier. That's one, and then the other one, if you're dealing with tabular"
+  },
+  {
+   "from": 1902.3,
+   "to": 1906.1,
+   "text": "data and you want to do more complex operations like sorting by one column,"
+  },
+  {
+   "from": 1906.1,
+   "to": 1911.2,
+   "text": "then grouping and then computing some sort of statistic, I think a lot of that"
+  },
+  {
+   "from": 1911.2,
+   "to": 1916,
+   "text": "workload I ended up just using Python and pandas because it's built for that"
+  },
+  {
+   "from": 1916,
+   "to": 1920.2,
+   "text": "And one of the pretty neat features that I find myself also using is that it"
+  },
+  {
+   "from": 1920.2,
+   "to": 1923.9,
+   "text": "will export to many different formats. So this intermediate state"
+  },
+  {
+   "from": 1923.9,
+   "to": 1929.2,
+   "text": "has its own kind of pandas dataframe object but it can"
+  },
+  {
+   "from": 1929.2,
+   "to": 1934.2,
+   "text": "export to HTM, LaTeX, a lot of different like table formats so if your end"
+  },
+  {
+   "from": 1934.2,
+   "to": 1939.5,
+   "text": "product is some sort of summary table, then pandas I think it's a fantastic choice for that"
+  },
+  {
+   "from": 1941.1,
+   "to": 1944.8,
+   "text": "I would second the vim and also Python I think those are"
+  },
+  {
+   "from": 1944.8,
+   "to": 1949.1,
+   "text": "two of my most used data wrangling tools. For the vim one, last year we had a demo"
+  },
+  {
+   "from": 1949.1,
+   "to": 1951.8,
+   "text": "in the series in the lecture notes, but we didn't cover it in class we had a"
+  },
+  {
+   "from": 1951.8,
+   "to": 1958.1,
+   "text": "demo of turning an XML file into a JSON version of that same data using only vim macros"
+  },
+  {
+   "from": 1958.1,
+   "to": 1960.3,
+   "text": "And I think that's actually the way I would do it in practice"
+  },
+  {
+   "from": 1960.3,
+   "to": 1963.2,
+   "text": "I don't want to go find a tool that does this conversion it is actually simple"
+  },
+  {
+   "from": 1963.2,
+   "to": 1965.4,
+   "text": "to encode as a vim macro, then I just do it that way"
+  },
+  {
+   "from": 1965.4,
+   "to": 1969,
+   "text": "And then also Python especially in an interactive tool like a Jupyter notebook"
+  },
+  {
+   "from": 1969,
+   "to": 1971.2,
+   "text": "is a really great way of doing data wrangling"
+  },
+  {
+   "from": 1971.2,
+   "to": 1973,
+   "text": "A third tool I'd mention which I don't remember if we"
+  },
+  {
+   "from": 1973,
+   "to": 1975.4,
+   "text": "covered in the data wrangling lecture or elsewhere"
+  },
+  {
+   "from": 1975.4,
+   "to": 1978.8,
+   "text": "is a tool called pandoc which can do transformations between different text"
+  },
+  {
+   "from": 1978.8,
+   "to": 1983,
+   "text": "document formats so you can convert from plaintext to HTML or HTML to markdown"
+  },
+  {
+   "from": 1983,
+   "to": 1987.4,
+   "text": "or LaTeX to HTML or many other formats it actually it supports a large"
+  },
+  {
+   "from": 1987.4,
+   "to": 1990.5,
+   "text": "list of input formats and a large list of output formats"
+  },
+  {
+   "from": 1990.5,
+   "to": 1996.4,
+   "text": "I think there's one last one which I mentioned briefly in the lecture on data wrangling which is"
+  },
+  {
+   "from": 1996.4,
+   "to": 2000.4,
+   "text": "the R programming language, it's an awful (I think it's an awful)"
+  },
+  {
+   "from": 2000.4,
+   "to": 2005.1,
+   "text": "language to program in. And i would never use it in the middle of a data wrangling"
+  },
+  {
+   "from": 2005.1,
+   "to": 2011,
+   "text": "pipeline, but at the end, in order to like produce pretty plots and statistics R is great"
+  },
+  {
+   "from": 2011,
+   "to": 2015.6,
+   "text": "Because R is built for doing statistics and plotting"
+  },
+  {
+   "from": 2015.6,
+   "to": 2020.6,
+   "text": "there's a library for are called ggplot which is just amazing"
+  },
+  {
+   "from": 2020.6,
+   "to": 2026.6,
+   "text": "ggplot2 i guess technically It's great, it produces very"
+  },
+  {
+   "from": 2026.6,
+   "to": 2031.4,
+   "text": "nice visualizations and it lets you do, it does very easily do things like"
+  },
+  {
+   "from": 2031.4,
+   "to": 2037.6,
+   "text": "If you have a data set that has like multiple facets like it's not just X and Y"
+  },
+  {
+   "from": 2037.6,
+   "to": 2043.1,
+   "text": "it's like X Y Z and some other variable, and then you want to plot like the"
+  },
+  {
+   "from": 2043.1,
+   "to": 2047.6,
+   "text": "throughput grouped by all of those parameters at the same time and produce"
+  },
+  {
+   "from": 2047.6,
+   "to": 2052,
+   "text": "a visualization. R very easily let's you do this and I haven't seen anywhere"
+  },
+  {
+   "from": 2052,
+   "to": 2054.9,
+   "text": "that lets you do that as easily"
+  },
+  {
+   "from": 2057,
+   "to": 2058,
+   "text": "Next question,"
+  },
+  {
+   "from": 2058,
+   "to": 2060.5,
+   "text": "What's the difference between Docker and a virtual machine"
+  },
+  {
+   "from": 2063.3,
+   "to": 2067.7,
+   "text": "What's the easiest way to explain this? So docker"
+  },
+  {
+   "from": 2067.7,
+   "to": 2071.2,
+   "text": "starts something called containers and docker is not the only program that"
+  },
+  {
+   "from": 2071.2,
+   "to": 2076.6,
+   "text": "starts containers. There are many others and usually they rely on some feature of"
+  },
+  {
+   "from": 2076.6,
+   "to": 2080.4,
+   "text": "the underlying kernel in the case of docker they use something called LXC"
+  },
+  {
+   "from": 2080.4,
+   "to": 2087.6,
+   "text": "which are Linux containers and the basic premise there is if you want to start"
+  },
+  {
+   "from": 2087.6,
+   "to": 2093.2,
+   "text": "what looks like a virtual machine that is running roughly the same operating"
+  },
+  {
+   "from": 2093.2,
+   "to": 2097.4,
+   "text": "system as you are already running on your computer then you don't really need"
+  },
+  {
+   "from": 2097.4,
+   "to": 2104.7,
+   "text": "to run another instance of the kernel really that other virtual machine can"
+  },
+  {
+   "from": 2104.7,
+   "to": 2110,
+   "text": "share a kernel. And you can just use the kernels built in isolation mechanisms to"
+  },
+  {
+   "from": 2110,
+   "to": 2113.8,
+   "text": "spin up a program that thinks it's running on its own hardware but in"
+  },
+  {
+   "from": 2113.8,
+   "to": 2118.5,
+   "text": "reality it's sharing the kernel and so this means that containers can often run"
+  },
+  {
+   "from": 2118.5,
+   "to": 2122.6,
+   "text": "with much lower overhead than a full virtual machine will do but you should"
+  },
+  {
+   "from": 2122.6,
+   "to": 2126.4,
+   "text": "keep in mind that it also has somewhat weaker isolation because you are sharing"
+  },
+  {
+   "from": 2126.4,
+   "to": 2130.8,
+   "text": "a kernel between the two if you spin up a virtual machine the only thing that's"
+  },
+  {
+   "from": 2130.8,
+   "to": 2135.9,
+   "text": "shared is sort of the hardware and to some extent the hypervisor, whereas"
+  },
+  {
+   "from": 2135.9,
+   "to": 2140.8,
+   "text": "with a docker container you're sharing the full kernel and the that is a"
+  },
+  {
+   "from": 2140.8,
+   "to": 2144.9,
+   "text": "different threat model that you might have to keep in mind"
+  },
+  {
+   "from": 2147.3,
+   "to": 2152.4,
+   "text": "One another small note there as Jon pointed out, to use containers something"
+  },
+  {
+   "from": 2152.4,
+   "to": 2155.6,
+   "text": "like Docker you need the underlying operating system to be roughly the same"
+  },
+  {
+   "from": 2155.6,
+   "to": 2160.1,
+   "text": "as whatever the program that's running on top of the container expects and so"
+  },
+  {
+   "from": 2160.1,
+   "to": 2163.8,
+   "text": "if you're using macOS for example, the way you use docker is you run Linux"
+  },
+  {
+   "from": 2163.8,
+   "to": 2168.3,
+   "text": "inside a virtual machine and then you can run Docker on top of Linux so maybe"
+  },
+  {
+   "from": 2168.3,
+   "to": 2171.7,
+   "text": "if you're going for containers in order to get better performance your trading"
+  },
+  {
+   "from": 2171.7,
+   "to": 2175.1,
+   "text": "isolation for performance if you're running on Mac OS that may not work out"
+  },
+  {
+   "from": 2175.1,
+   "to": 2177.5,
+   "text": "exactly as expected"
+  },
+  {
+   "from": 2177.5,
+   "to": 2181.2,
+   "text": "And one last note is that there is a slight difference, so"
+  },
+  {
+   "from": 2181.2,
+   "to": 2185.7,
+   "text": "with Docker and containers, one of the gotchas you have"
+  },
+  {
+   "from": 2185.7,
+   "to": 2189.4,
+   "text": "to be familiar with is that containers are more similar to virtual"
+  },
+  {
+   "from": 2189.4,
+   "to": 2193.1,
+   "text": "machines in the sense of that they will persist all the storage that you"
+  },
+  {
+   "from": 2193.1,
+   "to": 2196,
+   "text": "have where Docker by default won't have that."
+  },
+  {
+   "from": 2196,
+   "to": 2197.8,
+   "text": "Like Docker is supposed to be running"
+  },
+  {
+   "from": 2197.8,
+   "to": 2201.8,
+   "text": "So the main idea is like I want to run some software and"
+  },
+  {
+   "from": 2201.8,
+   "to": 2205.7,
+   "text": "I get the image and it runs and if you want to have any kind of persistent"
+  },
+  {
+   "from": 2205.7,
+   "to": 2210.1,
+   "text": "storage that links to the host system you have to kind of manually specify"
+  },
+  {
+   "from": 2210.1,
+   "to": 2216.1,
+   "text": "that, whereas a virtual machine is using some virtual disk that is being provided"
+  },
+  {
+   "from": 2216.1,
+   "to": 2222.7,
+   "text": "Next question"
+  },
+  {
+   "from": 2222.7,
+   "to": 2225.1,
+   "text": "What are the advantages of each operating system"
+  },
+  {
+   "from": 2225.1,
+   "to": 2228.5,
+   "text": "and how can we choose between them? For example, choosing the best Linux"
+  },
+  {
+   "from": 2228.5,
+   "to": 2230.6,
+   "text": "distribution for our purposes"
+  },
+  {
+   "from": 2234.3,
+   "to": 2236.8,
+   "text": "I will say that for many, many tasks the"
+  },
+  {
+   "from": 2236.8,
+   "to": 2240.2,
+   "text": "specific Linux distribution that you're running is not that important"
+  },
+  {
+   "from": 2240.2,
+   "to": 2243.7,
+   "text": "the thing is, it's just what kind of"
+  },
+  {
+   "from": 2243.7,
+   "to": 2247.7,
+   "text": "knowing that there are different types or like groups of distributions,"
+  },
+  {
+   "from": 2247.7,
+   "to": 2252.3,
+   "text": "So for example, there are some distributions that have really frequent updates"
+  },
+  {
+   "from": 2252.3,
+   "to": 2259,
+   "text": "but they kind of break more easily. So for example Arch Linux has a rolling update"
+  },
+  {
+   "from": 2259,
+   "to": 2263.5,
+   "text": "way of pushing updates, where things might break but they're fine with the things"
+  },
+  {
+   "from": 2263.5,
+   "to": 2267.9,
+   "text": "being that way. Where maybe where you have some really important web server"
+  },
+  {
+   "from": 2267.9,
+   "to": 2271.4,
+   "text": "that is hosting all your business analytics you want that thing"
+  },
+  {
+   "from": 2271.4,
+   "to": 2276,
+   "text": "to have like a much more steady way of updates. So that's for example why you"
+  },
+  {
+   "from": 2276,
+   "to": 2278.1,
+   "text": "will see distributions like Debian being"
+  },
+  {
+   "from": 2278.1,
+   "to": 2283,
+   "text": "much more conservative about what they push, or even for example Ubuntu makes a difference"
+  },
+  {
+   "from": 2283,
+   "to": 2287,
+   "text": "between the Long Term Releases that they are only update every"
+  },
+  {
+   "from": 2287,
+   "to": 2292.3,
+   "text": "two years and the more periodic releases of one there is a"
+  },
+  {
+   "from": 2292.3,
+   "to": 2296.7,
+   "text": "it's like two a year that they make. So, kind of knowing that there's the"
+  },
+  {
+   "from": 2296.7,
+   "to": 2301.3,
+   "text": "difference apart from that some distributions have different ways"
+  },
+  {
+   "from": 2301.3,
+   "to": 2307.2,
+   "text": "of providing the binaries to you and the way they"
+  },
+  {
+   "from": 2307.2,
+   "to": 2313.8,
+   "text": "have the repositories so I think a lot of Red Hat Linux don't want non free drivers in"
+  },
+  {
+   "from": 2313.8,
+   "to": 2317.4,
+   "text": "their official repositories where I think Ubuntu is fine with some of"
+  },
+  {
+   "from": 2317.4,
+   "to": 2322.5,
+   "text": "them, apart from that I think like just a lot of what is core to most Linux"
+  },
+  {
+   "from": 2322.5,
+   "to": 2327.4,
+   "text": "distros is kind of shared between them and there's a lot of learning in the"
+  },
+  {
+   "from": 2327.4,
+   "to": 2331.4,
+   "text": "common ground. So you don't have to worry about the specifics"
+  },
+  {
+   "from": 2332.4,
+   "to": 2336.4,
+   "text": "Keeping with the theme of this class being somewhat opinionated, I'm gonna go ahead and say"
+  },
+  {
+   "from": 2336.4,
+   "to": 2340,
+   "text": "that if you're using Linux especially for the first time choose something like"
+  },
+  {
+   "from": 2340,
+   "to": 2343.9,
+   "text": "Ubuntu or Debian. So you Ubuntu to is a Debian based distribution but maybe is a"
+  },
+  {
+   "from": 2343.9,
+   "to": 2347.4,
+   "text": "little bit more friendly, Debian is a little bit more minimalist. I use Debian"
+  },
+  {
+   "from": 2347.4,
+   "to": 2350.5,
+   "text": "and all my servers, for example. And I use Debian desktop on my desktop computers"
+  },
+  {
+   "from": 2350.5,
+   "to": 2355.4,
+   "text": "that run Linux if you're going for maybe trying to learn more things and you want"
+  },
+  {
+   "from": 2355.4,
+   "to": 2359.4,
+   "text": "a distribution that trades stability for having more up-to-date software maybe"
+  },
+  {
+   "from": 2359.4,
+   "to": 2361.9,
+   "text": "at the expense of you having to fix a broken distribution every once in a"
+  },
+  {
+   "from": 2361.9,
+   "to": 2366.9,
+   "text": "while then maybe you can consider something like Arch Linux or Gentoo"
+  },
+  {
+   "from": 2366.9,
+   "to": 2372.7,
+   "text": "or Slackware. Oh man, I'd say that like if you're installing Linux and just like"
+  },
+  {
+   "from": 2372.7,
+   "to": 2374.9,
+   "text": "want to get work done Debian is a great choice"
+  },
+  {
+   "from": 2375.9,
+   "to": 2378.3,
+   "text": "Yeah I think I agree with that."
+  },
+  {
+   "from": 2378.3,
+   "to": 2381,
+   "text": "The other observation is like you couldn't install BSD"
+  },
+  {
+   "from": 2381,
+   "to": 2386.7,
+   "text": "BSD has gotten, has come a long way from where it was. There's still a bunch of"
+  },
+  {
+   "from": 2386.7,
+   "to": 2390.9,
+   "text": "software you can't really get for BSD but it gives you a very well-documented"
+  },
+  {
+   "from": 2390.9,
+   "to": 2395.8,
+   "text": "experience and and one thing that's different about BSD compared to Linux is"
+  },
+  {
+   "from": 2395.8,
+   "to": 2402.5,
+   "text": "that in an BSD when you install BSD you get a full operating system, mostly"
+  },
+  {
+   "from": 2402.7,
+   "to": 2407.5,
+   "text": "So many of the programs are maintained by the same team that maintains the kernel"
+  },
+  {
+   "from": 2407.5,
+   "to": 2411.4,
+   "text": "and everything is sort of upgraded together, which is a little different"
+  },
+  {
+   "from": 2411.4,
+   "to": 2413.3,
+   "text": "than how thanks work in the Linux world it does"
+  },
+  {
+   "from": 2413.3,
+   "to": 2416.8,
+   "text": "mean that things often move a little bit slower. I would not use it for things"
+  },
+  {
+   "from": 2416.8,
+   "to": 2421.8,
+   "text": "like gaming either, because drivers support is meh. But it is an interesting"
+  },
+  {
+   "from": 2421.8,
+   "to": 2430.7,
+   "text": "environment to look at. And then for things like Mac OS and Windows I think"
+  },
+  {
+   "from": 2430.7,
+   "to": 2436,
+   "text": "If you are a programmer, I don't know why you are using Windows unless you are"
+  },
+  {
+   "from": 2436,
+   "to": 2442.4,
+   "text": "building things for Windows; or you want to be able to do gaming and stuff"
+  },
+  {
+   "from": 2442.4,
+   "to": 2446.9,
+   "text": "but in that case, maybe try dual booting, even though that's a pain too"
+  },
+  {
+   "from": 2446.9,
+   "to": 2452,
+   "text": "Mac OS is a is a good sort of middle point between the two where you get a system"
+  },
+  {
+   "from": 2452,
+   "to": 2457.9,
+   "text": "that is like relatively nicely polished for you. But you still have access to"
+  },
+  {
+   "from": 2457.9,
+   "to": 2461.2,
+   "text": "some of the lower-level bits at least to a certain extent."
+  },
+  {
+   "from": 2461.2,
+   "to": 2467.5,
+   "text": "it's also really easy to dual boot Mac OS and Windows it is not quite the case with like Mac OS and"
+  },
+  {
+   "from": 2467.5,
+   "to": 2469.7,
+   "text": "Linux or Linux and Windows"
+  },
+  {
+   "from": 2473.9,
+   "to": 2475.8,
+   "text": "Alright, for the rest of the questions so these are"
+  },
+  {
+   "from": 2475.8,
+   "to": 2478.8,
+   "text": "all 0 upvote questions so maybe we can go through them quickly in the last five"
+  },
+  {
+   "from": 2478.8,
+   "to": 2483.5,
+   "text": "or so minutes of class. So the next one is Vim versus Emacs? Vim!"
+  },
+  {
+   "from": 2483.5,
+   "to": 2490.9,
+   "text": "Easy answer, but a more serious answer is like I think all three of us use vim as our primary editor"
+  },
+  {
+   "from": 2490.9,
+   "to": 2494.9,
+   "text": "I use Emacs for some research specific stuff which requires Emacs but"
+  },
+  {
+   "from": 2494.9,
+   "to": 2498.7,
+   "text": "at a higher level both editors have interesting ideas behind them and if you"
+  },
+  {
+   "from": 2498.7,
+   "to": 2503.1,
+   "text": "have the time is worth exploring both to see which fits you better and also"
+  },
+  {
+   "from": 2503.1,
+   "to": 2506.8,
+   "text": "you can use Emacs and run it in a vim emulation mode. I actually know a"
+  },
+  {
+   "from": 2506.8,
+   "to": 2509.1,
+   "text": "good number of people who do that so they get access to some of the cool"
+  },
+  {
+   "from": 2509.1,
+   "to": 2512.6,
+   "text": "Emacs functionality and some of the cool philosophy behind that like Emacs is"
+  },
+  {
+   "from": 2512.6,
+   "to": 2515.4,
+   "text": "programmable through Lisp which is kind of cool."
+  },
+  {
+   "from": 2515.4,
+   "to": 2519.4,
+   "text": "Much better than vimscript, but people like vim's modal editing, so there's an"
+  },
+  {
+   "from": 2519.4,
+   "to": 2524.5,
+   "text": "emacs plugin called evil mode which gives you vim modal editing within Emacs so"
+  },
+  {
+   "from": 2524.5,
+   "to": 2528.1,
+   "text": "it's not necessarily a binary choice you can kind of combine both tools if you"
+  },
+  {
+   "from": 2528.1,
+   "to": 2531.2,
+   "text": "want to. And it's worth exploring both if you have the time."
+  },
+  {
+   "from": 2531.2,
+   "to": 2532.7,
+   "text": "Next question"
+  },
+  {
+   "from": 2532.7,
+   "to": 2535.7,
+   "text": "Any tips or tricks for machine learning applications?"
+  },
+  {
+   "from": 2539.3,
+   "to": 2542.4,
+   "text": "I think, like knowing how"
+  },
+  {
+   "from": 2542.4,
+   "to": 2544.8,
+   "text": "a lot of these tools, mainly the data wrangling"
+  },
+  {
+   "from": 2544.8,
+   "to": 2550,
+   "text": "a lot of the shell tools, it's really important because it seems a lot"
+  },
+  {
+   "from": 2550,
+   "to": 2553.9,
+   "text": "of what you're doing as machine learning researcher is trying different things"
+  },
+  {
+   "from": 2553.9,
+   "to": 2559.5,
+   "text": "but I think one core aspect of doing that, and like a lot of scientific work is being"
+  },
+  {
+   "from": 2559.5,
+   "to": 2564.5,
+   "text": "able to have reproducible results and logging them in a sensible way"
+  },
+  {
+   "from": 2564.5,
+   "to": 2567.7,
+   "text": "So for example, instead of trying to come up with really hacky solutions of how"
+  },
+  {
+   "from": 2567.7,
+   "to": 2571.2,
+   "text": "you name your folders to make sense of the experiments"
+  },
+  {
+   "from": 2571.2,
+   "to": 2573.3,
+   "text": "Maybe it's just worth having for example"
+  },
+  {
+   "from": 2573.3,
+   "to": 2575.9,
+   "text": "what I do is have like a JSON file that describes the"
+  },
+  {
+   "from": 2575.9,
+   "to": 2580.4,
+   "text": "entire experiment I know like all the parameters that are within and then I can"
+  },
+  {
+   "from": 2580.4,
+   "to": 2585.1,
+   "text": "really quickly, using the tools that we have covered, query for all the"
+  },
+  {
+   "from": 2585.1,
+   "to": 2589.7,
+   "text": "experiments that have some specific purpose or use some data set"
+  },
+  {
+   "from": 2589.7,
+   "to": 2595.1,
+   "text": "Things like that. Apart from that, the other side of this is, if you are running"
+  },
+  {
+   "from": 2595.1,
+   "to": 2599.9,
+   "text": "kind of things for training machine learning applications and you"
+  },
+  {
+   "from": 2599.9,
+   "to": 2604,
+   "text": "are not already using some sort of cluster, like university or your"
+  },
+  {
+   "from": 2604,
+   "to": 2608.3,
+   "text": "company is providing and you're just kind of manually sshing, like a lot of"
+  },
+  {
+   "from": 2608.3,
+   "to": 2611.2,
+   "text": "labs do, because that's kind of the easy way"
+  },
+  {
+   "from": 2611.2,
+   "to": 2616.7,
+   "text": "It's worth automating a lot of that job because it might not seem like it but"
+  },
+  {
+   "from": 2616.7,
+   "to": 2620.6,
+   "text": "manually doing a lot of these operations takes away a lot of your time and also"
+  },
+  {
+   "from": 2620.6,
+   "to": 2625,
+   "text": "kind of your mental energy for running these things"
+  },
+  {
+   "from": 2628.6,
+   "to": 2631.7,
+   "text": "Anymore vim tips?"
+  },
+  {
+   "from": 2631.7,
+   "to": 2636.8,
+   "text": "I have one. So in the vim lecture we tried not to link you to too many different"
+  },
+  {
+   "from": 2636.8,
+   "to": 2640.1,
+   "text": "vim plugins because we didn't want that lecture to be overwhelming but I think"
+  },
+  {
+   "from": 2640.1,
+   "to": 2642.9,
+   "text": "it's actually worth exploring vim plugins because there are lots and lots"
+  },
+  {
+   "from": 2642.9,
+   "to": 2647.1,
+   "text": "of really cool ones out there. One resource you can use is the"
+  },
+  {
+   "from": 2647.1,
+   "to": 2650.6,
+   "text": "different instructors dotfiles like a lot of us, I think I use like two dozen"
+  },
+  {
+   "from": 2650.6,
+   "to": 2654.3,
+   "text": "vim plugins and I find a lot of them quite helpful and I use them every day"
+  },
+  {
+   "from": 2654.3,
+   "to": 2658.3,
+   "text": "we all use slightly different subsets of them. So go look at what we use or look"
+  },
+  {
+   "from": 2658.3,
+   "to": 2662.1,
+   "text": "at some of the other resources we've linked to and you might find some stuff useful"
+  },
+  {
+   "from": 2662.8,
+   "to": 2667,
+   "text": "A thing to add to that is, I don't think we went into a lot detail in the"
+  },
+  {
+   "from": 2667,
+   "to": 2671.6,
+   "text": "lecture, correct me if I'm wrong. It's getting familiar with the leader key"
+  },
+  {
+   "from": 2671.6,
+   "to": 2675,
+   "text": "Which is kind of a special key that a lot of programs will"
+  },
+  {
+   "from": 2675,
+   "to": 2679.1,
+   "text": "especially plugins, that will link to and for a lot of the common operations"
+  },
+  {
+   "from": 2679.1,
+   "to": 2684.7,
+   "text": "vim has short ways of doing it, but you can just figure out like quicker"
+  },
+  {
+   "from": 2684.7,
+   "to": 2690,
+   "text": "versions for doing them. So for example, like I know that you can do like semicolon WQ"
+  },
+  {
+   "from": 2690,
+   "to": 2695.5,
+   "text": "to save and exit or that you can do like capital ZZ but I"
+  },
+  {
+   "from": 2695.5,
+   "to": 2699.2,
+   "text": "just actually just do leader (which for me is the space) and then W. And I have"
+  },
+  {
+   "from": 2699.2,
+   "to": 2704.1,
+   "text": "done that for a lot of a lot of kind of common operations that I keep doing all"
+  },
+  {
+   "from": 2704.1,
+   "to": 2708.1,
+   "text": "the time. Because just saving one keystroke for an extremely common operation"
+  },
+  {
+   "from": 2708.1,
+   "to": 2711.4,
+   "text": "is just saving thousands a month"
+  },
+  {
+   "from": 2711.4,
+   "to": 2713,
+   "text": "Yeah just to expand a little bit"
+  },
+  {
+   "from": 2713,
+   "to": 2717,
+   "text": "on what the leader key is so in vim you can bind some keys I can do like ctrl J"
+  },
+  {
+   "from": 2717,
+   "to": 2720.5,
+   "text": "does something like holding one key and then pressing another I can bind that to"
+  },
+  {
+   "from": 2720.5,
+   "to": 2723.8,
+   "text": "something or I can bind a single keystroke to something. What the leader"
+  },
+  {
+   "from": 2723.8,
+   "to": 2726,
+   "text": "key lets you do, is bind"
+  },
+  {
+   "from": 2726,
+   "to": 2728.3,
+   "text": "So you can assign any key to be the leader key and"
+  },
+  {
+   "from": 2728.3,
+   "to": 2732.8,
+   "text": "then you can assign leader followed by some other key to some action so for"
+  },
+  {
+   "from": 2732.8,
+   "to": 2736.8,
+   "text": "example like Jose's leader key is space and they can combine space and then"
+  },
+  {
+   "from": 2736.8,
+   "to": 2741.6,
+   "text": "releasing space followed by some other key to an arbitrary vim command so it"
+  },
+  {
+   "from": 2741.6,
+   "to": 2745.6,
+   "text": "just gives you yet another way of binding like a whole set of key combinations."
+  },
+  {
+   "from": 2745.6,
+   "to": 2749.8,
+   "text": "Leader key plus kind of any key on the keyboard to some functionality"
+  },
+  {
+   "from": 2749.8,
+   "to": 2753.8,
+   "text": "I think I've I forget whether we covered macros in the vim"
+  },
+  {
+   "from": 2753.8,
+   "to": 2758.6,
+   "text": "uh sure but like vim macros are worth learning they're not that complicated"
+  },
+  {
+   "from": 2758.6,
+   "to": 2763.1,
+   "text": "but knowing that they're there and knowing how to use them is going to save"
+  },
+  {
+   "from": 2763.1,
+   "to": 2769.5,
+   "text": "you so much time. The other one is something called marks. So in vim you can"
+  },
+  {
+   "from": 2769.5,
+   "to": 2773.5,
+   "text": "press m and then any letter on your keyboard to make a mark in that file and"
+  },
+  {
+   "from": 2773.5,
+   "to": 2778,
+   "text": "then you can press apostrophe on the same letter to jump back to the same"
+  },
+  {
+   "from": 2778,
+   "to": 2781.8,
+   "text": "place. This is really useful if you're like moving back and forth"
+  },
+  {
+   "from": 2781.8,
+   "to": 2785.5,
+   "text": "between two different parts of your code for example. You can mark one as A and"
+  },
+  {
+   "from": 2785.5,
+   "to": 2789.6,
+   "text": "one as B and you can then jump between them with tick A and tick B."
+  },
+  {
+   "from": 2789.6,
+   "to": 2794.9,
+   "text": "There's also Ctrl+O which jumps to the previous place you were in the file no matter"
+  },
+  {
+   "from": 2794.9,
+   "to": 2800.6,
+   "text": "what caused you to move. So for example if I am in a some line and then I jump"
+  },
+  {
+   "from": 2800.6,
+   "to": 2805.2,
+   "text": "to B and then I jump to A, Ctrl+O will take me back to B and then back to the"
+  },
+  {
+   "from": 2805.2,
+   "to": 2808.8,
+   "text": "place I originally was. This can also be handy for things like if you're doing a"
+  },
+  {
+   "from": 2808.8,
+   "to": 2812.7,
+   "text": "search then the place that you started the search is a part of"
+  },
+  {
+   "from": 2812.7,
+   "to": 2816.2,
+   "text": "that stack. So I can do a search I can then like step through the results"
+  },
+  {
+   "from": 2816.2,
+   "to": 2820.8,
+   "text": "and like change them and then Ctrl+O all the way back up to the search"
+  },
+  {
+   "from": 2820.8,
+   "to": 2826.2,
+   "text": "Ctrl+O also lets you move across files so if I go from one file to somewhere else in"
+  },
+  {
+   "from": 2826.2,
+   "to": 2829.7,
+   "text": "different file and somewhere else in the first file Ctrl+O will move me back"
+  },
+  {
+   "from": 2829.7,
+   "to": 2835.3,
+   "text": "through that stack and then there's Ctrl+I to move forward in that"
+  },
+  {
+   "from": 2835.3,
+   "to": 2840.8,
+   "text": "stack and so it's not as though you pop it and it goes away forever"
+  },
+  {
+   "from": 2840.8,
+   "to": 2846.5,
+   "text": "The command colon earlier is really handy. So, colon earlier gives you an earlier"
+  },
+  {
+   "from": 2846.5,
+   "to": 2852.9,
+   "text": "version of the same file and it it does this based on time not based on actions"
+  },
+  {
+   "from": 2852.9,
+   "to": 2856.7,
+   "text": "so for example if you press a bunch of like undo and redo and make some changes"
+  },
+  {
+   "from": 2856.7,
+   "to": 2862.6,
+   "text": "and stuff, earlier will take a literally earlier as in time version of your file"
+  },
+  {
+   "from": 2862.6,
+   "to": 2867,
+   "text": "and restore it to your buffer. This can sometimes be good if you like undid and"
+  },
+  {
+   "from": 2867,
+   "to": 2870.8,
+   "text": "then rewrote something and then realize you actually wanted the version that was"
+  },
+  {
+   "from": 2870.8,
+   "to": 2875.1,
+   "text": "there before you started undoing earlier let's you do this. And there's a plug-in"
+  },
+  {
+   "from": 2875.1,
+   "to": 2882,
+   "text": "called undo tree or something like that There are several of these,"
+  },
+  {
+   "from": 2882,
+   "to": 2885.8,
+   "text": "that let you actually explore the full tree of undo history the vim keeps"
+  },
+  {
+   "from": 2885.8,
+   "to": 2889.2,
+   "text": "because it doesn't just keep a linear history it actually keeps the full tree"
+  },
+  {
+   "from": 2889.2,
+   "to": 2892.8,
+   "text": "and letting you explore that might in some cases save you from having to"
+  },
+  {
+   "from": 2892.8,
+   "to": 2896.5,
+   "text": "re-type stuff you typed in the past or stuff you just forgot exactly what you"
+  },
+  {
+   "from": 2896.5,
+   "to": 2901.1,
+   "text": "had there that used to work and no longer works. And this is one final one I"
+  },
+  {
+   "from": 2901.1,
+   "to": 2906.8,
+   "text": "want to mention which is, we mentioned how in vim you have verbs and nouns"
+  },
+  {
+   "from": 2906.8,
+   "to": 2913.2,
+   "text": "right to your verbs like delete or yank and then you have nouns like next of"
+  },
+  {
+   "from": 2913.2,
+   "to": 2917.4,
+   "text": "this character or percent to swap brackets and that sort of stuff the"
+  },
+  {
+   "from": 2917.4,
+   "to": 2924.6,
+   "text": "search command is a noun so you can do things like D slash and then a string"
+  },
+  {
+   "from": 2924.6,
+   "to": 2930.3,
+   "text": "and it will delete up to the next match of that pattern this is extremely useful"
+  },
+  {
+   "from": 2930.3,
+   "to": 2934.3,
+   "text": "and I use it all the time"
+  },
+  {
+   "from": 2938.5,
+   "to": 2943.5,
+   "text": "One another neat addition on the undo stuff that I find incredibly valuable in"
+  },
+  {
+   "from": 2943.5,
+   "to": 2948.2,
+   "text": "an everyday basis is that like one of the built-in functionalities of vim"
+  },
+  {
+   "from": 2948.2,
+   "to": 2953.5,
+   "text": "is that you can specify an undo directory and if you have a specified an"
+  },
+  {
+   "from": 2953.5,
+   "to": 2957.6,
+   "text": "undo directory by default vim, if you don't have this enabled, whenever you"
+  },
+  {
+   "from": 2957.6,
+   "to": 2963.1,
+   "text": "enter a file your undo history is clean, there's nothing in there"
+  },
+  {
+   "from": 2963.1,
+   "to": 2966.4,
+   "text": "and as you make changes and then undo them you kind of create this"
+  },
+  {
+   "from": 2966.4,
+   "to": 2972.8,
+   "text": "history but as soon as you exit the file that's lost. Sorry, as soon"
+  },
+  {
+   "from": 2972.8,
+   "to": 2977.2,
+   "text": "as you exit vim, that's lost. However if you have an undodir, vim is"
+  },
+  {
+   "from": 2977.2,
+   "to": 2981.7,
+   "text": "gonna persist all those changes into this directory so no matter how many"
+  },
+  {
+   "from": 2981.7,
+   "to": 2985.6,
+   "text": "times you enter and leave that history is persisted and it's incredibly"
+  },
+  {
+   "from": 2985.6,
+   "to": 2988.2,
+   "text": "helpful because even like"
+  },
+  {
+   "from": 2988.2,
+   "to": 2990.3,
+   "text": "it can be very helpful for some files that you modify"
+  },
+  {
+   "from": 2990.3,
+   "to": 2994.8,
+   "text": "often because then you can kind of keep the flow. But it's also sometimes really"
+  },
+  {
+   "from": 2994.8,
+   "to": 3000,
+   "text": "helpful if you modify your bashrc see and something broke like five days later and"
+  },
+  {
+   "from": 3000,
+   "to": 3003.1,
+   "text": "then you've vim again. Like what actually did I change ,if you don't"
+  },
+  {
+   "from": 3003.1,
+   "to": 3006.8,
+   "text": "have say like version control, then you can just check the undos and"
+  },
+  {
+   "from": 3006.8,
+   "to": 3010.7,
+   "text": "that's actually what happened. And the last one, it's also really"
+  },
+  {
+   "from": 3010.7,
+   "to": 3014.9,
+   "text": "worth familiarizing yourself with registers and what different special"
+  },
+  {
+   "from": 3014.9,
+   "to": 3020.4,
+   "text": "registers vim uses. So for example if you want to copy/paste really that's"
+  },
+  {
+   "from": 3020.4,
+   "to": 3026.2,
+   "text": "gone into in a specific register and if you want to for example use the a OS a copy"
+  },
+  {
+   "from": 3026.2,
+   "to": 3030,
+   "text": "like the OS clipboard, you should be copying or yanking"
+  },
+  {
+   "from": 3030,
+   "to": 3036.3,
+   "text": "copying and pasting from a different register and there's a lot of them and yeah"
+  },
+  {
+   "from": 3036.3,
+   "to": 3041.3,
+   "text": "I think that you should explore, there's a lot of things to know about registers"
+  },
+  {
+   "from": 3042.3,
+   "to": 3045.1,
+   "text": "The next question is asking about two-factor authentication and I'll just give"
+  },
+  {
+   "from": 3045.1,
+   "to": 3048.5,
+   "text": "a very quick answer to this one in the interest of time. So it's worth using two"
+  },
+  {
+   "from": 3048.5,
+   "to": 3052.5,
+   "text": "factor auth for anything security sensitive so I use it for my GitHub"
+  },
+  {
+   "from": 3052.5,
+   "to": 3056.7,
+   "text": "account and for my email and stuff like that. And there's a bunch of different"
+  },
+  {
+   "from": 3056.7,
+   "to": 3061.4,
+   "text": "types of two-factor auth. From SMS based to factor auth where you get special"
+  },
+  {
+   "from": 3061.4,
+   "to": 3064.6,
+   "text": "like a number texted to you when you try to log in you have to type that number"
+  },
+  {
+   "from": 3064.6,
+   "to": 3068.7,
+   "text": "and to other tools like universal to factor this is like those Yubikeys"
+  },
+  {
+   "from": 3068.7,
+   "to": 3071.4,
+   "text": "that you plug into your you have to tap it every time you login"
+  },
+  {
+   "from": 3071.4,
+   "to": 3078.1,
+   "text": "so not all, (yeah Jon is holding a Yubikey), not all two-factor auth is"
+  },
+  {
+   "from": 3078.1,
+   "to": 3082.2,
+   "text": "created equal and you really want to be using something like U2F rather than SMS"
+  },
+  {
+   "from": 3082.2,
+   "to": 3085.3,
+   "text": "based to factor auth. There something based on one-time pass codes that you"
+  },
+  {
+   "from": 3085.3,
+   "to": 3088.8,
+   "text": "have to type in we don't have time to get into the details of why some methods"
+  },
+  {
+   "from": 3088.8,
+   "to": 3092,
+   "text": "are better than others but at a high level use U2F and the Internet has"
+  },
+  {
+   "from": 3092,
+   "to": 3097.6,
+   "text": "plenty of explanations for why other methods are not a great idea"
+  },
+  {
+   "from": 3097.7,
+   "to": 3101.9,
+   "text": "Last question, any comments on differences between web browsers?"
+  },
+  {
+   "from": 3108.2,
+   "to": 3110.2,
+   "text": "Yes"
+  },
+  {
+   "from": 3114.7,
+   "to": 3120.5,
+   "text": "Differences between web browsers, there are fewer and fewer differences between"
+  },
+  {
+   "from": 3120.5,
+   "to": 3126,
+   "text": "web browsers these day. At this point almost all web browsers are chrome"
+  },
+  {
+   "from": 3126,
+   "to": 3129.6,
+   "text": "Either because you're using Chrome or because you're using a browser that's"
+  },
+  {
+   "from": 3129.6,
+   "to": 3135.6,
+   "text": "using the same browser engine as Chrome. It's a little bit sad, one might say, but"
+  },
+  {
+   "from": 3135.6,
+   "to": 3140.5,
+   "text": "I think these days whether you choose"
+  },
+  {
+   "from": 3140.5,
+   "to": 3144.5,
+   "text": "Chrome is a great browser for security reasons"
+  },
+  {
+   "from": 3144.5,
+   "to": 3148.5,
+   "text": "if you want to have something that's more customizable or"
+  },
+  {
+   "from": 3148.5,
+   "to": 3159.5,
+   "text": "you don't want to be tied to Google then use Firefox, don't use Safari it's a"
+  },
+  {
+   "from": 3159.5,
+   "to": 3165.7,
+   "text": "worse version of Chrome. The new Internet Explorer edge is pretty decent and also"
+  },
+  {
+   "from": 3165.7,
+   "to": 3170.8,
+   "text": "uses the same browser engine as Chrome and that's probably fine"
+  },
+  {
+   "from": 3170.8,
+   "to": 3174.6,
+   "text": "although avoid it if you can because it has some like legacy modes you don't"
+  },
+  {
+   "from": 3174.6,
+   "to": 3178.1,
+   "text": "want to deal with. I think that's"
+  },
+  {
+   "from": 3178.1,
+   "to": 3183.1,
+   "text": "Oh, there's a cool new browser called flow"
+  },
+  {
+   "from": 3183.1,
+   "to": 3185.5,
+   "text": "that you can't use for anything useful yet but they're actually writing"
+  },
+  {
+   "from": 3185.5,
+   "to": 3188.7,
+   "text": "their own browser engine and that's really neat"
+  },
+  {
+   "from": 3188.7,
+   "to": 3195,
+   "text": "Firefox also has this project called servo which is they're really implementing their browser engine"
+  },
+  {
+   "from": 3195,
+   "to": 3199.6,
+   "text": "in Rust in order to write it to be like super concurrent and what they've done"
+  },
+  {
+   "from": 3199.6,
+   "to": 3205,
+   "text": "is they've started to take modules from that version and port them"
+  },
+  {
+   "from": 3205,
+   "to": 3209,
+   "text": "over to gecko or integrate them with gecko which is the main browser engine"
+  },
+  {
+   "from": 3209,
+   "to": 3212.2,
+   "text": "for Firefox just to get those speed ups there as well"
+  },
+  {
+   "from": 3212.2,
+   "to": 3217,
+   "text": "and that's a neat neat thing you can be watching out for"
+  },
+  {
+   "from": 3219.2,
+   "to": 3221.9,
+   "text": "That is all the questions, hey we did it. Nice"
+  },
+  {
+   "from": 3221.9,
+   "to": 3230.8,
+   "text": "I guess thanks for taking the missing semester class and let's do it again next year"
+  }
+ ]
+}

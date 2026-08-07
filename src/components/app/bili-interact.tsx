@@ -7,6 +7,7 @@ import {
   Link2,
   Loader2,
   MessageCircle,
+  NotebookPen,
   Star,
   ThumbsUp,
 } from "lucide-react";
@@ -15,8 +16,10 @@ import {
   applyFavorite,
   getFavFolders,
   getInteractState,
+  getUpFollowed,
   loadReplies,
   sendReply,
+  setUpFollowed,
   toggleLike,
   type InteractState,
 } from "@/lib/bili/interact-actions";
@@ -55,6 +58,9 @@ export function BiliInteract({
   courseTitle,
   episodeTitle,
   episodeN,
+  owner = null,
+  notesOpen = false,
+  onToggleNotes,
 }: {
   bvid: string;
   aid: number | null;
@@ -64,6 +70,11 @@ export function BiliInteract({
   courseTitle: string;
   episodeTitle: string;
   episodeN: number;
+  /** UP 主(credit 展示 + 关注入口) */
+  owner?: { mid: number; name: string; face: string } | null;
+  /** 笔记面板开关(面板本体渲染在互动区下方,默认收起不占位) */
+  notesOpen?: boolean;
+  onToggleNotes?: () => void;
 }) {
   const [state, setState] = useState<InteractState | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -78,6 +89,8 @@ export function BiliInteract({
   const [checked, setChecked] = useState<Set<number>>(new Set());
   /** 分享弹层 */
   const [shareOpen, setShareOpen] = useState(false);
+  /** 是否已关注 UP 主(null=未知/未绑定) */
+  const [followed, setFollowed] = useState<boolean | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -88,6 +101,18 @@ export function BiliInteract({
       cancelled = true;
     };
   }, [bvid]);
+
+  // 关注状态(绑定了 b 站才有)
+  useEffect(() => {
+    if (!owner) return;
+    let cancelled = false;
+    getUpFollowed(owner.mid).then((f) => {
+      if (!cancelled) setFollowed(f);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [owner]);
 
   const bound = state?.bound ?? false;
   const rel = state?.relation;
@@ -194,8 +219,51 @@ export function BiliInteract({
 
   const disabledTitle = bound ? undefined : "绑定 bilibili 账号后可用";
 
+  const onFollow = () =>
+    run("follow", async () => {
+      if (!owner) return;
+      const next = !(followed ?? false);
+      const r = await setUpFollowed(owner.mid, next);
+      if (!r.ok) setMsg(r.error ?? "操作失败");
+      else setFollowed(next);
+    });
+
   return (
     <div className="bili-interact">
+      {/* UP 主 credit:头像/昵称(点开主页)+ 关注——视频是人家的心血 */}
+      {owner && (
+        <div className="bili-up-row">
+          <a
+            href={`https://space.bilibili.com/${owner.mid}`}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="bili-up-info"
+            title="去 TA 的 bilibili 主页"
+          >
+            {/* bilibili 头像是外部图源,原生 img 避开 next/image 域名白名单 */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={owner.face} alt="" referrerPolicy="no-referrer" />
+            <span>
+              <b>{owner.name}</b>
+              <small>视频作者 · bilibili</small>
+            </span>
+          </a>
+          <button
+            className={`bili-up-follow ${followed ? "on" : ""}`}
+            onClick={onFollow}
+            disabled={!bound || busy !== null}
+            title={bound ? undefined : "绑定 bilibili 账号后可关注"}
+          >
+            {busy === "follow" ? (
+              <Loader2 size={15} className="spin" aria-hidden />
+            ) : followed ? (
+              "已关注"
+            ) : (
+              "+ 关注"
+            )}
+          </button>
+        </div>
+      )}
       <div className="bili-interact-row">
         <button
           className={rel?.like ? "on" : undefined}
@@ -276,6 +344,17 @@ export function BiliInteract({
           <span>评论</span>
           {state?.stat?.reply ? <em>{fmtCount(state.stat.reply)}</em> : null}
         </button>
+
+        {onToggleNotes && (
+          <button
+            className={notesOpen ? "on" : undefined}
+            onClick={onToggleNotes}
+            title="我的笔记(时间戳 + Markdown)"
+          >
+            <NotebookPen size={17} />
+            <span>笔记</span>
+          </button>
+        )}
       </div>
 
       {coinAsk && (

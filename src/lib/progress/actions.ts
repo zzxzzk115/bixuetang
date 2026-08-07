@@ -12,7 +12,8 @@ import {
   xpEvents,
   type CourseStatus,
 } from "../db/schema";
-import { settleEpisodeXp } from "../game/boosts";
+import { settleBoostedXp } from "../game/boosts";
+import { paidSegmentXp } from "../game/segment-rewards";
 import { levelFromXp } from "../game/level";
 import type { EpisodeLoot } from "../game/rpg";
 import { settleEpisodeLoot } from "../game/rpg-server";
@@ -190,16 +191,25 @@ export async function toggleEpisode(
       .get();
     if (!alreadyScored) {
       const base = episodeXp(course.level, episode?.durationSec);
-      db.insert(xpEvents)
-        .values({
-          userId: user.id,
-          amount: settleEpisodeXp(user.id, base),
-          reason: XP_REASON.episode,
-          ref: episodeRef(courseId, episodeN),
-          createdAt: now,
-        })
-        .onConflictDoNothing()
-        .run();
+      // 长视频的章节已阶段性发过 XP → 整集只补差额,总量守恒;
+      // 药水次数只在没有章节发放史时消耗(章节结算时已逐段扣过)
+      const paid = paidSegmentXp(user.id, courseId, episodeN);
+      const remainder = Math.max(0, base - paid);
+      if (remainder > 0) {
+        db.insert(xpEvents)
+          .values({
+            userId: user.id,
+            amount: settleBoostedXp(user.id, remainder, {
+              consume: paid === 0,
+              roundTo: paid === 0 ? 10 : 5,
+            }),
+            reason: XP_REASON.episode,
+            ref: episodeRef(courseId, episodeN),
+            createdAt: now,
+          })
+          .onConflictDoNothing()
+          .run();
+      }
     }
 
     // 首次有进度时自动置为「在学」

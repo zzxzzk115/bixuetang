@@ -1,0 +1,5602 @@
+{
+ "lan": "yt-en-auto",
+ "lanDoc": "English · 自动",
+ "ai": true,
+ "cues": [
+  {
+   "from": 1.3,
+   "to": 4.4,
+   "text": "all right so welcome to today's lecture"
+  },
+  {
+   "from": 4.4,
+   "to": 6.4,
+   "text": "which is going to be on data wrangling"
+  },
+  {
+   "from": 6.4,
+   "to": 8.8,
+   "text": "and data wrangling might be a phrase it"
+  },
+  {
+   "from": 8.8,
+   "to": 10.6,
+   "text": "sounds a little bit odd to you but the"
+  },
+  {
+   "from": 10.6,
+   "to": 12.6,
+   "text": "basic idea of data wrangling is that you"
+  },
+  {
+   "from": 12.6,
+   "to": 14.9,
+   "text": "have data in one format and you want it"
+  },
+  {
+   "from": 14.9,
+   "to": 16.8,
+   "text": "in some different format and this"
+  },
+  {
+   "from": 16.8,
+   "to": 18.9,
+   "text": "happens all of the time I'm not just"
+  },
+  {
+   "from": 18.9,
+   "to": 20.8,
+   "text": "talking about like converting images but"
+  },
+  {
+   "from": 20.8,
+   "to": 22.8,
+   "text": "it could be like you have a text file or"
+  },
+  {
+   "from": 22.9,
+   "to": 25.1,
+   "text": "a log file and what you really want this"
+  },
+  {
+   "from": 25.1,
+   "to": 27.5,
+   "text": "data in some other format like you want"
+  },
+  {
+   "from": 27.5,
+   "to": 29.4,
+   "text": "a graph or you want statistics over the"
+  },
+  {
+   "from": 29.4,
+   "to": 32.4,
+   "text": "data anything that goes from one piece"
+  },
+  {
+   "from": 32.4,
+   "to": 35.2,
+   "text": "of data to another representation of"
+  },
+  {
+   "from": 35.2,
+   "to": 37.1,
+   "text": "that data is what I would call data"
+  },
+  {
+   "from": 37.1,
+   "to": 40.1,
+   "text": "wrangling we've seen some examples of"
+  },
+  {
+   "from": 40.1,
+   "to": 42.2,
+   "text": "this kind of data wrangling already"
+  },
+  {
+   "from": 42.2,
+   "to": 43.7,
+   "text": "previously in the semester like"
+  },
+  {
+   "from": 43.7,
+   "to": 45.7,
+   "text": "basically whenever you use the pipe"
+  },
+  {
+   "from": 45.8,
+   "to": 48,
+   "text": "operator that lets you sort of take"
+  },
+  {
+   "from": 48,
+   "to": 49.7,
+   "text": "output from one program and feed it"
+  },
+  {
+   "from": 49.7,
+   "to": 51.4,
+   "text": "through another program you are doing"
+  },
+  {
+   "from": 51.4,
+   "to": 54.1,
+   "text": "data wrangling in one way or another but"
+  },
+  {
+   "from": 54.1,
+   "to": 55.3,
+   "text": "we're going to do in this lecture is"
+  },
+  {
+   "from": 55.3,
+   "to": 58,
+   "text": "take a look at some of the fancier ways"
+  },
+  {
+   "from": 58,
+   "to": 59.8,
+   "text": "you can do data wrangling and some of"
+  },
+  {
+   "from": 59.9,
+   "to": 61.8,
+   "text": "the really useful ways you can do data"
+  },
+  {
+   "from": 61.9,
+   "to": 65.6,
+   "text": "wrangling in order to do any kind of"
+  },
+  {
+   "from": 65.6,
+   "to": 67,
+   "text": "data wrangling though you need a data"
+  },
+  {
+   "from": 67,
+   "to": 69,
+   "text": "source you need some data to operate on"
+  },
+  {
+   "from": 69,
+   "to": 72.2,
+   "text": "in the first place and there are a lot"
+  },
+  {
+   "from": 72.2,
+   "to": 74.4,
+   "text": "of good candidates for that kind of data"
+  },
+  {
+   "from": 74.4,
+   "to": 76.6,
+   "text": "we give some examples in the exercise"
+  },
+  {
+   "from": 76.6,
+   "to": 78.9,
+   "text": "section for today's lecture notes in"
+  },
+  {
+   "from": 78.9,
+   "to": 80.6,
+   "text": "this particular one though I'm going to"
+  },
+  {
+   "from": 80.6,
+   "to": 83.4,
+   "text": "be using a system log so I have a server"
+  },
+  {
+   "from": 83.4,
+   "to": 85.5,
+   "text": "that's running somewhere the Netherlands"
+  },
+  {
+   "from": 85.5,
+   "to": 87.2,
+   "text": "because that seemed like a reasonable"
+  },
+  {
+   "from": 87.2,
+   "to": 89.7,
+   "text": "thing at the time and on that server"
+  },
+  {
+   "from": 89.8,
+   "to": 92.8,
+   "text": "it's running sort of a regular logging"
+  },
+  {
+   "from": 92.8,
+   "to": 94.4,
+   "text": "daemon that comes with system Deeb's"
+  },
+  {
+   "from": 94.4,
+   "to": 96.6,
+   "text": "it's a sort of relatively standard Linux"
+  },
+  {
+   "from": 96.6,
+   "to": 99,
+   "text": "logging mechanism and there's a command"
+  },
+  {
+   "from": 99,
+   "to": 101.9,
+   "text": "called journal CTL on Linux systems that"
+  },
+  {
+   "from": 101.9,
+   "to": 104.7,
+   "text": "will let you view the system log and so"
+  },
+  {
+   "from": 104.7,
+   "to": 106.4,
+   "text": "what I'm gonna do is I'm gonna do some"
+  },
+  {
+   "from": 106.4,
+   "to": 108.7,
+   "text": "transformations over that log and see if"
+  },
+  {
+   "from": 108.7,
+   "to": 110,
+   "text": "we can extract something interesting"
+  },
+  {
+   "from": 110,
+   "to": 112.8,
+   "text": "from it you'll see though that if I run"
+  },
+  {
+   "from": 112.8,
+   "to": 116.3,
+   "text": "this command I end up with a lot of data"
+  },
+  {
+   "from": 116.3,
+   "to": 119.3,
+   "text": "because this is a log that has just like"
+  },
+  {
+   "from": 119.3,
+   "to": 122,
+   "text": "there's a lot of stuff in it right a lot"
+  },
+  {
+   "from": 122,
+   "to": 123.4,
+   "text": "of things have happened on my server and"
+  },
+  {
+   "from": 123.4,
+   "to": 126.3,
+   "text": "this goes back to like January first and"
+  },
+  {
+   "from": 126.3,
+   "to": 128.2,
+   "text": "their logs that go even further back on"
+  },
+  {
+   "from": 128.3,
+   "to": 130.6,
+   "text": "this there's a lot of stuff so the first"
+  },
+  {
+   "from": 130.6,
+   "to": 132.1,
+   "text": "thing we're gonna do is try to limit it"
+  },
+  {
+   "from": 132.1,
+   "to": 133.4,
+   "text": "down to you only"
+  },
+  {
+   "from": 133.4,
+   "to": 136.3,
+   "text": "one piece of content and here the grep"
+  },
+  {
+   "from": 136.3,
+   "to": 138.1,
+   "text": "command is your friend so we're gonna"
+  },
+  {
+   "from": 138.1,
+   "to": 139.8,
+   "text": "pipe this through grep and we're gonna"
+  },
+  {
+   "from": 139.8,
+   "to": 143.2,
+   "text": "pipe for SSH right so SSH we haven't"
+  },
+  {
+   "from": 143.2,
+   "to": 144.8,
+   "text": "really talked to you about yet but it is"
+  },
+  {
+   "from": 144.8,
+   "to": 146.8,
+   "text": "a way to access computers remotely"
+  },
+  {
+   "from": 146.8,
+   "to": 148.6,
+   "text": "through the command line and in"
+  },
+  {
+   "from": 148.6,
+   "to": 150.8,
+   "text": "particular what happens when you put a"
+  },
+  {
+   "from": 150.8,
+   "to": 152.2,
+   "text": "server on the public Internet is that"
+  },
+  {
+   "from": 152.2,
+   "to": 154.1,
+   "text": "lots and lots of people around the world"
+  },
+  {
+   "from": 154.1,
+   "to": 155.7,
+   "text": "to try to connect to it and log in and"
+  },
+  {
+   "from": 155.7,
+   "to": 157.5,
+   "text": "take over your server and so I want to"
+  },
+  {
+   "from": 157.5,
+   "to": 159.4,
+   "text": "see how those people are trying to do"
+  },
+  {
+   "from": 159.4,
+   "to": 161.5,
+   "text": "that and so I'm going to grep for SSH"
+  },
+  {
+   "from": 161.5,
+   "to": 164.8,
+   "text": "and you'll see pretty quickly that this"
+  },
+  {
+   "from": 164.9,
+   "to": 167.7,
+   "text": "also generates a bunch of content at"
+  },
+  {
+   "from": 167.7,
+   "to": 171.3,
+   "text": "least in theory this is gonna be real"
+  },
+  {
+   "from": 171.3,
+   "to": 176,
+   "text": "slow there we go so this generates tons"
+  },
+  {
+   "from": 176,
+   "to": 178.6,
+   "text": "and tons and tons of content and it's"
+  },
+  {
+   "from": 178.7,
+   "to": 180.2,
+   "text": "really hard to even just visualize"
+  },
+  {
+   "from": 180.2,
+   "to": 181.9,
+   "text": "what's going on here so let's look at"
+  },
+  {
+   "from": 181.9,
+   "to": 185.1,
+   "text": "only what user names people have used to"
+  },
+  {
+   "from": 185.1,
+   "to": 186.7,
+   "text": "try to log into my server so you'll see"
+  },
+  {
+   "from": 186.7,
+   "to": 189.8,
+   "text": "some of these lines say disconnected"
+  },
+  {
+   "from": 189.8,
+   "to": 192.5,
+   "text": "disconnected from invalid user and then"
+  },
+  {
+   "from": 192.5,
+   "to": 194.9,
+   "text": "some user name I want only those lines"
+  },
+  {
+   "from": 194.9,
+   "to": 197.4,
+   "text": "that's all I really care about I'm gonna"
+  },
+  {
+   "from": 197.4,
+   "to": 199.1,
+   "text": "make one more change here though which"
+  },
+  {
+   "from": 199.1,
+   "to": 201.7,
+   "text": "is if you think about how this pipeline"
+  },
+  {
+   "from": 201.8,
+   "to": 206.4,
+   "text": "does if I here do this connected from so"
+  },
+  {
+   "from": 206.5,
+   "to": 209.2,
+   "text": "this pipeline at the bottom here what"
+  },
+  {
+   "from": 209.2,
+   "to": 211.3,
+   "text": "that will do is it will send the entire"
+  },
+  {
+   "from": 211.3,
+   "to": 213.4,
+   "text": "log file over the network to my machine"
+  },
+  {
+   "from": 213.4,
+   "to": 216.2,
+   "text": "and then locally run grep to find only"
+  },
+  {
+   "from": 216.2,
+   "to": 218.2,
+   "text": "the lines to contained ssh and then"
+  },
+  {
+   "from": 218.3,
+   "to": 220.5,
+   "text": "locally filter them further this seems a"
+  },
+  {
+   "from": 220.5,
+   "to": 222.1,
+   "text": "little bit wasteful because i don't care"
+  },
+  {
+   "from": 222.2,
+   "to": 224.2,
+   "text": "about most of these lines and the remote"
+  },
+  {
+   "from": 224.2,
+   "to": 225.9,
+   "text": "site is also running a shell so what I"
+  },
+  {
+   "from": 226,
+   "to": 228.9,
+   "text": "can actually do is I can have that"
+  },
+  {
+   "from": 228.9,
+   "to": 231.5,
+   "text": "entire command run on the server right"
+  },
+  {
+   "from": 231.5,
+   "to": 233.5,
+   "text": "so I'm telling you SSH the command I"
+  },
+  {
+   "from": 233.5,
+   "to": 235.2,
+   "text": "want you to run on the server is this"
+  },
+  {
+   "from": 235.2,
+   "to": 237.4,
+   "text": "pipeline of three things and then what I"
+  },
+  {
+   "from": 237.4,
+   "to": 241.2,
+   "text": "get back I want to pipe through less so"
+  },
+  {
+   "from": 241.2,
+   "to": 242.7,
+   "text": "what does this do well it's gonna do"
+  },
+  {
+   "from": 242.7,
+   "to": 244.3,
+   "text": "that same filtering that we did but it's"
+  },
+  {
+   "from": 244.3,
+   "to": 246.1,
+   "text": "gonna do it on the server side and the"
+  },
+  {
+   "from": 246.2,
+   "to": 248.3,
+   "text": "server is only going to send me those"
+  },
+  {
+   "from": 248.3,
+   "to": 251.7,
+   "text": "lines that I care about and then when I"
+  },
+  {
+   "from": 251.7,
+   "to": 253.3,
+   "text": "pipe it locally through the program"
+  },
+  {
+   "from": 253.3,
+   "to": 256.3,
+   "text": "called less less is a pager you'll see"
+  },
+  {
+   "from": 256.3,
+   "to": 257.5,
+   "text": "some examples of this you've actually"
+  },
+  {
+   "from": 257.5,
+   "to": 259.3,
+   "text": "seen some of them already like when you"
+  },
+  {
+   "from": 259.3,
+   "to": 261.9,
+   "text": "type man and some command that opens in"
+  },
+  {
+   "from": 261.9,
+   "to": 264.2,
+   "text": "a pager and a pagers is a convenient way"
+  },
+  {
+   "from": 264.2,
+   "to": 266.7,
+   "text": "to take a long piece of content and fit"
+  },
+  {
+   "from": 266.7,
+   "to": 267.4,
+   "text": "it into your term"
+  },
+  {
+   "from": 267.4,
+   "to": 269.7,
+   "text": "window and have you scrolled down and"
+  },
+  {
+   "from": 269.8,
+   "to": 271.9,
+   "text": "scroll up and navigate it so that it"
+  },
+  {
+   "from": 271.9,
+   "to": 273.1,
+   "text": "doesn't just like scroll past your"
+  },
+  {
+   "from": 273.2,
+   "to": 276.1,
+   "text": "screen and so if I run this it still"
+  },
+  {
+   "from": 276.1,
+   "to": 277.4,
+   "text": "takes a little while because it has to"
+  },
+  {
+   "from": 277.4,
+   "to": 280.8,
+   "text": "parse through a lot of log files and in"
+  },
+  {
+   "from": 280.8,
+   "to": 282.9,
+   "text": "particular grep is buffering and"
+  },
+  {
+   "from": 282.9,
+   "to": 285.9,
+   "text": "therefore it decides to be relatively"
+  },
+  {
+   "from": 285.9,
+   "to": 286.9,
+   "text": "unhelpful"
+  },
+  {
+   "from": 286.9,
+   "to": 296,
+   "text": "I may do this without let's see if"
+  },
+  {
+   "from": 296,
+   "to": 301.2,
+   "text": "that's more helpful why doesn't it want"
+  },
+  {
+   "from": 301.3,
+   "to": 305.2,
+   "text": "to be helpful to me fine I'm gonna cheat"
+  },
+  {
+   "from": 305.2,
+   "to": 317.4,
+   "text": "a little just ignore me"
+  },
+  {
+   "from": 317.4,
+   "to": 320.6,
+   "text": "or the internet is really slow those are"
+  },
+  {
+   "from": 320.6,
+   "to": 322.5,
+   "text": "two possible options luckily there's a"
+  },
+  {
+   "from": 322.5,
+   "to": 327.1,
+   "text": "fix for that because previously I have"
+  },
+  {
+   "from": 327.1,
+   "to": 330.5,
+   "text": "run the following command so this"
+  },
+  {
+   "from": 330.5,
+   "to": 333.1,
+   "text": "command just takes the output of that"
+  },
+  {
+   "from": 333.1,
+   "to": 334.3,
+   "text": "command and sticks it into a file"
+  },
+  {
+   "from": 334.3,
+   "to": 336.6,
+   "text": "locally on my computer alright so I ran"
+  },
+  {
+   "from": 336.6,
+   "to": 338.7,
+   "text": "this when I was up in my office and so"
+  },
+  {
+   "from": 338.7,
+   "to": 341,
+   "text": "what this did is it downloaded all of"
+  },
+  {
+   "from": 341,
+   "to": 343.5,
+   "text": "the SSH log entries that matched"
+  },
+  {
+   "from": 343.5,
+   "to": 345.5,
+   "text": "disconnect from so I have those locally"
+  },
+  {
+   "from": 345.5,
+   "to": 347.3,
+   "text": "and this is really handy right there's"
+  },
+  {
+   "from": 347.3,
+   "to": 349.1,
+   "text": "no reason for me to stream the full log"
+  },
+  {
+   "from": 349.1,
+   "to": 351,
+   "text": "every single time because I know that"
+  },
+  {
+   "from": 351,
+   "to": 352.6,
+   "text": "that starting pattern is what I'm going"
+  },
+  {
+   "from": 352.6,
+   "to": 355.2,
+   "text": "to want anyway so we can take a look at"
+  },
+  {
+   "from": 355.2,
+   "to": 357.3,
+   "text": "SSH dot log and you will see there are"
+  },
+  {
+   "from": 357.3,
+   "to": 359.5,
+   "text": "lots and lots and lots of lines that all"
+  },
+  {
+   "from": 359.5,
+   "to": 361.8,
+   "text": "say disconnected from invalid user"
+  },
+  {
+   "from": 361.8,
+   "to": 364.9,
+   "text": "authenticating users etc right so these"
+  },
+  {
+   "from": 364.9,
+   "to": 366.2,
+   "text": "are the lines that we have to work on"
+  },
+  {
+   "from": 366.2,
+   "to": 368.9,
+   "text": "and this also means that going forward"
+  },
+  {
+   "from": 368.9,
+   "to": 370.5,
+   "text": "we don't have to go through this whole"
+  },
+  {
+   "from": 370.6,
+   "to": 372.5,
+   "text": "SSH process we can just cat that file"
+  },
+  {
+   "from": 372.5,
+   "to": 376.2,
+   "text": "and then operate it on it directly so"
+  },
+  {
+   "from": 376.2,
+   "to": 378.1,
+   "text": "here I can also demonstrate this pager"
+  },
+  {
+   "from": 378.1,
+   "to": 381.7,
+   "text": "so if I do cat s is a cat SSH dot log"
+  },
+  {
+   "from": 381.7,
+   "to": 383.7,
+   "text": "and I pipe it through less it gives me a"
+  },
+  {
+   "from": 383.7,
+   "to": 385.2,
+   "text": "pager where I can scroll up and down"
+  },
+  {
+   "from": 385.2,
+   "to": 388.8,
+   "text": "make that a little bit smaller maybe so"
+  },
+  {
+   "from": 388.9,
+   "to": 390.6,
+   "text": "I can scroll this file screw through"
+  },
+  {
+   "from": 390.6,
+   "to": 393.3,
+   "text": "this file and I can do so with what are"
+  },
+  {
+   "from": 393.3,
+   "to": 396.3,
+   "text": "roughly vim bindings so control you to"
+  },
+  {
+   "from": 396.3,
+   "to": 397.8,
+   "text": "scroll up control D to scroll down and"
+  },
+  {
+   "from": 397.8,
+   "to": 402.8,
+   "text": "cue to exit this is still a lot of"
+  },
+  {
+   "from": 402.8,
+   "to": 405.2,
+   "text": "content though and these lines contain a"
+  },
+  {
+   "from": 405.2,
+   "to": 407,
+   "text": "bunch of garbage that I'm not really"
+  },
+  {
+   "from": 407,
+   "to": 408.4,
+   "text": "interested in what I really want to see"
+  },
+  {
+   "from": 408.4,
+   "to": 410,
+   "text": "is what are what are these user names"
+  },
+  {
+   "from": 410,
+   "to": 412.6,
+   "text": "and here the tool that we're going to"
+  },
+  {
+   "from": 412.6,
+   "to": 415.8,
+   "text": "start using is one called sent said is a"
+  },
+  {
+   "from": 415.8,
+   "to": 419.2,
+   "text": "stream editor that's modify or it's it's"
+  },
+  {
+   "from": 419.2,
+   "to": 421,
+   "text": "a modification of a much earlier program"
+  },
+  {
+   "from": 421,
+   "to": 424.1,
+   "text": "called edie which was a really weird"
+  },
+  {
+   "from": 424.1,
+   "to": 425.5,
+   "text": "editor that none of you will probably"
+  },
+  {
+   "from": 425.5,
+   "to": 432.3,
+   "text": "want to use yeah Oh tsp is the name of"
+  },
+  {
+   "from": 432.3,
+   "to": 436.4,
+   "text": "my the remote computer I'm connecting to"
+  },
+  {
+   "from": 436.4,
+   "to": 439.8,
+   "text": "so said is a stream editor and it"
+  },
+  {
+   "from": 439.9,
+   "to": 443.7,
+   "text": "basically lets you make changes to the"
+  },
+  {
+   "from": 443.7,
+   "to": 446.1,
+   "text": "contents of a stream you can think of it"
+  },
+  {
+   "from": 446.1,
+   "to": 448.5,
+   "text": "a little bit like doing replacements but"
+  },
+  {
+   "from": 448.5,
+   "to": 449.9,
+   "text": "it's actually a full programming"
+  },
+  {
+   "from": 449.9,
+   "to": 450.4,
+   "text": "language"
+  },
+  {
+   "from": 450.4,
+   "to": 453.4,
+   "text": "over the stream that is given one of the"
+  },
+  {
+   "from": 453.4,
+   "to": 455.2,
+   "text": "most common things you do with said"
+  },
+  {
+   "from": 455.2,
+   "to": 458.1,
+   "text": "though is to just run replacement"
+  },
+  {
+   "from": 458.1,
+   "to": 460.6,
+   "text": "expressions on an input stream what do"
+  },
+  {
+   "from": 460.6,
+   "to": 465.2,
+   "text": "these looks like well let me show you"
+  },
+  {
+   "from": 465.2,
+   "to": 467.8,
+   "text": "here I'm gonna pipe this sue said and"
+  },
+  {
+   "from": 467.8,
+   "to": 470,
+   "text": "I'm going to say that I want to remove"
+  },
+  {
+   "from": 470,
+   "to": 472.5,
+   "text": "everything that comes before"
+  },
+  {
+   "from": 472.5,
+   "to": 478.4,
+   "text": "disconnected from so this might look a"
+  },
+  {
+   "from": 478.4,
+   "to": 481,
+   "text": "little weird the observation is that the"
+  },
+  {
+   "from": 481,
+   "to": 483.9,
+   "text": "date and the host name and the sort of"
+  },
+  {
+   "from": 484,
+   "to": 486.2,
+   "text": "process ID of the SSH daemon I don't"
+  },
+  {
+   "from": 486.2,
+   "to": 487.3,
+   "text": "care about I can just remove that"
+  },
+  {
+   "from": 487.3,
+   "to": 489.7,
+   "text": "straightaway and I can also remove that"
+  },
+  {
+   "from": 489.7,
+   "to": 491.9,
+   "text": "like disconnected from bit because that"
+  },
+  {
+   "from": 491.9,
+   "to": 493.6,
+   "text": "seems to be present in every single log"
+  },
+  {
+   "from": 493.6,
+   "to": 495.2,
+   "text": "entry so I just want to get rid of it"
+  },
+  {
+   "from": 495.2,
+   "to": 498.2,
+   "text": "and so what I write is a set expression"
+  },
+  {
+   "from": 498.2,
+   "to": 500.4,
+   "text": "in this particular case it's an S"
+  },
+  {
+   "from": 500.4,
+   "to": 502,
+   "text": "expression which is a substitute"
+  },
+  {
+   "from": 502,
+   "to": 505.7,
+   "text": "expression it takes two arguments that"
+  },
+  {
+   "from": 505.7,
+   "to": 507.6,
+   "text": "are basically enclosed in these slashes"
+  },
+  {
+   "from": 507.6,
+   "to": 510.6,
+   "text": "so the first one is the search string"
+  },
+  {
+   "from": 510.6,
+   "to": 512.4,
+   "text": "and the second one which is currently"
+  },
+  {
+   "from": 512.4,
+   "to": 514.4,
+   "text": "empty is a replacement string so here"
+  },
+  {
+   "from": 514.4,
+   "to": 516.5,
+   "text": "I'm saying search for the following"
+  },
+  {
+   "from": 516.5,
+   "to": 519.6,
+   "text": "pattern and replace it with blank and"
+  },
+  {
+   "from": 519.6,
+   "to": 520.8,
+   "text": "then I'm gonna pipe it into less at the"
+  },
+  {
+   "from": 520.8,
+   "to": 523.1,
+   "text": "end do you see that now what it's done"
+  },
+  {
+   "from": 523.1,
+   "to": 525.4,
+   "text": "is trim off the beginning of all these"
+  },
+  {
+   "from": 525.4,
+   "to": 529.8,
+   "text": "lines and that seems really handy but"
+  },
+  {
+   "from": 529.8,
+   "to": 532.2,
+   "text": "you might wonder what is this pattern"
+  },
+  {
+   "from": 532.2,
+   "to": 534.7,
+   "text": "that I've built up here right this is"
+  },
+  {
+   "from": 534.7,
+   "to": 537.9,
+   "text": "this dot star what does that mean this"
+  },
+  {
+   "from": 537.9,
+   "to": 539.5,
+   "text": "is an example of a regular expression"
+  },
+  {
+   "from": 539.5,
+   "to": 541.8,
+   "text": "and regular expressions are something"
+  },
+  {
+   "from": 541.8,
+   "to": 543.6,
+   "text": "that you may have come across in"
+  },
+  {
+   "from": 543.6,
+   "to": 545,
+   "text": "programming in the past"
+  },
+  {
+   "from": 545,
+   "to": 546.7,
+   "text": "but it's something that once you go into"
+  },
+  {
+   "from": 546.7,
+   "to": 548,
+   "text": "the command line you will find yourself"
+  },
+  {
+   "from": 548,
+   "to": 549.9,
+   "text": "using a lot especially for this kind of"
+  },
+  {
+   "from": 549.9,
+   "to": 552.5,
+   "text": "data wrangling regular expressions are"
+  },
+  {
+   "from": 552.6,
+   "to": 556,
+   "text": "essentially a powerful way to match text"
+  },
+  {
+   "from": 556,
+   "to": 558.1,
+   "text": "you can use it for other things than"
+  },
+  {
+   "from": 558.1,
+   "to": 559.6,
+   "text": "text too but Texas the most common"
+  },
+  {
+   "from": 559.6,
+   "to": 563,
+   "text": "example and in regular expressions you"
+  },
+  {
+   "from": 563,
+   "to": 566.8,
+   "text": "have a number of special characters that"
+  },
+  {
+   "from": 566.8,
+   "to": 569.8,
+   "text": "say don't just match this character but"
+  },
+  {
+   "from": 569.8,
+   "to": 571.6,
+   "text": "match for example a particular type of"
+  },
+  {
+   "from": 571.6,
+   "to": 574.2,
+   "text": "character or a particular set of options"
+  },
+  {
+   "from": 574.2,
+   "to": 577,
+   "text": "it essentially generates a program for"
+  },
+  {
+   "from": 577,
+   "to": 579.8,
+   "text": "you that searches the given text dot for"
+  },
+  {
+   "from": 579.8,
+   "to": 582,
+   "text": "example means any single"
+  },
+  {
+   "from": 582,
+   "to": 586,
+   "text": "character and star if you follow a"
+  },
+  {
+   "from": 586,
+   "to": 588.7,
+   "text": "character with a star it means zero or"
+  },
+  {
+   "from": 588.7,
+   "to": 591.9,
+   "text": "more of that character and so in this"
+  },
+  {
+   "from": 591.9,
+   "to": 594.4,
+   "text": "case is pattern of saying zero or more"
+  },
+  {
+   "from": 594.4,
+   "to": 597.6,
+   "text": "of any character followed by the literal"
+  },
+  {
+   "from": 597.6,
+   "to": 600.5,
+   "text": "string disconnected from I'm saying"
+  },
+  {
+   "from": 600.5,
+   "to": 602.7,
+   "text": "match that and then replace it with"
+  },
+  {
+   "from": 602.7,
+   "to": 605.6,
+   "text": "blank regular expressions have a number"
+  },
+  {
+   "from": 605.6,
+   "to": 607.7,
+   "text": "of these kind of special characters that"
+  },
+  {
+   "from": 607.7,
+   "to": 609.3,
+   "text": "have various meanings you can take"
+  },
+  {
+   "from": 609.3,
+   "to": 611.5,
+   "text": "advantage of I talked about star which"
+  },
+  {
+   "from": 611.5,
+   "to": 612.4,
+   "text": "is zero or more"
+  },
+  {
+   "from": 612.5,
+   "to": 614.6,
+   "text": "there's also Plus which is one or more"
+  },
+  {
+   "from": 614.6,
+   "to": 616.1,
+   "text": "right so this is saying I want the"
+  },
+  {
+   "from": 616.1,
+   "to": 617.6,
+   "text": "previous expression to match at least"
+  },
+  {
+   "from": 617.6,
+   "to": 619.1,
+   "text": "once"
+  },
+  {
+   "from": 619.1,
+   "to": 622.5,
+   "text": "you also have square brackets so square"
+  },
+  {
+   "from": 622.5,
+   "to": 624.9,
+   "text": "brackets let you match one of many"
+  },
+  {
+   "from": 624.9,
+   "to": 627.2,
+   "text": "different characters so here let us"
+  },
+  {
+   "from": 627.2,
+   "to": 629.8,
+   "text": "build up a string list something like a"
+  },
+  {
+   "from": 629.8,
+   "to": 636.4,
+   "text": "BA and I want to substitute a and B with"
+  },
+  {
+   "from": 636.4,
+   "to": 641.7,
+   "text": "nothing okay so here what I'm telling"
+  },
+  {
+   "from": 641.7,
+   "to": 643.9,
+   "text": "the pattern to do is to replace any"
+  },
+  {
+   "from": 643.9,
+   "to": 646.5,
+   "text": "character that is either A or B with"
+  },
+  {
+   "from": 646.5,
+   "to": 650.1,
+   "text": "nothing so if I make the first character"
+  },
+  {
+   "from": 650.1,
+   "to": 652.8,
+   "text": "B it will still produce BA you might"
+  },
+  {
+   "from": 652.8,
+   "to": 654.1,
+   "text": "wonder though why did it only replace"
+  },
+  {
+   "from": 654.1,
+   "to": 656,
+   "text": "once well it's because what regular"
+  },
+  {
+   "from": 656,
+   "to": 657.7,
+   "text": "expressions will do especially in this"
+  },
+  {
+   "from": 657.7,
+   "to": 660.2,
+   "text": "default mode is they will just match the"
+  },
+  {
+   "from": 660.2,
+   "to": 661.6,
+   "text": "pattern once and then apply the"
+  },
+  {
+   "from": 661.6,
+   "to": 664.3,
+   "text": "replacement once per line that is what's"
+  },
+  {
+   "from": 664.3,
+   "to": 667.4,
+   "text": "said normally does you can provide the G"
+  },
+  {
+   "from": 667.4,
+   "to": 669.3,
+   "text": "modifier which says do this as many"
+  },
+  {
+   "from": 669.3,
+   "to": 672.2,
+   "text": "times as it keeps matching which in this"
+  },
+  {
+   "from": 672.3,
+   "to": 674.1,
+   "text": "case would erase the entire line because"
+  },
+  {
+   "from": 674.1,
+   "to": 675.8,
+   "text": "every single character is either an A or"
+  },
+  {
+   "from": 675.8,
+   "to": 678.7,
+   "text": "a B if I added a C here and remove"
+  },
+  {
+   "from": 678.7,
+   "to": 681.1,
+   "text": "everything but the C if I added other"
+  },
+  {
+   "from": 681.1,
+   "to": 683,
+   "text": "characters in the middle of this string"
+  },
+  {
+   "from": 683,
+   "to": 684.4,
+   "text": "somewhere they would all be preserved"
+  },
+  {
+   "from": 684.4,
+   "to": 686.3,
+   "text": "but anything that is an A or and B is"
+  },
+  {
+   "from": 686.3,
+   "to": 694.2,
+   "text": "removed you can also do things like add"
+  },
+  {
+   "from": 694.2,
+   "to": 702.3,
+   "text": "modifiers to this for example"
+  },
+  {
+   "from": 702.3,
+   "to": 706.7,
+   "text": "what would this do this is saying I want"
+  },
+  {
+   "from": 706.7,
+   "to": 711.7,
+   "text": "zero or more of the string a B and I'm"
+  },
+  {
+   "from": 711.7,
+   "to": 712.8,
+   "text": "gonna replace them with nothing"
+  },
+  {
+   "from": 712.8,
+   "to": 715.3,
+   "text": "this means that if I have a standalone a"
+  },
+  {
+   "from": 715.3,
+   "to": 717.4,
+   "text": "it will not be replaced if I have a"
+  },
+  {
+   "from": 717.4,
+   "to": 719.6,
+   "text": "standalone B it will not be replaced but"
+  },
+  {
+   "from": 719.6,
+   "to": 721.5,
+   "text": "if I have the string a B it will be"
+  },
+  {
+   "from": 721.5,
+   "to": 729.6,
+   "text": "removed which yeah what are they said is"
+  },
+  {
+   "from": 729.6,
+   "to": 732.3,
+   "text": "stupid"
+  },
+  {
+   "from": 732.3,
+   "to": 735.2,
+   "text": "the - a here is because said is a really"
+  },
+  {
+   "from": 735.2,
+   "to": 738.2,
+   "text": "old tool and so it supports only a very"
+  },
+  {
+   "from": 738.3,
+   "to": 739.9,
+   "text": "old version of very cool expressions"
+  },
+  {
+   "from": 739.9,
+   "to": 742.3,
+   "text": "generally you will want to run it with -"
+  },
+  {
+   "from": 742.3,
+   "to": 744.1,
+   "text": "capital e which makes it use a more"
+  },
+  {
+   "from": 744.1,
+   "to": 745.8,
+   "text": "modern syntax that supports more things"
+  },
+  {
+   "from": 745.8,
+   "to": 748.6,
+   "text": "if you are in a place where you can't"
+  },
+  {
+   "from": 748.6,
+   "to": 750.9,
+   "text": "you have to prefix these with back"
+  },
+  {
+   "from": 750.9,
+   "to": 753.2,
+   "text": "slashes to say I want the special"
+  },
+  {
+   "from": 753.2,
+   "to": 755.6,
+   "text": "meaning of parenthesis otherwise they"
+  },
+  {
+   "from": 755.7,
+   "to": 757.2,
+   "text": "were just match a literal parenthesis"
+  },
+  {
+   "from": 757.2,
+   "to": 760,
+   "text": "which is probably not what you want so"
+  },
+  {
+   "from": 760,
+   "to": 763.5,
+   "text": "notice how this replaced the a B here"
+  },
+  {
+   "from": 763.5,
+   "to": 766.4,
+   "text": "and it replaced the a be here but it"
+  },
+  {
+   "from": 766.4,
+   "to": 768.8,
+   "text": "left this C and it also left the a at"
+  },
+  {
+   "from": 768.8,
+   "to": 771,
+   "text": "the end because that a does not match"
+  },
+  {
+   "from": 771,
+   "to": 774.1,
+   "text": "this pattern anymore and you can group"
+  },
+  {
+   "from": 774.1,
+   "to": 775.7,
+   "text": "these patterns in whatever ways you want"
+  },
+  {
+   "from": 775.7,
+   "to": 778.2,
+   "text": "you also have things like alternations"
+  },
+  {
+   "from": 778.2,
+   "to": 780.8,
+   "text": "you can say anything that matches a b or"
+  },
+  {
+   "from": 780.9,
+   "to": 787.4,
+   "text": "b c i want to remove and here you'll"
+  },
+  {
+   "from": 787.4,
+   "to": 790.5,
+   "text": "notice that this a b got removed this bc"
+  },
+  {
+   "from": 790.5,
+   "to": 792.2,
+   "text": "did not get removed even though it"
+  },
+  {
+   "from": 792.2,
+   "to": 794.7,
+   "text": "matches the pattern because the a b had"
+  },
+  {
+   "from": 794.7,
+   "to": 797.9,
+   "text": "already been removed this a b is removed"
+  },
+  {
+   "from": 798,
+   "to": 800.5,
+   "text": "right but the c stays in place this a b"
+  },
+  {
+   "from": 800.5,
+   "to": 803,
+   "text": "is removed and this c states because it"
+  },
+  {
+   "from": 803,
+   "to": 805.9,
+   "text": "still does not match that if I made this"
+  },
+  {
+   "from": 805.9,
+   "to": 809.5,
+   "text": "if I remove this a then now this a B"
+  },
+  {
+   "from": 809.5,
+   "to": 811.7,
+   "text": "pattern will not match this B so it'll"
+  },
+  {
+   "from": 811.8,
+   "to": 814,
+   "text": "be preserved and then BC will match BC"
+  },
+  {
+   "from": 814,
+   "to": 816.3,
+   "text": "and it'll go away"
+  },
+  {
+   "from": 816.3,
+   "to": 817.8,
+   "text": "Regulus presence can be all sorts of"
+  },
+  {
+   "from": 817.8,
+   "to": 819.9,
+   "text": "complicated when you first encounter"
+  },
+  {
+   "from": 819.9,
+   "to": 821.5,
+   "text": "them and even once you get more"
+  },
+  {
+   "from": 821.5,
+   "to": 822.8,
+   "text": "experience with them they can be"
+  },
+  {
+   "from": 822.8,
+   "to": 825.2,
+   "text": "daunting to look at and this is why very"
+  },
+  {
+   "from": 825.2,
+   "to": 827.8,
+   "text": "often you want to use something like a"
+  },
+  {
+   "from": 827.8,
+   "to": 829.6,
+   "text": "regular expression debugger which we'll"
+  },
+  {
+   "from": 829.6,
+   "to": 831.7,
+   "text": "look at in a little bit but first let's"
+  },
+  {
+   "from": 831.7,
+   "to": 832.6,
+   "text": "try to make up a"
+  },
+  {
+   "from": 832.6,
+   "to": 835.5,
+   "text": "pattern that will match the logs and and"
+  },
+  {
+   "from": 835.5,
+   "to": 837.3,
+   "text": "match the logs that we've been working"
+  },
+  {
+   "from": 837.3,
+   "to": 840.4,
+   "text": "with so far so here I'm gonna just sort"
+  },
+  {
+   "from": 840.4,
+   "to": 842.1,
+   "text": "of extract a couple of lines from this"
+  },
+  {
+   "from": 842.1,
+   "to": 844.7,
+   "text": "file let's say the first five so these"
+  },
+  {
+   "from": 844.7,
+   "to": 848.9,
+   "text": "lines all now look like this right and"
+  },
+  {
+   "from": 848.9,
+   "to": 852.3,
+   "text": "what we want to do is we want to only"
+  },
+  {
+   "from": 852.3,
+   "to": 855.4,
+   "text": "have the user name okay so what might"
+  },
+  {
+   "from": 855.4,
+   "to": 861.2,
+   "text": "this look like well here's one thing we"
+  },
+  {
+   "from": 861.2,
+   "to": 870.1,
+   "text": "could try to do actually let me show you"
+  },
+  {
+   "from": 870.1,
+   "to": 872.7,
+   "text": "one except one thing first let me take a"
+  },
+  {
+   "from": 872.7,
+   "to": 874.4,
+   "text": "line that says something like"
+  },
+  {
+   "from": 874.4,
+   "to": 879,
+   "text": "disconnected from invalid user"
+  },
+  {
+   "from": 879,
+   "to": 884.3,
+   "text": "disconnected from maybe four to one one"
+  },
+  {
+   "from": 884.3,
+   "to": 886.6,
+   "text": "whatever okay so this is an example of a"
+  },
+  {
+   "from": 886.6,
+   "to": 889.7,
+   "text": "login line where someone tried to login"
+  },
+  {
+   "from": 889.7,
+   "to": 894.5,
+   "text": "with the username disconnected from"
+  },
+  {
+   "from": 894.5,
+   "to": 903.2,
+   "text": "missing an S disconnected thank you"
+  },
+  {
+   "from": 903.2,
+   "to": 905.4,
+   "text": "you'll notice that this actually removed"
+  },
+  {
+   "from": 905.4,
+   "to": 908.3,
+   "text": "the username as well and this is because"
+  },
+  {
+   "from": 908.3,
+   "to": 910.8,
+   "text": "when you use dot star and any of these"
+  },
+  {
+   "from": 910.8,
+   "to": 911.9,
+   "text": "sort of range expressions indirect"
+  },
+  {
+   "from": 911.9,
+   "to": 914.5,
+   "text": "expressions they are greedy they will"
+  },
+  {
+   "from": 914.5,
+   "to": 917.1,
+   "text": "match as much as they can so in this"
+  },
+  {
+   "from": 917.1,
+   "to": 919.9,
+   "text": "case this was the username that we"
+  },
+  {
+   "from": 919.9,
+   "to": 922.1,
+   "text": "wanted to retain but this pattern"
+  },
+  {
+   "from": 922.1,
+   "to": 924.9,
+   "text": "actually matched all the way up until"
+  },
+  {
+   "from": 924.9,
+   "to": 927.1,
+   "text": "the second occurrence of it or the last"
+  },
+  {
+   "from": 927.1,
+   "to": 928.6,
+   "text": "occurrence of it and so everything"
+  },
+  {
+   "from": 928.6,
+   "to": 931,
+   "text": "before it including the username itself"
+  },
+  {
+   "from": 931,
+   "to": 933,
+   "text": "got removed and so we need to come up"
+  },
+  {
+   "from": 933,
+   "to": 934.5,
+   "text": "with a slightly clever or matching"
+  },
+  {
+   "from": 934.5,
+   "to": 936.1,
+   "text": "strategy than just saying sort of dot"
+  },
+  {
+   "from": 936.2,
+   "to": 938.2,
+   "text": "star because it means that if we have"
+  },
+  {
+   "from": 938.2,
+   "to": 939.9,
+   "text": "particularly adversarial input we might"
+  },
+  {
+   "from": 940,
+   "to": 941.3,
+   "text": "end up with something that we didn't"
+  },
+  {
+   "from": 941.3,
+   "to": 944.4,
+   "text": "expect okay so let's see how we might"
+  },
+  {
+   "from": 944.4,
+   "to": 947.7,
+   "text": "try to match these lines let's just do a"
+  },
+  {
+   "from": 947.7,
+   "to": 956.8,
+   "text": "head first well let's try to construct"
+  },
+  {
+   "from": 956.9,
+   "to": 960.7,
+   "text": "this up from the beginning we first of"
+  },
+  {
+   "from": 960.7,
+   "to": 963,
+   "text": "all know that we want - capital e right"
+  },
+  {
+   "from": 963,
+   "to": 965.2,
+   "text": "because we want to not have to put all"
+  },
+  {
+   "from": 965.2,
+   "to": 967.2,
+   "text": "these back slashes everywhere"
+  },
+  {
+   "from": 967.2,
+   "to": 969.8,
+   "text": "these lines look like they say from and"
+  },
+  {
+   "from": 969.8,
+   "to": 974.9,
+   "text": "then some of them say invalid but some"
+  },
+  {
+   "from": 974.9,
+   "to": 976.8,
+   "text": "of them do not right this line has"
+  },
+  {
+   "from": 976.8,
+   "to": 979.2,
+   "text": "invalid that one does not question mark"
+  },
+  {
+   "from": 979.2,
+   "to": 981.7,
+   "text": "here is saying zero or one so I want"
+  },
+  {
+   "from": 981.7,
+   "to": 986,
+   "text": "zero or zero or one of invalid space"
+  },
+  {
+   "from": 986,
+   "to": 991.3,
+   "text": "user what else well that's going to be a"
+  },
+  {
+   "from": 991.3,
+   "to": 994.3,
+   "text": "double space so we can't have that and"
+  },
+  {
+   "from": 994.3,
+   "to": 996.5,
+   "text": "then there's gonna be some username and"
+  },
+  {
+   "from": 996.5,
+   "to": 1000.4,
+   "text": "then there's gonna be what exactly is"
+  },
+  {
+   "from": 1000.4,
+   "to": 1003.2,
+   "text": "gonna be what looks like an IP address"
+  },
+  {
+   "from": 1003.2,
+   "to": 1006.3,
+   "text": "so here we can use our range syntax and"
+  },
+  {
+   "from": 1006.3,
+   "to": 1010.2,
+   "text": "say zero to nine and a dot right that's"
+  },
+  {
+   "from": 1010.2,
+   "to": 1013.5,
+   "text": "what IP addresses are and we want many"
+  },
+  {
+   "from": 1013.5,
+   "to": 1018.2,
+   "text": "of those then it says porch so we're"
+  },
+  {
+   "from": 1018.2,
+   "to": 1020.3,
+   "text": "just going to match a literal port and"
+  },
+  {
+   "from": 1020.3,
+   "to": 1023.1,
+   "text": "then another number zero to nine and"
+  },
+  {
+   "from": 1023.1,
+   "to": 1028,
+   "text": "we're going to wand plus of that the"
+  },
+  {
+   "from": 1028,
+   "to": 1029.1,
+   "text": "other thing we're going to do here is"
+  },
+  {
+   "from": 1029.2,
+   "to": 1030,
+   "text": "we're going to do what's known as"
+  },
+  {
+   "from": 1030,
+   "to": 1031.9,
+   "text": "anchoring the regular expression so"
+  },
+  {
+   "from": 1031.9,
+   "to": 1033.4,
+   "text": "there are two special characters and"
+  },
+  {
+   "from": 1033.4,
+   "to": 1035.8,
+   "text": "regular expressions there's carrot or"
+  },
+  {
+   "from": 1035.8,
+   "to": 1037.7,
+   "text": "hat which matches the beginning of a"
+  },
+  {
+   "from": 1037.7,
+   "to": 1039.8,
+   "text": "line and there's dollar which matches"
+  },
+  {
+   "from": 1039.8,
+   "to": 1042.4,
+   "text": "the end of a line so here we're gonna"
+  },
+  {
+   "from": 1042.4,
+   "to": 1044.8,
+   "text": "say that this regression has to match"
+  },
+  {
+   "from": 1044.8,
+   "to": 1048,
+   "text": "the complete line the reason we do this"
+  },
+  {
+   "from": 1048,
+   "to": 1049.8,
+   "text": "is because imagine that someone made"
+  },
+  {
+   "from": 1049.8,
+   "to": 1053.3,
+   "text": "their username the entire log string"
+  },
+  {
+   "from": 1053.3,
+   "to": 1055.2,
+   "text": "then now if you try to match this"
+  },
+  {
+   "from": 1055.3,
+   "to": 1058.5,
+   "text": "pattern it would match the username"
+  },
+  {
+   "from": 1058.5,
+   "to": 1060.7,
+   "text": "itself which is not what we want"
+  },
+  {
+   "from": 1060.7,
+   "to": 1063,
+   "text": "generally you will want to try to anchor"
+  },
+  {
+   "from": 1063,
+   "to": 1064.5,
+   "text": "your patterns wherever you can to avoid"
+  },
+  {
+   "from": 1064.5,
+   "to": 1066.9,
+   "text": "those kind of oddities okay let's see"
+  },
+  {
+   "from": 1066.9,
+   "to": 1069.9,
+   "text": "what that gave us that removed many of"
+  },
+  {
+   "from": 1069.9,
+   "to": 1072,
+   "text": "the lines but not all of them so this"
+  },
+  {
+   "from": 1072,
+   "to": 1074.4,
+   "text": "one for example includes this pre off at"
+  },
+  {
+   "from": 1074.4,
+   "to": 1076.9,
+   "text": "the end so we'll want to cut that off if"
+  },
+  {
+   "from": 1076.9,
+   "to": 1082.8,
+   "text": "there's a space pre off square brackets"
+  },
+  {
+   "from": 1082.8,
+   "to": 1084.5,
+   "text": "our specials we need to escape them"
+  },
+  {
+   "from": 1084.5,
+   "to": 1087.3,
+   "text": "right now let's see what happens if we"
+  },
+  {
+   "from": 1087.4,
+   "to": 1090.6,
+   "text": "try more lines of this no it still gets"
+  },
+  {
+   "from": 1090.7,
+   "to": 1092.4,
+   "text": "something weird some of these lines are"
+  },
+  {
+   "from": 1092.4,
+   "to": 1093.7,
+   "text": "not empty right which means that the"
+  },
+  {
+   "from": 1093.7,
+   "to": 1096.7,
+   "text": "pattern did not match this one for"
+  },
+  {
+   "from": 1096.7,
+   "to": 1099,
+   "text": "example it says authenticating user"
+  },
+  {
+   "from": 1099,
+   "to": 1100,
+   "text": "instead of invalid"
+  },
+  {
+   "from": 1100,
+   "to": 1104.7,
+   "text": "user okay so as to match invalid or"
+  },
+  {
+   "from": 1104.7,
+   "to": 1107.3,
+   "text": "authenticated zero or one time before"
+  },
+  {
+   "from": 1107.3,
+   "to": 1110.9,
+   "text": "user how about now okay that looks"
+  },
+  {
+   "from": 1110.9,
+   "to": 1114.5,
+   "text": "pretty promising but this output is not"
+  },
+  {
+   "from": 1114.5,
+   "to": 1117,
+   "text": "particularly helpful right here we've"
+  },
+  {
+   "from": 1117,
+   "to": 1118.9,
+   "text": "just erased every line of our log files"
+  },
+  {
+   "from": 1118.9,
+   "to": 1121.4,
+   "text": "successfully which is not very helpful"
+  },
+  {
+   "from": 1121.4,
+   "to": 1123.9,
+   "text": "instead what we really wanted to do is"
+  },
+  {
+   "from": 1123.9,
+   "to": 1126.1,
+   "text": "when we match the username right over"
+  },
+  {
+   "from": 1126.1,
+   "to": 1128.8,
+   "text": "here we really wanted to remember what"
+  },
+  {
+   "from": 1128.8,
+   "to": 1130.3,
+   "text": "that username was because that is what"
+  },
+  {
+   "from": 1130.3,
+   "to": 1133.3,
+   "text": "we want to print out and the way we can"
+  },
+  {
+   "from": 1133.3,
+   "to": 1135.8,
+   "text": "do that in regular expressions is using"
+  },
+  {
+   "from": 1135.8,
+   "to": 1140.3,
+   "text": "something like capture groups so capture"
+  },
+  {
+   "from": 1140.3,
+   "to": 1143.6,
+   "text": "groups are a way to say that I want to"
+  },
+  {
+   "from": 1143.6,
+   "to": 1146.6,
+   "text": "remember this value and reuse it later"
+  },
+  {
+   "from": 1146.6,
+   "to": 1150.3,
+   "text": "and in regular expressions any bracketed"
+  },
+  {
+   "from": 1150.4,
+   "to": 1152.2,
+   "text": "expression any parenthesis expression is"
+  },
+  {
+   "from": 1152.2,
+   "to": 1154.5,
+   "text": "going to be such a capture group so we"
+  },
+  {
+   "from": 1154.5,
+   "to": 1156.8,
+   "text": "already actually have one here which is"
+  },
+  {
+   "from": 1156.8,
+   "to": 1158.6,
+   "text": "this first group and now we're creating"
+  },
+  {
+   "from": 1158.6,
+   "to": 1160.8,
+   "text": "a second one here notice that these"
+  },
+  {
+   "from": 1160.9,
+   "to": 1162.6,
+   "text": "parentheses don't do anything to the"
+  },
+  {
+   "from": 1162.6,
+   "to": 1164.9,
+   "text": "matching right because they're just"
+  },
+  {
+   "from": 1164.9,
+   "to": 1167.2,
+   "text": "saying this expression as a unit but we"
+  },
+  {
+   "from": 1167.2,
+   "to": 1168.8,
+   "text": "don't have any modifiers after it so"
+  },
+  {
+   "from": 1168.8,
+   "to": 1172.5,
+   "text": "it's just match one-time and then the"
+  },
+  {
+   "from": 1172.6,
+   "to": 1175,
+   "text": "reason matching groups are are useful or"
+  },
+  {
+   "from": 1175,
+   "to": 1176.8,
+   "text": "capture groups are useful is because you"
+  },
+  {
+   "from": 1176.8,
+   "to": 1178.4,
+   "text": "can refer back to them in the"
+  },
+  {
+   "from": 1178.4,
+   "to": 1180.9,
+   "text": "replacement so in the replacement here I"
+  },
+  {
+   "from": 1180.9,
+   "to": 1183.8,
+   "text": "can say backslash two this is the way"
+  },
+  {
+   "from": 1183.8,
+   "to": 1185.6,
+   "text": "that you refer to the name of a capture"
+  },
+  {
+   "from": 1185.6,
+   "to": 1187.8,
+   "text": "group in this say I'm in this case I'm"
+  },
+  {
+   "from": 1187.8,
+   "to": 1190.2,
+   "text": "saying match the entire line and then in"
+  },
+  {
+   "from": 1190.3,
+   "to": 1193.3,
+   "text": "the replacement put in the value you"
+  },
+  {
+   "from": 1193.3,
+   "to": 1195.4,
+   "text": "captured in the second capture group"
+  },
+  {
+   "from": 1195.4,
+   "to": 1197.3,
+   "text": "right remember this is the first capture"
+  },
+  {
+   "from": 1197.3,
+   "to": 1200,
+   "text": "group and this is the second one and"
+  },
+  {
+   "from": 1200,
+   "to": 1203.3,
+   "text": "this gives me all the usernames now if"
+  },
+  {
+   "from": 1203.3,
+   "to": 1205.7,
+   "text": "you look back at what we wrote this is"
+  },
+  {
+   "from": 1205.7,
+   "to": 1208.6,
+   "text": "pretty complicated right it might make"
+  },
+  {
+   "from": 1208.6,
+   "to": 1210,
+   "text": "sense now that we walk through it and"
+  },
+  {
+   "from": 1210.1,
+   "to": 1212,
+   "text": "why it had to be the way it was but this"
+  },
+  {
+   "from": 1212,
+   "to": 1214.1,
+   "text": "is like not obvious that this is how"
+  },
+  {
+   "from": 1214.1,
+   "to": 1216.1,
+   "text": "these lines work and this is where a"
+  },
+  {
+   "from": 1216.1,
+   "to": 1219.7,
+   "text": "regular expression debugger can come in"
+  },
+  {
+   "from": 1219.7,
+   "to": 1222.3,
+   "text": "really really handy so we have one here"
+  },
+  {
+   "from": 1222.3,
+   "to": 1225.4,
+   "text": "there are many online but here I've sort"
+  },
+  {
+   "from": 1225.4,
+   "to": 1227.5,
+   "text": "of pre filled in this expression that we"
+  },
+  {
+   "from": 1227.5,
+   "to": 1231.7,
+   "text": "just used and notice that it it tells me"
+  },
+  {
+   "from": 1231.7,
+   "to": 1234.4,
+   "text": "all the matching does in fact now this"
+  },
+  {
+   "from": 1234.4,
+   "to": 1237.5,
+   "text": "window is a little small with this font"
+  },
+  {
+   "from": 1237.5,
+   "to": 1242.9,
+   "text": "size but if I do hear this explanation"
+  },
+  {
+   "from": 1243,
+   "to": 1245.6,
+   "text": "says dot star matches any character"
+  },
+  {
+   "from": 1245.6,
+   "to": 1248.3,
+   "text": "between zero and unlimited times"
+  },
+  {
+   "from": 1248.3,
+   "to": 1252.2,
+   "text": "followed by disconnected from literally"
+  },
+  {
+   "from": 1252.2,
+   "to": 1254.3,
+   "text": "followed by a capture group and then"
+  },
+  {
+   "from": 1254.3,
+   "to": 1256.8,
+   "text": "walks you through all the stuff and"
+  },
+  {
+   "from": 1256.8,
+   "to": 1259.2,
+   "text": "that's one thing but it also lets you've"
+  },
+  {
+   "from": 1259.2,
+   "to": 1261,
+   "text": "given a test string and then matches the"
+  },
+  {
+   "from": 1261,
+   "to": 1263.5,
+   "text": "pattern against every single test string"
+  },
+  {
+   "from": 1263.5,
+   "to": 1265.4,
+   "text": "that you give and highlights what the"
+  },
+  {
+   "from": 1265.4,
+   "to": 1267.5,
+   "text": "different capture groups for example are"
+  },
+  {
+   "from": 1267.5,
+   "to": 1271.5,
+   "text": "so here we made user a capture group"
+  },
+  {
+   "from": 1271.5,
+   "to": 1275.1,
+   "text": "right so it'll say okay the full string"
+  },
+  {
+   "from": 1275.1,
+   "to": 1277,
+   "text": "matched right the whole thing is blue so"
+  },
+  {
+   "from": 1277,
+   "to": 1279.1,
+   "text": "it matched Green is the first capture"
+  },
+  {
+   "from": 1279.1,
+   "to": 1281.2,
+   "text": "group red is the second capture group"
+  },
+  {
+   "from": 1281.2,
+   "to": 1283.4,
+   "text": "and this is the third because preauth"
+  },
+  {
+   "from": 1283.4,
+   "to": 1286.1,
+   "text": "was also put into parenthesis and this"
+  },
+  {
+   "from": 1286.1,
+   "to": 1287.7,
+   "text": "can be a handy way to try to debug your"
+  },
+  {
+   "from": 1287.8,
+   "to": 1291,
+   "text": "regular expressions for example if I put"
+  },
+  {
+   "from": 1291,
+   "to": 1295.6,
+   "text": "disconnected from and let's add a new"
+  },
+  {
+   "from": 1295.6,
+   "to": 1301.1,
+   "text": "line here and I make the username"
+  },
+  {
+   "from": 1301.1,
+   "to": 1305.2,
+   "text": "disconnected from now that line already"
+  },
+  {
+   "from": 1305.2,
+   "to": 1306.5,
+   "text": "had the username be disconnect from"
+  },
+  {
+   "from": 1306.5,
+   "to": 1309.9,
+   "text": "great here me of thinking ahead you'll"
+  },
+  {
+   "from": 1310,
+   "to": 1314.1,
+   "text": "notice that with this pattern this was"
+  },
+  {
+   "from": 1314.2,
+   "to": 1316,
+   "text": "no longer a problem because it got"
+  },
+  {
+   "from": 1316,
+   "to": 1318.7,
+   "text": "matched the username what happens if we"
+  },
+  {
+   "from": 1318.7,
+   "to": 1322.6,
+   "text": "take this entire line or this entire"
+  },
+  {
+   "from": 1322.6,
+   "to": 1327.2,
+   "text": "line and make that the username now what"
+  },
+  {
+   "from": 1327.2,
+   "to": 1333.8,
+   "text": "happens it gets really confused right so"
+  },
+  {
+   "from": 1333.8,
+   "to": 1335.2,
+   "text": "this is where regular expressions can be"
+  },
+  {
+   "from": 1335.2,
+   "to": 1338.4,
+   "text": "a pain to get right because it now tries"
+  },
+  {
+   "from": 1338.4,
+   "to": 1341.8,
+   "text": "to match it matches the first place"
+  },
+  {
+   "from": 1341.8,
+   "to": 1344,
+   "text": "where username appears or the first"
+  },
+  {
+   "from": 1344,
+   "to": 1347.4,
+   "text": "invalid in this case the second invalid"
+  },
+  {
+   "from": 1347.4,
+   "to": 1349.7,
+   "text": "because this is greedy we can make this"
+  },
+  {
+   "from": 1349.7,
+   "to": 1351.8,
+   "text": "non greedy by putting a question mark"
+  },
+  {
+   "from": 1351.8,
+   "to": 1356.4,
+   "text": "here so if you suffix a plus or a star"
+  },
+  {
+   "from": 1356.4,
+   "to": 1358.5,
+   "text": "with a question mark it becomes a non"
+  },
+  {
+   "from": 1358.5,
+   "to": 1360.9,
+   "text": "greedy match so it will not try to match"
+  },
+  {
+   "from": 1360.9,
+   "to": 1362.5,
+   "text": "as much as possible and then you see"
+  },
+  {
+   "from": 1362.5,
+   "to": 1363.8,
+   "text": "that this actually gets parsed correctly"
+  },
+  {
+   "from": 1363.8,
+   "to": 1366,
+   "text": "because this dots"
+  },
+  {
+   "from": 1366,
+   "to": 1367.9,
+   "text": "we'll stop at the first disconnected"
+  },
+  {
+   "from": 1368,
+   "to": 1369.5,
+   "text": "from which is the one that's actually"
+  },
+  {
+   "from": 1369.5,
+   "to": 1372.4,
+   "text": "emitted by SSH the one that actually"
+  },
+  {
+   "from": 1372.5,
+   "to": 1377.1,
+   "text": "appears in our logs as you can probably"
+  },
+  {
+   "from": 1377.1,
+   "to": 1378.7,
+   "text": "tell from the explanation of this so far"
+  },
+  {
+   "from": 1378.7,
+   "to": 1380.8,
+   "text": "regular expressions can get really"
+  },
+  {
+   "from": 1380.8,
+   "to": 1383.1,
+   "text": "complicated and there are all sorts of"
+  },
+  {
+   "from": 1383.1,
+   "to": 1385.3,
+   "text": "weird modifiers that you might have to"
+  },
+  {
+   "from": 1385.3,
+   "to": 1387.3,
+   "text": "apply in your pattern the only way to"
+  },
+  {
+   "from": 1387.3,
+   "to": 1389.1,
+   "text": "really learn them is to start with"
+  },
+  {
+   "from": 1389.1,
+   "to": 1390.7,
+   "text": "simple ones and then build them up until"
+  },
+  {
+   "from": 1390.8,
+   "to": 1393,
+   "text": "they match what you need often you're"
+  },
+  {
+   "from": 1393,
+   "to": 1394.9,
+   "text": "just doing some like one-off job like"
+  },
+  {
+   "from": 1394.9,
+   "to": 1396.1,
+   "text": "when we're hacking out the user names"
+  },
+  {
+   "from": 1396.2,
+   "to": 1397.8,
+   "text": "here and you don't need to care about"
+  },
+  {
+   "from": 1397.8,
+   "to": 1399.9,
+   "text": "all the special conditions right you"
+  },
+  {
+   "from": 1399.9,
+   "to": 1401.6,
+   "text": "don't have to care about someone having"
+  },
+  {
+   "from": 1401.6,
+   "to": 1404.2,
+   "text": "the SSH username perfectly match your"
+  },
+  {
+   "from": 1404.2,
+   "to": 1406,
+   "text": "login format that's probably not"
+  },
+  {
+   "from": 1406,
+   "to": 1407.4,
+   "text": "something that matters because you're"
+  },
+  {
+   "from": 1407.4,
+   "to": 1409.4,
+   "text": "just trying to find the usernames but"
+  },
+  {
+   "from": 1409.4,
+   "to": 1410.7,
+   "text": "regular expressions are really powerful"
+  },
+  {
+   "from": 1410.7,
+   "to": 1412.7,
+   "text": "and you want to be careful if you're"
+  },
+  {
+   "from": 1412.7,
+   "to": 1413.7,
+   "text": "doing something where it actually"
+  },
+  {
+   "from": 1413.7,
+   "to": 1421.4,
+   "text": "matters you had a question"
+  },
+  {
+   "from": 1421.4,
+   "to": 1423.5,
+   "text": "regular expressions by default only"
+  },
+  {
+   "from": 1423.5,
+   "to": 1427.6,
+   "text": "match per line anyway they will not"
+  },
+  {
+   "from": 1427.6,
+   "to": 1438.6,
+   "text": "match across new lines so so the way"
+  },
+  {
+   "from": 1438.6,
+   "to": 1441.2,
+   "text": "that said works is that it operates per"
+  },
+  {
+   "from": 1441.2,
+   "to": 1444.7,
+   "text": "line and so said we'll do this"
+  },
+  {
+   "from": 1444.7,
+   "to": 1450.4,
+   "text": "expression for every line okay questions"
+  },
+  {
+   "from": 1450.4,
+   "to": 1452.2,
+   "text": "about regular sessions or this pattern"
+  },
+  {
+   "from": 1452.3,
+   "to": 1454.4,
+   "text": "so far it is a complicated pattern so if"
+  },
+  {
+   "from": 1454.4,
+   "to": 1456.4,
+   "text": "it if it feels confusing like don't be"
+  },
+  {
+   "from": 1456.4,
+   "to": 1457.6,
+   "text": "worried about it look at it in the"
+  },
+  {
+   "from": 1457.6,
+   "to": 1471.4,
+   "text": "debugger later yep so so keep in mind"
+  },
+  {
+   "from": 1471.5,
+   "to": 1473.5,
+   "text": "that the we're assuming here that the"
+  },
+  {
+   "from": 1473.6,
+   "to": 1476.1,
+   "text": "user only has control over their"
+  },
+  {
+   "from": 1476.1,
+   "to": 1478.6,
+   "text": "username right so the worst that they"
+  },
+  {
+   "from": 1478.6,
+   "to": 1481.8,
+   "text": "could do is take like this entire entry"
+  },
+  {
+   "from": 1481.8,
+   "to": 1483.5,
+   "text": "and make that the username let's see"
+  },
+  {
+   "from": 1483.5,
+   "to": 1488.5,
+   "text": "what happens right so that's the works"
+  },
+  {
+   "from": 1488.5,
+   "to": 1491.5,
+   "text": "and the reason for this is this question"
+  },
+  {
+   "from": 1491.5,
+   "to": 1493.7,
+   "text": "mark means that the moment we hit the"
+  },
+  {
+   "from": 1493.7,
+   "to": 1496.2,
+   "text": "disconnect keyword we start parsing the"
+  },
+  {
+   "from": 1496.2,
+   "to": 1498.8,
+   "text": "rest of the pattern right and the"
+  },
+  {
+   "from": 1498.8,
+   "to": 1500.8,
+   "text": "first occurrence of disconnected is"
+  },
+  {
+   "from": 1500.8,
+   "to": 1503.2,
+   "text": "printed by SSH before anything the user"
+  },
+  {
+   "from": 1503.2,
+   "to": 1505.7,
+   "text": "controls so in this particular instance"
+  },
+  {
+   "from": 1505.7,
+   "to": 1508.2,
+   "text": "even this will not confuse the pattern"
+  },
+  {
+   "from": 1508.2,
+   "to": 1521,
+   "text": "yep if well so if you're writing a this"
+  },
+  {
+   "from": 1521,
+   "to": 1524.9,
+   "text": "sort of odd matching will in general"
+  },
+  {
+   "from": 1524.9,
+   "to": 1526.1,
+   "text": "when you're doing data wrangling is like"
+  },
+  {
+   "from": 1526.1,
+   "to": 1529.1,
+   "text": "not security it's not security related"
+  },
+  {
+   "from": 1529.1,
+   "to": 1531.4,
+   "text": "but it might mean that you get really"
+  },
+  {
+   "from": 1531.4,
+   "to": 1533.9,
+   "text": "weird data back and so if you're doing"
+  },
+  {
+   "from": 1533.9,
+   "to": 1535.3,
+   "text": "something like plotting data you might"
+  },
+  {
+   "from": 1535.3,
+   "to": 1537.4,
+   "text": "drop data points that matter you might"
+  },
+  {
+   "from": 1537.4,
+   "to": 1539.5,
+   "text": "parse out the wrong number and then like"
+  },
+  {
+   "from": 1539.6,
+   "to": 1541.4,
+   "text": "your plot suddenly have data points that"
+  },
+  {
+   "from": 1541.5,
+   "to": 1543.4,
+   "text": "weren't in the original data and so it's"
+  },
+  {
+   "from": 1543.4,
+   "to": 1545.5,
+   "text": "more that if you find yourself writing a"
+  },
+  {
+   "from": 1545.6,
+   "to": 1547.4,
+   "text": "complicated regular expression like"
+  },
+  {
+   "from": 1547.4,
+   "to": 1549.1,
+   "text": "double check that it's actually matching"
+  },
+  {
+   "from": 1549.1,
+   "to": 1551.7,
+   "text": "what you think it's matching and even if"
+  },
+  {
+   "from": 1551.7,
+   "to": 1556.6,
+   "text": "it's not security related and as you can"
+  },
+  {
+   "from": 1556.6,
+   "to": 1558.2,
+   "text": "imagine these patterns can get really"
+  },
+  {
+   "from": 1558.2,
+   "to": 1560.9,
+   "text": "complicated like for example there's a"
+  },
+  {
+   "from": 1561,
+   "to": 1562.8,
+   "text": "big debate about how do you match an"
+  },
+  {
+   "from": 1562.8,
+   "to": 1564.2,
+   "text": "email address with a regular expression"
+  },
+  {
+   "from": 1564.2,
+   "to": 1566.2,
+   "text": "and you might think of something like"
+  },
+  {
+   "from": 1566.2,
+   "to": 1568.9,
+   "text": "this so this is a very straightforward"
+  },
+  {
+   "from": 1568.9,
+   "to": 1570.8,
+   "text": "one that just says letters and numbers"
+  },
+  {
+   "from": 1570.9,
+   "to": 1573.9,
+   "text": "and rotor scores some percent followed"
+  },
+  {
+   "from": 1573.9,
+   "to": 1575.6,
+   "text": "by a plus because in Gmail you can have"
+  },
+  {
+   "from": 1575.6,
+   "to": 1577.8,
+   "text": "pluses in email addresses with a suffix"
+  },
+  {
+   "from": 1577.8,
+   "to": 1582.1,
+   "text": "in this case the plus is just for any"
+  },
+  {
+   "from": 1582.1,
+   "to": 1584.6,
+   "text": "number of these but at least one because"
+  },
+  {
+   "from": 1584.6,
+   "to": 1585.7,
+   "text": "you can't have an email address that"
+  },
+  {
+   "from": 1585.7,
+   "to": 1586.9,
+   "text": "doesn't have anything before the ad and"
+  },
+  {
+   "from": 1586.9,
+   "to": 1589.3,
+   "text": "then similarly after the domain right"
+  },
+  {
+   "from": 1589.3,
+   "to": 1591.8,
+   "text": "and the top-level domain has to be at"
+  },
+  {
+   "from": 1591.8,
+   "to": 1593.1,
+   "text": "least two characters and can't include"
+  },
+  {
+   "from": 1593.1,
+   "to": 1595,
+   "text": "digits right you can have it calm but"
+  },
+  {
+   "from": 1595.1,
+   "to": 1598,
+   "text": "you can't have adopt seven it turns out"
+  },
+  {
+   "from": 1598,
+   "to": 1600,
+   "text": "this is not really correct right there"
+  },
+  {
+   "from": 1600,
+   "to": 1602.1,
+   "text": "are a bunch of valid email addresses"
+  },
+  {
+   "from": 1602.1,
+   "to": 1603.2,
+   "text": "that will not be matched by this and"
+  },
+  {
+   "from": 1603.2,
+   "to": 1604.4,
+   "text": "they're a bunch of invalid email"
+  },
+  {
+   "from": 1604.4,
+   "to": 1605.5,
+   "text": "addresses that will be matched by this"
+  },
+  {
+   "from": 1605.6,
+   "to": 1610.6,
+   "text": "so there are many many suggestions and"
+  },
+  {
+   "from": 1610.6,
+   "to": 1612.4,
+   "text": "there are people who've built like full"
+  },
+  {
+   "from": 1612.4,
+   "to": 1614.5,
+   "text": "test suites to try to see which regular"
+  },
+  {
+   "from": 1614.5,
+   "to": 1618.5,
+   "text": "expression is best and this is this"
+  },
+  {
+   "from": 1618.5,
+   "to": 1620.9,
+   "text": "particular one is for URLs there are"
+  },
+  {
+   "from": 1620.9,
+   "to": 1622.9,
+   "text": "similar ones for email where they found"
+  },
+  {
+   "from": 1622.9,
+   "to": 1626.5,
+   "text": "that the best one is this one I don't"
+  },
+  {
+   "from": 1626.5,
+   "to": 1627.9,
+   "text": "recommend you trying to understand this"
+  },
+  {
+   "from": 1627.9,
+   "to": 1630.8,
+   "text": "pattern but this one apparently will all"
+  },
+  {
+   "from": 1630.8,
+   "to": 1633.7,
+   "text": "most perfectly match the what the like"
+  },
+  {
+   "from": 1633.7,
+   "to": 1635.8,
+   "text": "internet standard for email addresses"
+  },
+  {
+   "from": 1635.8,
+   "to": 1637.8,
+   "text": "says as a valid email address and that"
+  },
+  {
+   "from": 1637.8,
+   "to": 1640,
+   "text": "includes all sorts of weird Unicode code"
+  },
+  {
+   "from": 1640,
+   "to": 1642.2,
+   "text": "points this is just to say regular"
+  },
+  {
+   "from": 1642.3,
+   "to": 1644.4,
+   "text": "expressions can be really hairy and if"
+  },
+  {
+   "from": 1644.4,
+   "to": 1646.1,
+   "text": "you end up somewhere like this there's"
+  },
+  {
+   "from": 1646.1,
+   "to": 1648.9,
+   "text": "probably a better way to do it for"
+  },
+  {
+   "from": 1648.9,
+   "to": 1650.6,
+   "text": "example if you find yourself trying to"
+  },
+  {
+   "from": 1650.6,
+   "to": 1655.3,
+   "text": "parse HTML or something or parse like"
+  },
+  {
+   "from": 1655.3,
+   "to": 1658.3,
+   "text": "parse JSON where they're expressions you"
+  },
+  {
+   "from": 1658.3,
+   "to": 1660.3,
+   "text": "should probably use a different tool and"
+  },
+  {
+   "from": 1660.3,
+   "to": 1662.2,
+   "text": "there is an exercise that has you do"
+  },
+  {
+   "from": 1662.2,
+   "to": 1664.5,
+   "text": "this not with the regular sessions point"
+  },
+  {
+   "from": 1664.5,
+   "to": 1670,
+   "text": "you yeah that it's there's all sorts of"
+  },
+  {
+   "from": 1670,
+   "to": 1673.2,
+   "text": "suggestions and they give you deep deep"
+  },
+  {
+   "from": 1673.2,
+   "to": 1674.7,
+   "text": "dives into how they works if you want to"
+  },
+  {
+   "from": 1674.7,
+   "to": 1676.7,
+   "text": "look that up it's it's in the lecture"
+  },
+  {
+   "from": 1676.7,
+   "to": 1681.7,
+   "text": "notes okay so now we have the sister of"
+  },
+  {
+   "from": 1681.7,
+   "to": 1684.3,
+   "text": "user names so let's go back to data"
+  },
+  {
+   "from": 1684.3,
+   "to": 1686,
+   "text": "wrangling right like this list of user"
+  },
+  {
+   "from": 1686,
+   "to": 1688.2,
+   "text": "names is still not that interesting to"
+  },
+  {
+   "from": 1688.2,
+   "to": 1690.2,
+   "text": "me right let's let's see how many lines"
+  },
+  {
+   "from": 1690.3,
+   "to": 1695.9,
+   "text": "there are so if I do WC - oh there are"
+  },
+  {
+   "from": 1695.9,
+   "to": 1698.3,
+   "text": "one hundred and ninety eight thousand"
+  },
+  {
+   "from": 1698.3,
+   "to": 1701.5,
+   "text": "lines so WC is the word count program -"
+  },
+  {
+   "from": 1701.5,
+   "to": 1703.3,
+   "text": "L makes it count the number of lines"
+  },
+  {
+   "from": 1703.3,
+   "to": 1706,
+   "text": "this is a lot of lines then if I start"
+  },
+  {
+   "from": 1706,
+   "to": 1707.5,
+   "text": "scrolling through them that still"
+  },
+  {
+   "from": 1707.5,
+   "to": 1709.7,
+   "text": "doesn't really help me right like I need"
+  },
+  {
+   "from": 1709.7,
+   "to": 1711.7,
+   "text": "statistics over this I need aggregates"
+  },
+  {
+   "from": 1711.7,
+   "to": 1717.1,
+   "text": "of some kind and the send tool is like"
+  },
+  {
+   "from": 1717.1,
+   "to": 1718.4,
+   "text": "useful for many things it gives you a"
+  },
+  {
+   "from": 1718.5,
+   "to": 1720.1,
+   "text": "full programming language it can do"
+  },
+  {
+   "from": 1720.1,
+   "to": 1723,
+   "text": "weird things like insert text or only"
+  },
+  {
+   "from": 1723,
+   "to": 1725,
+   "text": "print matching lines but it's not"
+  },
+  {
+   "from": 1725,
+   "to": 1726.4,
+   "text": "necessarily the perfect tool for"
+  },
+  {
+   "from": 1726.4,
+   "to": 1728.6,
+   "text": "everything right like sometimes there"
+  },
+  {
+   "from": 1728.6,
+   "to": 1730.3,
+   "text": "are better tools like for example you"
+  },
+  {
+   "from": 1730.3,
+   "to": 1733.4,
+   "text": "could write a line counter instead you"
+  },
+  {
+   "from": 1733.4,
+   "to": 1735.4,
+   "text": "just should never said it's a terrible"
+  },
+  {
+   "from": 1735.4,
+   "to": 1736.8,
+   "text": "programming language except for"
+  },
+  {
+   "from": 1736.8,
+   "to": 1740.4,
+   "text": "searching and replacing but there are"
+  },
+  {
+   "from": 1740.4,
+   "to": 1742.7,
+   "text": "other useful tools so for example"
+  },
+  {
+   "from": 1742.7,
+   "to": 1747.9,
+   "text": "there's a tool called sort so sort this"
+  },
+  {
+   "from": 1747.9,
+   "to": 1749.7,
+   "text": "is also not going to be very helpful but"
+  },
+  {
+   "from": 1749.7,
+   "to": 1752.1,
+   "text": "sort takes a bunch of lines of input"
+  },
+  {
+   "from": 1752.1,
+   "to": 1753.8,
+   "text": "sorts them and then prints them to your"
+  },
+  {
+   "from": 1753.9,
+   "to": 1756.9,
+   "text": "output so in this case I now get the"
+  },
+  {
+   "from": 1756.9,
+   "to": 1759.1,
+   "text": "sorted output of that list it is still"
+  },
+  {
+   "from": 1759.1,
+   "to": 1760.5,
+   "text": "two hundred thousand lines long so it's"
+  },
+  {
+   "from": 1760.5,
+   "to": 1763.8,
+   "text": "still not very helpful to me but now I"
+  },
+  {
+   "from": 1763.8,
+   "to": 1764.8,
+   "text": "can combine it"
+  },
+  {
+   "from": 1764.8,
+   "to": 1767.3,
+   "text": "the tool called unique so unique we'll"
+  },
+  {
+   "from": 1767.3,
+   "to": 1770.5,
+   "text": "look at a sorted list of lines and it"
+  },
+  {
+   "from": 1770.6,
+   "to": 1773.1,
+   "text": "will only print those that are unique so"
+  },
+  {
+   "from": 1773.1,
+   "to": 1774.9,
+   "text": "if you have multiple instances of any"
+  },
+  {
+   "from": 1774.9,
+   "to": 1777.1,
+   "text": "given line it will only print it once"
+  },
+  {
+   "from": 1777.1,
+   "to": 1780.7,
+   "text": "and then I can say unique - C so this is"
+  },
+  {
+   "from": 1780.8,
+   "to": 1784.3,
+   "text": "gonna say count the number of duplicates"
+  },
+  {
+   "from": 1784.3,
+   "to": 1786,
+   "text": "for any lines that are duplicated and"
+  },
+  {
+   "from": 1786,
+   "to": 1788,
+   "text": "eliminate them what does this look like"
+  },
+  {
+   "from": 1788,
+   "to": 1792,
+   "text": "well if I run it it's gonna take a while"
+  },
+  {
+   "from": 1792,
+   "to": 1796,
+   "text": "there were thirteen zze user names there"
+  },
+  {
+   "from": 1796.1,
+   "to": 1799.7,
+   "text": "were ten ZX VF user names etc there and"
+  },
+  {
+   "from": 1799.7,
+   "to": 1801.2,
+   "text": "I can scroll through this this is still"
+  },
+  {
+   "from": 1801.2,
+   "to": 1803.5,
+   "text": "a very long list right but at least now"
+  },
+  {
+   "from": 1803.5,
+   "to": 1806.1,
+   "text": "it's a little bit more collated than it"
+  },
+  {
+   "from": 1806.1,
+   "to": 1808.2,
+   "text": "was let's see how many lines I'm dumped"
+  },
+  {
+   "from": 1808.2,
+   "to": 1813.5,
+   "text": "in now okay"
+  },
+  {
+   "from": 1813.5,
+   "to": 1815.5,
+   "text": "twenty-four thousand lines it's still"
+  },
+  {
+   "from": 1815.5,
+   "to": 1817.4,
+   "text": "too much it's not useful information to"
+  },
+  {
+   "from": 1817.4,
+   "to": 1819.8,
+   "text": "me but I can keep burning down this with"
+  },
+  {
+   "from": 1819.8,
+   "to": 1823,
+   "text": "more tools for example what I might care"
+  },
+  {
+   "from": 1823,
+   "to": 1824.7,
+   "text": "about is which user names have been used"
+  },
+  {
+   "from": 1824.7,
+   "to": 1829,
+   "text": "the most well I can do sort again and I"
+  },
+  {
+   "from": 1829.1,
+   "to": 1831.3,
+   "text": "can say I want a numeric sort on the"
+  },
+  {
+   "from": 1831.3,
+   "to": 1835.6,
+   "text": "first column of the input so - n says"
+  },
+  {
+   "from": 1835.6,
+   "to": 1839,
+   "text": "numeric sort - K lets you select a white"
+  },
+  {
+   "from": 1839,
+   "to": 1841.3,
+   "text": "space separated column from the input to"
+  },
+  {
+   "from": 1841.3,
+   "to": 1843.7,
+   "text": "sort my and the reason I'm giving one"
+  },
+  {
+   "from": 1843.7,
+   "to": 1845.8,
+   "text": "comma one here is because I want to"
+  },
+  {
+   "from": 1845.8,
+   "to": 1847.7,
+   "text": "start at the first column and stop at"
+  },
+  {
+   "from": 1847.7,
+   "to": 1849.7,
+   "text": "the first column alternatively I could"
+  },
+  {
+   "from": 1849.7,
+   "to": 1852.1,
+   "text": "say I want you to sort by this list of"
+  },
+  {
+   "from": 1852.2,
+   "to": 1854.1,
+   "text": "columns but in this case I just want to"
+  },
+  {
+   "from": 1854.1,
+   "to": 1858.3,
+   "text": "sort by that column and then I want only"
+  },
+  {
+   "from": 1858.3,
+   "to": 1861.8,
+   "text": "the ten last lines so sort by default"
+  },
+  {
+   "from": 1861.8,
+   "to": 1866.7,
+   "text": "will output in ascending order so the"
+  },
+  {
+   "from": 1866.7,
+   "to": 1868.9,
+   "text": "the ones with the highest counts are"
+  },
+  {
+   "from": 1868.9,
+   "to": 1870.3,
+   "text": "gonna be at the bottom and then I want"
+  },
+  {
+   "from": 1870.3,
+   "to": 1874.6,
+   "text": "only lost ten lines and now when I run"
+  },
+  {
+   "from": 1874.6,
+   "to": 1877.5,
+   "text": "this I actually get a useful bit of data"
+  },
+  {
+   "from": 1877.5,
+   "to": 1880.6,
+   "text": "right it tells me there were eleven"
+  },
+  {
+   "from": 1880.6,
+   "to": 1881.7,
+   "text": "thousand login attempts with the"
+  },
+  {
+   "from": 1881.7,
+   "to": 1884.7,
+   "text": "username root there were four thousand"
+  },
+  {
+   "from": 1884.7,
+   "to": 1886.5,
+   "text": "with one two three four five six isn't"
+  },
+  {
+   "from": 1886.5,
+   "to": 1889.5,
+   "text": "username etc and this is pretty handy"
+  },
+  {
+   "from": 1889.5,
+   "to": 1893.8,
+   "text": "right and now suddenly this giant log"
+  },
+  {
+   "from": 1893.8,
+   "to": 1896,
+   "text": "file actually produces useful"
+  },
+  {
+   "from": 1896,
+   "to": 1898.2,
+   "text": "information for me this is what I really"
+  },
+  {
+   "from": 1898.2,
+   "to": 1900.5,
+   "text": "from that log file now maybe I want to"
+  },
+  {
+   "from": 1900.5,
+   "to": 1904.2,
+   "text": "just like do a quick disabling of root"
+  },
+  {
+   "from": 1904.2,
+   "to": 1906.5,
+   "text": "for example for SSH login on my machine"
+  },
+  {
+   "from": 1906.5,
+   "to": 1911.2,
+   "text": "which I recommend you will do by the way"
+  },
+  {
+   "from": 1911.2,
+   "to": 1913.4,
+   "text": "in this particular case we don't"
+  },
+  {
+   "from": 1913.4,
+   "to": 1916.5,
+   "text": "actually need the k4 sort because sort"
+  },
+  {
+   "from": 1916.6,
+   "to": 1918.5,
+   "text": "by default will sort by the entire line"
+  },
+  {
+   "from": 1918.5,
+   "to": 1920.8,
+   "text": "and the number happens to come first but"
+  },
+  {
+   "from": 1920.9,
+   "to": 1922,
+   "text": "it's useful to know about these"
+  },
+  {
+   "from": 1922,
+   "to": 1924,
+   "text": "additional flags and you might wonder"
+  },
+  {
+   "from": 1924.1,
+   "to": 1926,
+   "text": "well how would I know that these flags"
+  },
+  {
+   "from": 1926,
+   "to": 1927.3,
+   "text": "exist how would I know that these"
+  },
+  {
+   "from": 1927.3,
+   "to": 1928.5,
+   "text": "programs even exist"
+  },
+  {
+   "from": 1928.6,
+   "to": 1931.4,
+   "text": "well the programs usually pick up just"
+  },
+  {
+   "from": 1931.4,
+   "to": 1932.8,
+   "text": "from being told about them in classes"
+  },
+  {
+   "from": 1932.9,
+   "to": 1935.9,
+   "text": "like here the flags are usually like I"
+  },
+  {
+   "from": 1935.9,
+   "to": 1939,
+   "text": "want to sort by something that is not"
+  },
+  {
+   "from": 1939,
+   "to": 1942.3,
+   "text": "the full line your first instinct should"
+  },
+  {
+   "from": 1942.3,
+   "to": 1944.2,
+   "text": "be to type man sort and then read"
+  },
+  {
+   "from": 1944.2,
+   "to": 1945.9,
+   "text": "through the page and then very quickly"
+  },
+  {
+   "from": 1945.9,
+   "to": 1947.7,
+   "text": "will tell you here's how to select a"
+  },
+  {
+   "from": 1947.7,
+   "to": 1949.2,
+   "text": "pretty good column here's how to sort by"
+  },
+  {
+   "from": 1949.2,
+   "to": 1955.9,
+   "text": "a number etc okay what if now that I"
+  },
+  {
+   "from": 1955.9,
+   "to": 1958.5,
+   "text": "have this like top let's say top 20 list"
+  },
+  {
+   "from": 1958.5,
+   "to": 1960.4,
+   "text": "let's say I don't actually care about"
+  },
+  {
+   "from": 1960.4,
+   "to": 1962.8,
+   "text": "the counts I just want like a comma"
+  },
+  {
+   "from": 1962.8,
+   "to": 1965,
+   "text": "separated list of the user names because"
+  },
+  {
+   "from": 1965,
+   "to": 1967.5,
+   "text": "I'm gonna like send it to myself by"
+  },
+  {
+   "from": 1967.5,
+   "to": 1969.5,
+   "text": "email every day or something like that"
+  },
+  {
+   "from": 1969.5,
+   "to": 1973.4,
+   "text": "like these are the top 20 usernames well"
+  },
+  {
+   "from": 1973.4,
+   "to": 1978.3,
+   "text": "I can do this"
+  },
+  {
+   "from": 1978.3,
+   "to": 1981.4,
+   "text": "ok that's a lot more weird commands but"
+  },
+  {
+   "from": 1981.4,
+   "to": 1982.5,
+   "text": "their commands that are useful to know"
+  },
+  {
+   "from": 1982.6,
+   "to": 1987.3,
+   "text": "about so awk is a column based stream"
+  },
+  {
+   "from": 1987.3,
+   "to": 1989.9,
+   "text": "processor so we talked about said which"
+  },
+  {
+   "from": 1989.9,
+   "to": 1992.4,
+   "text": "is a stream editor so it tries to edit"
+  },
+  {
+   "from": 1992.4,
+   "to": 1995.6,
+   "text": "text primarily in the inputs awk on the"
+  },
+  {
+   "from": 1995.6,
+   "to": 1998.8,
+   "text": "other hand also lets you edit text it is"
+  },
+  {
+   "from": 1998.8,
+   "to": 2000.6,
+   "text": "still a full programming language but"
+  },
+  {
+   "from": 2000.7,
+   "to": 2003.3,
+   "text": "it's more focused on columnar data so in"
+  },
+  {
+   "from": 2003.3,
+   "to": 2005.7,
+   "text": "this case awk by default will parse its"
+  },
+  {
+   "from": 2005.7,
+   "to": 2008.4,
+   "text": "input in white space separated columns"
+  },
+  {
+   "from": 2008.4,
+   "to": 2010.2,
+   "text": "and then that you operate on those"
+  },
+  {
+   "from": 2010.2,
+   "to": 2012.2,
+   "text": "columns separately in this case I'm"
+  },
+  {
+   "from": 2012.2,
+   "to": 2013.4,
+   "text": "saying just print the second column"
+  },
+  {
+   "from": 2013.4,
+   "to": 2018.3,
+   "text": "which is the user name right paste is a"
+  },
+  {
+   "from": 2018.3,
+   "to": 2020.3,
+   "text": "command that takes a bunch of lines and"
+  },
+  {
+   "from": 2020.3,
+   "to": 2023,
+   "text": "paste them together into a single line"
+  },
+  {
+   "from": 2023,
+   "to": 2026.3,
+   "text": "that's the - s with the delimiter comma"
+  },
+  {
+   "from": 2026.4,
+   "to": 2029.4,
+   "text": "so in this case for on this I want to"
+  },
+  {
+   "from": 2029.5,
+   "to": 2031.7,
+   "text": "get a comma separated list of the top"
+  },
+  {
+   "from": 2031.7,
+   "to": 2033.9,
+   "text": "user names which I can then do whatever"
+  },
+  {
+   "from": 2033.9,
+   "to": 2036.1,
+   "text": "useful thing I might want maybe I want"
+  },
+  {
+   "from": 2036.1,
+   "to": 2037.5,
+   "text": "to stick this in a config file of"
+  },
+  {
+   "from": 2037.5,
+   "to": 2039.1,
+   "text": "disallowed usernames or something along"
+  },
+  {
+   "from": 2039.1,
+   "to": 2040.4,
+   "text": "those lines"
+  },
+  {
+   "from": 2040.4,
+   "to": 2044,
+   "text": "um awk is worth talking a little bit"
+  },
+  {
+   "from": 2044,
+   "to": 2045.7,
+   "text": "more about because it turns out to be a"
+  },
+  {
+   "from": 2045.7,
+   "to": 2048.5,
+   "text": "really powerful language for this kind"
+  },
+  {
+   "from": 2048.5,
+   "to": 2052.8,
+   "text": "of data wrangling we mentioned briefly"
+  },
+  {
+   "from": 2052.9,
+   "to": 2056.2,
+   "text": "what this print dollar 2 does but it"
+  },
+  {
+   "from": 2056.2,
+   "to": 2059,
+   "text": "turns out the for awk you can do some"
+  },
+  {
+   "from": 2059,
+   "to": 2061,
+   "text": "really really fancy things so for"
+  },
+  {
+   "from": 2061,
+   "to": 2062.8,
+   "text": "example let's go back to here where we"
+  },
+  {
+   "from": 2062.8,
+   "to": 2065.1,
+   "text": "just have the usernames I say let's"
+  },
+  {
+   "from": 2065.1,
+   "to": 2069.4,
+   "text": "still do sort and unique because we"
+  },
+  {
+   "from": 2069.4,
+   "to": 2071.7,
+   "text": "don't otherwise the list gets far too"
+  },
+  {
+   "from": 2071.7,
+   "to": 2072.1,
+   "text": "long"
+  },
+  {
+   "from": 2072.1,
+   "to": 2074,
+   "text": "and let's say that I only want to print"
+  },
+  {
+   "from": 2074,
+   "to": 2076.8,
+   "text": "the usernames that match a particular"
+  },
+  {
+   "from": 2076.8,
+   "to": 2080.8,
+   "text": "pattern let's say for example that I"
+  },
+  {
+   "from": 2080.8,
+   "to": 2091.4,
+   "text": "want to see I want all of the usernames"
+  },
+  {
+   "from": 2091.4,
+   "to": 2096.6,
+   "text": "that only appear once and that start"
+  },
+  {
+   "from": 2096.6,
+   "to": 2099.6,
+   "text": "with a C and end with an e there's a"
+  },
+  {
+   "from": 2099.6,
+   "to": 2102.3,
+   "text": "really weird thing to look for but in"
+  },
+  {
+   "from": 2102.4,
+   "to": 2104.3,
+   "text": "all this is really simple to express I"
+  },
+  {
+   "from": 2104.3,
+   "to": 2106.4,
+   "text": "can say I want the first column to be 1"
+  },
+  {
+   "from": 2106.4,
+   "to": 2111.2,
+   "text": "and I want the second column to match"
+  },
+  {
+   "from": 2111.2,
+   "to": 2120.5,
+   "text": "the following regular expression"
+  },
+  {
+   "from": 2120.5,
+   "to": 2126.1,
+   "text": "hey this could probably just be dot and"
+  },
+  {
+   "from": 2126.1,
+   "to": 2132,
+   "text": "then I want to print the whole line so"
+  },
+  {
+   "from": 2132,
+   "to": 2133.9,
+   "text": "unless I mess something up this will"
+  },
+  {
+   "from": 2133.9,
+   "to": 2136.2,
+   "text": "give me all the usernames that start"
+  },
+  {
+   "from": 2136.2,
+   "to": 2138.9,
+   "text": "with a C end with an e and only appear"
+  },
+  {
+   "from": 2138.9,
+   "to": 2142.8,
+   "text": "once in my log now that might not be a"
+  },
+  {
+   "from": 2142.9,
+   "to": 2144.8,
+   "text": "very useful thing to do with the data"
+  },
+  {
+   "from": 2144.8,
+   "to": 2146.6,
+   "text": "what I'm trying to do in this lecture is"
+  },
+  {
+   "from": 2146.6,
+   "to": 2148.2,
+   "text": "show you the kind of tools that are"
+  },
+  {
+   "from": 2148.2,
+   "to": 2149.9,
+   "text": "available and in this particular case"
+  },
+  {
+   "from": 2149.9,
+   "to": 2151.6,
+   "text": "this pattern is like not that"
+  },
+  {
+   "from": 2151.6,
+   "to": 2153.2,
+   "text": "complicated even though what we're doing"
+  },
+  {
+   "from": 2153.2,
+   "to": 2155,
+   "text": "is sort of weird and this is because"
+  },
+  {
+   "from": 2155,
+   "to": 2158.3,
+   "text": "very often on Linux with Linux tools in"
+  },
+  {
+   "from": 2158.3,
+   "to": 2159.6,
+   "text": "particular and command-line tools in"
+  },
+  {
+   "from": 2159.6,
+   "to": 2162.6,
+   "text": "general the tools are built to be based"
+  },
+  {
+   "from": 2162.6,
+   "to": 2164.6,
+   "text": "on lines of input and lines of output"
+  },
+  {
+   "from": 2164.6,
+   "to": 2166.4,
+   "text": "and very often those lines are going to"
+  },
+  {
+   "from": 2166.4,
+   "to": 2169.1,
+   "text": "be have multiple columns and awk is"
+  },
+  {
+   "from": 2169.1,
+   "to": 2178.1,
+   "text": "great for operating over columns now awk"
+  },
+  {
+   "from": 2178.1,
+   "to": 2182.2,
+   "text": "is is not just able to do things like"
+  },
+  {
+   "from": 2182.2,
+   "to": 2186.7,
+   "text": "match per line but it lets you do things"
+  },
+  {
+   "from": 2186.8,
+   "to": 2189.1,
+   "text": "like let's say I want the number of"
+  },
+  {
+   "from": 2189.1,
+   "to": 2191.2,
+   "text": "these right I want to know how many user"
+  },
+  {
+   "from": 2191.2,
+   "to": 2192.9,
+   "text": "names match this pattern well I can do"
+  },
+  {
+   "from": 2192.9,
+   "to": 2196.8,
+   "text": "WCHL that works just fine all right"
+  },
+  {
+   "from": 2196.8,
+   "to": 2199.7,
+   "text": "there are 31 such user names but awk is"
+  },
+  {
+   "from": 2199.7,
+   "to": 2202,
+   "text": "a programming language this is something"
+  },
+  {
+   "from": 2202,
+   "to": 2204.8,
+   "text": "that you will probably never end up"
+  },
+  {
+   "from": 2204.8,
+   "to": 2206.8,
+   "text": "doing yourself but it's important to"
+  },
+  {
+   "from": 2206.8,
+   "to": 2209.4,
+   "text": "know that you can every now and again it"
+  },
+  {
+   "from": 2209.4,
+   "to": 2213.6,
+   "text": "is actually useful to know about these"
+  },
+  {
+   "from": 2213.6,
+   "to": 2217.1,
+   "text": "this might be hard to read on my screen"
+  },
+  {
+   "from": 2217.1,
+   "to": 2222.4,
+   "text": "I just realized let me try to fix that"
+  },
+  {
+   "from": 2222.4,
+   "to": 2227.3,
+   "text": "in a second"
+  },
+  {
+   "from": 2227.3,
+   "to": 2234.5,
+   "text": "let's do yeah apparently fish does not"
+  },
+  {
+   "from": 2234.5,
+   "to": 2237.6,
+   "text": "want me to do that um so here begin is a"
+  },
+  {
+   "from": 2237.6,
+   "to": 2239.7,
+   "text": "special pattern that only matches the"
+  },
+  {
+   "from": 2239.7,
+   "to": 2242.5,
+   "text": "zeroth line end is a special pattern"
+  },
+  {
+   "from": 2242.5,
+   "to": 2245.8,
+   "text": "that only matches after the last line"
+  },
+  {
+   "from": 2245.8,
+   "to": 2248.2,
+   "text": "and then this is gonna be a normal"
+  },
+  {
+   "from": 2248.2,
+   "to": 2249.6,
+   "text": "pattern that's matched against every"
+  },
+  {
+   "from": 2249.6,
+   "to": 2252,
+   "text": "line so what I'm saying here is on the"
+  },
+  {
+   "from": 2252,
+   "to": 2254.1,
+   "text": "zeroth line set the variable rose to"
+  },
+  {
+   "from": 2254.1,
+   "to": 2256.6,
+   "text": "zero on every line that matches this"
+  },
+  {
+   "from": 2256.6,
+   "to": 2260.4,
+   "text": "pattern increment rose and after you"
+  },
+  {
+   "from": 2260.4,
+   "to": 2262.3,
+   "text": "have matched the last line print the"
+  },
+  {
+   "from": 2262.3,
+   "to": 2264.9,
+   "text": "value of rose and this will have the"
+  },
+  {
+   "from": 2264.9,
+   "to": 2267.5,
+   "text": "same effect as running WCHL but all"
+  },
+  {
+   "from": 2267.5,
+   "to": 2270.2,
+   "text": "within awk his particular instance like"
+  },
+  {
+   "from": 2270.3,
+   "to": 2272.8,
+   "text": "WCHL is just fine but sometimes you want"
+  },
+  {
+   "from": 2272.8,
+   "to": 2275.6,
+   "text": "to do things like you want to might want"
+  },
+  {
+   "from": 2275.6,
+   "to": 2277.4,
+   "text": "to keep a dictionary or a map of some"
+  },
+  {
+   "from": 2277.4,
+   "to": 2279.1,
+   "text": "kind you might want to compute"
+  },
+  {
+   "from": 2279.1,
+   "to": 2281.1,
+   "text": "statistics you might want to do things"
+  },
+  {
+   "from": 2281.1,
+   "to": 2283.2,
+   "text": "like I want the second match of this"
+  },
+  {
+   "from": 2283.2,
+   "to": 2285.5,
+   "text": "pattern so you need a stateful matcher"
+  },
+  {
+   "from": 2285.5,
+   "to": 2287.6,
+   "text": "like ignore the first match but then"
+  },
+  {
+   "from": 2287.6,
+   "to": 2289.1,
+   "text": "print everything following the second"
+  },
+  {
+   "from": 2289.1,
+   "to": 2291.1,
+   "text": "match and for that this kind of simple"
+  },
+  {
+   "from": 2291.1,
+   "to": 2292.6,
+   "text": "programming in all can be useful to know"
+  },
+  {
+   "from": 2292.6,
+   "to": 2298.5,
+   "text": "about in fact we could in this pattern"
+  },
+  {
+   "from": 2298.5,
+   "to": 2302.9,
+   "text": "get rid of said and sort and unique and"
+  },
+  {
+   "from": 2302.9,
+   "to": 2304.8,
+   "text": "grep that we originally used to produce"
+  },
+  {
+   "from": 2304.8,
+   "to": 2306.8,
+   "text": "this file and do it all in awk"
+  },
+  {
+   "from": 2306.8,
+   "to": 2308.2,
+   "text": "but you probably don't want to do that"
+  },
+  {
+   "from": 2308.2,
+   "to": 2310.9,
+   "text": "it would be probably too painful to be"
+  },
+  {
+   "from": 2310.9,
+   "to": 2314.5,
+   "text": "worth it it's worth talking a little bit"
+  },
+  {
+   "from": 2314.5,
+   "to": 2317.3,
+   "text": "about the other kinds of tools that you"
+  },
+  {
+   "from": 2317.4,
+   "to": 2319,
+   "text": "might want to use on the command line"
+  },
+  {
+   "from": 2319,
+   "to": 2321.2,
+   "text": "the first of these is a really handy"
+  },
+  {
+   "from": 2321.2,
+   "to": 2325,
+   "text": "program called BC so BC is the Berkeley"
+  },
+  {
+   "from": 2325,
+   "to": 2329.9,
+   "text": "calculator I believe man BC I think BC"
+  },
+  {
+   "from": 2329.9,
+   "to": 2331.4,
+   "text": "is originally from Berkeley calculator"
+  },
+  {
+   "from": 2331.4,
+   "to": 2334.1,
+   "text": "anyway it is a very simple command-line"
+  },
+  {
+   "from": 2334.1,
+   "to": 2336.2,
+   "text": "calculator but instead of giving you a"
+  },
+  {
+   "from": 2336.2,
+   "to": 2338.9,
+   "text": "prompt it reads from standard in so I"
+  },
+  {
+   "from": 2339,
+   "to": 2340.7,
+   "text": "can do something like echo 1 plus 2 and"
+  },
+  {
+   "from": 2340.8,
+   "to": 2344.9,
+   "text": "pipe it to BC - shell because many of"
+  },
+  {
+   "from": 2344.9,
+   "to": 2346.8,
+   "text": "these programs normally operate in like"
+  },
+  {
+   "from": 2346.8,
+   "to": 2351.3,
+   "text": "a stupid mode where they're unhelpful so"
+  },
+  {
+   "from": 2351.3,
+   "to": 2355.7,
+   "text": "here it prints 3 Wow very impressive but"
+  },
+  {
+   "from": 2355.7,
+   "to": 2357.5,
+   "text": "it turns out this can be really handy"
+  },
+  {
+   "from": 2357.5,
+   "to": 2359.8,
+   "text": "imagine you have a file with a bunch of"
+  },
+  {
+   "from": 2359.8,
+   "to": 2361.1,
+   "text": "lines"
+  },
+  {
+   "from": 2361.1,
+   "to": 2366.3,
+   "text": "let's say something like oh I don't know"
+  },
+  {
+   "from": 2366.3,
+   "to": 2372,
+   "text": "this file and let's say I want to sum up"
+  },
+  {
+   "from": 2372,
+   "to": 2375,
+   "text": "the number of logins the number of user"
+  },
+  {
+   "from": 2375,
+   "to": 2376.9,
+   "text": "names that have not been used only once"
+  },
+  {
+   "from": 2376.9,
+   "to": 2380,
+   "text": "all right so the ones where the count is"
+  },
+  {
+   "from": 2380,
+   "to": 2383.9,
+   "text": "not equal to one I want to print just"
+  },
+  {
+   "from": 2383.9,
+   "to": 2388.5,
+   "text": "the count right this is me give me the"
+  },
+  {
+   "from": 2388.6,
+   "to": 2390.9,
+   "text": "counts for all the non single-use user"
+  },
+  {
+   "from": 2391,
+   "to": 2392.9,
+   "text": "names and then I want to know how many"
+  },
+  {
+   "from": 2392.9,
+   "to": 2395.2,
+   "text": "are there of these notice that I can't"
+  },
+  {
+   "from": 2395.2,
+   "to": 2396.7,
+   "text": "just count the lines that wouldn't work"
+  },
+  {
+   "from": 2396.7,
+   "to": 2399.1,
+   "text": "right because there are numbers on each"
+  },
+  {
+   "from": 2399.1,
+   "to": 2402.2,
+   "text": "ran I want to sum well I can use paste"
+  },
+  {
+   "from": 2402.2,
+   "to": 2405.9,
+   "text": "to paste by plus so this paste every"
+  },
+  {
+   "from": 2406,
+   "to": 2408.1,
+   "text": "line together into a plus expression"
+  },
+  {
+   "from": 2408.1,
+   "to": 2412,
+   "text": "right and this is now an arithmetic"
+  },
+  {
+   "from": 2412,
+   "to": 2414.2,
+   "text": "expression so I can pipe it through BCL"
+  },
+  {
+   "from": 2414.2,
+   "to": 2418.9,
+   "text": "and now there have been hundred and"
+  },
+  {
+   "from": 2418.9,
+   "to": 2420.9,
+   "text": "ninety one thousand logins that share to"
+  },
+  {
+   "from": 2420.9,
+   "to": 2422.7,
+   "text": "username with at least one other login"
+  },
+  {
+   "from": 2422.7,
+   "to": 2425.5,
+   "text": "again probably not something you really"
+  },
+  {
+   "from": 2425.5,
+   "to": 2427.7,
+   "text": "care about but this is just to show you"
+  },
+  {
+   "from": 2427.7,
+   "to": 2429.6,
+   "text": "that you can extract this data pretty"
+  },
+  {
+   "from": 2429.6,
+   "to": 2434.4,
+   "text": "easily and there's all sort of other"
+  },
+  {
+   "from": 2434.4,
+   "to": 2436.1,
+   "text": "stuff you can do with this for example"
+  },
+  {
+   "from": 2436.1,
+   "to": 2437.8,
+   "text": "there are tools so that you compute"
+  },
+  {
+   "from": 2437.8,
+   "to": 2440.8,
+   "text": "statistics over inputs so for example"
+  },
+  {
+   "from": 2440.8,
+   "to": 2443.7,
+   "text": "for this list of numbers that's that I"
+  },
+  {
+   "from": 2443.7,
+   "to": 2445.8,
+   "text": "just took the numbers and just print it"
+  },
+  {
+   "from": 2445.9,
+   "to": 2449.6,
+   "text": "out just the distribution of numbers I"
+  },
+  {
+   "from": 2449.6,
+   "to": 2454.9,
+   "text": "could do things like use our our is the"
+  },
+  {
+   "from": 2454.9,
+   "to": 2456.1,
+   "text": "separate programming language that's"
+  },
+  {
+   "from": 2456.1,
+   "to": 2457.6,
+   "text": "specifically built for a statistical"
+  },
+  {
+   "from": 2457.6,
+   "to": 2462.2,
+   "text": "analysis and I can say let's see if I"
+  },
+  {
+   "from": 2462.2,
+   "to": 2463.6,
+   "text": "got this right"
+  },
+  {
+   "from": 2463.6,
+   "to": 2466.3,
+   "text": "this is again a different programming"
+  },
+  {
+   "from": 2466.3,
+   "to": 2470.4,
+   "text": "language that you would have to learn"
+  },
+  {
+   "from": 2470.4,
+   "to": 2473.2,
+   "text": "but if you already know R or you can"
+  },
+  {
+   "from": 2473.2,
+   "to": 2474.2,
+   "text": "pipe them through all their languages"
+  },
+  {
+   "from": 2474.2,
+   "to": 2483.9,
+   "text": "too like so so this gives me summary"
+  },
+  {
+   "from": 2483.9,
+   "to": 2486.4,
+   "text": "statistics over that input stream of"
+  },
+  {
+   "from": 2486.4,
+   "to": 2490.2,
+   "text": "numbers so the median number of login"
+  },
+  {
+   "from": 2490.2,
+   "to": 2493.3,
+   "text": "attempts per user name is 3 the max is"
+  },
+  {
+   "from": 2493.3,
+   "to": 2494.3,
+   "text": "10,000 that was route"
+  },
+  {
+   "from": 2494.3,
+   "to": 2496,
+   "text": "we saw before I'll tell me the average"
+  },
+  {
+   "from": 2496,
+   "to": 2499.2,
+   "text": "was 8 for this might not matter in this"
+  },
+  {
+   "from": 2499.3,
+   "to": 2500.6,
+   "text": "particular instance like this might not"
+  },
+  {
+   "from": 2500.6,
+   "to": 2502,
+   "text": "be interesting numbers but if you're"
+  },
+  {
+   "from": 2502,
+   "to": 2503.7,
+   "text": "looking at things like output from your"
+  },
+  {
+   "from": 2503.7,
+   "to": 2505.8,
+   "text": "benchmarking script or something else"
+  },
+  {
+   "from": 2505.8,
+   "to": 2506.8,
+   "text": "where you have some numerical"
+  },
+  {
+   "from": 2506.8,
+   "to": 2508.5,
+   "text": "distribution and you want to look at"
+  },
+  {
+   "from": 2508.5,
+   "to": 2512.9,
+   "text": "them these tools are really handy we can"
+  },
+  {
+   "from": 2512.9,
+   "to": 2514.2,
+   "text": "even do some simple plotting if we"
+  },
+  {
+   "from": 2514.3,
+   "to": 2517.6,
+   "text": "wanted to right so this has a bunch of"
+  },
+  {
+   "from": 2517.6,
+   "to": 2521.3,
+   "text": "numbers let's do let's go back to our"
+  },
+  {
+   "from": 2521.3,
+   "to": 2526.2,
+   "text": "sort and k-11 and look at only the two"
+  },
+  {
+   "from": 2526.2,
+   "to": 2531.9,
+   "text": "top 5 new plot is a plotter that lets"
+  },
+  {
+   "from": 2531.9,
+   "to": 2537.8,
+   "text": "you take things from standard in I'm not"
+  },
+  {
+   "from": 2537.8,
+   "to": 2539.1,
+   "text": "expecting you to know all of these"
+  },
+  {
+   "from": 2539.2,
+   "to": 2542.5,
+   "text": "programming languages because they"
+  },
+  {
+   "from": 2542.5,
+   "to": 2543.9,
+   "text": "really are programming languages in"
+  },
+  {
+   "from": 2544,
+   "to": 2545.8,
+   "text": "their own right but is it just show you"
+  },
+  {
+   "from": 2545.8,
+   "to": 2550.6,
+   "text": "what is possible right so this is now a"
+  },
+  {
+   "from": 2550.6,
+   "to": 2554.4,
+   "text": "histogram of how many times each of the"
+  },
+  {
+   "from": 2554.4,
+   "to": 2557.4,
+   "text": "top 5 user names have been used for my"
+  },
+  {
+   "from": 2557.4,
+   "to": 2561,
+   "text": "server since January 1st and it's just"
+  },
+  {
+   "from": 2561,
+   "to": 2563.8,
+   "text": "one command line it's somewhat"
+  },
+  {
+   "from": 2563.8,
+   "to": 2565.3,
+   "text": "complicated command line but it's just"
+  },
+  {
+   "from": 2565.3,
+   "to": 2570.5,
+   "text": "one command line thing that you can do"
+  },
+  {
+   "from": 2570.5,
+   "to": 2573.6,
+   "text": "there are two sort of special types of"
+  },
+  {
+   "from": 2573.6,
+   "to": 2574.8,
+   "text": "data wrangling that I want to talk to"
+  },
+  {
+   "from": 2574.8,
+   "to": 2576.3,
+   "text": "you about in the in the last little bit"
+  },
+  {
+   "from": 2576.3,
+   "to": 2578.4,
+   "text": "of time that we have and the first one"
+  },
+  {
+   "from": 2578.4,
+   "to": 2582,
+   "text": "is command line argument wrangling"
+  },
+  {
+   "from": 2582,
+   "to": 2587.7,
+   "text": "sometimes you might have something that"
+  },
+  {
+   "from": 2587.8,
+   "to": 2589.2,
+   "text": "actually we looked at in the last"
+  },
+  {
+   "from": 2589.2,
+   "to": 2591.1,
+   "text": "lecture like you have things like find"
+  },
+  {
+   "from": 2591.1,
+   "to": 2594.2,
+   "text": "that produces a list of files or maybe"
+  },
+  {
+   "from": 2594.2,
+   "to": 2599.4,
+   "text": "something that produces a list of"
+  },
+  {
+   "from": 2599.4,
+   "to": 2601.9,
+   "text": "arguments for your benchmarking script"
+  },
+  {
+   "from": 2601.9,
+   "to": 2603.1,
+   "text": "like you want to run it with a"
+  },
+  {
+   "from": 2603.1,
+   "to": 2604.7,
+   "text": "particular distribution of arguments"
+  },
+  {
+   "from": 2604.7,
+   "to": 2606,
+   "text": "like let's say you had a script that"
+  },
+  {
+   "from": 2606,
+   "to": 2608.8,
+   "text": "printed the number of iterations to run"
+  },
+  {
+   "from": 2608.8,
+   "to": 2610,
+   "text": "a particular project and you wanted like"
+  },
+  {
+   "from": 2610,
+   "to": 2611.6,
+   "text": "an exponential distribution or something"
+  },
+  {
+   "from": 2611.6,
+   "to": 2613.5,
+   "text": "and this prints the number of iterations"
+  },
+  {
+   "from": 2613.5,
+   "to": 2615.5,
+   "text": "on each line and you were to run your"
+  },
+  {
+   "from": 2615.5,
+   "to": 2618,
+   "text": "benchmark for each one well here is a"
+  },
+  {
+   "from": 2618,
+   "to": 2619.2,
+   "text": "tool called X args"
+  },
+  {
+   "from": 2619.2,
+   "to": 2623.4,
+   "text": "that's your friend so X args takes lines"
+  },
+  {
+   "from": 2623.4,
+   "to": 2626.2,
+   "text": "of input and turns them into arguments"
+  },
+  {
+   "from": 2626.2,
+   "to": 2627.6,
+   "text": "and this is my"
+  },
+  {
+   "from": 2627.6,
+   "to": 2630.2,
+   "text": "look a little weird see if I can come"
+  },
+  {
+   "from": 2630.2,
+   "to": 2632.3,
+   "text": "with a good example for this so I"
+  },
+  {
+   "from": 2632.3,
+   "to": 2635.5,
+   "text": "program in rust and rust lets you"
+  },
+  {
+   "from": 2635.5,
+   "to": 2636.8,
+   "text": "install multiple versions of the"
+  },
+  {
+   "from": 2636.8,
+   "to": 2638.5,
+   "text": "compiler so in this case you can see"
+  },
+  {
+   "from": 2638.5,
+   "to": 2641.4,
+   "text": "that I have stable beta I have a couple"
+  },
+  {
+   "from": 2641.4,
+   "to": 2644.4,
+   "text": "of earlier stable releases and I've"
+  },
+  {
+   "from": 2644.4,
+   "to": 2645.9,
+   "text": "launched a different dated Knightley's"
+  },
+  {
+   "from": 2645.9,
+   "to": 2649,
+   "text": "and this is all very well but over time"
+  },
+  {
+   "from": 2649,
+   "to": 2652,
+   "text": "like I don't really need the nightly"
+  },
+  {
+   "from": 2652,
+   "to": 2654.1,
+   "text": "version from like March of last year"
+  },
+  {
+   "from": 2654.1,
+   "to": 2654.9,
+   "text": "anymore"
+  },
+  {
+   "from": 2654.9,
+   "to": 2656.4,
+   "text": "I can probably delete that every now and"
+  },
+  {
+   "from": 2656.5,
+   "to": 2657.7,
+   "text": "again and maybe I want to clean these up"
+  },
+  {
+   "from": 2657.7,
+   "to": 2661.5,
+   "text": "a little well this is a list of lines so"
+  },
+  {
+   "from": 2661.6,
+   "to": 2665.3,
+   "text": "I can get for nightly I can get rid of"
+  },
+  {
+   "from": 2665.3,
+   "to": 2669.8,
+   "text": "so - V is don't match I don't want to"
+  },
+  {
+   "from": 2669.8,
+   "to": 2672.2,
+   "text": "match to the current nightly okay so"
+  },
+  {
+   "from": 2672.2,
+   "to": 2674.5,
+   "text": "this is al a list of dated Knightley's"
+  },
+  {
+   "from": 2674.5,
+   "to": 2677.8,
+   "text": "maybe I want only the ones from 2019"
+  },
+  {
+   "from": 2677.8,
+   "to": 2682.7,
+   "text": "and now I want to remove each of these"
+  },
+  {
+   "from": 2682.7,
+   "to": 2685.4,
+   "text": "tool chains for my machine I could copy"
+  },
+  {
+   "from": 2685.4,
+   "to": 2688.3,
+   "text": "paste each one into so there's a rust up"
+  },
+  {
+   "from": 2688.3,
+   "to": 2692.6,
+   "text": "tool chain remove or uninstall maybe"
+  },
+  {
+   "from": 2692.6,
+   "to": 2696.1,
+   "text": "tool chain uninstall right so I could"
+  },
+  {
+   "from": 2696.1,
+   "to": 2698.1,
+   "text": "manually type out the name of each one"
+  },
+  {
+   "from": 2698.1,
+   "to": 2699.5,
+   "text": "or copy/paste them but that's getting"
+  },
+  {
+   "from": 2699.5,
+   "to": 2701,
+   "text": "gets annoying really quickly because I"
+  },
+  {
+   "from": 2701,
+   "to": 2703.7,
+   "text": "have the list right here so instead how"
+  },
+  {
+   "from": 2703.7,
+   "to": 2710.7,
+   "text": "about I said away this sort of this"
+  },
+  {
+   "from": 2710.7,
+   "to": 2714.9,
+   "text": "suffix that it adds right so now it's"
+  },
+  {
+   "from": 2714.9,
+   "to": 2717.8,
+   "text": "just that and then I use ex args so ex"
+  },
+  {
+   "from": 2717.8,
+   "to": 2720.8,
+   "text": "args takes a list of inputs and turns"
+  },
+  {
+   "from": 2720.8,
+   "to": 2723.8,
+   "text": "them into arguments so I want this to"
+  },
+  {
+   "from": 2723.8,
+   "to": 2727.1,
+   "text": "become arguments to rust up tool chain"
+  },
+  {
+   "from": 2727.1,
+   "to": 2730.7,
+   "text": "uninstall and just for my own sanity"
+  },
+  {
+   "from": 2730.7,
+   "to": 2732.7,
+   "text": "sake I'm gonna make this echo just so"
+  },
+  {
+   "from": 2732.7,
+   "to": 2733.9,
+   "text": "it's going to show which command it's"
+  },
+  {
+   "from": 2733.9,
+   "to": 2736.5,
+   "text": "gonna run well it's relatively unhelpful"
+  },
+  {
+   "from": 2736.5,
+   "to": 2739.5,
+   "text": "but are hard to read at least you see"
+  },
+  {
+   "from": 2739.5,
+   "to": 2741.8,
+   "text": "the command it's going to execute if I"
+  },
+  {
+   "from": 2741.8,
+   "to": 2744,
+   "text": "remove this echo is rust up tool chain"
+  },
+  {
+   "from": 2744,
+   "to": 2745.5,
+   "text": "uninstall and then the list of"
+  },
+  {
+   "from": 2745.6,
+   "to": 2747.5,
+   "text": "Knightley's as arguments to that program"
+  },
+  {
+   "from": 2747.5,
+   "to": 2751.1,
+   "text": "and so if I run this it on installs"
+  },
+  {
+   "from": 2751.1,
+   "to": 2752.6,
+   "text": "every tool chain instead of me having to"
+  },
+  {
+   "from": 2752.6,
+   "to": 2756.1,
+   "text": "copy paste them so this is one example"
+  },
+  {
+   "from": 2756.1,
+   "to": 2757.5,
+   "text": "where this kind of data wrangling"
+  },
+  {
+   "from": 2757.5,
+   "to": 2759.1,
+   "text": "actually can be useful for other tasks"
+  },
+  {
+   "from": 2759.1,
+   "to": 2760.7,
+   "text": "than just looking at data it's just"
+  },
+  {
+   "from": 2760.7,
+   "to": 2761.5,
+   "text": "going from one"
+  },
+  {
+   "from": 2761.5,
+   "to": 2764.4,
+   "text": "format to another you can also wrangle"
+  },
+  {
+   "from": 2764.4,
+   "to": 2767.1,
+   "text": "binary data so a good example of this is"
+  },
+  {
+   "from": 2767.2,
+   "to": 2769.5,
+   "text": "stuff like videos and images where you"
+  },
+  {
+   "from": 2769.6,
+   "to": 2771.7,
+   "text": "might actually want to operate over them"
+  },
+  {
+   "from": 2771.7,
+   "to": 2774.8,
+   "text": "in some interesting way so for example"
+  },
+  {
+   "from": 2774.8,
+   "to": 2777.1,
+   "text": "there's a tool called ffmpeg ffmpeg is"
+  },
+  {
+   "from": 2777.1,
+   "to": 2779.7,
+   "text": "for encoding and decoding video and to"
+  },
+  {
+   "from": 2779.7,
+   "to": 2783.1,
+   "text": "some extent images I'm gonna set its log"
+  },
+  {
+   "from": 2783.1,
+   "to": 2784.3,
+   "text": "level to panic because otherwise it"
+  },
+  {
+   "from": 2784.3,
+   "to": 2786.8,
+   "text": "prints a bunch of stuff I want it to"
+  },
+  {
+   "from": 2786.8,
+   "to": 2790.7,
+   "text": "read from dev video 0 which is my video"
+  },
+  {
+   "from": 2790.7,
+   "to": 2794.6,
+   "text": "of my webcam video device and I wanted"
+  },
+  {
+   "from": 2794.6,
+   "to": 2797.3,
+   "text": "to take the first frame so I just wanted"
+  },
+  {
+   "from": 2797.3,
+   "to": 2800.4,
+   "text": "to take a picture and I wanted to take"
+  },
+  {
+   "from": 2800.4,
+   "to": 2802.7,
+   "text": "an image rather than a single frame"
+  },
+  {
+   "from": 2802.7,
+   "to": 2805.8,
+   "text": "video file and I wanted to print its"
+  },
+  {
+   "from": 2805.8,
+   "to": 2808.1,
+   "text": "output so the image it captures to"
+  },
+  {
+   "from": 2808.1,
+   "to": 2810.4,
+   "text": "standard output - is usually the way you"
+  },
+  {
+   "from": 2810.4,
+   "to": 2812.6,
+   "text": "tell the program to use standard input"
+  },
+  {
+   "from": 2812.6,
+   "to": 2814.4,
+   "text": "or output rather than a given file so"
+  },
+  {
+   "from": 2814.4,
+   "to": 2816.2,
+   "text": "here it expects a file name and the file"
+  },
+  {
+   "from": 2816.2,
+   "to": 2818.9,
+   "text": "name - means standard output in this"
+  },
+  {
+   "from": 2818.9,
+   "to": 2820.8,
+   "text": "context and then I want to pipe that"
+  },
+  {
+   "from": 2820.8,
+   "to": 2822.5,
+   "text": "through a parameter called convert"
+  },
+  {
+   "from": 2822.6,
+   "to": 2825.5,
+   "text": "convert is a image manipulation program"
+  },
+  {
+   "from": 2825.5,
+   "to": 2828.2,
+   "text": "I want to tell convert to read from"
+  },
+  {
+   "from": 2828.2,
+   "to": 2832.3,
+   "text": "standard input and turn the image into"
+  },
+  {
+   "from": 2832.3,
+   "to": 2836,
+   "text": "the color space gray and then write the"
+  },
+  {
+   "from": 2836.1,
+   "to": 2839.4,
+   "text": "resulting image into the file - which is"
+  },
+  {
+   "from": 2839.4,
+   "to": 2842.1,
+   "text": "standard output and I don't want to pipe"
+  },
+  {
+   "from": 2842.1,
+   "to": 2845.1,
+   "text": "that into gzip we're just gonna compress"
+  },
+  {
+   "from": 2845.1,
+   "to": 2848.7,
+   "text": "this image file and that's also going to"
+  },
+  {
+   "from": 2848.7,
+   "to": 2850.6,
+   "text": "just operate on standard input standard"
+  },
+  {
+   "from": 2850.6,
+   "to": 2853.4,
+   "text": "output and then I'm going to pipe that"
+  },
+  {
+   "from": 2853.5,
+   "to": 2857.8,
+   "text": "to my remote server and on that I'm"
+  },
+  {
+   "from": 2857.8,
+   "to": 2861.3,
+   "text": "going to decode that image and then I'm"
+  },
+  {
+   "from": 2861.3,
+   "to": 2864,
+   "text": "gonna store a copy of that image so"
+  },
+  {
+   "from": 2864.1,
+   "to": 2866.8,
+   "text": "remember T reads input prints it to"
+  },
+  {
+   "from": 2866.8,
+   "to": 2869,
+   "text": "standard out and to a file this is gonna"
+  },
+  {
+   "from": 2869,
+   "to": 2871.2,
+   "text": "make a copy of the decoded image file"
+  },
+  {
+   "from": 2871.3,
+   "to": 2875.7,
+   "text": "ass copy about PNG and then it's gonna"
+  },
+  {
+   "from": 2875.8,
+   "to": 2878.2,
+   "text": "continue to stream that out so now I'm"
+  },
+  {
+   "from": 2878.2,
+   "to": 2880.5,
+   "text": "gonna bring that back into a local"
+  },
+  {
+   "from": 2880.6,
+   "to": 2885,
+   "text": "stream and here I'm going to display"
+  },
+  {
+   "from": 2885,
+   "to": 2887.2,
+   "text": "that in an image display err let's see"
+  },
+  {
+   "from": 2887.2,
+   "to": 2888.5,
+   "text": "if that works"
+  },
+  {
+   "from": 2888.6,
+   "to": 2893.2,
+   "text": "Hey right so this now did a round-trip"
+  },
+  {
+   "from": 2893.2,
+   "to": 2895,
+   "text": "to my server"
+  },
+  {
+   "from": 2895.1,
+   "to": 2898.3,
+   "text": "and then came back over pipes and"
+  },
+  {
+   "from": 2898.3,
+   "to": 2901.4,
+   "text": "there's now a computer there's a"
+  },
+  {
+   "from": 2901.4,
+   "to": 2903.1,
+   "text": "decompressed version of this file at"
+  },
+  {
+   "from": 2903.1,
+   "to": 2905.8,
+   "text": "least in theory on my server let's see"
+  },
+  {
+   "from": 2905.8,
+   "to": 2909.4,
+   "text": "if that's there a CPT's p copy PNG 2"
+  },
+  {
+   "from": 2909.4,
+   "to": 2918.2,
+   "text": "here and CP 8 yeah hey same file ended"
+  },
+  {
+   "from": 2918.2,
+   "to": 2920.9,
+   "text": "up on the server so our pipeline worked"
+  },
+  {
+   "from": 2920.9,
+   "to": 2923.6,
+   "text": "again this is a sort of silly example"
+  },
+  {
+   "from": 2923.6,
+   "to": 2925.9,
+   "text": "but let's you see the power of building"
+  },
+  {
+   "from": 2925.9,
+   "to": 2928.3,
+   "text": "these pipelines where it doesn't have to"
+  },
+  {
+   "from": 2928.3,
+   "to": 2930.1,
+   "text": "be textual data it's just go taking data"
+  },
+  {
+   "from": 2930.2,
+   "to": 2932.3,
+   "text": "from any format to any other like for"
+  },
+  {
+   "from": 2932.3,
+   "to": 2935.1,
+   "text": "example if I wanted to I can do cat dev"
+  },
+  {
+   "from": 2935.1,
+   "to": 2938.3,
+   "text": "video 0 and then pipe that to a server"
+  },
+  {
+   "from": 2938.3,
+   "to": 2940.7,
+   "text": "that like Anish controls and then he"
+  },
+  {
+   "from": 2940.7,
+   "to": 2942.7,
+   "text": "could watch that video stream by piping"
+  },
+  {
+   "from": 2942.7,
+   "to": 2945.4,
+   "text": "it into a video player on his machine if"
+  },
+  {
+   "from": 2945.4,
+   "to": 2948.9,
+   "text": "we wanted to write it just need to know"
+  },
+  {
+   "from": 2948.9,
+   "to": 2953.1,
+   "text": "that these thing exist there are a bunch"
+  },
+  {
+   "from": 2953.1,
+   "to": 2955.2,
+   "text": "of exercises for this lab and some of"
+  },
+  {
+   "from": 2955.2,
+   "to": 2957.2,
+   "text": "them rely on you having a data source"
+  },
+  {
+   "from": 2957.2,
+   "to": 2959.3,
+   "text": "that looks a little bit like a log on"
+  },
+  {
+   "from": 2959.3,
+   "to": 2961.1,
+   "text": "Mac OS and Linux we give you some"
+  },
+  {
+   "from": 2961.1,
+   "to": 2962.5,
+   "text": "commands you can try to experiment with"
+  },
+  {
+   "from": 2962.5,
+   "to": 2964.6,
+   "text": "but keep in mind that it's not it's not"
+  },
+  {
+   "from": 2964.6,
+   "to": 2966.6,
+   "text": "that important exactly what data source"
+  },
+  {
+   "from": 2966.6,
+   "to": 2969,
+   "text": "you use this is more find some data"
+  },
+  {
+   "from": 2969,
+   "to": 2970.3,
+   "text": "source that where you think there might"
+  },
+  {
+   "from": 2970.3,
+   "to": 2972.2,
+   "text": "be an interesting signal and then try to"
+  },
+  {
+   "from": 2972.2,
+   "to": 2973.7,
+   "text": "extract something interesting from it"
+  },
+  {
+   "from": 2973.7,
+   "to": 2975.5,
+   "text": "that is what all of the exercises are"
+  },
+  {
+   "from": 2975.5,
+   "to": 2978.7,
+   "text": "about we will not have class on Monday"
+  },
+  {
+   "from": 2978.7,
+   "to": 2981.2,
+   "text": "because it's MLK Day so next lecture"
+  },
+  {
+   "from": 2981.2,
+   "to": 2983.4,
+   "text": "will be Tuesday on command line"
+  },
+  {
+   "from": 2983.4,
+   "to": 2985.4,
+   "text": "environments any questions about what"
+  },
+  {
+   "from": 2985.4,
+   "to": 2987.4,
+   "text": "we've guarded so far or the pipelines or"
+  },
+  {
+   "from": 2987.4,
+   "to": 2991.4,
+   "text": "regular expressions I really recommend"
+  },
+  {
+   "from": 2991.4,
+   "to": 2992.8,
+   "text": "that you look into regular expressions"
+  },
+  {
+   "from": 2992.8,
+   "to": 2994.8,
+   "text": "and try to learn them they are extremely"
+  },
+  {
+   "from": 2994.8,
+   "to": 2997.2,
+   "text": "handy both for this and in programming"
+  },
+  {
+   "from": 2997.2,
+   "to": 2999.3,
+   "text": "in general and if you have any questions"
+  },
+  {
+   "from": 2999.3,
+   "to": 3000.4,
+   "text": "come to office hours and we'll help you"
+  },
+  {
+   "from": 3000.4,
+   "to": 3002.6,
+   "text": "up"
+  }
+ ]
+}

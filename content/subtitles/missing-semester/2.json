@@ -1,0 +1,3967 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 0.4,
+   "to": 2.9,
+   "text": "Okay, welcome back."
+  },
+  {
+   "from": 2.9,
+   "to": 5.9,
+   "text": "Today we're gonna cover a couple separate"
+  },
+  {
+   "from": 5.9,
+   "to": 7.6,
+   "text": "two main topics related to the shell."
+  },
+  {
+   "from": 7.6,
+   "to": 11.2,
+   "text": "First, we're gonna do some kind of shell scripting, mainly related to bash,"
+  },
+  {
+   "from": 11.2,
+   "to": 14.2,
+   "text": "which is the shell that most of you will start"
+  },
+  {
+   "from": 14.2,
+   "to": 18.5,
+   "text": "in Mac, or like in most Linux systems, that's the default shell."
+  },
+  {
+   "from": 18.5,
+   "to": 22.7,
+   "text": "And it's also kind of backward compatible through other shells like zsh, it's pretty nice."
+  },
+  {
+   "from": 22.7,
+   "to": 25.9,
+   "text": "And then we're gonna cover some other shell tools that are really convenient,"
+  },
+  {
+   "from": 26.1,
+   "to": 29.3,
+   "text": "so you avoid doing really repetitive tasks,"
+  },
+  {
+   "from": 29.3,
+   "to": 31.6,
+   "text": "like looking for some piece of code"
+  },
+  {
+   "from": 31.6,
+   "to": 33.4,
+   "text": "or for some elusive file."
+  },
+  {
+   "from": 33.4,
+   "to": 36.2,
+   "text": "And there are already really nice built-in commands"
+  },
+  {
+   "from": 36.2,
+   "to": 41,
+   "text": "that will really help you to do those things."
+  },
+  {
+   "from": 41,
+   "to": 43.3,
+   "text": "So yesterday we already kind of introduced"
+  },
+  {
+   "from": 43.3,
+   "to": 46.2,
+   "text": "you to the shell and some of it's quirks,"
+  },
+  {
+   "from": 46.2,
+   "to": 48.7,
+   "text": "and like how you start executing commands,"
+  },
+  {
+   "from": 48.7,
+   "to": 50.6,
+   "text": "redirecting them."
+  },
+  {
+   "from": 50.6,
+   "to": 52.4,
+   "text": "Today, we're going to kind of cover more about"
+  },
+  {
+   "from": 52.5,
+   "to": 56.1,
+   "text": "the syntax of the variables, the control flow,"
+  },
+  {
+   "from": 56.1,
+   "to": 57.7,
+   "text": "functions of the shell."
+  },
+  {
+   "from": 57.7,
+   "to": 62.7,
+   "text": "So for example, once you drop into a shell, say you want to"
+  },
+  {
+   "from": 62.8,
+   "to": 66.4,
+   "text": "define a variable, which is one of the first things you"
+  },
+  {
+   "from": 66.4,
+   "to": 69.3,
+   "text": "learn to do in a programming language."
+  },
+  {
+   "from": 69.3,
+   "to": 72.7,
+   "text": "Here you could do something like foo equals bar."
+  },
+  {
+   "from": 72.9,
+   "to": 78.4,
+   "text": "And now we can access the value of foo by doing \"$foo\"."
+  },
+  {
+   "from": 78.5,
+   "to": 81.4,
+   "text": "And that's bar, perfect."
+  },
+  {
+   "from": 81.4,
+   "to": 84.5,
+   "text": "One quirk that you need to be aware of is that"
+  },
+  {
+   "from": 84.5,
+   "to": 87.9,
+   "text": "spaces are really critical when you're dealing with bash."
+  },
+  {
+   "from": 87.9,
+   "to": 93.4,
+   "text": "Mainly because spaces are reserved, and that will be for separating arguments."
+  },
+  {
+   "from": 93.4,
+   "to": 96.7,
+   "text": "So, for example, something like foo equals bar"
+  },
+  {
+   "from": 96.7,
+   "to": 102,
+   "text": "won't work, and the shell is gonna tell you why it's not working."
+  },
+  {
+   "from": 102,
+   "to": 106.3,
+   "text": "It's because the foo command is not working, like foo is non-existent."
+  },
+  {
+   "from": 106.3,
+   "to": 107.8,
+   "text": "And here what is actually happening, we're not assigning foo to bar,"
+  },
+  {
+   "from": 107.8,
+   "to": 112.3,
+   "text": "what is happening is we're calling the foo program"
+  },
+  {
+   "from": 112.3,
+   "to": 117.5,
+   "text": "with the first argument \"=\" and the second argument \"bar\"."
+  },
+  {
+   "from": 117.5,
+   "to": 123.9,
+   "text": "And in general, whenever you are having some issues, like some files with spaces"
+  },
+  {
+   "from": 123.9,
+   "to": 126.2,
+   "text": "you will need to be careful about that."
+  },
+  {
+   "from": 126.2,
+   "to": 130.6,
+   "text": "You need to be careful about quoting strings."
+  },
+  {
+   "from": 130.6,
+   "to": 136.5,
+   "text": "So, going into that, how you do strings in bash. There are two ways that you can define a string:"
+  },
+  {
+   "from": 136.5,
+   "to": 144.7,
+   "text": "You can define strings using double quotes and you can define strings using single,"
+  },
+  {
+   "from": 144.7,
+   "to": 146.5,
+   "text": "sorry,"
+  },
+  {
+   "from": 146.5,
+   "to": 148.9,
+   "text": "using single quotes."
+  },
+  {
+   "from": 149.1,
+   "to": 152.8,
+   "text": "However, for literal strings they are equivalent,"
+  },
+  {
+   "from": 152.8,
+   "to": 155.5,
+   "text": "but for the rest they are not equivalent."
+  },
+  {
+   "from": 155.5,
+   "to": 163,
+   "text": "So, for example, if we do value is $foo,"
+  },
+  {
+   "from": 163.4,
+   "to": 168.5,
+   "text": "the $foo has been expanded like a string, substituted to the"
+  },
+  {
+   "from": 168.5,
+   "to": 170.8,
+   "text": "value of the foo variable in the shell."
+  },
+  {
+   "from": 171,
+   "to": 178.9,
+   "text": "Whereas if we do this with a simple quote, we are just getting the $foo as it is"
+  },
+  {
+   "from": 178.9,
+   "to": 182.3,
+   "text": "and single quotes won't be replacing. Again,"
+  },
+  {
+   "from": 182.3,
+   "to": 187.3,
+   "text": "it's really easy to write a script, assume that this is kind of like Python, that you might be"
+  },
+  {
+   "from": 187.3,
+   "to": 190.9,
+   "text": "more familiar with, and not realize all that."
+  },
+  {
+   "from": 190.9,
+   "to": 194.2,
+   "text": "And this is the way you will assign variables."
+  },
+  {
+   "from": 194.2,
+   "to": 197.8,
+   "text": "Then bash also has control flow techniques that we'll see later,"
+  },
+  {
+   "from": 197.8,
+   "to": 204.4,
+   "text": "like for loops, while loops, and one main thing is you can define functions."
+  },
+  {
+   "from": 204.4,
+   "to": 207.8,
+   "text": "We can access a function I have defined here."
+  },
+  {
+   "from": 208.2,
+   "to": 214.2,
+   "text": "Here we have the MCD function, that has been defined, and the thing is"
+  },
+  {
+   "from": 214.2,
+   "to": 218.4,
+   "text": "so far, we have just kind of seen how to execute several commands by piping"
+  },
+  {
+   "from": 218.4,
+   "to": 220.7,
+   "text": "into them, kind of saw that briefly yesterday."
+  },
+  {
+   "from": 220.9,
+   "to": 225,
+   "text": "But a lot of times you want to do first one thing and then another thing."
+  },
+  {
+   "from": 225,
+   "to": 227.6,
+   "text": "And that's kind of like the"
+  },
+  {
+   "from": 227.7,
+   "to": 230.9,
+   "text": "sequential execution that we get here."
+  },
+  {
+   "from": 230.9,
+   "to": 234.3,
+   "text": "Here, for example, we're calling the MCD function."
+  },
+  {
+   "from": 236.9,
+   "to": 237.8,
+   "text": "We, first,"
+  },
+  {
+   "from": 237.8,
+   "to": 243,
+   "text": "are calling the makedir command, which is creating this directory."
+  },
+  {
+   "from": 243,
+   "to": 245.6,
+   "text": "Here, $1 is like a special variable."
+  },
+  {
+   "from": 245.6,
+   "to": 247.4,
+   "text": "This is the way that bash works,"
+  },
+  {
+   "from": 247.4,
+   "to": 252.2,
+   "text": "whereas in other scripting languages there will be like argv,"
+  },
+  {
+   "from": 252.2,
+   "to": 256.6,
+   "text": "the first item of the array argv will contain the argument."
+  },
+  {
+   "from": 256.6,
+   "to": 259.2,
+   "text": "In bash it's $1. And in general, a lot"
+  },
+  {
+   "from": 259.2,
+   "to": 261.6,
+   "text": "of things in bash will be dollar something"
+  },
+  {
+   "from": 261.6,
+   "to": 266.7,
+   "text": "and will be reserved, we will be seeing more examples later."
+  },
+  {
+   "from": 266.7,
+   "to": 270.3,
+   "text": "And once we have created the folder, we CD into that folder,"
+  },
+  {
+   "from": 270.3,
+   "to": 274.7,
+   "text": "which is kind of a fairly common pattern that you will see."
+  },
+  {
+   "from": 274.7,
+   "to": 279.1,
+   "text": "We will actually type this directly into our shell, and it will work and"
+  },
+  {
+   "from": 279.1,
+   "to": 285.3,
+   "text": "it will define this function. But sometimes it's nicer to write things in a file."
+  },
+  {
+   "from": 285.3,
+   "to": 290,
+   "text": "What we can do is we can source this. And that will"
+  },
+  {
+   "from": 290.1,
+   "to": 294,
+   "text": "execute this script in our shell and load it."
+  },
+  {
+   "from": 294,
+   "to": 299.3,
+   "text": "So now it looks like nothing happened, but now the MCD function has"
+  },
+  {
+   "from": 299.3,
+   "to": 303.5,
+   "text": "been defined in our shell. So we can now for example do"
+  },
+  {
+   "from": 303.5,
+   "to": 309.2,
+   "text": "MCD test, and now we move from the tools directory to the test"
+  },
+  {
+   "from": 309.2,
+   "to": 314.2,
+   "text": "directory. We both created the folder and we moved into it."
+  },
+  {
+   "from": 315.8,
+   "to": 318.8,
+   "text": "What else. So a result is..."
+  },
+  {
+   "from": 318.8,
+   "to": 322.2,
+   "text": "We can access the first argument with $1."
+  },
+  {
+   "from": 322.2,
+   "to": 326.1,
+   "text": "There's a lot more reserved commands,"
+  },
+  {
+   "from": 326.1,
+   "to": 330,
+   "text": "for example $0 will be the name of the script,"
+  },
+  {
+   "from": 330,
+   "to": 335.3,
+   "text": "$2 through $9 will be the second through the ninth arguments"
+  },
+  {
+   "from": 335.3,
+   "to": 338.1,
+   "text": "that the bash script takes. Some of these reserved"
+  },
+  {
+   "from": 338.1,
+   "to": 343.1,
+   "text": "keywords can be directly used in the shell, so for example"
+  },
+  {
+   "from": 343.4,
+   "to": 350.3,
+   "text": "$? will get you the error code from the previous command,"
+  },
+  {
+   "from": 350.3,
+   "to": 353.6,
+   "text": "which I'll also explain briefly."
+  },
+  {
+   "from": 353.6,
+   "to": 358.3,
+   "text": "But for example, $_ will get you the last argument of the"
+  },
+  {
+   "from": 358.3,
+   "to": 363.5,
+   "text": "previous command. So another way we could have done this is"
+  },
+  {
+   "from": 363.5,
+   "to": 367.4,
+   "text": "we could have said like \"mkdir test\""
+  },
+  {
+   "from": 367.4,
+   "to": 372,
+   "text": "and instead of rewriting test, we can access that last argument"
+  },
+  {
+   "from": 372,
+   "to": 378.4,
+   "text": "as part of the (previous command), using $_"
+  },
+  {
+   "from": 378.4,
+   "to": 383.2,
+   "text": "like, that will be replaced with test and now we go into test."
+  },
+  {
+   "from": 385,
+   "to": 387.5,
+   "text": "There are a lot of them, you should familiarize with them."
+  },
+  {
+   "from": 387.5,
+   "to": 392.9,
+   "text": "Another one I often use is called \"bang bang\" (\"!!\"), you will run into this"
+  },
+  {
+   "from": 392.9,
+   "to": 397.3,
+   "text": "whenever you, for example, are trying to create something and you don't have"
+  },
+  {
+   "from": 397.3,
+   "to": 401,
+   "text": "enough permissions. Then, you can do \"sudo !!\""
+  },
+  {
+   "from": 401,
+   "to": 403.4,
+   "text": "and then that will replace the command in"
+  },
+  {
+   "from": 403.5,
+   "to": 406.4,
+   "text": "there and now you can just try doing"
+  },
+  {
+   "from": 406.4,
+   "to": 408.4,
+   "text": "that. And now it will prompt you for a password,"
+  },
+  {
+   "from": 408.4,
+   "to": 410.1,
+   "text": "because you have sudo permissions."
+  },
+  {
+   "from": 413.8,
+   "to": 417.2,
+   "text": "Before, I mentioned the, kind of the error command."
+  },
+  {
+   "from": 417.2,
+   "to": 419.4,
+   "text": "Yesterday we saw that, in general, there are"
+  },
+  {
+   "from": 419.4,
+   "to": 422.4,
+   "text": "different ways a process can communicate"
+  },
+  {
+   "from": 422.4,
+   "to": 425.1,
+   "text": "with other processes or commands."
+  },
+  {
+   "from": 425.1,
+   "to": 428.4,
+   "text": "We mentioned the standard input, which also was like"
+  },
+  {
+   "from": 429.2,
+   "to": 431.4,
+   "text": "getting stuff through the standard input,"
+  },
+  {
+   "from": 431.6,
+   "to": 433.8,
+   "text": "putting stuff into the standard output."
+  },
+  {
+   "from": 433.8,
+   "to": 436.8,
+   "text": "There are a couple more interesting things, there's also like a"
+  },
+  {
+   "from": 436.8,
+   "to": 439.8,
+   "text": "standard error, a stream where you write errors"
+  },
+  {
+   "from": 439.8,
+   "to": 443.9,
+   "text": "that happen with your program and you don't want to pollute the standard output."
+  },
+  {
+   "from": 443.9,
+   "to": 447.4,
+   "text": "There's also the error code, which is like a general"
+  },
+  {
+   "from": 447.4,
+   "to": 449.5,
+   "text": "thing in a lot of programming languages,"
+  },
+  {
+   "from": 449.5,
+   "to": 454.5,
+   "text": "some way of reporting how the entire run of something went."
+  },
+  {
+   "from": 454.5,
+   "to": 456.1,
+   "text": "So if we do"
+  },
+  {
+   "from": 456.1,
+   "to": 461,
+   "text": "something like echo hello and we"
+  },
+  {
+   "from": 461.6,
+   "to": 463.9,
+   "text": "query for the value, it's zero. And it's zero"
+  },
+  {
+   "from": 463.9,
+   "to": 465.8,
+   "text": "because everything went okay and there"
+  },
+  {
+   "from": 465.8,
+   "to": 469.2,
+   "text": "weren't any issues. And a zero exit code is"
+  },
+  {
+   "from": 469.2,
+   "to": 470.9,
+   "text": "the same as you will get in a language"
+  },
+  {
+   "from": 470.9,
+   "to": 475,
+   "text": "like C, like 0 means everything went fine, there were no errors."
+  },
+  {
+   "from": 475,
+   "to": 477.6,
+   "text": "However, sometimes things won't work."
+  },
+  {
+   "from": 477.6,
+   "to": 484.6,
+   "text": "Sometimes, like if we try to grep for foobar in our MCD script,"
+  },
+  {
+   "from": 484.6,
+   "to": 488.1,
+   "text": "and now we check for that value, it's 1. And that's"
+  },
+  {
+   "from": 488.1,
+   "to": 490.8,
+   "text": "because we tried to search for the foobar"
+  },
+  {
+   "from": 490.8,
+   "to": 493.6,
+   "text": "string in the MCD script and it wasn't there."
+  },
+  {
+   "from": 493.6,
+   "to": 497.2,
+   "text": "So grep doesn't print anything, but"
+  },
+  {
+   "from": 497.2,
+   "to": 500,
+   "text": "let us know that things didn't work by"
+  },
+  {
+   "from": 500,
+   "to": 502.3,
+   "text": "giving us a 1 error code."
+  },
+  {
+   "from": 502.3,
+   "to": 504.4,
+   "text": "There are some interesting commands like"
+  },
+  {
+   "from": 504.4,
+   "to": 509.2,
+   "text": "\"true\", for example, will always have a zero"
+  },
+  {
+   "from": 509.2,
+   "to": 515.1,
+   "text": "error code, and false will always have a one error code."
+  },
+  {
+   "from": 515.1,
+   "to": 517.9,
+   "text": "Then there are like"
+  },
+  {
+   "from": 517.9,
+   "to": 520.1,
+   "text": "these logical operators that you can use"
+  },
+  {
+   "from": 520.1,
+   "to": 523.8,
+   "text": "to do some sort of conditionals. For example, one way..."
+  },
+  {
+   "from": 523.8,
+   "to": 527.2,
+   "text": "you also have IF's and ELSE's, that we will see later, but you can do"
+  },
+  {
+   "from": 527.2,
+   "to": 531.9,
+   "text": "something like \"false\", and echo \"Oops fail\"."
+  },
+  {
+   "from": 531.9,
+   "to": 536.3,
+   "text": "So here we have two commands connected by this OR operator."
+  },
+  {
+   "from": 536.3,
+   "to": 540.3,
+   "text": "What bash is gonna do here, it's gonna execute the first one"
+  },
+  {
+   "from": 540.3,
+   "to": 544.5,
+   "text": "and if the first one didn't work, then it's"
+  },
+  {
+   "from": 544.5,
+   "to": 547.4,
+   "text": "gonna execute the second one. So here we get it,"
+  },
+  {
+   "from": 547.4,
+   "to": 552,
+   "text": "because it's gonna try to do a logical OR. If the first one didn't have"
+  },
+  {
+   "from": 552,
+   "to": 556,
+   "text": "a zero error code, it's gonna try to do the second one. Similarly, if we"
+  },
+  {
+   "from": 556,
+   "to": 559.6,
+   "text": "instead of use \"false\", we use something like \"true\","
+  },
+  {
+   "from": 559.6,
+   "to": 562.2,
+   "text": "since true will have a zero error code, then the"
+  },
+  {
+   "from": 562.2,
+   "to": 564.7,
+   "text": "second one will be short-circuited and"
+  },
+  {
+   "from": 564.7,
+   "to": 567.5,
+   "text": "it won't be printed."
+  },
+  {
+   "from": 572.6,
+   "to": 577,
+   "text": "Similarly, we have an AND operator which will only"
+  },
+  {
+   "from": 577,
+   "to": 579.4,
+   "text": "execute the second part if the first one"
+  },
+  {
+   "from": 579.4,
+   "to": 581.4,
+   "text": "ran without errors."
+  },
+  {
+   "from": 581.4,
+   "to": 584.8,
+   "text": "And the same thing will happen."
+  },
+  {
+   "from": 584.8,
+   "to": 590.3,
+   "text": "If the first one fails, then the second part of this thing won't be executed."
+  },
+  {
+   "from": 590.3,
+   "to": 597.3,
+   "text": "Kind of not exactly related to that, but another thing that you will see is"
+  },
+  {
+   "from": 600,
+   "to": 604.1,
+   "text": "that no matter what you execute, then you can concatenate"
+  },
+  {
+   "from": 604.1,
+   "to": 607.1,
+   "text": "commands using a semicolon in the same line,"
+  },
+  {
+   "from": 607.1,
+   "to": 610.3,
+   "text": "and that will always print."
+  },
+  {
+   "from": 610.3,
+   "to": 613.6,
+   "text": "Beyond that, what we haven't seen, for example, is how"
+  },
+  {
+   "from": 613.6,
+   "to": 619.5,
+   "text": "you go about getting the output of a command into a variable."
+  },
+  {
+   "from": 619.6,
+   "to": 624.1,
+   "text": "And the way we can do that is doing something like this."
+  },
+  {
+   "from": 624.1,
+   "to": 629.5,
+   "text": "What we're doing here is we're getting the output of the PWD command,"
+  },
+  {
+   "from": 629.5,
+   "to": 632.7,
+   "text": "which is just printing the present working directory"
+  },
+  {
+   "from": 632.7,
+   "to": 633.7,
+   "text": "where we are right now."
+  },
+  {
+   "from": 633.7,
+   "to": 637.2,
+   "text": "And then we're storing that into the foo variable."
+  },
+  {
+   "from": 637.2,
+   "to": 642.3,
+   "text": "So we do that and then we ask for foo, we view our string."
+  },
+  {
+   "from": 642.3,
+   "to": 648.5,
+   "text": "More generally, we can do this thing called command substitution"
+  },
+  {
+   "from": 650.1,
+   "to": 651.5,
+   "text": "by putting it into any string."
+  },
+  {
+   "from": 651.5,
+   "to": 655.2,
+   "text": "And since we're using double quotes instead of single quotes"
+  },
+  {
+   "from": 655.2,
+   "to": 657.4,
+   "text": "that thing will be expanded and"
+  },
+  {
+   "from": 657.4,
+   "to": 662.7,
+   "text": "it will tell us that we are in this working folder."
+  },
+  {
+   "from": 662.7,
+   "to": 669.2,
+   "text": "Another interesting thing is, right now, what this is expanding to is a string"
+  },
+  {
+   "from": 669.4,
+   "to": 670.3,
+   "text": "instead of"
+  },
+  {
+   "from": 671.9,
+   "to": 673.3,
+   "text": "It's just expanding as a string."
+  },
+  {
+   "from": 673.5,
+   "to": 677.6,
+   "text": "Another nifty and lesser known tool is called process substitution,"
+  },
+  {
+   "from": 677.6,
+   "to": 680.5,
+   "text": "which is kind of similar. What it will do..."
+  },
+  {
+   "from": 684.4,
+   "to": 690,
+   "text": "it will, here for example, the \"<(\", some command and another parenthesis,"
+  },
+  {
+   "from": 690,
+   "to": 694.8,
+   "text": "what that will do is: that will execute, that will get the output to"
+  },
+  {
+   "from": 694.8,
+   "to": 699.1,
+   "text": "kind of like a temporary file and it will give the file handle to the command."
+  },
+  {
+   "from": 699.1,
+   "to": 702,
+   "text": "So here what we're doing is we're getting..."
+  },
+  {
+   "from": 702,
+   "to": 705.8,
+   "text": "we're LS'ing the directory, putting it into a temporary file,"
+  },
+  {
+   "from": 705.8,
+   "to": 708,
+   "text": "doing the same thing for the parent folder and then"
+  },
+  {
+   "from": 708,
+   "to": 711.3,
+   "text": "we're concatenating both files. And this"
+  },
+  {
+   "from": 711.3,
+   "to": 715.5,
+   "text": "will, may be really handy, because some commands instead of expecting"
+  },
+  {
+   "from": 715.5,
+   "to": 719.5,
+   "text": "the input coming from the stdin, they are expecting things to"
+  },
+  {
+   "from": 719.5,
+   "to": 723.6,
+   "text": "come from some file that is giving some of the arguments."
+  },
+  {
+   "from": 724.7,
+   "to": 727.6,
+   "text": "So we get both things concatenated."
+  },
+  {
+   "from": 732.9,
+   "to": 737,
+   "text": "I think so far there's been a lot of information, let's see a simple,"
+  },
+  {
+   "from": 737,
+   "to": 742.9,
+   "text": "an example script where we see a few of these things."
+  },
+  {
+   "from": 743.2,
+   "to": 747.2,
+   "text": "So for example here we have a string and we"
+  },
+  {
+   "from": 747.2,
+   "to": 750.3,
+   "text": "have this $date. So $date is a program."
+  },
+  {
+   "from": 750.3,
+   "to": 754.5,
+   "text": "Again there's a lot of programs in UNIX you will kind of slowly"
+  },
+  {
+   "from": 754.5,
+   "to": 756.1,
+   "text": "familiarize with a lot of them."
+  },
+  {
+   "from": 756.1,
+   "to": 762.8,
+   "text": "Date just prints what the current date is and you can specify different formats."
+  },
+  {
+   "from": 763.8,
+   "to": 768.7,
+   "text": "Then, we have these $0 here. $0 is the name"
+  },
+  {
+   "from": 768.7,
+   "to": 770.5,
+   "text": "of the script that we're running."
+  },
+  {
+   "from": 770.6,
+   "to": 776.6,
+   "text": "Then we have $#, that's the number of arguments that we are giving"
+  },
+  {
+   "from": 776.6,
+   "to": 781.9,
+   "text": "to the command, and then $$ is the process ID of this command that is running."
+  },
+  {
+   "from": 781.9,
+   "to": 786.2,
+   "text": "Again, there's a lot of these dollar things, they're not intuitive"
+  },
+  {
+   "from": 786.2,
+   "to": 787.7,
+   "text": "because they don't have like a mnemonic"
+  },
+  {
+   "from": 787.7,
+   "to": 790.5,
+   "text": "way of remembering, maybe, $#. But"
+  },
+  {
+   "from": 790.5,
+   "to": 792.9,
+   "text": "it can be... you will just be"
+  },
+  {
+   "from": 792.9,
+   "to": 794.7,
+   "text": "seeing them and getting familiar with them."
+  },
+  {
+   "from": 794.7,
+   "to": 799.2,
+   "text": "Here we have this $@, and that will expand to all the arguments."
+  },
+  {
+   "from": 799.2,
+   "to": 801.5,
+   "text": "So, instead of having to assume that,"
+  },
+  {
+   "from": 801.5,
+   "to": 805.8,
+   "text": "maybe say, we have three arguments and writing $1, $2, $3,"
+  },
+  {
+   "from": 805.8,
+   "to": 809.8,
+   "text": "if we don't know how many arguments we can put all those arguments there."
+  },
+  {
+   "from": 809.8,
+   "to": 813.7,
+   "text": "And that has been given to a for loop. And the for loop"
+  },
+  {
+   "from": 813.7,
+   "to": 819,
+   "text": "will, in time, get the file variable"
+  },
+  {
+   "from": 819,
+   "to": 823.9,
+   "text": "and it will be giving each one of the arguments."
+  },
+  {
+   "from": 823.9,
+   "to": 827.5,
+   "text": "So what we're doing is, for every one of the arguments we're giving."
+  },
+  {
+   "from": 827.5,
+   "to": 831.7,
+   "text": "Then, in the next line we're running the"
+  },
+  {
+   "from": 831.7,
+   "to": 836.9,
+   "text": "grep command which is just search for a substring in some file and we're"
+  },
+  {
+   "from": 836.9,
+   "to": 841.4,
+   "text": "searching for the string foobar in the file."
+  },
+  {
+   "from": 841.4,
+   "to": 846.5,
+   "text": "Here, we have put the variable that the file took, to expand."
+  },
+  {
+   "from": 846.5,
+   "to": 851.6,
+   "text": "And yesterday we saw that if we care about the output of a program, we can"
+  },
+  {
+   "from": 851.6,
+   "to": 855.7,
+   "text": "redirect it to somewhere, to save it or to connect it to some other file."
+  },
+  {
+   "from": 855.7,
+   "to": 858.9,
+   "text": "But sometimes you want the opposite."
+  },
+  {
+   "from": 858.9,
+   "to": 861.3,
+   "text": "Sometimes, here for example, we care..."
+  },
+  {
+   "from": 861.3,
+   "to": 865.1,
+   "text": "we're gonna care about the error code. About this script, we're gonna care whether the"
+  },
+  {
+   "from": 865.1,
+   "to": 868.4,
+   "text": "grep ran successfully or it didn't."
+  },
+  {
+   "from": 868.4,
+   "to": 873.2,
+   "text": "So we can actually discard entirely what the output..."
+  },
+  {
+   "from": 873.2,
+   "to": 877.5,
+   "text": "like both the standard output and the standard error of the grep command."
+  },
+  {
+   "from": 877.5,
+   "to": 880,
+   "text": "And what we're doing is we're"
+  },
+  {
+   "from": 880,
+   "to": 883,
+   "text": "redirecting the output to /dev/null which"
+  },
+  {
+   "from": 883,
+   "to": 886.5,
+   "text": "is kind of like a special device in UNIX"
+  },
+  {
+   "from": 886.5,
+   "to": 889.1,
+   "text": "systems where you can like write and"
+  },
+  {
+   "from": 889.1,
+   "to": 891.1,
+   "text": "it will be discarded. Like you can"
+  },
+  {
+   "from": 891.1,
+   "to": 892.9,
+   "text": "write no matter how much you want,"
+  },
+  {
+   "from": 892.9,
+   "to": 897.7,
+   "text": "there, and it will be discarded. And here's the \">\" symbol"
+  },
+  {
+   "from": 897.7,
+   "to": 902.2,
+   "text": "that we saw yesterday for redirecting output. Here you have a \"2>\""
+  },
+  {
+   "from": 902.2,
+   "to": 904.7,
+   "text": "and, as some of you might have"
+  },
+  {
+   "from": 904.7,
+   "to": 906.5,
+   "text": "guessed by now, this is for redirecting the"
+  },
+  {
+   "from": 906.5,
+   "to": 908.6,
+   "text": "standard error, because those those two"
+  },
+  {
+   "from": 908.6,
+   "to": 911.7,
+   "text": "streams are separate, and you kind of have to"
+  },
+  {
+   "from": 911.7,
+   "to": 914.6,
+   "text": "tell bash what to do with each one of them."
+  },
+  {
+   "from": 914.6,
+   "to": 917.5,
+   "text": "So here, we run, we check if the file has"
+  },
+  {
+   "from": 917.5,
+   "to": 920.6,
+   "text": "foobar, and if the file has foobar then it's"
+  },
+  {
+   "from": 920.6,
+   "to": 923,
+   "text": "going to have a zero code. If it"
+  },
+  {
+   "from": 923,
+   "to": 924.4,
+   "text": "doesn't have foobar, it's gonna have a"
+  },
+  {
+   "from": 924.4,
+   "to": 927,
+   "text": "nonzero error code. So that's exactly what we"
+  },
+  {
+   "from": 927,
+   "to": 931.1,
+   "text": "check. In this if part of the command we"
+  },
+  {
+   "from": 931.1,
+   "to": 934.8,
+   "text": "say \"get me the error code\". Again, this $?"
+  },
+  {
+   "from": 934.8,
+   "to": 937.2,
+   "text": "And then we have a comparison operator"
+  },
+  {
+   "from": 937.2,
+   "to": 941.6,
+   "text": "which is \"-ne\", for \"non equal\". And some"
+  },
+  {
+   "from": 941.6,
+   "to": 947.7,
+   "text": "other programming languages will have \"==\", \"!=\", these"
+  },
+  {
+   "from": 947.7,
+   "to": 951.1,
+   "text": "symbols. In bash there's"
+  },
+  {
+   "from": 951.1,
+   "to": 953.7,
+   "text": "like a reserved set of comparisons and"
+  },
+  {
+   "from": 953.7,
+   "to": 955,
+   "text": "it's mainly because there's a lot of"
+  },
+  {
+   "from": 955,
+   "to": 957.5,
+   "text": "things you might want to test for when"
+  },
+  {
+   "from": 957.5,
+   "to": 959.1,
+   "text": "you're in the shell. Here for example"
+  },
+  {
+   "from": 959.1,
+   "to": 964,
+   "text": "we're just checking for two values, two integer values, being the same. Or for"
+  },
+  {
+   "from": 964,
+   "to": 968.4,
+   "text": "example here, the \"-F\" check will let"
+  },
+  {
+   "from": 968.4,
+   "to": 970.4,
+   "text": "us know if a file exists, which is"
+  },
+  {
+   "from": 970.4,
+   "to": 972.2,
+   "text": "something that you will run into very,"
+  },
+  {
+   "from": 972.2,
+   "to": 977.5,
+   "text": "very commonly. I'm going back to the"
+  },
+  {
+   "from": 977.5,
+   "to": 983,
+   "text": "example. Then, what happens when we"
+  },
+  {
+   "from": 984.4,
+   "to": 988.6,
+   "text": "if the file did not have foobar, like there was a"
+  },
+  {
+   "from": 988.6,
+   "to": 992,
+   "text": "nonzero error code, then we print"
+  },
+  {
+   "from": 992,
+   "to": 993.4,
+   "text": "\"this file doesn't have any foobar,"
+  },
+  {
+   "from": 993.4,
+   "to": 996.4,
+   "text": "we're going to add one\". And what we do is"
+  },
+  {
+   "from": 996.4,
+   "to": 1000.8,
+   "text": "we echo this \"# foobar\", hoping this"
+  },
+  {
+   "from": 1000.8,
+   "to": 1003.2,
+   "text": "is a comment to the file and then we're"
+  },
+  {
+   "from": 1003.2,
+   "to": 1007.6,
+   "text": "using the operator \">>\" to append at the end of"
+  },
+  {
+   "from": 1007.6,
+   "to": 1010.8,
+   "text": "the file. Here since the file has"
+  },
+  {
+   "from": 1010.8,
+   "to": 1014.5,
+   "text": "been fed through the script, and we don't know it beforehand, we have to substitute"
+  },
+  {
+   "from": 1014.5,
+   "to": 1023.4,
+   "text": "the variable of the filename. We can actually run this. We already have"
+  },
+  {
+   "from": 1023.4,
+   "to": 1025.3,
+   "text": "correct permissions in this script and"
+  },
+  {
+   "from": 1025.3,
+   "to": 1030.5,
+   "text": "we can give a few examples. We have a few files in this folder, \"mcd\" is the"
+  },
+  {
+   "from": 1030.5,
+   "to": 1032.8,
+   "text": "one we saw at the beginning for the MCD"
+  },
+  {
+   "from": 1032.8,
+   "to": 1035,
+   "text": "function, some other \"script\" function and"
+  },
+  {
+   "from": 1035,
+   "to": 1041.7,
+   "text": "we can even feed the own script to itself to check if it has foobar in it."
+  },
+  {
+   "from": 1041.7,
+   "to": 1046.7,
+   "text": "And we run it and first we can see that there's different"
+  },
+  {
+   "from": 1046.7,
+   "to": 1049.5,
+   "text": "variables that we saw, that have been"
+  },
+  {
+   "from": 1049.5,
+   "to": 1053.4,
+   "text": "successfully expanded. We have the date, that has"
+  },
+  {
+   "from": 1053.4,
+   "to": 1056.7,
+   "text": "been replaced to the current time, then"
+  },
+  {
+   "from": 1056.7,
+   "to": 1059.1,
+   "text": "we're running this program, with three"
+  },
+  {
+   "from": 1059.1,
+   "to": 1064.6,
+   "text": "arguments, this randomized PID, and then"
+  },
+  {
+   "from": 1064.6,
+   "to": 1066.5,
+   "text": "it's telling us MCD doesn't have any"
+  },
+  {
+   "from": 1066.5,
+   "to": 1068.2,
+   "text": "foobar, so we are adding a new one,"
+  },
+  {
+   "from": 1068.2,
+   "to": 1070.5,
+   "text": "and this script file doesn't"
+  },
+  {
+   "from": 1070.5,
+   "to": 1073,
+   "text": "have one. So now for example let's look at MCD"
+  },
+  {
+   "from": 1073,
+   "to": 1075.8,
+   "text": "and it has the comment that we were looking for."
+  },
+  {
+   "from": 1079,
+   "to": 1085.6,
+   "text": "One other thing to know when you're executing scripts is that"
+  },
+  {
+   "from": 1085.6,
+   "to": 1087.8,
+   "text": "here we have like three completely"
+  },
+  {
+   "from": 1087.8,
+   "to": 1090.3,
+   "text": "different arguments but very commonly"
+  },
+  {
+   "from": 1090.3,
+   "to": 1092.9,
+   "text": "you will be giving arguments that"
+  },
+  {
+   "from": 1092.9,
+   "to": 1096.1,
+   "text": "can be more succinctly given in some way."
+  },
+  {
+   "from": 1096.1,
+   "to": 1100.2,
+   "text": "So for example here if we wanted to"
+  },
+  {
+   "from": 1100.2,
+   "to": 1105.4,
+   "text": "refer to all the \".sh\" scripts we"
+  },
+  {
+   "from": 1105.4,
+   "to": 1111.1,
+   "text": "could just do something like \"ls *.sh\""
+  },
+  {
+   "from": 1111.1,
+   "to": 1116.1,
+   "text": "and this is a way of filename expansion that most shells have"
+  },
+  {
+   "from": 1116.1,
+   "to": 1118.5,
+   "text": "that's called \"globbing\". Here, as you"
+  },
+  {
+   "from": 1118.5,
+   "to": 1119.9,
+   "text": "might expect, this is gonna say"
+  },
+  {
+   "from": 1119.9,
+   "to": 1122.6,
+   "text": "anything that has any kind of sort of"
+  },
+  {
+   "from": 1122.6,
+   "to": 1125.9,
+   "text": "characters and ends up with \"sh\"."
+  },
+  {
+   "from": 1125.9,
+   "to": 1132.2,
+   "text": "Unsurprisingly, we get \"example.sh\" and \"mcd.sh\". We also have these"
+  },
+  {
+   "from": 1132.2,
+   "to": 1134.8,
+   "text": "\"project1\" and \"project2\", and if there"
+  },
+  {
+   "from": 1134.8,
+   "to": 1140.1,
+   "text": "were like a... we can do a \"project42\", for example"
+  },
+  {
+   "from": 1140.6,
+   "to": 1144.2,
+   "text": "And now if we just want to refer to the projects that have"
+  },
+  {
+   "from": 1144.2,
+   "to": 1147.3,
+   "text": "a single character, but not two characters"
+  },
+  {
+   "from": 1147.3,
+   "to": 1148.7,
+   "text": "afterwards, like any other characters,"
+  },
+  {
+   "from": 1148.7,
+   "to": 1153.9,
+   "text": "we can use the question mark. So \"?\" will expand to only a single one."
+  },
+  {
+   "from": 1153.9,
+   "to": 1157.4,
+   "text": "And we get, LS'ing, first"
+  },
+  {
+   "from": 1157.4,
+   "to": 1161,
+   "text": "\"project1\" and then \"project2\"."
+  },
+  {
+   "from": 1161,
+   "to": 1167.6,
+   "text": "In general, globbing can be very powerful. You can also combine it."
+  },
+  {
+   "from": 1171.9,
+   "to": 1175.5,
+   "text": "A common pattern is to use what is called curly braces."
+  },
+  {
+   "from": 1175.5,
+   "to": 1179.3,
+   "text": "So let's say we have an image, that we have in this folder"
+  },
+  {
+   "from": 1179.3,
+   "to": 1183.6,
+   "text": "and we want to convert this image from PNG to JPG"
+  },
+  {
+   "from": 1183.6,
+   "to": 1186.3,
+   "text": "or we could maybe copy it, or..."
+  },
+  {
+   "from": 1186.3,
+   "to": 1189.6,
+   "text": "it's a really common pattern, to have two or more arguments that are"
+  },
+  {
+   "from": 1189.6,
+   "to": 1195.2,
+   "text": "fairly similar and you want to do something with them as arguments to some command."
+  },
+  {
+   "from": 1195.2,
+   "to": 1201.3,
+   "text": "You could do it this way, or more succinctly, you can just do"
+  },
+  {
+   "from": 1201.3,
+   "to": 1208.9,
+   "text": "\"image.{png,jpg}\""
+  },
+  {
+   "from": 1209.4,
+   "to": 1213.6,
+   "text": "And here, I'm getting some color feedback, but what this will do, is"
+  },
+  {
+   "from": 1213.6,
+   "to": 1217.6,
+   "text": "it'll expand into the line above."
+  },
+  {
+   "from": 1217.6,
+   "to": 1224,
+   "text": "Actually, I can ask zsh to do that for me. And that what's happening here."
+  },
+  {
+   "from": 1224,
+   "to": 1226.6,
+   "text": "This is really powerful. So for example"
+  },
+  {
+   "from": 1226.6,
+   "to": 1229.2,
+   "text": "you can do something like... we could do..."
+  },
+  {
+   "from": 1229.2,
+   "to": 1234.2,
+   "text": "\"touch\" on a bunch of foo's, and all of this will be expanded."
+  },
+  {
+   "from": 1235.5,
+   "to": 1241.9,
+   "text": "You can also do it at several levels and you will do the Cartesian..."
+  },
+  {
+   "from": 1241.9,
+   "to": 1250,
+   "text": "if we have something like this, we have one group here, \"{1,2}\""
+  },
+  {
+   "from": 1250,
+   "to": 1253.3,
+   "text": "and then here there's \"{1,2,3}\", and this is going to do"
+  },
+  {
+   "from": 1253.3,
+   "to": 1255,
+   "text": "the Cartesian product of these"
+  },
+  {
+   "from": 1255,
+   "to": 1259.9,
+   "text": "two expansions and it will expand into all these things,"
+  },
+  {
+   "from": 1260,
+   "to": 1263.5,
+   "text": "that we can quickly \"touch\"."
+  },
+  {
+   "from": 1263.5,
+   "to": 1270.5,
+   "text": "You can also combine the asterisk glob with the curly braces glob."
+  },
+  {
+   "from": 1270.5,
+   "to": 1276.8,
+   "text": "You can even use kind of ranges. Like, we can do \"mkdir\""
+  },
+  {
+   "from": 1276.8,
+   "to": 1281.4,
+   "text": "and we create the \"foo\" and the \"bar\" directories, and then we"
+  },
+  {
+   "from": 1281.4,
+   "to": 1285.7,
+   "text": "can do something along these lines. This"
+  },
+  {
+   "from": 1285.7,
+   "to": 1288.9,
+   "text": "is going to expand to \"fooa\", \"foob\"..."
+  },
+  {
+   "from": 1288.9,
+   "to": 1291.4,
+   "text": "like all these combinations, through \"j\", and"
+  },
+  {
+   "from": 1291.4,
+   "to": 1295.3,
+   "text": "then the same for \"bar\". I haven't"
+  },
+  {
+   "from": 1295.3,
+   "to": 1298.6,
+   "text": "really tested it... but yeah, we're getting all these combinations that we"
+  },
+  {
+   "from": 1298.6,
+   "to": 1301.9,
+   "text": "can \"touch\". And now, if we touch something"
+  },
+  {
+   "from": 1301.9,
+   "to": 1308,
+   "text": "that is different between these two [directories], we"
+  },
+  {
+   "from": 1308,
+   "to": 1315.9,
+   "text": "can again showcase the process substitution that we saw"
+  },
+  {
+   "from": 1315.9,
+   "to": 1319.6,
+   "text": "earlier. Say we want to check what files are different between these"
+  },
+  {
+   "from": 1319.6,
+   "to": 1323.4,
+   "text": "two folders. For us it's obvious, we just saw it, it's X and Y,"
+  },
+  {
+   "from": 1323.4,
+   "to": 1327.4,
+   "text": "but we can ask the shell to do this \"diff\" for us between the"
+  },
+  {
+   "from": 1327.4,
+   "to": 1330.2,
+   "text": "output of one LS and the other LS."
+  },
+  {
+   "from": 1330.2,
+   "to": 1332.8,
+   "text": "Unsurprisingly we're getting: X is"
+  },
+  {
+   "from": 1332.8,
+   "to": 1334.7,
+   "text": "only in the first folder and Y is"
+  },
+  {
+   "from": 1334.7,
+   "to": 1341,
+   "text": "only in the second folder. What is more"
+  },
+  {
+   "from": 1341,
+   "to": 1346.5,
+   "text": "is, right now, we have only seen bash scripts. If you like other"
+  },
+  {
+   "from": 1346.5,
+   "to": 1350.3,
+   "text": "scripts, like for some tasks bash is probably not the best,"
+  },
+  {
+   "from": 1350.3,
+   "to": 1353.1,
+   "text": "it can be tricky. You can actually write scripts that"
+  },
+  {
+   "from": 1353.1,
+   "to": 1355.7,
+   "text": "interact with the shell implemented in a lot"
+  },
+  {
+   "from": 1355.7,
+   "to": 1359.7,
+   "text": "of different languages. So for example, let's see here a"
+  },
+  {
+   "from": 1359.7,
+   "to": 1363.1,
+   "text": "Python script that has a magic line at the"
+  },
+  {
+   "from": 1363.1,
+   "to": 1365.5,
+   "text": "beginning that I'm not explaining for now."
+  },
+  {
+   "from": 1365.5,
+   "to": 1368.3,
+   "text": "Then we have \"import sys\","
+  },
+  {
+   "from": 1368.3,
+   "to": 1373.6,
+   "text": "it's kind of like... Python is not, by default, trying to interact"
+  },
+  {
+   "from": 1373.6,
+   "to": 1377,
+   "text": "with the shell so you will have to import"
+  },
+  {
+   "from": 1377,
+   "to": 1378.8,
+   "text": "some library. And then we're doing a"
+  },
+  {
+   "from": 1378.8,
+   "to": 1381.5,
+   "text": "really silly thing of just iterating"
+  },
+  {
+   "from": 1381.5,
+   "to": 1386.4,
+   "text": "over \"sys.argv[1:]\"."
+  },
+  {
+   "from": 1386.4,
+   "to": 1392.8,
+   "text": "\"sys.argv\" is kind of similar to what in bash we're getting as $0, $1, &c."
+  },
+  {
+   "from": 1392.8,
+   "to": 1396.6,
+   "text": "Like the vector of the arguments, we're printing it in the reversed order."
+  },
+  {
+   "from": 1396.6,
+   "to": 1401.2,
+   "text": "And the magic line at the beginning is"
+  },
+  {
+   "from": 1401.2,
+   "to": 1404,
+   "text": "called a shebang and is the way that the"
+  },
+  {
+   "from": 1404,
+   "to": 1406.2,
+   "text": "shell will know how to run this program."
+  },
+  {
+   "from": 1406.2,
+   "to": 1410.5,
+   "text": "You can always do something like"
+  },
+  {
+   "from": 1410.5,
+   "to": 1414.4,
+   "text": "\"python script.py\", and then \"a b c\" and that"
+  },
+  {
+   "from": 1414.4,
+   "to": 1416.7,
+   "text": "will work, always, like that. But"
+  },
+  {
+   "from": 1416.7,
+   "to": 1419.1,
+   "text": "what if we want to make this to be"
+  },
+  {
+   "from": 1419.1,
+   "to": 1421.3,
+   "text": "executable from the shell? The way the"
+  },
+  {
+   "from": 1421.3,
+   "to": 1424.2,
+   "text": "shell knows that it has to use python as the"
+  },
+  {
+   "from": 1424.2,
+   "to": 1428.5,
+   "text": "interpreter to run this file is using"
+  },
+  {
+   "from": 1428.5,
+   "to": 1432.4,
+   "text": "that first line. And that first line is"
+  },
+  {
+   "from": 1432.4,
+   "to": 1436.6,
+   "text": "giving it the path to where that thing lives."
+  },
+  {
+   "from": 1438.5,
+   "to": 1439.6,
+   "text": "However, you might not know."
+  },
+  {
+   "from": 1439.6,
+   "to": 1441.8,
+   "text": "Like, different machines will have probably"
+  },
+  {
+   "from": 1441.8,
+   "to": 1444,
+   "text": "different places where they put python"
+  },
+  {
+   "from": 1444,
+   "to": 1446.1,
+   "text": "and you might not want to assume where"
+  },
+  {
+   "from": 1446.1,
+   "to": 1448.8,
+   "text": "python is installed, or any other interpreter."
+  },
+  {
+   "from": 1448.8,
+   "to": 1456.4,
+   "text": "So one thing that you can do is use the"
+  },
+  {
+   "from": 1456.4,
+   "to": 1457.7,
+   "text": "\"env\" command."
+  },
+  {
+   "from": 1458.3,
+   "to": 1461.6,
+   "text": "You can also give arguments in the shebang, so"
+  },
+  {
+   "from": 1461.6,
+   "to": 1463.9,
+   "text": "what we're doing here is specifying"
+  },
+  {
+   "from": 1463.9,
+   "to": 1469.7,
+   "text": "run the \"env\" command, that is for pretty much every system, there are some exceptions, but like for"
+  },
+  {
+   "from": 1469.7,
+   "to": 1471.6,
+   "text": "pretty much every system it's is in"
+  },
+  {
+   "from": 1471.6,
+   "to": 1473.6,
+   "text": "\"usr/bin\", where a lot of binaries live,"
+  },
+  {
+   "from": 1473.6,
+   "to": 1476.2,
+   "text": "and then we're calling it with the"
+  },
+  {
+   "from": 1476.2,
+   "to": 1478.6,
+   "text": "argument \"python\". And then that will make"
+  },
+  {
+   "from": 1478.6,
+   "to": 1482,
+   "text": "use of the path environment variable"
+  },
+  {
+   "from": 1482,
+   "to": 1483.6,
+   "text": "that we saw in the first lecture. It's"
+  },
+  {
+   "from": 1483.6,
+   "to": 1485.7,
+   "text": "gonna search in that path for the Python"
+  },
+  {
+   "from": 1485.7,
+   "to": 1488.6,
+   "text": "binary and then it's gonna use that to"
+  },
+  {
+   "from": 1488.6,
+   "to": 1490.5,
+   "text": "interpret this file. And that will make"
+  },
+  {
+   "from": 1490.5,
+   "to": 1492.5,
+   "text": "this more portable so it can be run in"
+  },
+  {
+   "from": 1492.5,
+   "to": 1497.5,
+   "text": "my machine, and your machine and some other machine."
+  },
+  {
+   "from": 1508,
+   "to": 1512.1,
+   "text": "Another thing is that the bash is not"
+  },
+  {
+   "from": 1512.1,
+   "to": 1514.3,
+   "text": "really like modern, it was"
+  },
+  {
+   "from": 1514.3,
+   "to": 1516.3,
+   "text": "developed a while ago. And sometimes"
+  },
+  {
+   "from": 1516.3,
+   "to": 1518.9,
+   "text": "it can be tricky to debug. By"
+  },
+  {
+   "from": 1518.9,
+   "to": 1522,
+   "text": "default, and the ways it will fail"
+  },
+  {
+   "from": 1522,
+   "to": 1524,
+   "text": "sometimes are intuitive like the way we"
+  },
+  {
+   "from": 1524,
+   "to": 1526.2,
+   "text": "saw before of like foo command not"
+  },
+  {
+   "from": 1526.2,
+   "to": 1528.6,
+   "text": "existing, sometimes it's not. So there's"
+  },
+  {
+   "from": 1528.6,
+   "to": 1531.3,
+   "text": "like a really nifty tool that we have"
+  },
+  {
+   "from": 1531.3,
+   "to": 1534.3,
+   "text": "linked in the lecture notes, which is called"
+  },
+  {
+   "from": 1534.3,
+   "to": 1537.6,
+   "text": "\"shellcheck\", that will kind of give you"
+  },
+  {
+   "from": 1537.6,
+   "to": 1540,
+   "text": "both warnings and syntactic errors"
+  },
+  {
+   "from": 1540,
+   "to": 1543.3,
+   "text": "and other things that you might not have quoted properly,"
+  },
+  {
+   "from": 1543.3,
+   "to": 1546,
+   "text": "or you might have misplaced spaces in"
+  },
+  {
+   "from": 1546,
+   "to": 1550.1,
+   "text": "your files. So for example for extremely simple \"mcd.sh\""
+  },
+  {
+   "from": 1550.1,
+   "to": 1552,
+   "text": "file we're getting a couple"
+  },
+  {
+   "from": 1552,
+   "to": 1554.8,
+   "text": "of errors saying hey, surprisingly,"
+  },
+  {
+   "from": 1554.8,
+   "to": 1556.1,
+   "text": "we're missing a shebang, like this"
+  },
+  {
+   "from": 1556.1,
+   "to": 1559.1,
+   "text": "might not interpret it correctly if you're"
+  },
+  {
+   "from": 1559.1,
+   "to": 1562,
+   "text": "it at a different system. Also, this"
+  },
+  {
+   "from": 1562,
+   "to": 1565.6,
+   "text": "CD is taking a command and it might not"
+  },
+  {
+   "from": 1565.6,
+   "to": 1569,
+   "text": "expand properly so instead of using CD"
+  },
+  {
+   "from": 1569,
+   "to": 1571.3,
+   "text": "you might want to use something like CD"
+  },
+  {
+   "from": 1571.3,
+   "to": 1574.5,
+   "text": "and then an OR and then an \"exit\". We go"
+  },
+  {
+   "from": 1574.5,
+   "to": 1576.5,
+   "text": "back to what we explained earlier, what"
+  },
+  {
+   "from": 1576.5,
+   "to": 1578.9,
+   "text": "this will do is like if the"
+  },
+  {
+   "from": 1578.9,
+   "to": 1581.9,
+   "text": "CD doesn't end correctly, you cannot CD"
+  },
+  {
+   "from": 1581.9,
+   "to": 1583.7,
+   "text": "into the folder because either you"
+  },
+  {
+   "from": 1583.7,
+   "to": 1585.3,
+   "text": "don't have permissions, it doesn't exist..."
+  },
+  {
+   "from": 1585.3,
+   "to": 1588.8,
+   "text": "That will give a nonzero error"
+  },
+  {
+   "from": 1588.8,
+   "to": 1592.4,
+   "text": "command, so you will execute exit"
+  },
+  {
+   "from": 1592.4,
+   "to": 1593.9,
+   "text": "and that will stop the script"
+  },
+  {
+   "from": 1593.9,
+   "to": 1595.8,
+   "text": "instead of continue executing as if"
+  },
+  {
+   "from": 1595.8,
+   "to": 1597.2,
+   "text": "you were in a place that you are"
+  },
+  {
+   "from": 1597.2,
+   "to": 1602.9,
+   "text": "actually not in. And actually I haven't tested, but I"
+  },
+  {
+   "from": 1602.9,
+   "to": 1607.2,
+   "text": "think we can check for \"example.sh\""
+  },
+  {
+   "from": 1607.2,
+   "to": 1610.8,
+   "text": "and here we're getting that we should be"
+  },
+  {
+   "from": 1610.8,
+   "to": 1615.1,
+   "text": "checking the exit code in a different way, because it's"
+  },
+  {
+   "from": 1615.1,
+   "to": 1617.7,
+   "text": "probably not the best way, doing it this"
+  },
+  {
+   "from": 1617.7,
+   "to": 1621.6,
+   "text": "way. One last remark I want to make"
+  },
+  {
+   "from": 1621.6,
+   "to": 1625.1,
+   "text": "is that when you're writing bash scripts"
+  },
+  {
+   "from": 1625.1,
+   "to": 1627.2,
+   "text": "or functions for that matter,"
+  },
+  {
+   "from": 1627.2,
+   "to": 1629.1,
+   "text": "there's kind of a difference between"
+  },
+  {
+   "from": 1629.1,
+   "to": 1632.6,
+   "text": "writing bash scripts in isolation like a"
+  },
+  {
+   "from": 1632.6,
+   "to": 1634.1,
+   "text": "thing that you're gonna run, and a thing"
+  },
+  {
+   "from": 1634.1,
+   "to": 1636.1,
+   "text": "that you're gonna load into your shell."
+  },
+  {
+   "from": 1636.1,
+   "to": 1639.9,
+   "text": "We will see some of this in the command"
+  },
+  {
+   "from": 1639.9,
+   "to": 1643.1,
+   "text": "line environment lecture, where we will kind of"
+  },
+  {
+   "from": 1643.1,
+   "to": 1649.1,
+   "text": "be tooling with the bashrc and the sshrc. But in general, if you make"
+  },
+  {
+   "from": 1649.1,
+   "to": 1651.4,
+   "text": "changes to for example where you are,"
+  },
+  {
+   "from": 1651.4,
+   "to": 1654,
+   "text": "like if you CD into a bash script and you"
+  },
+  {
+   "from": 1654,
+   "to": 1656.9,
+   "text": "just execute that bash script, it won't CD"
+  },
+  {
+   "from": 1656.9,
+   "to": 1660,
+   "text": "into the shell are right now. But if you"
+  },
+  {
+   "from": 1660,
+   "to": 1663,
+   "text": "have loaded the code directly into"
+  },
+  {
+   "from": 1663,
+   "to": 1665.6,
+   "text": "your shell, for example you load..."
+  },
+  {
+   "from": 1665.6,
+   "to": 1668.4,
+   "text": "you source the function and then you execute"
+  },
+  {
+   "from": 1668.4,
+   "to": 1670.3,
+   "text": "the function then you will get those"
+  },
+  {
+   "from": 1670.3,
+   "to": 1672,
+   "text": "side effects. And the same goes for"
+  },
+  {
+   "from": 1672,
+   "to": 1677.2,
+   "text": "defining variables into the shell."
+  },
+  {
+   "from": 1677.2,
+   "to": 1684,
+   "text": "Now I'm going to talk about some tools that I think are nifty when"
+  },
+  {
+   "from": 1684,
+   "to": 1687.6,
+   "text": "working with the shell. The first was"
+  },
+  {
+   "from": 1687.6,
+   "to": 1689.8,
+   "text": "also briefly introduced yesterday."
+  },
+  {
+   "from": 1689.8,
+   "to": 1693.3,
+   "text": "How do you know what flags, or like"
+  },
+  {
+   "from": 1693.3,
+   "to": 1695.3,
+   "text": "what exact commands are. Like how I am"
+  },
+  {
+   "from": 1695.3,
+   "to": 1701.9,
+   "text": "supposed to know that LS minus L will list the files in a list format, or that"
+  },
+  {
+   "from": 1701.9,
+   "to": 1705.8,
+   "text": "if I do \"move - i\", it's gonna like prom me"
+  },
+  {
+   "from": 1705.8,
+   "to": 1708.6,
+   "text": "for stuff. For that what you have is the \"man\""
+  },
+  {
+   "from": 1708.6,
+   "to": 1710.7,
+   "text": "command. And the man command will kind of"
+  },
+  {
+   "from": 1710.7,
+   "to": 1713.6,
+   "text": "have like a lot of information of how"
+  },
+  {
+   "from": 1713.6,
+   "to": 1715.8,
+   "text": "will you go about... so for example here it"
+  },
+  {
+   "from": 1715.8,
+   "to": 1720.3,
+   "text": "will explain for the \"-i\" flag, there are"
+  },
+  {
+   "from": 1720.3,
+   "to": 1724,
+   "text": "all these options you can do. That's"
+  },
+  {
+   "from": 1724,
+   "to": 1725.6,
+   "text": "actually pretty useful and it will work"
+  },
+  {
+   "from": 1725.6,
+   "to": 1731.5,
+   "text": "not only for really simple commands that come packaged with your OS"
+  },
+  {
+   "from": 1731.5,
+   "to": 1735.8,
+   "text": "but will also work with some tools that you install from the internet"
+  },
+  {
+   "from": 1735.8,
+   "to": 1738.2,
+   "text": "for example, if the person that did the"
+  },
+  {
+   "from": 1738.2,
+   "to": 1741.4,
+   "text": "installation made it so that the man"
+  },
+  {
+   "from": 1741.4,
+   "to": 1743.4,
+   "text": "package were also installed. So for example"
+  },
+  {
+   "from": 1743.4,
+   "to": 1746.5,
+   "text": "a tool that we're gonna cover in a bit"
+  },
+  {
+   "from": 1746.5,
+   "to": 1752.4,
+   "text": "which is called \"ripgrep\" and is called with RG, this didn't"
+  },
+  {
+   "from": 1752.4,
+   "to": 1755,
+   "text": "come with my system but it has installed"
+  },
+  {
+   "from": 1755,
+   "to": 1757.2,
+   "text": "its own man page and I have it here and"
+  },
+  {
+   "from": 1757.2,
+   "to": 1761.7,
+   "text": "I can access it. For some commands the"
+  },
+  {
+   "from": 1761.7,
+   "to": 1765,
+   "text": "man page is useful but sometimes it can be"
+  },
+  {
+   "from": 1765,
+   "to": 1768.3,
+   "text": "tricky to decipher because it's more"
+  },
+  {
+   "from": 1768.3,
+   "to": 1770.4,
+   "text": "kind of a documentation and a"
+  },
+  {
+   "from": 1770.4,
+   "to": 1772.7,
+   "text": "description of all the things the tool"
+  },
+  {
+   "from": 1772.7,
+   "to": 1775.9,
+   "text": "can do. Sometimes it will have"
+  },
+  {
+   "from": 1775.9,
+   "to": 1777.7,
+   "text": "examples but sometimes not, and sometimes"
+  },
+  {
+   "from": 1777.7,
+   "to": 1781.6,
+   "text": "the tool can do a lot of things so a"
+  },
+  {
+   "from": 1781.6,
+   "to": 1785.3,
+   "text": "couple of good tools that I use commonly"
+  },
+  {
+   "from": 1785.3,
+   "to": 1790.3,
+   "text": "are \"convert\" or \"ffmpeg\", which deal with images and video respectively and"
+  },
+  {
+   "from": 1790.3,
+   "to": 1792.4,
+   "text": "the man pages are like enormous. So there's"
+  },
+  {
+   "from": 1792.4,
+   "to": 1794.9,
+   "text": "one neat tool called \"tldr\" that"
+  },
+  {
+   "from": 1794.9,
+   "to": 1798.2,
+   "text": "you can install and you will have like"
+  },
+  {
+   "from": 1798.2,
+   "to": 1802.7,
+   "text": "some nice kind of explanatory examples"
+  },
+  {
+   "from": 1802.7,
+   "to": 1805.5,
+   "text": "of how you want to use this command. And you"
+  },
+  {
+   "from": 1805.5,
+   "to": 1807.8,
+   "text": "can always Google for this, but I find"
+  },
+  {
+   "from": 1807.8,
+   "to": 1810.1,
+   "text": "myself saving going into the"
+  },
+  {
+   "from": 1810.1,
+   "to": 1812.6,
+   "text": "browser, looking about some examples and"
+  },
+  {
+   "from": 1812.6,
+   "to": 1814.9,
+   "text": "coming back, whereas \"tldr\" are"
+  },
+  {
+   "from": 1814.9,
+   "to": 1816.9,
+   "text": "community contributed and"
+  },
+  {
+   "from": 1816.9,
+   "to": 1819.2,
+   "text": "they're fairly useful. Then,"
+  },
+  {
+   "from": 1819.2,
+   "to": 1823,
+   "text": "the one for \"ffmpeg\" has a lot of"
+  },
+  {
+   "from": 1823,
+   "to": 1824.9,
+   "text": "useful examples that are more nicely"
+  },
+  {
+   "from": 1824.9,
+   "to": 1826.8,
+   "text": "formatted (if you don't have a huge"
+  },
+  {
+   "from": 1826.8,
+   "to": 1830.8,
+   "text": "font size for recording). Or even"
+  },
+  {
+   "from": 1830.8,
+   "to": 1833.3,
+   "text": "simple commands like \"tar\", that have a lot"
+  },
+  {
+   "from": 1833.3,
+   "to": 1835.5,
+   "text": "of options that you are combining. So for"
+  },
+  {
+   "from": 1835.5,
+   "to": 1837.8,
+   "text": "example, here you can be combining 2, 3..."
+  },
+  {
+   "from": 1837.8,
+   "to": 1841.7,
+   "text": "different flags and it can not be"
+  },
+  {
+   "from": 1841.7,
+   "to": 1843.4,
+   "text": "obvious, when you want to combine"
+  },
+  {
+   "from": 1843.4,
+   "to": 1848.4,
+   "text": "different ones. That's how you"
+  },
+  {
+   "from": 1848.4,
+   "to": 1854.9,
+   "text": "would go about finding more about these tools. On the topic of finding, let's try"
+  },
+  {
+   "from": 1854.9,
+   "to": 1858.7,
+   "text": "learning how to find files. You can"
+  },
+  {
+   "from": 1858.7,
+   "to": 1863.1,
+   "text": "always go \"ls\", and like you can go like"
+  },
+  {
+   "from": 1863.1,
+   "to": 1866,
+   "text": "\"ls project1\", and"
+  },
+  {
+   "from": 1866,
+   "to": 1868.6,
+   "text": "keep LS'ing all the way through. But"
+  },
+  {
+   "from": 1868.6,
+   "to": 1871.7,
+   "text": "maybe, if we already know that we want"
+  },
+  {
+   "from": 1871.7,
+   "to": 1875.5,
+   "text": "to look for all the folders called"
+  },
+  {
+   "from": 1875.5,
+   "to": 1879,
+   "text": "\"src\", then there's probably a better command"
+  },
+  {
+   "from": 1879,
+   "to": 1881.4,
+   "text": "for doing that. And that's \"find\"."
+  },
+  {
+   "from": 1881.5,
+   "to": 1886.7,
+   "text": "Find is the tool that, pretty much comes with every UNIX system. And find,"
+  },
+  {
+   "from": 1886.7,
+   "to": 1895.2,
+   "text": "we're gonna give it... here we're saying we want to call find in the"
+  },
+  {
+   "from": 1895.2,
+   "to": 1897.5,
+   "text": "current folder, remember that \".\" stands"
+  },
+  {
+   "from": 1897.5,
+   "to": 1900.1,
+   "text": "for the current folder, and we want the"
+  },
+  {
+   "from": 1900.1,
+   "to": 1906.5,
+   "text": "name to be \"src\" and we want the type to be a directory. And by typing that it's"
+  },
+  {
+   "from": 1906.5,
+   "to": 1909.9,
+   "text": "gonna recursively go through the current"
+  },
+  {
+   "from": 1909.9,
+   "to": 1912.3,
+   "text": "directory and look for all these files,"
+  },
+  {
+   "from": 1912.3,
+   "to": 1918.7,
+   "text": "or folders in this case, that match this pattern. Find has a lot of useful"
+  },
+  {
+   "from": 1918.7,
+   "to": 1921.8,
+   "text": "flags. So for example, you can even test"
+  },
+  {
+   "from": 1921.8,
+   "to": 1925.4,
+   "text": "for the path to be in a way. Here we're"
+  },
+  {
+   "from": 1925.4,
+   "to": 1928.2,
+   "text": "saying we want some number of folders,"
+  },
+  {
+   "from": 1928.2,
+   "to": 1929.9,
+   "text": "we don't really care how many folders,"
+  },
+  {
+   "from": 1929.9,
+   "to": 1933.2,
+   "text": "and then we care about all the Python"
+  },
+  {
+   "from": 1933.2,
+   "to": 1937.8,
+   "text": "scripts, all the things with the extension \".py\", that are within a"
+  },
+  {
+   "from": 1937.8,
+   "to": 1939.9,
+   "text": "test folder. And we're also checking, just in"
+  },
+  {
+   "from": 1939.9,
+   "to": 1941.5,
+   "text": "cases really but we're checking just"
+  },
+  {
+   "from": 1941.5,
+   "to": 1944.5,
+   "text": "that it's also a type F, which stands for"
+  },
+  {
+   "from": 1944.5,
+   "to": 1948.7,
+   "text": "file. We're getting all these files."
+  },
+  {
+   "from": 1948.7,
+   "to": 1952.2,
+   "text": "You can also use different flags for things"
+  },
+  {
+   "from": 1952.2,
+   "to": 1954,
+   "text": "that are not the path or the name."
+  },
+  {
+   "from": 1954,
+   "to": 1958.2,
+   "text": "You could check things that have been"
+  },
+  {
+   "from": 1958.2,
+   "to": 1962.1,
+   "text": "modified (\"-mtime\" is for the modification time), things that have been"
+  },
+  {
+   "from": 1962.1,
+   "to": 1964.5,
+   "text": "modified in the last day, which is gonna"
+  },
+  {
+   "from": 1964.6,
+   "to": 1966.7,
+   "text": "be pretty much everything. So this is gonna print"
+  },
+  {
+   "from": 1966.7,
+   "to": 1969,
+   "text": "a lot of the files we created and files"
+  },
+  {
+   "from": 1969,
+   "to": 1971.9,
+   "text": "that were already there. You can even"
+  },
+  {
+   "from": 1971.9,
+   "to": 1975,
+   "text": "use other things like size, the owner,"
+  },
+  {
+   "from": 1975,
+   "to": 1979.1,
+   "text": "permissions, you name it. What is even more"
+  },
+  {
+   "from": 1979.1,
+   "to": 1981.9,
+   "text": "powerful is, \"find\" can find stuff"
+  },
+  {
+   "from": 1981.9,
+   "to": 1984.3,
+   "text": "but it also can do stuff when you"
+  },
+  {
+   "from": 1984.3,
+   "to": 1990.7,
+   "text": "find those files. So we could look for all"
+  },
+  {
+   "from": 1990.7,
+   "to": 1994.1,
+   "text": "the files that have a TMP"
+  },
+  {
+   "from": 1994.1,
+   "to": 1998.2,
+   "text": "extension, which is a temporary extension, and"
+  },
+  {
+   "from": 1998.2,
+   "to": 2002.7,
+   "text": "then, we can tell \"find\" that for every one of those files,"
+  },
+  {
+   "from": 2002.7,
+   "to": 2006.4,
+   "text": "just execute the \"rm\" command for them. And"
+  },
+  {
+   "from": 2006.4,
+   "to": 2009.1,
+   "text": "that will just be calling \"rm\" with all"
+  },
+  {
+   "from": 2009.1,
+   "to": 2012.4,
+   "text": "these files. So let's first execute it"
+  },
+  {
+   "from": 2012.4,
+   "to": 2015.8,
+   "text": "without, and then we execute it with it."
+  },
+  {
+   "from": 2015.8,
+   "to": 2019,
+   "text": "Again, as with the command line"
+  },
+  {
+   "from": 2019,
+   "to": 2021.5,
+   "text": "philosophy, it looks like nothing"
+  },
+  {
+   "from": 2021.5,
+   "to": 2028.1,
+   "text": "happened. But since we have a zero error code, something"
+  },
+  {
+   "from": 2028.1,
+   "to": 2029.5,
+   "text": "happened - just that everything went"
+  },
+  {
+   "from": 2029.5,
+   "to": 2031.5,
+   "text": "correct and everything is fine. And now,"
+  },
+  {
+   "from": 2031.5,
+   "to": 2037.8,
+   "text": "if we look for these files, they aren't there anymore."
+  },
+  {
+   "from": 2037.8,
+   "to": 2043,
+   "text": "Another nice thing about the shell in general is that there are"
+  },
+  {
+   "from": 2043,
+   "to": 2045.9,
+   "text": "these tools, but people will keep"
+  },
+  {
+   "from": 2045.9,
+   "to": 2048.2,
+   "text": "finding new ways, so alternative"
+  },
+  {
+   "from": 2048.2,
+   "to": 2052.2,
+   "text": "ways of writing these tools. It's nice to know about it. So, for"
+  },
+  {
+   "from": 2052.2,
+   "to": 2060,
+   "text": "example find if you just want to match the things that end in \"tmp\""
+  },
+  {
+   "from": 2060,
+   "to": 2064.2,
+   "text": "it can be sometimes weird to do this thing, it has a long command."
+  },
+  {
+   "from": 2064.2,
+   "to": 2067.8,
+   "text": "There's things like \"fd\","
+  },
+  {
+   "from": 2067.8,
+   "to": 2072.3,
+   "text": "for example, that is a shorter command that by default will use regex"
+  },
+  {
+   "from": 2072.3,
+   "to": 2074.9,
+   "text": "and will ignore your gitfiles, so you"
+  },
+  {
+   "from": 2074.9,
+   "to": 2078,
+   "text": "don't even search for them. It"
+  },
+  {
+   "from": 2078,
+   "to": 2082.9,
+   "text": "will color-code, it will have better Unicode support... It's nice to"
+  },
+  {
+   "from": 2082.9,
+   "to": 2085,
+   "text": "know about some of these tools. But, again,"
+  },
+  {
+   "from": 2085,
+   "to": 2092.1,
+   "text": "the main idea is that if you are aware that these tools exist, you can"
+  },
+  {
+   "from": 2092.1,
+   "to": 2093.7,
+   "text": "save yourself a lot of time from doing"
+  },
+  {
+   "from": 2093.7,
+   "to": 2097.7,
+   "text": "kind of menial and repetitive tasks."
+  },
+  {
+   "from": 2097.7,
+   "to": 2100,
+   "text": "Another command to bear in mind is like"
+  },
+  {
+   "from": 2100,
+   "to": 2102,
+   "text": "\"find\". Some of you may be"
+  },
+  {
+   "from": 2102,
+   "to": 2104.3,
+   "text": "wondering, \"find\" is probably just"
+  },
+  {
+   "from": 2104.3,
+   "to": 2106.5,
+   "text": "actually going through a directory"
+  },
+  {
+   "from": 2106.5,
+   "to": 2109.6,
+   "text": "structure and looking for things but"
+  },
+  {
+   "from": 2109.6,
+   "to": 2111.3,
+   "text": "what if I'm doing a lot of \"finds\" a day?"
+  },
+  {
+   "from": 2111.3,
+   "to": 2112.9,
+   "text": "Wouldn't it be better, doing kind of"
+  },
+  {
+   "from": 2112.9,
+   "to": 2118.8,
+   "text": "a database approach and build an index first, and then use that index"
+  },
+  {
+   "from": 2118.8,
+   "to": 2121.5,
+   "text": "and update it in some way. Well, actually"
+  },
+  {
+   "from": 2121.5,
+   "to": 2123.4,
+   "text": "most Unix systems already do it and"
+  },
+  {
+   "from": 2123.4,
+   "to": 2128.2,
+   "text": "this is through the \"locate\" command and"
+  },
+  {
+   "from": 2128.2,
+   "to": 2131.7,
+   "text": "the way that the locate will"
+  },
+  {
+   "from": 2131.7,
+   "to": 2135.5,
+   "text": "be used... it will just look for paths in"
+  },
+  {
+   "from": 2135.5,
+   "to": 2138.7,
+   "text": "your file system that have the substring"
+  },
+  {
+   "from": 2138.7,
+   "to": 2144.7,
+   "text": "that you want. I actually don't know if it will work... Okay, it worked. Let me try to"
+  },
+  {
+   "from": 2144.7,
+   "to": 2149.8,
+   "text": "do something like \"missing-semester\"."
+  },
+  {
+   "from": 2151.8,
+   "to": 2154,
+   "text": "You're gonna take a while but"
+  },
+  {
+   "from": 2154,
+   "to": 2156.1,
+   "text": "it found all these files that are somewhere"
+  },
+  {
+   "from": 2156.1,
+   "to": 2157.7,
+   "text": "in my file system and since it has"
+  },
+  {
+   "from": 2157.7,
+   "to": 2161.8,
+   "text": "built an index already on them, it's much"
+  },
+  {
+   "from": 2161.8,
+   "to": 2165.7,
+   "text": "faster. And then, to keep it updated,"
+  },
+  {
+   "from": 2165.7,
+   "to": 2172,
+   "text": "using the \"updatedb\" command that is running through cron,"
+  },
+  {
+   "from": 2173.8,
+   "to": 2178.5,
+   "text": "to update this database. Finding files, again, is"
+  },
+  {
+   "from": 2178.5,
+   "to": 2183.2,
+   "text": "really useful. Sometimes you're actually concerned about, not the files themselves,"
+  },
+  {
+   "from": 2183.2,
+   "to": 2186.7,
+   "text": "but the content of the files. For that"
+  },
+  {
+   "from": 2186.7,
+   "to": 2191.4,
+   "text": "you can use the grep command that we"
+  },
+  {
+   "from": 2191.4,
+   "to": 2193.9,
+   "text": "have seen so far. So you could do"
+  },
+  {
+   "from": 2193.9,
+   "to": 2197.7,
+   "text": "something like grep foobar in MCD, it's there."
+  },
+  {
+   "from": 2197.7,
+   "to": 2203.7,
+   "text": "What if you want to, again, recursively search through the current"
+  },
+  {
+   "from": 2203.7,
+   "to": 2205.8,
+   "text": "structure and look for more files, right?"
+  },
+  {
+   "from": 2205.8,
+   "to": 2208.7,
+   "text": "We don't want to do this manually."
+  },
+  {
+   "from": 2208.7,
+   "to": 2211.2,
+   "text": "We could use \"find\", and the \"-exec\", but"
+  },
+  {
+   "from": 2211.2,
+   "to": 2218.9,
+   "text": "actually \"grep\" has the \"-R\" flag that will go through the entire"
+  },
+  {
+   "from": 2218.9,
+   "to": 2223.6,
+   "text": "directory, here. And it's telling us"
+  },
+  {
+   "from": 2223.6,
+   "to": 2226.6,
+   "text": "that oh we have the foobar line in example.sh"
+  },
+  {
+   "from": 2226.6,
+   "to": 2229.3,
+   "text": "at these three places and in"
+  },
+  {
+   "from": 2229.3,
+   "to": 2234.6,
+   "text": "this other two places in foobar. This can be"
+  },
+  {
+   "from": 2234.6,
+   "to": 2236.9,
+   "text": "really convenient. Mainly, the"
+  },
+  {
+   "from": 2236.9,
+   "to": 2238.9,
+   "text": "use case for this is you know you have"
+  },
+  {
+   "from": 2238.9,
+   "to": 2241.9,
+   "text": "written some code in some programming"
+  },
+  {
+   "from": 2241.9,
+   "to": 2243.9,
+   "text": "language, and you know it's somewhere in"
+  },
+  {
+   "from": 2243.9,
+   "to": 2246.2,
+   "text": "your file system but you actually don't"
+  },
+  {
+   "from": 2246.2,
+   "to": 2248.6,
+   "text": "know. But you can actually quickly search."
+  },
+  {
+   "from": 2248.6,
+   "to": 2253,
+   "text": "So for example, I can quickly search"
+  },
+  {
+   "from": 2255.7,
+   "to": 2260.3,
+   "text": "for all the Python files that I have in my"
+  },
+  {
+   "from": 2260.3,
+   "to": 2265.5,
+   "text": "scratch folder where I used the request library."
+  },
+  {
+   "from": 2265.5,
+   "to": 2267.6,
+   "text": "And if I run this, it's giving me"
+  },
+  {
+   "from": 2267.6,
+   "to": 2270.9,
+   "text": "through all these files, exactly in"
+  },
+  {
+   "from": 2270.9,
+   "to": 2273.7,
+   "text": "what line it has been found. And here"
+  },
+  {
+   "from": 2273.7,
+   "to": 2276.3,
+   "text": "instead of using grep, which is fine,"
+  },
+  {
+   "from": 2276.3,
+   "to": 2278.9,
+   "text": "you could also do this, I'm using \"ripgrep\","
+  },
+  {
+   "from": 2278.9,
+   "to": 2285.3,
+   "text": "which is kind of the same idea but again trying to bring some more"
+  },
+  {
+   "from": 2285.3,
+   "to": 2289.7,
+   "text": "niceties like color coding or file"
+  },
+  {
+   "from": 2289.7,
+   "to": 2296.5,
+   "text": "processing and other things. It think it has, also, unicode support. It's also pretty"
+  },
+  {
+   "from": 2296.5,
+   "to": 2302.8,
+   "text": "fast so you are not paying like a trade-off on this being slower and"
+  },
+  {
+   "from": 2302.8,
+   "to": 2305.4,
+   "text": "there's a lot of useful flags. You"
+  },
+  {
+   "from": 2305.4,
+   "to": 2307.7,
+   "text": "can say, oh, I actually want to get some"
+  },
+  {
+   "from": 2307.7,
+   "to": 2310.5,
+   "text": "context around those results."
+  },
+  {
+   "from": 2313,
+   "to": 2316.4,
+   "text": "So I want to get like five lines of context around"
+  },
+  {
+   "from": 2316.4,
+   "to": 2322.8,
+   "text": "that, so you can see where that import lives and see code around it."
+  },
+  {
+   "from": 2322.8,
+   "to": 2324.2,
+   "text": "Here in the import it's not really useful"
+  },
+  {
+   "from": 2324.2,
+   "to": 2325.8,
+   "text": "but like if you're looking for where you"
+  },
+  {
+   "from": 2325.8,
+   "to": 2329.7,
+   "text": "use the function, for example, it will"
+  },
+  {
+   "from": 2329.7,
+   "to": 2334,
+   "text": "be very handy. We can also do things like"
+  },
+  {
+   "from": 2334,
+   "to": 2339.2,
+   "text": "we can search, for example here,."
+  },
+  {
+   "from": 2339.2,
+   "to": 2344.8,
+   "text": "A more advanced use, we can say,"
+  },
+  {
+   "from": 2344.8,
+   "to": 2351.6,
+   "text": "\"-u\" is for don't ignore hidden files, sometimes"
+  },
+  {
+   "from": 2352.5,
+   "to": 2356.4,
+   "text": "you want to be ignoring hidden files, except if you want to"
+  },
+  {
+   "from": 2356.4,
+   "to": 2363.5,
+   "text": "search config files, that are by default hidden. Then, instead of printing"
+  },
+  {
+   "from": 2363.5,
+   "to": 2368.4,
+   "text": "the matches, we're asking to do something that would be kind of hard, I think,"
+  },
+  {
+   "from": 2368.4,
+   "to": 2371.4,
+   "text": "to do with grep, out of my head, which is"
+  },
+  {
+   "from": 2371.4,
+   "to": 2374.6,
+   "text": "\"I want you to print all the files that"
+  },
+  {
+   "from": 2374.6,
+   "to": 2377.8,
+   "text": "don't match the pattern I'm giving you\", which"
+  },
+  {
+   "from": 2377.8,
+   "to": 2380,
+   "text": "may be a weird thing to ask here but"
+  },
+  {
+   "from": 2380,
+   "to": 2382.9,
+   "text": "then we keep going... And this pattern here"
+  },
+  {
+   "from": 2382.9,
+   "to": 2385.8,
+   "text": "is a small regex which is saying"
+  },
+  {
+   "from": 2385.8,
+   "to": 2388.1,
+   "text": "at the beginning of the line I have a"
+  },
+  {
+   "from": 2388.1,
+   "to": 2391.2,
+   "text": "\"#\" and a \"!\", and that's a shebang."
+  },
+  {
+   "from": 2391.2,
+   "to": 2393.5,
+   "text": "Like that, we're searching here for all"
+  },
+  {
+   "from": 2393.5,
+   "to": 2396.7,
+   "text": "the files that don't have a shebang"
+  },
+  {
+   "from": 2396.7,
+   "to": 2399.4,
+   "text": "and then we're giving it, here,"
+  },
+  {
+   "from": 2399.4,
+   "to": 2402.5,
+   "text": "a \"-t sh\" to only look for \"sh\""
+  },
+  {
+   "from": 2402.5,
+   "to": 2407.7,
+   "text": "files, because maybe all your Python or text files are fine"
+  },
+  {
+   "from": 2407.7,
+   "to": 2410,
+   "text": "without a shebang. And here it's telling us"
+  },
+  {
+   "from": 2410,
+   "to": 2413,
+   "text": "\"oh, MCD is obviously missing a shebang\""
+  },
+  {
+   "from": 2414.8,
+   "to": 2416.7,
+   "text": "We can even... It has like some"
+  },
+  {
+   "from": 2416.7,
+   "to": 2419.1,
+   "text": "nice flags, so for example if we"
+  },
+  {
+   "from": 2419.1,
+   "to": 2421.4,
+   "text": "include the \"stats\" flag"
+  },
+  {
+   "from": 2428.7,
+   "to": 2434.1,
+   "text": "it will get all these results but it will also tell us information about all"
+  },
+  {
+   "from": 2434.1,
+   "to": 2435.4,
+   "text": "the things that it searched. For example,"
+  },
+  {
+   "from": 2435.4,
+   "to": 2440.4,
+   "text": "the number of matches that it found, the lines, the file searched,"
+  },
+  {
+   "from": 2440.4,
+   "to": 2444,
+   "text": "the bytes that it printed, &c."
+  },
+  {
+   "from": 2444,
+   "to": 2447.2,
+   "text": "Similar as with \"fd\", sometimes it's not as useful"
+  },
+  {
+   "from": 2448.4,
+   "to": 2450.6,
+   "text": "using one specific tool or another and"
+  },
+  {
+   "from": 2450.6,
+   "to": 2455.8,
+   "text": "in fact, as ripgrep, there are several other tools. Like \"ack\","
+  },
+  {
+   "from": 2455.8,
+   "to": 2457.7,
+   "text": "is the original grep alternative that was"
+  },
+  {
+   "from": 2457.7,
+   "to": 2460.7,
+   "text": "written. Then the silver searcher,"
+  },
+  {
+   "from": 2460.7,
+   "to": 2464.1,
+   "text": "\"ag\", was another one... and they're all"
+  },
+  {
+   "from": 2464.1,
+   "to": 2465.6,
+   "text": "pretty much interchangeable so"
+  },
+  {
+   "from": 2465.6,
+   "to": 2467.6,
+   "text": "maybe you're at a system that has one and"
+  },
+  {
+   "from": 2467.6,
+   "to": 2469.7,
+   "text": "not the other, just knowing that you can"
+  },
+  {
+   "from": 2469.7,
+   "to": 2472,
+   "text": "use these things with these tools can be"
+  },
+  {
+   "from": 2472,
+   "to": 2475.5,
+   "text": "fairly useful. Lastly, I want to cover"
+  },
+  {
+   "from": 2475.5,
+   "to": 2479.8,
+   "text": "how you go about, not finding files or code, but how you go about"
+  },
+  {
+   "from": 2479.8,
+   "to": 2482.5,
+   "text": "finding commands that you already"
+  },
+  {
+   "from": 2482.5,
+   "to": 2490.2,
+   "text": "some time figured out. The first, obvious way is just using the up arrow,"
+  },
+  {
+   "from": 2490.2,
+   "to": 2494.5,
+   "text": "and slowly going through all your history, looking for these matches."
+  },
+  {
+   "from": 2494.5,
+   "to": 2496.5,
+   "text": "This is actually not very efficient, as"
+  },
+  {
+   "from": 2496.5,
+   "to": 2502.6,
+   "text": "you probably guessed. So the bash has ways to do this more easily."
+  },
+  {
+   "from": 2502.6,
+   "to": 2504.6,
+   "text": "There is the \"history\" command, that will"
+  },
+  {
+   "from": 2504.6,
+   "to": 2509.2,
+   "text": "print your history. Here I'm in zsh and it only prints some of my history, but"
+  },
+  {
+   "from": 2509.2,
+   "to": 2514.1,
+   "text": "if I say, I want you to print everything from the beginning of time, it will print"
+  },
+  {
+   "from": 2514.1,
+   "to": 2518.2,
+   "text": "everything from the beginning of whatever this history is."
+  },
+  {
+   "from": 2518.2,
+   "to": 2520.7,
+   "text": "And since this is a lot of results,"
+  },
+  {
+   "from": 2520.7,
+   "to": 2522.6,
+   "text": "maybe we care about the ones where we"
+  },
+  {
+   "from": 2522.6,
+   "to": 2528.5,
+   "text": "use the \"convert\" command to go from some type of file to some other type of file."
+  },
+  {
+   "from": 2528.5,
+   "to": 2532.9,
+   "text": "Some image, sorry. Then, we're getting all"
+  },
+  {
+   "from": 2532.9,
+   "to": 2535.8,
+   "text": "these results here, about all the ones"
+  },
+  {
+   "from": 2535.8,
+   "to": 2538.1,
+   "text": "that match this substring."
+  },
+  {
+   "from": 2541.3,
+   "to": 2544.6,
+   "text": "Even more, pretty much all shells by default will"
+  },
+  {
+   "from": 2544.6,
+   "to": 2547.1,
+   "text": "link \"Ctrl+R\", the keybinding,"
+  },
+  {
+   "from": 2547.1,
+   "to": 2549.7,
+   "text": "to do backward search. Here we"
+  },
+  {
+   "from": 2549.7,
+   "to": 2551.6,
+   "text": "have backward search, where we can"
+  },
+  {
+   "from": 2551.6,
+   "to": 2554.8,
+   "text": "type \"convert\" and it's finding the"
+  },
+  {
+   "from": 2554.8,
+   "to": 2556.6,
+   "text": "command that we just typed. And if we just"
+  },
+  {
+   "from": 2556.6,
+   "to": 2558.6,
+   "text": "keep hitting \"Ctrl+R\", it will"
+  },
+  {
+   "from": 2558.6,
+   "to": 2561.7,
+   "text": "kind of go through these matches and"
+  },
+  {
+   "from": 2561.7,
+   "to": 2564.3,
+   "text": "it will let re-execute it"
+  },
+  {
+   "from": 2564.3,
+   "to": 2569.2,
+   "text": "in place. Another thing that you can do,"
+  },
+  {
+   "from": 2569.2,
+   "to": 2571.1,
+   "text": "related to that, is you can use this"
+  },
+  {
+   "from": 2571.1,
+   "to": 2573.8,
+   "text": "really nifty tool called \"fzf\", which is"
+  },
+  {
+   "from": 2573.8,
+   "to": 2576.3,
+   "text": "like a fuzzy finder, like it will..."
+  },
+  {
+   "from": 2577.1,
+   "to": 2578.5,
+   "text": "It will let you do kind of"
+  },
+  {
+   "from": 2578.5,
+   "to": 2582.2,
+   "text": "like an interactive grep. We could do"
+  },
+  {
+   "from": 2582.2,
+   "to": 2586.4,
+   "text": "for example this, where we can cat our"
+  },
+  {
+   "from": 2586.4,
+   "to": 2590,
+   "text": "example.sh command, that will print"
+  },
+  {
+   "from": 2590,
+   "to": 2591.7,
+   "text": "print to the standard output, and then we"
+  },
+  {
+   "from": 2591.7,
+   "to": 2594.3,
+   "text": "can pipe it through fzf. It's just getting"
+  },
+  {
+   "from": 2594.3,
+   "to": 2598.5,
+   "text": "all the lines and then we can interactively look for the"
+  },
+  {
+   "from": 2598.5,
+   "to": 2601.8,
+   "text": "string that we care about. And the nice"
+  },
+  {
+   "from": 2601.8,
+   "to": 2606.3,
+   "text": "thing about fzf is that, if you enable the default bindings, it will bind to"
+  },
+  {
+   "from": 2606.3,
+   "to": 2613.7,
+   "text": "your \"Ctrl+R\" shell execution and now"
+  },
+  {
+   "from": 2613.7,
+   "to": 2616.5,
+   "text": "you can quickly and dynamically like"
+  },
+  {
+   "from": 2616.5,
+   "to": 2621.7,
+   "text": "look for all the times you try to convert a favicon in your history."
+  },
+  {
+   "from": 2622,
+   "to": 2626.4,
+   "text": "And it's also like fuzzy matching, whereas like by default in grep"
+  },
+  {
+   "from": 2626.4,
+   "to": 2629.4,
+   "text": "or these things you have to write a regex or some"
+  },
+  {
+   "from": 2629.4,
+   "to": 2632.4,
+   "text": "expression that will match within here."
+  },
+  {
+   "from": 2632.4,
+   "to": 2634.6,
+   "text": "Here I'm just typing \"convert\" and \"favicon\" and"
+  },
+  {
+   "from": 2634.6,
+   "to": 2637.4,
+   "text": "it's just trying to do the best scan,"
+  },
+  {
+   "from": 2637.4,
+   "to": 2641.3,
+   "text": "doing the match in the lines it has."
+  },
+  {
+   "from": 2641.3,
+   "to": 2646.2,
+   "text": "Lastly, a tool that probably you have already seen, that I've been using"
+  },
+  {
+   "from": 2646.2,
+   "to": 2648.4,
+   "text": "for not retyping these extremely long"
+  },
+  {
+   "from": 2648.4,
+   "to": 2653.1,
+   "text": "commands is this \"history substring search\", where"
+  },
+  {
+   "from": 2653.9,
+   "to": 2655.7,
+   "text": "as I type in my shell,"
+  },
+  {
+   "from": 2655.7,
+   "to": 2659.6,
+   "text": "and both F fail to mention but both face"
+  },
+  {
+   "from": 2659.6,
+   "to": 2662.8,
+   "text": "which I think was originally introduced, this concept, and then"
+  },
+  {
+   "from": 2662.8,
+   "to": 2665.8,
+   "text": "zsh has a really nice implementation)"
+  },
+  {
+   "from": 2665.8,
+   "to": 2666.8,
+   "text": "what it'll let you do is"
+  },
+  {
+   "from": 2666.8,
+   "to": 2671.3,
+   "text": "as you type the command, it will dynamically search back in your"
+  },
+  {
+   "from": 2671.3,
+   "to": 2674.4,
+   "text": "history to the same command that has a common prefix,"
+  },
+  {
+   "from": 2675,
+   "to": 2676.9,
+   "text": "and then, if you..."
+  },
+  {
+   "from": 2679.1,
+   "to": 2682.1,
+   "text": "it will change as the match list stops"
+  },
+  {
+   "from": 2682.1,
+   "to": 2684.1,
+   "text": "working and then as you do the"
+  },
+  {
+   "from": 2684.1,
+   "to": 2689.8,
+   "text": "right arrow you can select that command and then re-execute it."
+  },
+  {
+   "from": 2705.8,
+   "to": 2709.9,
+   "text": "We've seen a bunch of stuff... I think I have"
+  },
+  {
+   "from": 2709.9,
+   "to": 2716.2,
+   "text": "a few minutes left so I'm going to cover a couple of tools to do"
+  },
+  {
+   "from": 2716.2,
+   "to": 2720.1,
+   "text": "really quick directory listing and directory navigation."
+  },
+  {
+   "from": 2720.1,
+   "to": 2730,
+   "text": "So you can always use the \"-R\" to recursively list some directory structure,"
+  },
+  {
+   "from": 2730,
+   "to": 2735.2,
+   "text": "but that can be suboptimal, I cannot really make sense of this easily."
+  },
+  {
+   "from": 2736.3,
+   "to": 2744.5,
+   "text": "There's tool called \"tree\" that will be the much more friendly form of"
+  },
+  {
+   "from": 2744.5,
+   "to": 2747.5,
+   "text": "printing all the stuff, it will also color code based on..."
+  },
+  {
+   "from": 2747.5,
+   "to": 2750.7,
+   "text": "here for example \"foo\" is blue because it's a directory and"
+  },
+  {
+   "from": 2750.7,
+   "to": 2755.1,
+   "text": "this is red because it has execute permissions."
+  },
+  {
+   "from": 2755.1,
+   "to": 2760.2,
+   "text": "But we can go even further than that. There's really nice tools"
+  },
+  {
+   "from": 2760.2,
+   "to": 2764.6,
+   "text": "like a recent one called \"broot\" that will do the same thing but here"
+  },
+  {
+   "from": 2764.6,
+   "to": 2767.3,
+   "text": "for example instead of doing this thing of listing"
+  },
+  {
+   "from": 2767.3,
+   "to": 2769.2,
+   "text": "every single file, for example in bar"
+  },
+  {
+   "from": 2769.2,
+   "to": 2771.4,
+   "text": "we have these \"a\" through \"j\" files,"
+  },
+  {
+   "from": 2771.4,
+   "to": 2774.3,
+   "text": "it will say \"oh there are more, unlisted here\"."
+  },
+  {
+   "from": 2775.1,
+   "to": 2778.2,
+   "text": "I can actually start typing and it will again"
+  },
+  {
+   "from": 2778.2,
+   "to": 2781.5,
+   "text": "again facily match to the files that are there"
+  },
+  {
+   "from": 2781.5,
+   "to": 2784.8,
+   "text": "and I can quickly select them and navigate through them."
+  },
+  {
+   "from": 2784.8,
+   "to": 2788.4,
+   "text": "So, again, it's good to know that"
+  },
+  {
+   "from": 2788.4,
+   "to": 2793.3,
+   "text": "these things exist so you don't lose a large amount of time"
+  },
+  {
+   "from": 2794.2,
+   "to": 2796.2,
+   "text": "going for these files."
+  },
+  {
+   "from": 2797.9,
+   "to": 2800.5,
+   "text": "There are also, I think I have it installed"
+  },
+  {
+   "from": 2800.5,
+   "to": 2804.8,
+   "text": "also something more similar to what you would expect your OS to have,"
+  },
+  {
+   "from": 2804.8,
+   "to": 2810,
+   "text": "like Nautilus or one of the Mac finders that have like an"
+  },
+  {
+   "from": 2810,
+   "to": 2819.3,
+   "text": "interactive input where you can just use your navigation arrows and quickly explore."
+  },
+  {
+   "from": 2819.3,
+   "to": 2823.8,
+   "text": "It might be overkill but you'll be surprised how quickly you can"
+  },
+  {
+   "from": 2823.8,
+   "to": 2827.8,
+   "text": "make sense of some directory structure by just navigating through it."
+  },
+  {
+   "from": 2827.8,
+   "to": 2832.8,
+   "text": "And pretty much all of these tools will let you edit, copy files..."
+  },
+  {
+   "from": 2832.8,
+   "to": 2836.9,
+   "text": "if you just look for the options for them."
+  },
+  {
+   "from": 2837.6,
+   "to": 2840.1,
+   "text": "The last addendum is kind of going places."
+  },
+  {
+   "from": 2840.1,
+   "to": 2844.5,
+   "text": "We have \"cd\", and \"cd\" is nice, it will get you"
+  },
+  {
+   "from": 2846.1,
+   "to": 2850.1,
+   "text": "to a lot of places. But it's pretty handy if"
+  },
+  {
+   "from": 2850.1,
+   "to": 2853.2,
+   "text": "you can like quickly go places,"
+  },
+  {
+   "from": 2853.2,
+   "to": 2856.7,
+   "text": "either you have been to recently or that"
+  },
+  {
+   "from": 2856.7,
+   "to": 2860.6,
+   "text": "you go frequently. And you can do this in"
+  },
+  {
+   "from": 2860.6,
+   "to": 2862.5,
+   "text": "many ways there's probably... you can start"
+  },
+  {
+   "from": 2862.5,
+   "to": 2864.3,
+   "text": "thinking, oh I can make bookmarks, I can"
+  },
+  {
+   "from": 2864.3,
+   "to": 2866.7,
+   "text": "make... I can make aliases in the shell,"
+  },
+  {
+   "from": 2866.7,
+   "to": 2869,
+   "text": "that we will cover at some point,"
+  },
+  {
+   "from": 2869,
+   "to": 2873,
+   "text": "symlinks... But at this point,"
+  },
+  {
+   "from": 2873,
+   "to": 2874.9,
+   "text": "programmers have like built all these"
+  },
+  {
+   "from": 2874.9,
+   "to": 2876.8,
+   "text": "tools, so programmers have already figured"
+  },
+  {
+   "from": 2876.8,
+   "to": 2879.5,
+   "text": "out a really nice way of doing this."
+  },
+  {
+   "from": 2879.5,
+   "to": 2881.9,
+   "text": "One way of doing this is using what is"
+  },
+  {
+   "from": 2881.9,
+   "to": 2885.8,
+   "text": "called \"auto jump\", which I think is not loaded here..."
+  },
+  {
+   "from": 2894.1,
+   "to": 2900.1,
+   "text": "Okay, don't worry. I will cover it in the command line environment."
+  },
+  {
+   "from": 2902,
+   "to": 2905.6,
+   "text": "I think it's because I disabled the \"Ctrl+R\" and that also"
+  },
+  {
+   "from": 2905.6,
+   "to": 2911.3,
+   "text": "affected other parts of the script. I think at this point if anyone has"
+  },
+  {
+   "from": 2911.3,
+   "to": 2915.5,
+   "text": "any questions that are related to this, I'll be more than happy to answer"
+  },
+  {
+   "from": 2915.5,
+   "to": 2917.5,
+   "text": "them, if anything was left unclear."
+  },
+  {
+   "from": 2917.5,
+   "to": 2922.9,
+   "text": "Otherwise, a there's a bunch of exercises that we wrote, kind of"
+  },
+  {
+   "from": 2922.9,
+   "to": 2926.5,
+   "text": "touching on these topics and we encourage you to try them and"
+  },
+  {
+   "from": 2926.5,
+   "to": 2928.6,
+   "text": "come to office hours, where we can help"
+  },
+  {
+   "from": 2928.6,
+   "to": 2934.6,
+   "text": "you figure out how to do them, or some bash quirks that are not clear."
+  }
+ ]
+}

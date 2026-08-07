@@ -1,0 +1,6332 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 0,
+   "to": 5.3,
+   "text": "Okay, cool. So, welcome to the third"
+  },
+  {
+   "from": 3.4,
+   "to": 7.5,
+   "text": "lecture of the missing semester of your"
+  },
+  {
+   "from": 5.3,
+   "to": 10,
+   "text": "si a second today we're going to be"
+  },
+  {
+   "from": 7.5,
+   "to": 11.8,
+   "text": "talking about text editors this is a"
+  },
+  {
+   "from": 10,
+   "to": 13.3,
+   "text": "topic that I really like I think it's"
+  },
+  {
+   "from": 11.8,
+   "to": 14.9,
+   "text": "one of the most valuable topics that"
+  },
+  {
+   "from": 13.3,
+   "to": 17.1,
+   "text": "we're teaching in this class because as"
+  },
+  {
+   "from": 14.9,
+   "to": 19.6,
+   "text": "programmers you spend so much of your"
+  },
+  {
+   "from": 17.1,
+   "to": 21.8,
+   "text": "time editing text editing programs that"
+  },
+  {
+   "from": 19.6,
+   "to": 23.6,
+   "text": "if you invest time into making yourself"
+  },
+  {
+   "from": 21.8,
+   "to": 25.6,
+   "text": "more efficient at doing this you'll save"
+  },
+  {
+   "from": 23.6,
+   "to": 28,
+   "text": "a ton of time probably hundreds of hours"
+  },
+  {
+   "from": 25.6,
+   "to": 32,
+   "text": "over the course of your undergrad or"
+  },
+  {
+   "from": 28,
+   "to": 33.5,
+   "text": "over the course of your career so text"
+  },
+  {
+   "from": 32,
+   "to": 36.5,
+   "text": "editors are a little bit different than"
+  },
+  {
+   "from": 33.5,
+   "to": 38.3,
+   "text": "other programs you might use to edit say"
+  },
+  {
+   "from": 36.5,
+   "to": 39.8,
+   "text": "things like English prose because"
+  },
+  {
+   "from": 38.3,
+   "to": 41.8,
+   "text": "programming is different than writing"
+  },
+  {
+   "from": 39.8,
+   "to": 44.2,
+   "text": "English prose when you're programming"
+  },
+  {
+   "from": 41.8,
+   "to": 45.6,
+   "text": "you spend a lot of time reading what"
+  },
+  {
+   "from": 44.2,
+   "to": 47.6,
+   "text": "you've written you spend a lot of time"
+  },
+  {
+   "from": 45.6,
+   "to": 49.1,
+   "text": "navigating around a buffer and you spend"
+  },
+  {
+   "from": 47.6,
+   "to": 51,
+   "text": "a lot of time making little edits to"
+  },
+  {
+   "from": 49.1,
+   "to": 52.9,
+   "text": "code all over the place rather than just"
+  },
+  {
+   "from": 51,
+   "to": 53.8,
+   "text": "writing in a long stream like you do"
+  },
+  {
+   "from": 52.9,
+   "to": 55.3,
+   "text": "when you're writing an essay or"
+  },
+  {
+   "from": 53.8,
+   "to": 56.5,
+   "text": "something and so it makes sense that"
+  },
+  {
+   "from": 55.3,
+   "to": 57.9,
+   "text": "there different programs for these"
+  },
+  {
+   "from": 56.5,
+   "to": 59.3,
+   "text": "different purposes right so yeah things"
+  },
+  {
+   "from": 57.9,
+   "to": 61.4,
+   "text": "like Microsoft Word for writing essays"
+  },
+  {
+   "from": 59.3,
+   "to": 65.8,
+   "text": "and things like vim and Emacs and vs"
+  },
+  {
+   "from": 61.4,
+   "to": 67.4,
+   "text": "code and sublime for writing code so the"
+  },
+  {
+   "from": 65.8,
+   "to": 69.2,
+   "text": "way you learn a text editor and become"
+  },
+  {
+   "from": 67.4,
+   "to": 71.1,
+   "text": "really good at it is you start with a"
+  },
+  {
+   "from": 69.2,
+   "to": 72.8,
+   "text": "tutorial and so that's basically going"
+  },
+  {
+   "from": 71.1,
+   "to": 75.7,
+   "text": "to be the function of today's lecture"
+  },
+  {
+   "from": 72.8,
+   "to": 77.8,
+   "text": "plus the exercises we've given you and"
+  },
+  {
+   "from": 75.7,
+   "to": 80,
+   "text": "then after the tutorial you need to"
+  },
+  {
+   "from": 77.8,
+   "to": 82,
+   "text": "stick with the editor for all your"
+  },
+  {
+   "from": 80,
+   "to": 84,
+   "text": "editing tasks and when you're learning a"
+  },
+  {
+   "from": 82,
+   "to": 85.4,
+   "text": "sophisticated tool so today we're going"
+  },
+  {
+   "from": 84,
+   "to": 86.9,
+   "text": "to teach you vim which is one powerful"
+  },
+  {
+   "from": 85.4,
+   "to": 88.2,
+   "text": "editor that a lot of programmers use"
+  },
+  {
+   "from": 86.9,
+   "to": 90.2,
+   "text": "when you're learning such a"
+  },
+  {
+   "from": 88.2,
+   "to": 92.4,
+   "text": "sophisticated tool it may be the case"
+  },
+  {
+   "from": 90.2,
+   "to": 93.8,
+   "text": "that initially switching to this tool"
+  },
+  {
+   "from": 92.4,
+   "to": 95.9,
+   "text": "slows you down a little bit when you're"
+  },
+  {
+   "from": 93.8,
+   "to": 98.7,
+   "text": "programming but stick with it because"
+  },
+  {
+   "from": 95.9,
+   "to": 101.3,
+   "text": "I'd say that in about 20 hours of"
+  },
+  {
+   "from": 98.7,
+   "to": 103,
+   "text": "programming using a new editor you'll be"
+  },
+  {
+   "from": 101.3,
+   "to": 104.8,
+   "text": "back to the same speed at which you"
+  },
+  {
+   "from": 103,
+   "to": 106.4,
+   "text": "programmed using your old tool and then"
+  },
+  {
+   "from": 104.8,
+   "to": 107.8,
+   "text": "after that the benefits will start and"
+  },
+  {
+   "from": 106.4,
+   "to": 110.2,
+   "text": "you'll get faster and faster as you"
+  },
+  {
+   "from": 107.8,
+   "to": 113.6,
+   "text": "learn more with these sophisticated"
+  },
+  {
+   "from": 110.2,
+   "to": 115.1,
+   "text": "programs like them it takes not way too"
+  },
+  {
+   "from": 113.6,
+   "to": 118.2,
+   "text": "long to learn the basics but a lifetime"
+  },
+  {
+   "from": 115.1,
+   "to": 119.8,
+   "text": "to master and so throughout the time"
+  },
+  {
+   "from": 118.2,
+   "to": 121.6,
+   "text": "you're using this tool make sure you"
+  },
+  {
+   "from": 119.8,
+   "to": 123.2,
+   "text": "look things up as you go if you ever get"
+  },
+  {
+   "from": 121.6,
+   "to": 124.7,
+   "text": "to a point where you're like oh this is"
+  },
+  {
+   "from": 123.2,
+   "to": 126.4,
+   "text": "a really inefficient way of doing things"
+  },
+  {
+   "from": 124.7,
+   "to": 129.7,
+   "text": "is there a better way the answer is"
+  },
+  {
+   "from": 126.4,
+   "to": 131.7,
+   "text": "almost always yes because these text"
+  },
+  {
+   "from": 129.7,
+   "to": 133.7,
+   "text": "editors were written by programmers for"
+  },
+  {
+   "from": 131.7,
+   "to": 134,
+   "text": "programmers and so of course like the"
+  },
+  {
+   "from": 133.7,
+   "to": 135.2,
+   "text": "peep"
+  },
+  {
+   "from": 134,
+   "to": 137.3,
+   "text": "I wrote these tolls ran into the same"
+  },
+  {
+   "from": 135.2,
+   "to": 138.1,
+   "text": "kinds of issues and fixed them so that"
+  },
+  {
+   "from": 137.3,
+   "to": 139.8,
+   "text": "you don't need to deal with these"
+  },
+  {
+   "from": 138.1,
+   "to": 141.9,
+   "text": "anymore and so yeah as you're learning"
+  },
+  {
+   "from": 139.8,
+   "to": 143.9,
+   "text": "make sure you look things up as you go"
+  },
+  {
+   "from": 141.9,
+   "to": 145.4,
+   "text": "either use Google or feel free to send"
+  },
+  {
+   "from": 143.9,
+   "to": 147.3,
+   "text": "us emails if you have questions or come"
+  },
+  {
+   "from": 145.4,
+   "to": 149.6,
+   "text": "to office hours and we'll help you"
+  },
+  {
+   "from": 147.3,
+   "to": 152.3,
+   "text": "figure out how to do things really fast"
+  },
+  {
+   "from": 149.6,
+   "to": 154.1,
+   "text": "so as far as which editor to learn in"
+  },
+  {
+   "from": 152.3,
+   "to": 155.5,
+   "text": "previous iterations of this class we"
+  },
+  {
+   "from": 154.1,
+   "to": 156.9,
+   "text": "actually avoided teaching a specific"
+  },
+  {
+   "from": 155.5,
+   "to": 159.1,
+   "text": "editor because we didn't want to enforce"
+  },
+  {
+   "from": 156.9,
+   "to": 160.4,
+   "text": "our opinions on you guys but we actually"
+  },
+  {
+   "from": 159.1,
+   "to": 162.1,
+   "text": "think that it's really useful to teach"
+  },
+  {
+   "from": 160.4,
+   "to": 164.9,
+   "text": "you how to use one particular tool and"
+  },
+  {
+   "from": 162.1,
+   "to": 166.5,
+   "text": "use it well and so people have really"
+  },
+  {
+   "from": 164.9,
+   "to": 168.5,
+   "text": "strong opinions about editor so you can"
+  },
+  {
+   "from": 166.5,
+   "to": 172,
+   "text": "see the course notes for more links on"
+  },
+  {
+   "from": 168.5,
+   "to": 174.1,
+   "text": "this topic looking at which editors have"
+  },
+  {
+   "from": 172,
+   "to": 176.7,
+   "text": "been popular over the years Stack"
+  },
+  {
+   "from": 174.1,
+   "to": 179.1,
+   "text": "Overflow I'm sure you've all heard of"
+  },
+  {
+   "from": 176.7,
+   "to": 180.3,
+   "text": "that does a survey every year asking"
+  },
+  {
+   "from": 179.1,
+   "to": 182,
+   "text": "developers various questions and one"
+  },
+  {
+   "from": 180.3,
+   "to": 183.4,
+   "text": "thing to ask is which TextEdit Derk do"
+  },
+  {
+   "from": 182,
+   "to": 185.3,
+   "text": "you use and it seems to be that"
+  },
+  {
+   "from": 183.4,
+   "to": 187.7,
+   "text": "currently the most popular kind of"
+  },
+  {
+   "from": 185.3,
+   "to": 190.2,
+   "text": "graphical editor is vs code and the most"
+  },
+  {
+   "from": 187.7,
+   "to": 192.4,
+   "text": "popular editor that is based within a"
+  },
+  {
+   "from": 190.2,
+   "to": 193.9,
+   "text": "command line interface is vim and so"
+  },
+  {
+   "from": 192.4,
+   "to": 196,
+   "text": "we're going to be teaching you vim and"
+  },
+  {
+   "from": 193.9,
+   "to": 197.8,
+   "text": "there a couple reasons for this one is"
+  },
+  {
+   "from": 196,
+   "to": 200,
+   "text": "that all the instructors so me John and"
+  },
+  {
+   "from": 197.8,
+   "to": 201.3,
+   "text": "Jose use vim as our primary editor and"
+  },
+  {
+   "from": 200,
+   "to": 203.2,
+   "text": "we've been doing this for many years and"
+  },
+  {
+   "from": 201.3,
+   "to": 205,
+   "text": "we've been very happy with it"
+  },
+  {
+   "from": 203.2,
+   "to": 208.8,
+   "text": "and we think that there are a lot of"
+  },
+  {
+   "from": 205,
+   "to": 210.5,
+   "text": "interesting ideas behind them so even if"
+  },
+  {
+   "from": 208.8,
+   "to": 212.5,
+   "text": "you don't end up using this particular"
+  },
+  {
+   "from": 210.5,
+   "to": 215.5,
+   "text": "tool in the long term I think it's"
+  },
+  {
+   "from": 212.5,
+   "to": 217.3,
+   "text": "valuable to learn these ideas and also a"
+  },
+  {
+   "from": 215.5,
+   "to": 219.2,
+   "text": "lot of tools have actually been really"
+  },
+  {
+   "from": 217.3,
+   "to": 222.2,
+   "text": "excited about the ideas in vim and so"
+  },
+  {
+   "from": 219.2,
+   "to": 224.4,
+   "text": "they support a vim emulation mode for"
+  },
+  {
+   "from": 222.2,
+   "to": 225.8,
+   "text": "example vs code what's apparently the"
+  },
+  {
+   "from": 224.4,
+   "to": 228.2,
+   "text": "most popular editor in use today"
+  },
+  {
+   "from": 225.8,
+   "to": 230.7,
+   "text": "supports vim bindings and this vim"
+  },
+  {
+   "from": 228.2,
+   "to": 233.6,
+   "text": "emulation mode as of now has like 1.4"
+  },
+  {
+   "from": 230.7,
+   "to": 236.5,
+   "text": "million downloads and as you'll see over"
+  },
+  {
+   "from": 233.6,
+   "to": 237.8,
+   "text": "the course of this lecture a lot of"
+  },
+  {
+   "from": 236.5,
+   "to": 239.6,
+   "text": "different tools like including your"
+  },
+  {
+   "from": 237.8,
+   "to": 241.7,
+   "text": "shell including things like the Python"
+  },
+  {
+   "from": 239.6,
+   "to": 243.2,
+   "text": "repple and like Jupiter notebook and all"
+  },
+  {
+   "from": 241.7,
+   "to": 244.9,
+   "text": "sorts of other things even your web"
+  },
+  {
+   "from": 243.2,
+   "to": 246.9,
+   "text": "browser can support of emulation mode"
+  },
+  {
+   "from": 244.9,
+   "to": 250.4,
+   "text": "and so yeah we're going to be teaching"
+  },
+  {
+   "from": 246.9,
+   "to": 252.1,
+   "text": "you this really neat tool today and in"
+  },
+  {
+   "from": 250.4,
+   "to": 254.4,
+   "text": "this lecture we can't really cover all"
+  },
+  {
+   "from": 252.1,
+   "to": 257,
+   "text": "of them right it's a very powerful tool"
+  },
+  {
+   "from": 254.4,
+   "to": 258.8,
+   "text": "but our goal is to teach you and the"
+  },
+  {
+   "from": 257,
+   "to": 260.7,
+   "text": "core philosophy of them like the really"
+  },
+  {
+   "from": 258.8,
+   "to": 262.4,
+   "text": "neat ideas behind it and then in"
+  },
+  {
+   "from": 260.7,
+   "to": 263.8,
+   "text": "addition to that some of the basics like"
+  },
+  {
+   "from": 262.4,
+   "to": 265.5,
+   "text": "how do you open a file close a file"
+  },
+  {
+   "from": 263.8,
+   "to": 267,
+   "text": "navigate around a file make edits and"
+  },
+  {
+   "from": 265.5,
+   "to": 268.6,
+   "text": "things like that and"
+  },
+  {
+   "from": 267,
+   "to": 270,
+   "text": "you may not remember every single little"
+  },
+  {
+   "from": 268.6,
+   "to": 271,
+   "text": "detail from this lecture because we're"
+  },
+  {
+   "from": 270,
+   "to": 272.9,
+   "text": "gonna go pretty fast through some of the"
+  },
+  {
+   "from": 271,
+   "to": 274.5,
+   "text": "material but it's all in the lecture"
+  },
+  {
+   "from": 272.9,
+   "to": 276.6,
+   "text": "notes and then the exercises actually"
+  },
+  {
+   "from": 274.5,
+   "to": 277.9,
+   "text": "give you links to some tutorials and"
+  },
+  {
+   "from": 276.6,
+   "to": 280,
+   "text": "things so I highly recommend that you"
+  },
+  {
+   "from": 277.9,
+   "to": 283.8,
+   "text": "actually go through all the exercises at"
+  },
+  {
+   "from": 280,
+   "to": 289.5,
+   "text": "least the non advanced exercises any"
+  },
+  {
+   "from": 283.8,
+   "to": 291.3,
+   "text": "questions so far great okay so one of"
+  },
+  {
+   "from": 289.5,
+   "to": 294.2,
+   "text": "the really cool ideas behind them is"
+  },
+  {
+   "from": 291.3,
+   "to": 296.1,
+   "text": "that vim is a modal editor what does"
+  },
+  {
+   "from": 294.2,
+   "to": 298.5,
+   "text": "this mean modal comes from the word mode"
+  },
+  {
+   "from": 296.1,
+   "to": 301,
+   "text": "and this means that vim has multiple"
+  },
+  {
+   "from": 298.5,
+   "to": 302.9,
+   "text": "operating modes and this is kind of"
+  },
+  {
+   "from": 301,
+   "to": 304.6,
+   "text": "developed from the idea that when you're"
+  },
+  {
+   "from": 302.9,
+   "to": 306,
+   "text": "programming there often times where"
+  },
+  {
+   "from": 304.6,
+   "to": 307.4,
+   "text": "you're doing different types of things"
+  },
+  {
+   "from": 306,
+   "to": 309.2,
+   "text": "like sometimes you're reading code"
+  },
+  {
+   "from": 307.4,
+   "to": 311,
+   "text": "sometimes you're making small edits to"
+  },
+  {
+   "from": 309.2,
+   "to": 312.3,
+   "text": "code like you're finding a particular"
+  },
+  {
+   "from": 311,
+   "to": 315,
+   "text": "point like changing a little thing"
+  },
+  {
+   "from": 312.3,
+   "to": 316.5,
+   "text": "somewhere sometimes you're just writing"
+  },
+  {
+   "from": 315,
+   "to": 317.5,
+   "text": "a lot of code in one go like suppose"
+  },
+  {
+   "from": 316.5,
+   "to": 319.1,
+   "text": "you're just writing a function from"
+  },
+  {
+   "from": 317.5,
+   "to": 320.4,
+   "text": "scratch and so there's different"
+  },
+  {
+   "from": 319.1,
+   "to": 324.1,
+   "text": "operating modes for doing these"
+  },
+  {
+   "from": 320.4,
+   "to": 325.2,
+   "text": "different types of things and so I'm"
+  },
+  {
+   "from": 324.1,
+   "to": 326.5,
+   "text": "actually want to write this down on the"
+  },
+  {
+   "from": 325.2,
+   "to": 328.8,
+   "text": "blackboard so I'll have a useful thing"
+  },
+  {
+   "from": 326.5,
+   "to": 333.3,
+   "text": "to refer to later so when you start vim"
+  },
+  {
+   "from": 328.8,
+   "to": 335.3,
+   "text": "up it starts up in what's called normal"
+  },
+  {
+   "from": 333.3,
+   "to": 337.3,
+   "text": "mode and in this mode all the different"
+  },
+  {
+   "from": 335.3,
+   "to": 338.7,
+   "text": "key combinations behave in one way and"
+  },
+  {
+   "from": 337.3,
+   "to": 340,
+   "text": "then there are different key"
+  },
+  {
+   "from": 338.7,
+   "to": 342.4,
+   "text": "combinations that switch you between"
+  },
+  {
+   "from": 340,
+   "to": 345.9,
+   "text": "normal mode and other modes which change"
+  },
+  {
+   "from": 342.4,
+   "to": 348,
+   "text": "the meaning of different keys so for the"
+  },
+  {
+   "from": 345.9,
+   "to": 349.9,
+   "text": "most part you'll be spending most of"
+  },
+  {
+   "from": 348,
+   "to": 355.4,
+   "text": "your time in vim in normal mode or what"
+  },
+  {
+   "from": 349.9,
+   "to": 357.4,
+   "text": "is called insert mode and to go to"
+  },
+  {
+   "from": 355.4,
+   "to": 359.5,
+   "text": "insert mode you press the key I for"
+  },
+  {
+   "from": 357.4,
+   "to": 361.6,
+   "text": "normal mode and to go from insert mode"
+  },
+  {
+   "from": 359.5,
+   "to": 366.7,
+   "text": "back to normal mode you press the Escape"
+  },
+  {
+   "from": 361.6,
+   "to": 369.6,
+   "text": "key a little note on notation because"
+  },
+  {
+   "from": 366.7,
+   "to": 371,
+   "text": "we'll need this later in the notation"
+  },
+  {
+   "from": 369.6,
+   "to": 372.6,
+   "text": "I'm going to be using in this lecture"
+  },
+  {
+   "from": 371,
+   "to": 375.1,
+   "text": "and what's also in the lecture notes and"
+  },
+  {
+   "from": 372.6,
+   "to": 376.2,
+   "text": "what vim uses to give you feedback they"
+  },
+  {
+   "from": 375.1,
+   "to": 377.7,
+   "text": "have a couple different ways of talking"
+  },
+  {
+   "from": 376.2,
+   "to": 379.3,
+   "text": "about different keys so when they're"
+  },
+  {
+   "from": 377.7,
+   "to": 380.4,
+   "text": "talking about bare keys like just the"
+  },
+  {
+   "from": 379.3,
+   "to": 382.7,
+   "text": "eye key on your keyboard they'll just"
+  },
+  {
+   "from": 380.4,
+   "to": 384.3,
+   "text": "say eye but for a different key"
+  },
+  {
+   "from": 382.7,
+   "to": 387.1,
+   "text": "combinations like when you press control"
+  },
+  {
+   "from": 384.3,
+   "to": 389.9,
+   "text": "and something like say control V it's"
+  },
+  {
+   "from": 387.1,
+   "to": 392.4,
+   "text": "notated in one of like approximately"
+  },
+  {
+   "from": 389.9,
+   "to": 394.6,
+   "text": "three ways one way that can be notated"
+  },
+  {
+   "from": 392.4,
+   "to": 397.5,
+   "text": "is a caret and then the control"
+  },
+  {
+   "from": 394.6,
+   "to": 399.6,
+   "text": "character so this is control V another"
+  },
+  {
+   "from": 397.5,
+   "to": 400.7,
+   "text": "way this might be written I think we've"
+  },
+  {
+   "from": 399.6,
+   "to": 402.3,
+   "text": "written it this way in"
+  },
+  {
+   "from": 400.7,
+   "to": 403.2,
+   "text": "lecture notes as control-v this is"
+  },
+  {
+   "from": 402.3,
+   "to": 406.1,
+   "text": "probably the one you're more used to"
+  },
+  {
+   "from": 403.2,
+   "to": 408.9,
+   "text": "seeing and then in some parts of them"
+  },
+  {
+   "from": 406.1,
+   "to": 411,
+   "text": "this is written as angle brackets C - V"
+  },
+  {
+   "from": 408.9,
+   "to": 414.2,
+   "text": "close angle bracket so just a little bit"
+  },
+  {
+   "from": 411,
+   "to": 414.2,
+   "text": "of notation that will be useful later"
+  },
+  {
+   "from": 414.2,
+   "to": 419.4,
+   "text": "so yeah vim has a couple different modes"
+  },
+  {
+   "from": 417,
+   "to": 421.5,
+   "text": "where normal mode is designed for"
+  },
+  {
+   "from": 419.4,
+   "to": 423.5,
+   "text": "navigating around a file reading things"
+  },
+  {
+   "from": 421.5,
+   "to": 425.6,
+   "text": "going from file to file things like that"
+  },
+  {
+   "from": 423.5,
+   "to": 428.4,
+   "text": "and then insert mode is where you type"
+  },
+  {
+   "from": 425.6,
+   "to": 430.3,
+   "text": "in text so most keys that you press here"
+  },
+  {
+   "from": 428.4,
+   "to": 432,
+   "text": "will just go into your text buffer where"
+  },
+  {
+   "from": 430.3,
+   "to": 433.8,
+   "text": "as keys that you press here are not"
+  },
+  {
+   "from": 432,
+   "to": 435.2,
+   "text": "being put into the buffer and instead"
+  },
+  {
+   "from": 433.8,
+   "to": 440.4,
+   "text": "are used for things like navigation or"
+  },
+  {
+   "from": 435.2,
+   "to": 441.5,
+   "text": "making edits and actually the picture is"
+  },
+  {
+   "from": 440.4,
+   "to": 443.2,
+   "text": "a little bit more complicated than this"
+  },
+  {
+   "from": 441.5,
+   "to": 444.4,
+   "text": "there are a whole bunch of other modes"
+  },
+  {
+   "from": 443.2,
+   "to": 445.9,
+   "text": "and I'm just gonna write them down here"
+  },
+  {
+   "from": 444.4,
+   "to": 449.1,
+   "text": "because we'll have them here to refer to"
+  },
+  {
+   "from": 445.9,
+   "to": 453.1,
+   "text": "later and so if it also has a replace"
+  },
+  {
+   "from": 449.1,
+   "to": 454,
+   "text": "mode for rather than inserting text and"
+  },
+  {
+   "from": 453.1,
+   "to": 456.2,
+   "text": "kind of pushing what's ahead of it"
+  },
+  {
+   "from": 454,
+   "to": 457.8,
+   "text": "forward it will overwrite text and then"
+  },
+  {
+   "from": 456.2,
+   "to": 464.9,
+   "text": "it has a bunch of different modes for"
+  },
+  {
+   "from": 457.8,
+   "to": 468,
+   "text": "selection so it has a mode called visual"
+  },
+  {
+   "from": 464.9,
+   "to": 473.7,
+   "text": "mode and then it has visual line and"
+  },
+  {
+   "from": 468,
+   "to": 477,
+   "text": "visual block this one is enter via the R"
+  },
+  {
+   "from": 473.7,
+   "to": 481.8,
+   "text": "key this was entered via the V key this"
+  },
+  {
+   "from": 477,
+   "to": 485.7,
+   "text": "one is entered via shift B and this one"
+  },
+  {
+   "from": 481.8,
+   "to": 493.3,
+   "text": "is entered via control V and then"
+  },
+  {
+   "from": 485.7,
+   "to": 497.4,
+   "text": "there's the command line mode which is"
+  },
+  {
+   "from": 493.3,
+   "to": 497.4,
+   "text": "entered via the colon key"
+  },
+  {
+   "from": 499.2,
+   "to": 511.3,
+   "text": "okay so now that we have that on the"
+  },
+  {
+   "from": 501.1,
+   "to": 515.2,
+   "text": "board to refer to later we can actually"
+  },
+  {
+   "from": 511.3,
+   "to": 516.3,
+   "text": "try some of this out all right so one"
+  },
+  {
+   "from": 515.2,
+   "to": 518.6,
+   "text": "thing we noticed looking at that picture"
+  },
+  {
+   "from": 516.3,
+   "to": 520.4,
+   "text": "is that to go from normal mode to any of"
+  },
+  {
+   "from": 518.6,
+   "to": 521.8,
+   "text": "the other modes we press some key but to"
+  },
+  {
+   "from": 520.4,
+   "to": 523.3,
+   "text": "go from any of the other modes back to"
+  },
+  {
+   "from": 521.8,
+   "to": 525.2,
+   "text": "normal mode where we spend a lot of our"
+  },
+  {
+   "from": 523.3,
+   "to": 528.6,
+   "text": "time we use the Escape key on our"
+  },
+  {
+   "from": 525.2,
+   "to": 530,
+   "text": "keyboard so for this reason since you"
+  },
+  {
+   "from": 528.6,
+   "to": 532,
+   "text": "under pressing the Escape key a lot when"
+  },
+  {
+   "from": 530,
+   "to": 533.7,
+   "text": "using vim a lot of programmers rebind"
+  },
+  {
+   "from": 532,
+   "to": 535.2,
+   "text": "one of the keys on their keyboard to be"
+  },
+  {
+   "from": 533.7,
+   "to": 536.6,
+   "text": "escape because it's really inconvenient"
+  },
+  {
+   "from": 535.2,
+   "to": 538.1,
+   "text": "to reach up with your left pinkie to"
+  },
+  {
+   "from": 536.6,
+   "to": 539.9,
+   "text": "press that tiny little Escape key in the"
+  },
+  {
+   "from": 538.1,
+   "to": 541.9,
+   "text": "corner of your keyboard and so a lot of"
+  },
+  {
+   "from": 539.9,
+   "to": 544.5,
+   "text": "people use the caps lock key instead so"
+  },
+  {
+   "from": 541.9,
+   "to": 546.6,
+   "text": "it's right there in the home row and we"
+  },
+  {
+   "from": 544.5,
+   "to": 554.4,
+   "text": "have some links in the lecture notes for"
+  },
+  {
+   "from": 546.6,
+   "to": 555.7,
+   "text": "how you can do this key rebinding okay"
+  },
+  {
+   "from": 554.4,
+   "to": 557.5,
+   "text": "so now that we've talked about kind of"
+  },
+  {
+   "from": 555.7,
+   "to": 559.3,
+   "text": "one of the core ideas of vim the idea of"
+  },
+  {
+   "from": 557.5,
+   "to": 560.8,
+   "text": "modal editing we can talk about some of"
+  },
+  {
+   "from": 559.3,
+   "to": 563.1,
+   "text": "the basics like how do you open up this"
+  },
+  {
+   "from": 560.8,
+   "to": 565.9,
+   "text": "text editor how do you open file save"
+  },
+  {
+   "from": 563.1,
+   "to": 568.2,
+   "text": "files and things like that and so this"
+  },
+  {
+   "from": 565.9,
+   "to": 569.7,
+   "text": "is a command line based program although"
+  },
+  {
+   "from": 568.2,
+   "to": 571.9,
+   "text": "there are some graphical variants and"
+  },
+  {
+   "from": 569.7,
+   "to": 574.4,
+   "text": "the way you start this program is by"
+  },
+  {
+   "from": 571.9,
+   "to": 575.8,
+   "text": "running vim one thing you might notice"
+  },
+  {
+   "from": 574.4,
+   "to": 577.5,
+   "text": "is that in the bottom left corner of my"
+  },
+  {
+   "from": 575.8,
+   "to": 580.1,
+   "text": "screen they actually saw what I just"
+  },
+  {
+   "from": 577.5,
+   "to": 581.5,
+   "text": "typed this will be useful later in this"
+  },
+  {
+   "from": 580.1,
+   "to": 584,
+   "text": "lecture where I'm actually typing in"
+  },
+  {
+   "from": 581.5,
+   "to": 585.4,
+   "text": "commands for vim and I'll be saying what"
+  },
+  {
+   "from": 584,
+   "to": 587.9,
+   "text": "I'm typing but you'll also see it on the"
+  },
+  {
+   "from": 585.4,
+   "to": 590.4,
+   "text": "screen so if I press ctrl C see it says"
+  },
+  {
+   "from": 587.9,
+   "to": 595.5,
+   "text": "ctrl C over there is that text big"
+  },
+  {
+   "from": 590.4,
+   "to": 597.6,
+   "text": "enough for everybody to read great okay"
+  },
+  {
+   "from": 595.5,
+   "to": 599.8,
+   "text": "so the way we open vim is just by"
+  },
+  {
+   "from": 597.6,
+   "to": 602.5,
+   "text": "running the program vim on our command"
+  },
+  {
+   "from": 599.8,
+   "to": 603.8,
+   "text": "line and this comes pre-installed on"
+  },
+  {
+   "from": 602.5,
+   "to": 605,
+   "text": "most systems and if you don't have it"
+  },
+  {
+   "from": 603.8,
+   "to": 607.6,
+   "text": "you can install it using your package"
+  },
+  {
+   "from": 605,
+   "to": 608.6,
+   "text": "manager vim can also take an argument if"
+  },
+  {
+   "from": 607.6,
+   "to": 610.6,
+   "text": "we want to use it to edit a particular"
+  },
+  {
+   "from": 608.6,
+   "to": 612.9,
+   "text": "file instead of just opening up the"
+  },
+  {
+   "from": 610.6,
+   "to": 615.3,
+   "text": "program then later opening a file so for"
+  },
+  {
+   "from": 612.9,
+   "to": 617.1,
+   "text": "example I have a file in this directory"
+  },
+  {
+   "from": 615.3,
+   "to": 619.7,
+   "text": "this is actually the lecture notes for"
+  },
+  {
+   "from": 617.1,
+   "to": 621.9,
+   "text": "this lecture so I can do vim editors MD"
+  },
+  {
+   "from": 619.7,
+   "to": 625.7,
+   "text": "and press ENTER and then boom them is"
+  },
+  {
+   "from": 621.9,
+   "to": 629.8,
+   "text": "started and then in this lecture I'm not"
+  },
+  {
+   "from": 625.7,
+   "to": 632.9,
+   "text": "running vim in the completely Exton I've"
+  },
+  {
+   "from": 629.8,
+   "to": 634.9,
+   "text": "configured a couple of things that"
+  },
+  {
+   "from": 632.9,
+   "to": 636.9,
+   "text": "behave a little bit nicer by defaults"
+  },
+  {
+   "from": 634.9,
+   "to": 638.4,
+   "text": "little things like having line numbers"
+  },
+  {
+   "from": 636.9,
+   "to": 640.2,
+   "text": "on the left or having some more status"
+  },
+  {
+   "from": 638.4,
+   "to": 641.1,
+   "text": "information on the bottom and if you"
+  },
+  {
+   "from": 640.2,
+   "to": 642.9,
+   "text": "want to start with this default"
+  },
+  {
+   "from": 641.1,
+   "to": 643.9,
+   "text": "configuration we have a link to this in"
+  },
+  {
+   "from": 642.9,
+   "to": 649.3,
+   "text": "the lecture notes so you can get a"
+  },
+  {
+   "from": 643.9,
+   "to": 651.3,
+   "text": "slightly more sane config by default. So,"
+  },
+  {
+   "from": 649.3,
+   "to": 653.3,
+   "text": "once you've opened Vim, what do you do?"
+  },
+  {
+   "from": 651.3,
+   "to": 654.6,
+   "text": "Well, as I said earlier, Vim starts in"
+  },
+  {
+   "from": 653.3,
+   "to": 657.9,
+   "text": "normal mode, so if I just start typing"
+  },
+  {
+   "from": 654.6,
+   "to": 659.7,
+   "text": "letters like, say, type X it didn't insert"
+  },
+  {
+   "from": 657.9,
+   "to": 661.7,
+   "text": "X into the buffer. You can see the cursor"
+  },
+  {
+   "from": 659.7,
+   "to": 663.6,
+   "text": "up in the top left: it actually deleted"
+  },
+  {
+   "from": 661.7,
+   "to": 667.3,
+   "text": "one of the characters. That's because I'm"
+  },
+  {
+   "from": 663.6,
+   "to": 668.6,
+   "text": "in normal mode, not insert mode. So insert"
+  },
+  {
+   "from": 667.3,
+   "to": 669.9,
+   "text": "mode is basically what you're used to with"
+  },
+  {
+   "from": 668.6,
+   "to": 670.9,
+   "text": "all the other text editors you've used"
+  },
+  {
+   "from": 669.9,
+   "to": 672.3,
+   "text": "in the past, where there's a cursor"
+  },
+  {
+   "from": 670.9,
+   "to": 675.3,
+   "text": "somewhere, you press the character, and it"
+  },
+  {
+   "from": 672.3,
+   "to": 678.1,
+   "text": "just goes into your buffer. I'm instead"
+  },
+  {
+   "from": 675.3,
+   "to": 679.9,
+   "text": "in vim you start a normal mode and you"
+  },
+  {
+   "from": 678.1,
+   "to": 681.6,
+   "text": "can press I to go into insert mode so"
+  },
+  {
+   "from": 679.9,
+   "to": 684,
+   "text": "see I've pressed I and then in the"
+  },
+  {
+   "from": 681.6,
+   "to": 686.5,
+   "text": "bottom left notice that it says - -"
+  },
+  {
+   "from": 684,
+   "to": 687.9,
+   "text": "insert the bottom left always tells you"
+  },
+  {
+   "from": 686.5,
+   "to": 689.7,
+   "text": "what mode you're in unless this normal"
+  },
+  {
+   "from": 687.9,
+   "to": 691.3,
+   "text": "mode in which case it's blank and now"
+  },
+  {
+   "from": 689.7,
+   "to": 693.3,
+   "text": "that I'm an insert mode if I press the X"
+  },
+  {
+   "from": 691.3,
+   "to": 695.7,
+   "text": "character for example see it just gets"
+  },
+  {
+   "from": 693.3,
+   "to": 697.5,
+   "text": "inserted into my text buffer and I can"
+  },
+  {
+   "from": 695.7,
+   "to": 699.6,
+   "text": "backspace over at type other stuff and"
+  },
+  {
+   "from": 697.5,
+   "to": 701.4,
+   "text": "now my text editor kind of behaves like"
+  },
+  {
+   "from": 699.6,
+   "to": 703.8,
+   "text": "you'd expect any other program to behave"
+  },
+  {
+   "from": 701.4,
+   "to": 705.5,
+   "text": "so from this point how to go back to"
+  },
+  {
+   "from": 703.8,
+   "to": 708.9,
+   "text": "normal mode if I want to stop inserting"
+  },
+  {
+   "from": 705.5,
+   "to": 711.7,
+   "text": "characters. Yes, exactly. I press escape."
+  },
+  {
+   "from": 708.9,
+   "to": 713.8,
+   "text": "And, that's the symbol my keystroke"
+  },
+  {
+   "from": 711.7,
+   "to": 719,
+   "text": "visualizer uses for escape, so"
+  },
+  {
+   "from": 713.8,
+   "to": 721.2,
+   "text": "just be aware of that. And then, Vim has"
+  },
+  {
+   "from": 719,
+   "to": 722.9,
+   "text": "this idea, that using the mouse is"
+  },
+  {
+   "from": 721.2,
+   "to": 724.6,
+   "text": "inefficient, like your hands are on the"
+  },
+  {
+   "from": 722.9,
+   "to": 726.5,
+   "text": "keyboard, moving your hand over to the"
+  },
+  {
+   "from": 724.6,
+   "to": 728.3,
+   "text": "mouse takes a lot of time, right, like you"
+  },
+  {
+   "from": 726.5,
+   "to": 729.6,
+   "text": "don't want to waste those couple of"
+  },
+  {
+   "from": 728.3,
+   "to": 731.4,
+   "text": "milliseconds while you're programming,"
+  },
+  {
+   "from": 729.6,
+   "to": 734,
+   "text": "like in the middle of things. So, instead,"
+  },
+  {
+   "from": 731.4,
+   "to": 735.7,
+   "text": "all Vim functionality can be accessed"
+  },
+  {
+   "from": 734,
+   "to": 736.8,
+   "text": "just through the keyboard. And, it's all"
+  },
+  {
+   "from": 735.7,
+   "to": 739.3,
+   "text": "sorts of things you might be used to"
+  },
+  {
+   "from": 736.8,
+   "to": 741.5,
+   "text": "doing like opening files by going, like,"
+  },
+  {
+   "from": 739.3,
+   "to": 743.1,
+   "text": "file open, or file save, or things like"
+  },
+  {
+   "from": 741.5,
+   "to": 745.5,
+   "text": "that, or instead access through the"
+  },
+  {
+   "from": 743.1,
+   "to": 747.5,
+   "text": "keyboard. And, how is that done? That's"
+  },
+  {
+   "from": 745.5,
+   "to": 748.7,
+   "text": "done through one of the other Vim modes"
+  },
+  {
+   "from": 747.5,
+   "to": 752,
+   "text": "that are on the board over there. In"
+  },
+  {
+   "from": 748.7,
+   "to": 753.9,
+   "text": "particular, through command line mode. So,"
+  },
+  {
+   "from": 752,
+   "to": 756.4,
+   "text": "if you're in normal mode, and you press"
+  },
+  {
+   "from": 753.9,
+   "to": 759.4,
+   "text": "the \":\" key, you'll notice that the"
+  },
+  {
+   "from": 756.4,
+   "to": 761.3,
+   "text": "cursor - I guess my visualizer is covering"
+  },
+  {
+   "from": 759.4,
+   "to": 763.1,
+   "text": "the thing right now but it's gone - the"
+  },
+  {
+   "from": 761.3,
+   "to": 766.1,
+   "text": "cursor jumps to the bottom - the bottom"
+  },
+  {
+   "from": 763.1,
+   "to": 768.5,
+   "text": "left - and it shows that \":\" I just typed."
+  },
+  {
+   "from": 766.1,
+   "to": 770.2,
+   "text": "Now, I can type in a command. So, you can"
+  },
+  {
+   "from": 768.5,
+   "to": 771.6,
+   "text": "think of this almost like the command"
+  },
+  {
+   "from": 770.2,
+   "to": 773.2,
+   "text": "shell that we've talked been talking"
+  },
+  {
+   "from": 771.6,
+   "to": 774,
+   "text": "about over the last few days, except this"
+  },
+  {
+   "from": 773.2,
+   "to": 775.8,
+   "text": "is Vim's"
+  },
+  {
+   "from": 774,
+   "to": 777.2,
+   "text": "command shell, so you give Vim commands"
+  },
+  {
+   "from": 775.8,
+   "to": 779.3,
+   "text": "here, instead of shell commands. And"
+  },
+  {
+   "from": 777.2,
+   "to": 780.6,
+   "text": "there are a bunch of built-in commands"
+  },
+  {
+   "from": 779.3,
+   "to": 782.8,
+   "text": "that do all the things that you're used"
+  },
+  {
+   "from": 780.6,
+   "to": 784.3,
+   "text": "to. Like, for example, one command that you"
+  },
+  {
+   "from": 782.8,
+   "to": 785.7,
+   "text": "might want to know is how to quit this"
+  },
+  {
+   "from": 784.3,
+   "to": 787.4,
+   "text": "editor. You might notice that if you're in"
+  },
+  {
+   "from": 785.7,
+   "to": 788.7,
+   "text": "normal mode, I can press \"Escape\" to go"
+  },
+  {
+   "from": 787.4,
+   "to": 791.9,
+   "text": "back from command line mode to normal"
+  },
+  {
+   "from": 788.7,
+   "to": 793.6,
+   "text": "mode, and I press \"control C\", unlike what"
+  },
+  {
+   "from": 791.9,
+   "to": 796,
+   "text": "happens to a lot of programs, this doesn't"
+  },
+  {
+   "from": 793.6,
+   "to": 798.4,
+   "text": "quit Vim. So, how do I quit Vim? I can"
+  },
+  {
+   "from": 796,
+   "to": 799.9,
+   "text": "press \":\", and then go into command"
+  },
+  {
+   "from": 798.4,
+   "to": 803.4,
+   "text": "line mode, and then I can type in the"
+  },
+  {
+   "from": 799.9,
+   "to": 804.9,
+   "text": "command \"quit\". \"Q-U-I-T\". You'll see that I"
+  },
+  {
+   "from": 803.4,
+   "to": 808.6,
+   "text": "- maybe I should move this over to the"
+  },
+  {
+   "from": 804.9,
+   "to": 811.4,
+   "text": "middle or something - see, it says \":quit\""
+  },
+  {
+   "from": 808.6,
+   "to": 812.9,
+   "text": "and I press ENTER, and it quits Vim. I can"
+  },
+  {
+   "from": 811.4,
+   "to": 815.5,
+   "text": "open Vim up again. There's actually a"
+  },
+  {
+   "from": 812.9,
+   "to": 818.4,
+   "text": "short form for this command, just \":q\", and"
+  },
+  {
+   "from": 815.5,
+   "to": 820,
+   "text": "that'll do the same thing. And, there are a"
+  },
+  {
+   "from": 818.4,
+   "to": 822.8,
+   "text": "bunch of other useful commands like this."
+  },
+  {
+   "from": 820,
+   "to": 825.1,
+   "text": "So, some other handy ones to know are"
+  },
+  {
+   "from": 822.8,
+   "to": 827.8,
+   "text": "how do you save a file? So, suppose I make"
+  },
+  {
+   "from": 825.1,
+   "to": 831.4,
+   "text": "some edits here, like \"hello world\"."
+  },
+  {
+   "from": 827.8,
+   "to": 834,
+   "text": "So, I pressed \"i\" to go into insert mode - or"
+  },
+  {
+   "from": 831.4,
+   "to": 835.6,
+   "text": "let me redo that - I press \"i\" to go into"
+  },
+  {
+   "from": 834,
+   "to": 842,
+   "text": "insert mode. Right now, I can use the down"
+  },
+  {
+   "from": 835.6,
+   "to": 843.2,
+   "text": "arrow to... I think I've slightly I"
+  },
+  {
+   "from": 842,
+   "to": 847,
+   "text": "should fix that. Can you fix the config,"
+  },
+  {
+   "from": 843.2,
+   "to": 851.7,
+   "text": "actually, John? Never mind that."
+  },
+  {
+   "from": 847,
+   "to": 854.8,
+   "text": "Okay, so, suppose I go down to this line,"
+  },
+  {
+   "from": 851.7,
+   "to": 857,
+   "text": "and I press \"i\" to go into insert mode, and"
+  },
+  {
+   "from": 854.8,
+   "to": 858.9,
+   "text": "type in some text, and then press \"escape\""
+  },
+  {
+   "from": 857,
+   "to": 860.6,
+   "text": "to go back to normal mode. Now, how do I"
+  },
+  {
+   "from": 858.9,
+   "to": 862.7,
+   "text": "actually save this file? Well, there's"
+  },
+  {
+   "from": 860.6,
+   "to": 865.6,
+   "text": "another command for that. So, \":\" to go"
+  },
+  {
+   "from": 862.7,
+   "to": 870.5,
+   "text": "into command mode, and then I can type \"W\"..."
+  },
+  {
+   "from": 865.6,
+   "to": 873.2,
+   "text": "...and press \"Enter\". \"W\" stands for write. And,"
+  },
+  {
+   "from": 870.5,
+   "to": 875.7,
+   "text": "it says in the bottom \"editors.md\""
+  },
+  {
+   "from": 873.2,
+   "to": 877.8,
+   "text": "whatever blah blah written. And, so, this"
+  },
+  {
+   "from": 875.7,
+   "to": 880.3,
+   "text": "means it saved the file and so now if I"
+  },
+  {
+   "from": 877.8,
+   "to": 882.2,
+   "text": "\":q\" to quit and open the same file,"
+  },
+  {
+   "from": 880.3,
+   "to": 886.9,
+   "text": "again, you'll see that the changes have"
+  },
+  {
+   "from": 882.2,
+   "to": 889,
+   "text": "been persisted. There are a couple other"
+  },
+  {
+   "from": 886.9,
+   "to": 890.1,
+   "text": "there's... So, there's a ton of different"
+  },
+  {
+   "from": 889,
+   "to": 893.1,
+   "text": "Vim commands that are useful for"
+  },
+  {
+   "from": 890.1,
+   "to": 896.1,
+   "text": "different reasons. But, I'll just explain"
+  },
+  {
+   "from": 893.1,
+   "to": 899.1,
+   "text": "a couple more to you now. One command"
+  },
+  {
+   "from": 896.1,
+   "to": 901.5,
+   "text": "that's really useful is help. \":help\""
+  },
+  {
+   "from": 899.1,
+   "to": 904.1,
+   "text": "And you can do \":help\", and then type in a"
+  },
+  {
+   "from": 901.5,
+   "to": 906.1,
+   "text": "particular key, or a particular command,"
+  },
+  {
+   "from": 904.1,
+   "to": 908.6,
+   "text": "and get help for that keystroke or that"
+  },
+  {
+   "from": 906.1,
+   "to": 911,
+   "text": "command. So, if I want to know what"
+  },
+  {
+   "from": 908.6,
+   "to": 915.4,
+   "text": "\":w\" does, I"
+  },
+  {
+   "from": 911,
+   "to": 921.3,
+   "text": "can do : help : W, and that'll give me"
+  },
+  {
+   "from": 915.4,
+   "to": 923.2,
+   "text": "the documentation on : w or : write. If I"
+  },
+  {
+   "from": 921.3,
+   "to": 925.6,
+   "text": "do : q, it'll close this window and bring"
+  },
+  {
+   "from": 923.2,
+   "to": 928.5,
+   "text": "me back to where I was before."
+  },
+  {
+   "from": 925.6,
+   "to": 935.3,
+   "text": "And, notice that \":help :w\" is different"
+  },
+  {
+   "from": 928.5,
+   "to": 938.2,
+   "text": "from \":help w\", because the W key is the W"
+  },
+  {
+   "from": 935.3,
+   "to": 940.6,
+   "text": "that, like, when you're in normal mode and"
+  },
+  {
+   "from": 938.2,
+   "to": 941.7,
+   "text": "press W, what happens is just the W key"
+  },
+  {
+   "from": 940.6,
+   "to": 943.5,
+   "text": "here without the \":\"."
+  },
+  {
+   "from": 941.7,
+   "to": 950.3,
+   "text": "And, if I look for help for \":w\", that's"
+  },
+  {
+   "from": 943.5,
+   "to": 956,
+   "text": "the help for the W command. So, now you"
+  },
+  {
+   "from": 950.3,
+   "to": 958.1,
+   "text": "basically have the bare fundamentals"
+  },
+  {
+   "from": 956,
+   "to": 960.7,
+   "text": "needed to use them. right? You can open"
+  },
+  {
+   "from": 958.1,
+   "to": 963.2,
+   "text": "the editor, use it to edit a particular"
+  },
+  {
+   "from": 960.7,
+   "to": 965,
+   "text": "file, press \"i\" to go into insert mode and"
+  },
+  {
+   "from": 963.2,
+   "to": 966.8,
+   "text": "type in some text, press \"escape\" to go"
+  },
+  {
+   "from": 965,
+   "to": 969.6,
+   "text": "back to normal mode, and then :w to save"
+  },
+  {
+   "from": 966.8,
+   "to": 971.5,
+   "text": "your changes, :w to quit. So, like already"
+  },
+  {
+   "from": 969.6,
+   "to": 973.9,
+   "text": "you have the bare fundamentals necessary"
+  },
+  {
+   "from": 971.5,
+   "to": 977.2,
+   "text": "to edit files using Vim, albeit somewhat"
+  },
+  {
+   "from": 973.9,
+   "to": 983.7,
+   "text": "inefficiently. So, any questions so far?"
+  },
+  {
+   "from": 977.2,
+   "to": 985.5,
+   "text": "Yeah in the back. Yeah so the question is,"
+  },
+  {
+   "from": 983.7,
+   "to": 987.1,
+   "text": "What's the benefit of the"
+  },
+  {
+   "from": 985.5,
+   "to": 988.6,
+   "text": "normal mode? And, we'll talk about that in"
+  },
+  {
+   "from": 987.1,
+   "to": 991.6,
+   "text": "more detail, in like five minutes."
+  },
+  {
+   "from": 988.6,
+   "to": 993,
+   "text": "But, in short, insert mode is just for"
+  },
+  {
+   "from": 991.6,
+   "to": 994.9,
+   "text": "typing in text. So, I'm in insert mode, I"
+  },
+  {
+   "from": 993,
+   "to": 996.3,
+   "text": "can type in text. But, when I'm"
+  },
+  {
+   "from": 994.9,
+   "to": 999,
+   "text": "programming, I actually spend a lot of"
+  },
+  {
+   "from": 996.3,
+   "to": 1000.6,
+   "text": "time moving around my file making small"
+  },
+  {
+   "from": 999,
+   "to": 1002.2,
+   "text": "little changes. So, I go here and like, oh"
+  },
+  {
+   "from": 1000.6,
+   "to": 1005.4,
+   "text": "maybe I want to change this HTTPS link to"
+  },
+  {
+   "from": 1002.2,
+   "to": 1008.1,
+   "text": "an HTTP."
+  },
+  {
+   "from": 1005.4,
+   "to": 1009.9,
+   "text": "I can make like small point edits, things"
+  },
+  {
+   "from": 1008.1,
+   "to": 1011.1,
+   "text": "like that, in normal mode. And we'll see a"
+  },
+  {
+   "from": 1009.9,
+   "to": 1012.9,
+   "text": "whole lot more of that in about five"
+  },
+  {
+   "from": 1011.1,
+   "to": 1019.1,
+   "text": "minutes. Good question!"
+  },
+  {
+   "from": 1012.9,
+   "to": 1025.1,
+   "text": "Any other questions? Okay cool. So, moving"
+  },
+  {
+   "from": 1019.1,
+   "to": 1031.1,
+   "text": "along, one other thing that's kind of"
+  },
+  {
+   "from": 1025.1,
+   "to": 1032.7,
+   "text": "useful to know, I think, is, at a high"
+  },
+  {
+   "from": 1031.1,
+   "to": 1035.5,
+   "text": "level, Vim's model of"
+  },
+  {
+   "from": 1032.7,
+   "to": 1036.5,
+   "text": "buffers versus windows versus tabs. So,"
+  },
+  {
+   "from": 1035.5,
+   "to": 1037.9,
+   "text": "it's probably the case that whatever"
+  },
+  {
+   "from": 1036.5,
+   "to": 1039.8,
+   "text": "program you were using before, like"
+  },
+  {
+   "from": 1037.9,
+   "to": 1041.9,
+   "text": "Sublime Text or VS Code or whatever,"
+  },
+  {
+   "from": 1039.8,
+   "to": 1043.2,
+   "text": "you could open multiple files in it,"
+  },
+  {
+   "from": 1041.9,
+   "to": 1044.9,
+   "text": "right, and you could probably have"
+  },
+  {
+   "from": 1043.2,
+   "to": 1047.4,
+   "text": "multiple tabs open and have multiple"
+  },
+  {
+   "from": 1044.9,
+   "to": 1049.1,
+   "text": "windows open of your editor. So, Vim also"
+  },
+  {
+   "from": 1047.4,
+   "to": 1051.2,
+   "text": "has a notion of those different things."
+  },
+  {
+   "from": 1049.1,
+   "to": 1054.4,
+   "text": "But, its model is a little bit different"
+  },
+  {
+   "from": 1051.2,
+   "to": 1056.4,
+   "text": "than most other programs. So, Vim"
+  },
+  {
+   "from": 1054.4,
+   "to": 1058.3,
+   "text": "maintains a set of open buffers - that's"
+  },
+  {
+   "from": 1056.4,
+   "to": 1060.3,
+   "text": "the word it uses for open files - and so,"
+  },
+  {
+   "from": 1058.3,
+   "to": 1062.2,
+   "text": "it has a set of open files, and then kind"
+  },
+  {
+   "from": 1060.3,
+   "to": 1064.5,
+   "text": "of separately from that, you can have a"
+  },
+  {
+   "from": 1062.2,
+   "to": 1066.6,
+   "text": "number of tabs, and tabs can have windows."
+  },
+  {
+   "from": 1064.5,
+   "to": 1067.5,
+   "text": "The kind of weird thing which makes Vim"
+  },
+  {
+   "from": 1066.6,
+   "to": 1068.9,
+   "text": "a little bit different than the"
+  },
+  {
+   "from": 1067.5,
+   "to": 1070.7,
+   "text": "program you've probably used in the past is"
+  },
+  {
+   "from": 1068.9,
+   "to": 1072,
+   "text": "that there isn't necessarily a"
+  },
+  {
+   "from": 1070.7,
+   "to": 1075.2,
+   "text": "one-to-one correspondence between"
+  },
+  {
+   "from": 1072,
+   "to": 1076.7,
+   "text": "buffers and windows. So, one thing I can"
+  },
+  {
+   "from": 1075.2,
+   "to": 1078.3,
+   "text": "do, for example, here - and we'll show you"
+  },
+  {
+   "from": 1076.7,
+   "to": 1081,
+   "text": "the key combinations and stuff for this"
+  },
+  {
+   "from": 1078.3,
+   "to": 1082.2,
+   "text": "later - but one thing you can do is create"
+  },
+  {
+   "from": 1081,
+   "to": 1084.1,
+   "text": "two different windows. So, I have one"
+  },
+  {
+   "from": 1082.2,
+   "to": 1087.1,
+   "text": "window up here, and then one window down"
+  },
+  {
+   "from": 1084.1,
+   "to": 1088.6,
+   "text": "here. And, notice that the same files open"
+  },
+  {
+   "from": 1087.1,
+   "to": 1090.5,
+   "text": "in both windows. So, if I make some edits"
+  },
+  {
+   "from": 1088.6,
+   "to": 1091.8,
+   "text": "over here, they actually happen in the"
+  },
+  {
+   "from": 1090.5,
+   "to": 1093.7,
+   "text": "bottom window, as well, because it's the"
+  },
+  {
+   "from": 1091.8,
+   "to": 1094.4,
+   "text": "same buffer that's open in both windows."
+  },
+  {
+   "from": 1094.4,
+   "to": 1098.3,
+   "text": "And, this is kind of useful, for, say,"
+  },
+  {
+   "from": 1096.6,
+   "to": 1099.8,
+   "text": "looking at two different parts of a"
+  },
+  {
+   "from": 1098.3,
+   "to": 1100.9,
+   "text": "single file at the same time. Like, so you"
+  },
+  {
+   "from": 1099.8,
+   "to": 1102.9,
+   "text": "want to be able to look at the top of a"
+  },
+  {
+   "from": 1100.9,
+   "to": 1105,
+   "text": "file, say at an import to your program,"
+  },
+  {
+   "from": 1102.9,
+   "to": 1107.8,
+   "text": "while you're down below, working"
+  },
+  {
+   "from": 1105,
+   "to": 1109.1,
+   "text": "somewhere else. So, this is one helpful"
+  },
+  {
+   "from": 1107.8,
+   "to": 1113,
+   "text": "thing to keep in mind, that Vim has this"
+  },
+  {
+   "from": 1109.1,
+   "to": 1115.7,
+   "text": "idea of - there are a number of tabs, and"
+  },
+  {
+   "from": 1113,
+   "to": 1118.2,
+   "text": "each tab has some number of windows, and"
+  },
+  {
+   "from": 1115.7,
+   "to": 1120.6,
+   "text": "then each window has, uh, corresponds to"
+  },
+  {
+   "from": 1118.2,
+   "to": 1122.3,
+   "text": "some buffer. But, a particular buffer can"
+  },
+  {
+   "from": 1120.6,
+   "to": 1124.4,
+   "text": "be open in zero or more windows at a"
+  },
+  {
+   "from": 1122.3,
+   "to": 1125.8,
+   "text": "time. Just one thing that confused me"
+  },
+  {
+   "from": 1124.4,
+   "to": 1128,
+   "text": "when I was initially learning Vim, so I"
+  },
+  {
+   "from": 1125.8,
+   "to": 1130.7,
+   "text": "want to explain that early on. And then,"
+  },
+  {
+   "from": 1128,
+   "to": 1133.6,
+   "text": "the \":q\" command, which we talked about"
+  },
+  {
+   "from": 1130.7,
+   "to": 1135.3,
+   "text": "earlier, is not exactly quit. It's kind of"
+  },
+  {
+   "from": 1133.6,
+   "to": 1136.7,
+   "text": "\"close the current window\", and then, when"
+  },
+  {
+   "from": 1135.3,
+   "to": 1139.5,
+   "text": "there are no more open windows, Vim will"
+  },
+  {
+   "from": 1136.7,
+   "to": 1141.3,
+   "text": "quit. So, here, if I do \":q\", it'll only"
+  },
+  {
+   "from": 1139.5,
+   "to": 1143.6,
+   "text": "close the window, I think, on the top here"
+  },
+  {
+   "from": 1141.3,
+   "to": 1145.6,
+   "text": "because that's the one I was in, and, now,"
+  },
+  {
+   "from": 1143.6,
+   "to": 1148.2,
+   "text": "the remaining window becomes fullscreen."
+  },
+  {
+   "from": 1145.6,
+   "to": 1150.4,
+   "text": "I can do : Q again to close this. Now we're in"
+  },
+  {
+   "from": 1148.2,
+   "to": 1154.9,
+   "text": "the second tab that I'd opened. If I do :Q"
+  },
+  {
+   "from": 1150.4,
+   "to": 1156.2,
+   "text": "a final time, okay, now, Vim exits. And if"
+  },
+  {
+   "from": 1154.9,
+   "to": 1157.9,
+   "text": "you don't want to press \":q\" way too many"
+  },
+  {
+   "from": 1156.2,
+   "to": 1161.4,
+   "text": "times... Okay, so, here I have three split"
+  },
+  {
+   "from": 1157.9,
+   "to": 1164.6,
+   "text": "windows. If I do \":qa\", for quit all, it"
+  },
+  {
+   "from": 1161.4,
+   "to": 1164.6,
+   "text": "closes all the open windows."
+  },
+  {
+   "from": 1165.4,
+   "to": 1170.7,
+   "text": "All right, so, now, to answer your question of"
+  },
+  {
+   "from": 1168.7,
+   "to": 1172.6,
+   "text": "\"What is normal mode actually for?\" This is"
+  },
+  {
+   "from": 1170.7,
+   "to": 1174.1,
+   "text": "another, really cool idea in Vim, and I"
+  },
+  {
+   "from": 1172.6,
+   "to": 1176,
+   "text": "think this is actually, like, the most"
+  },
+  {
+   "from": 1174.1,
+   "to": 1178.6,
+   "text": "fundamentally interesting idea of this"
+  },
+  {
+   "from": 1176,
+   "to": 1182,
+   "text": "program. It's that, like, you're all"
+  },
+  {
+   "from": 1178.6,
+   "to": 1184.4,
+   "text": "programmers, you like programming; Vim has"
+  },
+  {
+   "from": 1182,
+   "to": 1187.2,
+   "text": "this idea that Vim's normal mode, like,"
+  },
+  {
+   "from": 1184.4,
+   "to": 1189.7,
+   "text": "Vim's interface, itself, is a programming"
+  },
+  {
+   "from": 1187.2,
+   "to": 1191.1,
+   "text": "language. And, let me repeat that."
+  },
+  {
+   "from": 1189.7,
+   "to": 1192.9,
+   "text": "That's like a kind of fundamentally"
+  },
+  {
+   "from": 1191.1,
+   "to": 1194,
+   "text": "interesting idea: the interface is a"
+  },
+  {
+   "from": 1192.9,
+   "to": 1196.3,
+   "text": "programming language."
+  },
+  {
+   "from": 1194,
+   "to": 1197.6,
+   "text": "What does that mean? It means that"
+  },
+  {
+   "from": 1196.3,
+   "to": 1199.3,
+   "text": "different key combinations have"
+  },
+  {
+   "from": 1197.6,
+   "to": 1200.2,
+   "text": "different effects, and, once you learn the"
+  },
+  {
+   "from": 1199.3,
+   "to": 1202.4,
+   "text": "different effects, you can actually"
+  },
+  {
+   "from": 1200.2,
+   "to": 1203.4,
+   "text": "combine them together - just like in a"
+  },
+  {
+   "from": 1202.4,
+   "to": 1204.8,
+   "text": "programming language - you can learn"
+  },
+  {
+   "from": 1203.4,
+   "to": 1205.9,
+   "text": "different functions and stuff and then"
+  },
+  {
+   "from": 1204.8,
+   "to": 1208.1,
+   "text": "glue them all together to make an"
+  },
+  {
+   "from": 1205.9,
+   "to": 1209.9,
+   "text": "interesting program. In the same way, once"
+  },
+  {
+   "from": 1208.1,
+   "to": 1211,
+   "text": "you learn Vim's different movement and"
+  },
+  {
+   "from": 1209.9,
+   "to": 1213.9,
+   "text": "editing commands, and things like that,"
+  },
+  {
+   "from": 1211,
+   "to": 1217,
+   "text": "you can talk to Vim by programming Vim"
+  },
+  {
+   "from": 1213.9,
+   "to": 1219.2,
+   "text": "through its interface. And, once this"
+  },
+  {
+   "from": 1217,
+   "to": 1220.9,
+   "text": "becomes muscle memory, you can basically"
+  },
+  {
+   "from": 1219.2,
+   "to": 1222.4,
+   "text": "edit files at the speed at which you"
+  },
+  {
+   "from": 1220.9,
+   "to": 1223.6,
+   "text": "think. Like at least for me, I don't think"
+  },
+  {
+   "from": 1222.4,
+   "to": 1225.3,
+   "text": "I've been able to do this with any other"
+  },
+  {
+   "from": 1223.6,
+   "to": 1229,
+   "text": "text editor that I've used in the past,"
+  },
+  {
+   "from": 1225.3,
+   "to": 1231.4,
+   "text": "but this one gets pretty close. So, let's"
+  },
+  {
+   "from": 1229,
+   "to": 1234.2,
+   "text": "dig into how exactly normal mode works."
+  },
+  {
+   "from": 1231.4,
+   "to": 1236.1,
+   "text": "So, you can try to follow along with this,"
+  },
+  {
+   "from": 1234.2,
+   "to": 1238.4,
+   "text": "like, open up some random file in Vim, and"
+  },
+  {
+   "from": 1236.1,
+   "to": 1240.5,
+   "text": "follow some of the key combinations I"
+  },
+  {
+   "from": 1238.4,
+   "to": 1242.3,
+   "text": "type in. So, one basic thing that you"
+  },
+  {
+   "from": 1240.5,
+   "to": 1244,
+   "text": "might want to do, is just navigate around"
+  },
+  {
+   "from": 1242.3,
+   "to": 1246,
+   "text": "a buffer. Like, move your cursor up/down/"
+  },
+  {
+   "from": 1244,
+   "to": 1248.5,
+   "text": "left/right. And, so the way you do that in"
+  },
+  {
+   "from": 1246,
+   "to": 1250.7,
+   "text": "Vim, is using the hjkl keys, not the arrow"
+  },
+  {
+   "from": 1248.5,
+   "to": 1252.1,
+   "text": "keys. Though they do work by default, try"
+  },
+  {
+   "from": 1250.7,
+   "to": 1253.5,
+   "text": "to avoid them, because you don't want to"
+  },
+  {
+   "from": 1252.1,
+   "to": 1254.7,
+   "text": "have to move your hand all the way over"
+  },
+  {
+   "from": 1253.5,
+   "to": 1257.2,
+   "text": "to the arrow keys. Like, there's a ton of"
+  },
+  {
+   "from": 1254.7,
+   "to": 1260.5,
+   "text": "time you're wasting, right? HJKL is right"
+  },
+  {
+   "from": 1257.2,
+   "to": 1264,
+   "text": "on the home row. And, so, J moves down, K"
+  },
+  {
+   "from": 1260.5,
+   "to": 1266.4,
+   "text": "moves up, H moves left, and L moves right."
+  },
+  {
+   "from": 1264,
+   "to": 1268.9,
+   "text": "And, this may seem a little unintuitive"
+  },
+  {
+   "from": 1266.4,
+   "to": 1270.4,
+   "text": "now; there was some historical reason for"
+  },
+  {
+   "from": 1268.9,
+   "to": 1273.4,
+   "text": "it, like, the keyboard the original vi"
+  },
+  {
+   "from": 1270.4,
+   "to": 1274.9,
+   "text": "developer used had the hjkl keys, like,"
+  },
+  {
+   "from": 1273.4,
+   "to": 1277,
+   "text": "labeled, and arranged in a way that made"
+  },
+  {
+   "from": 1274.9,
+   "to": 1279.3,
+   "text": "this more reasonable. But, this will very"
+  },
+  {
+   "from": 1277,
+   "to": 1280.4,
+   "text": "soon become muscle memory. So, this is the"
+  },
+  {
+   "from": 1279.3,
+   "to": 1284.3,
+   "text": "basic way you can move your cursor"
+  },
+  {
+   "from": 1280.4,
+   "to": 1286.1,
+   "text": "around while in normal mode. Now, what"
+  },
+  {
+   "from": 1284.3,
+   "to": 1287.7,
+   "text": "else can you do? Well, if we had to move"
+  },
+  {
+   "from": 1286.1,
+   "to": 1289.8,
+   "text": "around files like this, it'd be really"
+  },
+  {
+   "from": 1287.7,
+   "to": 1291.6,
+   "text": "slow. We don't want to have to"
+  },
+  {
+   "from": 1289.8,
+   "to": 1293.2,
+   "text": "hold down these keys, and like, wait for a"
+  },
+  {
+   "from": 1291.6,
+   "to": 1294.4,
+   "text": "long time for Vim to do its thing. And"
+  },
+  {
+   "from": 1293.2,
+   "to": 1295.8,
+   "text": "so, there are all these other, different"
+  },
+  {
+   "from": 1294.4,
+   "to": 1296.7,
+   "text": "key combinations for doing different"
+  },
+  {
+   "from": 1295.8,
+   "to": 1298.1,
+   "text": "movements."
+  },
+  {
+   "from": 1296.7,
+   "to": 1299.2,
+   "text": "Also, by the way, this is all in the"
+  },
+  {
+   "from": 1298.1,
+   "to": 1300.9,
+   "text": "lecture notes, so you don't need to"
+  },
+  {
+   "from": 1299.2,
+   "to": 1303.6,
+   "text": "memorize every single key and its"
+  },
+  {
+   "from": 1300.9,
+   "to": 1305.3,
+   "text": "meaning right now. Just try to understand"
+  },
+  {
+   "from": 1303.6,
+   "to": 1307.6,
+   "text": "the overall idea that Vim's interface is"
+  },
+  {
+   "from": 1305.3,
+   "to": 1310,
+   "text": "a programming language. So, another thing"
+  },
+  {
+   "from": 1307.6,
+   "to": 1312.8,
+   "text": "you can do is press the W key. This moves"
+  },
+  {
+   "from": 1310,
+   "to": 1314.6,
+   "text": "the cursor forward by one word. And then,"
+  },
+  {
+   "from": 1312.8,
+   "to": 1317.7,
+   "text": "similarly, the \"B\" key moves the cursor"
+  },
+  {
+   "from": 1314.6,
+   "to": 1319.4,
+   "text": "backward by one word. So, this allows"
+  },
+  {
+   "from": 1317.7,
+   "to": 1321.8,
+   "text": "slightly more efficient movement within"
+  },
+  {
+   "from": 1319.4,
+   "to": 1324,
+   "text": "the line. There's also the \"E\" key for"
+  },
+  {
+   "from": 1321.8,
+   "to": 1326.6,
+   "text": "moving to the end of a word. I'm going to"
+  },
+  {
+   "from": 1324,
+   "to": 1328,
+   "text": "move this over a little bit. So, if I'm"
+  },
+  {
+   "from": 1326.6,
+   "to": 1329.8,
+   "text": "here, for example, and I press the \"E\" key"
+  },
+  {
+   "from": 1328,
+   "to": 1332.9,
+   "text": "it'll go to the end of this word, end of"
+  },
+  {
+   "from": 1329.8,
+   "to": 1336,
+   "text": "this word, end of the next word and so on."
+  },
+  {
+   "from": 1332.9,
+   "to": 1337.7,
+   "text": "You can also move by whole lines, so zero"
+  },
+  {
+   "from": 1336,
+   "to": 1339.8,
+   "text": "moves to the beginning of a line, dollar"
+  },
+  {
+   "from": 1337.7,
+   "to": 1342.6,
+   "text": "sign moves to the end of a line, and the"
+  },
+  {
+   "from": 1339.8,
+   "to": 1345.8,
+   "text": "caret key moves to the first non-empty"
+  },
+  {
+   "from": 1342.6,
+   "to": 1351.7,
+   "text": "character on a line. So, let me find one"
+  },
+  {
+   "from": 1345.8,
+   "to": 1353.6,
+   "text": "of those, for example. So, here, my"
+  },
+  {
+   "from": 1351.7,
+   "to": 1354.8,
+   "text": "cursor's right here; if I press 0, my"
+  },
+  {
+   "from": 1353.6,
+   "to": 1357,
+   "text": "cursor goes to the beginning of the line,"
+  },
+  {
+   "from": 1354.8,
+   "to": 1359.6,
+   "text": "dollar sign, end of the current line; and"
+  },
+  {
+   "from": 1357,
+   "to": 1361.3,
+   "text": "if I press caret, where, like, on what"
+  },
+  {
+   "from": 1359.6,
+   "to": 1364.8,
+   "text": "character will the curser end up? Can"
+  },
+  {
+   "from": 1361.3,
+   "to": 1367.9,
+   "text": "anybody guess? So, caret goes to the first"
+  },
+  {
+   "from": 1364.8,
+   "to": 1373,
+   "text": "non-empty character on a line, kind of"
+  },
+  {
+   "from": 1367.9,
+   "to": 1377.2,
+   "text": "like Regex caret. Yeah, exactly! It goes"
+  },
+  {
+   "from": 1373,
+   "to": 1379.8,
+   "text": "to this dash. Let's talk about some more"
+  },
+  {
+   "from": 1377.2,
+   "to": 1381.2,
+   "text": "movement commands. There're ways to"
+  },
+  {
+   "from": 1379.8,
+   "to": 1386.2,
+   "text": "scroll up and down in a buffer, so"
+  },
+  {
+   "from": 1381.2,
+   "to": 1388.5,
+   "text": "control U goes up, and control D scrolls"
+  },
+  {
+   "from": 1386.2,
+   "to": 1390.9,
+   "text": "down. So, this is better than holding down"
+  },
+  {
+   "from": 1388.5,
+   "to": 1393.2,
+   "text": "the K or J keys, for example. This is a"
+  },
+  {
+   "from": 1390.9,
+   "to": 1397.7,
+   "text": "lot slower than moving by entire pages."
+  },
+  {
+   "from": 1393.2,
+   "to": 1400,
+   "text": "Control D and control U. There's also"
+  },
+  {
+   "from": 1397.7,
+   "to": 1402.4,
+   "text": "ways to move by the entire buffer. So,"
+  },
+  {
+   "from": 1400,
+   "to": 1406.4,
+   "text": "capital \"G\" moves all the way down... \"gg\""
+  },
+  {
+   "from": 1402.4,
+   "to": 1408.5,
+   "text": "moves all the way up. Some of these"
+  },
+  {
+   "from": 1406.4,
+   "to": 1409.6,
+   "text": "movement keys are mnemonics; so, they're"
+  },
+  {
+   "from": 1408.5,
+   "to": 1411.4,
+   "text": "like, a little bit easier to remember for"
+  },
+  {
+   "from": 1409.6,
+   "to": 1413.4,
+   "text": "that reason, right, like, \"W\" is word, \"B\""
+  },
+  {
+   "from": 1411.4,
+   "to": 1416.2,
+   "text": "is beginning of word, E is end of word. Those"
+  },
+  {
+   "from": 1413.4,
+   "to": 1418,
+   "text": "all seem pretty logical. 0, caret and"
+  },
+  {
+   "from": 1416.2,
+   "to": 1419.6,
+   "text": "dollar, kind of inspired from Regex, so"
+  },
+  {
+   "from": 1418,
+   "to": 1421.1,
+   "text": "those make a little bit of sense. There's"
+  },
+  {
+   "from": 1419.6,
+   "to": 1422.9,
+   "text": "some other ones that, like, don't"
+  },
+  {
+   "from": 1421.1,
+   "to": 1423.9,
+   "text": "necessarily make way too much sense, but,"
+  },
+  {
+   "from": 1422.9,
+   "to": 1426.3,
+   "text": "there are only so many keys on your"
+  },
+  {
+   "from": 1423.9,
+   "to": 1428.6,
+   "text": "keyboard, so what are you going to do? For"
+  },
+  {
+   "from": 1426.3,
+   "to": 1429.4,
+   "text": "example, the \"L\" key moves your cursor to"
+  },
+  {
+   "from": 1428.6,
+   "to": 1431.9,
+   "text": "the lowest"
+  },
+  {
+   "from": 1429.4,
+   "to": 1434.9,
+   "text": "line that's shown on the screen. \"L\" for"
+  },
+  {
+   "from": 1431.9,
+   "to": 1441.4,
+   "text": "lowest makes sense, M for middle, and then H for"
+  },
+  {
+   "from": 1434.9,
+   "to": 1442.7,
+   "text": "highest, I guess. And, there's a whole"
+  },
+  {
+   "from": 1441.4,
+   "to": 1444.3,
+   "text": "bunch of other interesting movements"
+  },
+  {
+   "from": 1442.7,
+   "to": 1445.3,
+   "text": "like this. So, we're obviously not going"
+  },
+  {
+   "from": 1444.3,
+   "to": 1447.1,
+   "text": "to be able to cover all of them right"
+  },
+  {
+   "from": 1445.3,
+   "to": 1448.7,
+   "text": "now, but you'll be able to go through"
+  },
+  {
+   "from": 1447.1,
+   "to": 1451.3,
+   "text": "them in the Vim tutor exercise, which is"
+  },
+  {
+   "from": 1448.7,
+   "to": 1455.8,
+   "text": "exercise number one for this lecture."
+  },
+  {
+   "from": 1451.3,
+   "to": 1458.1,
+   "text": "Some other ones I want to talk about now -"
+  },
+  {
+   "from": 1455.8,
+   "to": 1459.6,
+   "text": "maybe I'll talk about one more. There's"
+  },
+  {
+   "from": 1458.1,
+   "to": 1461.4,
+   "text": "another movement called \"find\". This is"
+  },
+  {
+   "from": 1459.6,
+   "to": 1463.2,
+   "text": "also kind of useful. Suppose I'm on this"
+  },
+  {
+   "from": 1461.4,
+   "to": 1465.3,
+   "text": "line, and I want to jump to the first"
+  },
+  {
+   "from": 1463.2,
+   "to": 1467.3,
+   "text": "character that equal's to... Like, I"
+  },
+  {
+   "from": 1465.3,
+   "to": 1471.3,
+   "text": "want to jump to the first \"o\". I can press"
+  },
+  {
+   "from": 1467.3,
+   "to": 1473.9,
+   "text": "\"fo\", and my cursor moves to the first"
+  },
+  {
+   "from": 1471.3,
+   "to": 1475.2,
+   "text": "\"o\". I've like, found \"o\". I can do fw and"
+  },
+  {
+   "from": 1473.9,
+   "to": 1479.6,
+   "text": "it'll move to the first \"w\", which I think"
+  },
+  {
+   "from": 1475.2,
+   "to": 1480.9,
+   "text": "is right here. fc: find the first C. I can"
+  },
+  {
+   "from": 1479.6,
+   "to": 1484.5,
+   "text": "also do the same thing, but backwards. If"
+  },
+  {
+   "from": 1480.9,
+   "to": 1487.9,
+   "text": "I do capital F, w, I can find the W that's"
+  },
+  {
+   "from": 1484.5,
+   "to": 1489.8,
+   "text": "before it. Capital F, s: find the s that's"
+  },
+  {
+   "from": 1487.9,
+   "to": 1493.5,
+   "text": "before that. And then, there's a variant"
+  },
+  {
+   "from": 1489.8,
+   "to": 1496.7,
+   "text": "of f, for find: t for to, so I can jump to"
+  },
+  {
+   "from": 1493.5,
+   "to": 1498.5,
+   "text": "O, and it jumps, like, until it's found o."
+  },
+  {
+   "from": 1496.7,
+   "to": 1503.1,
+   "text": "But not on top of it, right before it. And"
+  },
+  {
+   "from": 1498.5,
+   "to": 1504.8,
+   "text": "capital T say, t, jumps backwards to the t"
+  },
+  {
+   "from": 1503.1,
+   "to": 1507.2,
+   "text": "except not all the way on top of it, one"
+  },
+  {
+   "from": 1504.8,
+   "to": 1509.8,
+   "text": "character before. And, so, you can already"
+  },
+  {
+   "from": 1507.2,
+   "to": 1511,
+   "text": "see that idea I talked about, of like, Vim"
+  },
+  {
+   "from": 1509.8,
+   "to": 1513.2,
+   "text": "is a programming language; you can, like,"
+  },
+  {
+   "from": 1511,
+   "to": 1515.1,
+   "text": "compose these commands. \"F\", and \"T\", are"
+  },
+  {
+   "from": 1513.2,
+   "to": 1516.8,
+   "text": "\"find\", and \"to\", and you can say \"find\" a"
+  },
+  {
+   "from": 1515.1,
+   "to": 1520.2,
+   "text": "particular character, or jump \"to\" a"
+  },
+  {
+   "from": 1516.8,
+   "to": 1522.4,
+   "text": "particular character. So, those are a"
+  },
+  {
+   "from": 1520.2,
+   "to": 1526.7,
+   "text": "couple of Vim movement commands. So, any"
+  },
+  {
+   "from": 1522.4,
+   "to": 1532.1,
+   "text": "questions about those so far? So this is -"
+  },
+  {
+   "from": 1526.7,
+   "to": 1534,
+   "text": "yeah, question? Or... no? Okay, cool. So,"
+  },
+  {
+   "from": 1532.1,
+   "to": 1535.5,
+   "text": "those are Vim movement commands."
+  },
+  {
+   "from": 1534,
+   "to": 1537.9,
+   "text": "This is how you can navigate around a"
+  },
+  {
+   "from": 1535.5,
+   "to": 1540.1,
+   "text": "file quickly in normal mode. Now, another"
+  },
+  {
+   "from": 1537.9,
+   "to": 1542.8,
+   "text": "category of useful commands are editing"
+  },
+  {
+   "from": 1540.1,
+   "to": 1544.5,
+   "text": "commands. So, one we kind of already"
+  },
+  {
+   "from": 1542.8,
+   "to": 1546.5,
+   "text": "talked about is the \"i\" command"
+  },
+  {
+   "from": 1544.5,
+   "to": 1548.5,
+   "text": "for moving from \"normal\" mode to \"insert\""
+  },
+  {
+   "from": 1546.5,
+   "to": 1550.7,
+   "text": "mode, where you can start just writing"
+  },
+  {
+   "from": 1548.5,
+   "to": 1552.5,
+   "text": "text. So, suppose I go up here and I press"
+  },
+  {
+   "from": 1550.7,
+   "to": 1557,
+   "text": "\"i\". Now I can type in whatever text I want"
+  },
+  {
+   "from": 1552.5,
+   "to": 1558.4,
+   "text": "\"Hello world\", \"enter\". Then, press"
+  },
+  {
+   "from": 1557,
+   "to": 1560.9,
+   "text": "\"escape\" to go back to normal mode, and"
+  },
+  {
+   "from": 1558.4,
+   "to": 1561.6,
+   "text": "I've made a change to my buffer. But,"
+  },
+  {
+   "from": 1560.9,
+   "to": 1563.7,
+   "text": "there are a whole bunch of other"
+  },
+  {
+   "from": 1561.6,
+   "to": 1565.5,
+   "text": "commands for making efficient edits"
+  },
+  {
+   "from": 1563.7,
+   "to": 1567.8,
+   "text": "that makes sense for when you're dealing"
+  },
+  {
+   "from": 1565.5,
+   "to": 1569.4,
+   "text": "with programming languages. So, one useful"
+  },
+  {
+   "from": 1567.8,
+   "to": 1570.7,
+   "text": "command that I accidentally used earlier,"
+  },
+  {
+   "from": 1569.4,
+   "to": 1573.3,
+   "text": "before teaching you about it, is the \"o\""
+  },
+  {
+   "from": 1570.7,
+   "to": 1576.1,
+   "text": "command. So, suppose my cursor is, like,"
+  },
+  {
+   "from": 1573.3,
+   "to": 1578.4,
+   "text": "over here, and if I press \"o\", from normal"
+  },
+  {
+   "from": 1576.1,
+   "to": 1579.5,
+   "text": "mode, what it does, is it opens a new line"
+  },
+  {
+   "from": 1578.4,
+   "to": 1582,
+   "text": "below where my cursor is."
+  },
+  {
+   "from": 1579.5,
+   "to": 1583.4,
+   "text": "That's what \"o\" stands for. And it, so it"
+  },
+  {
+   "from": 1582,
+   "to": 1585,
+   "text": "creates a new line, and it put me into"
+  },
+  {
+   "from": 1583.4,
+   "to": 1587.3,
+   "text": "insert mode. So, now I can start typing in"
+  },
+  {
+   "from": 1585,
+   "to": 1589.6,
+   "text": "some text, press escape, and go back to"
+  },
+  {
+   "from": 1587.3,
+   "to": 1592.2,
+   "text": "normal mode. And then, just like the \"o\""
+  },
+  {
+   "from": 1589.6,
+   "to": 1595.5,
+   "text": "command, there's a capital \"O\" command, so"
+  },
+  {
+   "from": 1592.2,
+   "to": 1597.9,
+   "text": "if I'm here and I do capital \"O\", it puts"
+  },
+  {
+   "from": 1595.5,
+   "to": 1601.7,
+   "text": "me into insert mode above where I"
+  },
+  {
+   "from": 1597.9,
+   "to": 1604.2,
+   "text": "currently am. There's another Vim command"
+  },
+  {
+   "from": 1601.7,
+   "to": 1607.7,
+   "text": "for deleting things. So, suppose my cursor"
+  },
+  {
+   "from": 1604.2,
+   "to": 1611.6,
+   "text": "is, like, on top of this word right here,"
+  },
+  {
+   "from": 1607.7,
+   "to": 1614.4,
+   "text": "and I press the D key. \"D\" for delete. Oh,"
+  },
+  {
+   "from": 1611.6,
+   "to": 1616,
+   "text": "nothing happens; turns out that the D key"
+  },
+  {
+   "from": 1614.4,
+   "to": 1617.9,
+   "text": "needs to be combined with a movement"
+  },
+  {
+   "from": 1616,
+   "to": 1619.6,
+   "text": "command. So, remember we just talked about"
+  },
+  {
+   "from": 1617.9,
+   "to": 1622.9,
+   "text": "different movement commands, like hjkl,"
+  },
+  {
+   "from": 1619.6,
+   "to": 1623.5,
+   "text": "and, like, word, and backward word, and"
+  },
+  {
+   "from": 1622.9,
+   "to": 1627.7,
+   "text": "things like that."
+  },
+  {
+   "from": 1623.5,
+   "to": 1631.6,
+   "text": "So, I press D. Whoops. I press D and I can"
+  },
+  {
+   "from": 1627.7,
+   "to": 1634,
+   "text": "press W, and it's deleted a word. So, let"
+  },
+  {
+   "from": 1631.6,
+   "to": 1636.8,
+   "text": "me undo that. Undoing in Vim is just u for"
+  },
+  {
+   "from": 1634,
+   "to": 1639.9,
+   "text": "undo. So, notice my cursor's right here. I"
+  },
+  {
+   "from": 1636.8,
+   "to": 1641.8,
+   "text": "do \"dw\": it's deleted a word. I can move"
+  },
+  {
+   "from": 1639.9,
+   "to": 1645.1,
+   "text": "around, and then delete another word."
+  },
+  {
+   "from": 1641.8,
+   "to": 1647.6,
+   "text": "Suppose I'm - uh, keeps getting in the way"
+  },
+  {
+   "from": 1645.1,
+   "to": 1649.4,
+   "text": "Suppose I'm, like, somewhere in the middle"
+  },
+  {
+   "from": 1647.6,
+   "to": 1651.1,
+   "text": "of a word, and I want to delete to the end"
+  },
+  {
+   "from": 1649.4,
+   "to": 1655.6,
+   "text": "of a word. Any guesses for what"
+  },
+  {
+   "from": 1651.1,
+   "to": 1659.3,
+   "text": "combination of keys I'd use for that? \"d\""
+  },
+  {
+   "from": 1655.6,
+   "to": 1663.8,
+   "text": "and what? de, exactly. Delete to the end of"
+  },
+  {
+   "from": 1659.3,
+   "to": 1666.8,
+   "text": "the word. Another useful editing command"
+  },
+  {
+   "from": 1663.8,
+   "to": 1668.8,
+   "text": "is the c command. c stands for change. So,"
+  },
+  {
+   "from": 1666.8,
+   "to": 1670.8,
+   "text": "change is really similar to delete,"
+  },
+  {
+   "from": 1668.8,
+   "to": 1672.2,
+   "text": "except change puts you in insert mode,"
+  },
+  {
+   "from": 1670.8,
+   "to": 1674.5,
+   "text": "because, like, I want to delete a thing,"
+  },
+  {
+   "from": 1672.2,
+   "to": 1677,
+   "text": "but change it to something else. So, if"
+  },
+  {
+   "from": 1674.5,
+   "to": 1679.8,
+   "text": "I'm here, and I do \"ce\", it's like, change"
+  },
+  {
+   "from": 1677,
+   "to": 1681,
+   "text": "to the end of the word. And, it gets rid"
+  },
+  {
+   "from": 1679.8,
+   "to": 1682.6,
+   "text": "of the contents until the end of the"
+  },
+  {
+   "from": 1681,
+   "to": 1684.5,
+   "text": "word, and notice it put me in insert mode."
+  },
+  {
+   "from": 1682.6,
+   "to": 1686.7,
+   "text": "So now, whatever characters I type go"
+  },
+  {
+   "from": 1684.5,
+   "to": 1691.3,
+   "text": "into the buffer. If I press \"escape\", I go"
+  },
+  {
+   "from": 1686.7,
+   "to": 1693.3,
+   "text": "back into normal mode. And so, c and d are"
+  },
+  {
+   "from": 1691.3,
+   "to": 1695.7,
+   "text": "analogs: they both take motions as"
+  },
+  {
+   "from": 1693.3,
+   "to": 1697.3,
+   "text": "arguments. And, they will either delete"
+  },
+  {
+   "from": 1695.7,
+   "to": 1701,
+   "text": "that motion, or change"
+  },
+  {
+   "from": 1697.3,
+   "to": 1704.4,
+   "text": "that motion. So, for example, if you press"
+  },
+  {
+   "from": 1701,
+   "to": 1706,
+   "text": "the c key, there's also this pattern that,"
+  },
+  {
+   "from": 1704.4,
+   "to": 1707.9,
+   "text": "if you press a particular editing key"
+  },
+  {
+   "from": 1706,
+   "to": 1710.4,
+   "text": "twice, it'll have that effect on the"
+  },
+  {
+   "from": 1707.9,
+   "to": 1713,
+   "text": "given line. So, if I press \"dd\", that"
+  },
+  {
+   "from": 1710.4,
+   "to": 1714.4,
+   "text": "deletes the line. If I press \"cc\", that"
+  },
+  {
+   "from": 1713,
+   "to": 1715.6,
+   "text": "deletes the given line, but puts me in"
+  },
+  {
+   "from": 1714.4,
+   "to": 1719.8,
+   "text": "insert mode, so I can replace it with"
+  },
+  {
+   "from": 1715.6,
+   "to": 1723.4,
+   "text": "some other line. We'll cover a couple"
+  },
+  {
+   "from": 1719.8,
+   "to": 1724.3,
+   "text": "other, uh, editing commands, because then"
+  },
+  {
+   "from": 1723.4,
+   "to": 1726.7,
+   "text": "later we'll see how all these things"
+  },
+  {
+   "from": 1724.3,
+   "to": 1728.7,
+   "text": "interact together. So, another useful one"
+  },
+  {
+   "from": 1726.7,
+   "to": 1730.3,
+   "text": "is the x command. So, suppose my cursor is"
+  },
+  {
+   "from": 1728.7,
+   "to": 1732.1,
+   "text": "over some particular character. If I"
+  },
+  {
+   "from": 1730.3,
+   "to": 1737.9,
+   "text": "press \"x\", it just deletes that"
+  },
+  {
+   "from": 1732.1,
+   "to": 1740.3,
+   "text": "character. There's another command called"
+  },
+  {
+   "from": 1737.9,
+   "to": 1742.3,
+   "text": "r. If I'm over a particular character, and"
+  },
+  {
+   "from": 1740.3,
+   "to": 1743.9,
+   "text": "I press \"r\", it takes another character as"
+  },
+  {
+   "from": 1742.3,
+   "to": 1745.4,
+   "text": "an argument, and it replaces that"
+  },
+  {
+   "from": 1743.9,
+   "to": 1752.6,
+   "text": "particular character with some other"
+  },
+  {
+   "from": 1745.4,
+   "to": 1754.1,
+   "text": "character. And, I'll cover a couple more"
+  },
+  {
+   "from": 1752.6,
+   "to": 1756.4,
+   "text": "editing commands. So, I think one I"
+  },
+  {
+   "from": 1754.1,
+   "to": 1758,
+   "text": "talked about a moment ago - but, of course"
+  },
+  {
+   "from": 1756.4,
+   "to": 1759.4,
+   "text": "you can undo changes you've made in Vim."
+  },
+  {
+   "from": 1758,
+   "to": 1761.5,
+   "text": "And the way you do that is by pressing"
+  },
+  {
+   "from": 1759.4,
+   "to": 1763.2,
+   "text": "\"u\" while you're in normal mode. So, u for"
+  },
+  {
+   "from": 1761.5,
+   "to": 1764.9,
+   "text": "undo is pretty easy to remember. So, I"
+  },
+  {
+   "from": 1763.2,
+   "to": 1766.3,
+   "text": "press \"u\" a whole bunch of times; it's"
+  },
+  {
+   "from": 1764.9,
+   "to": 1768.8,
+   "text": "undone all the changes I've made. And"
+  },
+  {
+   "from": 1766.3,
+   "to": 1771,
+   "text": "then, the opposite of undo is, of course,"
+  },
+  {
+   "from": 1768.8,
+   "to": 1781,
+   "text": "redo. And, the binding for that in Vim is"
+  },
+  {
+   "from": 1771,
+   "to": 1782.3,
+   "text": "control + R. All right, one other editing"
+  },
+  {
+   "from": 1781,
+   "to": 1795.1,
+   "text": "command I'm going to talk about is copy"
+  },
+  {
+   "from": 1782.3,
+   "to": 1796.3,
+   "text": "and paste because-oh yes, question? That's"
+  },
+  {
+   "from": 1795.1,
+   "to": 1798.2,
+   "text": "a - that's a great question! So, the"
+  },
+  {
+   "from": 1796.3,
+   "to": 1799.5,
+   "text": "question is, \"Does 'undo' undo everything"
+  },
+  {
+   "from": 1798.2,
+   "to": 1801,
+   "text": "you've done since you've gone into"
+  },
+  {
+   "from": 1799.5,
+   "to": 1802.4,
+   "text": "insert mode, or just the last character?\""
+  },
+  {
+   "from": 1801,
+   "to": 1803.3,
+   "text": "It's - it's actually a little bit more"
+  },
+  {
+   "from": 1802.4,
+   "to": 1805.9,
+   "text": "complicated than that."
+  },
+  {
+   "from": 1803.3,
+   "to": 1807.5,
+   "text": "\"Undo\" does, like, undoes the last change"
+  },
+  {
+   "from": 1805.9,
+   "to": 1808.8,
+   "text": "you've made. So, if you went into insert"
+  },
+  {
+   "from": 1807.5,
+   "to": 1810.5,
+   "text": "mode, and typed in some stuff, and went"
+  },
+  {
+   "from": 1808.8,
+   "to": 1812.5,
+   "text": "back into normal mode, and then press \"u\""
+  },
+  {
+   "from": 1810.5,
+   "to": 1814.6,
+   "text": "for \"undo\", it'll undo all you've done in"
+  },
+  {
+   "from": 1812.5,
+   "to": 1816.1,
+   "text": "insert mode. But, if you've done some"
+  },
+  {
+   "from": 1814.6,
+   "to": 1818.3,
+   "text": "other type of editing command, like, say I"
+  },
+  {
+   "from": 1816.1,
+   "to": 1820.1,
+   "text": "press \"x\" to delete a character... If I do"
+  },
+  {
+   "from": 1818.3,
+   "to": 1824.3,
+   "text": "\"u\" for undo, it'll just undo that change"
+  },
+  {
+   "from": 1820.1,
+   "to": 1826.4,
+   "text": "that that editing command made. Now, does"
+  },
+  {
+   "from": 1824.3,
+   "to": 1828.8,
+   "text": "that answer the question? (Yeah) Great any"
+  },
+  {
+   "from": 1826.4,
+   "to": 1832.8,
+   "text": "other questions?"
+  },
+  {
+   "from": 1828.8,
+   "to": 1835.5,
+   "text": "Cool. So, I'll talk about copy and paste"
+  },
+  {
+   "from": 1832.8,
+   "to": 1837.6,
+   "text": "as well, because that's a popular one. The"
+  },
+  {
+   "from": 1835.5,
+   "to": 1839.7,
+   "text": "y command stands for copying, and the p"
+  },
+  {
+   "from": 1837.6,
+   "to": 1841.8,
+   "text": "command stands for pasting. y for \"copy\","
+  },
+  {
+   "from": 1839.7,
+   "to": 1843.4,
+   "text": "because, yank. Like, that's the word they-"
+  },
+  {
+   "from": 1841.8,
+   "to": 1846.3,
+   "text": "that's the terminology that"
+  },
+  {
+   "from": 1843.4,
+   "to": 1849.2,
+   "text": "Vim uses for copying. And, these commands"
+  },
+  {
+   "from": 1846.3,
+   "to": 1852.6,
+   "text": "are- y also takes a motion as an argument."
+  },
+  {
+   "from": 1849.2,
+   "to": 1854.4,
+   "text": "So if I do like, yy, it copies the current"
+  },
+  {
+   "from": 1852.6,
+   "to": 1856.1,
+   "text": "line. And, if I press \"p\" for \"paste\","
+  },
+  {
+   "from": 1854.4,
+   "to": 1857.3,
+   "text": "notice that now these two lines are"
+  },
+  {
+   "from": 1856.1,
+   "to": 1860.1,
+   "text": "identical, because I've just pasted a"
+  },
+  {
+   "from": 1857.3,
+   "to": 1862.3,
+   "text": "line below. \"u\" for \"undo\". But if I do"
+  },
+  {
+   "from": 1860.1,
+   "to": 1864.9,
+   "text": "something like \"yw\", it's copied the word."
+  },
+  {
+   "from": 1862.3,
+   "to": 1865.5,
+   "text": "And then I can do \"p\", and it just pasted"
+  },
+  {
+   "from": 1864.9,
+   "to": 1868.9,
+   "text": "that word again,"
+  },
+  {
+   "from": 1865.5,
+   "to": 1870.7,
+   "text": "right where my cursor was. One useful"
+  },
+  {
+   "from": 1868.9,
+   "to": 1872.5,
+   "text": "thing, especially in the context of copy"
+  },
+  {
+   "from": 1870.7,
+   "to": 1874.2,
+   "text": "and paste, is to be able to select a"
+  },
+  {
+   "from": 1872.5,
+   "to": 1875.7,
+   "text": "block of stuff and copy it, right? Like,"
+  },
+  {
+   "from": 1874.2,
+   "to": 1876.9,
+   "text": "this is probably how you used copy and"
+  },
+  {
+   "from": 1875.7,
+   "to": 1879.2,
+   "text": "paste in whatever editor you were using"
+  },
+  {
+   "from": 1876.9,
+   "to": 1881.4,
+   "text": "before. And so, that's where we get into"
+  },
+  {
+   "from": 1879.2,
+   "to": 1883.2,
+   "text": "the visual modes. So, these are another"
+  },
+  {
+   "from": 1881.4,
+   "to": 1884.6,
+   "text": "set of modes that are all related to"
+  },
+  {
+   "from": 1883.2,
+   "to": 1886,
+   "text": "each other, and that can be reached from"
+  },
+  {
+   "from": 1884.6,
+   "to": 1888.8,
+   "text": "normal mode, and they're used for"
+  },
+  {
+   "from": 1886,
+   "to": 1891,
+   "text": "selecting chunks of text. So, one mode is,"
+  },
+  {
+   "from": 1888.8,
+   "to": 1893.1,
+   "text": "just, regular visual mode. You can enter"
+  },
+  {
+   "from": 1891,
+   "to": 1894.8,
+   "text": "that by pressing v. And then, once you're"
+  },
+  {
+   "from": 1893.1,
+   "to": 1896.7,
+   "text": "in this mode, you can use most of the"
+  },
+  {
+   "from": 1894.8,
+   "to": 1898.5,
+   "text": "regular normal mode commands to move"
+  },
+  {
+   "from": 1896.7,
+   "to": 1900,
+   "text": "your pointer around. And it selects"
+  },
+  {
+   "from": 1898.5,
+   "to": 1902.1,
+   "text": "everything in between. So I can use, like,"
+  },
+  {
+   "from": 1900,
+   "to": 1904,
+   "text": "hjkl just to move the cursor, or I can"
+  },
+  {
+   "from": 1902.1,
+   "to": 1905.9,
+   "text": "use \"w\" to move by words, or different"
+  },
+  {
+   "from": 1904,
+   "to": 1908.1,
+   "text": "things like that, and it will select a"
+  },
+  {
+   "from": 1905.9,
+   "to": 1909.5,
+   "text": "block of text. And, once I've selected"
+  },
+  {
+   "from": 1908.1,
+   "to": 1910.9,
+   "text": "this block of text there are a whole bunch"
+  },
+  {
+   "from": 1909.5,
+   "to": 1912.6,
+   "text": "of different types of useful things you"
+  },
+  {
+   "from": 1910.9,
+   "to": 1914.8,
+   "text": "could do with it. One of the most popular"
+  },
+  {
+   "from": 1912.6,
+   "to": 1917.3,
+   "text": "things to do is copying this. So, once"
+  },
+  {
+   "from": 1914.8,
+   "to": 1919.6,
+   "text": "I've selected, I can do y to copy, and it"
+  },
+  {
+   "from": 1917.3,
+   "to": 1921.3,
+   "text": "puts me back into normal mode. And now,"
+  },
+  {
+   "from": 1919.6,
+   "to": 1922.8,
+   "text": "it's copied this to the - to the paste"
+  },
+  {
+   "from": 1921.3,
+   "to": 1924.9,
+   "text": "buffer. And then if I go somewhere else,"
+  },
+  {
+   "from": 1922.8,
+   "to": 1927.7,
+   "text": "and press \"p\", it pastes in that whole"
+  },
+  {
+   "from": 1924.9,
+   "to": 1930.5,
+   "text": "chunk of text I copied. And it's similar"
+  },
+  {
+   "from": 1927.7,
+   "to": 1933.6,
+   "text": "to visual mode, which selects kind of a"
+  },
+  {
+   "from": 1930.5,
+   "to": 1935.6,
+   "text": "contiguous stream of text. There's visual"
+  },
+  {
+   "from": 1933.6,
+   "to": 1937.7,
+   "text": "line mode: that can be reached by"
+  },
+  {
+   "from": 1935.6,
+   "to": 1939.8,
+   "text": "pressing capital V, and that selects"
+  },
+  {
+   "from": 1937.7,
+   "to": 1941.5,
+   "text": "whole lines at a time. And then there's"
+  },
+  {
+   "from": 1939.8,
+   "to": 1943.2,
+   "text": "VISUAL BLOCK mode, which can be selected"
+  },
+  {
+   "from": 1941.5,
+   "to": 1944.9,
+   "text": "by pressing \"control\" + \" V\", and that can"
+  },
+  {
+   "from": 1943.2,
+   "to": 1946.2,
+   "text": "select rectangular blocks of text. So"
+  },
+  {
+   "from": 1944.9,
+   "to": 1951.7,
+   "text": "this is something your old editor"
+  },
+  {
+   "from": 1946.2,
+   "to": 1953.3,
+   "text": "couldn't do. Alright, so, there's a lot"
+  },
+  {
+   "from": 1951.7,
+   "to": 1955.1,
+   "text": "more Vim editing commands to learn."
+  },
+  {
+   "from": 1953.3,
+   "to": 1956.7,
+   "text": "There's lots of, like, really weird and"
+  },
+  {
+   "from": 1955.1,
+   "to": 1958.4,
+   "text": "fancy things. Like, for example, the tilde"
+  },
+  {
+   "from": 1956.7,
+   "to": 1960.2,
+   "text": "command changes the case of the"
+  },
+  {
+   "from": 1958.4,
+   "to": 1961.7,
+   "text": "character, or the selection that you've"
+  },
+  {
+   "from": 1960.2,
+   "to": 1963.6,
+   "text": "currently selected. So for example,"
+  },
+  {
+   "from": 1961.7,
+   "to": 1965.6,
+   "text": "I can take this, like, Visual Studio Code,"
+  },
+  {
+   "from": 1963.6,
+   "to": 1968.3,
+   "text": "and flip the case on the whole thing, by"
+  },
+  {
+   "from": 1965.6,
+   "to": 1969.4,
+   "text": "selecting it and pressing tilde. And,"
+  },
+  {
+   "from": 1968.3,
+   "to": 1970.5,
+   "text": "there's a whole bunch of other things"
+  },
+  {
+   "from": 1969.4,
+   "to": 1972.2,
+   "text": "like that; they get more and more"
+  },
+  {
+   "from": 1970.5,
+   "to": 1974.1,
+   "text": "esoteric as you go. So, we're not going to"
+  },
+  {
+   "from": 1972.2,
+   "to": 1976.6,
+   "text": "cover all of those, but you'll get to"
+  },
+  {
+   "from": 1974.1,
+   "to": 1978.5,
+   "text": "those in the exercises. So, those are Vim"
+  },
+  {
+   "from": 1976.6,
+   "to": 1980.6,
+   "text": "editing commands, and a lot of them can"
+  },
+  {
+   "from": 1978.5,
+   "to": 1982.1,
+   "text": "be composed with movement commands. So,"
+  },
+  {
+   "from": 1980.6,
+   "to": 1989.3,
+   "text": "any questions about either of those so"
+  },
+  {
+   "from": 1982.1,
+   "to": 1992.7,
+   "text": "far? Cool. So, moving along, another"
+  },
+  {
+   "from": 1989.3,
+   "to": 1994.2,
+   "text": "category of things -of commands- that are"
+  },
+  {
+   "from": 1992.7,
+   "to": 1996.9,
+   "text": "mostly relevant to normal mode are"
+  },
+  {
+   "from": 1994.2,
+   "to": 1998.5,
+   "text": "counts. So, you can give them a number, to"
+  },
+  {
+   "from": 1996.9,
+   "to": 2002.1,
+   "text": "do a particular thing, some number of"
+  },
+  {
+   "from": 1998.5,
+   "to": 2005.4,
+   "text": "times. So suppose my cursor is here, and I"
+  },
+  {
+   "from": 2002.1,
+   "to": 2007,
+   "text": "want to move down, like 1 2 3 4 lines. One"
+  },
+  {
+   "from": 2005.4,
+   "to": 2009.4,
+   "text": "way I can do that is by pressing \"j\" four"
+  },
+  {
+   "from": 2007,
+   "to": 2012.6,
+   "text": "times - go down four times. \"kkkk\" goes"
+  },
+  {
+   "from": 2009.4,
+   "to": 2014,
+   "text": "up four times. But, rather than pressing a"
+  },
+  {
+   "from": 2012.6,
+   "to": 2017.4,
+   "text": "particular key again, and again, I can use"
+  },
+  {
+   "from": 2014,
+   "to": 2019,
+   "text": "a count. So if I press \"4\", \"j\", it does j"
+  },
+  {
+   "from": 2017.4,
+   "to": 2020.1,
+   "text": "four times, right?"
+  },
+  {
+   "from": 2019,
+   "to": 2022.3,
+   "text": "Vim's interface is a programming"
+  },
+  {
+   "from": 2020.1,
+   "to": 2025.9,
+   "text": "language. If I do \"4k\", it moves up four"
+  },
+  {
+   "from": 2022.3,
+   "to": 2027.6,
+   "text": "times. If I am here, and I press \"v\" to go"
+  },
+  {
+   "from": 2025.9,
+   "to": 2029,
+   "text": "into visual mode... Okay so now I can move"
+  },
+  {
+   "from": 2027.6,
+   "to": 2031.7,
+   "text": "my cursor around, and select blocks of"
+  },
+  {
+   "from": 2029,
+   "to": 2033.7,
+   "text": "text. I can do, like, \"eee\" to select a"
+  },
+  {
+   "from": 2031.7,
+   "to": 2036.6,
+   "text": "couple of words, but, I could also go back"
+  },
+  {
+   "from": 2033.7,
+   "to": 2039.7,
+   "text": "here -v for visual mode- and press three e"
+  },
+  {
+   "from": 2036.6,
+   "to": 2043.1,
+   "text": "to select, like, three \"ends of words\""
+  },
+  {
+   "from": 2039.7,
+   "to": 2045.1,
+   "text": "forward. And then of course these can also"
+  },
+  {
+   "from": 2043.1,
+   "to": 2048,
+   "text": "be combined with editing commands. So,"
+  },
+  {
+   "from": 2045.1,
+   "to": 2050.9,
+   "text": "like, suppose I want to delete seven"
+  },
+  {
+   "from": 2048,
+   "to": 2054,
+   "text": "words. I can do that by moving my cursor"
+  },
+  {
+   "from": 2050.9,
+   "to": 2057.7,
+   "text": "somewhere, and doing \"7dw\". Seven delete"
+  },
+  {
+   "from": 2054,
+   "to": 2059.5,
+   "text": "words. And so, this is particularly useful"
+  },
+  {
+   "from": 2057.7,
+   "to": 2061.3,
+   "text": "for things like, suppose my cursor is"
+  },
+  {
+   "from": 2059.5,
+   "to": 2062.5,
+   "text": "somewhere on the screen, and I'm looking"
+  },
+  {
+   "from": 2061.3,
+   "to": 2064,
+   "text": "somewhere else on the screen, or, I want"
+  },
+  {
+   "from": 2062.5,
+   "to": 2066.2,
+   "text": "my cursor to go to that particular line."
+  },
+  {
+   "from": 2064,
+   "to": 2068.4,
+   "text": "Notice that I've set up relative line"
+  },
+  {
+   "from": 2066.2,
+   "to": 2069.8,
+   "text": "numbering on the left. So, wherever my"
+  },
+  {
+   "from": 2068.4,
+   "to": 2071.6,
+   "text": "cursor is, it shows the current line"
+  },
+  {
+   "from": 2069.8,
+   "to": 2073.8,
+   "text": "number, but everywhere else, it's just the"
+  },
+  {
+   "from": 2071.6,
+   "to": 2075.9,
+   "text": "offset from where I am. Now, suppose my"
+  },
+  {
+   "from": 2073.8,
+   "to": 2078.5,
+   "text": "cursor is here, but I want to move down"
+  },
+  {
+   "from": 2075.9,
+   "to": 2080.2,
+   "text": "to the like \"Microsoft Word\" down here, so"
+  },
+  {
+   "from": 2078.5,
+   "to": 2081.8,
+   "text": "that's eight lines down. So, what"
+  },
+  {
+   "from": 2080.2,
+   "to": 2084,
+   "text": "combination of keys would I press, to do"
+  },
+  {
+   "from": 2081.8,
+   "to": 2085.6,
+   "text": "that? Like, what's the most efficient way?"
+  },
+  {
+   "from": 2084,
+   "to": 2087.8,
+   "text": "Yeah, exactly!"
+  },
+  {
+   "from": 2085.6,
+   "to": 2090.4,
+   "text": "Let's try that out-8j-and my cursor moved"
+  },
+  {
+   "from": 2087.8,
+   "to": 2090.4,
+   "text": "down to this line."
+  },
+  {
+   "from": 2091.3,
+   "to": 2097.9,
+   "text": "Okay. And then, one, final category of key"
+  },
+  {
+   "from": 2096.1,
+   "to": 2099.9,
+   "text": "meanings in Vim is something called"
+  },
+  {
+   "from": 2097.9,
+   "to": 2102.2,
+   "text": "modifiers. So we have, so far, movement,"
+  },
+  {
+   "from": 2099.9,
+   "to": 2104.9,
+   "text": "edits, counts, and, finally, we have"
+  },
+  {
+   "from": 2102.2,
+   "to": 2106.5,
+   "text": "modifiers. So, modifiers kind of change"
+  },
+  {
+   "from": 2104.9,
+   "to": 2108.8,
+   "text": "the meaning of a movement command a"
+  },
+  {
+   "from": 2106.5,
+   "to": 2111.5,
+   "text": "little bit. And, a couple modifiers that"
+  },
+  {
+   "from": 2108.8,
+   "to": 2115.2,
+   "text": "are especially useful are the \"a\" and \"i\""
+  },
+  {
+   "from": 2111.5,
+   "to": 2118,
+   "text": "modifier. So, a stands for like around and"
+  },
+  {
+   "from": 2115.2,
+   "to": 2119.9,
+   "text": "\"i\" stands for inside. And, to see where"
+  },
+  {
+   "from": 2118,
+   "to": 2121.8,
+   "text": "this is really useful, I can move my"
+  },
+  {
+   "from": 2119.9,
+   "to": 2122.5,
+   "text": "cursor to somewhere like here, for"
+  },
+  {
+   "from": 2121.8,
+   "to": 2124.7,
+   "text": "example."
+  },
+  {
+   "from": 2122.5,
+   "to": 2126.3,
+   "text": "So, hopefully, most of you are familiar"
+  },
+  {
+   "from": 2124.7,
+   "to": 2128.2,
+   "text": "with markdown syntax - and if not it"
+  },
+  {
+   "from": 2126.3,
+   "to": 2130.5,
+   "text": "doesn't matter too much. Uh, this is a"
+  },
+  {
+   "from": 2128.2,
+   "to": 2131.8,
+   "text": "link in markdown; it's a text rendered in"
+  },
+  {
+   "from": 2130.5,
+   "to": 2133.6,
+   "text": "square brackets, and then the link in"
+  },
+  {
+   "from": 2131.8,
+   "to": 2135.5,
+   "text": "parentheses. Suppose my cursor is inside"
+  },
+  {
+   "from": 2133.6,
+   "to": 2138.4,
+   "text": "here, and I want to change the text"
+  },
+  {
+   "from": 2135.5,
+   "to": 2140.2,
+   "text": "corresponding to this link. Well, one way"
+  },
+  {
+   "from": 2138.4,
+   "to": 2143.5,
+   "text": "I could do that is, like, move back here"
+  },
+  {
+   "from": 2140.2,
+   "to": 2145.1,
+   "text": "with b, and, like, 2dw, and then \"i\" to go"
+  },
+  {
+   "from": 2143.5,
+   "to": 2146.5,
+   "text": "into insert mode. That's one of the"
+  },
+  {
+   "from": 2145.1,
+   "to": 2148,
+   "text": "many ways I can make this change, and I"
+  },
+  {
+   "from": 2146.5,
+   "to": 2151.1,
+   "text": "can type in whatever other thing I want -"
+  },
+  {
+   "from": 2148,
+   "to": 2153.4,
+   "text": "u to undo, u to undo. Another way I could"
+  },
+  {
+   "from": 2151.1,
+   "to": 2158,
+   "text": "have done that is change two words - \"c2w\""
+  },
+  {
+   "from": 2153.4,
+   "to": 2160,
+   "text": "- and then type in some other text. But,"
+  },
+  {
+   "from": 2158,
+   "to": 2163.3,
+   "text": "one final way I could do the same change"
+  },
+  {
+   "from": 2160,
+   "to": 2165.4,
+   "text": "is using the modifier commands to talk"
+  },
+  {
+   "from": 2163.3,
+   "to": 2167.1,
+   "text": "about how I want to interact with these"
+  },
+  {
+   "from": 2165.4,
+   "to": 2169.5,
+   "text": "different types of grouping things like"
+  },
+  {
+   "from": 2167.1,
+   "to": 2172.1,
+   "text": "parentheses and square brackets. So, one"
+  },
+  {
+   "from": 2169.5,
+   "to": 2175.6,
+   "text": "final way of doing this is change inside"
+  },
+  {
+   "from": 2172.1,
+   "to": 2177.4,
+   "text": "square brackets-\"c\" \"i\" \"[\"-and that puts"
+  },
+  {
+   "from": 2175.6,
+   "to": 2180.2,
+   "text": "me into insert mode, after deleting the"
+  },
+  {
+   "from": 2177.4,
+   "to": 2181.4,
+   "text": "contents that are inside the brackets. So,"
+  },
+  {
+   "from": 2180.2,
+   "to": 2182.7,
+   "text": "do you see how we can take all these"
+  },
+  {
+   "from": 2181.4,
+   "to": 2184.3,
+   "text": "different ingredients, like we talked"
+  },
+  {
+   "from": 2182.7,
+   "to": 2185.6,
+   "text": "about \"change\", and we could combine that"
+  },
+  {
+   "from": 2184.3,
+   "to": 2187.5,
+   "text": "with different movement commands. We"
+  },
+  {
+   "from": 2185.6,
+   "to": 2190.1,
+   "text": "talked about inside, how it's a modifier."
+  },
+  {
+   "from": 2187.5,
+   "to": 2192.8,
+   "text": "And then we talked about, uh... we didn't"
+  },
+  {
+   "from": 2190.1,
+   "to": 2194.2,
+   "text": "talk about parentheses. But, if your"
+  },
+  {
+   "from": 2192.8,
+   "to": 2196.1,
+   "text": "cursor is hovering over a different, uh,"
+  },
+  {
+   "from": 2194.2,
+   "to": 2197.8,
+   "text": "different types of grouping things like"
+  },
+  {
+   "from": 2196.1,
+   "to": 2199.9,
+   "text": "parentheses, or square brackets, you can"
+  },
+  {
+   "from": 2197.8,
+   "to": 2201,
+   "text": "press the percent movement key to jump"
+  },
+  {
+   "from": 2199.9,
+   "to": 2205.3,
+   "text": "back and forth between matching"
+  },
+  {
+   "from": 2201,
+   "to": 2209.5,
+   "text": "parentheses. If I go over here and I do d,"
+  },
+  {
+   "from": 2205.3,
+   "to": 2212.5,
+   "text": "i, (, I can delete the contents"
+  },
+  {
+   "from": 2209.5,
+   "to": 2215.8,
+   "text": "inside these parentheses. And so, those"
+  },
+  {
+   "from": 2212.5,
+   "to": 2217.6,
+   "text": "are Vim, uh, modifiers. I guess we talked"
+  },
+  {
+   "from": 2215.8,
+   "to": 2220.3,
+   "text": "about i, but we didn't talk about a. If I"
+  },
+  {
+   "from": 2217.6,
+   "to": 2222.1,
+   "text": "do \"da(\", it deletes a whole,"
+  },
+  {
+   "from": 2220.3,
+   "to": 2224.5,
+   "text": "like parenthesized group including the"
+  },
+  {
+   "from": 2222.1,
+   "to": 2230.7,
+   "text": "parentheses so I is inside"
+  },
+  {
+   "from": 2224.5,
+   "to": 2231.8,
+   "text": "is around or including all right so"
+  },
+  {
+   "from": 2230.7,
+   "to": 2233.7,
+   "text": "those are basically the different"
+  },
+  {
+   "from": 2231.8,
+   "to": 2235.9,
+   "text": "categories of things you can combine"
+  },
+  {
+   "from": 2233.7,
+   "to": 2238.1,
+   "text": "together, when interacting with Vim's"
+  },
+  {
+   "from": 2235.9,
+   "to": 2240.3,
+   "text": "interface. So, any questions about that or"
+  },
+  {
+   "from": 2238.1,
+   "to": 2248.8,
+   "text": "the overall idea of this interface being"
+  },
+  {
+   "from": 2240.3,
+   "to": 2251.6,
+   "text": "a programming language? Cool. So, let's do"
+  },
+  {
+   "from": 2248.8,
+   "to": 2253.9,
+   "text": "a quick demo, to kind of demonstrate the"
+  },
+  {
+   "from": 2251.6,
+   "to": 2256.3,
+   "text": "power of this editor. And, it will kind of"
+  },
+  {
+   "from": 2253.9,
+   "to": 2258.2,
+   "text": "help us see how this tool can work"
+  },
+  {
+   "from": 2256.3,
+   "to": 2261.3,
+   "text": "really fast and kind of match the speed"
+  },
+  {
+   "from": 2258.2,
+   "to": 2263.8,
+   "text": "at which we think. So, over here is a very"
+  },
+  {
+   "from": 2261.3,
+   "to": 2264.8,
+   "text": "broken \"fizzbuzz\" implementation that"
+  },
+  {
+   "from": 2263.8,
+   "to": 2266.6,
+   "text": "doesn't actually print anything."
+  },
+  {
+   "from": 2264.8,
+   "to": 2268.7,
+   "text": "Uh, hopefully, most of you have heard of"
+  },
+  {
+   "from": 2266.6,
+   "to": 2271.1,
+   "text": "\"fizzbuzz\" - if not, I'll explain it super"
+  },
+  {
+   "from": 2268.7,
+   "to": 2272.7,
+   "text": "briefly. Uh, \"fizzbuzz\" is a programming"
+  },
+  {
+   "from": 2271.1,
+   "to": 2274.3,
+   "text": "exercise where you print the numbers 1"
+  },
+  {
+   "from": 2272.7,
+   "to": 2276.5,
+   "text": "through n, but when the number is"
+  },
+  {
+   "from": 2274.3,
+   "to": 2278.7,
+   "text": "divisible by 3, you print fizz - when it's"
+  },
+  {
+   "from": 2276.5,
+   "to": 2280.9,
+   "text": "divisible by 5, you print buzz. And, when"
+  },
+  {
+   "from": 2278.7,
+   "to": 2282.8,
+   "text": "it's divisible by both 3, and 5. you print"
+  },
+  {
+   "from": 2280.9,
+   "to": 2285.1,
+   "text": "fizzbuzz. And, if none of those apply, you"
+  },
+  {
+   "from": 2282.8,
+   "to": 2289.3,
+   "text": "just print the number. So, you should"
+  },
+  {
+   "from": 2285.1,
+   "to": 2293.5,
+   "text": "print like 1, 2, fizz, 4, buzz, and so on."
+  },
+  {
+   "from": 2289.3,
+   "to": 2296.6,
+   "text": "But, if I run this program, it doesn't"
+  },
+  {
+   "from": 2293.5,
+   "to": 2300.1,
+   "text": "print anything here I have them on the"
+  },
+  {
+   "from": 2296.6,
+   "to": 2301.5,
+   "text": "left in just a terminal on the right ok"
+  },
+  {
+   "from": 2300.1,
+   "to": 2303.8,
+   "text": "so there's a bunch of issues with this"
+  },
+  {
+   "from": 2301.5,
+   "to": 2306.5,
+   "text": "one is that main is never called so"
+  },
+  {
+   "from": 2303.8,
+   "to": 2309.5,
+   "text": "let's start off with fixing that so"
+  },
+  {
+   "from": 2306.5,
+   "to": 2312,
+   "text": "here's how I would make this change and"
+  },
+  {
+   "from": 2309.5,
+   "to": 2314.3,
+   "text": "notice how few keystrokes this requires"
+  },
+  {
+   "from": 2312,
+   "to": 2317.6,
+   "text": "capital G means go to the bottom of the"
+  },
+  {
+   "from": 2314.3,
+   "to": 2319.7,
+   "text": "file o opens a new line below and now I"
+  },
+  {
+   "from": 2317.6,
+   "to": 2325.4,
+   "text": "can just type in stuff so I'm an insert"
+  },
+  {
+   "from": 2319.7,
+   "to": 2327.2,
+   "text": "mode okay so I've typed in whatever"
+  },
+  {
+   "from": 2325.4,
+   "to": 2330.5,
+   "text": "change I want to make escape to go back"
+  },
+  {
+   "from": 2327.2,
+   "to": 2333.5,
+   "text": "to normal mode if I do : W so command"
+  },
+  {
+   "from": 2330.5,
+   "to": 2334.7,
+   "text": "mode right let me go back here okay now"
+  },
+  {
+   "from": 2333.5,
+   "to": 2336.7,
+   "text": "at least my program prints something"
+  },
+  {
+   "from": 2334.7,
+   "to": 2338.9,
+   "text": "when I run it another issue with this"
+  },
+  {
+   "from": 2336.7,
+   "to": 2342.8,
+   "text": "program is that it starts at 0 instead"
+  },
+  {
+   "from": 2338.9,
+   "to": 2345,
+   "text": "of 1 so let's go fix that so I want to"
+  },
+  {
+   "from": 2342.8,
+   "to": 2347,
+   "text": "go over to this range whoops this range"
+  },
+  {
+   "from": 2345,
+   "to": 2348.5,
+   "text": "thing and it shouldn't be going from 0"
+  },
+  {
+   "from": 2347,
+   "to": 2351.3,
+   "text": "to limit it should be going from 1 to"
+  },
+  {
+   "from": 2348.5,
+   "to": 2352.7,
+   "text": "limit plus 1 1 command which I didn't"
+  },
+  {
+   "from": 2351.3,
+   "to": 2356.1,
+   "text": "show you about is how you search in vim"
+  },
+  {
+   "from": 2352.7,
+   "to": 2356.1,
+   "text": "so you press forward slash"
+  },
+  {
+   "from": 2357,
+   "to": 2361.9,
+   "text": "to close this and restart it if you"
+  },
+  {
+   "from": 2359.1,
+   "to": 2364.8,
+   "text": "press forward slash it starts search so"
+  },
+  {
+   "from": 2361.9,
+   "to": 2366.2,
+   "text": "if I type in range enter my cursor goes"
+  },
+  {
+   "from": 2364.8,
+   "to": 2367.8,
+   "text": "from wherever it was before to the first"
+  },
+  {
+   "from": 2366.2,
+   "to": 2368.9,
+   "text": "instance of range it found so it's a"
+  },
+  {
+   "from": 2367.8,
+   "to": 2371.7,
+   "text": "really efficient way of moving where I"
+  },
+  {
+   "from": 2368.9,
+   "to": 2374,
+   "text": "want to move WW to move forward two"
+  },
+  {
+   "from": 2371.7,
+   "to": 2376.3,
+   "text": "words I to go into insert mode add the"
+  },
+  {
+   "from": 2374,
+   "to": 2378.3,
+   "text": "one comma space escape I'm back in"
+  },
+  {
+   "from": 2376.3,
+   "to": 2380.1,
+   "text": "normal mode this is a very common"
+  },
+  {
+   "from": 2378.3,
+   "to": 2381.9,
+   "text": "pattern in vim you stay in normal mode"
+  },
+  {
+   "from": 2380.1,
+   "to": 2383.3,
+   "text": "you go somewhere you go into insert mode"
+  },
+  {
+   "from": 2381.9,
+   "to": 2384.9,
+   "text": "you make a tiny change and you jump"
+  },
+  {
+   "from": 2383.3,
+   "to": 2385.9,
+   "text": "right back to normal mode like normal"
+  },
+  {
+   "from": 2384.9,
+   "to": 2388.8,
+   "text": "mode is home and that's where you should"
+  },
+  {
+   "from": 2385.9,
+   "to": 2391,
+   "text": "be most of the time I also want to add a"
+  },
+  {
+   "from": 2388.8,
+   "to": 2395.4,
+   "text": "plus one so e to go to the end of this"
+  },
+  {
+   "from": 2391,
+   "to": 2398.1,
+   "text": "word a for a pend plus one escape"
+  },
+  {
+   "from": 2395.4,
+   "to": 2400.8,
+   "text": "alright fix that problem and other issue"
+  },
+  {
+   "from": 2398.1,
+   "to": 2402.9,
+   "text": "is that this program prints fizz for"
+  },
+  {
+   "from": 2400.8,
+   "to": 2406,
+   "text": "both divisible by three and five so"
+  },
+  {
+   "from": 2402.9,
+   "to": 2407.9,
+   "text": "let's fix that slash fizz searches for"
+  },
+  {
+   "from": 2406,
+   "to": 2411.8,
+   "text": "fizz been oppressed and it goes to the"
+  },
+  {
+   "from": 2407.9,
+   "to": 2413.7,
+   "text": "next match see I press E I quote changes"
+  },
+  {
+   "from": 2411.8,
+   "to": 2415.7,
+   "text": "what's inside the quote so it's deleted"
+  },
+  {
+   "from": 2413.7,
+   "to": 2417.5,
+   "text": "the fizz and put me in insert mode right"
+  },
+  {
+   "from": 2415.7,
+   "to": 2418.5,
+   "text": "in between those two quotes and I can"
+  },
+  {
+   "from": 2417.5,
+   "to": 2423.5,
+   "text": "type in whatever I want"
+  },
+  {
+   "from": 2418.5,
+   "to": 2426.6,
+   "text": "escape to go back to normal mode so"
+  },
+  {
+   "from": 2423.5,
+   "to": 2428.9,
+   "text": "great I've fixed that particular problem"
+  },
+  {
+   "from": 2426.6,
+   "to": 2431.7,
+   "text": "another problem with this program is"
+  },
+  {
+   "from": 2428.9,
+   "to": 2437.7,
+   "text": "that it prints fizz and Buzz on separate"
+  },
+  {
+   "from": 2431.7,
+   "to": 2442.2,
+   "text": "lines for multiples of 15 so let's let's"
+  },
+  {
+   "from": 2437.7,
+   "to": 2442.9,
+   "text": "go and fix that let me go down to this"
+  },
+  {
+   "from": 2442.2,
+   "to": 2444.6,
+   "text": "line here"
+  },
+  {
+   "from": 2442.9,
+   "to": 2446.4,
+   "text": "one way I can don't actually worry about"
+  },
+  {
+   "from": 2444.6,
+   "to": 2447.4,
+   "text": "like the actual contents of this program"
+  },
+  {
+   "from": 2446.4,
+   "to": 2448.7,
+   "text": "like this some stupid program that"
+  },
+  {
+   "from": 2447.4,
+   "to": 2451,
+   "text": "doesn't matter pay attention to what"
+  },
+  {
+   "from": 2448.7,
+   "to": 2452.2,
+   "text": "keys I'm pressing in vim that allow me"
+  },
+  {
+   "from": 2451,
+   "to": 2455,
+   "text": "to make changes to this program really"
+  },
+  {
+   "from": 2452.2,
+   "to": 2456.8,
+   "text": "efficiently so my cursor is on this line"
+  },
+  {
+   "from": 2455,
+   "to": 2459.5,
+   "text": "i press dollar to go to the end of this"
+  },
+  {
+   "from": 2456.8,
+   "to": 2461.2,
+   "text": "line i for insert mode okay and i'm"
+  },
+  {
+   "from": 2459.5,
+   "to": 2463.3,
+   "text": "typing some stuff escape to go back to"
+  },
+  {
+   "from": 2461.2,
+   "to": 2467.1,
+   "text": "normal mode now I want to make the same"
+  },
+  {
+   "from": 2463.3,
+   "to": 2471.6,
+   "text": "change the print below look at this JJ"
+  },
+  {
+   "from": 2467.1,
+   "to": 2473.3,
+   "text": "dot so what dot dozen vim is it repeats"
+  },
+  {
+   "from": 2471.6,
+   "to": 2476,
+   "text": "the previous editing command that was"
+  },
+  {
+   "from": 2473.3,
+   "to": 2477.9,
+   "text": "made and so this is a really nice way of"
+  },
+  {
+   "from": 2476,
+   "to": 2479.9,
+   "text": "doing repetitive tasks without typing"
+  },
+  {
+   "from": 2477.9,
+   "to": 2481.6,
+   "text": "the same thing over and over again so in"
+  },
+  {
+   "from": 2479.9,
+   "to": 2484.6,
+   "text": "that particular case that inserted comma"
+  },
+  {
+   "from": 2481.6,
+   "to": 2487.1,
+   "text": "end quote and so it applied the same"
+  },
+  {
+   "from": 2484.6,
+   "to": 2489.6,
+   "text": "thing on this line when I press dot and"
+  },
+  {
+   "from": 2487.1,
+   "to": 2490.7,
+   "text": "then when I guess one final part of this"
+  },
+  {
+   "from": 2489.6,
+   "to": 2492.9,
+   "text": "demo is"
+  },
+  {
+   "from": 2490.7,
+   "to": 2494.6,
+   "text": "we will fix the issue that this program"
+  },
+  {
+   "from": 2492.9,
+   "to": 2495.7,
+   "text": "maybe should take a command-line"
+  },
+  {
+   "from": 2494.6,
+   "to": 2498.5,
+   "text": "argument instead of having this"
+  },
+  {
+   "from": 2495.7,
+   "to": 2500.4,
+   "text": "hard-coded 10 down here so how do we do"
+  },
+  {
+   "from": 2498.5,
+   "to": 2503.2,
+   "text": "that I'll press GG to go to the top"
+  },
+  {
+   "from": 2500.4,
+   "to": 2504.5,
+   "text": "capital o so now I've opened a line"
+  },
+  {
+   "from": 2503.2,
+   "to": 2507.2,
+   "text": "above and I'm going to type in some text"
+  },
+  {
+   "from": 2504.5,
+   "to": 2509.7,
+   "text": "like imports this enter escape to go"
+  },
+  {
+   "from": 2507.2,
+   "to": 2512.1,
+   "text": "back to normal mode and then I want to"
+  },
+  {
+   "from": 2509.7,
+   "to": 2514.9,
+   "text": "go down to where this 10 is so slash 10"
+  },
+  {
+   "from": 2512.1,
+   "to": 2517.5,
+   "text": "makes me jump straight down there CI"
+  },
+  {
+   "from": 2514.9,
+   "to": 2519.8,
+   "text": "pren to edit what's inside the"
+  },
+  {
+   "from": 2517.5,
+   "to": 2522.2,
+   "text": "parentheses and now I can type in like"
+  },
+  {
+   "from": 2519.8,
+   "to": 2527.1,
+   "text": "whatever thing I need to type in here"
+  },
+  {
+   "from": 2522.2,
+   "to": 2529.8,
+   "text": "and then once I've done this my program"
+  },
+  {
+   "from": 2527.1,
+   "to": 2530.9,
+   "text": "does fizzbuzz correctly I think I missed"
+  },
+  {
+   "from": 2529.8,
+   "to": 2532.4,
+   "text": "one change I wanted to make but it"
+  },
+  {
+   "from": 2530.9,
+   "to": 2534.5,
+   "text": "doesn't matter this demonstrates that"
+  },
+  {
+   "from": 2532.4,
+   "to": 2537.3,
+   "text": "you can make lots of changes really fast"
+  },
+  {
+   "from": 2534.5,
+   "to": 2543.4,
+   "text": "so any questions about this demo or the"
+  },
+  {
+   "from": 2537.3,
+   "to": 2548,
+   "text": "overall idea we've been talking about ok"
+  },
+  {
+   "from": 2543.4,
+   "to": 2549.6,
+   "text": "so this will be covered Tuesday so the"
+  },
+  {
+   "from": 2548,
+   "to": 2551.7,
+   "text": "kind of outside environment I'm running"
+  },
+  {
+   "from": 2549.6,
+   "to": 2553.6,
+   "text": "vim on the left and my shell on the"
+  },
+  {
+   "from": 2551.7,
+   "to": 2558.9,
+   "text": "right and then this is team ox on the"
+  },
+  {
+   "from": 2553.6,
+   "to": 2559.9,
+   "text": "outside one variant of that question"
+  },
+  {
+   "from": 2558.9,
+   "to": 2561.7,
+   "text": "might be like how do you switch between"
+  },
+  {
+   "from": 2559.9,
+   "to": 2562.8,
+   "text": "different vim windows and you can see"
+  },
+  {
+   "from": 2561.7,
+   "to": 2564.3,
+   "text": "the lecture notes for that but there's a"
+  },
+  {
+   "from": 2562.8,
+   "to": 2565.7,
+   "text": "key binding for that so if you have the"
+  },
+  {
+   "from": 2564.3,
+   "to": 2570.2,
+   "text": "same window open or multiple things open"
+  },
+  {
+   "from": 2565.7,
+   "to": 2570.2,
+   "text": "there's a way of doing that question ah"
+  },
+  {
+   "from": 2570.8,
+   "to": 2576.5,
+   "text": "good question so delete takes a motion"
+  },
+  {
+   "from": 2574.6,
+   "to": 2578.1,
+   "text": "and then removes those contents but"
+  },
+  {
+   "from": 2576.5,
+   "to": 2580.1,
+   "text": "keeps you in normal mode so you can keep"
+  },
+  {
+   "from": 2578.1,
+   "to": 2582.4,
+   "text": "just moving around in a file what change"
+  },
+  {
+   "from": 2580.1,
+   "to": 2583.9,
+   "text": "does is very similar to delete it takes"
+  },
+  {
+   "from": 2582.4,
+   "to": 2586.2,
+   "text": "motions and treats them in the same way"
+  },
+  {
+   "from": 2583.9,
+   "to": 2588,
+   "text": "deletes those contents but then puts you"
+  },
+  {
+   "from": 2586.2,
+   "to": 2591.3,
+   "text": "in insert mode and so it saves you from"
+  },
+  {
+   "from": 2588,
+   "to": 2593.3,
+   "text": "typing one extra keystroke so if I'm"
+  },
+  {
+   "from": 2591.3,
+   "to": 2596.4,
+   "text": "here for example I want to delete main"
+  },
+  {
+   "from": 2593.3,
+   "to": 2598.2,
+   "text": "DW deletes a word but now if I press"
+  },
+  {
+   "from": 2596.4,
+   "to": 2601.7,
+   "text": "whatever key likes I press J it just"
+  },
+  {
+   "from": 2598.2,
+   "to": 2603.5,
+   "text": "moved me down if I undo that do cw4"
+  },
+  {
+   "from": 2601.7,
+   "to": 2604.8,
+   "text": "change a word now it's actually put me"
+  },
+  {
+   "from": 2603.5,
+   "to": 2608.6,
+   "text": "into insert mode and I can type in"
+  },
+  {
+   "from": 2604.8,
+   "to": 2611.9,
+   "text": "whatever I want it to insert so DWI is"
+  },
+  {
+   "from": 2608.6,
+   "to": 2613.8,
+   "text": "the same thing as CW but it saves a"
+  },
+  {
+   "from": 2611.9,
+   "to": 2615.3,
+   "text": "keystroke one thing we've linked in the"
+  },
+  {
+   "from": 2613.8,
+   "to": 2617.1,
+   "text": "resources is something called vim golf"
+  },
+  {
+   "from": 2615.3,
+   "to": 2619.8,
+   "text": "basically people have set up a game"
+  },
+  {
+   "from": 2617.1,
+   "to": 2621.4,
+   "text": "online where you can get an editing task"
+  },
+  {
+   "from": 2619.8,
+   "to": 2623.6,
+   "text": "and try to figure out the minimal number"
+  },
+  {
+   "from": 2621.4,
+   "to": 2624.5,
+   "text": "of keystrokes necessary to complete that"
+  },
+  {
+   "from": 2623.6,
+   "to": 2626,
+   "text": "editing"
+  },
+  {
+   "from": 2624.5,
+   "to": 2627.3,
+   "text": "it's actually really addictive so I'd"
+  },
+  {
+   "from": 2626,
+   "to": 2632.7,
+   "text": "only suggest going on their chest and"
+  },
+  {
+   "from": 2627.3,
+   "to": 2640.5,
+   "text": "script time I think I saw a hand for"
+  },
+  {
+   "from": 2632.7,
+   "to": 2642.1,
+   "text": "another question yeah uh period yeah one"
+  },
+  {
+   "from": 2640.5,
+   "to": 2645.8,
+   "text": "of the most useful of em commands good"
+  },
+  {
+   "from": 2642.1,
+   "to": 2645.8,
+   "text": "question any other questions"
+  },
+  {
+   "from": 2646.7,
+   "to": 2653.3,
+   "text": "cool so I think we have about five"
+  },
+  {
+   "from": 2650.8,
+   "to": 2654.8,
+   "text": "minutes left and I'm gonna briefly talk"
+  },
+  {
+   "from": 2653.3,
+   "to": 2656,
+   "text": "about a thing that's also covered in"
+  },
+  {
+   "from": 2654.8,
+   "to": 2659.5,
+   "text": "detail in the notes so make sure you"
+  },
+  {
+   "from": 2656,
+   "to": 2662.3,
+   "text": "look at the notes for this so vim is a"
+  },
+  {
+   "from": 2659.5,
+   "to": 2664.4,
+   "text": "programmers text editor and so of course"
+  },
+  {
+   "from": 2662.3,
+   "to": 2665.7,
+   "text": "it's highly programmable not only"
+  },
+  {
+   "from": 2664.4,
+   "to": 2667.7,
+   "text": "through its interface that's a"
+  },
+  {
+   "from": 2665.7,
+   "to": 2669.1,
+   "text": "programming language but also a couple"
+  },
+  {
+   "from": 2667.7,
+   "to": 2671.1,
+   "text": "of different ways there's lots of"
+  },
+  {
+   "from": 2669.1,
+   "to": 2673,
+   "text": "settings that you can tweak to match"
+  },
+  {
+   "from": 2671.1,
+   "to": 2674.7,
+   "text": "your preferences and you can also"
+  },
+  {
+   "from": 2673,
+   "to": 2677.6,
+   "text": "install plugins for them that do all"
+  },
+  {
+   "from": 2674.7,
+   "to": 2680.4,
+   "text": "sorts of useful stuff so the way vim is"
+  },
+  {
+   "from": 2677.6,
+   "to": 2682.9,
+   "text": "configured is through a file on disk"
+  },
+  {
+   "from": 2680.4,
+   "to": 2685.5,
+   "text": "called vim RC and you'll see this is a"
+  },
+  {
+   "from": 2682.9,
+   "to": 2687.3,
+   "text": "common pattern in a lot of shell based"
+  },
+  {
+   "from": 2685.5,
+   "to": 2689.3,
+   "text": "tools there'll be a plain text file that"
+  },
+  {
+   "from": 2687.3,
+   "to": 2690.9,
+   "text": "configures how the Tool Works and so if"
+  },
+  {
+   "from": 2689.3,
+   "to": 2693.7,
+   "text": "I edit this file and it may or may not"
+  },
+  {
+   "from": 2690.9,
+   "to": 2696.3,
+   "text": "exist on your machine yet but I've"
+  },
+  {
+   "from": 2693.7,
+   "to": 2698.2,
+   "text": "downloaded the we've created a kind of"
+  },
+  {
+   "from": 2696.3,
+   "to": 2699.4,
+   "text": "default vim RC for you and linked it on"
+  },
+  {
+   "from": 2698.2,
+   "to": 2702.2,
+   "text": "the course website so you can start with"
+  },
+  {
+   "from": 2699.4,
+   "to": 2704.9,
+   "text": "that one if I do vim tilde slash boom RC"
+  },
+  {
+   "from": 2702.2,
+   "to": 2707.1,
+   "text": "I can see here a bunch of comments and"
+  },
+  {
+   "from": 2704.9,
+   "to": 2709.1,
+   "text": "then particular commands like by default"
+  },
+  {
+   "from": 2707.1,
+   "to": 2711.3,
+   "text": "we want syntax highlighting on and we"
+  },
+  {
+   "from": 2709.1,
+   "to": 2712.8,
+   "text": "want line numbers if we didn't do some"
+  },
+  {
+   "from": 2711.3,
+   "to": 2714.9,
+   "text": "of these things like let me remove the"
+  },
+  {
+   "from": 2712.8,
+   "to": 2716.5,
+   "text": "stuff that sets line numbers if I remove"
+  },
+  {
+   "from": 2714.9,
+   "to": 2717.8,
+   "text": "those configurations and relaunch vim"
+  },
+  {
+   "from": 2716.5,
+   "to": 2721.3,
+   "text": "notice that I no longer have line"
+  },
+  {
+   "from": 2717.8,
+   "to": 2723.1,
+   "text": "numbers on the left but yeah so in short"
+  },
+  {
+   "from": 2721.3,
+   "to": 2726.1,
+   "text": "there's a lot of stuff you can configure"
+  },
+  {
+   "from": 2723.1,
+   "to": 2728.6,
+   "text": "with them we've given you a very basic"
+  },
+  {
+   "from": 2726.1,
+   "to": 2729.9,
+   "text": "configuration that tries to like remove"
+  },
+  {
+   "from": 2728.6,
+   "to": 2732.2,
+   "text": "some of the kind of weird behavior"
+  },
+  {
+   "from": 2729.9,
+   "to": 2733.5,
+   "text": "that's on by default in vim but we don't"
+  },
+  {
+   "from": 2732.2,
+   "to": 2735.6,
+   "text": "really try to enforce too many of our"
+  },
+  {
+   "from": 2733.5,
+   "to": 2737.1,
+   "text": "other opinions on you but of course like"
+  },
+  {
+   "from": 2735.6,
+   "to": 2739.2,
+   "text": "the three of us used them a lot and we"
+  },
+  {
+   "from": 2737.1,
+   "to": 2741.3,
+   "text": "have heavily customized VMR C's so we've"
+  },
+  {
+   "from": 2739.2,
+   "to": 2742.5,
+   "text": "linked to our personal configurations"
+  },
+  {
+   "from": 2741.3,
+   "to": 2744.6,
+   "text": "too if you want to take anything from"
+  },
+  {
+   "from": 2742.5,
+   "to": 2746.1,
+   "text": "that and also like thousands or like"
+  },
+  {
+   "from": 2744.6,
+   "to": 2747.6,
+   "text": "millions of people share their var C's"
+  },
+  {
+   "from": 2746.1,
+   "to": 2748.5,
+   "text": "on github so there's lots of places to"
+  },
+  {
+   "from": 2747.6,
+   "to": 2749.9,
+   "text": "look for inspiration"
+  },
+  {
+   "from": 2748.5,
+   "to": 2753,
+   "text": "there's also cool blog posts on this"
+  },
+  {
+   "from": 2749.9,
+   "to": 2754.8,
+   "text": "topic another thing you can do in vim is"
+  },
+  {
+   "from": 2753,
+   "to": 2756.8,
+   "text": "you can extend it with plugins that do"
+  },
+  {
+   "from": 2754.8,
+   "to": 2758.1,
+   "text": "all sorts of useful things this lets you"
+  },
+  {
+   "from": 2756.8,
+   "to": 2759.7,
+   "text": "do things like fuzzy file"
+  },
+  {
+   "from": 2758.1,
+   "to": 2761,
+   "text": "finding which a lot of text editors come"
+  },
+  {
+   "from": 2759.7,
+   "to": 2762.8,
+   "text": "with by default so you can get like a"
+  },
+  {
+   "from": 2761,
+   "to": 2764.7,
+   "text": "pop-up window you can type in a name of"
+  },
+  {
+   "from": 2762.8,
+   "to": 2767,
+   "text": "a file or approximately the name of a"
+  },
+  {
+   "from": 2764.7,
+   "to": 2768.5,
+   "text": "file and find it very quickly or there"
+  },
+  {
+   "from": 2767,
+   "to": 2770.9,
+   "text": "are things that show you like"
+  },
+  {
+   "from": 2768.5,
+   "to": 2775,
+   "text": "visualizations of undo history there are"
+  },
+  {
+   "from": 2770.9,
+   "to": 2776.4,
+   "text": "things that show you like file explorers"
+  },
+  {
+   "from": 2775,
+   "to": 2778.4,
+   "text": "things like that so we've linked to a"
+  },
+  {
+   "from": 2776.4,
+   "to": 2780.5,
+   "text": "couple of our favorite plugins on the"
+  },
+  {
+   "from": 2778.4,
+   "to": 2782.2,
+   "text": "course website and so I highly recommend"
+  },
+  {
+   "from": 2780.5,
+   "to": 2783.3,
+   "text": "becoming familiar with how to install a"
+  },
+  {
+   "from": 2782.2,
+   "to": 2784.8,
+   "text": "plug-in because it takes like three"
+  },
+  {
+   "from": 2783.3,
+   "to": 2789.6,
+   "text": "seconds and some of them are really cool"
+  },
+  {
+   "from": 2784.8,
+   "to": 2792.1,
+   "text": "and then finally the last topic I'll"
+  },
+  {
+   "from": 2789.6,
+   "to": 2794.7,
+   "text": "briefly mention before we finish today's"
+  },
+  {
+   "from": 2792.1,
+   "to": 2797.2,
+   "text": "lecture is vim mode and other programs"
+  },
+  {
+   "from": 2794.7,
+   "to": 2798.8,
+   "text": "so turns out that a lot of programmers"
+  },
+  {
+   "from": 2797.2,
+   "to": 2800.7,
+   "text": "we're really excited about VIMS"
+  },
+  {
+   "from": 2798.8,
+   "to": 2802.8,
+   "text": "interface and so they've implemented"
+  },
+  {
+   "from": 2800.7,
+   "to": 2804.7,
+   "text": "similar functionality and other tools"
+  },
+  {
+   "from": 2802.8,
+   "to": 2807.7,
+   "text": "for example like I've configured my"
+  },
+  {
+   "from": 2804.7,
+   "to": 2809.5,
+   "text": "Python repple to run in vim mode so I"
+  },
+  {
+   "from": 2807.7,
+   "to": 2811.7,
+   "text": "can like type in stuff here and if I"
+  },
+  {
+   "from": 2809.5,
+   "to": 2813.3,
+   "text": "press escape now I'm in normal mode in"
+  },
+  {
+   "from": 2811.7,
+   "to": 2815.2,
+   "text": "my Python repple and I can like move"
+  },
+  {
+   "from": 2813.3,
+   "to": 2818.2,
+   "text": "back and forth and like press X here"
+  },
+  {
+   "from": 2815.2,
+   "to": 2821.5,
+   "text": "delete a thing like CW change a word and"
+  },
+  {
+   "from": 2818.2,
+   "to": 2823.2,
+   "text": "do all those good things and it's not"
+  },
+  {
+   "from": 2821.5,
+   "to": 2825.9,
+   "text": "just the Python repple like I have my"
+  },
+  {
+   "from": 2823.2,
+   "to": 2827.9,
+   "text": "terminal behaving this way too so like I"
+  },
+  {
+   "from": 2825.9,
+   "to": 2830.1,
+   "text": "can type in whatever I want here and"
+  },
+  {
+   "from": 2827.9,
+   "to": 2831.4,
+   "text": "like escape and I'm in normal mode I can"
+  },
+  {
+   "from": 2830.1,
+   "to": 2833.3,
+   "text": "go here and like go into visual mode"
+  },
+  {
+   "from": 2831.4,
+   "to": 2835.6,
+   "text": "inside my terminal and like select"
+  },
+  {
+   "from": 2833.3,
+   "to": 2839.7,
+   "text": "blocks of text press tilde to change the"
+  },
+  {
+   "from": 2835.6,
+   "to": 2842.1,
+   "text": "case whatever so we've linked sir like"
+  },
+  {
+   "from": 2839.7,
+   "to": 2845.8,
+   "text": "how exactly you can enable vim mode for"
+  },
+  {
+   "from": 2842.1,
+   "to": 2847.5,
+   "text": "like bash z shell fish a lot of read"
+  },
+  {
+   "from": 2845.8,
+   "to": 2848.7,
+   "text": "line based programs like jupiter"
+  },
+  {
+   "from": 2847.5,
+   "to": 2850.3,
+   "text": "notebook a whole bunch of other things"
+  },
+  {
+   "from": 2848.7,
+   "to": 2852.1,
+   "text": "and if it's not another place you can"
+  },
+  {
+   "from": 2850.3,
+   "to": 2853.8,
+   "text": "probably find it by googling it because"
+  },
+  {
+   "from": 2852.1,
+   "to": 2856,
+   "text": "a lot of people like to have this sort"
+  },
+  {
+   "from": 2853.8,
+   "to": 2857.4,
+   "text": "of functionality and if you're really"
+  },
+  {
+   "from": 2856,
+   "to": 2859.3,
+   "text": "gonna like commit to learning them I"
+  },
+  {
+   "from": 2857.4,
+   "to": 2861.5,
+   "text": "think it's valuable to enable this sort"
+  },
+  {
+   "from": 2859.3,
+   "to": 2863.1,
+   "text": "of like vim emulation mode in every tool"
+  },
+  {
+   "from": 2861.5,
+   "to": 2865,
+   "text": "you use is like one or like make you"
+  },
+  {
+   "from": 2863.1,
+   "to": 2866.8,
+   "text": "learn the tool a lot better and to once"
+  },
+  {
+   "from": 2865,
+   "to": 2868,
+   "text": "you become good at vim like those skills"
+  },
+  {
+   "from": 2866.8,
+   "to": 2873.1,
+   "text": "will now transfer to all your other"
+  },
+  {
+   "from": 2868,
+   "to": 2874.8,
+   "text": "tools you use okay so I think that's it"
+  },
+  {
+   "from": 2873.1,
+   "to": 2877.1,
+   "text": "for our rapid introduction to them"
+  },
+  {
+   "from": 2874.8,
+   "to": 2878.3,
+   "text": "there's some other neat material that we"
+  },
+  {
+   "from": 2877.1,
+   "to": 2879.8,
+   "text": "weren't able to fit in today's lecture"
+  },
+  {
+   "from": 2878.3,
+   "to": 2881.1,
+   "text": "but it's in the lecture notes and then"
+  },
+  {
+   "from": 2879.8,
+   "to": 2882.9,
+   "text": "finally I highly recommend going through"
+  },
+  {
+   "from": 2881.1,
+   "to": 2885.2,
+   "text": "the exercises for today like at least"
+  },
+  {
+   "from": 2882.9,
+   "to": 2887.4,
+   "text": "for me personally I think spending time"
+  },
+  {
+   "from": 2885.2,
+   "to": 2888.9,
+   "text": "learning my text editor has been like"
+  },
+  {
+   "from": 2887.4,
+   "to": 2890.1,
+   "text": "the most beneficial thing out of like"
+  },
+  {
+   "from": 2888.9,
+   "to": 2891.6,
+   "text": "the kinds of things we're teaching in"
+  },
+  {
+   "from": 2890.1,
+   "to": 2894,
+   "text": "this class"
+  },
+  {
+   "from": 2891.6,
+   "to": 2895.5,
+   "text": "so yeah that's it for today's lecture"
+  },
+  {
+   "from": 2894,
+   "to": 2897.5,
+   "text": "and we'll see you tomorrow"
+  },
+  {
+   "from": 2895.5,
+   "to": 2900.3,
+   "text": "note that we've changed tomorrow's"
+  },
+  {
+   "from": 2897.5,
+   "to": 2902.1,
+   "text": "lecture to data wrangling Thursday and"
+  },
+  {
+   "from": 2900.3,
+   "to": 2903.5,
+   "text": "Tuesday lectures are now switched this"
+  },
+  {
+   "from": 2902.1,
+   "to": 2905,
+   "text": "is reflected on the course website in"
+  },
+  {
+   "from": 2903.5,
+   "to": 2907.5,
+   "text": "case anybody was going to come to one"
+  },
+  {
+   "from": 2905,
+   "to": 2907.5,
+   "text": "but not the other"
+  }
+ ]
+}

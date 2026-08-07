@@ -96,7 +96,7 @@ export function ShopHome({
         <div className="shop-active">
           <Zap size={18} aria-hidden />
           经验 ×{boost.multiplierPct / 100} 生效中 · 还能加成 {boost.episodesLeft}{" "}
-          集
+          次(整集或章节)
         </div>
       )}
       {msg && <p className="shop-msg">{msg}</p>}

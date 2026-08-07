@@ -179,7 +179,7 @@ export function BagHome({
           {boost && boost.episodesLeft > 0 && (
             <p className="bag-boost">
               <Zap size={15} aria-hidden /> 经验 ×{boost.multiplierPct / 100}{" "}
-              生效中 · 还能加成 {boost.episodesLeft} 集
+              生效中 · 还能加成 {boost.episodesLeft} 次(整集或章节)
             </p>
           )}
           {potionEntries.length === 0 ? (

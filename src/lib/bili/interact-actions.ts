@@ -11,7 +11,9 @@ import {
   fetchRelation,
   fetchReplies,
   fetchStat,
+  fetchUpRelation,
   likeVideo,
+  modifyUpRelation,
   postReply,
   type FavFolder,
   type ReplyItem,
@@ -58,6 +60,34 @@ export interface ActionResult {
   ok: boolean;
   error?: string;
   relation?: VideoRelation;
+}
+
+/** 是否已关注该 UP 主(未绑定返回 null,前端据此禁用按钮) */
+export async function getUpFollowed(mid: number): Promise<boolean | null> {
+  const c = await creds();
+  if (!c) return null;
+  return fetchUpRelation(mid, c.sessdata).catch(() => null);
+}
+
+/** 关注/取关 UP 主——对搬运与官方号的 credit,也方便持续追更 */
+export async function setUpFollowed(
+  mid: number,
+  follow: boolean,
+): Promise<{ ok: boolean; error?: string; followed?: boolean }> {
+  const c = await creds();
+  if (!c) return { ok: false, error: "请先绑定 bilibili 账号" };
+  if (!Number.isInteger(mid) || mid <= 0) {
+    return { ok: false, error: "UP 主不合法" };
+  }
+  try {
+    await modifyUpRelation(mid, follow, c.sessdata, c.csrf);
+    return { ok: true, followed: follow };
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "操作失败",
+    };
+  }
 }
 
 export async function toggleLike(

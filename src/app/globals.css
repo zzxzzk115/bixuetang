@@ -4665,14 +4665,6 @@ body {
   pointer-events: none;
   container-type: size;
 }
-/* 控制栏上的观看覆盖率角标 */
-.artp-watch {
-  padding: 0 8px;
-  font-size: 12px;
-  font-weight: 700;
-  opacity: 0.9;
-  white-space: nowrap;
-}
 /* 网页全屏/原生全屏时页面底色压黑,safe area 不露白 */
 body:has(.art-video-player.art-fullscreen),
 body:has(.art-video-player.art-fullscreen-web) {
@@ -4948,8 +4940,7 @@ body:has(.art-video-player.art-fullscreen-web) {
 }
 
 /* ==== P3:章节跳转 + 碎片化分段 ==== */
-/* 控制栏按钮:下一知识点 / 章节 */
-.artp-next,
+/* 控制栏按钮:章节(下一知识点走 n 键,不占按钮位) */
 .artp-chapters {
   display: inline-grid;
   place-items: center;
@@ -5205,4 +5196,517 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-green);
   font-size: 12px;
   font-weight: 800;
+}
+
+/* ==== F6:设置页退出登录 ==== */
+.settings-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border: 2px solid color-mix(in srgb, #e5484d 45%, transparent);
+  border-radius: 12px;
+  color: #e5484d;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.settings-logout:hover {
+  background: color-mix(in srgb, #e5484d 10%, transparent);
+}
+
+/* ==== F6:注册的强度条与验证码 ==== */
+.auth-strength {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: -4px 0 2px;
+}
+.auth-strength i {
+  width: 34px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--app-line);
+}
+.auth-strength small {
+  font-size: 11.5px;
+  color: var(--app-faint);
+}
+.auth-strength.s0 i:nth-child(1) {
+  background: #e5484d;
+}
+.auth-strength.s1 i:nth-child(-n + 2) {
+  background: var(--app-orange);
+}
+.auth-strength.s2 i:nth-child(-n + 3) {
+  background: var(--app-green);
+}
+.auth-captcha {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.auth-captcha .bili-signup-field {
+  flex: 1;
+  min-width: 0;
+}
+.auth-captcha-img {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  border: 1.5px solid var(--app-line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--app-faint);
+  cursor: pointer;
+}
+.auth-captcha-img svg {
+  display: block;
+  border-radius: 8px;
+}
+
+/* ==== F7:UP 主 credit 行(头像/昵称/关注) ==== */
+.bili-up-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 2px 0 10px;
+  border-bottom: 1.5px solid var(--app-line);
+  margin-bottom: 10px;
+}
+.bili-up-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+}
+.bili-up-info img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--app-line);
+}
+.bili-up-info span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.bili-up-info b {
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bili-up-info small {
+  font-size: 11px;
+  color: var(--app-faint);
+}
+.bili-up-follow {
+  flex-shrink: 0;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: var(--app-pink, #fb7299);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.bili-up-follow.on {
+  background: transparent;
+  border: 2px solid var(--app-line);
+  color: var(--app-faint);
+}
+.bili-up-follow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ==== F2/F4:播放器内轻量奖励角标(全屏用,类抖音,不打断观看) ==== */
+.artfx-host {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+}
+.artfx {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+.artfx-chip {
+  max-width: 62vw;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(16, 18, 22, 0.82);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  animation:
+    artfx-in 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2),
+    artfx-out 0.4s ease 2.7s forwards;
+}
+.artfx-chip.tone-coin {
+  color: var(--app-gold);
+}
+.artfx-chip.tone-xp {
+  color: var(--app-green);
+}
+.artfx-chip.tone-streak {
+  color: var(--app-orange);
+}
+.artfx-chip.tone-review {
+  color: var(--app-blue);
+}
+.artfx-chip.tone-lucky {
+  color: #c084fc;
+}
+@keyframes artfx-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes artfx-out {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* 控制栏减负:右侧按钮多,压紧间距;窄屏藏倍速(设置菜单里也能调) */
+.biliplayer-art .art-controls-right .art-control {
+  padding: 0 5px;
+}
+@media (max-width: 640px) {
+  .biliplayer-art .art-control-playbackRate {
+    display: none !important;
+  }
+}
+
+/* ==== F5:播放器内笔记速记层(全屏可用) ==== */
+.artp-notebtn {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  font-size: 14px;
+  font-weight: 800;
+  opacity: 0.85;
+  cursor: pointer;
+}
+.artnote-host {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 45;
+}
+.artnote-panel {
+  position: absolute;
+  right: 10px;
+  bottom: 60px;
+  width: min(360px, calc(100% - 20px));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(16, 18, 22, 0.94);
+  color: #fff;
+  pointer-events: auto;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+}
+.artnote-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+.artnote-panel header b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.artnote-panel header button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+}
+.artnote-panel header button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+.artnote-panel textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+}
+.artnote-panel textarea:focus {
+  outline: none;
+  border-color: var(--app-green);
+}
+.artnote-panel footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.artnote-msg {
+  font-size: 12px;
+  color: #ff7b7b;
+}
+
+/* ==== F3:章节缩略图(前端抓帧,dataURL) ==== */
+.artchapter-panel li button {
+  align-items: center;
+}
+.artchapter-thumb {
+  flex-shrink: 0;
+  width: 84px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ==== F5:视频笔记面板(默认收起,互动区「笔记」按钮展开) ==== */
+.video-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+}
+.video-notes-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.video-notes-head b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+.video-notes-scope {
+  display: inline-flex;
+  gap: 4px;
+}
+.video-notes-scope button {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--app-faint);
+  cursor: pointer;
+}
+.video-notes-scope button.on {
+  color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 14%, transparent);
+}
+.video-notes-compose {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.video-notes-compose-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.video-notes-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-blue) 14%, transparent);
+  color: var(--app-blue);
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.video-notes-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--app-faint);
+  cursor: pointer;
+}
+.video-notes-preview.on {
+  color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 14%, transparent);
+}
+.video-notes-compose textarea,
+.video-notes-edit textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 2px solid var(--app-line);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font-size: 13px;
+  line-height: 1.55;
+  resize: vertical;
+}
+.video-notes-compose textarea:focus,
+.video-notes-edit textarea:focus {
+  outline: none;
+  border-color: var(--app-green);
+}
+.video-notes-preview-body {
+  min-height: 72px;
+  padding: 8px 10px;
+  border: 2px dashed var(--app-line);
+  border-radius: 10px;
+}
+.video-notes-msg {
+  font-size: 12px;
+  color: #e5484d;
+}
+.video-notes-empty {
+  font-size: 13px;
+  color: var(--app-faint);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.video-notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 480px;
+  overflow-y: auto;
+}
+.video-notes-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  border: 1.5px solid var(--app-line);
+  border-radius: 10px;
+}
+.video-notes-item-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.video-notes-actions {
+  display: inline-flex;
+  gap: 2px;
+  opacity: 0.55;
+}
+.video-notes-list li:hover .video-notes-actions {
+  opacity: 1;
+}
+.video-notes-actions button {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  color: var(--app-faint);
+  cursor: pointer;
+}
+.video-notes-actions button:hover {
+  color: inherit;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+.video-notes-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.video-notes-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+/* 笔记 Markdown 正文 */
+.video-notes-md {
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.video-notes-md p {
+  margin: 0 0 4px;
+}
+.video-notes-md h3,
+.video-notes-md h4,
+.video-notes-md h5,
+.video-notes-md h6 {
+  margin: 6px 0 4px;
+  font-size: 13.5px;
+}
+.video-notes-md code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: color-mix(in srgb, currentColor 9%, transparent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+.video-notes-md pre {
+  margin: 4px 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: color-mix(in srgb, currentColor 7%, transparent);
+  overflow-x: auto;
+}
+.video-notes-md pre code {
+  padding: 0;
+  background: none;
+  white-space: pre;
+}
+.video-notes-md ul,
+.video-notes-md ol {
+  margin: 2px 0 4px;
+  padding-left: 18px;
+}
+.video-notes-md ul {
+  list-style: disc;
+}
+.video-notes-md ol {
+  list-style: decimal;
+}
+.video-notes-md blockquote {
+  margin: 4px 0;
+  padding: 2px 10px;
+  border-left: 3px solid var(--app-line);
+  color: var(--app-faint);
+}
+.video-notes-md a {
+  color: var(--app-blue);
+  text-decoration: underline;
+}
+.video-notes-md hr {
+  margin: 6px 0;
+  border: none;
+  border-top: 1.5px solid var(--app-line);
 }

@@ -170,6 +170,19 @@ export default async function CoursePage({
     if (segs.length > 0) segmentsByEpisode[ep.n] = segs;
   }
 
+  // 已打卡完成的集,观看/分段覆盖率一律按 100% 呈现——旧版本(还没有
+  // 分段数据)看完的用户不该看到「章节 0%」,播放器角标也不该显示 0%
+  for (const ep of episodes) {
+    if (!watched?.has(ep.n)) continue;
+    const w = watchProgress[ep.n];
+    watchProgress[ep.n] = {
+      positionSec: w?.positionSec ?? 0,
+      durationSec: w?.durationSec ?? ep.durationSec ?? 0,
+      ratioPct: 100,
+      segmentsPct: (segmentsByEpisode[ep.n] ?? []).map(() => 100),
+    };
+  }
+
   // 每集可得 XP（含药水加成）——学习前就让玩家看到收益
   const boost = getActiveBoost(user.id);
   const xpByEpisode: Record<number, number> = {};
@@ -324,24 +337,47 @@ export default async function CoursePage({
           </section>
         )}
 
-        {course.notes.length > 0 && (
-          <section className="course-card">
-            <div className="course-card-head">
-              <h2>社区攻略笔记</h2>
-            </div>
-            <ul className="course-links">
-              {course.notes.map((n, i) => (
-                <li key={i}>
-                  <a href={n.url} target="_blank" rel="noreferrer noopener">
-                    <i />
-                    {n.title}
-                    {n.author ? <small> by {n.author}</small> : null} ↗
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+        {/* 相关链接:官网/原视频/社区笔记都在这——课程与视频的 credit,
+            官网资源(讲义/作业)必须给到,别让站内成为信息孤岛 */}
+        {(() => {
+          const related: { title: string; url: string; author?: string }[] = [
+            ...course.sources
+              .filter((s) => s.platform === "other")
+              .map((s) => ({
+                title: s.note?.includes("官网")
+                  ? s.note
+                  : `课程官网${s.note ? ` · ${s.note}` : ""}`,
+                url: s.url,
+              })),
+            ...course.sources
+              .filter((s) => s.platform === "bilibili")
+              .map((s) => ({
+                title: "bilibili 原视频",
+                url: s.url,
+                author: s.uploader,
+              })),
+            ...course.notes,
+          ];
+          if (related.length === 0) return null;
+          return (
+            <section className="course-card">
+              <div className="course-card-head">
+                <h2>相关链接</h2>
+              </div>
+              <ul className="course-links">
+                {related.map((n, i) => (
+                  <li key={i}>
+                    <a href={n.url} target="_blank" rel="noreferrer noopener">
+                      <i />
+                      {n.title}
+                      {n.author ? <small> by {n.author}</small> : null} ↗
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })()}
 
         {/* 技能星盘未迁移 App 风格，入口暂藏（玩法上称号 vs 技能树也待定夺） */}
 

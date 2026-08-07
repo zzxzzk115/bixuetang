@@ -403,6 +403,28 @@ export const reviewCards = sqliteTable(
   ],
 );
 
+// 视频笔记:挂在具体某一集的某个时间戳上,Markdown 正文,只对本人可见。
+// 点时间戳跳播放器;全屏速记层与页面笔记面板写同一张表。
+export const videoNotes = sqliteTable(
+  "video_notes",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    courseId: text("course_id").notNull(),
+    episodeN: integer("episode_n").notNull(),
+    /** 笔记锚定的视频秒数 */
+    tSec: integer("t_sec").notNull().default(0),
+    contentMd: text("content_md").notNull(),
+    createdAt: integer("created_at").notNull(),
+    updatedAt: integer("updated_at").notNull(),
+  },
+  (t) => [
+    index("video_notes_user_episode").on(t.userId, t.courseId, t.episodeN),
+  ],
+);
+
 // 连胜状态。派生自 xp_events 的旧算法要全表扫且 UTC 日切,
 // 冻结道具(损失厌恶的安全阀)也必须有持久状态才能实现。
 export const streakState = sqliteTable("streak_state", {

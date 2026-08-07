@@ -88,6 +88,10 @@ export function getXpLog(userId: number, limit = 20): XpLogEntry[] {
     } else if (r.reason === "course-done") {
       const title = content.coursesById.get(r.ref)?.title ?? r.ref;
       label = `Boss 讨伐：${title} 通关！`;
+    } else if (r.reason === "segment") {
+      const [courseId, , n, idx] = r.ref.split(":");
+      const title = content.coursesById.get(courseId)?.title ?? courseId;
+      label = `章节推进：${title} · 第 ${n} 集 · 第 ${Number(idx) + 1} 段`;
     } else if (r.reason === "lab-task") {
       const [labId, taskId] = r.ref.split(":");
       const task = content.labTasksById

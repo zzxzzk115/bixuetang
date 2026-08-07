@@ -1,0 +1,4072 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 0.5,
+   "to": 2.5,
+   "text": "Okay, can everyone hear me okay?"
+  },
+  {
+   "from": 3.7,
+   "to": 6.2,
+   "text": "Okay, so welcome back."
+  },
+  {
+   "from": 6.2,
+   "to": 10.3,
+   "text": "I'm gonna address a couple of items in kind of the administratrivia."
+  },
+  {
+   "from": 10.6,
+   "to": 13.1,
+   "text": "With the end of the first week,"
+  },
+  {
+   "from": 13.2,
+   "to": 16.3,
+   "text": "we sent an email, noticing you that"
+  },
+  {
+   "from": 16.6,
+   "to": 20.2,
+   "text": "we have uploaded the videos for the first week, so you can now find them online."
+  },
+  {
+   "from": 20.5,
+   "to": 26.7,
+   "text": "They have all the screen recordings for the things that we were doing, so you can go back to them."
+  },
+  {
+   "from": 26.8,
+   "to": 31.4,
+   "text": "Look if you're were confused about if we did something quick and, again,"
+  },
+  {
+   "from": 31.4,
+   "to": 37.6,
+   "text": "feel free to ask us any questions if anything in the lecture notes is not clear. We also sent you a"
+  },
+  {
+   "from": 37.9,
+   "to": 42.4,
+   "text": "survey so you can give us feedback about what was not clear,"
+  },
+  {
+   "from": 42.4,
+   "to": 46.3,
+   "text": "what items you would want a more thorough explanation or"
+  },
+  {
+   "from": 47.1,
+   "to": 51.7,
+   "text": "just any other item, if you're finding the exercises too hard, too easy,"
+  },
+  {
+   "from": 52.2,
+   "to": 55.3,
+   "text": "go into that URL and we'll really"
+  },
+  {
+   "from": 56,
+   "to": 60,
+   "text": "appreciate getting that feedback, because that will make the course better"
+  },
+  {
+   "from": 60.5,
+   "to": 63.8,
+   "text": "for the remaining lectures and for future iterations of the course."
+  },
+  {
+   "from": 65.1,
+   "to": 67.1,
+   "text": "With that out of the way"
+  },
+  {
+   "from": 67.1,
+   "to": 70.8,
+   "text": "Oh, and we're gonna try to upload the videos in a more timely manner."
+  },
+  {
+   "from": 71.2,
+   "to": 76,
+   "text": "We don't want to kind of wait until the end of the week for that. So keep tuned for that."
+  },
+  {
+   "from": 78.8,
+   "to": 79.8,
+   "text": "That out of the way,"
+  },
+  {
+   "from": 79.9,
+   "to": 80.8,
+   "text": "now I'm gonna"
+  },
+  {
+   "from": 81.1,
+   "to": 85,
+   "text": "This lecture's called command-line environment and we're"
+  },
+  {
+   "from": 85.2,
+   "to": 88.4,
+   "text": "going to cover a few different topics. So the"
+  },
+  {
+   "from": 89,
+   "to": 91,
+   "text": "main topics we're gonna"
+  },
+  {
+   "from": 92,
+   "to": 94.5,
+   "text": "cover, so you can keep track,"
+  },
+  {
+   "from": 94.7,
+   "to": 96.4,
+   "text": "it's probably better here,"
+  },
+  {
+   "from": 96.4,
+   "to": 97.7,
+   "text": "keep track of what I'm talking."
+  },
+  {
+   "from": 97.9,
+   "to": 101.6,
+   "text": "The first is gonna be job control."
+  },
+  {
+   "from": 102,
+   "to": 104.3,
+   "text": "The second one is going to be"
+  },
+  {
+   "from": 104.6,
+   "to": 106.6,
+   "text": "terminal multiplexers."
+  },
+  {
+   "from": 111.7,
+   "to": 117.4,
+   "text": "Then I'm going to explain what dotfiles are and how to configure your shell."
+  },
+  {
+   "from": 117.4,
+   "to": 123.2,
+   "text": "And lastly, how to efficiently work with remote machines. So if things are not"
+  },
+  {
+   "from": 125.1,
+   "to": 127.6,
+   "text": "fully clear, kind of keep the structure."
+  },
+  {
+   "from": 128.2,
+   "to": 132.3,
+   "text": "They all kind of interact in some way, of how you use your terminal,"
+  },
+  {
+   "from": 132.9,
+   "to": 137.3,
+   "text": "but they are somewhat separate topics, so keep that in mind."
+  },
+  {
+   "from": 137.6,
+   "to": 143.8,
+   "text": "So let's go with job control. So far we have been using the shell in a very, kind of"
+  },
+  {
+   "from": 144.8,
+   "to": 147.7,
+   "text": "mono-command way. Like, you execute a command and then"
+  },
+  {
+   "from": 147.8,
+   "to": 151.8,
+   "text": "the command executes, then you get some output, and that's all about what you can do."
+  },
+  {
+   "from": 152.2,
+   "to": 156.5,
+   "text": "And if you want to run several things, it's not clear"
+  },
+  {
+   "from": 156.5,
+   "to": 161.1,
+   "text": "how you will do it. Or if you want to stop the execution of a program, it's again,"
+  },
+  {
+   "from": 161.1,
+   "to": 163.8,
+   "text": "like how do I know how to stop a program?"
+  },
+  {
+   "from": 164.7,
+   "to": 167.9,
+   "text": "Let's showcase this with a command called sleep."
+  },
+  {
+   "from": 168.2,
+   "to": 170.3,
+   "text": "Sleep is a command that takes an argument,"
+  },
+  {
+   "from": 170.3,
+   "to": 174.4,
+   "text": "and that argument is going to be an integer number, and it will sleep."
+  },
+  {
+   "from": 174.4,
+   "to": 178.4,
+   "text": "It will just kind of be there, on the background, for that many seconds."
+  },
+  {
+   "from": 178.4,
+   "to": 183.5,
+   "text": "So if we do something like sleep 20, this process is gonna be sleeping for 20 seconds."
+  },
+  {
+   "from": 183.5,
+   "to": 187.7,
+   "text": "But we don't want to wait 20 seconds for the command to complete."
+  },
+  {
+   "from": 188,
+   "to": 190.8,
+   "text": "So what we can do is type \"Ctrl+C\"."
+  },
+  {
+   "from": 190.8,
+   "to": 192.6,
+   "text": "By typing \"Ctrl+C\""
+  },
+  {
+   "from": 192.6,
+   "to": 197.8,
+   "text": "We can see that, here, the terminal let us know,"
+  },
+  {
+   "from": 198.9,
+   "to": 202.8,
+   "text": "and it's part of the syntax that we covered in the editors / Vim lecture,"
+  },
+  {
+   "from": 203,
+   "to": 207.2,
+   "text": "that we typed \"Ctrl+C\" and it stopped the execution of the process."
+  },
+  {
+   "from": 207.6,
+   "to": 209.6,
+   "text": "What is actually going on here"
+  },
+  {
+   "from": 209.9,
+   "to": 214.8,
+   "text": "is that this is using a UNIX communication mechanism called signals."
+  },
+  {
+   "from": 215.1,
+   "to": 217.4,
+   "text": "When we type \"Ctrl+C\","
+  },
+  {
+   "from": 217.8,
+   "to": 222.1,
+   "text": "what the terminal did for us, or the shell did for us,"
+  },
+  {
+   "from": 222.2,
+   "to": 226,
+   "text": "is send a signal called SIGINT,"
+  },
+  {
+   "from": 226,
+   "to": 231.3,
+   "text": "that stands for SIGnal INTerrupt, that tells the program to stop itself."
+  },
+  {
+   "from": 231.7,
+   "to": 237.5,
+   "text": "And there are many, many, many signals of this kind. If you do man signal,"
+  },
+  {
+   "from": 238.9,
+   "to": 245.1,
+   "text": "and just go down a little bit, here you have a list of them."
+  },
+  {
+   "from": 245.1,
+   "to": 247,
+   "text": "They all have number identifiers,"
+  },
+  {
+   "from": 247.5,
+   "to": 250.6,
+   "text": "they have kind of a short name and you can find a description."
+  },
+  {
+   "from": 251,
+   "to": 256.4,
+   "text": "So for example, the one I have just described is here, number 2, SIGINT."
+  },
+  {
+   "from": 256.5,
+   "to": 262.2,
+   "text": "This is the signal that a terminal will send to a program when it wants to interrupt its execution."
+  },
+  {
+   "from": 262.5,
+   "to": 265.8,
+   "text": "A few more to be familiar with"
+  },
+  {
+   "from": 266.5,
+   "to": 268.5,
+   "text": "is SIGQUIT, this is"
+  },
+  {
+   "from": 269.2,
+   "to": 274.4,
+   "text": "again, if you work from a terminal and you want to quit the execution of a program."
+  },
+  {
+   "from": 274.4,
+   "to": 277.7,
+   "text": "For most programs it will do the same thing,"
+  },
+  {
+   "from": 277.7,
+   "to": 281.1,
+   "text": "but we're gonna showcase now a program which will be different,"
+  },
+  {
+   "from": 281.4,
+   "to": 283.8,
+   "text": "and this is the signal that will be sent."
+  },
+  {
+   "from": 284.7,
+   "to": 289.2,
+   "text": "It can be confusing sometimes. Looking at these signals, for example, the SIGTERM is"
+  },
+  {
+   "from": 290.1,
+   "to": 294.1,
+   "text": "for most cases equivalent to SIGINT and SIGQUIT"
+  },
+  {
+   "from": 294.5,
+   "to": 298.4,
+   "text": "but it's just when it's not sent through a terminal."
+  },
+  {
+   "from": 299.7,
+   "to": 301.7,
+   "text": "A few more that we're gonna"
+  },
+  {
+   "from": 301.9,
+   "to": 306.2,
+   "text": "cover is SIGHUP, it's when there's like a hang-up in the terminal."
+  },
+  {
+   "from": 306.2,
+   "to": 310.2,
+   "text": "So for example, when you are in your terminal, if you close your terminal"
+  },
+  {
+   "from": 310.2,
+   "to": 313.3,
+   "text": "and there are still things running in the terminal,"
+  },
+  {
+   "from": 313.5,
+   "to": 317,
+   "text": "that's the signal that the program is gonna send"
+  },
+  {
+   "from": 317,
+   "to": 320,
+   "text": "to all the processes to tell that they should close,"
+  },
+  {
+   "from": 320,
+   "to": 325.1,
+   "text": "like there was a hang-up in the command line communication"
+  },
+  {
+   "from": 325.1,
+   "to": 326.8,
+   "text": "and they should close now."
+  },
+  {
+   "from": 328.4,
+   "to": 334.3,
+   "text": "Signals can do more things than just stopping, interrupting programs and asking them to finish."
+  },
+  {
+   "from": 334.3,
+   "to": 336.8,
+   "text": "You can for example use the"
+  },
+  {
+   "from": 337.5,
+   "to": 343.8,
+   "text": "SIGSTOP to pause the execution of the program, and then you can use the"
+  },
+  {
+   "from": 344.5,
+   "to": 350.2,
+   "text": "SIGCONT command for continuing, to continue the execution of the program at a point later in time."
+  },
+  {
+   "from": 351.2,
+   "to": 355.4,
+   "text": "Since all of this might be slightly too abstract, let's see a few examples."
+  },
+  {
+   "from": 358,
+   "to": 360.6,
+   "text": "First, let's showcase a"
+  },
+  {
+   "from": 362,
+   "to": 366.2,
+   "text": "Python program. I'm going to very quickly go through the program."
+  },
+  {
+   "from": 366.4,
+   "to": 368.4,
+   "text": "This is a Python program,"
+  },
+  {
+   "from": 368.7,
+   "to": 370.8,
+   "text": "that like most python programs,"
+  },
+  {
+   "from": 371.5,
+   "to": 374,
+   "text": "is importing this signal library and"
+  },
+  {
+   "from": 375,
+   "to": 380.4,
+   "text": "is defining this handler here. And this handler is writing,"
+  },
+  {
+   "from": 380.4,
+   "to": 383,
+   "text": "\"Oh, I got a SIGINT, but I'm not gonna stop here\"."
+  },
+  {
+   "from": 383.5,
+   "to": 385,
+   "text": "And after that,"
+  },
+  {
+   "from": 385,
+   "to": 390.7,
+   "text": "we tell Python that we want this program, when it gets a SIGINT, to stop."
+  },
+  {
+   "from": 391.1,
+   "to": 394.9,
+   "text": "The rest of the program is a very silly program that is just going to be printing numbers."
+  },
+  {
+   "from": 395.1,
+   "to": 397.5,
+   "text": "So let's see this in action."
+  },
+  {
+   "from": 397.6,
+   "to": 399.6,
+   "text": "We do Python SIGINT."
+  },
+  {
+   "from": 399.9,
+   "to": 405,
+   "text": "And it's counting. We try doing \"Ctrl+C\", this sends a SIGINT,"
+  },
+  {
+   "from": 405,
+   "to": 410,
+   "text": "but the program didn't actually stop. This is because we have a way in the program of"
+  },
+  {
+   "from": 410.4,
+   "to": 414.6,
+   "text": "dealing with this exception, and we didn't want to exit."
+  },
+  {
+   "from": 414.8,
+   "to": 417.6,
+   "text": "If we send a SIGQUIT, which is done through"
+  },
+  {
+   "from": 417.8,
+   "to": 423.7,
+   "text": "\"Ctrl+\\\", here, we can see that since the program doesn't have a way of dealing with SIGQUIT,"
+  },
+  {
+   "from": 423.7,
+   "to": 426.3,
+   "text": "it does the default operation, which is"
+  },
+  {
+   "from": 426.8,
+   "to": 428.8,
+   "text": "terminate the program."
+  },
+  {
+   "from": 429.1,
+   "to": 431.5,
+   "text": "And you could use this, for example,"
+  },
+  {
+   "from": 431.9,
+   "to": 435.9,
+   "text": "if someone Ctrl+C's your program, and your program is supposed to do something,"
+  },
+  {
+   "from": 436,
+   "to": 439.3,
+   "text": "like you maybe want to save the intermediate state of your program"
+  },
+  {
+   "from": 439.3,
+   "to": 441.5,
+   "text": "to a file, so you can recover it for later."
+  },
+  {
+   "from": 441.6,
+   "to": 445.6,
+   "text": "This is how you could write a handler like this."
+  },
+  {
+   "from": 449.5,
+   "to": 450.7,
+   "text": "Can you repeat the question?"
+  },
+  {
+   "from": 450.9,
+   "to": 452.3,
+   "text": "What did you type right now, when it stopped?"
+  },
+  {
+   "from": 452.5,
+   "to": 454.5,
+   "text": "So I..."
+  },
+  {
+   "from": 454.6,
+   "to": 458.9,
+   "text": "So what I typed is, I type \"Ctrl+C\" to try to stop it"
+  },
+  {
+   "from": 458.9,
+   "to": 462.9,
+   "text": "but it didn't, because SIGINT is captured by the program. Then I type"
+  },
+  {
+   "from": 463.1,
+   "to": 468,
+   "text": "\"Ctrl+\\\", which sends a SIGQUIT, which is a different signal,"
+  },
+  {
+   "from": 469,
+   "to": 471.7,
+   "text": "and this signal is not captured by the program."
+  },
+  {
+   "from": 472.1,
+   "to": 474.9,
+   "text": "It's also worth mentioning that there is a couple of"
+  },
+  {
+   "from": 475,
+   "to": 480,
+   "text": "signals that cannot be captured by software. There is a couple of signals"
+  },
+  {
+   "from": 480.8,
+   "to": 482.8,
+   "text": "like SIGKILL"
+  },
+  {
+   "from": 483.9,
+   "to": 486.6,
+   "text": "that cannot be captured. Like that, it will"
+  },
+  {
+   "from": 486.7,
+   "to": 489.3,
+   "text": "terminate the execution of the process, no matter what."
+  },
+  {
+   "from": 489.3,
+   "to": 492,
+   "text": "And it can be sometimes harmful. You do not want to be using it by"
+  },
+  {
+   "from": 492,
+   "to": 496.5,
+   "text": "default, because this can leave for example an orphan child, orphaned children processes."
+  },
+  {
+   "from": 496.5,
+   "to": 500.9,
+   "text": "Like if a process has other small children processes that it started, and you"
+  },
+  {
+   "from": 501.4,
+   "to": 505.5,
+   "text": "SIGKILL it, all of those will keep running in there,"
+  },
+  {
+   "from": 505.8,
+   "to": 510.8,
+   "text": "but they won't have a parent, and you can maybe have a really weird behavior going on."
+  },
+  {
+   "from": 512,
+   "to": 515.7,
+   "text": "What signal is given to the program if we log off?"
+  },
+  {
+   "from": 515.8,
+   "to": 517.4,
+   "text": "If you log off?"
+  },
+  {
+   "from": 517.9,
+   "to": 521.9,
+   "text": "That would be... so for example, if you're in an SSH connection and you close the connection,"
+  },
+  {
+   "from": 521.9,
+   "to": 525.6,
+   "text": "that is the hang-up signal,"
+  },
+  {
+   "from": 525.6,
+   "to": 531.2,
+   "text": "SIGHUP, which I'm gonna cover in an example. So this is what would be sent up."
+  },
+  {
+   "from": 531.6,
+   "to": 536.4,
+   "text": "And you could write for example, if you want the process to keep working even if you close"
+  },
+  {
+   "from": 537,
+   "to": 542.6,
+   "text": "that, you can write a wrapper around that to ignore that signal."
+  },
+  {
+   "from": 544.7,
+   "to": 549.8,
+   "text": "Let's display what we could do with the stop and continue."
+  },
+  {
+   "from": 550,
+   "to": 556.4,
+   "text": "So, for example, we can start a really long process. Let's sleep a thousand, we're gonna take forever."
+  },
+  {
+   "from": 557,
+   "to": 558.9,
+   "text": "We can control-c,"
+  },
+  {
+   "from": 558.9,
+   "to": 560.4,
+   "text": "\"Ctrl+Z\", sorry,"
+  },
+  {
+   "from": 560.4,
+   "to": 565.3,
+   "text": "and if we do \"Ctrl+Z\" we can see that the terminal is saying \"it's suspended\"."
+  },
+  {
+   "from": 565.4,
+   "to": 571.5,
+   "text": "What this actually meant is that this process was sent a SIGSTOP signal and now is"
+  },
+  {
+   "from": 571.9,
+   "to": 576.9,
+   "text": "still there, you could continue its execution, but right now it's completely stopped and in the background"
+  },
+  {
+   "from": 578.6,
+   "to": 581.7,
+   "text": "and we can launch a different program."
+  },
+  {
+   "from": 581.7,
+   "to": 583.7,
+   "text": "When we try to run this program,"
+  },
+  {
+   "from": 583.7,
+   "to": 586.6,
+   "text": "please notice that I have included an \"&\" at the end."
+  },
+  {
+   "from": 586.8,
+   "to": 592.4,
+   "text": "This tells bash that I want this program to start running in the background."
+  },
+  {
+   "from": 592.6,
+   "to": 595.7,
+   "text": "This is kind of related to all these"
+  },
+  {
+   "from": 595.7,
+   "to": 599.7,
+   "text": "concepts of running programs in the shell, but backgrounded."
+  },
+  {
+   "from": 600.4,
+   "to": 604.4,
+   "text": "And what is gonna happen is the program is gonna start"
+  },
+  {
+   "from": 604.7,
+   "to": 607.6,
+   "text": "but it's not gonna take over my prompt."
+  },
+  {
+   "from": 607.6,
+   "to": 611.5,
+   "text": "If I just ran this command without this, I could not do anything."
+  },
+  {
+   "from": 611.5,
+   "to": 615.8,
+   "text": "I would have no access to the prompt until the command either finished"
+  },
+  {
+   "from": 616.1,
+   "to": 619.4,
+   "text": "or I ended it abruptly. But if I do this,"
+  },
+  {
+   "from": 619.5,
+   "to": 623.1,
+   "text": "it's saying \"there's a new process which is this\"."
+  },
+  {
+   "from": 623.1,
+   "to": 625.2,
+   "text": "This is the process identifying number,"
+  },
+  {
+   "from": 625.2,
+   "to": 626.9,
+   "text": "we can ignore this for now."
+  },
+  {
+   "from": 627.8,
+   "to": 632.9,
+   "text": "If I type the command \"jobs\", I get the output that I have a suspended job"
+  },
+  {
+   "from": 632.9,
+   "to": 635.8,
+   "text": "that is the \"sleep 1000\" job."
+  },
+  {
+   "from": 636,
+   "to": 638.1,
+   "text": "And then I have another running job,"
+  },
+  {
+   "from": 638.1,
+   "to": 642.2,
+   "text": "which is this \"NOHUP sleep 2000\"."
+  },
+  {
+   "from": 642.6,
+   "to": 645.7,
+   "text": "Say I want to continue the first job."
+  },
+  {
+   "from": 645.7,
+   "to": 648.5,
+   "text": "The first job is suspended, it's not executing anymore."
+  },
+  {
+   "from": 648.6,
+   "to": 652.6,
+   "text": "I can continue that doing \"BG %1\""
+  },
+  {
+   "from": 653.9,
+   "to": 658.4,
+   "text": "That \"%\" is referring to the fact that I want to refer to this specific"
+  },
+  {
+   "from": 660.3,
+   "to": 664.3,
+   "text": "process. And now, if I do that and I look at the jobs,"
+  },
+  {
+   "from": 664.3,
+   "to": 666.5,
+   "text": "now this job is running again. Now"
+  },
+  {
+   "from": 666.5,
+   "to": 668.9,
+   "text": "both of them are running."
+  },
+  {
+   "from": 669.3,
+   "to": 673.8,
+   "text": "If I wanted to stop these all, I can use the kill command."
+  },
+  {
+   "from": 674,
+   "to": 676.1,
+   "text": "The kill command"
+  },
+  {
+   "from": 676.2,
+   "to": 678.6,
+   "text": "is for killing jobs,"
+  },
+  {
+   "from": 679.2,
+   "to": 682.1,
+   "text": "which is just stopping them, intuitively,"
+  },
+  {
+   "from": 682.1,
+   "to": 683.8,
+   "text": "but actually it's really useful."
+  },
+  {
+   "from": 683.9,
+   "to": 688.2,
+   "text": "The kill command just allows you to send any sort of Unix signal."
+  },
+  {
+   "from": 688.4,
+   "to": 692.2,
+   "text": "So here for example, instead of killing it completely,"
+  },
+  {
+   "from": 692.2,
+   "to": 694.6,
+   "text": "we just send a stop signal."
+  },
+  {
+   "from": 694.6,
+   "to": 699.2,
+   "text": "Here I'm gonna send a stop signal, which is gonna pause the process again."
+  },
+  {
+   "from": 699.2,
+   "to": 701.3,
+   "text": "I still have to include the identifier,"
+  },
+  {
+   "from": 701.6,
+   "to": 706.5,
+   "text": "because without the identifier the shell wouldn't know whether to stop the first one or the second one."
+  },
+  {
+   "from": 707.5,
+   "to": 712.5,
+   "text": "Now it's said this has been suspended, because there was a signal sent."
+  },
+  {
+   "from": 712.6,
+   "to": 717.4,
+   "text": "If I do \"jobs\", again, we can see that the second one is running"
+  },
+  {
+   "from": 717.5,
+   "to": 720.7,
+   "text": "and the first one has been stopped."
+  },
+  {
+   "from": 721.4,
+   "to": 724.3,
+   "text": "Going back to one of the questions,"
+  },
+  {
+   "from": 724.3,
+   "to": 727,
+   "text": "what happens when you close the cell, for example,"
+  },
+  {
+   "from": 727,
+   "to": 732.9,
+   "text": "and why sometimes people will say that you should use this NOHUP command"
+  },
+  {
+   "from": 732.9,
+   "to": 736,
+   "text": "before your run jobs in a remote session."
+  },
+  {
+   "from": 736.2,
+   "to": 743.1,
+   "text": "This is because if we try to send a hung up command to the first job"
+  },
+  {
+   "from": 743.6,
+   "to": 747.8,
+   "text": "it's gonna, in a similar fashion as the other signals,"
+  },
+  {
+   "from": 747.8,
+   "to": 752.3,
+   "text": "it's gonna hang it up and that's gonna terminate the job."
+  },
+  {
+   "from": 752.8,
+   "to": 756,
+   "text": "And the first job isn't there anymore"
+  },
+  {
+   "from": 756.3,
+   "to": 759.1,
+   "text": "whereas we have still the second job running."
+  },
+  {
+   "from": 759.4,
+   "to": 762.9,
+   "text": "However, if we try to send the signal to the second job"
+  },
+  {
+   "from": 762.9,
+   "to": 766.1,
+   "text": "what will happen if we close our terminal right now"
+  },
+  {
+   "from": 767,
+   "to": 768.7,
+   "text": "is it's still running."
+  },
+  {
+   "from": 768.7,
+   "to": 772.5,
+   "text": "Like NOHUP, what it's doing is kind of encapsulating"
+  },
+  {
+   "from": 772.5,
+   "to": 774.5,
+   "text": "whatever command you're executing and"
+  },
+  {
+   "from": 774.7,
+   "to": 778.7,
+   "text": "ignoring wherever you get a hang up signal,"
+  },
+  {
+   "from": 778.9,
+   "to": 783.7,
+   "text": "and just ignoring that so it can keep running."
+  },
+  {
+   "from": 785.1,
+   "to": 788.5,
+   "text": "And if we send the \"kill\" signal to the second job,"
+  },
+  {
+   "from": 788.5,
+   "to": 792.8,
+   "text": "that one can't be ignored and that will kill the job, no matter what."
+  },
+  {
+   "from": 793.3,
+   "to": 795.8,
+   "text": "And we don't have any jobs anymore."
+  },
+  {
+   "from": 797,
+   "to": 802.5,
+   "text": "That kind of completes the section on job control."
+  },
+  {
+   "from": 802.7,
+   "to": 807.1,
+   "text": "Any questions so far? Anything that wasn't fully clear?"
+  },
+  {
+   "from": 809,
+   "to": 810.4,
+   "text": "What does BG do?"
+  },
+  {
+   "from": 811,
+   "to": 811.8,
+   "text": "So BG..."
+  },
+  {
+   "from": 811.8,
+   "to": 816.9,
+   "text": "There are like two commands. Whenever you have a command that has been backgrounded"
+  },
+  {
+   "from": 817.2,
+   "to": 821.8,
+   "text": "and is stopped you can use BG (short for background)"
+  },
+  {
+   "from": 821.8,
+   "to": 824.2,
+   "text": "to continue that process running on the background."
+  },
+  {
+   "from": 824.4,
+   "to": 827.4,
+   "text": "That's equivalent of just kind of sending it"
+  },
+  {
+   "from": 827.7,
+   "to": 830.8,
+   "text": "a continue signal, so it keeps running."
+  },
+  {
+   "from": 830.8,
+   "to": 834.8,
+   "text": "And then there's another one which is called FG, if you want to"
+  },
+  {
+   "from": 834.9,
+   "to": 839.6,
+   "text": "recover it to the foreground and you want to reattach your standard output."
+  },
+  {
+   "from": 844.8,
+   "to": 846.8,
+   "text": "Okay, good."
+  },
+  {
+   "from": 847.1,
+   "to": 851.4,
+   "text": "Jobs are useful and in general, I think knowing about signals can be"
+  },
+  {
+   "from": 851.4,
+   "to": 854.4,
+   "text": "really beneficial when dealing with some part of Unix"
+  },
+  {
+   "from": 854.4,
+   "to": 859.4,
+   "text": "but most of the time what you actually want to do is something along the lines of"
+  },
+  {
+   "from": 859.7,
+   "to": 864.1,
+   "text": "having your editor in one side and then the program in another, and maybe"
+  },
+  {
+   "from": 864.7,
+   "to": 868.3,
+   "text": "monitoring what the resource consumption is in our tab."
+  },
+  {
+   "from": 868.7,
+   "to": 873.6,
+   "text": "We could achieve this using probably what you have seen a lot of the time,"
+  },
+  {
+   "from": 873.6,
+   "to": 875.2,
+   "text": "which is just opening more windows."
+  },
+  {
+   "from": 875.2,
+   "to": 877.2,
+   "text": "We can keep opening terminal windows."
+  },
+  {
+   "from": 877.3,
+   "to": 881.3,
+   "text": "But the fact is there are kind of more convenient solutions to this and"
+  },
+  {
+   "from": 881.3,
+   "to": 883.8,
+   "text": "this is what a terminal multiplexer does."
+  },
+  {
+   "from": 884.1,
+   "to": 888.5,
+   "text": "A terminal multiplexer like tmux"
+  },
+  {
+   "from": 888.8,
+   "to": 892.2,
+   "text": "will let you create different workspaces that you can work in,"
+  },
+  {
+   "from": 892.6,
+   "to": 894.3,
+   "text": "and quickly kind of,"
+  },
+  {
+   "from": 894.3,
+   "to": 897,
+   "text": "this has a huge variety of functionality,"
+  },
+  {
+   "from": 897.3,
+   "to": 902.8,
+   "text": "It will let you rearrange the environment and it will let you have different sessions."
+  },
+  {
+   "from": 903.4,
+   "to": 905.4,
+   "text": "There's another more..."
+  },
+  {
+   "from": 905.6,
+   "to": 907.6,
+   "text": "older command, which is called \"screen\","
+  },
+  {
+   "from": 907.6,
+   "to": 909.4,
+   "text": "that might be more readily available."
+  },
+  {
+   "from": 909.4,
+   "to": 912.2,
+   "text": "But I think the concept kind of extrapolates to both."
+  },
+  {
+   "from": 912.6,
+   "to": 915.4,
+   "text": "We recommend tmux, that you go and learn it."
+  },
+  {
+   "from": 915.4,
+   "to": 917.5,
+   "text": "And in fact, we have exercises on it."
+  },
+  {
+   "from": 917.5,
+   "to": 920.2,
+   "text": "I'm gonna showcase a different scenario right now."
+  },
+  {
+   "from": 920.3,
+   "to": 922,
+   "text": "So whenever I talked..."
+  },
+  {
+   "from": 922.3,
+   "to": 924.9,
+   "text": "Oh, let me make a quick note."
+  },
+  {
+   "from": 925.2,
+   "to": 928.8,
+   "text": "There are kind of three core concepts in tmux, that I'm gonna go through and"
+  },
+  {
+   "from": 930.1,
+   "to": 933.1,
+   "text": "the main idea is that there are what is called"
+  },
+  {
+   "from": 935.2,
+   "to": 937.2,
+   "text": "\"sessions\"."
+  },
+  {
+   "from": 937.8,
+   "to": 940.5,
+   "text": "Sessions have \"windows\" and"
+  },
+  {
+   "from": 942,
+   "to": 944,
+   "text": "windows have \"panes\"."
+  },
+  {
+   "from": 945.7,
+   "to": 949.5,
+   "text": "It's gonna be kind of useful to keep this hierarchy in mind."
+  },
+  {
+   "from": 950.8,
+   "to": 957.3,
+   "text": "You can pretty much equate \"windows\" to what \"tabs\" are in other editors and others,"
+  },
+  {
+   "from": 957.3,
+   "to": 960.7,
+   "text": "like for example your web browser."
+  },
+  {
+   "from": 961.3,
+   "to": 966.4,
+   "text": "I'm gonna go through the features, mainly what you can do at the different levels."
+  },
+  {
+   "from": 967,
+   "to": 970.5,
+   "text": "So first, when we do tmux, that starts a session."
+  },
+  {
+   "from": 971.4,
+   "to": 975,
+   "text": "And here right now it seems like nothing changed"
+  },
+  {
+   "from": 975,
+   "to": 980.4,
+   "text": "but what's happening right now is we're within a shell that is different from the one we started before."
+  },
+  {
+   "from": 980.6,
+   "to": 984.8,
+   "text": "So in our shell we started a process, that is tmux"
+  },
+  {
+   "from": 984.8,
+   "to": 988.8,
+   "text": "and that tmux started a different process, which is the shell we're currently in."
+  },
+  {
+   "from": 989,
+   "to": 990.4,
+   "text": "And the nice thing about this is that"
+  },
+  {
+   "from": 990.6,
+   "to": 994.7,
+   "text": "that tmux process is separate from the original shell process."
+  },
+  {
+   "from": 994.9,
+   "to": 996.9,
+   "text": "So"
+  },
+  {
+   "from": 1000.6,
+   "to": 1004.5,
+   "text": "here, we can do things."
+  },
+  {
+   "from": 1004.5,
+   "to": 1008.6,
+   "text": "We can do \"ls -la\", for example, to tell us what is going on in here."
+  },
+  {
+   "from": 1008.9,
+   "to": 1014,
+   "text": "And then we can start running our program, and it will start running in there"
+  },
+  {
+   "from": 1014.2,
+   "to": 1017.9,
+   "text": "and we can do \"Ctrl+A d\", for example, to detach"
+  },
+  {
+   "from": 1032.8,
+   "to": 1036,
+   "text": "to detach from the session."
+  },
+  {
+   "from": 1036.1,
+   "to": 1039.1,
+   "text": "And if we do \"tmux a\""
+  },
+  {
+   "from": 1039.2,
+   "to": 1041.6,
+   "text": "that's gonna reattach us to the session."
+  },
+  {
+   "from": 1041.6,
+   "to": 1042.3,
+   "text": "So the process,"
+  },
+  {
+   "from": 1042.3,
+   "to": 1045.2,
+   "text": "we abandon the process counting numbers."
+  },
+  {
+   "from": 1045.2,
+   "to": 1048.3,
+   "text": "This really silly Python program that was just counting numbers,"
+  },
+  {
+   "from": 1048.3,
+   "to": 1050.2,
+   "text": "we left it running there."
+  },
+  {
+   "from": 1050.2,
+   "to": 1051.7,
+   "text": "And if we tmux..."
+  },
+  {
+   "from": 1051.7,
+   "to": 1053.8,
+   "text": "Hey, the process is still running there."
+  },
+  {
+   "from": 1053.8,
+   "to": 1057.8,
+   "text": "And we could close this entire terminal and open a new one and"
+  },
+  {
+   "from": 1057.9,
+   "to": 1061.9,
+   "text": "we could still reattach because this tmux session is still running."
+  },
+  {
+   "from": 1063.3,
+   "to": 1065.3,
+   "text": "Again, we can..."
+  },
+  {
+   "from": 1066.6,
+   "to": 1068.6,
+   "text": "Before I go any further."
+  },
+  {
+   "from": 1068.9,
+   "to": 1073.7,
+   "text": "Pretty much... Unlike Vim, where you have this notion of modes,"
+  },
+  {
+   "from": 1074,
+   "to": 1078.2,
+   "text": "tmux will work in a more emacsy way, which is"
+  },
+  {
+   "from": 1078.2,
+   "to": 1084.1,
+   "text": "every command, pretty much every command in tmux,"
+  },
+  {
+   "from": 1084.2,
+   "to": 1086,
+   "text": "you could enter it through the..."
+  },
+  {
+   "from": 1086,
+   "to": 1088.2,
+   "text": "it has a command line, that we could use."
+  },
+  {
+   "from": 1088.2,
+   "to": 1091.3,
+   "text": "But I recommend you to get familiar with the key bindings."
+  },
+  {
+   "from": 1091.9,
+   "to": 1095.1,
+   "text": "It can be somehow non intuitive at first,"
+  },
+  {
+   "from": 1095.3,
+   "to": 1097.9,
+   "text": "but once you get used to them..."
+  },
+  {
+   "from": 1102.1,
+   "to": 1103,
+   "text": "\"Ctrl+C\", yeah"
+  },
+  {
+   "from": 1104.4,
+   "to": 1110.8,
+   "text": "When you get familiar with them, you will be much faster just using the key bindings than using the commands."
+  },
+  {
+   "from": 1111.3,
+   "to": 1116,
+   "text": "One note about the key bindings: all the key bindings have a form that is like"
+  },
+  {
+   "from": 1116.1,
+   "to": 1119.8,
+   "text": "you type a prefix and then some key."
+  },
+  {
+   "from": 1120.1,
+   "to": 1124,
+   "text": "So for example, to detach we do \"Ctrl+A\" and then \"D\"."
+  },
+  {
+   "from": 1124.2,
+   "to": 1130.1,
+   "text": "This means you press \"Ctrl+A\" first, you release that, and then press \"D\" to detach."
+  },
+  {
+   "from": 1130.4,
+   "to": 1134.2,
+   "text": "On default tmux, the prefix is \"Ctrl+B\","
+  },
+  {
+   "from": 1134.2,
+   "to": 1138.8,
+   "text": "but you will find that most people will have this remapped to \"Ctrl+A\""
+  },
+  {
+   "from": 1138.8,
+   "to": 1142.7,
+   "text": "because it's a much more ergonomic type on the keyboard."
+  },
+  {
+   "from": 1142.7,
+   "to": 1146.4,
+   "text": "You can find more about how to do these things in one of the exercises,"
+  },
+  {
+   "from": 1147,
+   "to": 1152.8,
+   "text": "where we link you to the basics and how to do some kind of quality of life modifications to tmux."
+  },
+  {
+   "from": 1153.4,
+   "to": 1156.7,
+   "text": "Going back to the concept of sessions,"
+  },
+  {
+   "from": 1157,
+   "to": 1162.1,
+   "text": "we can create a new session just doing something like tmux new"
+  },
+  {
+   "from": 1162.3,
+   "to": 1164.5,
+   "text": "and we can give sessions names."
+  },
+  {
+   "from": 1164.8,
+   "to": 1167.2,
+   "text": "So we can do like \"tmux new -t foobar\""
+  },
+  {
+   "from": 1167.2,
+   "to": 1170.9,
+   "text": "and this is a completely different session, that we have started."
+  },
+  {
+   "from": 1172.2,
+   "to": 1176.4,
+   "text": "We can work here, we can detach from it."
+  },
+  {
+   "from": 1176.4,
+   "to": 1180,
+   "text": "\"tmux ls\" will tell us that we have two different sessions:"
+  },
+  {
+   "from": 1180,
+   "to": 1183.5,
+   "text": "the first one is named \"0\", because I didn't give it a name,"
+  },
+  {
+   "from": 1183.5,
+   "to": 1185.8,
+   "text": "and the second one is called \"foobar\"."
+  },
+  {
+   "from": 1186.6,
+   "to": 1191,
+   "text": "I can attach the foobar session"
+  },
+  {
+   "from": 1191,
+   "to": 1193.7,
+   "text": "and I can end it."
+  },
+  {
+   "from": 1194.7,
+   "to": 1196.3,
+   "text": "And it's really nice because"
+  },
+  {
+   "from": 1196.3,
+   "to": 1200.1,
+   "text": "having this you can kind of work in completely different projects."
+  },
+  {
+   "from": 1200.1,
+   "to": 1204.3,
+   "text": "For example, having two different tmux sessions and different"
+  },
+  {
+   "from": 1204.5,
+   "to": 1208.4,
+   "text": "editor sessions, different processes running..."
+  },
+  {
+   "from": 1210.2,
+   "to": 1215.1,
+   "text": "When you are within a session, we start with the concept of windows."
+  },
+  {
+   "from": 1215.1,
+   "to": 1221.2,
+   "text": "Here we have a single window, but we can use \"Ctrl+A c\" (for \"create\")"
+  },
+  {
+   "from": 1221.2,
+   "to": 1223.7,
+   "text": "to open a new window."
+  },
+  {
+   "from": 1224,
+   "to": 1226.3,
+   "text": "And here nothing is executing."
+  },
+  {
+   "from": 1226.4,
+   "to": 1229.4,
+   "text": "What it's doing is, tmux has opened a new shell for us"
+  },
+  {
+   "from": 1230.4,
+   "to": 1234.8,
+   "text": "and we can start running another one of these programs here."
+  },
+  {
+   "from": 1235.5,
+   "to": 1242.5,
+   "text": "And to quickly jump between the tabs, we can do \"Ctrl+A\" and \"previous\","
+  },
+  {
+   "from": 1242.5,
+   "to": 1244.5,
+   "text": "\"p\" for \"previous\","
+  },
+  {
+   "from": 1245.2,
+   "to": 1248,
+   "text": "and that will go up to the previous window."
+  },
+  {
+   "from": 1248,
+   "to": 1250.9,
+   "text": "\"Ctrl+A\" \"next\", to go to the next window."
+  },
+  {
+   "from": 1251.3,
+   "to": 1256.1,
+   "text": "You can also use the numbers. So if we start opening a lot of these tabs,"
+  },
+  {
+   "from": 1256.2,
+   "to": 1260.2,
+   "text": "we could use \"Ctrl+A 1\", to specifically jump to the"
+  },
+  {
+   "from": 1260.2,
+   "to": 1264.4,
+   "text": "to the window that is number \"1\"."
+  },
+  {
+   "from": 1264.8,
+   "to": 1268.6,
+   "text": "And, lastly, it's also pretty useful to know sometimes"
+  },
+  {
+   "from": 1268.7,
+   "to": 1270.4,
+   "text": "that you can rename them."
+  },
+  {
+   "from": 1270.4,
+   "to": 1273.4,
+   "text": "For example here I'm executing this Python process,"
+  },
+  {
+   "from": 1273.6,
+   "to": 1276.8,
+   "text": "but that might not be really informative and I want..."
+  },
+  {
+   "from": 1276.9,
+   "to": 1281.2,
+   "text": "I maybe want to have something like execution or something like that and"
+  },
+  {
+   "from": 1281.7,
+   "to": 1286.8,
+   "text": "that will rename the name of that window so you can have this really neatly organized."
+  },
+  {
+   "from": 1287.1,
+   "to": 1293.5,
+   "text": "This still doesn't solve the need when you want to have two things at the same time in your terminal,"
+  },
+  {
+   "from": 1293.7,
+   "to": 1295.7,
+   "text": "like in the same display."
+  },
+  {
+   "from": 1295.7,
+   "to": 1298.3,
+   "text": "This is what panes are for. Right now, here"
+  },
+  {
+   "from": 1298.4,
+   "to": 1300.4,
+   "text": "we have a window with a single pane"
+  },
+  {
+   "from": 1300.4,
+   "to": 1303.5,
+   "text": "(all the windows that we have opened so far have a single pane)."
+  },
+  {
+   "from": 1303.6,
+   "to": 1310.8,
+   "text": "But if we do 'Ctrl+A \"'"
+  },
+  {
+   "from": 1311,
+   "to": 1316.5,
+   "text": "this will split the current display into two different panes."
+  },
+  {
+   "from": 1316.5,
+   "to": 1321.4,
+   "text": "So, you see, the one we open below is a different shell from the one we have above,"
+  },
+  {
+   "from": 1321.6,
+   "to": 1325.4,
+   "text": "and we can run any process that we want here."
+  },
+  {
+   "from": 1325.6,
+   "to": 1329.9,
+   "text": "We can keep splitting this, if we do \"Ctrl+A %\""
+  },
+  {
+   "from": 1330.1,
+   "to": 1335,
+   "text": "that will split vertically. And you can kind of"
+  },
+  {
+   "from": 1335,
+   "to": 1338.2,
+   "text": "rearrange these tabs using a lot of different commands."
+  },
+  {
+   "from": 1338.2,
+   "to": 1342.6,
+   "text": "One that I find very useful, when you are starting and it's kind of frustrating,"
+  },
+  {
+   "from": 1343.5,
+   "to": 1346,
+   "text": "rearranging them."
+  },
+  {
+   "from": 1346.2,
+   "to": 1350.2,
+   "text": "Before I explain that, to move through these panes, which is"
+  },
+  {
+   "from": 1350.3,
+   "to": 1352.3,
+   "text": "something you want to be doing all the time"
+  },
+  {
+   "from": 1352.5,
+   "to": 1357.1,
+   "text": "You just do \"Ctrl+A\" and the arrow keys, and that will let you quickly"
+  },
+  {
+   "from": 1357.5,
+   "to": 1364,
+   "text": "navigate through the different windows, and execute again..."
+  },
+  {
+   "from": 1364.3,
+   "to": 1366.3,
+   "text": "I'm doing a lot of \"ls -a\""
+  },
+  {
+   "from": 1367.3,
+   "to": 1372.8,
+   "text": "I can do \"HTOP\", that we'll explain in the debugging and profiling lecture."
+  },
+  {
+   "from": 1373.5,
+   "to": 1375.9,
+   "text": "And we can just navigate through them, again"
+  },
+  {
+   "from": 1375.9,
+   "to": 1379,
+   "text": "like to rearrange there's another slew of commands,"
+  },
+  {
+   "from": 1379.1,
+   "to": 1381.1,
+   "text": "you will go through some in the Exercises"
+  },
+  {
+   "from": 1382.4,
+   "to": 1387.2,
+   "text": "\"Ctrl+A\" space is pretty neat, because it will kind of equispace the current ones"
+  },
+  {
+   "from": 1387.2,
+   "to": 1390.3,
+   "text": "and let you through different layouts."
+  },
+  {
+   "from": 1391.5,
+   "to": 1394.3,
+   "text": "Some of them are too small for my current"
+  },
+  {
+   "from": 1394.8,
+   "to": 1399.2,
+   "text": "terminal config, but that covers, I think, most of it."
+  },
+  {
+   "from": 1399.4,
+   "to": 1401.4,
+   "text": "Oh, there's also,"
+  },
+  {
+   "from": 1402.7,
+   "to": 1409.2,
+   "text": "here, for example, this Vim execution that we have started,"
+  },
+  {
+   "from": 1409.2,
+   "to": 1413.4,
+   "text": "is too small for what the current tmux pane is."
+  },
+  {
+   "from": 1413.7,
+   "to": 1418.2,
+   "text": "So one of the things that really is much more convenient to do in tmux,"
+  },
+  {
+   "from": 1419.2,
+   "to": 1422.5,
+   "text": "in contrast to having multiple terminal windows, is that"
+  },
+  {
+   "from": 1422.6,
+   "to": 1428.4,
+   "text": "you can zoom into this, you can ask by doing \"Ctrl+A z\", for \"zoom\"."
+  },
+  {
+   "from": 1428.4,
+   "to": 1433,
+   "text": "It will expand the pane to take over all the space,"
+  },
+  {
+   "from": 1433,
+   "to": 1436.7,
+   "text": "and then \"Ctrl+A z\", again will go back to it."
+  },
+  {
+   "from": 1442.8,
+   "to": 1448.1,
+   "text": "Any questions for terminal multiplexers, or like, tmux concretely?"
+  },
+  {
+   "from": 1454.1,
+   "to": 1456.8,
+   "text": "Is it running all the same thing?"
+  },
+  {
+   "from": 1458.7,
+   "to": 1462.7,
+   "text": "Like, is there any difference in execution between running it in different windows?"
+  },
+  {
+   "from": 1464.9,
+   "to": 1468.6,
+   "text": "Is it really just doing it all the same, so that you can see it?"
+  },
+  {
+   "from": 1468.8,
+   "to": 1474.9,
+   "text": "Yeah, it wouldn't be any different from having two terminal windows open in your computer."
+  },
+  {
+   "from": 1474.9,
+   "to": 1479.2,
+   "text": "Like both of them are gonna be running. Of course, when it gets to the CPU,"
+  },
+  {
+   "from": 1479.2,
+   "to": 1481.4,
+   "text": "this is gonna be multiplexed again."
+  },
+  {
+   "from": 1481.5,
+   "to": 1484.4,
+   "text": "Like there's like a timesharing mechanism going there"
+  },
+  {
+   "from": 1484.5,
+   "to": 1485.9,
+   "text": "but there's no difference."
+  },
+  {
+   "from": 1486,
+   "to": 1492.3,
+   "text": "tmux is just making this much more convenient to use by giving you this visual layout"
+  },
+  {
+   "from": 1492.6,
+   "to": 1495,
+   "text": "that you can quickly manipulate through."
+  },
+  {
+   "from": 1495,
+   "to": 1499.9,
+   "text": "And one of the main advantages will come when we reach the remote machines"
+  },
+  {
+   "from": 1499.9,
+   "to": 1505.3,
+   "text": "because you can leave one of these, we can detach from one of these tmux systems,"
+  },
+  {
+   "from": 1505.3,
+   "to": 1509.1,
+   "text": "close the connection and even if we close the connection and"
+  },
+  {
+   "from": 1509.1,
+   "to": 1511.6,
+   "text": "and the terminal is gonna send a hang-up signal,"
+  },
+  {
+   "from": 1511.7,
+   "to": 1515.4,
+   "text": "that's not gonna close all the tmux's that have been started."
+  },
+  {
+   "from": 1517.1,
+   "to": 1519.1,
+   "text": "Any other questions?"
+  },
+  {
+   "from": 1523.6,
+   "to": 1528,
+   "text": "Let me disable the key-caster."
+  },
+  {
+   "from": 1533.6,
+   "to": 1538,
+   "text": "So now we're gonna move into the topic of dotfiles and, in general,"
+  },
+  {
+   "from": 1538,
+   "to": 1542.5,
+   "text": "how to kind of configure your shell to do the things you want to do"
+  },
+  {
+   "from": 1542.5,
+   "to": 1545.6,
+   "text": "and mainly how to do them quicker and in a more convenient way."
+  },
+  {
+   "from": 1546.4,
+   "to": 1549.3,
+   "text": "I'm gonna motivate this using aliases first."
+  },
+  {
+   "from": 1549.4,
+   "to": 1551.1,
+   "text": "So what an alias is,"
+  },
+  {
+   "from": 1551.1,
+   "to": 1554.3,
+   "text": "is that by now, you might be starting to do something like"
+  },
+  {
+   "from": 1554.9,
+   "to": 1561.7,
+   "text": "a lot of the time, I just want to LS a directory and I want to display all the contents into a list format"
+  },
+  {
+   "from": 1562.2,
+   "to": 1565,
+   "text": "and in a human readable thing."
+  },
+  {
+   "from": 1565.3,
+   "to": 1567.4,
+   "text": "And it's fine. Like it's not that long of a command."
+  },
+  {
+   "from": 1567.4,
+   "to": 1570.3,
+   "text": "But as you start building longer and longer commands,"
+  },
+  {
+   "from": 1570.3,
+   "to": 1574.4,
+   "text": "it can become kind of bothersome having to retype them again and again."
+  },
+  {
+   "from": 1574.4,
+   "to": 1577.5,
+   "text": "This is one of the reasons why aliases are useful."
+  },
+  {
+   "from": 1577.5,
+   "to": 1581.7,
+   "text": "Alias is a command that will be a built-in in your shell,"
+  },
+  {
+   "from": 1582,
+   "to": 1583.7,
+   "text": "and what it will do is"
+  },
+  {
+   "from": 1583.7,
+   "to": 1587.5,
+   "text": "it will remap a short sequence of characters to a longer sequence."
+  },
+  {
+   "from": 1587.8,
+   "to": 1591.5,
+   "text": "So if I do, for example, here"
+  },
+  {
+   "from": 1591.5,
+   "to": 1596.8,
+   "text": "alias ll=\"ls -lah\""
+  },
+  {
+   "from": 1597.4,
+   "to": 1602.5,
+   "text": "If I execute this command, this is gonna call the \"alias\" command with this argument"
+  },
+  {
+   "from": 1602.5,
+   "to": 1604.3,
+   "text": "and the LS is going to update"
+  },
+  {
+   "from": 1604.5,
+   "to": 1609,
+   "text": "the environment in my shell to be aware of this mapping."
+  },
+  {
+   "from": 1609.3,
+   "to": 1612.9,
+   "text": "So if I now do LL,"
+  },
+  {
+   "from": 1612.9,
+   "to": 1617.5,
+   "text": "it's executing that command without me having to type the entire command."
+  },
+  {
+   "from": 1617.7,
+   "to": 1621.2,
+   "text": "It can be really handy for many, many reasons."
+  },
+  {
+   "from": 1621.2,
+   "to": 1624.7,
+   "text": "One thing to note before I go any further is that"
+  },
+  {
+   "from": 1625,
+   "to": 1630,
+   "text": "here, alias is not anything special compared to other commands,"
+  },
+  {
+   "from": 1630,
+   "to": 1631.4,
+   "text": "it's just taking a single argument."
+  },
+  {
+   "from": 1631.7,
+   "to": 1635.6,
+   "text": "And there is no space around this equals and that's"
+  },
+  {
+   "from": 1636,
+   "to": 1638.7,
+   "text": "because alias takes a single argument"
+  },
+  {
+   "from": 1638.7,
+   "to": 1641.6,
+   "text": "and if you try doing"
+  },
+  {
+   "from": 1642,
+   "to": 1645.1,
+   "text": "something like this, that's giving it more than one argument"
+  },
+  {
+   "from": 1645.1,
+   "to": 1648.4,
+   "text": "and that's not gonna work because that's not the format it expects."
+  },
+  {
+   "from": 1649.5,
+   "to": 1653.7,
+   "text": "So other use cases that work for aliases,"
+  },
+  {
+   "from": 1654.7,
+   "to": 1656.5,
+   "text": "as I was saying,"
+  },
+  {
+   "from": 1656.5,
+   "to": 1659.9,
+   "text": "for some things it may be much more convenient,"
+  },
+  {
+   "from": 1660,
+   "to": 1661,
+   "text": "like"
+  },
+  {
+   "from": 1661,
+   "to": 1663.2,
+   "text": "one of my favorites is git status."
+  },
+  {
+   "from": 1663.2,
+   "to": 1667.5,
+   "text": "It's extremely long, and I don't like typing that long of a command every so often,"
+  },
+  {
+   "from": 1667.6,
+   "to": 1669,
+   "text": "because you end up taking a lot of time."
+  },
+  {
+   "from": 1669.1,
+   "to": 1673,
+   "text": "So GS will replace for doing the git status"
+  },
+  {
+   "from": 1673.8,
+   "to": 1678.6,
+   "text": "You can also use them to alias things that you mistype often,"
+  },
+  {
+   "from": 1678.6,
+   "to": 1681.2,
+   "text": "so you can do \"sl=ls\","
+  },
+  {
+   "from": 1681.2,
+   "to": 1682.5,
+   "text": "that will work."
+  },
+  {
+   "from": 1685.8,
+   "to": 1690.6,
+   "text": "Other useful mappings are,"
+  },
+  {
+   "from": 1690.7,
+   "to": 1695.5,
+   "text": "you might want to alias a command to itself"
+  },
+  {
+   "from": 1695.7,
+   "to": 1697.5,
+   "text": "but with a default flag."
+  },
+  {
+   "from": 1697.5,
+   "to": 1701.1,
+   "text": "So here what is going on is I'm creating an alias"
+  },
+  {
+   "from": 1701.1,
+   "to": 1703.1,
+   "text": "which is an alias for the move command,"
+  },
+  {
+   "from": 1703.3,
+   "to": 1709.8,
+   "text": "which is MV and I'm aliasing it to the same command but adding the \"-i\" flag."
+  },
+  {
+   "from": 1710,
+   "to": 1714.5,
+   "text": "And this \"-i\" flag, if you go through the man page and look at it, it stands for \"interactive\"."
+  },
+  {
+   "from": 1714.8,
+   "to": 1719.9,
+   "text": "And what it will do is it will prompt me before I do an overwrite."
+  },
+  {
+   "from": 1719.9,
+   "to": 1724.4,
+   "text": "So once I have executed this, I can do something like"
+  },
+  {
+   "from": 1724.7,
+   "to": 1727.4,
+   "text": "I want to move \"aliases\" into \"case\"."
+  },
+  {
+   "from": 1727.7,
+   "to": 1733.1,
+   "text": "By default \"move\" won't ask, and if \"case\" already exists, it will be over."
+  },
+  {
+   "from": 1733.2,
+   "to": 1735.8,
+   "text": "That's fine, I'm going to overwrite whatever that's there."
+  },
+  {
+   "from": 1736,
+   "to": 1738.6,
+   "text": "But here it's now expanded,"
+  },
+  {
+   "from": 1738.6,
+   "to": 1741.7,
+   "text": "\"move\" has been expanded into this \"move -i\""
+  },
+  {
+   "from": 1741.7,
+   "to": 1743.5,
+   "text": "and it's using that to ask me"
+  },
+  {
+   "from": 1743.5,
+   "to": 1747.4,
+   "text": "\"Oh, are you sure you want to overwrite this?\""
+  },
+  {
+   "from": 1747.7,
+   "to": 1751.8,
+   "text": "And I can say no, I don't want to lose that file."
+  },
+  {
+   "from": 1752.2,
+   "to": 1755.8,
+   "text": "Lastly, you can use \"alias move\""
+  },
+  {
+   "from": 1755.8,
+   "to": 1758.5,
+   "text": "to ask for what this alias stands for."
+  },
+  {
+   "from": 1759.1,
+   "to": 1762.1,
+   "text": "So it will tell you so you can quickly make sure"
+  },
+  {
+   "from": 1762.1,
+   "to": 1765.4,
+   "text": "what the command that you are executing actually is."
+  },
+  {
+   "from": 1767,
+   "to": 1771.4,
+   "text": "One inconvenient part about, for example, having aliases is how will you go about"
+  },
+  {
+   "from": 1771.8,
+   "to": 1775.3,
+   "text": "persisting them into your current environment?"
+  },
+  {
+   "from": 1775.5,
+   "to": 1778.1,
+   "text": "Like, if I were to close this terminal now,"
+  },
+  {
+   "from": 1778.3,
+   "to": 1780.2,
+   "text": "all these aliases will go away."
+  },
+  {
+   "from": 1780.2,
+   "to": 1783,
+   "text": "And you don't want to be kind of retyping these commands"
+  },
+  {
+   "from": 1783,
+   "to": 1786.8,
+   "text": "and more generally, if you start configuring your shell more and more,"
+  },
+  {
+   "from": 1786.9,
+   "to": 1790.9,
+   "text": "you want some way of bootstrapping all this configuration."
+  },
+  {
+   "from": 1791.4,
+   "to": 1796.8,
+   "text": "You will find that most shell command programs"
+  },
+  {
+   "from": 1796.9,
+   "to": 1801.4,
+   "text": "will use some sort of text based configuration file."
+  },
+  {
+   "from": 1801.4,
+   "to": 1806.7,
+   "text": "And this is what we usually call \"dotfiles\", because they start with a dot for historical reasons."
+  },
+  {
+   "from": 1807.1,
+   "to": 1813.2,
+   "text": "So for bash in our case, which is a shell,"
+  },
+  {
+   "from": 1813.2,
+   "to": 1815.6,
+   "text": "we can look at the bashrc."
+  },
+  {
+   "from": 1816.2,
+   "to": 1819.8,
+   "text": "For demonstration purposes, here I have been using ZSH,"
+  },
+  {
+   "from": 1819.9,
+   "to": 1824.5,
+   "text": "which is a different shell, and I'm going to be configuring bash, and starting bash."
+  },
+  {
+   "from": 1824.6,
+   "to": 1829.6,
+   "text": "So if I create an entry here and I say"
+  },
+  {
+   "from": 1829.9,
+   "to": 1832,
+   "text": "SL maps to LS"
+  },
+  {
+   "from": 1832.6,
+   "to": 1836,
+   "text": "And I have modified that, and now I start bash."
+  },
+  {
+   "from": 1836.5,
+   "to": 1840.7,
+   "text": "Bash is kind of completely unconfigured, but now if I do SL..."
+  },
+  {
+   "from": 1841.4,
+   "to": 1844,
+   "text": "Hm, that's unexpected."
+  },
+  {
+   "from": 1846.3,
+   "to": 1848,
+   "text": "Oh, good. Good getting that."
+  },
+  {
+   "from": 1848.3,
+   "to": 1852.2,
+   "text": "So it matters where you config file is,"
+  },
+  {
+   "from": 1852.2,
+   "to": 1855.3,
+   "text": "your config file needs to be in your home folder."
+  },
+  {
+   "from": 1855.6,
+   "to": 1860.9,
+   "text": "So your configuration file for bash will live in that \"~\","
+  },
+  {
+   "from": 1860.9,
+   "to": 1863.9,
+   "text": "which will expand to your home directory,"
+  },
+  {
+   "from": 1863.9,
+   "to": 1865.6,
+   "text": "and then bashrc."
+  },
+  {
+   "from": 1866.2,
+   "to": 1868.8,
+   "text": "And here we can create the alias"
+  },
+  {
+   "from": 1872,
+   "to": 1875.8,
+   "text": "and now we start a bash session and we do SL."
+  },
+  {
+   "from": 1875.8,
+   "to": 1881.5,
+   "text": "Now it has been loaded, and this is loaded at the beginning when this"
+  },
+  {
+   "from": 1882.3,
+   "to": 1884.3,
+   "text": "bash program is started."
+  },
+  {
+   "from": 1884.7,
+   "to": 1891.2,
+   "text": "All this configuration is loaded and you can, not only use aliases, they can have a lot of parts of configuration."
+  },
+  {
+   "from": 1891.4,
+   "to": 1895.7,
+   "text": "So for example here, I have a prompt which is fairly useless."
+  },
+  {
+   "from": 1895.7,
+   "to": 1898.4,
+   "text": "It has just given me the name of the shell, which is bash,"
+  },
+  {
+   "from": 1898.6,
+   "to": 1903.8,
+   "text": "and the version, which is 5.0. I don't want this to be displayed and"
+  },
+  {
+   "from": 1904.4,
+   "to": 1908.5,
+   "text": "as with many things in your shell, this is just an environment variable."
+  },
+  {
+   "from": 1908.6,
+   "to": 1913.1,
+   "text": "So the \"PS1\" is just the prompt string"
+  },
+  {
+   "from": 1913.7,
+   "to": 1915.5,
+   "text": "for your prompt and"
+  },
+  {
+   "from": 1915.5,
+   "to": 1922.5,
+   "text": "we can actually modify this to just be a \"> \" symbol."
+  },
+  {
+   "from": 1922.5,
+   "to": 1928.3,
+   "text": "and now that has been modified, and we have that. But if we exit and call bash again,"
+  },
+  {
+   "from": 1928.6,
+   "to": 1935.1,
+   "text": "that was lost. However, if we add this entry and say, oh we want \"PS1\""
+  },
+  {
+   "from": 1935.8,
+   "to": 1937.2,
+   "text": "to be"
+  },
+  {
+   "from": 1937.2,
+   "to": 1939.2,
+   "text": "this and"
+  },
+  {
+   "from": 1939.2,
+   "to": 1944.7,
+   "text": "we call bash again, this has been persisted. And we can keep modifying this configuration."
+  },
+  {
+   "from": 1945.1,
+   "to": 1947.2,
+   "text": "So maybe we want to include"
+  },
+  {
+   "from": 1947.9,
+   "to": 1949.9,
+   "text": "where the"
+  },
+  {
+   "from": 1950.4,
+   "to": 1952.9,
+   "text": "working directory that we are is in, and"
+  },
+  {
+   "from": 1954.1,
+   "to": 1957.4,
+   "text": "that's telling us the same information that we had in the other shell."
+  },
+  {
+   "from": 1957.4,
+   "to": 1960.5,
+   "text": "And there are many, many options,"
+  },
+  {
+   "from": 1960.8,
+   "to": 1965.1,
+   "text": "shells are highly, highly configurable, and"
+  },
+  {
+   "from": 1965.7,
+   "to": 1969.9,
+   "text": "it's not only cells that are configured through these files,"
+  },
+  {
+   "from": 1970.6,
+   "to": 1975.7,
+   "text": "there are many other programs. As we saw for example in the editors lecture, Vim is also"
+  },
+  {
+   "from": 1975.8,
+   "to": 1982.9,
+   "text": "configured this way. We gave you this vimrc file and told you to put it under your"
+  },
+  {
+   "from": 1983.5,
+   "to": 1986.4,
+   "text": "home/.vimrc"
+  },
+  {
+   "from": 1986.4,
+   "to": 1991.8,
+   "text": "and this is the same concept, but just for Vim. It's just giving it a set of"
+  },
+  {
+   "from": 1992.2,
+   "to": 1998.3,
+   "text": "instructions that it should load when it's started, so you can keep a configuration that you want."
+  },
+  {
+   "from": 1999.1,
+   "to": 2001.2,
+   "text": "And even non..."
+  },
+  {
+   "from": 2001.6,
+   "to": 2007.1,
+   "text": "kind of a lot of programs will support this. For instance, my terminal emulator, which is another concept,"
+  },
+  {
+   "from": 2007.3,
+   "to": 2010.2,
+   "text": "which is the program that is"
+  },
+  {
+   "from": 2010.2,
+   "to": 2015.5,
+   "text": "running the shell, in a way, and displaying this into the screen in my computer."
+  },
+  {
+   "from": 2016,
+   "to": 2018.6,
+   "text": "It can also be configured this way, so"
+  },
+  {
+   "from": 2019.9,
+   "to": 2023.6,
+   "text": "if I modify this I can"
+  },
+  {
+   "from": 2026.5,
+   "to": 2033.3,
+   "text": "change the size of the font. Like right now, for example, I have increased the font size a lot"
+  },
+  {
+   "from": 2033.3,
+   "to": 2035.8,
+   "text": "for demonstration purposes, but"
+  },
+  {
+   "from": 2036.4,
+   "to": 2040.4,
+   "text": "if I change this entry and make it for example"
+  },
+  {
+   "from": 2041.3,
+   "to": 2046.8,
+   "text": "28 and write this value, you see that the size of the font has changed,"
+  },
+  {
+   "from": 2046.8,
+   "to": 2052.9,
+   "text": "because I edited this text file that specifies how my terminal emulator should work."
+  },
+  {
+   "from": 2059.5,
+   "to": 2060.9,
+   "text": "Any questions so far?"
+  },
+  {
+   "from": 2060.9,
+   "to": 2062.3,
+   "text": "With dotfiles."
+  },
+  {
+   "from": 2068,
+   "to": 2075.9,
+   "text": "Okay, it can be a bit daunting knowing that there is like this endless wall of configurations,"
+  },
+  {
+   "from": 2075.9,
+   "to": 2080.6,
+   "text": "and how do you go about learning about what can be configured?"
+  },
+  {
+   "from": 2082,
+   "to": 2084.3,
+   "text": "The good news is that"
+  },
+  {
+   "from": 2084.6,
+   "to": 2088.9,
+   "text": "we have linked you to really good resources in the lecture notes."
+  },
+  {
+   "from": 2089,
+   "to": 2096.4,
+   "text": "But the main idea is that a lot of people really like just configuring these tools and have uploaded"
+  },
+  {
+   "from": 2096.6,
+   "to": 2101.1,
+   "text": "their configuration files to GitHub, another different kind of repositories online."
+  },
+  {
+   "from": 2101.1,
+   "to": 2103.3,
+   "text": "So for example, here we are on GitHub,"
+  },
+  {
+   "from": 2103.3,
+   "to": 2106.6,
+   "text": "we search for dotfiles, and can see that there are like"
+  },
+  {
+   "from": 2106.8,
+   "to": 2112.5,
+   "text": "thousands of repositories of people sharing their configuration files. We have also..."
+  },
+  {
+   "from": 2112.5,
+   "to": 2115.5,
+   "text": "Like, the class instructors have linked our dotfiles."
+  },
+  {
+   "from": 2115.5,
+   "to": 2119.4,
+   "text": "So if you really want to know how any part of our setup is working"
+  },
+  {
+   "from": 2119.4,
+   "to": 2122.2,
+   "text": "you can go through it and try to figure it out."
+  },
+  {
+   "from": 2122.2,
+   "to": 2124.2,
+   "text": "You can also feel free to ask us."
+  },
+  {
+   "from": 2124.4,
+   "to": 2127.1,
+   "text": "If we go for example to this repository here"
+  },
+  {
+   "from": 2127.2,
+   "to": 2130.6,
+   "text": "we can see that there's many, many files that you can configure."
+  },
+  {
+   "from": 2130.7,
+   "to": 2137.5,
+   "text": "For example, there is one for bash, the first couple of ones are for git, that will be probably be covered in the"
+  },
+  {
+   "from": 2138.6,
+   "to": 2140.8,
+   "text": "version control lecture tomorrow."
+  },
+  {
+   "from": 2141.4,
+   "to": 2148.5,
+   "text": "If we go for example to the bash profile, which is a different form of what we saw in the bashrc,"
+  },
+  {
+   "from": 2149.4,
+   "to": 2152.9,
+   "text": "it can be really useful because you can learn through"
+  },
+  {
+   "from": 2153.9,
+   "to": 2158.3,
+   "text": "just looking at the manual page, but the manual pages is, a lot of the time"
+  },
+  {
+   "from": 2158.5,
+   "to": 2163.5,
+   "text": "just kind of like a descriptive explanation of all the different options"
+  },
+  {
+   "from": 2163.5,
+   "to": 2164.9,
+   "text": "and sometimes it's more helpful"
+  },
+  {
+   "from": 2164.9,
+   "to": 2169.6,
+   "text": "going through examples of what people have done and trying to understand why they did it"
+  },
+  {
+   "from": 2169.6,
+   "to": 2172.2,
+   "text": "and how it's helping their workflow."
+  },
+  {
+   "from": 2173,
+   "to": 2177.3,
+   "text": "We can say here that this person has done case-insensitive globbing."
+  },
+  {
+   "from": 2177.3,
+   "to": 2181.2,
+   "text": "We covered globbing as this kind of filename expansion"
+  },
+  {
+   "from": 2182.1,
+   "to": 2185.8,
+   "text": "trick in the shell scripting and tools."
+  },
+  {
+   "from": 2185.9,
+   "to": 2188.8,
+   "text": "And here you say no, I don't want this to matter,"
+  },
+  {
+   "from": 2188.8,
+   "to": 2190.8,
+   "text": "whether using uppercase and lowercase,"
+  },
+  {
+   "from": 2190.8,
+   "to": 2192.8,
+   "text": "and just setting this option in the shell for these things to work this way"
+  },
+  {
+   "from": 2195.4,
+   "to": 2198.1,
+   "text": "Similarly, there is for example aliases."
+  },
+  {
+   "from": 2198.1,
+   "to": 2202.2,
+   "text": "Here you can see a lot of aliases that this person is doing. For example, \"d\" for"
+  },
+  {
+   "from": 2204.2,
+   "to": 2207.4,
+   "text": "\"d\" for \"Dropbox\", sorry, because that's just much shorter."
+  },
+  {
+   "from": 2207.4,
+   "to": 2209.2,
+   "text": "\"g\" for \"git\"..."
+  },
+  {
+   "from": 2209.7,
+   "to": 2214.6,
+   "text": "Say we go, for example, with vimrc. It can be actually very, very informative,"
+  },
+  {
+   "from": 2214.6,
+   "to": 2218.9,
+   "text": "going through this and trying to extract useful information."
+  },
+  {
+   "from": 2219,
+   "to": 2226.4,
+   "text": "We do not recommend just kind of getting one huge blob of this and copying this into your config files,"
+  },
+  {
+   "from": 2227.1,
+   "to": 2232.4,
+   "text": "because maybe things are prettier, but you might not really understand what is going on."
+  },
+  {
+   "from": 2235.2,
+   "to": 2239.6,
+   "text": "Lastly one thing I want to mention about dotfiles is that"
+  },
+  {
+   "from": 2240.5,
+   "to": 2243.4,
+   "text": "people not only try to push these"
+  },
+  {
+   "from": 2244.7,
+   "to": 2248.8,
+   "text": "files into GitHub just so other people can read it, that's"
+  },
+  {
+   "from": 2249.4,
+   "to": 2253.3,
+   "text": "one reason. They also make really sure they can"
+  },
+  {
+   "from": 2254.1,
+   "to": 2259.4,
+   "text": "reproduce their setup. And to do that they use a slew of different tools."
+  },
+  {
+   "from": 2259.4,
+   "to": 2261.3,
+   "text": "Oops, went a little too far."
+  },
+  {
+   "from": 2261.3,
+   "to": 2264.8,
+   "text": "So GNU Stow is, for example, one of them"
+  },
+  {
+   "from": 2265.7,
+   "to": 2269.1,
+   "text": "and the trick that they are doing is"
+  },
+  {
+   "from": 2270.3,
+   "to": 2274.5,
+   "text": "they are kind of putting all their dotfiles in a folder and they are"
+  },
+  {
+   "from": 2275.2,
+   "to": 2279.5,
+   "text": "faking to the system, using a tool called symlinks,"
+  },
+  {
+   "from": 2279.5,
+   "to": 2282.4,
+   "text": "that they are actually what they're not. I'm gonna"
+  },
+  {
+   "from": 2283.2,
+   "to": 2285.2,
+   "text": "draw really quick what I mean by that."
+  },
+  {
+   "from": 2285.8,
+   "to": 2290.9,
+   "text": "So a common folder structure might look like you have your home folder and"
+  },
+  {
+   "from": 2291.7,
+   "to": 2294.3,
+   "text": "in this home folder you might have your"
+  },
+  {
+   "from": 2296.1,
+   "to": 2301.4,
+   "text": "bashrc, that contains your bash configuration, you might have your vimrc and"
+  },
+  {
+   "from": 2302.5,
+   "to": 2305.8,
+   "text": "it would be really great if you could keep this under version control."
+  },
+  {
+   "from": 2306.6,
+   "to": 2309.3,
+   "text": "But the thing is, you might not want to have a git repository,"
+  },
+  {
+   "from": 2309.3,
+   "to": 2311.3,
+   "text": "which will be covered tomorrow,"
+  },
+  {
+   "from": 2311.3,
+   "to": 2312.3,
+   "text": "in your home folder."
+  },
+  {
+   "from": 2312.3,
+   "to": 2317.4,
+   "text": "So what people usually do is they create a dotfiles repository,"
+  },
+  {
+   "from": 2318.3,
+   "to": 2322.2,
+   "text": "and then they have entries here for their"
+  },
+  {
+   "from": 2323.1,
+   "to": 2327.2,
+   "text": "bashrc and their vimrc. And this is where actually"
+  },
+  {
+   "from": 2327.8,
+   "to": 2329.8,
+   "text": "the files are"
+  },
+  {
+   "from": 2330.1,
+   "to": 2332.4,
+   "text": "and what they are doing is they're just"
+  },
+  {
+   "from": 2333.5,
+   "to": 2336.5,
+   "text": "telling the OS to forward, whenever anyone"
+  },
+  {
+   "from": 2336.8,
+   "to": 2341.8,
+   "text": "wants to read this file or write to this file, just forward this to this other file."
+  },
+  {
+   "from": 2343,
+   "to": 2345.7,
+   "text": "This is a concept called symlinks"
+  },
+  {
+   "from": 2346.7,
+   "to": 2348.6,
+   "text": "and it's useful in this scenario,"
+  },
+  {
+   "from": 2348.6,
+   "to": 2352.6,
+   "text": "but it in general it's a really useful tool in UNIX"
+  },
+  {
+   "from": 2352.7,
+   "to": 2354.7,
+   "text": "that we haven't covered so far in the lectures"
+  },
+  {
+   "from": 2355,
+   "to": 2356.7,
+   "text": "but you might be..."
+  },
+  {
+   "from": 2356.7,
+   "to": 2358.7,
+   "text": "that you should be familiar with."
+  },
+  {
+   "from": 2359.1,
+   "to": 2362.8,
+   "text": "And in general, the syntax will be \"ln -s\""
+  },
+  {
+   "from": 2362.8,
+   "to": 2370,
+   "text": "for specifying a symbolic link and then you will put the path to the file"
+  },
+  {
+   "from": 2370.6,
+   "to": 2373,
+   "text": "that you want to create and then the"
+  },
+  {
+   "from": 2373.8,
+   "to": 2375.8,
+   "text": "symlink that you want to create."
+  },
+  {
+   "from": 2379.4,
+   "to": 2381.4,
+   "text": "And"
+  },
+  {
+   "from": 2381.9,
+   "to": 2385.6,
+   "text": "All these all these kind of fancy tools that we're seeing here listed,"
+  },
+  {
+   "from": 2385.8,
+   "to": 2392.2,
+   "text": "they all amount to doing some sort of this trick, so that you can have all your dotfiles neat and tidy"
+  },
+  {
+   "from": 2392.7,
+   "to": 2397.8,
+   "text": "into a folder, and then they can be version-controlled, and they can be"
+  },
+  {
+   "from": 2398.3,
+   "to": 2402.7,
+   "text": "symlinked so the rest of the programs can find them in their default locations."
+  },
+  {
+   "from": 2406.7,
+   "to": 2409,
+   "text": "Any questions regarding dotfiles?"
+  },
+  {
+   "from": 2413.2,
+   "to": 2420.2,
+   "text": "Do you need to have the dotfiles in your home folder, and then also dotfiles in the version control folder?"
+  },
+  {
+   "from": 2420.8,
+   "to": 2424.6,
+   "text": "So what you will have is, pretty much every program,"
+  },
+  {
+   "from": 2424.6,
+   "to": 2426.2,
+   "text": "for example bash,"
+  },
+  {
+   "from": 2426.2,
+   "to": 2429.6,
+   "text": "will always look for \"home/.bashrc\"."
+  },
+  {
+   "from": 2429.6,
+   "to": 2433.5,
+   "text": "That's where the program is going to look for."
+  },
+  {
+   "from": 2433.8,
+   "to": 2440.2,
+   "text": "What you do when you do a symlink is, you place your \"home/.bashrc\""
+  },
+  {
+   "from": 2440.2,
+   "to": 2444.9,
+   "text": "it's just a file that is kind of a special file in UNIX,"
+  },
+  {
+   "from": 2445.2,
+   "to": 2449.6,
+   "text": "that says oh, whenever you want to read this file go to this other file."
+  },
+  {
+   "from": 2451.5,
+   "to": 2453.4,
+   "text": "There's no content, like there is no..."
+  },
+  {
+   "from": 2453.6,
+   "to": 2458.1,
+   "text": "your aliases are not part of this dotfile. That file is just kind of like a pointer, saying now you should"
+  },
+  {
+   "from": 2458.1,
+   "to": 2459.4,
+   "text": "go that other way."
+  },
+  {
+   "from": 2459.4,
+   "to": 2462.6,
+   "text": "And by doing that you can have your other file"
+  },
+  {
+   "from": 2462.6,
+   "to": 2464.4,
+   "text": "in that other folder."
+  },
+  {
+   "from": 2464.6,
+   "to": 2466.4,
+   "text": "If version controlling is not useful, think about"
+  },
+  {
+   "from": 2466.4,
+   "to": 2470.7,
+   "text": "what if you want to have them in your Dropbox folder, so they're synced to the cloud,"
+  },
+  {
+   "from": 2470.8,
+   "to": 2475,
+   "text": "for example. That's kind of another use case where like symlinks could be really useful"
+  },
+  {
+   "from": 2476.2,
+   "to": 2481,
+   "text": "So you don't need the folder dotfiles to be in the home directory, right?"
+  },
+  {
+   "from": 2481,
+   "to": 2483.8,
+   "text": "Because you can just use the symlink, that points somewhere else."
+  },
+  {
+   "from": 2484,
+   "to": 2489.8,
+   "text": "As long as you have a way for the default path to resolve wherever you have it, yeah."
+  },
+  {
+   "from": 2495.1,
+   "to": 2498,
+   "text": "Last thing I want to cover in the lecture..."
+  },
+  {
+   "from": 2498,
+   "to": 2500.4,
+   "text": "Oh, sorry, any other questions about dotfiles?"
+  },
+  {
+   "from": 2509.2,
+   "to": 2512.6,
+   "text": "Last thing I want to cover in the lecture is working with remote machines,"
+  },
+  {
+   "from": 2512.6,
+   "to": 2515.5,
+   "text": "which is a thing that you will run into,"
+  },
+  {
+   "from": 2515.6,
+   "to": 2516.9,
+   "text": "sooner or later."
+  },
+  {
+   "from": 2516.9,
+   "to": 2522.2,
+   "text": "And there are a few things that will make your life much easier when dealing with remote machines"
+  },
+  {
+   "from": 2523.2,
+   "to": 2525.2,
+   "text": "if you know about them."
+  },
+  {
+   "from": 2525.2,
+   "to": 2528.4,
+   "text": "Right now maybe because you are using the Athena cluster,"
+  },
+  {
+   "from": 2528.4,
+   "to": 2530.7,
+   "text": "but later on, during your programming career,"
+  },
+  {
+   "from": 2530.7,
+   "to": 2532,
+   "text": "it's pretty sure that"
+  },
+  {
+   "from": 2532,
+   "to": 2535.4,
+   "text": "there is a fairly ubiquitous concept of having your"
+  },
+  {
+   "from": 2535.4,
+   "to": 2540.4,
+   "text": "local working environment and then having some production server that is actually running the"
+  },
+  {
+   "from": 2541,
+   "to": 2543.2,
+   "text": "code, so it is really good to get familiar"
+  },
+  {
+   "from": 2544.5,
+   "to": 2546.7,
+   "text": "about how to work in/with remote machines."
+  },
+  {
+   "from": 2547.4,
+   "to": 2555.2,
+   "text": "So the main command for working with remote machines is SSH."
+  },
+  {
+   "from": 2557.8,
+   "to": 2563.9,
+   "text": "SSH is just like a secure shell, it's just gonna take the responsibility for"
+  },
+  {
+   "from": 2563.9,
+   "to": 2566.5,
+   "text": "reaching wherever we want or tell it to go"
+  },
+  {
+   "from": 2567.6,
+   "to": 2570.7,
+   "text": "and trying to open a session there."
+  },
+  {
+   "from": 2570.7,
+   "to": 2572.4,
+   "text": "So here the syntax is:"
+  },
+  {
+   "from": 2573.1,
+   "to": 2576.7,
+   "text": "\"JJGO\" is the user that I want to use in the remote machine,"
+  },
+  {
+   "from": 2576.7,
+   "to": 2578.4,
+   "text": "and this is because the user is"
+  },
+  {
+   "from": 2578.5,
+   "to": 2583.5,
+   "text": "different from the one I have my local machine, which will be the case a lot of the time,"
+  },
+  {
+   "from": 2583.5,
+   "to": 2587.4,
+   "text": "then the \"@\" is telling the terminal that this separates"
+  },
+  {
+   "from": 2587.4,
+   "to": 2592.5,
+   "text": "what the user is from what the address is."
+  },
+  {
+   "from": 2592.5,
+   "to": 2596.5,
+   "text": "And here I'm using an IP address because what I'm actually doing is"
+  },
+  {
+   "from": 2596.5,
+   "to": 2600.5,
+   "text": "I have a virtual machine in my computer,"
+  },
+  {
+   "from": 2600.5,
+   "to": 2603.2,
+   "text": "that is the one that is remote right now."
+  },
+  {
+   "from": 2603.2,
+   "to": 2606.4,
+   "text": "And I'm gonna be SSH'ing into it. This is the"
+  },
+  {
+   "from": 2606.6,
+   "to": 2607.9,
+   "text": "URL that I'm using,"
+  },
+  {
+   "from": 2607.9,
+   "to": 2609.9,
+   "text": "sorry, the IP that I'm using,"
+  },
+  {
+   "from": 2609.9,
+   "to": 2612.3,
+   "text": "but you might also see things like"
+  },
+  {
+   "from": 2612.4,
+   "to": 2616.8,
+   "text": "oh I want to SSH as \"JJGO\""
+  },
+  {
+   "from": 2616.8,
+   "to": 2619.8,
+   "text": "at \"foobar.mit.edu\""
+  },
+  {
+   "from": 2619.8,
+   "to": 2623,
+   "text": "That's probably something more common, if you are using some"
+  },
+  {
+   "from": 2623,
+   "to": 2627.3,
+   "text": "remote server that has a DNS name."
+  },
+  {
+   "from": 2628.2,
+   "to": 2631.9,
+   "text": "So going back to a regular command,"
+  },
+  {
+   "from": 2633.2,
+   "to": 2636.6,
+   "text": "we try to SSH, it asks us for a password,"
+  },
+  {
+   "from": 2636.6,
+   "to": 2638.2,
+   "text": "really common thing."
+  },
+  {
+   "from": 2638.2,
+   "to": 2639.5,
+   "text": "And now we're there. We have..."
+  },
+  {
+   "from": 2639.5,
+   "to": 2642.6,
+   "text": "we're still in our same terminal emulator"
+  },
+  {
+   "from": 2642.6,
+   "to": 2649.5,
+   "text": "but right now SSH is kind of forwarding the entire virtual display to display what the"
+  },
+  {
+   "from": 2649.9,
+   "to": 2654.4,
+   "text": "remote shell is displaying. And we can execute commands here and"
+  },
+  {
+   "from": 2655.6,
+   "to": 2657.6,
+   "text": "we'll see the remote files"
+  },
+  {
+   "from": 2658.4,
+   "to": 2662.8,
+   "text": "A couple of handy things to know about SSH, that were briefly covered in the"
+  },
+  {
+   "from": 2663.2,
+   "to": 2667.1,
+   "text": "data wrangling lecture, is that SSH is not only good for just"
+  },
+  {
+   "from": 2668.3,
+   "to": 2673.8,
+   "text": "opening connections. It will also let you just execute commands remotely."
+  },
+  {
+   "from": 2673.8,
+   "to": 2677,
+   "text": "So for example, if I do that, it's gonna ask me"
+  },
+  {
+   "from": 2677.7,
+   "to": 2679,
+   "text": "what is my password?, again."
+  },
+  {
+   "from": 2679,
+   "to": 2681.1,
+   "text": "And it's executing this command"
+  },
+  {
+   "from": 2681.3,
+   "to": 2683.4,
+   "text": "then coming back to my terminal"
+  },
+  {
+   "from": 2683.4,
+   "to": 2687.4,
+   "text": "and piping the output of what that command was, in the remote machine,"
+  },
+  {
+   "from": 2687.4,
+   "to": 2690.5,
+   "text": "through the standard output in my current cell."
+  },
+  {
+   "from": 2690.5,
+   "to": 2693.9,
+   "text": "And I could have this in..."
+  },
+  {
+   "from": 2698.1,
+   "to": 2700.5,
+   "text": "I could have this in a pipe, and"
+  },
+  {
+   "from": 2701,
+   "to": 2703.6,
+   "text": "this will work and we'll just"
+  },
+  {
+   "from": 2703.6,
+   "to": 2706.1,
+   "text": "drop all this output and then have a local pipe"
+  },
+  {
+   "from": 2706.1,
+   "to": 2707.9,
+   "text": "where I can keep working."
+  },
+  {
+   "from": 2708.6,
+   "to": 2712.1,
+   "text": "So far, it has been kind of inconvenient, having to type our password."
+  },
+  {
+   "from": 2712.6,
+   "to": 2714.8,
+   "text": "There's one really good trick for this."
+  },
+  {
+   "from": 2714.8,
+   "to": 2716.9,
+   "text": "It's we can use something called \"SSH keys\"."
+  },
+  {
+   "from": 2717.1,
+   "to": 2720.7,
+   "text": "SSH keys just use public key encryption"
+  },
+  {
+   "from": 2720.7,
+   "to": 2725,
+   "text": "to create a pair of SSH keys, a public key and a private key, and then"
+  },
+  {
+   "from": 2725.2,
+   "to": 2729.3,
+   "text": "you can give the server the public part of the key."
+  },
+  {
+   "from": 2729.3,
+   "to": 2732.8,
+   "text": "So you copy the public key and then whenever you try to"
+  },
+  {
+   "from": 2733.4,
+   "to": 2737.1,
+   "text": "authenticate instead of using your password, it's gonna use the private key to"
+  },
+  {
+   "from": 2737.8,
+   "to": 2740.8,
+   "text": "prove to the server that you are actually who you say you are."
+  },
+  {
+   "from": 2743.9,
+   "to": 2748,
+   "text": "We can quickly showcase how you will go"
+  },
+  {
+   "from": 2748,
+   "to": 2749.4,
+   "text": "about doing this."
+  },
+  {
+   "from": 2749.4,
+   "to": 2753.2,
+   "text": "Right now I don't have any SSH keys, so I'm gonna create a couple of them."
+  },
+  {
+   "from": 2753.9,
+   "to": 2758.3,
+   "text": "First thing, it's just gonna ask me where I want this key to live."
+  },
+  {
+   "from": 2759,
+   "to": 2760.6,
+   "text": "Unsurprisingly, it's doing this."
+  },
+  {
+   "from": 2760.6,
+   "to": 2764.8,
+   "text": "This is my home folder and then it's using this \".ssh\" path,"
+  },
+  {
+   "from": 2765.5,
+   "to": 2768.8,
+   "text": "which refers back to the same concept that we covered earlier about having"
+  },
+  {
+   "from": 2768.9,
+   "to": 2772.4,
+   "text": "dotfiles. Like \".ssh\" is a folder that contains a lot of the"
+  },
+  {
+   "from": 2773.3,
+   "to": 2776.5,
+   "text": "configuration files for how you want SSH to behave."
+  },
+  {
+   "from": 2777.1,
+   "to": 2779.4,
+   "text": "So it will ask us a passphrase."
+  },
+  {
+   "from": 2779.7,
+   "to": 2783.1,
+   "text": "The passphrase is to encrypt the private part of the key"
+  },
+  {
+   "from": 2783.1,
+   "to": 2787.2,
+   "text": "because if someone gets your private key, if you don't have a password protected"
+  },
+  {
+   "from": 2787.9,
+   "to": 2789.6,
+   "text": "private key, if they get that key"
+  },
+  {
+   "from": 2789.6,
+   "to": 2792.2,
+   "text": "they can use that key to impersonate you in any server."
+  },
+  {
+   "from": 2792.3,
+   "to": 2794.4,
+   "text": "Whereas if you add a passphrase,"
+  },
+  {
+   "from": 2794.4,
+   "to": 2797.6,
+   "text": "they will have to know what the passphrase is to actually use the key."
+  },
+  {
+   "from": 2800.8,
+   "to": 2811.7,
+   "text": "It has created a keeper. We can check that these two files are now under ssh."
+  },
+  {
+   "from": 2811.7,
+   "to": 2813.9,
+   "text": "And we can see..."
+  },
+  {
+   "from": 2817.7,
+   "to": 2823,
+   "text": "We have these two files: we have the 25519 and the public key."
+  },
+  {
+   "from": 2823.3,
+   "to": 2826.3,
+   "text": "And if we \"cat\" through the output,"
+  },
+  {
+   "from": 2826.3,
+   "to": 2829.8,
+   "text": "that key is actually not like any fancy binary file, it's"
+  },
+  {
+   "from": 2835.4,
+   "to": 2840.8,
+   "text": "just a text file that has the contents of the public key and some"
+  },
+  {
+   "from": 2843.1,
+   "to": 2846.7,
+   "text": "alias name for it, so we can know what this public key is."
+  },
+  {
+   "from": 2847,
+   "to": 2852.2,
+   "text": "The way we can tell the server that we're authorized to SSH there"
+  },
+  {
+   "from": 2852.3,
+   "to": 2858.4,
+   "text": "is by just actually copying this file, like copying this string into a file,"
+  },
+  {
+   "from": 2858.4,
+   "to": 2861.5,
+   "text": "that is \".ssh/authorized_keys\"."
+  },
+  {
+   "from": 2862.1,
+   "to": 2866.2,
+   "text": "So here what I'm doing is I'm"
+  },
+  {
+   "from": 2867,
+   "to": 2869.8,
+   "text": "catting the output of this file"
+  },
+  {
+   "from": 2869.8,
+   "to": 2873.9,
+   "text": "which is just this line of text that we want to copy"
+  },
+  {
+   "from": 2873.9,
+   "to": 2877.4,
+   "text": "and I'm piping that into SSH and then remotely"
+  },
+  {
+   "from": 2878,
+   "to": 2882.1,
+   "text": "I'm asking \"tee\" to dump the contents of the standard input"
+  },
+  {
+   "from": 2882.1,
+   "to": 2885.2,
+   "text": "into \".ssh/authorized_keys\"."
+  },
+  {
+   "from": 2885.4,
+   "to": 2890.4,
+   "text": "And if we do that, obviously it's gonna ask us for a password."
+  },
+  {
+   "from": 2894.8,
+   "to": 2898.7,
+   "text": "It was copied, and now we can check that if we try"
+  },
+  {
+   "from": 2899.7,
+   "to": 2901.7,
+   "text": "to SSH again,"
+  },
+  {
+   "from": 2902,
+   "to": 2904.8,
+   "text": "It's going to first ask us for a passphrase"
+  },
+  {
+   "from": 2904.8,
+   "to": 2909.1,
+   "text": "but you can arrange that so that it's saved in the session"
+  },
+  {
+   "from": 2909.5,
+   "to": 2914.8,
+   "text": "and we didn't actually have to type the key for the server."
+  },
+  {
+   "from": 2914.8,
+   "to": 2916.8,
+   "text": "And I can kind of show that again."
+  },
+  {
+   "from": 2925.8,
+   "to": 2927.5,
+   "text": "More things that are useful."
+  },
+  {
+   "from": 2927.5,
+   "to": 2929,
+   "text": "Oh, we can do..."
+  },
+  {
+   "from": 2929.2,
+   "to": 2931.9,
+   "text": "If that command seemed a little bit janky,"
+  },
+  {
+   "from": 2932,
+   "to": 2935,
+   "text": "you can actually use this command that is built for this,"
+  },
+  {
+   "from": 2935,
+   "to": 2940.6,
+   "text": "so you don't have to kind of craft this \"ssh t\" command."
+  },
+  {
+   "from": 2940.6,
+   "to": 2943.8,
+   "text": "That is just called \"ssh-copy-id\"."
+  },
+  {
+   "from": 2945,
+   "to": 2948.1,
+   "text": "And we can do the same"
+  },
+  {
+   "from": 2948.1,
+   "to": 2949.7,
+   "text": "and it's gonna copy the key."
+  },
+  {
+   "from": 2949.7,
+   "to": 2954.3,
+   "text": "And now, if we try to SSH,"
+  },
+  {
+   "from": 2954.5,
+   "to": 2958.3,
+   "text": "we can SSH without actually typing any key at all,"
+  },
+  {
+   "from": 2958.9,
+   "to": 2960.3,
+   "text": "or any password."
+  },
+  {
+   "from": 2960.7,
+   "to": 2961.5,
+   "text": "More things."
+  },
+  {
+   "from": 2961.5,
+   "to": 2963.5,
+   "text": "We will probably want to copy files."
+  },
+  {
+   "from": 2963.7,
+   "to": 2965.3,
+   "text": "You cannot use \"CP\""
+  },
+  {
+   "from": 2965.3,
+   "to": 2969.7,
+   "text": "but you can use \"SCP\", for \"SSH copy\"."
+  },
+  {
+   "from": 2969.7,
+   "to": 2974.5,
+   "text": "And here we can specify that we want to copy this local file called notes"
+  },
+  {
+   "from": 2974.5,
+   "to": 2976.9,
+   "text": "and the syntax is kind of similar."
+  },
+  {
+   "from": 2976.9,
+   "to": 2979.8,
+   "text": "We want to copy to this remote and"
+  },
+  {
+   "from": 2979.9,
+   "to": 2984,
+   "text": "then we have a semicolon to separate what the path is going to be."
+  },
+  {
+   "from": 2984,
+   "to": 2985,
+   "text": "And then we have"
+  },
+  {
+   "from": 2985,
+   "to": 2986.6,
+   "text": "oh, we want to copy this as notes"
+  },
+  {
+   "from": 2986.6,
+   "to": 2991,
+   "text": "but we could also copy this as foobar."
+  },
+  {
+   "from": 2991.7,
+   "to": 2995.6,
+   "text": "And if we do that, it has been executed"
+  },
+  {
+   "from": 2995.8,
+   "to": 2999.3,
+   "text": "and it's telling us that all the contents have been copied there."
+  },
+  {
+   "from": 2999.5,
+   "to": 3002.2,
+   "text": "If you're gonna be copying a lot of files,"
+  },
+  {
+   "from": 3002.2,
+   "to": 3005.1,
+   "text": "there is a better command that you should be using"
+  },
+  {
+   "from": 3005.1,
+   "to": 3007.7,
+   "text": "that is called \"RSYNC\". For example, here"
+  },
+  {
+   "from": 3007.9,
+   "to": 3010.8,
+   "text": "just by specifying these three flags,"
+  },
+  {
+   "from": 3010.8,
+   "to": 3016,
+   "text": "I'm telling RSYNC to kind of preserve all the permissions whenever possible"
+  },
+  {
+   "from": 3016.2,
+   "to": 3019.7,
+   "text": "to try to check if the file has already been copied."
+  },
+  {
+   "from": 3019.7,
+   "to": 3024.1,
+   "text": "For example, SCP will try to copy files that are already there."
+  },
+  {
+   "from": 3024.2,
+   "to": 3026.4,
+   "text": "This will happen for example if you are trying to copy"
+  },
+  {
+   "from": 3026.4,
+   "to": 3029.1,
+   "text": "and the connection interrupts in the middle of it."
+  },
+  {
+   "from": 3029.1,
+   "to": 3032.1,
+   "text": "SCP will start from the very beginning, trying to copy every file,"
+  },
+  {
+   "from": 3032.1,
+   "to": 3036.6,
+   "text": "whereas RSYNC will continue from where it stopped."
+  },
+  {
+   "from": 3037.2,
+   "to": 3038.4,
+   "text": "And here,"
+  },
+  {
+   "from": 3039.1,
+   "to": 3042.8,
+   "text": "we ask it to copy the entire folder and"
+  },
+  {
+   "from": 3043.8,
+   "to": 3046.6,
+   "text": "it's just really quickly copied the entire folder."
+  },
+  {
+   "from": 3048.1,
+   "to": 3054.1,
+   "text": "One of the other things to know about SSH is that"
+  },
+  {
+   "from": 3054.3,
+   "to": 3059.9,
+   "text": "the equivalent of the dot file for SSH is the \"SSH config\"."
+  },
+  {
+   "from": 3059.9,
+   "to": 3066.3,
+   "text": "So if we edit the SSH config to be"
+  },
+  {
+   "from": 3073.1,
+   "to": 3077.9,
+   "text": "If I edit the SSH config to look something like this,"
+  },
+  {
+   "from": 3077.9,
+   "to": 3082.9,
+   "text": "instead of having to, every time, type \"ssh jjgo\","
+  },
+  {
+   "from": 3083,
+   "to": 3087.8,
+   "text": "having this really long string so I can like refer to this specific remote,"
+  },
+  {
+   "from": 3087.8,
+   "to": 3090.1,
+   "text": "I want to refer, with the specific user name,"
+  },
+  {
+   "from": 3090.1,
+   "to": 3092.8,
+   "text": "I can have something here that says"
+  },
+  {
+   "from": 3093.2,
+   "to": 3095.7,
+   "text": "this is the username, this is the host name, that this"
+  },
+  {
+   "from": 3096.9,
+   "to": 3100.5,
+   "text": "host is referring to and you should use this identity file."
+  },
+  {
+   "from": 3101.5,
+   "to": 3104,
+   "text": "And if I copy this,"
+  },
+  {
+   "from": 3104,
+   "to": 3106.1,
+   "text": "this is right now in my local folder,"
+  },
+  {
+   "from": 3106.1,
+   "to": 3109,
+   "text": "I can copy this into ssh."
+  },
+  {
+   "from": 3109.6,
+   "to": 3113.5,
+   "text": "Now, instead of having to do this really long command, I can just say"
+  },
+  {
+   "from": 3113.5,
+   "to": 3117.1,
+   "text": "I just want to SSH into the host called VM."
+  },
+  {
+   "from": 3118.3,
+   "to": 3123.2,
+   "text": "And by doing that, it's grabbing all that configuration from the SSH config"
+  },
+  {
+   "from": 3123.2,
+   "to": 3125.2,
+   "text": "and applying it here."
+  },
+  {
+   "from": 3125.2,
+   "to": 3130.1,
+   "text": "This solution is much better than something like creating an alias for SSH,"
+  },
+  {
+   "from": 3130.4,
+   "to": 3133.4,
+   "text": "because other programs like SCP and RSYNC"
+  },
+  {
+   "from": 3133.4,
+   "to": 3139.4,
+   "text": "also know about the dotfiles for SSH and will use them whenever they are there."
+  },
+  {
+   "from": 3142.8,
+   "to": 3150.4,
+   "text": "Last thing I want to cover about remote machines is that here, for example, we'll have tmux and we can,"
+  },
+  {
+   "from": 3151.8,
+   "to": 3155.8,
+   "text": "like I was saying before, we can start editing some file"
+  },
+  {
+   "from": 3159.2,
+   "to": 3164.5,
+   "text": "and we can start running some job."
+  },
+  {
+   "from": 3174.2,
+   "to": 3176.2,
+   "text": "For example, something like HTOP."
+  },
+  {
+   "from": 3176.2,
+   "to": 3178.7,
+   "text": "And this is running here, we can"
+  },
+  {
+   "from": 3179.3,
+   "to": 3181.3,
+   "text": "detach from it,"
+  },
+  {
+   "from": 3181.4,
+   "to": 3183.4,
+   "text": "close the connection and"
+  },
+  {
+   "from": 3183.7,
+   "to": 3187.8,
+   "text": "then SSH back. And then, if you do \"tmux a\","
+  },
+  {
+   "from": 3187.8,
+   "to": 3191.3,
+   "text": "everything is as you left it, like nothing has really changed."
+  },
+  {
+   "from": 3191.3,
+   "to": 3195.2,
+   "text": "And if you have things executing there in the background, they will keep executing."
+  },
+  {
+   "from": 3197.5,
+   "to": 3203.3,
+   "text": "I think that, pretty much, ends all I have to say for this tool."
+  },
+  {
+   "from": 3203.3,
+   "to": 3206.4,
+   "text": "Any questions related to remote machines?"
+  },
+  {
+   "from": 3212.9,
+   "to": 3216.8,
+   "text": "That's a really good question. So what I do for that,"
+  },
+  {
+   "from": 3218.7,
+   "to": 3219.5,
+   "text": "Oh, yes, sorry."
+  },
+  {
+   "from": 3219.5,
+   "to": 3224.9,
+   "text": "So the question is, how do you deal with trying to use tmux in your local machine,"
+  },
+  {
+   "from": 3224.9,
+   "to": 3227.6,
+   "text": "and also trying to use tmux in the remote machine?"
+  },
+  {
+   "from": 3228.4,
+   "to": 3230.8,
+   "text": "There are a couple of tricks for dealing with that."
+  },
+  {
+   "from": 3230.8,
+   "to": 3233.2,
+   "text": "The first one is changing the prefix."
+  },
+  {
+   "from": 3233.4,
+   "to": 3235.3,
+   "text": "So what I do, for example, is"
+  },
+  {
+   "from": 3235.3,
+   "to": 3240,
+   "text": "in my local machine the prefix I have changed from \"Ctrl+B\" to \"Ctrl+A\" and"
+  },
+  {
+   "from": 3240.2,
+   "to": 3242.6,
+   "text": "then in remove machines this is still \"Ctrl+B\"."
+  },
+  {
+   "from": 3242.8,
+   "to": 3245.6,
+   "text": "So I can kind of swap between,"
+  },
+  {
+   "from": 3245.6,
+   "to": 3249.8,
+   "text": "if I want to do things to the local tmux I will do \"Ctrl+A\""
+  },
+  {
+   "from": 3249.8,
+   "to": 3253.5,
+   "text": "and if I want to do things to the remote tmux I would do \"Ctrl+B\"."
+  },
+  {
+   "from": 3255.1,
+   "to": 3259.9,
+   "text": "Another thing is that you can have separate configs,"
+  },
+  {
+   "from": 3260.1,
+   "to": 3264.1,
+   "text": "so I can do something like this, and then..."
+  },
+  {
+   "from": 3267.3,
+   "to": 3271,
+   "text": "Ah, because I don't have my own ssh config, yeah."
+  },
+  {
+   "from": 3272.2,
+   "to": 3273,
+   "text": "But if you..."
+  },
+  {
+   "from": 3273,
+   "to": 3274.4,
+   "text": "Um, I can SSH \"VM\"."
+  },
+  {
+   "from": 3276.8,
+   "to": 3278.9,
+   "text": "Here, what you see,"
+  },
+  {
+   "from": 3278.9,
+   "to": 3281,
+   "text": "the difference between these two bars, for example,"
+  },
+  {
+   "from": 3281,
+   "to": 3283.7,
+   "text": "is because the tmux config is different."
+  },
+  {
+   "from": 3284.4,
+   "to": 3288.5,
+   "text": "As you will see in the exercises, the tmux configuration is in"
+  },
+  {
+   "from": 3290.3,
+   "to": 3293.8,
+   "text": "the tmux.conf"
+  },
+  {
+   "from": 3296.7,
+   "to": 3298.1,
+   "text": "And in tmux.conf,"
+  },
+  {
+   "from": 3298.1,
+   "to": 3302,
+   "text": "here you can do a lot of things like changing the color depending on the host you are"
+  },
+  {
+   "from": 3302.2,
+   "to": 3306.9,
+   "text": "so you can get like quick visual feedback about where you are, or"
+  },
+  {
+   "from": 3306.9,
+   "to": 3310.2,
+   "text": "if you have a nested session. Also, tmux will,"
+  },
+  {
+   "from": 3310.5,
+   "to": 3315.3,
+   "text": "if you're in the same host and you try to tmux within a tmux session,"
+  },
+  {
+   "from": 3315.3,
+   "to": 3318.8,
+   "text": "it will kind of prevent you from doing it so you don't run into issues."
+  },
+  {
+   "from": 3321.7,
+   "to": 3325.4,
+   "text": "Any other questions related, to kind of all the topics we have covered."
+  },
+  {
+   "from": 3329.1,
+   "to": 3332.7,
+   "text": "Another answer to that question is also, if you type the prefix twice,"
+  },
+  {
+   "from": 3332.9,
+   "to": 3335.8,
+   "text": "it sends it once to the underlying shell."
+  },
+  {
+   "from": 3335.9,
+   "to": 3340.1,
+   "text": "So the local binding is \"Ctrl+A\" and the remote binding is \"Ctrl+A\","
+  },
+  {
+   "from": 3340.1,
+   "to": 3345.3,
+   "text": "You could type \"Ctrl+A\", \"Ctrl+A\" and then \"D\", for example, detaches from the remote, basically."
+  },
+  {
+   "from": 3352.5,
+   "to": 3359.7,
+   "text": "I think that ends the class for today, there's a bunch of exercises related to all these main topics and"
+  },
+  {
+   "from": 3360.4,
+   "to": 3365.4,
+   "text": "we're gonna be holding office hours today, too. So feel free to come and ask us any questions."
+  }
+ ]
+}

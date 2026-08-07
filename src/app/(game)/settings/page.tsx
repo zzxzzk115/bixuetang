@@ -1,3 +1,4 @@
+import { LogOut } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BiliBind } from "@/components/app/bili-bind";
@@ -5,6 +6,7 @@ import { getBiliBinding } from "@/lib/bili/account";
 import { AvatarForm } from "@/components/app/avatar-form";
 import { PasswordForm, ProfileForm } from "@/components/settings-forms";
 import { UserAvatar } from "@/components/user-avatar";
+import { logout } from "@/lib/auth/actions";
 import { requireUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 
@@ -93,6 +95,18 @@ export default async function SettingsPage() {
           </div>
         </section>
 
+        {/* 退出登录:此前整站没有任何登出入口(用户点名的问题) */}
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>账号</h2>
+          </div>
+          <form action={logout}>
+            <button className="settings-logout" type="submit">
+              <LogOut size={16} aria-hidden /> 退出登录
+            </button>
+          </form>
+          <p className="me-note">退出后本设备的登录状态清除,进度都在云端不受影响。</p>
+        </section>
       </div>
     </AppShell>
   );

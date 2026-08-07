@@ -8,14 +8,15 @@ import { getCurrentUser } from "@/lib/auth/session";
 export const metadata = { title: "登录" };
 
 // 登录页（App 风格）：扫码 bilibili 是主路径——一张码同时管登录与开号，
-// 而且登录后播放/字幕/互动全部可用。账号密码作为备选留在下面。
+// 而且登录后播放/字幕/互动全部可用。账号密码登录与独立注册作为备选：
+// 不想（或没法）扫码的用户也能开号，bilibili 之后随时可在设置里补绑。
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ pwd?: string }>;
+  searchParams: Promise<{ pwd?: string; reg?: string }>;
 }) {
   if (await getCurrentUser()) redirect("/play");
-  const { pwd } = await searchParams;
+  const { pwd, reg } = await searchParams;
 
   return (
     <div className="auth-page">
@@ -33,15 +34,35 @@ export default async function LoginPage({
         <BiliAuth />
 
         <div className="auth-alt">
-          {pwd ? (
+          {reg ? (
+            <>
+              <span className="auth-divider">注册新账号</span>
+              <AuthForm mode="register" />
+              <p className="auth-note">
+                注册后可直接学习；绑定 bilibili（设置页）后解锁高清晰度、
+                CC 字幕与点赞投币等互动。
+              </p>
+              <Link href="/login?pwd=1" className="auth-alt-link">
+                已有账号？用账号密码登录
+              </Link>
+            </>
+          ) : pwd ? (
             <>
               <span className="auth-divider">或用账号密码</span>
               <AuthForm mode="login" />
+              <Link href="/login?reg=1" className="auth-alt-link">
+                没有账号？注册一个
+              </Link>
             </>
           ) : (
-            <Link href="/login?pwd=1" className="auth-alt-link">
-              用账号密码登录
-            </Link>
+            <>
+              <Link href="/login?pwd=1" className="auth-alt-link">
+                用账号密码登录
+              </Link>
+              <Link href="/login?reg=1" className="auth-alt-link">
+                不用 bilibili，直接注册
+              </Link>
+            </>
           )}
         </div>
 

@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { db } from "../db/client";
 import { users } from "../db/schema";
+import { passwordStrength, verifyCaptcha } from "./captcha";
 import { hashPassword, verifyPassword } from "./password";
 import { createSession, destroySession } from "./session";
 
@@ -17,13 +18,25 @@ export async function register(
 ): Promise<AuthFormState> {
   const username = String(formData.get("username") ?? "").trim();
   const password = String(formData.get("password") ?? "");
+  const password2 = String(formData.get("password2") ?? "");
   const displayName = String(formData.get("displayName") ?? "").trim();
+  const captchaToken = String(formData.get("captchaToken") ?? "");
+  const captchaAnswer = String(formData.get("captchaAnswer") ?? "");
 
   if (!USERNAME_RE.test(username)) {
     return { error: "用户名需为 3–32 位小写字母、数字或下划线" };
   }
   if (password.length < 8) {
     return { error: "密码至少 8 位" };
+  }
+  if (passwordStrength(password) < 1) {
+    return { error: "密码太弱:至少混用字母与数字(建议再加大小写或符号)" };
+  }
+  if (password !== password2) {
+    return { error: "两次输入的密码不一致" };
+  }
+  if (!verifyCaptcha(captchaToken, captchaAnswer)) {
+    return { error: "验证码不对或已过期,换一张再试" };
   }
 
   const existing = db

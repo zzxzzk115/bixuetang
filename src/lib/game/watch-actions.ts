@@ -6,11 +6,13 @@ import { getContent } from "../content/load";
 import { db } from "../db/client";
 import { episodeWatch } from "../db/schema";
 import { toggleEpisode, type ToggleResult } from "../progress/actions";
+import { settleSegments, type SegmentRewards } from "./segment-rewards";
 import { isComplete, watchRatioPct } from "./watch-rules";
 
 // 自研播放器的观看进度上报。
 // 「看完」的判定：观看覆盖率 ≥ 90%（跳着看也算——学习不是考勤）。
 // 达标即自动打卡（走 toggleEpisode，XP/掉落/药水结算全部复用既有链路）。
+// 长视频的章节(分段)跨过 90% 时阶段性结算(segment-rewards.ts)。
 
 export interface WatchReport {
   ok: boolean;
@@ -19,6 +21,8 @@ export interface WatchReport {
   /** 本次刚好达标并自动打卡 */
   completed?: boolean;
   settle?: ToggleResult;
+  /** 本次新看完的章节的阶段性奖励 */
+  segments?: SegmentRewards;
 }
 
 export async function reportWatchProgress(
@@ -68,6 +72,7 @@ export async function reportWatchProgress(
 
   // 分段覆盖率与整集口径一致:逐段取大,只增不减
   let mergedSegments: string | null = prev?.segmentsJson ?? null;
+  let segments: WatchReport["segments"];
   if (segmentsPct && segmentsPct.length > 0) {
     const sane = segmentsPct
       .slice(0, 64)
@@ -83,6 +88,16 @@ export async function reportWatchProgress(
       .fill(0)
       .map((_, i) => Math.max(prevArr[i] ?? 0, sane[i] ?? 0));
     mergedSegments = JSON.stringify(merged);
+    // 新跨过 90% 的章节 → 阶段性 XP/宝箱/连胜(幂等,重复上报无副作用)
+    segments =
+      settleSegments(
+        user.id,
+        course,
+        episodeN,
+        prevArr,
+        merged,
+        Math.round(durationSec),
+      ) ?? undefined;
   }
 
   db.insert(episodeWatch)
@@ -117,9 +132,9 @@ export async function reportWatchProgress(
   const nowComplete = isComplete(ratioPct);
   if (nowComplete && !wasComplete) {
     const settle = await toggleEpisode(courseId, episodeN, true);
-    return { ok: true, ratioPct, completed: true, settle };
+    return { ok: true, ratioPct, completed: true, settle, segments };
   }
-  return { ok: true, ratioPct, completed: false };
+  return { ok: true, ratioPct, completed: false, segments };
 }
 
 /** 读取某课程各集的观看进度（续播 + 分段 chips 用） */

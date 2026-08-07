@@ -6,9 +6,11 @@ import { ccOffsets } from "@/lib/db/schema";
 import { getBiliSessdata } from "@/lib/bili/account";
 import { fetchSubtitles } from "@/lib/bili/api";
 import { loadRepoSubtitle } from "@/lib/content/subtitles";
+import { dropOutclassedEnglish } from "@/lib/subtitle-prefer";
 
 // CC 字幕：服务端拉取并转成 JSON 下发（字幕源要 Referer，且多数需登录态）。
-// 仓库自带的字幕轨（content/subtitles/，通常是官方 YouTube CC）一并附上。
+// 仓库自带的字幕轨（content/subtitles/，通常是官方 YouTube CC）一并附上；
+// bilibili 英文轨明显残缺时被仓库轨替换（规则见 lib/subtitle-prefer.ts）。
 
 export const dynamic = "force-dynamic";
 
@@ -49,8 +51,9 @@ export async function GET(request: NextRequest) {
       getBiliSessdata(user.id) ?? undefined,
       duration,
     );
+    const kept = dropOutclassedEnglish(tracks, repoTrack);
     return Response.json({
-      tracks: repoTrack ? [...tracks, repoTrack] : tracks,
+      tracks: repoTrack ? [...kept, repoTrack] : kept,
       offsetMs,
     });
   } catch {

@@ -206,6 +206,8 @@ export interface BiliViewData {
   duration: number;
   /** 封面图地址(分享卡用) */
   pic?: string;
+  /** UP 主(搬运/官方账号的 credit 展示与关注入口) */
+  owner?: { mid: number; name: string; face: string };
   pages: BiliViewPage[];
 }
 
@@ -532,6 +534,38 @@ export async function fetchStat(bvid: string): Promise<VideoStat | null> {
     `https://api.bilibili.com/x/web-interface/archive/stat?bvid=${encodeURIComponent(bvid)}`,
   );
   return json.data ?? null;
+}
+
+/** 我与某 UP 主的关注状态。attribute:2/6 = 已关注(6 是互关) */
+export async function fetchUpRelation(
+  mid: number,
+  sessdata: string,
+): Promise<boolean> {
+  const json = await getJson<{ attribute: number }>(
+    `https://api.bilibili.com/x/relation?fid=${mid}`,
+    sessdata,
+  );
+  const attr = json.data?.attribute ?? 0;
+  return attr === 2 || attr === 6;
+}
+
+/** 关注/取关 UP 主(act 1=关注 2=取关) */
+export async function modifyUpRelation(
+  mid: number,
+  follow: boolean,
+  sessdata: string,
+  csrf: string,
+) {
+  const json = await postForm(
+    "https://api.bilibili.com/x/relation/modify",
+    { fid: mid, act: follow ? 1 : 2, re_src: 11, csrf },
+    sessdata,
+    csrf,
+  );
+  // 22014 = 已经关注过
+  if (json.code !== 0 && json.code !== 22014) {
+    throw new Error(json.message ?? `操作失败（${json.code}）`);
+  }
 }
 
 export async function likeVideo(

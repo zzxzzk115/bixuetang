@@ -1,0 +1,5802 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 0.6,
+   "to": 5,
+   "text": "all right everyone let's get started"
+  },
+  {
+   "from": 3.1,
+   "to": 7.6,
+   "text": "with the next lecture so today we're"
+  },
+  {
+   "from": 5,
+   "to": 9.8,
+   "text": "gonna that tackle the topic of meta"
+  },
+  {
+   "from": 7.6,
+   "to": 11.7,
+   "text": "programming and this title is a little"
+  },
+  {
+   "from": 9.8,
+   "to": 13.6,
+   "text": "weird it's not entirely clear what we"
+  },
+  {
+   "from": 11.7,
+   "to": 15,
+   "text": "mean by meta programming we couldn't"
+  },
+  {
+   "from": 13.6,
+   "to": 17.1,
+   "text": "really come up with a better name for"
+  },
+  {
+   "from": 15,
+   "to": 20.8,
+   "text": "this lecture because this lecture is"
+  },
+  {
+   "from": 17.1,
+   "to": 22.3,
+   "text": "about the processes that surround the"
+  },
+  {
+   "from": 20.8,
+   "to": 24.7,
+   "text": "work that you do when working with"
+  },
+  {
+   "from": 22.3,
+   "to": 27.5,
+   "text": "software it is not about programming"
+  },
+  {
+   "from": 24.7,
+   "to": 30.5,
+   "text": "itself necessarily but about the process"
+  },
+  {
+   "from": 27.5,
+   "to": 33.8,
+   "text": "this can be things like how your system"
+  },
+  {
+   "from": 30.5,
+   "to": 35.9,
+   "text": "is built how it's tested how you add"
+  },
+  {
+   "from": 33.8,
+   "to": 37.4,
+   "text": "dependencies to your software that sort"
+  },
+  {
+   "from": 35.9,
+   "to": 39.7,
+   "text": "of stuff that becomes really relevant"
+  },
+  {
+   "from": 37.4,
+   "to": 42.4,
+   "text": "when you build larger pieces of software"
+  },
+  {
+   "from": 39.7,
+   "to": 44.1,
+   "text": "but they're not really programming in"
+  },
+  {
+   "from": 42.4,
+   "to": 46.5,
+   "text": "and of themselves"
+  },
+  {
+   "from": 44.1,
+   "to": 49.1,
+   "text": "so the first thing we're going to talk"
+  },
+  {
+   "from": 46.5,
+   "to": 51.7,
+   "text": "about in this lecture is the notion of"
+  },
+  {
+   "from": 49.1,
+   "to": 53.8,
+   "text": "build systems so how many of you have"
+  },
+  {
+   "from": 51.7,
+   "to": 59.4,
+   "text": "used a build system before or know what"
+  },
+  {
+   "from": 53.8,
+   "to": 61.8,
+   "text": "it is okay so about 1/2 of you so for"
+  },
+  {
+   "from": 59.4,
+   "to": 64.9,
+   "text": "the rest of you the the central idea"
+  },
+  {
+   "from": 61.8,
+   "to": 67.3,
+   "text": "behind a build system is that you're"
+  },
+  {
+   "from": 64.9,
+   "to": 69.5,
+   "text": "writing a paper you're writing software"
+  },
+  {
+   "from": 67.3,
+   "to": 72.1,
+   "text": "you're like working on a class whatever"
+  },
+  {
+   "from": 69.5,
+   "to": 74,
+   "text": "it might be and you have a bunch of"
+  },
+  {
+   "from": 72.1,
+   "to": 75.8,
+   "text": "commands that you like either written"
+  },
+  {
+   "from": 74,
+   "to": 77.5,
+   "text": "down in your shell history or you wrote"
+  },
+  {
+   "from": 75.8,
+   "to": 79,
+   "text": "them down in a document somewhere that"
+  },
+  {
+   "from": 77.5,
+   "to": 80.8,
+   "text": "you know you have to run if you want to"
+  },
+  {
+   "from": 79,
+   "to": 82.6,
+   "text": "do a particular thing so for example"
+  },
+  {
+   "from": 80.8,
+   "to": 83.8,
+   "text": "like there are a sequence of commands so"
+  },
+  {
+   "from": 82.6,
+   "to": 87.5,
+   "text": "you need to run in order to build your"
+  },
+  {
+   "from": 83.8,
+   "to": 89.3,
+   "text": "paper or build your thesis or just to"
+  },
+  {
+   "from": 87.5,
+   "to": 92.9,
+   "text": "run the tests for whatever class you're"
+  },
+  {
+   "from": 89.3,
+   "to": 95.1,
+   "text": "currently in and a build system sort of"
+  },
+  {
+   "from": 92.9,
+   "to": 97.7,
+   "text": "idea is that you want to encode these"
+  },
+  {
+   "from": 95.1,
+   "to": 100.4,
+   "text": "rules for what commands to run in order"
+  },
+  {
+   "from": 97.7,
+   "to": 103.6,
+   "text": "to build particular targets into a tool"
+  },
+  {
+   "from": 100.4,
+   "to": 105.2,
+   "text": "that can do it for you and in particular"
+  },
+  {
+   "from": 103.6,
+   "to": 107.3,
+   "text": "you're going to teach this tool about"
+  },
+  {
+   "from": 105.2,
+   "to": 111.1,
+   "text": "the dependencies between those different"
+  },
+  {
+   "from": 107.3,
+   "to": 114.3,
+   "text": "artifacts that you might build there are"
+  },
+  {
+   "from": 111.1,
+   "to": 116.6,
+   "text": "a lot of different types of tools of"
+  },
+  {
+   "from": 114.3,
+   "to": 117.8,
+   "text": "this kind and many of them are built for"
+  },
+  {
+   "from": 116.6,
+   "to": 120.3,
+   "text": "particular purposes particularly"
+  },
+  {
+   "from": 117.8,
+   "to": 122.4,
+   "text": "languages some of them are built for"
+  },
+  {
+   "from": 120.3,
+   "to": 124.4,
+   "text": "building like papers some of them are"
+  },
+  {
+   "from": 122.4,
+   "to": 126.1,
+   "text": "built for building software some of them"
+  },
+  {
+   "from": 124.4,
+   "to": 130,
+   "text": "are built for particularly programming"
+  },
+  {
+   "from": 126.1,
+   "to": 133.1,
+   "text": "languages like Java or some some tools"
+  },
+  {
+   "from": 130,
+   "to": 135.6,
+   "text": "even have built in tools for for builds"
+  },
+  {
+   "from": 133.1,
+   "to": 137.3,
+   "text": "so NPM for example you might be aware if"
+  },
+  {
+   "from": 135.6,
+   "to": 139.3,
+   "text": "you've done no GS development has a"
+  },
+  {
+   "from": 137.3,
+   "to": 141.4,
+   "text": "bunch of built-in tools for doing"
+  },
+  {
+   "from": 139.3,
+   "to": 143.3,
+   "text": "tracking of dependencies and building"
+  },
+  {
+   "from": 141.4,
+   "to": 145.2,
+   "text": "them and building all of the dependent"
+  },
+  {
+   "from": 143.3,
+   "to": 147.2,
+   "text": "stuff of your software but more"
+  },
+  {
+   "from": 145.2,
+   "to": 149.6,
+   "text": "generally these are known as build"
+  },
+  {
+   "from": 147.2,
+   "to": 152.8,
+   "text": "systems and at their core they all"
+  },
+  {
+   "from": 149.6,
+   "to": 155.7,
+   "text": "function in a very similar way and that"
+  },
+  {
+   "from": 152.8,
+   "to": 157.5,
+   "text": "is you have a number of targets these"
+  },
+  {
+   "from": 155.7,
+   "to": 161.1,
+   "text": "are the things that you want to build"
+  },
+  {
+   "from": 157.5,
+   "to": 162.5,
+   "text": "these are things like paper dot PDF but"
+  },
+  {
+   "from": 161.1,
+   "to": 165.2,
+   "text": "they can also be more abstract things"
+  },
+  {
+   "from": 162.5,
+   "to": 167.3,
+   "text": "like run the test suite or build the"
+  },
+  {
+   "from": 165.2,
+   "to": 169.2,
+   "text": "binary for this program then you have a"
+  },
+  {
+   "from": 167.3,
+   "to": 171.1,
+   "text": "bunch of dependencies and dependencies"
+  },
+  {
+   "from": 169.2,
+   "to": 173,
+   "text": "are things that need to be built in"
+  },
+  {
+   "from": 171.1,
+   "to": 175.7,
+   "text": "order for this thing to be built and"
+  },
+  {
+   "from": 173,
+   "to": 177.6,
+   "text": "then you have rules that define how do"
+  },
+  {
+   "from": 175.7,
+   "to": 180.8,
+   "text": "you go from a complete list of"
+  },
+  {
+   "from": 177.6,
+   "to": 182.8,
+   "text": "dependencies to the given target so an"
+  },
+  {
+   "from": 180.8,
+   "to": 185.4,
+   "text": "example of this might be in order to"
+  },
+  {
+   "from": 182.8,
+   "to": 188.9,
+   "text": "build my paper dot PDF I need a bunch of"
+  },
+  {
+   "from": 185.4,
+   "to": 190.7,
+   "text": "like plot images they're gonna go into"
+  },
+  {
+   "from": 188.9,
+   "to": 192.8,
+   "text": "the paper so they need to be built but"
+  },
+  {
+   "from": 190.7,
+   "to": 195.2,
+   "text": "then once they have been built how do i"
+  },
+  {
+   "from": 192.8,
+   "to": 196.9,
+   "text": "construct the paper given those files so"
+  },
+  {
+   "from": 195.2,
+   "to": 198.3,
+   "text": "that is what a rule is it's a sequence"
+  },
+  {
+   "from": 196.9,
+   "to": 201.5,
+   "text": "of command so you run to get from one to"
+  },
+  {
+   "from": 198.3,
+   "to": 204.2,
+   "text": "the other how you encode these rules"
+  },
+  {
+   "from": 201.5,
+   "to": 205.7,
+   "text": "differs between different tools in this"
+  },
+  {
+   "from": 204.2,
+   "to": 208.8,
+   "text": "particular class we're gonna focus on a"
+  },
+  {
+   "from": 205.7,
+   "to": 211.2,
+   "text": "tool called make make is a tool that you"
+  },
+  {
+   "from": 208.8,
+   "to": 213.4,
+   "text": "will find on almost any system that you"
+  },
+  {
+   "from": 211.2,
+   "to": 215.7,
+   "text": "log in today like it'll be on Mac OS"
+  },
+  {
+   "from": 213.4,
+   "to": 218.3,
+   "text": "it'll be on basically every Linux and"
+  },
+  {
+   "from": 215.7,
+   "to": 221,
+   "text": "BSD system and you can pretty easily get"
+  },
+  {
+   "from": 218.3,
+   "to": 223,
+   "text": "it on Windows um it's not great for very"
+  },
+  {
+   "from": 221,
+   "to": 225,
+   "text": "complex software but it works really"
+  },
+  {
+   "from": 223,
+   "to": 229.5,
+   "text": "well for anything that's sort of simple"
+  },
+  {
+   "from": 225,
+   "to": 231.5,
+   "text": "to medium complexity now when you run"
+  },
+  {
+   "from": 229.5,
+   "to": 233.4,
+   "text": "make to make user command you can run on"
+  },
+  {
+   "from": 231.5,
+   "to": 236.3,
+   "text": "the command line and when you type make"
+  },
+  {
+   "from": 233.4,
+   "to": 238.7,
+   "text": "and this is an empty directory if I type"
+  },
+  {
+   "from": 236.3,
+   "to": 242.4,
+   "text": "make it just has no target specified and"
+  },
+  {
+   "from": 238.7,
+   "to": 243.6,
+   "text": "no make file found stop and so it"
+  },
+  {
+   "from": 242.4,
+   "to": 246.4,
+   "text": "helpfully tells you that it stopped"
+  },
+  {
+   "from": 243.6,
+   "to": 249.4,
+   "text": "running but also tells you that no make"
+  },
+  {
+   "from": 246.4,
+   "to": 251.3,
+   "text": "file was found make will look for a file"
+  },
+  {
+   "from": 249.4,
+   "to": 253,
+   "text": "literally called make file in the"
+  },
+  {
+   "from": 251.3,
+   "to": 254.9,
+   "text": "current directory and that is where you"
+  },
+  {
+   "from": 253,
+   "to": 258.5,
+   "text": "encode these targets dependencies and"
+  },
+  {
+   "from": 254.9,
+   "to": 259.5,
+   "text": "rules so let's try to write one let's"
+  },
+  {
+   "from": 258.5,
+   "to": 262,
+   "text": "imagine that I'm writing this"
+  },
+  {
+   "from": 259.5,
+   "to": 263.9,
+   "text": "hypothetical paper and so I'm gonna make"
+  },
+  {
+   "from": 262,
+   "to": 266.5,
+   "text": "a make file and then this make file I'm"
+  },
+  {
+   "from": 263.9,
+   "to": 268,
+   "text": "going to say that my paper dog PDF the"
+  },
+  {
+   "from": 266.5,
+   "to": 270.9,
+   "text": "hands-on that's what the : here"
+  },
+  {
+   "from": 268,
+   "to": 275.8,
+   "text": "indicates paper dot text was going to be"
+  },
+  {
+   "from": 270.9,
+   "to": 280.1,
+   "text": "a little attack file and plot data dot"
+  },
+  {
+   "from": 275.8,
+   "to": 282.9,
+   "text": "PNG and the command in order to build"
+  },
+  {
+   "from": 280.1,
+   "to": 286.3,
+   "text": "this is going to be PDF latex of paper"
+  },
+  {
+   "from": 282.9,
+   "to": 287.6,
+   "text": "dot Tex so for those of you who are not"
+  },
+  {
+   "from": 286.3,
+   "to": 290.1,
+   "text": "familiar with this particular way of"
+  },
+  {
+   "from": 287.6,
+   "to": 293.1,
+   "text": "building documents the tech is a really"
+  },
+  {
+   "from": 290.1,
+   "to": 296.4,
+   "text": "handy programming language for documents"
+  },
+  {
+   "from": 293.1,
+   "to": 298,
+   "text": "it's a really ugly language and it's a"
+  },
+  {
+   "from": 296.4,
+   "to": 301.2,
+   "text": "pain to work with but it produces pretty"
+  },
+  {
+   "from": 298,
+   "to": 305.1,
+   "text": "nice documents and the tool you use to"
+  },
+  {
+   "from": 301.2,
+   "to": 308.5,
+   "text": "go from a tech file to PDF is PDF latex"
+  },
+  {
+   "from": 305.1,
+   "to": 312.3,
+   "text": "and here I'm saying that I also depend"
+  },
+  {
+   "from": 308.5,
+   "to": 314.5,
+   "text": "on this plot plot data PNG that's gonna"
+  },
+  {
+   "from": 312.3,
+   "to": 316.7,
+   "text": "be included in my document and what I'm"
+  },
+  {
+   "from": 314.5,
+   "to": 319.3,
+   "text": "really saying here is if either of those"
+  },
+  {
+   "from": 316.7,
+   "to": 322,
+   "text": "two dependencies change I want you to"
+  },
+  {
+   "from": 319.3,
+   "to": 323.8,
+   "text": "build paper PDF they both need to be"
+  },
+  {
+   "from": 322,
+   "to": 326.4,
+   "text": "present and should they ever change I"
+  },
+  {
+   "from": 323.8,
+   "to": 328.2,
+   "text": "wanted to rebuild it but I haven't"
+  },
+  {
+   "from": 326.4,
+   "to": 330.6,
+   "text": "really told it how to generate this plot"
+  },
+  {
+   "from": 328.2,
+   "to": 331.9,
+   "text": "data PNG so I might want to rule for"
+  },
+  {
+   "from": 330.6,
+   "to": 334,
+   "text": "that as well"
+  },
+  {
+   "from": 331.9,
+   "to": 335.8,
+   "text": "so I'm gonna define another target here"
+  },
+  {
+   "from": 334,
+   "to": 341.7,
+   "text": "and it's gonna be it's gonna look like"
+  },
+  {
+   "from": 335.8,
+   "to": 345.4,
+   "text": "this plot - % & % means and make is any"
+  },
+  {
+   "from": 341.7,
+   "to": 346.9,
+   "text": "string sort of a wildcard pattern but"
+  },
+  {
+   "from": 345.4,
+   "to": 349.7,
+   "text": "the cool thing is a you go and repeat"
+  },
+  {
+   "from": 346.9,
+   "to": 353,
+   "text": "this pattern in the dependencies so I"
+  },
+  {
+   "from": 349.7,
+   "to": 359.1,
+   "text": "can say that plot - % dot PNG is going"
+  },
+  {
+   "from": 353,
+   "to": 362.1,
+   "text": "to depend on % dott data or debt that is"
+  },
+  {
+   "from": 359.1,
+   "to": 365.1,
+   "text": "a common sort of suffix for data files"
+  },
+  {
+   "from": 362.1,
+   "to": 367,
+   "text": "and it's also going to depend on some"
+  },
+  {
+   "from": 365.1,
+   "to": 369.1,
+   "text": "script that's gonna actually plot this"
+  },
+  {
+   "from": 367,
+   "to": 369.5,
+   "text": "for me and the rules for to go from one"
+  },
+  {
+   "from": 369.1,
+   "to": 371.4,
+   "text": "to the other"
+  },
+  {
+   "from": 369.5,
+   "to": 373.2,
+   "text": "these can be multiple lines but in my"
+  },
+  {
+   "from": 371.4,
+   "to": 375.5,
+   "text": "particular case they're just one line"
+  },
+  {
+   "from": 373.2,
+   "to": 381.4,
+   "text": "I'm gonna explain what this is in a"
+  },
+  {
+   "from": 375.5,
+   "to": 383.7,
+   "text": "little second alright so here we're"
+  },
+  {
+   "from": 381.4,
+   "to": 386.3,
+   "text": "gonna say that in order to go from a"
+  },
+  {
+   "from": 383.7,
+   "to": 389.1,
+   "text": "wildcard dot dot file that matches the"
+  },
+  {
+   "from": 386.3,
+   "to": 392.9,
+   "text": "wildcard in the target and a plot dot"
+  },
+  {
+   "from": 389.1,
+   "to": 394.4,
+   "text": "python file run the python file with - i"
+  },
+  {
+   "from": 392.9,
+   "to": 396.3,
+   "text": "which is going to be like the way we"
+  },
+  {
+   "from": 394.4,
+   "to": 398,
+   "text": "take the mark what the input is in our"
+  },
+  {
+   "from": 396.3,
+   "to": 400,
+   "text": "python file I'll show it to you later"
+  },
+  {
+   "from": 398,
+   "to": 402.2,
+   "text": "dollarz star"
+  },
+  {
+   "from": 400,
+   "to": 405.1,
+   "text": "is a special variable that is defined"
+  },
+  {
+   "from": 402.2,
+   "to": 407.8,
+   "text": "for you and make file rules that matches"
+  },
+  {
+   "from": 405.1,
+   "to": 410.7,
+   "text": "whatever the percentile was so if I do"
+  },
+  {
+   "from": 407.8,
+   "to": 413.2,
+   "text": "plot to PNG then it's going to look for"
+  },
+  {
+   "from": 410.7,
+   "to": 415.6,
+   "text": "food dot that and it dollars stars can"
+  },
+  {
+   "from": 413.2,
+   "to": 417.3,
+   "text": "expand to foo so this will produce the"
+  },
+  {
+   "from": 415.6,
+   "to": 419.8,
+   "text": "same file name as the one we matched"
+  },
+  {
+   "from": 417.3,
+   "to": 421.1,
+   "text": "here and dollar act as a special"
+  },
+  {
+   "from": 419.8,
+   "to": 425,
+   "text": "variable that means the name of the"
+  },
+  {
+   "from": 421.1,
+   "to": 427.4,
+   "text": "target right so the output file and"
+  },
+  {
+   "from": 425,
+   "to": 429.2,
+   "text": "hopefully what plotter py will do is"
+  },
+  {
+   "from": 427.4,
+   "to": 431.9,
+   "text": "that it will take whatever the data is"
+  },
+  {
+   "from": 429.2,
+   "to": 434.1,
+   "text": "here it will produce a PNG somehow and"
+  },
+  {
+   "from": 431.9,
+   "to": 438.1,
+   "text": "it will write it into the file indicated"
+  },
+  {
+   "from": 434.1,
+   "to": 439.7,
+   "text": "by the dollar at all right so now we"
+  },
+  {
+   "from": 438.1,
+   "to": 441.3,
+   "text": "have a make file let's see what happens"
+  },
+  {
+   "from": 439.7,
+   "to": 443.5,
+   "text": "if the only file in this directory is"
+  },
+  {
+   "from": 441.3,
+   "to": 445.7,
+   "text": "the make file and we run make one says"
+  },
+  {
+   "from": 443.5,
+   "to": 449.8,
+   "text": "no rule to make target paper dot tex"
+  },
+  {
+   "from": 445.7,
+   "to": 452.6,
+   "text": "needed by paper dot PDF stop so what"
+  },
+  {
+   "from": 449.8,
+   "to": 455.1,
+   "text": "it's saying here is first of all it"
+  },
+  {
+   "from": 452.6,
+   "to": 457.6,
+   "text": "looked at the first rule of our file the"
+  },
+  {
+   "from": 455.1,
+   "to": 459.3,
+   "text": "first target and when you give make no"
+  },
+  {
+   "from": 457.6,
+   "to": 461.1,
+   "text": "arguments it tries to build whatever the"
+  },
+  {
+   "from": 459.3,
+   "to": 463.3,
+   "text": "first target is this is known as the"
+  },
+  {
+   "from": 461.1,
+   "to": 465.7,
+   "text": "default goal so in this case it tried to"
+  },
+  {
+   "from": 463.3,
+   "to": 467.5,
+   "text": "helpfully build paper dot PDF for us and"
+  },
+  {
+   "from": 465.7,
+   "to": 469.9,
+   "text": "then it looked up the dependencies and"
+  },
+  {
+   "from": 467.5,
+   "to": 473.1,
+   "text": "it said well in order to build paper dot"
+  },
+  {
+   "from": 469.9,
+   "to": 476.1,
+   "text": "PDF I need paper Tex and I need this PNG"
+  },
+  {
+   "from": 473.1,
+   "to": 478.7,
+   "text": "file and I can't find paper dot X and I"
+  },
+  {
+   "from": 476.1,
+   "to": 480.9,
+   "text": "don't have a rule for generating paper"
+  },
+  {
+   "from": 478.7,
+   "to": 484.1,
+   "text": "dot X and therefore I'm gonna exit this"
+  },
+  {
+   "from": 480.9,
+   "to": 484.1,
+   "text": "isn't nothing more I can do"
+  },
+  {
+   "from": 484.8,
+   "to": 490.1,
+   "text": "so let's try to make some files here"
+  },
+  {
+   "from": 487.4,
+   "to": 493.9,
+   "text": "let's just make like an empty paper dot"
+  },
+  {
+   "from": 490.1,
+   "to": 495.9,
+   "text": "X and then type make so now it says no"
+  },
+  {
+   "from": 493.9,
+   "to": 498.2,
+   "text": "rule to make target plot data dot PNG"
+  },
+  {
+   "from": 495.9,
+   "to": 500.1,
+   "text": "needed by paper to PDF right so now it's"
+  },
+  {
+   "from": 498.2,
+   "to": 501.3,
+   "text": "it knows that it has one dependency but"
+  },
+  {
+   "from": 500.1,
+   "to": 504.3,
+   "text": "it doesn't know how to get the other one"
+  },
+  {
+   "from": 501.3,
+   "to": 506.2,
+   "text": "it knows it as a target that matches but"
+  },
+  {
+   "from": 504.3,
+   "to": 509.1,
+   "text": "it can't actually find its dependencies"
+  },
+  {
+   "from": 506.2,
+   "to": 511.9,
+   "text": "and so it ends up doing nothing at all"
+  },
+  {
+   "from": 509.1,
+   "to": 515.8,
+   "text": "it still still needs us to generate this"
+  },
+  {
+   "from": 511.9,
+   "to": 517.8,
+   "text": "PNG for the input for the PNG so let's"
+  },
+  {
+   "from": 515.8,
+   "to": 522.7,
+   "text": "actually put some useful stuff into"
+  },
+  {
+   "from": 517.8,
+   "to": 528.2,
+   "text": "these files let's say that luckily I"
+  },
+  {
+   "from": 522.7,
+   "to": 530.3,
+   "text": "have one from earlier plot da py to here"
+  },
+  {
+   "from": 528.2,
+   "to": 532.2,
+   "text": "so let's so good well this text file is"
+  },
+  {
+   "from": 530.3,
+   "to": 533.4,
+   "text": "this is what text looks like it's not"
+  },
+  {
+   "from": 532.2,
+   "to": 535.4,
+   "text": "very pretty but"
+  },
+  {
+   "from": 533.4,
+   "to": 537.2,
+   "text": "see I'm defining an empty document I'm"
+  },
+  {
+   "from": 535.4,
+   "to": 539.8,
+   "text": "going to include graphics which is the"
+  },
+  {
+   "from": 537.2,
+   "to": 541.9,
+   "text": "way you include a an image file I'm"
+  },
+  {
+   "from": 539.8,
+   "to": 544.1,
+   "text": "going to include plot data dot PNG and"
+  },
+  {
+   "from": 541.9,
+   "to": 546.1,
+   "text": "this is of course why we want a"
+  },
+  {
+   "from": 544.1,
+   "to": 550.1,
+   "text": "dependency of peda paper dot PDF to be"
+  },
+  {
+   "from": 546.1,
+   "to": 552.7,
+   "text": "the PNG file plot the py is also not"
+  },
+  {
+   "from": 550.1,
+   "to": 555.4,
+   "text": "very interesting it just part imports a"
+  },
+  {
+   "from": 552.7,
+   "to": 559,
+   "text": "bunch libraries it parses the - ion - Oh"
+  },
+  {
+   "from": 555.4,
+   "to": 562.9,
+   "text": "arguments it loads data from the I"
+  },
+  {
+   "from": 559,
+   "to": 564.7,
+   "text": "argument it uses library called"
+  },
+  {
+   "from": 562.9,
+   "to": 567.5,
+   "text": "matplotlib which is very handy for just"
+  },
+  {
+   "from": 564.7,
+   "to": 570.4,
+   "text": "quickly plotting data and it's gonna"
+  },
+  {
+   "from": 567.5,
+   "to": 573,
+   "text": "plot the first column of the data as X's"
+  },
+  {
+   "from": 570.4,
+   "to": 574.6,
+   "text": "and the second column of the data as Y's"
+  },
+  {
+   "from": 573,
+   "to": 577.1,
+   "text": "so we're just going to have a data file"
+  },
+  {
+   "from": 574.6,
+   "to": 579.8,
+   "text": "that's two columns x and y on every line"
+  },
+  {
+   "from": 577.1,
+   "to": 586.9,
+   "text": "and then it saves that as a figure into"
+  },
+  {
+   "from": 579.8,
+   "to": 589.5,
+   "text": "whatever the given - oh value is okay so"
+  },
+  {
+   "from": 586.9,
+   "to": 593.6,
+   "text": "we need a data file that's going to be"
+  },
+  {
+   "from": 589.5,
+   "to": 596,
+   "text": "data dot because we want plot data dot"
+  },
+  {
+   "from": 593.6,
+   "to": 598.3,
+   "text": "PNG and our rules said that the way you"
+  },
+  {
+   "from": 596,
+   "to": 600.3,
+   "text": "go from that pattern to the dot file the"
+  },
+  {
+   "from": 598.3,
+   "to": 603.2,
+   "text": "dot that file is just by whatever"
+  },
+  {
+   "from": 600.3,
+   "to": 605.5,
+   "text": "follows plot so if we want plot - data"
+  },
+  {
+   "from": 603.2,
+   "to": 607.6,
+   "text": "then we want data dot that and then this"
+  },
+  {
+   "from": 605.5,
+   "to": 609.1,
+   "text": "file we're just gonna put in some linear"
+  },
+  {
+   "from": 607.6,
+   "to": 614,
+   "text": "coordinates because why not"
+  },
+  {
+   "from": 609.1,
+   "to": 619.6,
+   "text": "that's not linear all right and now what"
+  },
+  {
+   "from": 614,
+   "to": 624,
+   "text": "happens if we're gonna make well mmm"
+  },
+  {
+   "from": 619.6,
+   "to": 628.6,
+   "text": "okay so what just happened well make"
+  },
+  {
+   "from": 624,
+   "to": 632.1,
+   "text": "first ran plata py with the correct"
+  },
+  {
+   "from": 628.6,
+   "to": 635,
+   "text": "files to generate the PNG file and then"
+  },
+  {
+   "from": 632.1,
+   "to": 636.3,
+   "text": "it ran PDF latex paper dot text and all"
+  },
+  {
+   "from": 635,
+   "to": 638.5,
+   "text": "the stuff we see below is is the output"
+  },
+  {
+   "from": 636.3,
+   "to": 640.2,
+   "text": "from that tool if you wanted to we"
+  },
+  {
+   "from": 638.5,
+   "to": 642.2,
+   "text": "silence the effort from this tools we"
+  },
+  {
+   "from": 640.2,
+   "to": 644.2,
+   "text": "don't have to like have it mess with all"
+  },
+  {
+   "from": 642.2,
+   "to": 645.5,
+   "text": "our output but in general you notice"
+  },
+  {
+   "from": 644.2,
+   "to": 647.5,
+   "text": "that it ran the two commands then it"
+  },
+  {
+   "from": 645.5,
+   "to": 650.2,
+   "text": "write the random perhaps unsurprisingly"
+  },
+  {
+   "from": 647.5,
+   "to": 651.7,
+   "text": "in the right order and if we now do LS"
+  },
+  {
+   "from": 650.2,
+   "to": 653,
+   "text": "in the current directory we see that we"
+  },
+  {
+   "from": 651.7,
+   "to": 656.9,
+   "text": "have a bunch of files that were"
+  },
+  {
+   "from": 653,
+   "to": 659.2,
+   "text": "generated by PDF latex but in particular"
+  },
+  {
+   "from": 656.9,
+   "to": 661.6,
+   "text": "we have the PNG file which was generated"
+  },
+  {
+   "from": 659.2,
+   "to": 664.4,
+   "text": "and we have the paper dot PDF and if we"
+  },
+  {
+   "from": 661.6,
+   "to": 665.8,
+   "text": "open the paper - a PDF file we see that"
+  },
+  {
+   "from": 664.4,
+   "to": 666.8,
+   "text": "it has one image which has the straight"
+  },
+  {
+   "from": 665.8,
+   "to": 668.7,
+   "text": "line"
+  },
+  {
+   "from": 666.8,
+   "to": 670.8,
+   "text": "perhaps in and of itself not a very"
+  },
+  {
+   "from": 668.7,
+   "to": 673.5,
+   "text": "surprising or interesting result but"
+  },
+  {
+   "from": 670.8,
+   "to": 676.5,
+   "text": "where this gets really handy is I can do"
+  },
+  {
+   "from": 673.5,
+   "to": 679.1,
+   "text": "things like if I type make again make"
+  },
+  {
+   "from": 676.5,
+   "to": 681.9,
+   "text": "just says paper dot PDF is up to date it"
+  },
+  {
+   "from": 679.1,
+   "to": 683.9,
+   "text": "does no work whenever you run make it"
+  },
+  {
+   "from": 681.9,
+   "to": 685.7,
+   "text": "tries to do the minimal amount of work"
+  },
+  {
+   "from": 683.9,
+   "to": 688.4,
+   "text": "in order to produce whatever you ask it"
+  },
+  {
+   "from": 685.7,
+   "to": 690.3,
+   "text": "to produce in this case none of the"
+  },
+  {
+   "from": 688.4,
+   "to": 692.5,
+   "text": "dependencies have changed so there's no"
+  },
+  {
+   "from": 690.3,
+   "to": 696.7,
+   "text": "reason to rebuild the paper or to"
+  },
+  {
+   "from": 692.5,
+   "to": 699.5,
+   "text": "rebuild the plot if I now let's say I'm"
+  },
+  {
+   "from": 696.7,
+   "to": 704.8,
+   "text": "gonna edit paper dog texts I'm gonna add"
+  },
+  {
+   "from": 699.5,
+   "to": 707.4,
+   "text": "hello here an hour and make then if we"
+  },
+  {
+   "from": 704.8,
+   "to": 709.3,
+   "text": "scroll up we'll see it didn't run plot"
+  },
+  {
+   "from": 707.4,
+   "to": 711.2,
+   "text": "op py again because I didn't need to"
+  },
+  {
+   "from": 709.3,
+   "to": 713.4,
+   "text": "none of the dependencies change but it"
+  },
+  {
+   "from": 711.2,
+   "to": 716.6,
+   "text": "did run PDF latex again and indeed if we"
+  },
+  {
+   "from": 713.4,
+   "to": 719.3,
+   "text": "open the paper analysis hello over there"
+  },
+  {
+   "from": 716.6,
+   "to": 722.3,
+   "text": "on the other hand if I were to change"
+  },
+  {
+   "from": 719.3,
+   "to": 727.3,
+   "text": "say the data file and make this point 8"
+  },
+  {
+   "from": 722.3,
+   "to": 729.2,
+   "text": "an hour and make then now it plots again"
+  },
+  {
+   "from": 727.3,
+   "to": 731,
+   "text": "because the data changed and it"
+  },
+  {
+   "from": 729.2,
+   "to": 733.9,
+   "text": "regenerates the PDF because the plot"
+  },
+  {
+   "from": 731,
+   "to": 737.1,
+   "text": "changed and indeed the paper turns out"
+  },
+  {
+   "from": 733.9,
+   "to": 739,
+   "text": "the way we expected it to so that's not"
+  },
+  {
+   "from": 737.1,
+   "to": 741.7,
+   "text": "to say that this particular pipeline is"
+  },
+  {
+   "from": 739,
+   "to": 743.8,
+   "text": "very interesting because it's not it's"
+  },
+  {
+   "from": 741.7,
+   "to": 746.9,
+   "text": "only true very very straightforward"
+  },
+  {
+   "from": 743.8,
+   "to": 748.5,
+   "text": "targets and rules but this can come in"
+  },
+  {
+   "from": 746.9,
+   "to": 750.6,
+   "text": "really handy when you start building"
+  },
+  {
+   "from": 748.5,
+   "to": 752.4,
+   "text": "larger pieces of software or there might"
+  },
+  {
+   "from": 750.6,
+   "to": 755,
+   "text": "be dependencies you might even imagine"
+  },
+  {
+   "from": 752.4,
+   "to": 757.6,
+   "text": "that if you're writing a paper one of"
+  },
+  {
+   "from": 755,
+   "to": 760.2,
+   "text": "your targets might be producing this"
+  },
+  {
+   "from": 757.6,
+   "to": 761.5,
+   "text": "data file in the first place right so"
+  },
+  {
+   "from": 760.2,
+   "to": 765.3,
+   "text": "one of the makefile"
+  },
+  {
+   "from": 761.5,
+   "to": 768.2,
+   "text": "targets might be run my experiment right"
+  },
+  {
+   "from": 765.3,
+   "to": 770.5,
+   "text": "run my benchmark and stick the the data"
+  },
+  {
+   "from": 768.2,
+   "to": 773,
+   "text": "points that come out into this file and"
+  },
+  {
+   "from": 770.5,
+   "to": 774.5,
+   "text": "then plot the results and then and then"
+  },
+  {
+   "from": 773,
+   "to": 777.6,
+   "text": "and then and then all the way until you"
+  },
+  {
+   "from": 774.5,
+   "to": 779.6,
+   "text": "end up with a final paper and what's"
+  },
+  {
+   "from": 777.6,
+   "to": 780.8,
+   "text": "nice about this is first of all you"
+  },
+  {
+   "from": 779.6,
+   "to": 782.3,
+   "text": "don't have to remember all the commands"
+  },
+  {
+   "from": 780.8,
+   "to": 785.3,
+   "text": "to run you don't have to write them down"
+  },
+  {
+   "from": 782.3,
+   "to": 788,
+   "text": "anywhere but also the tool takes care of"
+  },
+  {
+   "from": 785.3,
+   "to": 790.4,
+   "text": "doing the minimal amount of work needed"
+  },
+  {
+   "from": 788,
+   "to": 792.4,
+   "text": "often you'll find things like they'll be"
+  },
+  {
+   "from": 790.4,
+   "to": 794.6,
+   "text": "too there'll be sub commands to make"
+  },
+  {
+   "from": 792.4,
+   "to": 796,
+   "text": "like make tests right which is going to"
+  },
+  {
+   "from": 794.6,
+   "to": 799.4,
+   "text": "compile your entire piece of software"
+  },
+  {
+   "from": 796,
+   "to": 800.6,
+   "text": "and also run the tests there might be"
+  },
+  {
+   "from": 799.4,
+   "to": 803.2,
+   "text": "things like make release"
+  },
+  {
+   "from": 800.6,
+   "to": 805.4,
+   "text": "which builds it with optimizations"
+  },
+  {
+   "from": 803.2,
+   "to": 807.8,
+   "text": "turned on and creates a tarball and"
+  },
+  {
+   "from": 805.4,
+   "to": 809.5,
+   "text": "uploads that somewhere right so it's"
+  },
+  {
+   "from": 807.8,
+   "to": 811.2,
+   "text": "gonna do the whole pipeline for you the"
+  },
+  {
+   "from": 809.5,
+   "to": 813.2,
+   "text": "idea is to reduce the effort that you"
+  },
+  {
+   "from": 811.2,
+   "to": 820.3,
+   "text": "have to do as any part of your build"
+  },
+  {
+   "from": 813.2,
+   "to": 823.1,
+   "text": "process now what we saw here was a very"
+  },
+  {
+   "from": 820.3,
+   "to": 825.1,
+   "text": "straightforward example of dependencies"
+  },
+  {
+   "from": 823.1,
+   "to": 827,
+   "text": "right so we saw here that you could"
+  },
+  {
+   "from": 825.1,
+   "to": 828.5,
+   "text": "declare files as dependencies but you"
+  },
+  {
+   "from": 827,
+   "to": 830.3,
+   "text": "Kosar declare sort of transitive"
+  },
+  {
+   "from": 828.5,
+   "to": 831.7,
+   "text": "dependencies right I depend on this"
+  },
+  {
+   "from": 830.3,
+   "to": 834.1,
+   "text": "thing which is generated by this other"
+  },
+  {
+   "from": 831.7,
+   "to": 836.8,
+   "text": "target very often when you work with"
+  },
+  {
+   "from": 834.1,
+   "to": 840.3,
+   "text": "dependencies in the in the larger area"
+  },
+  {
+   "from": 836.8,
+   "to": 841.9,
+   "text": "of software you'll find that your your"
+  },
+  {
+   "from": 840.3,
+   "to": 844.1,
+   "text": "system ends up having many different"
+  },
+  {
+   "from": 841.9,
+   "to": 846.4,
+   "text": "types of dependencies some of these are"
+  },
+  {
+   "from": 844.1,
+   "to": 849.3,
+   "text": "files like we saw here some of them are"
+  },
+  {
+   "from": 846.4,
+   "to": 851.3,
+   "text": "programs right like this sort of"
+  },
+  {
+   "from": 849.3,
+   "to": 853.8,
+   "text": "implicitly depends on Python being"
+  },
+  {
+   "from": 851.3,
+   "to": 855.8,
+   "text": "installed on my machine some of it might"
+  },
+  {
+   "from": 853.8,
+   "to": 858.3,
+   "text": "be libraries right you might depend on"
+  },
+  {
+   "from": 855.8,
+   "to": 860.1,
+   "text": "something like matplotlib which we"
+  },
+  {
+   "from": 858.3,
+   "to": 862.5,
+   "text": "depend on here some of them might be"
+  },
+  {
+   "from": 860.1,
+   "to": 865.3,
+   "text": "system libraries like open SSL or open"
+  },
+  {
+   "from": 862.5,
+   "to": 868.8,
+   "text": "SSH or like low-level crypto libraries"
+  },
+  {
+   "from": 865.3,
+   "to": 870.8,
+   "text": "and you don't necessarily declare all of"
+  },
+  {
+   "from": 868.8,
+   "to": 872.6,
+   "text": "them very often there's sort of an an"
+  },
+  {
+   "from": 870.8,
+   "to": 875.3,
+   "text": "assumption about what is installed on"
+  },
+  {
+   "from": 872.6,
+   "to": 877.6,
+   "text": "the given system what you'll find is"
+  },
+  {
+   "from": 875.3,
+   "to": 879.2,
+   "text": "that for most places where you have"
+  },
+  {
+   "from": 877.6,
+   "to": 881.6,
+   "text": "dependencies there are tools for"
+  },
+  {
+   "from": 879.2,
+   "to": 884.1,
+   "text": "managing those dependencies for you and"
+  },
+  {
+   "from": 881.6,
+   "to": 885.7,
+   "text": "very often these systems you might"
+  },
+  {
+   "from": 884.1,
+   "to": 889.1,
+   "text": "depend on are stored in what are known"
+  },
+  {
+   "from": 885.7,
+   "to": 892.1,
+   "text": "as repositories so repository is just a"
+  },
+  {
+   "from": 889.1,
+   "to": 895.3,
+   "text": "collection of things usually related"
+  },
+  {
+   "from": 892.1,
+   "to": 897.2,
+   "text": "that you can install that's basically"
+  },
+  {
+   "from": 895.3,
+   "to": 898.5,
+   "text": "all a repository is and you might be"
+  },
+  {
+   "from": 897.2,
+   "to": 900.9,
+   "text": "familiar with some of them already"
+  },
+  {
+   "from": 898.5,
+   "to": 903.2,
+   "text": "right so some examples of repositories"
+  },
+  {
+   "from": 900.9,
+   "to": 905.9,
+   "text": "are pi PI which is a well-known"
+  },
+  {
+   "from": 903.2,
+   "to": 908.4,
+   "text": "repository for Python packages rubygems"
+  },
+  {
+   "from": 905.9,
+   "to": 911.3,
+   "text": "which is similar for ruby crates or io"
+  },
+  {
+   "from": 908.4,
+   "to": 913.9,
+   "text": "for rust NPM for nodejs"
+  },
+  {
+   "from": 911.3,
+   "to": 915.9,
+   "text": "but other things the repositories too"
+  },
+  {
+   "from": 913.9,
+   "to": 919.4,
+   "text": "right like there are positives for"
+  },
+  {
+   "from": 915.9,
+   "to": 922,
+   "text": "cryptographic keys like key base there"
+  },
+  {
+   "from": 919.4,
+   "to": 924.1,
+   "text": "are repositories for system installed"
+  },
+  {
+   "from": 922,
+   "to": 927.2,
+   "text": "packages like if you ever use the apt"
+  },
+  {
+   "from": 924.1,
+   "to": 928.8,
+   "text": "tool in Ubuntu or in Debian you are"
+  },
+  {
+   "from": 927.2,
+   "to": 930.8,
+   "text": "interacting with a package repository"
+  },
+  {
+   "from": 928.8,
+   "to": 933,
+   "text": "where people who have written like"
+  },
+  {
+   "from": 930.8,
+   "to": 934.7,
+   "text": "programs and libraries upload them so"
+  },
+  {
+   "from": 933,
+   "to": 937.7,
+   "text": "that you can then install them"
+  },
+  {
+   "from": 934.7,
+   "to": 940.2,
+   "text": "similarly you might have repositories"
+  },
+  {
+   "from": 937.7,
+   "to": 942,
+   "text": "are entirely open right so the Ubuntu"
+  },
+  {
+   "from": 940.2,
+   "to": 944.8,
+   "text": "repositories for example are usually"
+  },
+  {
+   "from": 942,
+   "to": 946.4,
+   "text": "provided by the Ubuntu developers but in"
+  },
+  {
+   "from": 944.8,
+   "to": 947.4,
+   "text": "Arch Linux there might there is"
+  },
+  {
+   "from": 946.4,
+   "to": 949.6,
+   "text": "something called the arch user"
+  },
+  {
+   "from": 947.4,
+   "to": 951.8,
+   "text": "repository where users can just share"
+  },
+  {
+   "from": 949.6,
+   "to": 953.4,
+   "text": "their own libraries and their own"
+  },
+  {
+   "from": 951.8,
+   "to": 955.4,
+   "text": "packages themselves. Very often,"
+  },
+  {
+   "from": 953.4,
+   "to": 958.3,
+   "text": "repositories are either sort of managed"
+  },
+  {
+   "from": 955.4,
+   "to": 959.8,
+   "text": "or they are just entirely open and you"
+  },
+  {
+   "from": 958.3,
+   "to": 962,
+   "text": "should often be aware of this because if"
+  },
+  {
+   "from": 959.8,
+   "to": 964.1,
+   "text": "you're using an entirely open repository"
+  },
+  {
+   "from": 962,
+   "to": 965.7,
+   "text": "maybe the security guarantees you get"
+  },
+  {
+   "from": 964.1,
+   "to": 969.1,
+   "text": "from that are less than what you get in"
+  },
+  {
+   "from": 965.7,
+   "to": 971,
+   "text": "a controlled repository one thing you'll"
+  },
+  {
+   "from": 969.1,
+   "to": 973.8,
+   "text": "notice if you start using repositories"
+  },
+  {
+   "from": 971,
+   "to": 977,
+   "text": "is a very often software is versioned"
+  },
+  {
+   "from": 973.8,
+   "to": 978.2,
+   "text": "and what I mean by version well you"
+  },
+  {
+   "from": 977,
+   "to": 980.2,
+   "text": "might have seen this for stuff like"
+  },
+  {
+   "from": 978.2,
+   "to": 984.7,
+   "text": "browsers right where there might be"
+  },
+  {
+   "from": 980.2,
+   "to": 993.6,
+   "text": "something like starting like Chrome"
+  },
+  {
+   "from": 984.7,
+   "to": 998.4,
+   "text": "version 64 dot zero dot two zero one 903"
+  },
+  {
+   "from": 993.6,
+   "to": 1004.2,
+   "text": "24 right this is a version number it"
+  },
+  {
+   "from": 998.4,
+   "to": 1006,
+   "text": "might there's a dot here this is one"
+  },
+  {
+   "from": 1004.2,
+   "to": 1010.4,
+   "text": "kind of version number. But, sometimes, if"
+  },
+  {
+   "from": 1006,
+   "to": 1012.1,
+   "text": "you start, I don't know, like Photoshop or"
+  },
+  {
+   "from": 1010.4,
+   "to": 1014.4,
+   "text": "you start any other tool, there might be"
+  },
+  {
+   "from": 1012.1,
+   "to": 1018.2,
+   "text": "other kind of versions that are, like,"
+  },
+  {
+   "from": 1014.4,
+   "to": 1019.9,
+   "text": "8.1 dot seven right these version"
+  },
+  {
+   "from": 1018.2,
+   "to": 1021.5,
+   "text": "numbers are usually numerical but not"
+  },
+  {
+   "from": 1019.9,
+   "to": 1023.2,
+   "text": "always sometimes they have hashes in"
+  },
+  {
+   "from": 1021.5,
+   "to": 1025,
+   "text": "them for example to refer to git commits"
+  },
+  {
+   "from": 1023.2,
+   "to": 1027.3,
+   "text": "but you might wonder why do we have"
+  },
+  {
+   "from": 1025,
+   "to": 1028.7,
+   "text": "these why is it even important that you"
+  },
+  {
+   "from": 1027.3,
+   "to": 1031.4,
+   "text": "add a number to software that you"
+  },
+  {
+   "from": 1028.7,
+   "to": 1036,
+   "text": "release the primary reason for this is"
+  },
+  {
+   "from": 1031.4,
+   "to": 1039.1,
+   "text": "because it enables me to know whether my"
+  },
+  {
+   "from": 1036,
+   "to": 1041.3,
+   "text": "software would break imagine that I have"
+  },
+  {
+   "from": 1039.1,
+   "to": 1045.3,
+   "text": "a dependency on a library that Jose has"
+  },
+  {
+   "from": 1041.3,
+   "to": 1046.6,
+   "text": "written right and Jose is constantly"
+  },
+  {
+   "from": 1045.3,
+   "to": 1048.4,
+   "text": "doing changes to his library because he"
+  },
+  {
+   "from": 1046.6,
+   "to": 1049.9,
+   "text": "wants to make it better and he decides"
+  },
+  {
+   "from": 1048.4,
+   "to": 1052.1,
+   "text": "that one of the functions that his"
+  },
+  {
+   "from": 1049.9,
+   "to": 1055.3,
+   "text": "library exposes has a bad name so he"
+  },
+  {
+   "from": 1052.1,
+   "to": 1058.8,
+   "text": "renames it my software suddenly stops"
+  },
+  {
+   "from": 1055.3,
+   "to": 1060.6,
+   "text": "working right because I my library calls"
+  },
+  {
+   "from": 1058.8,
+   "to": 1063,
+   "text": "a function on Jose's library but that"
+  },
+  {
+   "from": 1060.6,
+   "to": 1064.7,
+   "text": "function no longer exists depending on"
+  },
+  {
+   "from": 1063,
+   "to": 1068.2,
+   "text": "which version people have installed of"
+  },
+  {
+   "from": 1064.7,
+   "to": 1070.3,
+   "text": "Jose's library versions helps"
+  },
+  {
+   "from": 1068.2,
+   "to": 1072.5,
+   "text": "because I can say I depend on this"
+  },
+  {
+   "from": 1070.3,
+   "to": 1074.7,
+   "text": "version of Jose's library and there has"
+  },
+  {
+   "from": 1072.5,
+   "to": 1078.2,
+   "text": "to be some rules around what is Jose"
+  },
+  {
+   "from": 1074.7,
+   "to": 1080.3,
+   "text": "allowed to do within a given version if"
+  },
+  {
+   "from": 1078.2,
+   "to": 1082.3,
+   "text": "he makes a change that I can no longer"
+  },
+  {
+   "from": 1080.3,
+   "to": 1083.9,
+   "text": "rely on his version has to change in"
+  },
+  {
+   "from": 1082.3,
+   "to": 1086.8,
+   "text": "some way"
+  },
+  {
+   "from": 1083.9,
+   "to": 1089.8,
+   "text": "there are many thoughts on exactly how"
+  },
+  {
+   "from": 1086.8,
+   "to": 1091.7,
+   "text": "this should work like what are the rules"
+  },
+  {
+   "from": 1089.8,
+   "to": 1094.5,
+   "text": "for publishing new versions how do they"
+  },
+  {
+   "from": 1091.7,
+   "to": 1098,
+   "text": "change the version numbers um some of"
+  },
+  {
+   "from": 1094.5,
+   "to": 1099.7,
+   "text": "them are just dictated by time so for"
+  },
+  {
+   "from": 1098,
+   "to": 1102,
+   "text": "example if you look at browsers they"
+  },
+  {
+   "from": 1099.7,
+   "to": 1104.3,
+   "text": "very often have time versions that look"
+  },
+  {
+   "from": 1102,
+   "to": 1106.1,
+   "text": "like this they have a version number on"
+  },
+  {
+   "from": 1104.3,
+   "to": 1108.5,
+   "text": "the far left that's just like which"
+  },
+  {
+   "from": 1106.1,
+   "to": 1110.4,
+   "text": "release and then they have sort of an"
+  },
+  {
+   "from": 1108.5,
+   "to": 1112.9,
+   "text": "incremental number that is usually zero"
+  },
+  {
+   "from": 1110.4,
+   "to": 1117.2,
+   "text": "and then they have a date at the end"
+  },
+  {
+   "from": 1112.9,
+   "to": 1120.2,
+   "text": "right so this is March 24th 2019 for"
+  },
+  {
+   "from": 1117.2,
+   "to": 1124.7,
+   "text": "some reason and usually that will"
+  },
+  {
+   "from": 1120.2,
+   "to": 1128.1,
+   "text": "indicate that this is version 64 of"
+  },
+  {
+   "from": 1124.7,
+   "to": 1130.6,
+   "text": "Firefox from this date and then if they"
+  },
+  {
+   "from": 1128.1,
+   "to": 1132,
+   "text": "release sort of patches or hot fixes for"
+  },
+  {
+   "from": 1130.6,
+   "to": 1134.2,
+   "text": "security bugs they might increment the"
+  },
+  {
+   "from": 1132,
+   "to": 1138.8,
+   "text": "date but keep the version of the at the"
+  },
+  {
+   "from": 1134.2,
+   "to": 1141.1,
+   "text": "left the same and people have strong"
+  },
+  {
+   "from": 1138.8,
+   "to": 1143.2,
+   "text": "strong opinions on exactly what the"
+  },
+  {
+   "from": 1141.1,
+   "to": 1145.4,
+   "text": "scheme should be and you sort of depend"
+  },
+  {
+   "from": 1143.2,
+   "to": 1148.1,
+   "text": "on knowing what schemes other people use"
+  },
+  {
+   "from": 1145.4,
+   "to": 1149.7,
+   "text": "right if I don't know what scheme Jose"
+  },
+  {
+   "from": 1148.1,
+   "to": 1151.7,
+   "text": "is using for changing his versions"
+  },
+  {
+   "from": 1149.7,
+   "to": 1154.4,
+   "text": "maybe I just have to say you have to run"
+  },
+  {
+   "from": 1151.7,
+   "to": 1157.6,
+   "text": "like eight one seven of Jose's software"
+  },
+  {
+   "from": 1154.4,
+   "to": 1159.2,
+   "text": "otherwise I cannot build my software but"
+  },
+  {
+   "from": 1157.6,
+   "to": 1161.7,
+   "text": "this is a problem, too, right?"
+  },
+  {
+   "from": 1159.2,
+   "to": 1163.6,
+   "text": "Imagine that, Jose, as a responsible"
+  },
+  {
+   "from": 1161.7,
+   "to": 1166.9,
+   "text": "developer of his library, and he finds"
+  },
+  {
+   "from": 1163.6,
+   "to": 1169.2,
+   "text": "the security bug and he fixes it but it"
+  },
+  {
+   "from": 1166.9,
+   "to": 1171.3,
+   "text": "doesn't change the external interfaces"
+  },
+  {
+   "from": 1169.2,
+   "to": 1174.1,
+   "text": "library no functions changed no types"
+  },
+  {
+   "from": 1171.3,
+   "to": 1177.1,
+   "text": "change then I want people to be building"
+  },
+  {
+   "from": 1174.1,
+   "to": 1179.4,
+   "text": "my software with his new version and it"
+  },
+  {
+   "from": 1177.1,
+   "to": 1180.8,
+   "text": "just so happens that building mine works"
+  },
+  {
+   "from": 1179.4,
+   "to": 1182.6,
+   "text": "just fine with his new version because"
+  },
+  {
+   "from": 1180.8,
+   "to": 1187.3,
+   "text": "that particular version didn't change"
+  },
+  {
+   "from": 1182.6,
+   "to": 1188.8,
+   "text": "anything I depended on so one attempted"
+  },
+  {
+   "from": 1187.3,
+   "to": 1191.3,
+   "text": "solution to this is something called"
+  },
+  {
+   "from": 1188.8,
+   "to": 1193.4,
+   "text": "semantic versioning. So, in semantic"
+  },
+  {
+   "from": 1191.3,
+   "to": 1195.4,
+   "text": "versioning, we give each of the numbers"
+  },
+  {
+   "from": 1193.4,
+   "to": 1197.5,
+   "text": "separated by dots in a version number, a"
+  },
+  {
+   "from": 1195.4,
+   "to": 1199.7,
+   "text": "particular meaning. And, we give a"
+  },
+  {
+   "from": 1197.5,
+   "to": 1201,
+   "text": "contract for when you have to increment"
+  },
+  {
+   "from": 1199.7,
+   "to": 1206.7,
+   "text": "the different numbers"
+  },
+  {
+   "from": 1201,
+   "to": 1214.9,
+   "text": "in particular in semantic versioning we"
+  },
+  {
+   "from": 1206.7,
+   "to": 1220.3,
+   "text": "call this the major version we call this"
+  },
+  {
+   "from": 1214.9,
+   "to": 1225.8,
+   "text": "the minor version and we call this the"
+  },
+  {
+   "from": 1220.3,
+   "to": 1229.6,
+   "text": "patch version and the rules around this"
+  },
+  {
+   "from": 1225.8,
+   "to": 1233.3,
+   "text": "are as follows if you make a change to"
+  },
+  {
+   "from": 1229.6,
+   "to": 1235.5,
+   "text": "whatever your software is and and the"
+  },
+  {
+   "from": 1233.3,
+   "to": 1238.1,
+   "text": "change you made is entirely backwards"
+  },
+  {
+   "from": 1235.5,
+   "to": 1240.7,
+   "text": "compatible right like it does not add"
+  },
+  {
+   "from": 1238.1,
+   "to": 1243.6,
+   "text": "anything it does not remove anything it"
+  },
+  {
+   "from": 1240.7,
+   "to": 1247.3,
+   "text": "does not rename anything externally it"
+  },
+  {
+   "from": 1243.6,
+   "to": 1249.8,
+   "text": "is as if nothing changed then you only"
+  },
+  {
+   "from": 1247.3,
+   "to": 1252,
+   "text": "increment the patch number nothing else"
+  },
+  {
+   "from": 1249.8,
+   "to": 1254.9,
+   "text": "so usually security fixes for example"
+  },
+  {
+   "from": 1252,
+   "to": 1258.3,
+   "text": "will increment the patch number if you"
+  },
+  {
+   "from": 1254.9,
+   "to": 1259.4,
+   "text": "add something to your library I'm just"
+  },
+  {
+   "from": 1258.3,
+   "to": 1261.1,
+   "text": "gonna call them libraries because"
+  },
+  {
+   "from": 1259.4,
+   "to": 1263.9,
+   "text": "usually libraries are the things where"
+  },
+  {
+   "from": 1261.1,
+   "to": 1265.6,
+   "text": "this matters so for a library if you add"
+  },
+  {
+   "from": 1263.9,
+   "to": 1267.9,
+   "text": "something to the library you increment"
+  },
+  {
+   "from": 1265.6,
+   "to": 1271.1,
+   "text": "the minor version and you set the patch"
+  },
+  {
+   "from": 1267.9,
+   "to": 1273.5,
+   "text": "to zero so in this case if we were to do"
+  },
+  {
+   "from": 1271.1,
+   "to": 1275.5,
+   "text": "a minor release the next minor release"
+  },
+  {
+   "from": 1273.5,
+   "to": 1279,
+   "text": "version number would be eight to zero"
+  },
+  {
+   "from": 1275.5,
+   "to": 1282.5,
+   "text": "and the reason we do this is because I"
+  },
+  {
+   "from": 1279,
+   "to": 1286.3,
+   "text": "might have a dependency on a feature the"
+  },
+  {
+   "from": 1282.5,
+   "to": 1288.4,
+   "text": "josè added in a 2-0 which means you"
+  },
+  {
+   "from": 1286.3,
+   "to": 1290.4,
+   "text": "can't build my software with eight one"
+  },
+  {
+   "from": 1288.4,
+   "to": 1292.9,
+   "text": "seven that would not be okay"
+  },
+  {
+   "from": 1290.4,
+   "to": 1294.3,
+   "text": "even though if you if I had written it"
+  },
+  {
+   "from": 1292.9,
+   "to": 1296.5,
+   "text": "towards eight one seven you could run it"
+  },
+  {
+   "from": 1294.3,
+   "to": 1298.6,
+   "text": "with a 2-0 the reverse is not true"
+  },
+  {
+   "from": 1296.5,
+   "to": 1302.3,
+   "text": "because it might not have been added yet"
+  },
+  {
+   "from": 1298.6,
+   "to": 1303.8,
+   "text": "and then finally the major version you"
+  },
+  {
+   "from": 1302.3,
+   "to": 1308.6,
+   "text": "increment if you make a backwards"
+  },
+  {
+   "from": 1303.8,
+   "to": 1310.8,
+   "text": "incompatible change where if my software"
+  },
+  {
+   "from": 1308.6,
+   "to": 1313,
+   "text": "used to work with whatever version you"
+  },
+  {
+   "from": 1310.8,
+   "to": 1314.4,
+   "text": "had and then you make a change that"
+  },
+  {
+   "from": 1313,
+   "to": 1316.5,
+   "text": "means that my software might no longer"
+  },
+  {
+   "from": 1314.4,
+   "to": 1318.5,
+   "text": "work such as removing a function or"
+  },
+  {
+   "from": 1316.5,
+   "to": 1320.7,
+   "text": "renaming it then you increment the major"
+  },
+  {
+   "from": 1318.5,
+   "to": 1322.9,
+   "text": "version and set minor and patch to zero"
+  },
+  {
+   "from": 1320.7,
+   "to": 1327.2,
+   "text": "so the next major version here would be"
+  },
+  {
+   "from": 1322.9,
+   "to": 1329.8,
+   "text": "nine zero zero taken together these"
+  },
+  {
+   "from": 1327.2,
+   "to": 1331.7,
+   "text": "allow us to do really nice things when"
+  },
+  {
+   "from": 1329.8,
+   "to": 1334.1,
+   "text": "setting what our dependencies are in"
+  },
+  {
+   "from": 1331.7,
+   "to": 1335.8,
+   "text": "particular if I depend on a"
+  },
+  {
+   "from": 1334.1,
+   "to": 1338.4,
+   "text": "particular version of someone's library"
+  },
+  {
+   "from": 1335.8,
+   "to": 1340.6,
+   "text": "rather than saying it has to be exactly"
+  },
+  {
+   "from": 1338.4,
+   "to": 1343.3,
+   "text": "this version what I'm really saying is"
+  },
+  {
+   "from": 1340.6,
+   "to": 1347.8,
+   "text": "it has to be the same major version and"
+  },
+  {
+   "from": 1343.3,
+   "to": 1350.7,
+   "text": "at least the same minor version and the"
+  },
+  {
+   "from": 1347.8,
+   "to": 1352.6,
+   "text": "patch can be whatever this means that if"
+  },
+  {
+   "from": 1350.7,
+   "to": 1356.1,
+   "text": "I have a dependency on Jose software"
+  },
+  {
+   "from": 1352.6,
+   "to": 1359.3,
+   "text": "then any later release that is still"
+  },
+  {
+   "from": 1356.1,
+   "to": 1362.1,
+   "text": "within the same major is fine that"
+  },
+  {
+   "from": 1359.3,
+   "to": 1365.1,
+   "text": "includes keep in mind an earlier version"
+  },
+  {
+   "from": 1362.1,
+   "to": 1367.3,
+   "text": "assuming that the minor is the same"
+  },
+  {
+   "from": 1365.1,
+   "to": 1369.2,
+   "text": "imagine that you are saw on some older"
+  },
+  {
+   "from": 1367.3,
+   "to": 1372.1,
+   "text": "computer that has like version eight one"
+  },
+  {
+   "from": 1369.2,
+   "to": 1373.8,
+   "text": "three in theory my software should work"
+  },
+  {
+   "from": 1372.1,
+   "to": 1376.5,
+   "text": "just fine with eight one three as well"
+  },
+  {
+   "from": 1373.8,
+   "to": 1378,
+   "text": "it might have whatever bug the Jose"
+  },
+  {
+   "from": 1376.5,
+   "to": 1380.2,
+   "text": "fixed in between like whatever security"
+  },
+  {
+   "from": 1378,
+   "to": 1382.3,
+   "text": "issue but this has the nice property"
+  },
+  {
+   "from": 1380.2,
+   "to": 1383.7,
+   "text": "that now you can share dependencies"
+  },
+  {
+   "from": 1382.3,
+   "to": 1385.7,
+   "text": "between many different pieces of"
+  },
+  {
+   "from": 1383.7,
+   "to": 1389,
+   "text": "software on your machine if you have"
+  },
+  {
+   "from": 1385.7,
+   "to": 1390.6,
+   "text": "version eight-30 installed and there are"
+  },
+  {
+   "from": 1389,
+   "to": 1392.2,
+   "text": "bunch of different software that like"
+  },
+  {
+   "from": 1390.6,
+   "to": 1394.3,
+   "text": "one requires eight one seven one"
+  },
+  {
+   "from": 1392.2,
+   "to": 1396.7,
+   "text": "requires eight two four one requires"
+  },
+  {
+   "from": 1394.3,
+   "to": 1398.3,
+   "text": "eight zero one all of them can use the"
+  },
+  {
+   "from": 1396.7,
+   "to": 1403.1,
+   "text": "same version of that dependencies you"
+  },
+  {
+   "from": 1398.3,
+   "to": 1406.9,
+   "text": "only needed installed once one of the"
+  },
+  {
+   "from": 1403.1,
+   "to": 1408.8,
+   "text": "most common or one of the most familiar"
+  },
+  {
+   "from": 1406.9,
+   "to": 1410.5,
+   "text": "perhaps examples of this kind of"
+  },
+  {
+   "from": 1408.8,
+   "to": 1413.5,
+   "text": "semantic versioning is if you look at"
+  },
+  {
+   "from": 1410.5,
+   "to": 1415.7,
+   "text": "the Python versioning so many of you may"
+  },
+  {
+   "from": 1413.5,
+   "to": 1418.3,
+   "text": "have come across this where python 3 and"
+  },
+  {
+   "from": 1415.7,
+   "to": 1420.2,
+   "text": "python 2 are not compatible with one"
+  },
+  {
+   "from": 1418.3,
+   "to": 1423.3,
+   "text": "another they're not backwards compatible"
+  },
+  {
+   "from": 1420.2,
+   "to": 1426.3,
+   "text": "if you write code in Python 2 you try to"
+  },
+  {
+   "from": 1423.3,
+   "to": 1428.3,
+   "text": "run in Python 3 it might not work there"
+  },
+  {
+   "from": 1426.3,
+   "to": 1431.2,
+   "text": "are some cases where it will but that is"
+  },
+  {
+   "from": 1428.3,
+   "to": 1433.4,
+   "text": "more accidental than anything else and"
+  },
+  {
+   "from": 1431.2,
+   "to": 1436.3,
+   "text": "Python actually follows semantic"
+  },
+  {
+   "from": 1433.4,
+   "to": 1439,
+   "text": "versioning at least mostly and so if you"
+  },
+  {
+   "from": 1436.3,
+   "to": 1442.4,
+   "text": "write software that runs on Python 3.5"
+  },
+  {
+   "from": 1439,
+   "to": 1445.1,
+   "text": "then it should also work in 3.6 3.7 and"
+  },
+  {
+   "from": 1442.4,
+   "to": 1447.5,
+   "text": "3.8 it will not necessarily work in"
+  },
+  {
+   "from": 1445.1,
+   "to": 1450.3,
+   "text": "Python 4 although that will hopefully be"
+  },
+  {
+   "from": 1447.5,
+   "to": 1453.6,
+   "text": "a long time away but if you write code"
+  },
+  {
+   "from": 1450.3,
+   "to": 1457.6,
+   "text": "for Python 3.5 it will it will possibly"
+  },
+  {
+   "from": 1453.6,
+   "to": 1459.6,
+   "text": "not run on Python 3.4 so one thing you"
+  },
+  {
+   "from": 1457.6,
+   "to": 1461.9,
+   "text": "will see many software projects do is"
+  },
+  {
+   "from": 1459.6,
+   "to": 1463.7,
+   "text": "they try to bring the version"
+  },
+  {
+   "from": 1461.9,
+   "to": 1466.6,
+   "text": "requirements they have as low as"
+  },
+  {
+   "from": 1463.7,
+   "to": 1469.5,
+   "text": "possible if you can depend on major"
+  },
+  {
+   "from": 1466.6,
+   "to": 1471.4,
+   "text": "and then minor in patch zero zero that"
+  },
+  {
+   "from": 1469.5,
+   "to": 1474,
+   "text": "is the best possible dependency you can"
+  },
+  {
+   "from": 1471.4,
+   "to": 1476.2,
+   "text": "have because it is completely liberal as"
+  },
+  {
+   "from": 1474,
+   "to": 1478.2,
+   "text": "to which version of that major you're"
+  },
+  {
+   "from": 1476.2,
+   "to": 1479.7,
+   "text": "depending on sometimes this is hard"
+  },
+  {
+   "from": 1478.2,
+   "to": 1481.8,
+   "text": "right sometimes you genuinely need a"
+  },
+  {
+   "from": 1479.7,
+   "to": 1483.6,
+   "text": "feature that was added but the lower you"
+  },
+  {
+   "from": 1481.8,
+   "to": 1487.9,
+   "text": "can get the better it is for those who"
+  },
+  {
+   "from": 1483.6,
+   "to": 1487.9,
+   "text": "want to depend on your software in turn"
+  },
+  {
+   "from": 1488.7,
+   "to": 1492.7,
+   "text": "when working with these sort of"
+  },
+  {
+   "from": 1490.8,
+   "to": 1495,
+   "text": "dependency management systems or in with"
+  },
+  {
+   "from": 1492.7,
+   "to": 1497.7,
+   "text": "versioning in general you'll often come"
+  },
+  {
+   "from": 1495,
+   "to": 1499.7,
+   "text": "across this notion of lock files you"
+  },
+  {
+   "from": 1497.7,
+   "to": 1501.4,
+   "text": "might have seen this where like you try"
+  },
+  {
+   "from": 1499.7,
+   "to": 1504.1,
+   "text": "to do something and it says like cannot"
+  },
+  {
+   "from": 1501.4,
+   "to": 1506.5,
+   "text": "reconcile versions or you get an error"
+  },
+  {
+   "from": 1504.1,
+   "to": 1509,
+   "text": "like lock file already exists these are"
+  },
+  {
+   "from": 1506.5,
+   "to": 1511.2,
+   "text": "often somewhat different topics but in"
+  },
+  {
+   "from": 1509,
+   "to": 1513,
+   "text": "general the notion of a lock file is to"
+  },
+  {
+   "from": 1511.2,
+   "to": 1516.2,
+   "text": "make sure that you don't accidentally"
+  },
+  {
+   "from": 1513,
+   "to": 1518.5,
+   "text": "update something the lock file at its"
+  },
+  {
+   "from": 1516.2,
+   "to": 1520.3,
+   "text": "core is really just a list of your"
+  },
+  {
+   "from": 1518.5,
+   "to": 1523.3,
+   "text": "dependencies and which version of them"
+  },
+  {
+   "from": 1520.3,
+   "to": 1525.1,
+   "text": "you are currently using right so my"
+  },
+  {
+   "from": 1523.3,
+   "to": 1527.4,
+   "text": "version string might be eight one seven"
+  },
+  {
+   "from": 1525.1,
+   "to": 1530.3,
+   "text": "and the latest version like on the"
+  },
+  {
+   "from": 1527.4,
+   "to": 1532.9,
+   "text": "internet somewhere might be a three zero"
+  },
+  {
+   "from": 1530.3,
+   "to": 1534.8,
+   "text": "but whatever is installed on my system"
+  },
+  {
+   "from": 1532.9,
+   "to": 1536.1,
+   "text": "is not necessarily one of those two it"
+  },
+  {
+   "from": 1534.8,
+   "to": 1539,
+   "text": "might be like eight two four or"
+  },
+  {
+   "from": 1536.1,
+   "to": 1542,
+   "text": "something like that and the lock file"
+  },
+  {
+   "from": 1539,
+   "to": 1545.2,
+   "text": "will then say dependency josè version"
+  },
+  {
+   "from": 1542,
+   "to": 1548.4,
+   "text": "eight to four and the reason you want to"
+  },
+  {
+   "from": 1545.2,
+   "to": 1551.5,
+   "text": "lock file there can be many one of them"
+  },
+  {
+   "from": 1548.4,
+   "to": 1555.1,
+   "text": "is that you might want your builds to be"
+  },
+  {
+   "from": 1551.5,
+   "to": 1557.8,
+   "text": "fast if every single time you try to"
+  },
+  {
+   "from": 1555.1,
+   "to": 1559.2,
+   "text": "build your project whatever tool you"
+  },
+  {
+   "from": 1557.8,
+   "to": 1561.1,
+   "text": "were using download the latest version"
+  },
+  {
+   "from": 1559.2,
+   "to": 1563,
+   "text": "and then compile it and then compile"
+  },
+  {
+   "from": 1561.1,
+   "to": 1565,
+   "text": "your thing you might wait for a really"
+  },
+  {
+   "from": 1563,
+   "to": 1566.6,
+   "text": "long time each time depending on the"
+  },
+  {
+   "from": 1565,
+   "to": 1569.9,
+   "text": "release cycle of your dependencies if"
+  },
+  {
+   "from": 1566.6,
+   "to": 1570.5,
+   "text": "you use a lock file then unless the"
+  },
+  {
+   "from": 1569.9,
+   "to": 1572,
+   "text": "version"
+  },
+  {
+   "from": 1570.5,
+   "to": 1574,
+   "text": "unless you've updated the version in"
+  },
+  {
+   "from": 1572,
+   "to": 1576,
+   "text": "your lock file it'll just use whatever"
+  },
+  {
+   "from": 1574,
+   "to": 1579.1,
+   "text": "it built previously for that dependency"
+  },
+  {
+   "from": 1576,
+   "to": 1581.8,
+   "text": "and your sort of development cycle can"
+  },
+  {
+   "from": 1579.1,
+   "to": 1585,
+   "text": "be a lot faster another reason to use"
+  },
+  {
+   "from": 1581.8,
+   "to": 1587.5,
+   "text": "lock files is to get reproducible builds"
+  },
+  {
+   "from": 1585,
+   "to": 1589.8,
+   "text": "imagine that I produce some kind of"
+  },
+  {
+   "from": 1587.5,
+   "to": 1592.9,
+   "text": "security related software and I very"
+  },
+  {
+   "from": 1589.8,
+   "to": 1595.2,
+   "text": "carefully audited my dependencies and I"
+  },
+  {
+   "from": 1592.9,
+   "to": 1598.9,
+   "text": "produce like a signed binary of like"
+  },
+  {
+   "from": 1595.2,
+   "to": 1599.6,
+   "text": "here is thus like a sworn statement for"
+  },
+  {
+   "from": 1598.9,
+   "to": 1603,
+   "text": "me that this"
+  },
+  {
+   "from": 1599.6,
+   "to": 1605.8,
+   "text": "version is secure if I didn't include a"
+  },
+  {
+   "from": 1603,
+   "to": 1608.1,
+   "text": "lock file then by the time someone else"
+  },
+  {
+   "from": 1605.8,
+   "to": 1609.7,
+   "text": "installs my program they might get a"
+  },
+  {
+   "from": 1608.1,
+   "to": 1611.3,
+   "text": "later version of their pendency and"
+  },
+  {
+   "from": 1609.7,
+   "to": 1613.5,
+   "text": "maybe that later version as I've been"
+  },
+  {
+   "from": 1611.3,
+   "to": 1615.3,
+   "text": "hacked somehow or just has some other"
+  },
+  {
+   "from": 1613.5,
+   "to": 1618.2,
+   "text": "security vulnerability that I haven't"
+  },
+  {
+   "from": 1615.3,
+   "to": 1620.6,
+   "text": "had a chance to look at yet right and a"
+  },
+  {
+   "from": 1618.2,
+   "to": 1623.5,
+   "text": "lock file basically allows me to freeze"
+  },
+  {
+   "from": 1620.6,
+   "to": 1626.7,
+   "text": "the ecosystem as of this version that I"
+  },
+  {
+   "from": 1623.5,
+   "to": 1628.8,
+   "text": "have checked the extreme version of this"
+  },
+  {
+   "from": 1626.7,
+   "to": 1631.1,
+   "text": "is something called ven during when you"
+  },
+  {
+   "from": 1628.8,
+   "to": 1633.6,
+   "text": "vendor your dependencies it really just"
+  },
+  {
+   "from": 1631.1,
+   "to": 1635.5,
+   "text": "mean you copy/paste of them ven during"
+  },
+  {
+   "from": 1633.6,
+   "to": 1638.5,
+   "text": "means take whatever dependency you care"
+  },
+  {
+   "from": 1635.5,
+   "to": 1641.9,
+   "text": "about and copy it into your project"
+  },
+  {
+   "from": 1638.5,
+   "to": 1644.2,
+   "text": "because that way you are entirely sure"
+  },
+  {
+   "from": 1641.9,
+   "to": 1646.4,
+   "text": "that you will get that version of that"
+  },
+  {
+   "from": 1644.2,
+   "to": 1648,
+   "text": "dependency it also means that you can"
+  },
+  {
+   "from": 1646.4,
+   "to": 1650,
+   "text": "like make modifications to it on your"
+  },
+  {
+   "from": 1648,
+   "to": 1652,
+   "text": "own but it has the downsides that now"
+  },
+  {
+   "from": 1650,
+   "to": 1654.5,
+   "text": "you no longer get these benefits of"
+  },
+  {
+   "from": 1652,
+   "to": 1656.3,
+   "text": "versioning right you no longer have the"
+  },
+  {
+   "from": 1654.5,
+   "to": 1658.7,
+   "text": "advantage that if there are newer"
+  },
+  {
+   "from": 1656.3,
+   "to": 1660.5,
+   "text": "releases of that software your users"
+  },
+  {
+   "from": 1658.7,
+   "to": 1662.4,
+   "text": "might get them automatically like for"
+  },
+  {
+   "from": 1660.5,
+   "to": 1669.2,
+   "text": "example when Hosea fixes his security"
+  },
+  {
+   "from": 1662.4,
+   "to": 1671.5,
+   "text": "issues not that he has any of course one"
+  },
+  {
+   "from": 1669.2,
+   "to": 1673.6,
+   "text": "thing you'll notice is that when talking"
+  },
+  {
+   "from": 1671.5,
+   "to": 1676.3,
+   "text": "about this I've been talking about sort"
+  },
+  {
+   "from": 1673.6,
+   "to": 1679.1,
+   "text": "of bigger processes around your systems"
+  },
+  {
+   "from": 1676.3,
+   "to": 1681,
+   "text": "these are things like testing they're"
+  },
+  {
+   "from": 1679.1,
+   "to": 1682.2,
+   "text": "things like checking your dependency"
+  },
+  {
+   "from": 1681,
+   "to": 1684.4,
+   "text": "versions"
+  },
+  {
+   "from": 1682.2,
+   "to": 1687.2,
+   "text": "they're also things are just setting up"
+  },
+  {
+   "from": 1684.4,
+   "to": 1689.2,
+   "text": "build systems and often you don't just"
+  },
+  {
+   "from": 1687.2,
+   "to": 1691.3,
+   "text": "want a local build system you want to"
+  },
+  {
+   "from": 1689.2,
+   "to": 1693.5,
+   "text": "build process that includes other types"
+  },
+  {
+   "from": 1691.3,
+   "to": 1695.3,
+   "text": "of systems or you want them to run even"
+  },
+  {
+   "from": 1693.5,
+   "to": 1698.3,
+   "text": "when your computer is not necessarily on"
+  },
+  {
+   "from": 1695.3,
+   "to": 1700.1,
+   "text": "and this is why as you start working a"
+  },
+  {
+   "from": 1698.3,
+   "to": 1702.5,
+   "text": "larger and larger project you will see"
+  },
+  {
+   "from": 1700.1,
+   "to": 1704.6,
+   "text": "people use this idea of continuous"
+  },
+  {
+   "from": 1702.5,
+   "to": 1709.1,
+   "text": "integration and continuous integration"
+  },
+  {
+   "from": 1704.6,
+   "to": 1712.1,
+   "text": "systems are essentially a cloud build"
+  },
+  {
+   "from": 1709.1,
+   "to": 1713.6,
+   "text": "system the idea is that you have your"
+  },
+  {
+   "from": 1712.1,
+   "to": 1716.4,
+   "text": "project stored on the internet somewhere"
+  },
+  {
+   "from": 1713.6,
+   "to": 1719.5,
+   "text": "and you have set it up with some kind of"
+  },
+  {
+   "from": 1716.4,
+   "to": 1721.6,
+   "text": "service that is running an ongoing thing"
+  },
+  {
+   "from": 1719.5,
+   "to": 1724.1,
+   "text": "you for your project whatever it might"
+  },
+  {
+   "from": 1721.6,
+   "to": 1725.8,
+   "text": "be and continuous integration can be all"
+  },
+  {
+   "from": 1724.1,
+   "to": 1728.3,
+   "text": "sorts of stuff it can be stuff like"
+  },
+  {
+   "from": 1725.8,
+   "to": 1730.1,
+   "text": "releasing your library to pi PI"
+  },
+  {
+   "from": 1728.3,
+   "to": 1732.6,
+   "text": "automatically whenever you push to a"
+  },
+  {
+   "from": 1730.1,
+   "to": 1733.4,
+   "text": "particular branch it could be things"
+  },
+  {
+   "from": 1732.6,
+   "to": 1735.3,
+   "text": "like"
+  },
+  {
+   "from": 1733.4,
+   "to": 1737.7,
+   "text": "run your test suite whenever someone"
+  },
+  {
+   "from": 1735.3,
+   "to": 1740.7,
+   "text": "submits a pull request or it could be"
+  },
+  {
+   "from": 1737.7,
+   "to": 1742.9,
+   "text": "check your code style every time you"
+  },
+  {
+   "from": 1740.7,
+   "to": 1744.4,
+   "text": "commit there all sorts of things you"
+  },
+  {
+   "from": 1742.9,
+   "to": 1746.3,
+   "text": "could do with continuous integration and"
+  },
+  {
+   "from": 1744.4,
+   "to": 1748.2,
+   "text": "the easiest way to think about them is"
+  },
+  {
+   "from": 1746.3,
+   "to": 1750.9,
+   "text": "that they're sort of event triggered"
+  },
+  {
+   "from": 1748.2,
+   "to": 1752.9,
+   "text": "actions so whenever a particular event"
+  },
+  {
+   "from": 1750.9,
+   "to": 1754.7,
+   "text": "happens for your a possibly for your"
+  },
+  {
+   "from": 1752.9,
+   "to": 1757.2,
+   "text": "project a particular action takes place"
+  },
+  {
+   "from": 1754.7,
+   "to": 1760.4,
+   "text": "where the action is usually some kind of"
+  },
+  {
+   "from": 1757.2,
+   "to": 1761.5,
+   "text": "script some sequence of programs they're"
+  },
+  {
+   "from": 1760.4,
+   "to": 1767.3,
+   "text": "gonna be invoked and they're gonna do"
+  },
+  {
+   "from": 1761.5,
+   "to": 1769.7,
+   "text": "something this is really an umbrella"
+  },
+  {
+   "from": 1767.3,
+   "to": 1772.3,
+   "text": "term that encapsulate a lot of different"
+  },
+  {
+   "from": 1769.7,
+   "to": 1774,
+   "text": "types of services so some continuous"
+  },
+  {
+   "from": 1772.3,
+   "to": 1778,
+   "text": "integration services are very general"
+  },
+  {
+   "from": 1774,
+   "to": 1782.8,
+   "text": "things like Travis CI or Azure pipelines"
+  },
+  {
+   "from": 1778,
+   "to": 1785.6,
+   "text": "or github actions are all very broad CI"
+  },
+  {
+   "from": 1782.8,
+   "to": 1787.8,
+   "text": "platforms they're built to let you write"
+  },
+  {
+   "from": 1785.6,
+   "to": 1791,
+   "text": "what you want to happen whenever any"
+  },
+  {
+   "from": 1787.8,
+   "to": 1793.4,
+   "text": "event that you define happens very broad"
+  },
+  {
+   "from": 1791,
+   "to": 1796.4,
+   "text": "systems there are some more specialized"
+  },
+  {
+   "from": 1793.4,
+   "to": 1799.4,
+   "text": "systems that deal with things like"
+  },
+  {
+   "from": 1796.4,
+   "to": 1802,
+   "text": "continuous integration coverage testing"
+  },
+  {
+   "from": 1799.4,
+   "to": 1803.9,
+   "text": "so like annotate your code and show you"
+  },
+  {
+   "from": 1802,
+   "to": 1805.6,
+   "text": "have no tests that test this piece of"
+  },
+  {
+   "from": 1803.9,
+   "to": 1807.4,
+   "text": "code and they're built only for that"
+  },
+  {
+   "from": 1805.6,
+   "to": 1811,
+   "text": "purpose or they're built only for"
+  },
+  {
+   "from": 1807.4,
+   "to": 1813.5,
+   "text": "testing browser-based libraries or"
+  },
+  {
+   "from": 1811,
+   "to": 1815.5,
+   "text": "something like that and so often you can"
+  },
+  {
+   "from": 1813.5,
+   "to": 1817.1,
+   "text": "find CI tools that are built for the"
+  },
+  {
+   "from": 1815.5,
+   "to": 1818.4,
+   "text": "particular project you're working on or"
+  },
+  {
+   "from": 1817.1,
+   "to": 1820.7,
+   "text": "you can use one of these broader"
+  },
+  {
+   "from": 1818.4,
+   "to": 1822.3,
+   "text": "providers and one thing that's nice is"
+  },
+  {
+   "from": 1820.7,
+   "to": 1824.2,
+   "text": "that many of them are actually free"
+  },
+  {
+   "from": 1822.3,
+   "to": 1825.6,
+   "text": "especially for open source software or"
+  },
+  {
+   "from": 1824.2,
+   "to": 1830.2,
+   "text": "if you're a student you can often get"
+  },
+  {
+   "from": 1825.6,
+   "to": 1832.6,
+   "text": "them for free as well in general the way"
+  },
+  {
+   "from": 1830.2,
+   "to": 1835.7,
+   "text": "you use the CI system is that you add a"
+  },
+  {
+   "from": 1832.6,
+   "to": 1837.8,
+   "text": "file to your repository and this file is"
+  },
+  {
+   "from": 1835.7,
+   "to": 1839.7,
+   "text": "often known as a recipe and what the"
+  },
+  {
+   "from": 1837.8,
+   "to": 1842,
+   "text": "recipe specifies is this sort of"
+  },
+  {
+   "from": 1839.7,
+   "to": 1844.5,
+   "text": "dependency cycle again sort of what we"
+  },
+  {
+   "from": 1842,
+   "to": 1846.7,
+   "text": "saw with make files it's not quite the"
+  },
+  {
+   "from": 1844.5,
+   "to": 1849.3,
+   "text": "same the events instead of being files"
+  },
+  {
+   "from": 1846.7,
+   "to": 1851.6,
+   "text": "might be something like when someone"
+  },
+  {
+   "from": 1849.3,
+   "to": 1854.8,
+   "text": "pushes a commit or when a commit"
+  },
+  {
+   "from": 1851.6,
+   "to": 1857.1,
+   "text": "contains a particular message or when"
+  },
+  {
+   "from": 1854.8,
+   "to": 1860.8,
+   "text": "someone submits a pull request or"
+  },
+  {
+   "from": 1857.1,
+   "to": 1862.6,
+   "text": "continuously write one example of a"
+  },
+  {
+   "from": 1860.8,
+   "to": 1864.4,
+   "text": "continuous integration service that's"
+  },
+  {
+   "from": 1862.6,
+   "to": 1865.9,
+   "text": "not tied to any particular change to"
+  },
+  {
+   "from": 1864.4,
+   "to": 1866.5,
+   "text": "your code is something called the"
+  },
+  {
+   "from": 1865.9,
+   "to": 1869.2,
+   "text": "dependable"
+  },
+  {
+   "from": 1866.5,
+   "to": 1870.9,
+   "text": "you can find this on github and the"
+  },
+  {
+   "from": 1869.2,
+   "to": 1873.5,
+   "text": "dependent bots is something that you"
+  },
+  {
+   "from": 1870.9,
+   "to": 1875.7,
+   "text": "hook up to your your repository and it"
+  },
+  {
+   "from": 1873.5,
+   "to": 1877.8,
+   "text": "will just scan whether there are newer"
+  },
+  {
+   "from": 1875.7,
+   "to": 1880.4,
+   "text": "versions available of your dependencies"
+  },
+  {
+   "from": 1877.8,
+   "to": 1883.3,
+   "text": "that you're not using so for example if"
+  },
+  {
+   "from": 1880.4,
+   "to": 1884.8,
+   "text": "I was depending on eight one seven and I"
+  },
+  {
+   "from": 1883.3,
+   "to": 1887.1,
+   "text": "had a lock file that locked it to eight"
+  },
+  {
+   "from": 1884.8,
+   "to": 1889.2,
+   "text": "two four and then eight three zero is"
+  },
+  {
+   "from": 1887.1,
+   "to": 1890.9,
+   "text": "released the dependable will go you"
+  },
+  {
+   "from": 1889.2,
+   "to": 1891.9,
+   "text": "should update your log file and then"
+  },
+  {
+   "from": 1890.9,
+   "to": 1894.5,
+   "text": "submit the pull request to your"
+  },
+  {
+   "from": 1891.9,
+   "to": 1896.1,
+   "text": "repository with that update this is a"
+  },
+  {
+   "from": 1894.5,
+   "to": 1898.3,
+   "text": "continuous integration service it's not"
+  },
+  {
+   "from": 1896.1,
+   "to": 1903.1,
+   "text": "tied to me changing anything but to the"
+  },
+  {
+   "from": 1898.3,
+   "to": 1906.1,
+   "text": "ecosystem at large changing often these"
+  },
+  {
+   "from": 1903.1,
+   "to": 1908.9,
+   "text": "CI systems integrate the back into your"
+  },
+  {
+   "from": 1906.1,
+   "to": 1910.8,
+   "text": "project as well so very often these CI"
+  },
+  {
+   "from": 1908.9,
+   "to": 1917.1,
+   "text": "services will provide things like little"
+  },
+  {
+   "from": 1910.8,
+   "to": 1920,
+   "text": "badges so let me give an example so for"
+  },
+  {
+   "from": 1917.1,
+   "to": 1921.4,
+   "text": "example here's a project I've worked on"
+  },
+  {
+   "from": 1920,
+   "to": 1924.7,
+   "text": "recently that has continuous integration"
+  },
+  {
+   "from": 1921.4,
+   "to": 1929.3,
+   "text": "set up so this project you'll notice"
+  },
+  {
+   "from": 1924.7,
+   "to": 1933.6,
+   "text": "it's readme if I can zoom in here with"
+  },
+  {
+   "from": 1929.3,
+   "to": 1937.6,
+   "text": "that chrome bean nope nope that's much"
+  },
+  {
+   "from": 1933.6,
+   "to": 1939.8,
+   "text": "larger than I wanted here you'll see"
+  },
+  {
+   "from": 1937.6,
+   "to": 1942.3,
+   "text": "that at the top of the the repositories"
+  },
+  {
+   "from": 1939.8,
+   "to": 1944.6,
+   "text": "page they're a bunch of these badges and"
+  },
+  {
+   "from": 1942.3,
+   "to": 1946,
+   "text": "they display very various types of"
+  },
+  {
+   "from": 1944.6,
+   "to": 1947.9,
+   "text": "information you'll notice that I have"
+  },
+  {
+   "from": 1946,
+   "to": 1950,
+   "text": "dependable running right so the"
+  },
+  {
+   "from": 1947.9,
+   "to": 1951.7,
+   "text": "dependencies are currently up to date it"
+  },
+  {
+   "from": 1950,
+   "to": 1953.3,
+   "text": "tells me about whether the test suite is"
+  },
+  {
+   "from": 1951.7,
+   "to": 1956.1,
+   "text": "currently passing on the master branch"
+  },
+  {
+   "from": 1953.3,
+   "to": 1959.8,
+   "text": "it tells me how much of the code is"
+  },
+  {
+   "from": 1956.1,
+   "to": 1961.3,
+   "text": "coverage by tests and it tells me what"
+  },
+  {
+   "from": 1959.8,
+   "to": 1963.4,
+   "text": "is the latest version of this library"
+  },
+  {
+   "from": 1961.3,
+   "to": 1964.9,
+   "text": "and what is the latest version of the"
+  },
+  {
+   "from": 1963.4,
+   "to": 1967.7,
+   "text": "documentation of the library that's"
+  },
+  {
+   "from": 1964.9,
+   "to": 1970,
+   "text": "available online and all of these are"
+  },
+  {
+   "from": 1967.7,
+   "to": 1972.2,
+   "text": "managed by various continues continuous"
+  },
+  {
+   "from": 1970,
+   "to": 1974.4,
+   "text": "integration services another example"
+  },
+  {
+   "from": 1972.2,
+   "to": 1976.5,
+   "text": "that some of you might find useful or"
+  },
+  {
+   "from": 1974.4,
+   "to": 1980.9,
+   "text": "might even be familiar with is the"
+  },
+  {
+   "from": 1976.5,
+   "to": 1983.1,
+   "text": "notion of github pages so github pages"
+  },
+  {
+   "from": 1980.9,
+   "to": 1986.4,
+   "text": "is a really nice service the github"
+  },
+  {
+   "from": 1983.1,
+   "to": 1993.5,
+   "text": "provides which lets you set up a CI"
+  },
+  {
+   "from": 1986.4,
+   "to": 1996.9,
+   "text": "action that builds your repository as a"
+  },
+  {
+   "from": 1993.5,
+   "to": 1999.4,
+   "text": "blog essentially it's it runs a static"
+  },
+  {
+   "from": 1996.9,
+   "to": 2001.9,
+   "text": "site generator called Jekyll"
+  },
+  {
+   "from": 1999.4,
+   "to": 2004.5,
+   "text": "and Jeckle just takes a bunch of"
+  },
+  {
+   "from": 2001.9,
+   "to": 2007.8,
+   "text": "markdown files and then produces a"
+  },
+  {
+   "from": 2004.5,
+   "to": 2009.9,
+   "text": "complete website and that as a part of"
+  },
+  {
+   "from": 2007.8,
+   "to": 2011.7,
+   "text": "get up pages they will also upload that"
+  },
+  {
+   "from": 2009.9,
+   "to": 2015.1,
+   "text": "to get up servers and make it available"
+  },
+  {
+   "from": 2011.7,
+   "to": 2016.5,
+   "text": "at a particular domain and this is"
+  },
+  {
+   "from": 2015.1,
+   "to": 2019.3,
+   "text": "actually how the class website works"
+  },
+  {
+   "from": 2016.5,
+   "to": 2021.8,
+   "text": "class website is not a bunch of like"
+  },
+  {
+   "from": 2019.3,
+   "to": 2027.5,
+   "text": "HTML pages that we manage instead"
+  },
+  {
+   "from": 2021.8,
+   "to": 2029.8,
+   "text": "there's a repository missing semester so"
+  },
+  {
+   "from": 2027.5,
+   "to": 2033.5,
+   "text": "if you look at the missing semester"
+  },
+  {
+   "from": 2029.8,
+   "to": 2038.4,
+   "text": "repository you will see if i zoom out a"
+  },
+  {
+   "from": 2033.5,
+   "to": 2041.7,
+   "text": "little here that this just has a bunch"
+  },
+  {
+   "from": 2038.4,
+   "to": 2047.9,
+   "text": "of markdown files right it has saket"
+  },
+  {
+   "from": 2041.7,
+   "to": 2050.6,
+   "text": "20/20 metaprogramming md so this is the"
+  },
+  {
+   "from": 2047.9,
+   "to": 2054.2,
+   "text": "if I go to raw here this is the raw"
+  },
+  {
+   "from": 2050.6,
+   "to": 2055.8,
+   "text": "markdown for today's lecture so this is"
+  },
+  {
+   "from": 2054.2,
+   "to": 2058.6,
+   "text": "the way that I write the lecture notes"
+  },
+  {
+   "from": 2055.8,
+   "to": 2061.4,
+   "text": "and then I commit that to the repository"
+  },
+  {
+   "from": 2058.6,
+   "to": 2064.6,
+   "text": "we have and I push it and whenever a"
+  },
+  {
+   "from": 2061.4,
+   "to": 2067.6,
+   "text": "push happens the github pages CI is"
+  },
+  {
+   "from": 2064.6,
+   "to": 2072.3,
+   "text": "gonna run the build script for github"
+  },
+  {
+   "from": 2067.6,
+   "to": 2074.5,
+   "text": "pages and produces the website for our"
+  },
+  {
+   "from": 2072.3,
+   "to": 2077.6,
+   "text": "class without me having to do any"
+  },
+  {
+   "from": 2074.5,
+   "to": 2087.1,
+   "text": "additional steps to make that happen and"
+  },
+  {
+   "from": 2077.6,
+   "to": 2089.1,
+   "text": "so yeah sorry good yeah so so Jekyll"
+  },
+  {
+   "from": 2087.1,
+   "to": 2094.5,
+   "text": "it's using a tool called Jekyll which is"
+  },
+  {
+   "from": 2089.1,
+   "to": 2096.1,
+   "text": "a tool that takes a directory structure"
+  },
+  {
+   "from": 2094.5,
+   "to": 2098.8,
+   "text": "that contains markdown files and"
+  },
+  {
+   "from": 2096.1,
+   "to": 2101.7,
+   "text": "produces a website it produces like HTML"
+  },
+  {
+   "from": 2098.8,
+   "to": 2104.1,
+   "text": "files and then as a part of the action"
+  },
+  {
+   "from": 2101.7,
+   "to": 2106.3,
+   "text": "it takes those files and uploads them to"
+  },
+  {
+   "from": 2104.1,
+   "to": 2108.4,
+   "text": "github servers add a particular domain"
+  },
+  {
+   "from": 2106.3,
+   "to": 2112.1,
+   "text": "and usually that's the domain under like"
+  },
+  {
+   "from": 2108.4,
+   "to": 2114.7,
+   "text": "github I oh that they control and then I"
+  },
+  {
+   "from": 2112.1,
+   "to": 2123.9,
+   "text": "have set missing semester to point to"
+  },
+  {
+   "from": 2114.7,
+   "to": 2126.9,
+   "text": "the github domain I want to give you one"
+  },
+  {
+   "from": 2123.9,
+   "to": 2129,
+   "text": "aside on testing because it's something"
+  },
+  {
+   "from": 2126.9,
+   "to": 2131,
+   "text": "that many of you may be familiar with"
+  },
+  {
+   "from": 2129,
+   "to": 2132.7,
+   "text": "from before right you have a rough idea"
+  },
+  {
+   "from": 2131,
+   "to": 2134.7,
+   "text": "of what testing is you"
+  },
+  {
+   "from": 2132.7,
+   "to": 2137.4,
+   "text": "run the test before you've seen a test"
+  },
+  {
+   "from": 2134.7,
+   "to": 2138.9,
+   "text": "fail you know like the basics of it or"
+  },
+  {
+   "from": 2137.4,
+   "to": 2143.2,
+   "text": "maybe you've never seen a test fail in"
+  },
+  {
+   "from": 2138.9,
+   "to": 2145.1,
+   "text": "case congratulations but as you as you"
+  },
+  {
+   "from": 2143.2,
+   "to": 2147.9,
+   "text": "get to more advanced projects though"
+  },
+  {
+   "from": 2145.1,
+   "to": 2150.3,
+   "text": "you'll find that people have a lot of"
+  },
+  {
+   "from": 2147.9,
+   "to": 2153.3,
+   "text": "terminology around testing and testing"
+  },
+  {
+   "from": 2150.3,
+   "to": 2155.1,
+   "text": "is a pretty like deep subject that you"
+  },
+  {
+   "from": 2153.3,
+   "to": 2156.9,
+   "text": "could spend many many hours trying to"
+  },
+  {
+   "from": 2155.1,
+   "to": 2157.8,
+   "text": "understand the ins and outs of and I'm"
+  },
+  {
+   "from": 2156.9,
+   "to": 2159.7,
+   "text": "not going to go through it in"
+  },
+  {
+   "from": 2157.8,
+   "to": 2161.5,
+   "text": "excruciating detail but there are a"
+  },
+  {
+   "from": 2159.7,
+   "to": 2164.1,
+   "text": "couple of words that I think it's useful"
+  },
+  {
+   "from": 2161.5,
+   "to": 2166.5,
+   "text": "to know what mean and the first of these"
+  },
+  {
+   "from": 2164.1,
+   "to": 2169.2,
+   "text": "is a test suite so a test suite is a"
+  },
+  {
+   "from": 2166.5,
+   "to": 2171.9,
+   "text": "very straightforward name for all of the"
+  },
+  {
+   "from": 2169.2,
+   "to": 2174,
+   "text": "tests in a program it's really just a"
+  },
+  {
+   "from": 2171.9,
+   "to": 2176.7,
+   "text": "suite of tests it's a large collection"
+  },
+  {
+   "from": 2174,
+   "to": 2180,
+   "text": "of tests that usually are run as a unit"
+  },
+  {
+   "from": 2176.7,
+   "to": 2183,
+   "text": "and there are different types of tests"
+  },
+  {
+   "from": 2180,
+   "to": 2184.7,
+   "text": "that often make up a test suite the"
+  },
+  {
+   "from": 2183,
+   "to": 2187.9,
+   "text": "first of these is what's known as a unit"
+  },
+  {
+   "from": 2184.7,
+   "to": 2191.2,
+   "text": "test a unit test is a often usually"
+  },
+  {
+   "from": 2187.9,
+   "to": 2194.7,
+   "text": "fairly small test of self-contained"
+  },
+  {
+   "from": 2191.2,
+   "to": 2197.1,
+   "text": "tests the tests a single feature what"
+  },
+  {
+   "from": 2194.7,
+   "to": 2199.2,
+   "text": "exactly a feature might mean is a little"
+  },
+  {
+   "from": 2197.1,
+   "to": 2201,
+   "text": "bit up to the project but the idea is"
+  },
+  {
+   "from": 2199.2,
+   "to": 2204.9,
+   "text": "that should be sort of a micro test that"
+  },
+  {
+   "from": 2201,
+   "to": 2206.3,
+   "text": "only tests a very particular thing then"
+  },
+  {
+   "from": 2204.9,
+   "to": 2208.9,
+   "text": "you have the larger tests that are known"
+  },
+  {
+   "from": 2206.3,
+   "to": 2210.6,
+   "text": "as integration tests integration tests"
+  },
+  {
+   "from": 2208.9,
+   "to": 2214.4,
+   "text": "try to test the interaction between"
+  },
+  {
+   "from": 2210.6,
+   "to": 2217.4,
+   "text": "different subsystems of a program so"
+  },
+  {
+   "from": 2214.4,
+   "to": 2220.3,
+   "text": "this might be something like an example"
+  },
+  {
+   "from": 2217.4,
+   "to": 2223.4,
+   "text": "of a unit test might be if you're"
+  },
+  {
+   "from": 2220.3,
+   "to": 2226.4,
+   "text": "writing an HTML parser to the unit test"
+  },
+  {
+   "from": 2223.4,
+   "to": 2229.9,
+   "text": "might be test that it can parse an HTML"
+  },
+  {
+   "from": 2226.4,
+   "to": 2233.7,
+   "text": "tag an integration test might be here's"
+  },
+  {
+   "from": 2229.9,
+   "to": 2234.6,
+   "text": "an HTML document parse it right so that"
+  },
+  {
+   "from": 2233.7,
+   "to": 2235.8,
+   "text": "is going to be the interview the"
+  },
+  {
+   "from": 2234.6,
+   "to": 2239.7,
+   "text": "integration of multiple of the"
+  },
+  {
+   "from": 2235.8,
+   "to": 2242.6,
+   "text": "subsystems of the parser you also have a"
+  },
+  {
+   "from": 2239.7,
+   "to": 2245.2,
+   "text": "notion of regression tests regression"
+  },
+  {
+   "from": 2242.6,
+   "to": 2248.1,
+   "text": "tests are tests that test things that"
+  },
+  {
+   "from": 2245.2,
+   "to": 2251.1,
+   "text": "were broken in the past so imagine that"
+  },
+  {
+   "from": 2248.1,
+   "to": 2253.4,
+   "text": "someone submits some kind of issue to"
+  },
+  {
+   "from": 2251.1,
+   "to": 2258.8,
+   "text": "you and says your library breaks if I"
+  },
+  {
+   "from": 2253.4,
+   "to": 2260.7,
+   "text": "give it a marquee tag and that makes you"
+  },
+  {
+   "from": 2258.8,
+   "to": 2263,
+   "text": "sad so you want to fix it so you fix"
+  },
+  {
+   "from": 2260.7,
+   "to": 2265.9,
+   "text": "your parser to now support my key tags"
+  },
+  {
+   "from": 2263,
+   "to": 2266.6,
+   "text": "but then you want to add a test to your"
+  },
+  {
+   "from": 2265.9,
+   "to": 2268.5,
+   "text": "test suite"
+  },
+  {
+   "from": 2266.6,
+   "to": 2271.2,
+   "text": "the checks that you can parse marquee"
+  },
+  {
+   "from": 2268.5,
+   "to": 2273.3,
+   "text": "tags the reason for this is so that in"
+  },
+  {
+   "from": 2271.2,
+   "to": 2276.5,
+   "text": "the future you don't accidentally"
+  },
+  {
+   "from": 2273.3,
+   "to": 2278.3,
+   "text": "reintroduce that bug. So that is what"
+  },
+  {
+   "from": 2276.5,
+   "to": 2279.7,
+   "text": "a regression tests are for and over time"
+  },
+  {
+   "from": 2278.3,
+   "to": 2281.3,
+   "text": "your project is gonna build up more and"
+  },
+  {
+   "from": 2279.7,
+   "to": 2282.6,
+   "text": "more of these, and they're nice because"
+  },
+  {
+   "from": 2281.3,
+   "to": 2287.3,
+   "text": "they prevent your project from"
+  },
+  {
+   "from": 2282.6,
+   "to": 2290.1,
+   "text": "regressing to earlier bugs. The last one"
+  },
+  {
+   "from": 2287.3,
+   "to": 2295.8,
+   "text": "I want to mention is a concept called"
+  },
+  {
+   "from": 2290.1,
+   "to": 2298,
+   "text": "mocking. So mocking is the idea of being"
+  },
+  {
+   "from": 2295.8,
+   "to": 2300.6,
+   "text": "able to replace parts of your system"
+  },
+  {
+   "from": 2298,
+   "to": 2306.2,
+   "text": "with a sort of dummy version of itself"
+  },
+  {
+   "from": 2300.6,
+   "to": 2309,
+   "text": "that behaves in a way that you control. A"
+  },
+  {
+   "from": 2306.2,
+   "to": 2313.1,
+   "text": "common example of this is you're writing"
+  },
+  {
+   "from": 2309,
+   "to": 2316.2,
+   "text": "something that does, oh I don't know, file"
+  },
+  {
+   "from": 2313.1,
+   "to": 2317.2,
+   "text": "copying over SSH. Right? This is a tool"
+  },
+  {
+   "from": 2316.2,
+   "to": 2320.1,
+   "text": "that you've written that does file"
+  },
+  {
+   "from": 2317.2,
+   "to": 2322.1,
+   "text": "copying over SSH there are many things"
+  },
+  {
+   "from": 2320.1,
+   "to": 2323.1,
+   "text": "you might want to mock here. For example,"
+  },
+  {
+   "from": 2322.1,
+   "to": 2324.7,
+   "text": "when running your test suite you"
+  },
+  {
+   "from": 2323.1,
+   "to": 2327,
+   "text": "probably don't actually care that"
+  },
+  {
+   "from": 2324.7,
+   "to": 2329.4,
+   "text": "there's a network there. Right? You don't"
+  },
+  {
+   "from": 2327,
+   "to": 2331.1,
+   "text": "need to have to like set up TCP ports"
+  },
+  {
+   "from": 2329.4,
+   "to": 2333.6,
+   "text": "and stuff, so instead you're gonna mock"
+  },
+  {
+   "from": 2331.1,
+   "to": 2335.7,
+   "text": "the network. The way this usually works"
+  },
+  {
+   "from": 2333.6,
+   "to": 2337.7,
+   "text": "is that, somewhere in your library, you"
+  },
+  {
+   "from": 2335.7,
+   "to": 2339.7,
+   "text": "have something that like opens a"
+  },
+  {
+   "from": 2337.7,
+   "to": 2341.6,
+   "text": "connection, or reads from the connection,"
+  },
+  {
+   "from": 2339.7,
+   "to": 2343.3,
+   "text": "or writes to the connection, and you're"
+  },
+  {
+   "from": 2341.6,
+   "to": 2345.7,
+   "text": "gonna overwrite those functions"
+  },
+  {
+   "from": 2343.3,
+   "to": 2347.5,
+   "text": "internally in your library with"
+  },
+  {
+   "from": 2345.7,
+   "to": 2349.7,
+   "text": "functions that you've written just for"
+  },
+  {
+   "from": 2347.5,
+   "to": 2351.9,
+   "text": "the purposes of testing, where the read"
+  },
+  {
+   "from": 2349.7,
+   "to": 2353.6,
+   "text": "function just like returns the data, and"
+  },
+  {
+   "from": 2351.9,
+   "to": 2355.2,
+   "text": "the write function just drops the data"
+  },
+  {
+   "from": 2353.6,
+   "to": 2357.6,
+   "text": "on the floor, or something like that."
+  },
+  {
+   "from": 2355.2,
+   "to": 2360,
+   "text": "Similarly, you can write a mocking"
+  },
+  {
+   "from": 2357.6,
+   "to": 2361.2,
+   "text": "function for the SSH functionality. You"
+  },
+  {
+   "from": 2360,
+   "to": 2362.5,
+   "text": "could write something that does not"
+  },
+  {
+   "from": 2361.2,
+   "to": 2364.8,
+   "text": "actually do encryption, it doesn't talk"
+  },
+  {
+   "from": 2362.5,
+   "to": 2366.6,
+   "text": "to the network: it just like takes bytes"
+  },
+  {
+   "from": 2364.8,
+   "to": 2368.6,
+   "text": "in here and just magically they pop out"
+  },
+  {
+   "from": 2366.6,
+   "to": 2370.4,
+   "text": "the other side, and you can ignore"
+  },
+  {
+   "from": 2368.6,
+   "to": 2372.2,
+   "text": "everything that's between, because for"
+  },
+  {
+   "from": 2370.4,
+   "to": 2374.3,
+   "text": "the purpose of copying a file, if you"
+  },
+  {
+   "from": 2372.2,
+   "to": 2376.8,
+   "text": "just wanted to test that functionality,"
+  },
+  {
+   "from": 2374.3,
+   "to": 2380.7,
+   "text": "the stuff below doesn't matter for that"
+  },
+  {
+   "from": 2376.8,
+   "to": 2383,
+   "text": "test, and you might mock it away. Usually,"
+  },
+  {
+   "from": 2380.7,
+   "to": 2384.4,
+   "text": "in any given language, there are tools"
+  },
+  {
+   "from": 2383,
+   "to": 2389.6,
+   "text": "that let you build these kind of mocking"
+  },
+  {
+   "from": 2384.4,
+   "to": 2391.5,
+   "text": "abstractions pretty easily. That is the"
+  },
+  {
+   "from": 2389.6,
+   "to": 2393.8,
+   "text": "end of what I wanted to talk about"
+  },
+  {
+   "from": 2391.5,
+   "to": 2396.3,
+   "text": "metaprogramming, but this is a very, very"
+  },
+  {
+   "from": 2393.8,
+   "to": 2399,
+   "text": "broad subject. Things like continuous"
+  },
+  {
+   "from": 2396.3,
+   "to": 2399.7,
+   "text": "integration, build systems, there are so"
+  },
+  {
+   "from": 2399,
+   "to": 2402,
+   "text": "many out there"
+  },
+  {
+   "from": 2399.7,
+   "to": 2403.9,
+   "text": "that can let you do so many interesting"
+  },
+  {
+   "from": 2402,
+   "to": 2405.5,
+   "text": "things with your projects, so I highly"
+  },
+  {
+   "from": 2403.9,
+   "to": 2411.2,
+   "text": "recommend that you start looking into it"
+  },
+  {
+   "from": 2405.5,
+   "to": 2413,
+   "text": "a little. The exercises are sort of all"
+  },
+  {
+   "from": 2411.2,
+   "to": 2416,
+   "text": "over the place, and I mean that in a good"
+  },
+  {
+   "from": 2413,
+   "to": 2418,
+   "text": "way. They're intended to try to just show"
+  },
+  {
+   "from": 2416,
+   "to": 2420.8,
+   "text": "you the kind of possibilities that exist"
+  },
+  {
+   "from": 2418,
+   "to": 2423,
+   "text": "for build working with these kind of"
+  },
+  {
+   "from": 2420.8,
+   "to": 2425.7,
+   "text": "processes so for example the last"
+  },
+  {
+   "from": 2423,
+   "to": 2428.1,
+   "text": "exercise has you write one of these"
+  },
+  {
+   "from": 2425.7,
+   "to": 2431.3,
+   "text": "continuous integration actions yourself"
+  },
+  {
+   "from": 2428.1,
+   "to": 2433.9,
+   "text": "where it you decide what the event be"
+  },
+  {
+   "from": 2431.3,
+   "to": 2436,
+   "text": "and you decide what the action be but"
+  },
+  {
+   "from": 2433.9,
+   "to": 2437.2,
+   "text": "try to actually build one and this can"
+  },
+  {
+   "from": 2436,
+   "to": 2439.8,
+   "text": "be something that you might find useful"
+  },
+  {
+   "from": 2437.2,
+   "to": 2443,
+   "text": "in your project the example I given the"
+  },
+  {
+   "from": 2439.8,
+   "to": 2445.6,
+   "text": "exercises is try to build an action that"
+  },
+  {
+   "from": 2443,
+   "to": 2446.9,
+   "text": "runs like right good or pro Slynt one of"
+  },
+  {
+   "from": 2445.6,
+   "to": 2449.7,
+   "text": "the linters result for the english"
+  },
+  {
+   "from": 2446.9,
+   "to": 2452.3,
+   "text": "language on your repository and if you"
+  },
+  {
+   "from": 2449.7,
+   "to": 2456,
+   "text": "do like we could enable that for the"
+  },
+  {
+   "from": 2452.3,
+   "to": 2457.8,
+   "text": "class repository so that our lecture"
+  },
+  {
+   "from": 2456,
+   "to": 2460.3,
+   "text": "notes are actually well written right"
+  },
+  {
+   "from": 2457.8,
+   "to": 2461.5,
+   "text": "and this is one other thing that's nice"
+  },
+  {
+   "from": 2460.3,
+   "to": 2464.4,
+   "text": "about this kind of continuous"
+  },
+  {
+   "from": 2461.5,
+   "to": 2466.2,
+   "text": "integration testing is that you can"
+  },
+  {
+   "from": 2464.4,
+   "to": 2468.6,
+   "text": "collaborate between projects if you"
+  },
+  {
+   "from": 2466.2,
+   "to": 2469.9,
+   "text": "write one I can use it in my project and"
+  },
+  {
+   "from": 2468.6,
+   "to": 2471.7,
+   "text": "there's a really handy feature where you"
+  },
+  {
+   "from": 2469.9,
+   "to": 2475.5,
+   "text": "can build this ecosystem of improving"
+  },
+  {
+   "from": 2471.7,
+   "to": 2492.6,
+   "text": "everything any questions about any of"
+  },
+  {
+   "from": 2475.5,
+   "to": 2495.8,
+   "text": "the stuff we record today yeah so the"
+  },
+  {
+   "from": 2492.6,
+   "to": 2498.4,
+   "text": "question is why do we have both make and"
+  },
+  {
+   "from": 2495.8,
+   "to": 2501.2,
+   "text": "see make what do they do and is there a"
+  },
+  {
+   "from": 2498.4,
+   "to": 2504.8,
+   "text": "reason for them to talk together so so"
+  },
+  {
+   "from": 2501.2,
+   "to": 2506.8,
+   "text": "see make I don't actually know what the"
+  },
+  {
+   "from": 2504.8,
+   "to": 2509.6,
+   "text": "tagline for C make is anymore but it's"
+  },
+  {
+   "from": 2506.8,
+   "to": 2514.5,
+   "text": "sort of like a better make for C as the"
+  },
+  {
+   "from": 2509.6,
+   "to": 2517.3,
+   "text": "name implies C make generally"
+  },
+  {
+   "from": 2514.5,
+   "to": 2518.7,
+   "text": "understands the layout of C projects a"
+  },
+  {
+   "from": 2517.3,
+   "to": 2521.6,
+   "text": "little bit better than make Falls do"
+  },
+  {
+   "from": 2518.7,
+   "to": 2523.6,
+   "text": "they're sort of built to try to parse"
+  },
+  {
+   "from": 2521.6,
+   "to": 2524.9,
+   "text": "out what the structure of your"
+  },
+  {
+   "from": 2523.6,
+   "to": 2526.6,
+   "text": "dependencies are what the rules from"
+  },
+  {
+   "from": 2524.9,
+   "to": 2528.2,
+   "text": "going to one to the other is it also"
+  },
+  {
+   "from": 2526.6,
+   "to": 2531.5,
+   "text": "integrates a little bit nicer with"
+  },
+  {
+   "from": 2528.2,
+   "to": 2532.8,
+   "text": "things like system libraries so C may"
+  },
+  {
+   "from": 2531.5,
+   "to": 2534.6,
+   "text": "can do things like detect"
+  },
+  {
+   "from": 2532.8,
+   "to": 2536.2,
+   "text": "given libraries available on your"
+  },
+  {
+   "from": 2534.6,
+   "to": 2537.9,
+   "text": "computer or if it's available at"
+  },
+  {
+   "from": 2536.2,
+   "to": 2540.3,
+   "text": "multiple different paths it tries to"
+  },
+  {
+   "from": 2537.9,
+   "to": 2542.2,
+   "text": "find which of those paths it's present"
+  },
+  {
+   "from": 2540.3,
+   "to": 2544.2,
+   "text": "on on this system and then link it"
+  },
+  {
+   "from": 2542.2,
+   "to": 2547.7,
+   "text": "appropriately so see make is a little"
+  },
+  {
+   "from": 2544.2,
+   "to": 2549.8,
+   "text": "bit smarter than make is make will only"
+  },
+  {
+   "from": 2547.7,
+   "to": 2551.5,
+   "text": "do whatever you put in the make file not"
+  },
+  {
+   "from": 2549.8,
+   "to": 2553.6,
+   "text": "entirely true there are things called"
+  },
+  {
+   "from": 2551.5,
+   "to": 2555.9,
+   "text": "implicit rules that are like built-in"
+  },
+  {
+   "from": 2553.6,
+   "to": 2558,
+   "text": "rules in make but they're pretty dumb"
+  },
+  {
+   "from": 2555.9,
+   "to": 2560.8,
+   "text": "whereas emic tries to be able to be a"
+  },
+  {
+   "from": 2558,
+   "to": 2563.1,
+   "text": "larger build system that is opinionated"
+  },
+  {
+   "from": 2560.8,
+   "to": 2566.2,
+   "text": "by default to work for C projects"
+  },
+  {
+   "from": 2563.1,
+   "to": 2569.8,
+   "text": "similarly there's a tool called maven so"
+  },
+  {
+   "from": 2566.2,
+   "to": 2572,
+   "text": "maven and ant which is another project"
+  },
+  {
+   "from": 2569.8,
+   "to": 2574.8,
+   "text": "they are both built for Java projects"
+  },
+  {
+   "from": 2572,
+   "to": 2576.5,
+   "text": "they understand how Java code interacts"
+  },
+  {
+   "from": 2574.8,
+   "to": 2579.1,
+   "text": "with one another how you structure Java"
+  },
+  {
+   "from": 2576.5,
+   "to": 2582.1,
+   "text": "programs and they're built for that task"
+  },
+  {
+   "from": 2579.1,
+   "to": 2585.2,
+   "text": "very often at least when I use make I"
+  },
+  {
+   "from": 2582.1,
+   "to": 2587.5,
+   "text": "use make sort of at the top and then"
+  },
+  {
+   "from": 2585.2,
+   "to": 2589.3,
+   "text": "make my call other tools that build"
+  },
+  {
+   "from": 2587.5,
+   "to": 2591.9,
+   "text": "whatever subsystem they know how to"
+  },
+  {
+   "from": 2589.3,
+   "to": 2594.7,
+   "text": "build right like my make file might call"
+  },
+  {
+   "from": 2591.9,
+   "to": 2596.3,
+   "text": "cargo to build a rust program and then"
+  },
+  {
+   "from": 2594.7,
+   "to": 2598.7,
+   "text": "call see make to build some like see"
+  },
+  {
+   "from": 2596.3,
+   "to": 2601.4,
+   "text": "dependency of that but then at the top"
+  },
+  {
+   "from": 2598.7,
+   "to": 2603.2,
+   "text": "like I'm gonna do some stuff at the end"
+  },
+  {
+   "from": 2601.4,
+   "to": 2605,
+   "text": "after the programs have built and that"
+  },
+  {
+   "from": 2603.2,
+   "to": 2607.2,
+   "text": "might just be like run a benchmark which"
+  },
+  {
+   "from": 2605,
+   "to": 2608.9,
+   "text": "is in the rust code and then like plot"
+  },
+  {
+   "from": 2607.2,
+   "to": 2611.2,
+   "text": "it using the C code or something like"
+  },
+  {
+   "from": 2608.9,
+   "to": 2613.8,
+   "text": "that right so for me make you sort of"
+  },
+  {
+   "from": 2611.2,
+   "to": 2616.2,
+   "text": "the glue at the top that I might write"
+  },
+  {
+   "from": 2613.8,
+   "to": 2620.8,
+   "text": "usually if your make file gets very"
+  },
+  {
+   "from": 2616.2,
+   "to": 2622.4,
+   "text": "large there's a better tool would you'll"
+  },
+  {
+   "from": 2620.8,
+   "to": 2625,
+   "text": "find it like big companies for example"
+  },
+  {
+   "from": 2622.4,
+   "to": 2627.8,
+   "text": "is they often have one build system that"
+  },
+  {
+   "from": 2625,
+   "to": 2629.4,
+   "text": "manages all of their software so if you"
+  },
+  {
+   "from": 2627.8,
+   "to": 2632,
+   "text": "look at Google for example they have"
+  },
+  {
+   "from": 2629.4,
+   "to": 2634.2,
+   "text": "this open source system called basil and"
+  },
+  {
+   "from": 2632,
+   "to": 2637.4,
+   "text": "I don't think Google literally uses"
+  },
+  {
+   "from": 2634.2,
+   "to": 2639.6,
+   "text": "basil inside of Google but it's sort of"
+  },
+  {
+   "from": 2637.4,
+   "to": 2642.2,
+   "text": "based on what they use internally and it"
+  },
+  {
+   "from": 2639.6,
+   "to": 2644.6,
+   "text": "really just its intended to manage the"
+  },
+  {
+   "from": 2642.2,
+   "to": 2649.4,
+   "text": "entire build of everything Google has"
+  },
+  {
+   "from": 2644.6,
+   "to": 2651.5,
+   "text": "and basil in particular is built to be I"
+  },
+  {
+   "from": 2649.4,
+   "to": 2653.7,
+   "text": "think they call it like a polyglot build"
+  },
+  {
+   "from": 2651.5,
+   "to": 2655.8,
+   "text": "framework so the idea is that it works"
+  },
+  {
+   "from": 2653.7,
+   "to": 2657.7,
+   "text": "for many different languages there's"
+  },
+  {
+   "from": 2655.8,
+   "to": 2659.7,
+   "text": "like an implement there's a module for"
+  },
+  {
+   "from": 2657.7,
+   "to": 2661.3,
+   "text": "basil for this language and that"
+  },
+  {
+   "from": 2659.7,
+   "to": 2663.5,
+   "text": "language in that language but they all"
+  },
+  {
+   "from": 2661.3,
+   "to": 2666.1,
+   "text": "integrate with the same basil framework"
+  },
+  {
+   "from": 2663.5,
+   "to": 2667.8,
+   "text": "which then knows how to integrate"
+  },
+  {
+   "from": 2666.1,
+   "to": 2673.2,
+   "text": "dependencies between different libraries"
+  },
+  {
+   "from": 2667.8,
+   "to": 2673.2,
+   "text": "and different languages get a question"
+  },
+  {
+   "from": 2679.3,
+   "to": 2682.1,
+   "text": "sure"
+  },
+  {
+   "from": 2680.8,
+   "to": 2688,
+   "text": "so when you say expressions you mean the"
+  },
+  {
+   "from": 2682.1,
+   "to": 2688,
+   "text": "things in this file or yeah so these are"
+  },
+  {
+   "from": 2688.7,
+   "to": 2696.9,
+   "text": "so make files are their own language"
+  },
+  {
+   "from": 2692.5,
+   "to": 2700.2,
+   "text": "they are it's a pretty weird language"
+  },
+  {
+   "from": 2696.9,
+   "to": 2702.8,
+   "text": "like it has a lot of weird exceptions in"
+  },
+  {
+   "from": 2700.2,
+   "to": 2704.4,
+   "text": "many ways it's weird just like bash is"
+  },
+  {
+   "from": 2702.8,
+   "to": 2706.2,
+   "text": "weird but in different ways which is"
+  },
+  {
+   "from": 2704.4,
+   "to": 2708.5,
+   "text": "even worse like when you're writing a"
+  },
+  {
+   "from": 2706.2,
+   "to": 2709.9,
+   "text": "make file you sort of you can sort of"
+  },
+  {
+   "from": 2708.5,
+   "to": 2711.1,
+   "text": "think like you're writing bash but"
+  },
+  {
+   "from": 2709.9,
+   "to": 2713.8,
+   "text": "you're not because it's broken in"
+  },
+  {
+   "from": 2711.1,
+   "to": 2716.7,
+   "text": "different ways but but it is its own"
+  },
+  {
+   "from": 2713.8,
+   "to": 2720,
+   "text": "language and the way that make files are"
+  },
+  {
+   "from": 2716.7,
+   "to": 2721.3,
+   "text": "generally structured is that you have a"
+  },
+  {
+   "from": 2720,
+   "to": 2725.5,
+   "text": "sequence of I think they call them"
+  },
+  {
+   "from": 2721.3,
+   "to": 2728.9,
+   "text": "directives so every like the this thing"
+  },
+  {
+   "from": 2725.5,
+   "to": 2731.9,
+   "text": "oops this thing is a directive and this"
+  },
+  {
+   "from": 2728.9,
+   "to": 2734.1,
+   "text": "is a directive and every directive has a"
+  },
+  {
+   "from": 2731.9,
+   "to": 2735.9,
+   "text": "colon somewhere and everything to the"
+  },
+  {
+   "from": 2734.1,
+   "to": 2738.2,
+   "text": "left of the colon is a target and"
+  },
+  {
+   "from": 2735.9,
+   "to": 2742.9,
+   "text": "everything to the right of the colon is"
+  },
+  {
+   "from": 2738.2,
+   "to": 2745.6,
+   "text": "right of the colon is a dependency and"
+  },
+  {
+   "from": 2742.9,
+   "to": 2749.1,
+   "text": "then all of the lines below that line"
+  },
+  {
+   "from": 2745.6,
+   "to": 2751.9,
+   "text": "are the sequence of operations known as"
+  },
+  {
+   "from": 2749.1,
+   "to": 2753.1,
+   "text": "the rules for once you have the"
+  },
+  {
+   "from": 2751.9,
+   "to": 2755.4,
+   "text": "dependencies how do you build these"
+  },
+  {
+   "from": 2753.1,
+   "to": 2758.6,
+   "text": "targets notice that make is very"
+  },
+  {
+   "from": 2755.4,
+   "to": 2761.3,
+   "text": "particular that you must use a tab to"
+  },
+  {
+   "from": 2758.6,
+   "to": 2764,
+   "text": "indent the rules if you do not make will"
+  },
+  {
+   "from": 2761.3,
+   "to": 2766.3,
+   "text": "not work if they must be tabs they"
+  },
+  {
+   "from": 2764,
+   "to": 2768.3,
+   "text": "cannot be four eight spaces must be tabs"
+  },
+  {
+   "from": 2766.3,
+   "to": 2770.5,
+   "text": "and like you can have multiple"
+  },
+  {
+   "from": 2768.3,
+   "to": 2773,
+   "text": "operations here I like I can do echo"
+  },
+  {
+   "from": 2770.5,
+   "to": 2776.1,
+   "text": "hello or whatever and then they would"
+  },
+  {
+   "from": 2773,
+   "to": 2778.2,
+   "text": "first run this and then run this there's"
+  },
+  {
+   "from": 2776.1,
+   "to": 2780.3,
+   "text": "a there's an exercise for today's"
+  },
+  {
+   "from": 2778.2,
+   "to": 2782.7,
+   "text": "lecture that has you try to extend this"
+  },
+  {
+   "from": 2780.3,
+   "to": 2784.1,
+   "text": "make file with a couple of other targets"
+  },
+  {
+   "from": 2782.7,
+   "to": 2786.2,
+   "text": "that you might find interesting that"
+  },
+  {
+   "from": 2784.1,
+   "to": 2790,
+   "text": "goes into a little bit more detail"
+  },
+  {
+   "from": 2786.2,
+   "to": 2793.4,
+   "text": "there's also some ability to execute"
+  },
+  {
+   "from": 2790,
+   "to": 2795.5,
+   "text": "external commands to like determine what"
+  },
+  {
+   "from": 2793.4,
+   "to": 2797.6,
+   "text": "the dependencies might be if your"
+  },
+  {
+   "from": 2795.5,
+   "to": 2799.7,
+   "text": "dependencies are not like a static list"
+  },
+  {
+   "from": 2797.6,
+   "to": 2801.7,
+   "text": "of files but it's a little limited"
+  },
+  {
+   "from": 2799.7,
+   "to": 2803.9,
+   "text": "usually once you've started needing that"
+  },
+  {
+   "from": 2801.7,
+   "to": 2819.5,
+   "text": "sort of stuff you might want to move to"
+  },
+  {
+   "from": 2803.9,
+   "to": 2826.4,
+   "text": "a more advanced build system yeah so the"
+  },
+  {
+   "from": 2819.5,
+   "to": 2829.3,
+   "text": "question is what happens if I have let's"
+  },
+  {
+   "from": 2826.4,
+   "to": 2834,
+   "text": "say that I have library a and library B"
+  },
+  {
+   "from": 2829.3,
+   "to": 2838.7,
+   "text": "and they both depend on library see but"
+  },
+  {
+   "from": 2834,
+   "to": 2845.4,
+   "text": "library a depends on like 4.0.1 and"
+  },
+  {
+   "from": 2838.7,
+   "to": 2847.2,
+   "text": "library B depends on 3 dot 4 dot 7 so"
+  },
+  {
+   "from": 2845.4,
+   "to": 2849.2,
+   "text": "they both depend on C and so ideally"
+  },
+  {
+   "from": 2847.2,
+   "to": 2851.8,
+   "text": "we'd like to reuse see but they depend"
+  },
+  {
+   "from": 2849.2,
+   "to": 2854.8,
+   "text": "on different major versions of C what do"
+  },
+  {
+   "from": 2851.8,
+   "to": 2857.6,
+   "text": "we do well what happens in this case"
+  },
+  {
+   "from": 2854.8,
+   "to": 2859.2,
+   "text": "depends entirely on the system that"
+  },
+  {
+   "from": 2857.6,
+   "to": 2862.1,
+   "text": "you're using the language that you're"
+  },
+  {
+   "from": 2859.2,
+   "to": 2864.2,
+   "text": "using in some cases the tool would just"
+  },
+  {
+   "from": 2862.1,
+   "to": 2865.7,
+   "text": "be like well I'll just pick for which"
+  },
+  {
+   "from": 2864.2,
+   "to": 2868.9,
+   "text": "sort of implies that they're not really"
+  },
+  {
+   "from": 2865.7,
+   "to": 2872.2,
+   "text": "using semantic versioning in some cases"
+  },
+  {
+   "from": 2868.9,
+   "to": 2874.7,
+   "text": "the tool will say this is not possible"
+  },
+  {
+   "from": 2872.2,
+   "to": 2877.9,
+   "text": "like if you do this it's an error and"
+  },
+  {
+   "from": 2874.7,
+   "to": 2880.2,
+   "text": "the tool will tell you you either need"
+  },
+  {
+   "from": 2877.9,
+   "to": 2882.8,
+   "text": "to upgrade be like have B use a newer"
+  },
+  {
+   "from": 2880.2,
+   "to": 2884.7,
+   "text": "version of C or you need to downgrade a"
+  },
+  {
+   "from": 2882.8,
+   "to": 2888.2,
+   "text": "you do not get to do this and"
+  },
+  {
+   "from": 2884.7,
+   "to": 2891.8,
+   "text": "compilation will fail some tools are"
+  },
+  {
+   "from": 2888.2,
+   "to": 2895.7,
+   "text": "gonna build two versions of C and then"
+  },
+  {
+   "from": 2891.8,
+   "to": 2898.8,
+   "text": "like when it builds a it will use the"
+  },
+  {
+   "from": 2895.7,
+   "to": 2900.3,
+   "text": "major four version of C and when it"
+  },
+  {
+   "from": 2898.8,
+   "to": 2903.2,
+   "text": "builds B will use the major three"
+  },
+  {
+   "from": 2900.3,
+   "to": 2905.6,
+   "text": "version of C one thing you end up with"
+  },
+  {
+   "from": 2903.2,
+   "to": 2908.1,
+   "text": "is really weird conditions here were"
+  },
+  {
+   "from": 2905.6,
+   "to": 2909.6,
+   "text": "like if C has dependencies then now you"
+  },
+  {
+   "from": 2908.1,
+   "to": 2912.6,
+   "text": "have to build all of C's dependencies"
+  },
+  {
+   "from": 2909.6,
+   "to": 2915.3,
+   "text": "twice to 1 for 3 and 1 for 4 and maybe"
+  },
+  {
+   "from": 2912.6,
+   "to": 2916.9,
+   "text": "they share and maybe they don't you can"
+  },
+  {
+   "from": 2915.3,
+   "to": 2923.2,
+   "text": "end up in particularly weird situations"
+  },
+  {
+   "from": 2916.9,
+   "to": 2923.2,
+   "text": "if imagine that the library see like"
+  },
+  {
+   "from": 2924.6,
+   "to": 2928,
+   "text": "imagine that"
+  },
+  {
+   "from": 2928.8,
+   "to": 2935.6,
+   "text": "library see like rights to a file like"
+  },
+  {
+   "from": 2932.9,
+   "to": 2938.3,
+   "text": "rights to some like file on disk some"
+  },
+  {
+   "from": 2935.6,
+   "to": 2941.5,
+   "text": "cache stuff if you run your application"
+  },
+  {
+   "from": 2938.3,
+   "to": 2944.4,
+   "text": "now and like a does something to call"
+  },
+  {
+   "from": 2941.5,
+   "to": 2947.3,
+   "text": "like C dot save and B to something like"
+  },
+  {
+   "from": 2944.4,
+   "to": 2948.6,
+   "text": "C adult load then suddenly your your"
+  },
+  {
+   "from": 2947.3,
+   "to": 2950.3,
+   "text": "application of the bottom is not going"
+  },
+  {
+   "from": 2948.6,
+   "to": 2951.5,
+   "text": "to work because the format is different"
+  },
+  {
+   "from": 2950.3,
+   "to": 2953.1,
+   "text": "right"
+  },
+  {
+   "from": 2951.5,
+   "to": 2955.6,
+   "text": "so these situations are often very"
+  },
+  {
+   "from": 2953.1,
+   "to": 2957.7,
+   "text": "problematic and and most tools that"
+  },
+  {
+   "from": 2955.6,
+   "to": 2959.5,
+   "text": "support semantic versioning will reject"
+  },
+  {
+   "from": 2957.7,
+   "to": 2961.6,
+   "text": "this kind of configuration for exactly"
+  },
+  {
+   "from": 2959.5,
+   "to": 2967.1,
+   "text": "that reason but it's so easy to shoot"
+  },
+  {
+   "from": 2961.6,
+   "to": 2970.2,
+   "text": "yourself in the foot all right we will"
+  },
+  {
+   "from": 2967.1,
+   "to": 2971.6,
+   "text": "see you again tomorrow for security keep"
+  },
+  {
+   "from": 2970.2,
+   "to": 2974.1,
+   "text": "in mind again if you haven't done the"
+  },
+  {
+   "from": 2971.6,
+   "to": 2976.2,
+   "text": "survey the question I care the most"
+  },
+  {
+   "from": 2974.1,
+   "to": 2978.2,
+   "text": "about in the survey is what you would"
+  },
+  {
+   "from": 2976.2,
+   "to": 2980.5,
+   "text": "like us to cover in the last two"
+  },
+  {
+   "from": 2978.2,
+   "to": 2982.9,
+   "text": "lectures so the last two lectures are"
+  },
+  {
+   "from": 2980.5,
+   "to": 2985.5,
+   "text": "for you to choose what you want us to"
+  },
+  {
+   "from": 2982.9,
+   "to": 2987.3,
+   "text": "talk about and to give any questions you"
+  },
+  {
+   "from": 2985.5,
+   "to": 2990.2,
+   "text": "want us to answer so please like add"
+  },
+  {
+   "from": 2987.3,
+   "to": 2992.4,
+   "text": "that if you can and that's it see you"
+  },
+  {
+   "from": 2990.2,
+   "to": 2992.4,
+   "text": "tomorrow"
+  }
+ ]
+}
