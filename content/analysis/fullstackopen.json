@@ -1,0 +1,229 @@
+{
+  "courseId": "fullstackopen",
+  "generatedAt": "2026-08-07",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "赫尔辛基大学的现代 Web 全栈课,文字教材 + 大量动手练习(官网有官方中文版)。主线是 React + Node.js/Express + MongoDB:前七个单元把「前端组件化 → 与服务端通信 → 自己写后端 → 前后端测试 → 状态管理 → 路由与工程化」这条链走通,之后的单元各自展开 GraphQL、TypeScript、React Native、CI/CD 与容器化。本课以官网教材为准(Part 0–12 对应第 1–13 单元),无视频时间戳。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "Part 0 · Web 应用基础:在写任何代码之前,先看懂浏览器和服务器之间到底发生了什么。用开发者工具的 Network 面板观察页面加载:HTTP 请求与响应、文档如何引出 CSS/JS/图片的后续请求;对比传统整页刷新应用与单页应用(SPA)的差别;AJAX 如何让页面局部更新;并练习画时序图描述交互过程。",
+      "keyPoints": [
+        { "title": "开发者工具是第一课", "detail": "Network 面板里逐条看请求:状态码、请求/响应头、载荷——全栈开发者的听诊器,整门课都离不开它。" },
+        { "title": "HTTP 请求-响应模型", "detail": "浏览器发 GET/POST,服务器回状态码与内容;HTML 文档再触发对 CSS/JS/图片的级联请求。" },
+        { "title": "传统应用 vs SPA", "detail": "传统:每次操作整页刷新,HTML 由服务器现拼;SPA:首次加载后由 JS 接管,后续只与服务器换数据(JSON)不换页面。" },
+        { "title": "AJAX 与局部更新", "detail": "JS 在后台发请求、拿到数据后改写 DOM——不刷新页面的交互由此成为可能。" },
+        { "title": "时序图:把交互说清楚", "detail": "「用户点击→浏览器发 POST→服务器 302→浏览器重新 GET…」画成时序图,是课程作业也是沟通利器。" }
+      ],
+      "terms": [
+        { "term": "HTTP", "definition": "浏览器与服务器之间的请求-响应协议" },
+        { "term": "SPA 单页应用", "definition": "首次加载后由 JS 接管渲染,只与服务器交换数据" },
+        { "term": "AJAX", "definition": "页面不刷新地在后台发请求取数据的技术统称" },
+        { "term": "DOM", "definition": "浏览器把 HTML 解析成的树,JS 操纵它改变页面" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "Part 1 · React 入门:组件、props、state 与事件。用 Vite 起项目,理解组件就是「返回 JSX 的函数」;数据自上而下用 props 传递;useState 让组件拥有会触发重渲染的状态;事件处理函数改状态、状态变化驱动界面——React 的单向数据流闭环。同时补齐现代 JS 基础(const/let、箭头函数、解构、数组方法),并强调「状态不可直接修改」的纪律。",
+      "keyPoints": [
+        { "title": "组件 = 返回 JSX 的函数", "detail": "UI 拆成可复用的函数组件,JSX 是带表达式插值的类 HTML 语法,编译后就是普通 JS 调用。" },
+        { "title": "props:自上而下的数据流", "detail": "父组件通过属性把数据与回调传给子组件;子组件只读不改——数据的所有权始终清晰。" },
+        { "title": "useState 与重渲染", "detail": "const [value, setValue] = useState(0):调用 setter 才会触发重渲染;直接改变量界面纹丝不动——React 心智模型的第一道坎。" },
+        { "title": "事件处理", "detail": "onClick={handler} 传函数引用而不是调用结果;处理函数里 setState,完成「交互→状态→界面」循环。" },
+        { "title": "不可变更新纪律", "detail": "状态是对象/数组时要生成新副本(展开运算符、concat)而不是原地改——React 靠引用比较决定是否重渲染。" }
+      ],
+      "terms": [
+        { "term": "component 组件", "definition": "返回 JSX 的函数,UI 的组合单元" },
+        { "term": "props 属性", "definition": "父传子的只读数据与回调" },
+        { "term": "state 状态", "definition": "组件自有的、变化会触发重渲染的数据" },
+        { "term": "JSX", "definition": "在 JS 里写类 HTML 结构的语法扩展" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "Part 2 · 与服务端通信:渲染列表、处理表单、用 axios 拉取与提交数据。map 渲染集合与 key 的意义;受控组件把表单输入纳入 state;useEffect 在组件挂载后发起请求;json-server 模拟后端,做出完整的「增查改删」通讯录应用;最后给应用加上样式与错误提示。",
+      "keyPoints": [
+        { "title": "列表渲染与 key", "detail": "collection.map(item => <li key={item.id}>) ;key 帮 React 在重渲染时对齐新旧元素,用数组下标当 key 是经典反模式。" },
+        { "title": "受控组件表单", "detail": "输入框的 value 绑 state、onChange 写 state——表单数据始终活在 React 里,提交时直接取用。" },
+        { "title": "useEffect 取数", "detail": "副作用(网络请求)放 effect 里,空依赖数组表示只在挂载后执行一次;数据到达 setState 触发二次渲染。" },
+        { "title": "axios 与 REST 语义", "detail": "GET 列表、POST 新增、PUT/PATCH 更新、DELETE 删除;把请求封装成独立的 service 模块,组件只管调用。" },
+        { "title": "错误处理与用户反馈", "detail": "catch 网络错误、给成功/失败弹提示条;「删了一个已经不存在的资源」这类边界从此进入日常。" }
+      ],
+      "terms": [
+        { "term": "controlled component 受控组件", "definition": "表单值由 React state 驱动的组件" },
+        { "term": "useEffect 副作用钩子", "definition": "在渲染之外执行请求/订阅等副作用的钩子" },
+        { "term": "axios", "definition": "基于 Promise 的 HTTP 客户端库" },
+        { "term": "REST", "definition": "用 HTTP 动词对资源做增查改删的接口风格" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "Part 3 · 用 Node.js + Express 写服务端:换到后端视角,自己实现此前 json-server 提供的 REST API。Express 路由与中间件模型;请求日志、JSON 解析、错误处理中间件与 404 兜底的执行顺序;接入 MongoDB(Mongoose 定义 schema 与 model);数据校验;部署上线(Render/Fly.io 等)并让前后端在生产环境合体。",
+      "keyPoints": [
+        { "title": "Express 最小后端", "detail": "app.get('/api/notes', handler) 一条条路由拼出 REST API;req 读参数、res.json 回数据。" },
+        { "title": "中间件流水线", "detail": "请求依次流过 json 解析、日志、路由、未知端点、错误处理——next() 传递控制权,顺序就是语义。" },
+        { "title": "Mongoose:schema 与 model", "detail": "定义字段类型与校验规则,model 提供 find/save/deleteOne;文档数据库存 JSON 一样的文档,和前端数据形状天然契合。" },
+        { "title": "环境变量与配置分离", "detail": "数据库连接串、端口进 .env,代码里读 process.env——凭据永不进仓库。" },
+        { "title": "部署与静态托管", "detail": "前端 build 出的静态文件由 Express 一并伺服,一个服务上线前后端;生产、开发环境的差异用配置抹平。" }
+      ],
+      "terms": [
+        { "term": "Express", "definition": "Node.js 最常用的 Web 服务框架" },
+        { "term": "middleware 中间件", "definition": "按顺序处理请求的函数链,日志/解析/错误各司其职" },
+        { "term": "MongoDB", "definition": "文档型数据库,存类 JSON 文档" },
+        { "term": "Mongoose", "definition": "MongoDB 的 schema/模型层,带类型与校验" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "Part 4 · 后端的测试与用户管理:把后端做正规。用 supertest 对 API 做集成测试,测试库独立于开发库;async/await 重构回调;引入用户模型,bcrypt 哈希存密码;登录发 JWT,受保护的接口从 Authorization 头解 token 确认身份;资源与创建者关联,权限判断(只能删自己的笔记)。",
+      "keyPoints": [
+        { "title": "API 集成测试", "detail": "supertest 直接向 Express 应用发请求断言状态码与载荷;每条用例前重置测试库,测试才可重复。" },
+        { "title": "async/await 重构", "detail": "Promise 链换成同步风格的异步代码;配合 express-async-errors 把异常自动交给错误中间件。" },
+        { "title": "密码只存哈希", "detail": "bcrypt 加盐哈希,登录时 compare;明文密码从注册那一刻起就不该存在于任何存储。", "formula": "\\text{store} = \\mathrm{bcrypt}(password, salt)" },
+        { "title": "JWT 登录态", "detail": "登录成功签发 token(载荷含用户 id,服务端密钥签名);此后每个请求带 Bearer token,服务端验签即知身份——无状态会话。" },
+        { "title": "资源归属与权限", "detail": "笔记 schema 存 user 引用,创建时从 token 取用户;删除前核对「操作者 == 拥有者」——最小的授权模型。" }
+      ],
+      "terms": [
+        { "term": "integration test 集成测试", "definition": "对运行中的 API 整体发请求验证行为" },
+        { "term": "bcrypt", "definition": "专为密码设计的慢哈希算法" },
+        { "term": "JWT (JSON Web Token)", "definition": "签名的身份令牌,服务端无状态验证登录态" },
+        { "term": "authorization 授权", "definition": "确认「这个身份能不能做这件事」" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "Part 5 · 前端测试:登录表单接入 JWT 流程,token 存 localStorage 并随请求携带;组件测试用 Vitest + React Testing Library——按「用户看到什么、点了什么」来断言而非戳内部实现;props.children 与组件复用(可折叠面板);最后用 Playwright/Cypress 做端到端测试,把「注册登录发帖」在真浏览器里自动走一遍。",
+      "keyPoints": [
+        { "title": "前端登录流", "detail": "表单提交换 token → 存 localStorage → axios 默认头带上 Bearer → 刷新页面从 localStorage 恢复登录态。" },
+        { "title": "Testing Library 哲学", "detail": "getByText/getByRole 按用户视角查询,fireEvent/userEvent 模拟操作;测行为不测实现,重构才不会大面积碎测试。" },
+        { "title": "children 与复用容器", "detail": "Togglable 组件用 props.children 包裹任意内容,配 ref 暴露开关——组件组合的经典范式。" },
+        { "title": "端到端测试", "detail": "Playwright 起真浏览器访问真应用:填表、点击、断言页面;E2E 最接近真实也最慢,金字塔顶端少而精。" },
+        { "title": "测试金字塔取舍", "detail": "单元/集成/E2E 各测什么、维护成本如何——课程用一个应用把三层都写了一遍,取舍自见。" }
+      ],
+      "terms": [
+        { "term": "React Testing Library", "definition": "按用户视角查询与断言的组件测试库" },
+        { "term": "localStorage", "definition": "浏览器持久键值存储,常放登录 token" },
+        { "term": "E2E test 端到端测试", "definition": "驱动真浏览器走完整用户流程的测试" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "Part 6 · 状态管理进阶:组件树长大后,散在各处的 useState 开始打架。先学 Redux 本体:单一 store、纯函数 reducer、dispatch action 改状态;Redux Toolkit 的 createSlice 消掉样板代码;React-Redux 的 useSelector/useDispatch 接进组件;异步动作(thunk)处理服务端通信;最后对比 React Query(服务端状态)与 useReducer+Context(轻量方案)——不同规模选不同工具。",
+      "keyPoints": [
+        { "title": "Redux 三原则", "detail": "唯一 store、状态只读、变更靠纯函数 reducer——状态变化全部可追溯,时间旅行调试因此可能。" },
+        { "title": "action → reducer → 新状态", "detail": "dispatch({type, payload}),reducer 按 type 算新状态返回;switch 之外世界不变,测试是纯函数级的容易。", "formula": "s_{t+1} = f(s_t, a_t)" },
+        { "title": "Redux Toolkit", "detail": "createSlice 自动生成 action creator 与不可变更新(内部 Immer),现代 Redux 的标准姿势。" },
+        { "title": "异步与 thunk", "detail": "「先发请求再 dispatch 结果」封装成 thunk;组件只 dispatch 意图,通信细节沉到 action 层。" },
+        { "title": "React Query:服务端状态另论", "detail": "缓存、失效、重取——服务端数据的生命周期和 UI 状态本质不同,交给专门的库往往比塞进 Redux 更省心。" }
+      ],
+      "terms": [
+        { "term": "Redux", "definition": "单一 store + 纯函数 reducer 的状态管理库" },
+        { "term": "reducer", "definition": "(旧状态, action) → 新状态的纯函数" },
+        { "term": "dispatch 派发", "definition": "把 action 送进 store 触发状态更新" },
+        { "term": "React Query", "definition": "管理服务端数据缓存与同步的库" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "Part 7 · React Router 与工程化杂货铺:前端路由让 SPA 有了「多页面」;自定义 Hook 把逻辑抽出组件复用(useField、useResource);样式方案巡礼(CSS 模块、styled-components 等);再揭开脚手架的引擎盖——webpack 打包、babel 转译、加载器与插件,理解 Vite/CRA 帮你做了什么;以及类组件的历史包袱与 React 生态现状。",
+      "keyPoints": [
+        { "title": "前端路由", "detail": "Routes/Route/Link 把 URL 映射到组件,浏览器不发请求就「换页」;useParams/useNavigate 处理参数与编程式跳转。" },
+        { "title": "自定义 Hook", "detail": "把「输入框三件套」「资源 CRUD」封装成 use 开头的函数,状态逻辑跨组件复用——Hook 真正的威力所在。" },
+        { "title": "样式方案对比", "detail": "全局 CSS、内联、CSS Modules、styled-components 各有边界;课程不站队,给你判断的坐标系。" },
+        { "title": "webpack 揭盖", "detail": "从零配置 entry/output/loader/plugin,亲手把 JSX 与 ES 新语法打包给浏览器——知道脚手架在做什么,报错才不慌。" },
+        { "title": "类组件与生态考古", "detail": "this.state/生命周期方法的旧写法读得懂即可;顺带梳理 React 生态的演化脉络。" }
+      ],
+      "terms": [
+        { "term": "client-side routing 前端路由", "definition": "URL 变化由 JS 处理、不重新请求页面" },
+        { "term": "custom hook 自定义 Hook", "definition": "封装可复用状态逻辑的 use 函数" },
+        { "term": "webpack", "definition": "把模块与资源打包成浏览器可用产物的构建工具" },
+        { "term": "transpile 转译", "definition": "把新语法/JSX 编译成目标环境支持的 JS" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "Part 8 · GraphQL:REST 之外的另一种 API 范式。schema 定义类型与查询/变更入口,客户端声明式地「要什么字段拿什么字段」;Apollo Server 写解析器(resolver),Apollo Client 在 React 里 useQuery/useMutation;n+1 问题与 dataloader;订阅(subscription)做实时推送;与 REST 的取舍——灵活的代价是缓存与复杂度。",
+      "keyPoints": [
+        { "title": "schema 先行", "detail": "type Person { name: String! } + type Query:接口即类型契约,前后端围绕 schema 协作,文档天然自带。" },
+        { "title": "按需取字段", "detail": "一次查询取多资源嵌套字段,没有 REST 的欠取/过取;移动端弱网场景尤其受益。" },
+        { "title": "resolver 解析器", "detail": "每个字段一个函数,GraphQL 引擎按查询树逐层调用;数据源(数据库/别的 API)在 resolver 里自由组合。" },
+        { "title": "useQuery / useMutation", "detail": "Apollo Client 缓存查询结果、变更后更新缓存;React 组件声明数据需求即可。" },
+        { "title": "代价与取舍", "detail": "HTTP 缓存失灵、查询复杂度需要限制、n+1 要 dataloader——GraphQL 不是免费午餐,适合字段多变的复杂前端。" }
+      ],
+      "terms": [
+        { "term": "GraphQL", "definition": "按 schema 声明式取数的 API 查询语言" },
+        { "term": "resolver 解析器", "definition": "为 schema 字段提供数据的函数" },
+        { "term": "mutation 变更", "definition": "GraphQL 里的写操作入口" },
+        { "term": "over-fetching 过取", "definition": "REST 常见的「拿回整对象只用两个字段」问题" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "Part 9 · TypeScript:给 JS 加上类型这层安全网。从 tsconfig 与编译流程开始;类型标注、接口与类型别名、联合与字面量类型;类型收窄与类型守卫处理「可能是多种东西」的数据;用 TS 写 Express 后端(请求体校验、类型化路由)与 React 前端(组件 props 类型);unknown/any 的纪律与「类型即文档」的收益。",
+      "keyPoints": [
+        { "title": "静态类型抓 bug 于未运行", "detail": "拼错字段、传错参数在编辑器里就红——重构大型代码库的底气来源。" },
+        { "title": "接口与联合类型", "detail": "interface 描述对象形状;A | B 联合 + 字面量类型表达「有限几种情况」,switch 收窄后各分支类型精确。" },
+        { "title": "类型收窄与守卫", "detail": "typeof/in/自定义 is 谓词把宽类型缩成窄类型;处理外部输入(请求体、JSON)必经之路。" },
+        { "title": "类型化的 Express 与 React", "detail": "给 req.body 定义类型并在边界校验;组件 props 用类型声明,误用直接编译报错。" },
+        { "title": "any 是逃生舱不是日常", "detail": "unknown 优先、any 最后;类型体操适可而止,类型的目的是表达意图。" }
+      ],
+      "terms": [
+        { "term": "TypeScript", "definition": "带静态类型的 JS 超集,编译期查错" },
+        { "term": "interface 接口", "definition": "描述对象结构的类型声明" },
+        { "term": "union type 联合类型", "definition": "A | B:值可能是几种类型之一" },
+        { "term": "type narrowing 类型收窄", "definition": "用运行时检查让编译器缩小类型范围" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "Part 10 · React Native:用 React 写原生移动应用。Expo 起项目;核心组件(View/Text/Pressable)替代 DOM 标签,样式走 StyleSheet 与 Flexbox;React Navigation 管理页面栈;表单与校验(Formik/Yup);对接前面构建的后端(Apollo/fetch);FlatList 渲染长列表;真机调试与测试。Web 技能几乎全额迁移,平台差异集中在视图层。",
+      "keyPoints": [
+        { "title": "同一套心智,另一个渲染目标", "detail": "组件、props、state、hooks 原样可用;<div> 换 <View>、<span> 换 <Text>,渲染到原生控件而非 DOM。" },
+        { "title": "样式与布局", "detail": "StyleSheet.create + Flexbox(默认纵向)——没有级联没有选择器,样式就是对象。" },
+        { "title": "导航栈", "detail": "React Navigation 的 stack/tab 导航对应移动端惯例;URL 概念被「路由栈」替代。" },
+        { "title": "长列表性能", "detail": "FlatList 虚拟化渲染,只画可视区;移动端列表不虚拟化必卡。" },
+        { "title": "复用后端", "detail": "GraphQL/REST 客户端代码与 Web 端共享——全栈技能在移动端的复利兑现。" }
+      ],
+      "terms": [
+        { "term": "React Native", "definition": "用 React 渲染原生移动控件的框架" },
+        { "term": "Expo", "definition": "RN 的脚手架与工具链,免配置起步" },
+        { "term": "FlatList", "definition": "虚拟化长列表组件,只渲染可视区" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "Part 11 · CI/CD:让部署不靠手抖。用 GitHub Actions 搭流水线:push/PR 触发,依次跑 lint、测试、构建;绿了才自动部署到云平台,配健康检查与失败回滚;版本号与 tag 自动化;分支保护要求检查通过才能合并——「主干永远可发布」从口号变成机制。",
+      "keyPoints": [
+        { "title": "为什么要 CI", "detail": "「在我机器上是好的」终结者:每次提交都在干净环境里装依赖、跑测试,坏了立刻红给全组看。" },
+        { "title": "GitHub Actions 工作流", "detail": "YAML 定义 on(触发)/jobs/steps,复用社区 action;矩阵、缓存、密钥管理(secrets)一应俱全。" },
+        { "title": "部署流水线", "detail": "测试通过 → 自动部署 → 健康检查;失败自动回滚或阻断——发布从事件变成日常。" },
+        { "title": "分支保护与协作", "detail": "PR 必须绿灯才可合并;主干随时可发布是团队协作的基础设施而非美德。" }
+      ],
+      "terms": [
+        { "term": "CI 持续集成", "definition": "每次提交自动构建与测试" },
+        { "term": "CD 持续部署", "definition": "通过检查的构建自动发布上线" },
+        { "term": "GitHub Actions", "definition": "GitHub 内置的工作流/流水线服务" },
+        { "term": "pipeline 流水线", "definition": "lint→测试→构建→部署的自动化步骤链" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "Part 12 · 容器化:用 Docker 把应用连同运行环境一起打包。镜像与容器的关系;Dockerfile 分层构建、多阶段构建给生产瘦身;docker compose 编排多服务(应用 + MongoDB/Postgres + 反向代理),开发环境一键起全套;卷挂载持久化数据;镜像进 CI/CD 流水线——「在任何机器上都一样地跑」。",
+      "keyPoints": [
+        { "title": "镜像与容器", "detail": "镜像是不可变的模板(文件系统 + 启动命令),容器是它的运行实例;环境差异被打包进镜像里消灭。" },
+        { "title": "Dockerfile 与分层", "detail": "FROM/COPY/RUN/CMD 逐层构建,层可缓存——依赖装在前、代码拷在后,重建只重跑变化层。" },
+        { "title": "多阶段构建", "detail": "构建阶段装全套工具链,产物拷进只含运行时的小镜像——生产镜像不背编译器。" },
+        { "title": "docker compose 编排", "detail": "一个 YAML 声明应用、数据库、网络与卷,up 一键起全栈;开发/生产环境用同一套定义。" },
+        { "title": "卷与数据持久化", "detail": "容器是易逝的,数据库文件挂到卷上;容器删了数据还在——状态与计算分离。" }
+      ],
+      "terms": [
+        { "term": "Docker image 镜像", "definition": "含运行环境的不可变应用模板" },
+        { "term": "container 容器", "definition": "镜像的隔离运行实例" },
+        { "term": "multi-stage build 多阶段构建", "definition": "构建与运行分离,产出精简生产镜像" },
+        { "term": "docker compose", "definition": "多容器服务的声明式编排工具" },
+        { "term": "volume 卷", "definition": "容器外持久化数据的挂载点" }
+      ]
+    }
+  ]
+}
