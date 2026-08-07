@@ -1,0 +1,12 @@
+# 英语影子跟读 · 中级线。mode:shadow。
+id: english-shadow-inter
+title: 英语跟读 · 中级
+subject: en
+tier: intermediate
+mode: shadow
+description: >
+  成段的演讲跟读,句子更长、逻辑更完整,练连贯表达与自然的连读、重音。
+stages:
+  - title: 演讲长句
+    courses:
+      - en-l3-first-20-hours

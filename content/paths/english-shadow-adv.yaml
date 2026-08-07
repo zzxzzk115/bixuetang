@@ -1,0 +1,12 @@
+# 英语影子跟读 · 高级线。mode:shadow。
+id: english-shadow-adv
+title: 英语跟读 · 高级
+subject: en
+tier: advanced
+mode: shadow
+description: >
+  语速偏快、口语地道、带俚语与幽默的真实语料,冲原声表达——听得像、说得溜。
+stages:
+  - title: 地道口语
+    courses:
+      - en-l3-stop-overthinking

@@ -1,0 +1,14 @@
+# 英语影子跟读 · 初级线。mode:shadow → 节点是「跟读单元」而非看视频。
+# 单元均由 B 站真实软字幕轨生成,句子=字幕 cue,读的正好是听到的。
+id: english-shadow-basic
+title: 英语跟读 · 初级
+subject: en
+tier: basic
+mode: shadow
+description: >
+  从短句、日常表达起步,句子短、节奏慢,先敢开口——把「听得懂说不出」
+  练成「张口就来」。
+stages:
+  - title: 日常短句
+    courses:
+      - en-l2-english-mania
