@@ -72,6 +72,13 @@ export function ShadowPractice({
 
   const cur = sentences[idx];
 
+  // 换句时清掉上一句的打分(渲染期调整,别在 effect 里 setState)
+  const [prevIdx, setPrevIdx] = useState(idx);
+  if (idx !== prevIdx) {
+    setPrevIdx(idx);
+    setScore(null);
+  }
+
   // ---- 加载 B 站音源(DASH)到隐藏 video ----
   useEffect(() => {
     if (!bvid) return;
@@ -110,9 +117,8 @@ export function ShadowPractice({
     };
   }, [bvid, page]);
 
-  // 换句/换速时清空上一句的打分与波形
+  // 换句时清空上一句的波形与缓存(纯副作用,非 setState)
   useEffect(() => {
-    setScore(null);
     origPcmRef.current = null;
     userPcmRef.current = null;
     drawWave(origCanvasRef.current, null, "");

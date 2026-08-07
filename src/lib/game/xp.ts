@@ -42,7 +42,14 @@ export const XP_REASON = {
   labTask: "lab-task",
   /** 长视频章节(分段)阶段性结算——目标梯度:大目标拆成小里程碑 */
   segment: "segment",
+  /** 影子跟读:练完一个单元 */
+  shadow: "shadow",
 } as const;
+
+/** 影子跟读单元的幂等键 */
+export function shadowRef(unitId: string): string {
+  return `shadow:${unitId}`;
+}
 
 /** 幂等键 */
 export function episodeRef(courseId: string, n: number): string {
