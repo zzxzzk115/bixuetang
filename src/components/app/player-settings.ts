@@ -28,8 +28,13 @@ export interface CcSettings {
    * 关→只允许选一条。默认开，自动挑轨时也能中英对照。
    */
   bilingual: boolean;
-  /** 字号缩放 0.7~1.8 */
+  /** 普通模式字号缩放 0.7~1.8（相对播放器容器） */
   scale: number;
+  /**
+   * 画中画模式字号缩放 0.6~2（独立于 scale）。PiP 字幕基准字号随浮窗高度
+   * 自适应，这个缩放在其上再乘一档；两种模式各存各的，互不影响。
+   */
+  pipScale: number;
   /** 距底部的比例 0.02~0.35 */
   bottom: number;
   /** 底色样式 */
@@ -77,6 +82,7 @@ export const DEFAULT_PREFS: PlayerPrefs = {
     // 默认开双语：自动挑轨时中英都有就叠加对照
     bilingual: true,
     scale: 1,
+    pipScale: 1,
     bottom: 0.06,
     style: "shadow",
   },

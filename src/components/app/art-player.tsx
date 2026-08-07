@@ -818,10 +818,19 @@ export function BiliPlayer({
         cc.style.cssText =
           "position:absolute;left:0;right:0;bottom:52px;text-align:center;color:#fff;" +
           "white-space:pre-wrap;word-break:break-word;padding:0 14px;pointer-events:none;" +
-          'font:700 22px/1.35 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;' +
+          'font-weight:700;line-height:1.35;font-family:system-ui,"PingFang SC","Microsoft YaHei",sans-serif;' +
           "text-shadow:0 2px 8px #000,0 0 3px #000;";
         stage.appendChild(cc);
         subEl = cc;
+        // PiP 字幕字号 = 浮窗高度自适应 × pipScale(与普通模式 scale 各存各的)。
+        // 窗口 resize 时随比例变。
+        const applyCcSize = () => {
+          const base = win.innerHeight * 0.06; // 浮窗越高字越大
+          const px = Math.max(12, base * prefsStore.get().cc.pipScale);
+          cc.style.fontSize = `${px.toFixed(1)}px`;
+        };
+        applyCcSize();
+        win.addEventListener("resize", applyCcSize);
         // 控件浮层:进度条 + 播放/暂停 + 静音;hover 显示,闲置淡出
         const bar = win.document.createElement("div");
         bar.style.cssText =
@@ -919,10 +928,11 @@ export function BiliPlayer({
           }
           timeLabel.textContent = `${fmt(srcVideo.currentTime)} / ${fmt(dur)}`;
         };
-        // 250ms 轮询刷新字幕 + 控件(不依赖 React)
+        // 250ms 轮询刷新字幕 + 控件 + 字号(不依赖 React)
         syncTimer = win.setInterval(() => {
           paint();
           updateSubWindow();
+          applyCcSize();
         }, 250);
         paint();
         updateSubWindow();
