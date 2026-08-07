@@ -808,6 +808,69 @@ export function BiliPlayer({
         }
       };
 
+      // canvas 流没有时间轴 → PiP 小窗默认只有播放/暂停。用 MediaSession
+      // 把真实时长/进度喂给系统媒体控件,并把 seekto 拖动映射回原视频,
+      // 这样 PiP 里也能有进度条(Chrome 支持)。
+      const ms =
+        typeof navigator !== "undefined" ? navigator.mediaSession : undefined;
+      const MS_ACTIONS = [
+        "play",
+        "pause",
+        "seekto",
+        "seekbackward",
+        "seekforward",
+      ] as const;
+      const updatePositionState = () => {
+        if (!ms?.setPositionState) return;
+        const dur = srcVideo.duration;
+        if (!Number.isFinite(dur) || dur <= 0) return;
+        try {
+          ms.setPositionState({
+            duration: dur,
+            position: Math.min(Math.max(0, srcVideo.currentTime), dur),
+            playbackRate: srcVideo.playbackRate || 1,
+          });
+        } catch {
+          // 参数越界等忽略
+        }
+      };
+      const setupMediaSession = () => {
+        if (!ms) return;
+        try {
+          ms.setActionHandler("play", () => void srcVideo.play());
+          ms.setActionHandler("pause", () => srcVideo.pause());
+          ms.setActionHandler("seekto", (d) => {
+            if (d.seekTime != null) srcVideo.currentTime = d.seekTime;
+          });
+          ms.setActionHandler("seekbackward", (d) => {
+            srcVideo.currentTime = Math.max(
+              0,
+              srcVideo.currentTime - (d.seekOffset || 10),
+            );
+          });
+          ms.setActionHandler("seekforward", (d) => {
+            const dur = srcVideo.duration || Number.MAX_SAFE_INTEGER;
+            srcVideo.currentTime = Math.min(
+              dur,
+              srcVideo.currentTime + (d.seekOffset || 10),
+            );
+          });
+        } catch {
+          // 个别浏览器不支持某个 action,不影响其余
+        }
+      };
+      const clearMediaSession = () => {
+        if (!ms) return;
+        for (const a of MS_ACTIONS) {
+          try {
+            ms.setActionHandler(a, null);
+          } catch {
+            // 忽略
+          }
+        }
+      };
+
+      let posTick = 0;
       const drawFrame = () => {
         if (ctx && srcVideo.videoWidth) {
           if (canvas.width !== srcVideo.videoWidth) {
@@ -817,6 +880,8 @@ export function BiliPlayer({
           ctx.drawImage(srcVideo, 0, 0, canvas.width, canvas.height);
           drawSubtitle(currentCcText());
         }
+        // 每 ~15 帧刷一次进度状态(约 2 次/秒),够进度条平滑又不浪费
+        if (++posTick % 15 === 0) updatePositionState();
         rafId = requestAnimationFrame(drawFrame);
       };
 
@@ -824,6 +889,7 @@ export function BiliPlayer({
         pipOnRef.current = false;
         cancelAnimationFrame(rafId);
         rafId = 0;
+        clearMediaSession();
         if (document.pictureInPictureElement === pipVideo) {
           document.exitPictureInPicture().catch(() => {});
         }
@@ -842,6 +908,8 @@ export function BiliPlayer({
           await pipVideo.play();
           await pipVideo.requestPictureInPicture();
           pipOnRef.current = true;
+          setupMediaSession();
+          updatePositionState();
         } catch {
           stopPip(); // 用户拒绝 / 不支持 → 收拾干净
         }
