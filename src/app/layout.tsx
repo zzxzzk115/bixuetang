@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { CelebrationLayer } from "@/components/celebration-layer";
 import { PwaRegister } from "@/components/pwa-register";
+import { RewardToastLayer } from "@/components/reward-toast";
 
 export const metadata: Metadata = {
   title: { default: "必学堂", template: "%s · 必学堂" },
@@ -47,6 +48,7 @@ export default function RootLayout({
       <body className="min-h-full">
         <PwaRegister />
         <CelebrationLayer />
+        <RewardToastLayer />
         {children}
       </body>
     </html>

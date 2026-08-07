@@ -7,9 +7,9 @@ import { db } from "../db/client";
 import { xpEvents } from "../db/schema";
 import { getUserProgress } from "../progress/queries";
 import { computeUnlocks, unlockEntry } from "./unlock";
-import { learningStreak } from "./achievements";
 import { getActiveBoost } from "./boosts";
 import { dailyDateKey } from "./quests";
+import { getStreak } from "./streak-server";
 import { courseHasQuiz } from "./quiz-bank";
 import { getRpgProfile } from "./rpg-server";
 import { getUserState } from "./user-state";
@@ -160,7 +160,8 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     },
     courses,
     paths,
-    streak: learningStreak(user.id),
+    // 状态表版 streak(UTC+8 日切,断档如实归零显示;老用户首读自动回填)
+    streak: getStreak(user.id).current,
     trialBest: {},
     quizDone,
     chestDone,

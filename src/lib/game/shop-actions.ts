@@ -83,6 +83,38 @@ export async function buyPotion(
   return snapshot(user.id);
 }
 
+export interface FreezeResult extends ShopResult {
+  freezes?: number;
+}
+
+export async function buyStreakFreeze(): Promise<FreezeResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+
+  const { getStreak, addFreeze, MAX_FREEZES, FREEZE_PRICE } = await import(
+    "./streak-server"
+  );
+  if (getStreak(user.id).freezes >= MAX_FREEZES) {
+    return { ok: false, error: `连胜冻结最多囤 ${MAX_FREEZES} 枚` };
+  }
+  const now = Date.now();
+  const paid = db
+    .update(rpgProfiles)
+    .set({ coins: sql`${rpgProfiles.coins} - ${FREEZE_PRICE}`, updatedAt: now })
+    .where(
+      and(
+        eq(rpgProfiles.userId, user.id),
+        gt(rpgProfiles.coins, FREEZE_PRICE - 1),
+      ),
+    )
+    .returning({ coins: rpgProfiles.coins })
+    .get();
+  if (!paid) return { ok: false, error: "金币不够" };
+
+  const added = addFreeze(user.id);
+  return { ...snapshot(user.id), freezes: added.freezes };
+}
+
 export async function drinkPotion(kind: PotionKind): Promise<ShopResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "请先登录" };

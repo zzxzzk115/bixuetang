@@ -4,6 +4,7 @@ import { ShopHome, type PotionSpecDto } from "@/components/app/shop-home";
 import { getCurrentUser } from "@/lib/auth/session";
 import { POTIONS } from "@/lib/game/boosts";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
+import { FREEZE_PRICE, getStreak, MAX_FREEZES } from "@/lib/game/streak-server";
 
 export const metadata = { title: "商店" };
 
@@ -25,7 +26,13 @@ export default async function ShopPage() {
   return (
     <AppShell bootstrap={bootstrap}>
       <div className="app-page">
-        <ShopHome bootstrap={bootstrap} specs={specs} />
+        <ShopHome
+          bootstrap={bootstrap}
+          specs={specs}
+          freezePrice={FREEZE_PRICE}
+          freezesOwned={getStreak(user.id).freezes}
+          maxFreezes={MAX_FREEZES}
+        />
       </div>
     </AppShell>
   );

@@ -19,6 +19,8 @@ import { settleEpisodeLoot } from "../game/rpg-server";
 import { courseBonusXp, episodeRef, episodeXp, XP_REASON } from "../game/xp";
 import { allTermInputs } from "../game/glossary-source";
 import { newlyUnlocked } from "../game/glossary-unlock";
+import { enqueueEpisodeCards } from "../game/review-enqueue";
+import { recordActivity } from "../game/streak-server";
 import { getTotalXp, getUserProgress } from "./queries";
 
 export interface ToggleResult {
@@ -36,6 +38,12 @@ export interface ToggleResult {
   loot?: EpisodeLoot;
   /** 这一集让你第一次见到的术语——卷宗解锁弹窗用 */
   unlockedTerms?: { term: string; definition: string }[];
+  /** 本次入队的复习卡数(>0 时提示「N 张复习卡已入队」) */
+  reviewCards?: number;
+  /** 连胜(推进后的值)与是否刚消耗了冻结 */
+  streak?: number;
+  streakChanged?: boolean;
+  usedFreeze?: boolean;
 }
 
 function upsertStatus(userId: number, courseId: string, status: CourseStatus) {
@@ -136,6 +144,9 @@ export async function toggleEpisode(
   let bossBonus = 0;
   let courseDone = false;
   let loot: EpisodeLoot | undefined;
+  let cardsQueued = 0;
+  let streakInfo: { current: number; changed: boolean; usedFreeze: boolean } | null =
+    null;
 
   // 打卡前的观看集合——用来算「这一集让我第一次见到哪些词」，
   // 必须在写入 episodeProgress 之前取
@@ -152,7 +163,16 @@ export async function toggleEpisode(
       .get();
     if (episodeInserted) {
       loot = settleEpisodeLoot(user.id, course, episodeN) ?? undefined;
+      // 该集的术语/知识点进复习队列(间隔重复),明天首次到期
+      cardsQueued = enqueueEpisodeCards(user.id, courseId, episodeN);
     }
+    // 今天有学习行为 → 连胜推进(同一天只会推进一次,幂等)
+    const advanced = recordActivity(user.id);
+    streakInfo = {
+      current: advanced.current,
+      changed: advanced.changed,
+      usedFreeze: advanced.usedFreeze,
+    };
     // (user, reason, ref) 唯一约束兜底幂等：重复勾选不重复得分
     // 单集 XP = 难度底分 + 时长加成，再吃药水（药水只在这里消耗一次次数）。
     // 幂等：已入过账的集不会重复扣药水（先探测 conflict 再决定是否结算）
@@ -257,5 +277,9 @@ export async function toggleEpisode(
     unlockedTerms: watchedBefore
       ? newlyUnlocked(allTermInputs(), watchedBefore, courseId, episodeN)
       : [],
+    reviewCards: cardsQueued,
+    streak: streakInfo?.current,
+    streakChanged: streakInfo?.changed,
+    usedFreeze: streakInfo?.usedFreeze,
   };
 }

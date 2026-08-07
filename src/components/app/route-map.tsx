@@ -112,7 +112,14 @@ function captionFor(node: LessonNode, isLastQuiz: boolean): string {
   return `第 ${node.eps[0]}–${node.eps[node.eps.length - 1]} 集`;
 }
 
-export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
+export function RouteMap({
+  bootstrap,
+  topSlot,
+}: {
+  bootstrap: GameBootstrap;
+  /** 地图顶部的注入位(每日任务板 / 今日复习入口),server 端拼好传进来 */
+  topSlot?: React.ReactNode;
+}) {
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [width, setWidth] = useState(0);
@@ -329,6 +336,7 @@ export function RouteMap({ bootstrap }: { bootstrap: GameBootstrap }) {
       onRoutePress={() => setSheetOpen(true)}
     >
       <div className="route-map" ref={scrollRef}>
+        {topSlot && <div className="route-map-top">{topSlot}</div>}
         {stickyCourse && (
           <div className="route-map-sticky">
             <span

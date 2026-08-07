@@ -7,12 +7,22 @@ import {
   type Celebration,
   type CelebrationKind,
 } from "@/lib/celebrate";
+import { LottieMoment, useLottieAvailable } from "./lottie-layer";
+import type { LottieMomentName } from "@/lib/lottie-manifest";
 
 // 全屏庆祝。
 //
-// 纸屑用 CSS 粒子而不是 Lottie：这套动效要跟着主题色和学科色走，
-// Lottie 的颜色烘在 JSON 里改不动，还要多背一个运行时。
-// 三十来个 div 配 transform 动画，GPU 上跑起来没有负担。
+// 动效双轨:public/lottie/ 里有对应素材就播 Lottie(设计师做的就是
+// 比 CSS 精致),没有就退回 CSS 纸屑粒子——纸屑跟着主题色/学科色走,
+// 三十来个 div 配 transform 动画,GPU 上跑起来没有负担。
+
+/** 庆祝种类 → Lottie 时刻名 */
+const KIND_MOMENT: Record<CelebrationKind, LottieMomentName> = {
+  boss: "boss-clear",
+  level: "level-up",
+  promote: "level-up",
+  quest: "quest-done",
+};
 
 const KIND_META: Record<
   CelebrationKind,
@@ -80,6 +90,8 @@ export function CelebrationLayer() {
 
   const key = current ? `${current.kind}:${current.title}` : "";
   const confetti = useConfetti(key);
+  const moment = current ? KIND_MOMENT[current.kind] : null;
+  const lottieReady = useLottieAvailable(moment);
 
   if (!current) return null;
   const meta = KIND_META[current.kind] ?? KIND_META.quest;
@@ -87,24 +99,28 @@ export function CelebrationLayer() {
 
   return (
     <div className="celebrate-root" aria-live="polite" key={key}>
-      <div className="celebrate-confetti" aria-hidden>
-        {confetti.map((c, i) => (
-          <i
-            key={i}
-            className={c.tall ? "tall" : undefined}
-            style={
-              {
-                left: c.left,
-                background: c.color,
-                animationDelay: c.delay,
-                animationDuration: c.duration,
-                "--spin": c.spin,
-                "--drift": c.drift,
-              } as React.CSSProperties
-            }
-          />
-        ))}
-      </div>
+      {lottieReady && moment ? (
+        <LottieMoment moment={moment} className="celebrate-lottie" />
+      ) : (
+        <div className="celebrate-confetti" aria-hidden>
+          {confetti.map((c, i) => (
+            <i
+              key={i}
+              className={c.tall ? "tall" : undefined}
+              style={
+                {
+                  left: c.left,
+                  background: c.color,
+                  animationDelay: c.delay,
+                  animationDuration: c.duration,
+                  "--spin": c.spin,
+                  "--drift": c.drift,
+                } as React.CSSProperties
+              }
+            />
+          ))}
+        </div>
+      )}
 
       <div className="celebrate-card">
         <span className="celebrate-icon" style={{ background: meta.tone }}>

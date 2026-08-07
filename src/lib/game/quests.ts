@@ -1,26 +1,27 @@
 import "server-only";
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, gte, inArray, lt } from "drizzle-orm";
 import { getContent } from "@/lib/content/load";
-import {
-  checkpointAttempts,
-  episodeProgress,
-  learningSessions,
-  questInstances,
-} from "@/lib/db/schema";
+import { episodeProgress, questInstances, xpEvents } from "@/lib/db/schema";
 import { db } from "@/lib/db/client";
-import { type QuestKind, questIsComplete } from "@/lib/game/quest-rules";
+import { dayKey } from "@/lib/game/day";
+import {
+  type QuestKind,
+  type QuestEvidence,
+  questIsComplete,
+} from "@/lib/game/quest-rules";
 import { getUserProgress } from "@/lib/progress/queries";
+
+// 每日任务(目标梯度:三条进度条摆在地图页顶部,离完成越近越想点掉)。
+// 任务对应现役玩法:看一集 / 完成复习 / 打一场试炼。
 
 export interface DailyQuestView {
   id: number;
   kind: QuestKind;
   title: string;
   description: string;
-  courseId: string;
-  courseTitle: string;
-  episodeN: number;
-  episodeTitle: string;
+  /** 点击去向 */
+  href: string;
   progress: number;
   target: number;
   rewardXp: number;
@@ -28,29 +29,18 @@ export interface DailyQuestView {
   claimed: boolean;
 }
 
-export function dailyDateKey(now = new Date()): string {
-  return now.toISOString().slice(0, 10);
+/** 学习日键(UTC+8,与 streak/SRS 同一日切) */
+export function dailyDateKey(now = Date.now()): string {
+  return dayKey(now);
 }
 
-function questCopy(kind: QuestKind, episodeTitle: string) {
-  if (kind === "encounter") {
-    return {
-      title: "完成今日遭遇",
-      description: `完成「${episodeTitle}」并记录战果`,
-    };
-  }
-  if (kind === "focus") {
-    return {
-      title: "保持专注",
-      description: "在远征计时器中累计至少 15 分钟",
-    };
-  }
-  return {
-    title: "提交战后复述",
-    description: "用自己的话写下本集核心内容",
-  };
+/** 今日(UTC+8)的毫秒窗口 */
+function dayWindow(key: string): { from: number; to: number } {
+  const from = Date.parse(`${key}T00:00:00+08:00`);
+  return { from, to: from + 86_400_000 };
 }
 
+/** 给 watch 任务挑推荐课:优先「在学」的课的下一集 */
 function selectDailyTarget(userId: number) {
   const content = getContent();
   const progress = getUserProgress(userId);
@@ -73,9 +63,9 @@ export function ensureDailyQuests(userId: number, dateKey = dailyDateKey()) {
   const { course, episode } = selectDailyTarget(userId);
   const now = Date.now();
   const definitions: { kind: QuestKind; target: number; rewardXp: number }[] = [
-    { kind: "encounter", target: 1, rewardXp: 25 },
-    { kind: "focus", target: 15, rewardXp: 20 },
-    { kind: "checkpoint", target: 1, rewardXp: 30 },
+    { kind: "watch", target: 1, rewardXp: 25 },
+    { kind: "review", target: 1, rewardXp: 20 },
+    { kind: "trial", target: 1, rewardXp: 30 },
   ];
   for (const definition of definitions) {
     db.insert(questInstances)
@@ -94,6 +84,72 @@ export function ensureDailyQuests(userId: number, dateKey = dailyDateKey()) {
   }
 }
 
+function collectEvidence(userId: number, dateKey: string): QuestEvidence {
+  const { from, to } = dayWindow(dateKey);
+  const watchedToday = Boolean(
+    db
+      .select({ n: episodeProgress.episodeN })
+      .from(episodeProgress)
+      .where(
+        and(
+          eq(episodeProgress.userId, userId),
+          gte(episodeProgress.watchedAt, from),
+          lt(episodeProgress.watchedAt, to),
+        ),
+      )
+      .get(),
+  );
+  const reviewDone = Boolean(
+    db
+      .select({ id: xpEvents.id })
+      .from(xpEvents)
+      .where(
+        and(
+          eq(xpEvents.userId, userId),
+          eq(xpEvents.reason, "review"),
+          eq(xpEvents.ref, dateKey),
+        ),
+      )
+      .get(),
+  );
+  const trialDone = Boolean(
+    db
+      .select({ id: xpEvents.id })
+      .from(xpEvents)
+      .where(
+        and(
+          eq(xpEvents.userId, userId),
+          inArray(xpEvents.reason, ["trial", "pk"]),
+          eq(xpEvents.ref, dateKey),
+        ),
+      )
+      .get(),
+  );
+  return { watchedToday, reviewDone, trialDone };
+}
+
+function questCopy(
+  kind: QuestKind,
+  target: { courseTitle: string; episodeN: number },
+) {
+  if (kind === "watch") {
+    return {
+      title: "今天看完一集",
+      description: `推荐:${target.courseTitle} · 第 ${target.episodeN} 集`,
+    };
+  }
+  if (kind === "review") {
+    return {
+      title: "完成今日复习",
+      description: "把到期的复习卡清空,记忆才不掉线",
+    };
+  }
+  return {
+    title: "打一场试炼",
+    description: "无限试炼或幽灵对战,任意一场",
+  };
+}
+
 export function getDailyQuests(
   userId: number,
   dateKey = dailyDateKey(),
@@ -107,76 +163,34 @@ export function getDailyQuests(
       and(
         eq(questInstances.userId, userId),
         eq(questInstances.dateKey, dateKey),
+        inArray(questInstances.kind, ["watch", "review", "trial"]),
       ),
     )
     .all();
+  const evidence = collectEvidence(userId, dateKey);
 
   return rows.map((row) => {
     const kind = row.kind as QuestKind;
     const course = content.coursesById.get(row.courseId);
-    const episode = course?.episodes.find((item) => item.n === row.episodeN);
-    const watched = Boolean(
-      db
-        .select({ n: episodeProgress.episodeN })
-        .from(episodeProgress)
-        .where(
-          and(
-            eq(episodeProgress.userId, userId),
-            eq(episodeProgress.courseId, row.courseId),
-            eq(episodeProgress.episodeN, row.episodeN),
-          ),
-        )
-        .get(),
-    );
-    const session = db
-      .select()
-      .from(learningSessions)
-      .where(
-        and(
-          eq(learningSessions.userId, userId),
-          eq(learningSessions.courseId, row.courseId),
-          eq(learningSessions.episodeN, row.episodeN),
-        ),
-      )
-      .get();
-    const checkpointPassed = Boolean(
-      db
-        .select({ passed: checkpointAttempts.passed })
-        .from(checkpointAttempts)
-        .where(
-          and(
-            eq(checkpointAttempts.userId, userId),
-            eq(checkpointAttempts.courseId, row.courseId),
-            eq(checkpointAttempts.episodeN, row.episodeN),
-            eq(checkpointAttempts.checkpointId, "recall"),
-          ),
-        )
-        .get()?.passed,
-    );
-    const evidence = {
-      watched,
-      focusMinutes: session?.focusMinutes ?? 0,
-      checkpointPassed,
-    };
-    const progress =
-      kind === "encounter"
-        ? Number(watched)
-        : kind === "checkpoint"
-          ? Number(checkpointPassed)
-          : evidence.focusMinutes;
-    const copy = questCopy(kind, episode?.title ?? `第 ${row.episodeN} 集`);
+    const copy = questCopy(kind, {
+      courseTitle: course?.title ?? row.courseId,
+      episodeN: row.episodeN,
+    });
+    const complete = questIsComplete(kind, evidence);
     return {
       id: row.id,
       kind,
       ...copy,
-      courseId: row.courseId,
-      courseTitle: course?.title ?? row.courseId,
-      episodeN: row.episodeN,
-      episodeTitle: episode?.title ?? `第 ${row.episodeN} 集`,
-      progress: Math.min(progress, row.target),
-      target: row.target,
+      href:
+        kind === "watch"
+          ? `/courses/${row.courseId}`
+          : kind === "review"
+            ? "/review"
+            : "/play/trial",
+      progress: complete ? 1 : 0,
+      target: 1,
       rewardXp: row.rewardXp,
-      complete: questIsComplete(kind, evidence, row.target),
+      complete,
       claimed: row.claimedAt !== null,
     };
   });

@@ -18,6 +18,8 @@ export interface EpisodeLoot {
   coins: number;
   item: LootItem;
   ruleVersion: number;
+  /** 幸运彩蛋金币(0=没中)。变率强化:偶尔的意外之喜比稳定发放更让人上头 */
+  luckyCoins: number;
 }
 
 const SUBJECT_ITEMS: Record<Subject, Record<EncounterType, Omit<LootItem, "id" | "subject">>> = {
@@ -84,6 +86,28 @@ export function itemForEncounter(subject: Subject, encounterType: EncounterType)
  * Rewards depend only on published course data and episode position.
  * There is no random roll and no per-user variance.
  */
+/**
+ * 幸运彩蛋:约 15% 的集会掉一笔 10–30 的额外金币。
+ * 变率强化(variable-ratio reinforcement)是最抗消退的强化程式——
+ * 「这集会不会中?」比每集固定发放更能维持行为。
+ * 用 (userId, courseId, episodeN) 播种的确定性哈希:同一键永远同结果,
+ * 取消重勾也刷不出第二次,幂等性与 XP 流水同级。
+ */
+export function luckyBonusCoins(
+  userId: number,
+  courseId: string,
+  episodeN: number,
+): number {
+  let h = userId * 2654435761;
+  for (let i = 0; i < courseId.length; i++) {
+    h = Math.imul(h ^ courseId.charCodeAt(i), 0x01000193);
+  }
+  h = Math.imul(h ^ episodeN, 0x01000193) >>> 0;
+  const roll = (h % 1000) / 1000;
+  if (roll >= 0.15) return 0;
+  return 10 + (Math.floor(h / 1000) % 21); // 10..30
+}
+
 export function lootForEpisode(
   subject: Subject,
   level: Level,
@@ -96,6 +120,7 @@ export function lootForEpisode(
     coins: LEVEL_COINS[level] + ENCOUNTER_BONUS[encounterType],
     item: itemForEncounter(subject, encounterType),
     ruleVersion: RPG_RULE_VERSION,
+    luckyCoins: 0,
   };
 }
 

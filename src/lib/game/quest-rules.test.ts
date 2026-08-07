@@ -21,11 +21,15 @@ test("battle recall requires meaningful evidence", () => {
 
 test("daily quest completion follows its evidence type", () => {
   const evidence = {
-    watched: true,
-    focusMinutes: FOCUS_REWARD_MINUTES + 5,
-    checkpointPassed: false,
+    watchedToday: true,
+    reviewDone: true,
+    trialDone: false,
   };
-  assert.equal(questIsComplete("encounter", evidence, 1), true);
-  assert.equal(questIsComplete("focus", evidence, 15), true);
-  assert.equal(questIsComplete("checkpoint", evidence, 1), false);
+  assert.equal(questIsComplete("watch", evidence), true);
+  assert.equal(questIsComplete("review", evidence), true);
+  assert.equal(questIsComplete("trial", evidence), false);
+});
+
+test("focus reward threshold constant is still exported for learning actions", () => {
+  assert.ok(FOCUS_REWARD_MINUTES > 0);
 });

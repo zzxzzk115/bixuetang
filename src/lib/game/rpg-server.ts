@@ -19,6 +19,7 @@ import { equipmentBonus, type StatBlock } from "./relics";
 import {
   getLootItem,
   lootForEpisode,
+  luckyBonusCoins,
   type EpisodeLoot,
   type LootItem,
 } from "./rpg";
@@ -63,6 +64,9 @@ export function settleEpisodeLoot(
     episodeN,
     course.episodes.length,
   );
+  // 幸运彩蛋只随掉落事件结算一次(loot 事件主键幂等),重勾刷不出第二份
+  reward.luckyCoins = luckyBonusCoins(userId, course.id, episodeN);
+  const totalCoins = reward.coins + reward.luckyCoins;
   const now = Date.now();
 
   return db.transaction((tx) => {
@@ -73,7 +77,7 @@ export function settleEpisodeLoot(
         courseId: course.id,
         episodeN,
         encounterType: reward.encounterType,
-        coins: reward.coins,
+        coins: totalCoins,
         itemId: reward.item.id,
         rarity: reward.item.rarity,
         ruleVersion: reward.ruleVersion,
@@ -86,11 +90,11 @@ export function settleEpisodeLoot(
     if (!inserted) return null;
 
     tx.insert(rpgProfiles)
-      .values({ userId, coins: reward.coins, updatedAt: now })
+      .values({ userId, coins: totalCoins, updatedAt: now })
       .onConflictDoUpdate({
         target: rpgProfiles.userId,
         set: {
-          coins: sql`${rpgProfiles.coins} + ${reward.coins}`,
+          coins: sql`${rpgProfiles.coins} + ${totalCoins}`,
           updatedAt: now,
         },
       })

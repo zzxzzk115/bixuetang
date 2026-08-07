@@ -26,6 +26,7 @@
     "@codemirror/view": "^6.43.7",
     "@cortex-js/compute-engine": "^0.99.0",
     "@lezer/highlight": "^1.2.3",
+    "@lottiefiles/dotlottie-web": "^0.79.0",
     "@node-rs/argon2": "^2.0.2",
     "artplayer": "^5.4.0",
     "artplayer-plugin-danmuku": "^5.3.0",

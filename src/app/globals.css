@@ -6811,9 +6811,59 @@ body:has(.dungeon-chamber) .analysis-section {
   animation: celebrate-wiggle 1.6s ease-in-out infinite;
 }
 
+/* 庆祝层引用的四个关键帧——之前从未定义,卡片弹跳/呼吸环/彩带角标
+   全是无声空转,庆祝只剩纸屑在动 */
+@keyframes celebrate-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes celebrate-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes celebrate-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+@keyframes celebrate-wiggle {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(14deg) scale(1.12);
+  }
+}
+
+/* Lottie 素材就位时替代纸屑:铺满视口居中播一遍 */
+.celebrate-lottie {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
 /* 关掉动效偏好：只留静态卡片，不闪不飘 */
 @media (prefers-reduced-motion: reduce) {
-  .celebrate-confetti {
+  .celebrate-confetti,
+  .celebrate-lottie {
     display: none;
   }
   .celebrate-root,
@@ -7007,4 +7057,139 @@ body {
 body:has(.art-video-player.art-fullscreen),
 body:has(.art-video-player.art-fullscreen-web) {
   background: #000;
+}
+
+/* ==== 奖励吐司层(P2:即时反馈) ====
+   底部居中堆叠,避开移动端底 Tab;每条按色调区分奖励类型。 */
+.reward-toasts {
+  position: fixed;
+  left: 50%;
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  z-index: 70;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 8px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.reward-toast {
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: var(--app-surface);
+  border: 2px solid var(--app-line);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+  animation: reward-toast-in 240ms cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.reward-toast.tone-xp {
+  color: var(--app-green);
+}
+.reward-toast.tone-coin {
+  color: var(--app-orange);
+}
+.reward-toast.tone-streak {
+  color: var(--app-orange);
+}
+.reward-toast.tone-review {
+  color: var(--app-blue);
+}
+.reward-toast.tone-lucky {
+  color: var(--app-gold);
+  border-color: color-mix(in srgb, var(--app-gold) 50%, transparent);
+}
+@keyframes reward-toast-in {
+  from {
+    transform: translateY(14px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* ==== 地图顶部注入区:今日复习入口 + 每日任务板 ==== */
+.route-map-top {
+  display: grid;
+  gap: 10px;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 12px 14px 2px;
+}
+.review-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid color-mix(in srgb, var(--app-blue) 45%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--app-blue) 10%, var(--app-surface));
+  text-decoration: none;
+  color: inherit;
+}
+.review-entry-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--app-blue);
+  color: #fff;
+  flex-shrink: 0;
+}
+.review-entry-body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.review-entry-body b {
+  font-size: 14px;
+  font-weight: 800;
+}
+.review-entry-body small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+}
+.review-entry-count {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--app-blue);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* ==== 复习会话补充(其余复用 quiz-*) ==== */
+.review-count {
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.review-underline {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+.review-next-note {
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+}
+.review-source {
+  color: var(--app-blue);
+  text-decoration: underline;
+}
+.review-next {
+  min-width: 200px;
+}
+
+/* 商店:连胜冻结卡 */
+.shop-card-icon-freeze {
+  color: var(--app-blue);
 }

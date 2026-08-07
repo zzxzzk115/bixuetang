@@ -17,6 +17,7 @@ import type { Setting as ArtSetting } from "artplayer";
 import type { MediaPlayerClass } from "dashjs";
 import { reportWatchProgress } from "@/lib/game/watch-actions";
 import { saveCcOffset, savePlayerPrefs } from "@/lib/game/user-state-actions";
+import { announceSettle } from "@/lib/reward-feedback";
 import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
 import { detectPlayMode } from "./player-capability";
 import { prefsStore } from "./player-settings";
@@ -472,6 +473,19 @@ export function BiliPlayer({
           prefsStore.set({ rate: art.playbackRate });
         }
       });
+      // 弹幕开关(插件自带按钮或 d 键)→ 记进偏好,跨集跨设备保持
+      art.on("artplayerPluginDanmuku:show", () => {
+        if (!prefsStore.get().danmaku.on) {
+          prefsStore.set({ danmaku: { ...prefsStore.get().danmaku, on: true } });
+        }
+      });
+      art.on("artplayerPluginDanmuku:hide", () => {
+        if (prefsStore.get().danmaku.on) {
+          prefsStore.set({
+            danmaku: { ...prefsStore.get().danmaku, on: false },
+          });
+        }
+      });
 
       // 覆盖率追踪 + CC 字幕行,都挂在 timeupdate 上
       const watchEl = () => {
@@ -723,6 +737,9 @@ export function BiliPlayer({
       );
       if (r.completed && !completedRef.current) {
         completedRef.current = true;
+        // 自动打卡的主路径也要有完整反馈:XP/金币/彩蛋/连胜/升级庆祝——
+        // 之前这里只弹词条弹窗,最常见的学习行为反而最没回报感
+        if (r.settle) announceSettle(r.settle);
         const terms = r.settle?.unlockedTerms ?? [];
         if (terms.length > 0) setNewTerms(terms);
         onCompleted?.();
@@ -804,6 +821,7 @@ export function BiliPlayer({
           break;
         }
         case "d": {
+          // 等效于点插件自带的弹幕开关(prefs 同步走 show/hide 事件)
           const plugin = (
             art.plugins as unknown as {
               artplayerPluginDanmuku?: {

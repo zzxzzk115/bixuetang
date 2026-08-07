@@ -2,10 +2,9 @@
 
 import { useRef, useState, useTransition } from "react";
 import { Check, Lock, Play, Search } from "lucide-react";
-import { celebrate } from "@/lib/celebrate";
-import { announceRpgLoot } from "@/lib/game/rpg-events";
 import type { Episode } from "@/lib/content/schema";
 import { toggleEpisode, type ToggleResult } from "@/lib/progress/actions";
+import { announceSettle } from "@/lib/reward-feedback";
 import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
 import { seekTo } from "@/lib/seek";
 
@@ -89,28 +88,8 @@ export function AppEpisodeList({
       if (next && result.unlockedTerms?.length) {
         setNewTerms(result.unlockedTerms);
       }
-      if (next && result.loot) {
-        announceRpgLoot(result.loot);
-        pushToast(`+${result.loot.coins} 金币 · ${result.loot.item.title}`);
-      }
-      if (next && result.gained && result.gained > 0) {
-        const episodeXp = result.gained - (result.bossBonus ?? 0);
-        if (episodeXp > 0) pushToast(`+${episodeXp} XP`);
-        if (result.bossBonus && result.bossBonus > 0) {
-          celebrate({
-            kind: "boss",
-            title: "课程通关！",
-            subtitle: `全集完成奖励 +${result.bossBonus} XP`,
-          });
-        }
-        if (result.levelUp) {
-          celebrate({
-            kind: "level",
-            title: `升至 Lv.${result.newLevel}`,
-            subtitle: "继续保持",
-          });
-        }
-      }
+      // XP/金币/彩蛋/连胜/升级——统一走全局反馈层
+      if (next) announceSettle(result);
     });
   };
 

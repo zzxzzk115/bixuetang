@@ -2,12 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Backpack, Coins, FlaskRound, Zap } from "lucide-react";
+import { Backpack, Coins, FlaskRound, Snowflake, Zap } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import type { PotionKind } from "@/lib/game/boosts";
-import { buyPotion, type ShopResult } from "@/lib/game/shop-actions";
+import {
+  buyPotion,
+  buyStreakFreeze,
+  type ShopResult,
+} from "@/lib/game/shop-actions";
 
-// 商店：花金币买经验药水。默认「立即生效」，想囤进背包要加价。
+// 商店：花金币买经验药水与连胜冻结。默认「立即生效」，想囤进背包要加价。
 
 export interface PotionSpecDto {
   kind: PotionKind;
@@ -23,15 +27,41 @@ export interface PotionSpecDto {
 export function ShopHome({
   bootstrap,
   specs,
+  freezePrice,
+  freezesOwned,
+  maxFreezes,
 }: {
   bootstrap: GameBootstrap;
   specs: PotionSpecDto[];
+  freezePrice: number;
+  freezesOwned: number;
+  maxFreezes: number;
 }) {
   const router = useRouter();
   const [coins, setCoins] = useState(bootstrap.rpg.coins);
   const [boost, setBoost] = useState(bootstrap.boost);
+  const [freezes, setFreezes] = useState(freezesOwned);
   const [busy, setBusy] = useState<string | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
+
+  const onBuyFreeze = async () => {
+    if (busy) return;
+    setBusy("freeze");
+    setMsg(null);
+    try {
+      const r = await buyStreakFreeze();
+      if (!r.ok) {
+        setMsg(r.error ?? "购买失败");
+        return;
+      }
+      setCoins(r.coins ?? coins);
+      setFreezes(r.freezes ?? freezes + 1);
+      setMsg("连胜冻结已入库,断档一天会自动消耗");
+      router.refresh();
+    } finally {
+      setBusy(null);
+    }
+  };
 
   const onBuy = async (kind: PotionKind, toBag: boolean) => {
     if (busy) return;
@@ -100,10 +130,34 @@ export function ShopHome({
         </section>
       ))}
 
+      <section className="shop-card potion-freeze">
+        <span className="shop-card-icon shop-card-icon-freeze">
+          <Snowflake size={30} strokeWidth={2.2} />
+        </span>
+        <div className="shop-card-body">
+          <h2>连胜冻结</h2>
+          <p>
+            哪天实在没空学,冻结会自动顶上,连胜不清零。持有 {freezes}/
+            {maxFreezes} 枚。
+          </p>
+          <div className="shop-card-actions">
+            <button
+              className="app-btn-primary"
+              disabled={busy !== null || coins < freezePrice || freezes >= maxFreezes}
+              onClick={onBuyFreeze}
+            >
+              <Snowflake size={15} aria-hidden />
+              {freezes >= maxFreezes ? "已囤满" : `购买 · ${freezePrice}`}
+            </button>
+          </div>
+        </div>
+      </section>
+
       <p className="shop-note">
         药水按「集」计数：每完成一集消耗一次加成，长视频也不会中途失效。
         加成只作用于看完单集的经验（测验 / 宝箱 / 试炼另计）；
         同倍率重复购买累加集数，不同倍率会替换。金币不受加成影响。
+        连胜冻结只在「断一天」时生效——躺平太久是救不回来的。
       </p>
     </div>
   );
