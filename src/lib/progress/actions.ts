@@ -16,7 +16,7 @@ import { settleBoostedXp } from "../game/boosts";
 import { paidSegmentXp } from "../game/segment-rewards";
 import { levelFromXp } from "../game/level";
 import type { EpisodeLoot } from "../game/rpg";
-import { settleEpisodeLoot } from "../game/rpg-server";
+import { settleEpisodeLoot, tryDropShieldHeart } from "../game/rpg-server";
 import { courseBonusXp, episodeRef, episodeXp, XP_REASON } from "../game/xp";
 import { allTermInputs } from "../game/glossary-source";
 import { newlyUnlocked } from "../game/glossary-unlock";
@@ -45,6 +45,8 @@ export interface ToggleResult {
   streak?: number;
   streakChanged?: boolean;
   usedFreeze?: boolean;
+  /** 本次是否掉了一颗护盾血(蓝心) */
+  shieldDropped?: boolean;
 }
 
 function upsertStatus(userId: number, courseId: string, status: CourseStatus) {
@@ -146,6 +148,7 @@ export async function toggleEpisode(
   let courseDone = false;
   let loot: EpisodeLoot | undefined;
   let cardsQueued = 0;
+  let shieldDropped = false;
   let streakInfo: { current: number; changed: boolean; usedFreeze: boolean } | null =
     null;
 
@@ -166,6 +169,8 @@ export async function toggleEpisode(
       loot = settleEpisodeLoot(user.id, course, episodeN) ?? undefined;
       // 该集的术语/知识点进复习队列(间隔重复),明天首次到期
       cardsQueued = enqueueEpisodeCards(user.id, courseId, episodeN);
+      // 变率强化:完成一集有几率掉一颗护盾血(蓝心),满则不掉
+      shieldDropped = tryDropShieldHeart(user.id);
     }
     // 今天有学习行为 → 连胜推进(同一天只会推进一次,幂等)
     const advanced = recordActivity(user.id);
@@ -291,5 +296,6 @@ export async function toggleEpisode(
     streak: streakInfo?.current,
     streakChanged: streakInfo?.changed,
     usedFreeze: streakInfo?.usedFreeze,
+    shieldDropped,
   };
 }

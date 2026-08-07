@@ -147,6 +147,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     rpg: {
       coins: rpg.coins,
       equipSlots: rpg.equipSlots,
+      shieldHearts: rpg.shieldHearts,
       relics,
       equipped: rpg.equipped
         .map((e) => {

@@ -53,6 +53,9 @@ export function announceSettle(settle: ToggleResult) {
   if (settle.usedFreeze) {
     rewardToast({ text: `❄️ 连胜冻结生效,连胜保住了`, tone: "streak" });
   }
+  if (settle.shieldDropped) {
+    rewardToast({ text: `🛡️ 掉落护盾血 · 试炼里替你挡一次`, tone: "lucky" });
+  }
 
   if (settle.bossBonus && settle.bossBonus > 0) {
     celebrate({

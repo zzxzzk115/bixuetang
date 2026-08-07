@@ -4887,6 +4887,19 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-size: 12px;
   font-weight: 700;
 }
+/* 护盾血(蓝心):试炼 HUD 里蓝色,先于红心被扣 */
+.quiz-shield {
+  color: var(--app-blue);
+}
+.quiz-shield.empty {
+  opacity: 0.3;
+}
+.trial-shield-note {
+  font-style: normal;
+  color: var(--app-blue);
+  font-weight: 700;
+}
+
 .app-quest-perfect {
   margin-top: 6px;
   padding: 6px 10px;

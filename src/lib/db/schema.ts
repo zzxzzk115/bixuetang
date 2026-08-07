@@ -170,6 +170,9 @@ export const rpgProfiles = sqliteTable("rpg_profiles", {
   coins: integer("coins").notNull().default(0),
   /** 装备槽数:默认 3,商店购买扩容,上限见 relics.MAX_EQUIP_SLOTS */
   equipSlots: integer("equip_slots").notNull().default(3),
+  /** 护盾血(以撒式蓝心):试炼里先于红心被扣、用完即消、不占血上限;
+   *  学习结算有几率掉落,上限见 relics.MAX_SHIELD_HEARTS */
+  shieldHearts: integer("shield_hearts").notNull().default(0),
   updatedAt: integer("updated_at").notNull(),
 });
 

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { and, eq, sql, sum } from "drizzle-orm";
+import { and, eq, lt, sql, sum } from "drizzle-orm";
 import { getContent } from "../content/load";
 import type { Course } from "../content/schema";
 import { db } from "../db/client";
@@ -15,7 +15,12 @@ import {
   xpEvents,
 } from "../db/schema";
 import { levelFromXp } from "./level";
-import { equipmentBonus, type StatBlock } from "./relics";
+import {
+  equipmentBonus,
+  MAX_SHIELD_HEARTS,
+  SHIELD_DROP_CHANCE,
+  type StatBlock,
+} from "./relics";
 import {
   getLootItem,
   lootForEpisode,
@@ -39,6 +44,8 @@ export interface RpgProfile {
   coins: number;
   /** 已解锁的装备槽数(默认 3,商店扩容) */
   equipSlots: number;
+  /** 护盾血(蓝心)持有数 */
+  shieldHearts: number;
   relics: InventoryEntry[];
   equipped: EquippedEntry[];
   /** 学习行为攒出来的底子 */
@@ -123,6 +130,42 @@ export function settleEpisodeLoot(
   });
 }
 
+/**
+ * 学习结算时按概率掉一颗护盾血(蓝心),满则不掉。返回是否掉落。
+ * 幂等性由调用点保证(在「首次入账」分支里调,重看同一集不重掷)。
+ */
+export function tryDropShieldHeart(
+  userId: number,
+  chance = SHIELD_DROP_CHANCE,
+): boolean {
+  if (Math.random() >= chance) return false;
+  const now = Date.now();
+  const updated = db
+    .update(rpgProfiles)
+    .set({
+      shieldHearts: sql`${rpgProfiles.shieldHearts} + 1`,
+      updatedAt: now,
+    })
+    .where(
+      and(
+        eq(rpgProfiles.userId, userId),
+        lt(rpgProfiles.shieldHearts, MAX_SHIELD_HEARTS),
+      ),
+    )
+    .returning({ shieldHearts: rpgProfiles.shieldHearts })
+    .get();
+  return !!updated;
+}
+
+/** 试炼结束后回写剩余护盾血(消耗掉的蓝心不再回来) */
+export function setShieldHearts(userId: number, value: number) {
+  const v = Math.max(0, Math.min(MAX_SHIELD_HEARTS, Math.round(value)));
+  db.update(rpgProfiles)
+    .set({ shieldHearts: v, updatedAt: Date.now() })
+    .where(eq(rpgProfiles.userId, userId))
+    .run();
+}
+
 function syncRpgLootForProgress(userId: number) {
   const settled = new Set(
     db
@@ -148,11 +191,16 @@ function syncRpgLootForProgress(userId: number) {
 export function getRpgProfile(userId: number): RpgProfile {
   syncRpgLootForProgress(userId);
   const profile = db
-    .select({ coins: rpgProfiles.coins, equipSlots: rpgProfiles.equipSlots })
+    .select({
+      coins: rpgProfiles.coins,
+      equipSlots: rpgProfiles.equipSlots,
+      shieldHearts: rpgProfiles.shieldHearts,
+    })
     .from(rpgProfiles)
     .where(eq(rpgProfiles.userId, userId))
     .get();
   const equipSlots = profile?.equipSlots ?? 3;
+  const shieldHearts = profile?.shieldHearts ?? 0;
   const inventory = db
     .select()
     .from(rpgInventory)
@@ -219,6 +267,7 @@ export function getRpgProfile(userId: number): RpgProfile {
   return {
     coins: profile?.coins ?? 0,
     equipSlots,
+    shieldHearts,
     relics,
     equipped,
     baseStats,

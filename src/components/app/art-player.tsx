@@ -971,6 +971,54 @@ export function BiliPlayer({
     };
   }, [payload, courseId, episodeN, onCompleted, notifyReward, pushFx]);
 
+  // 防疲劳:累计「连续播放」时长,到阈值温和提醒起来动一动。
+  // 连续 = 没有真正休息过;暂停超过 5 分钟视为休息一次,计时归零。
+  // 只提醒、不打断播放(全屏也只出角落轻特效),健康优先于沉浸。
+  useEffect(() => {
+    if (!payload) return;
+    const REST_MS = 50 * 60_000; // 50 分钟:该起来活动一下
+    const HARD_MS = 90 * 60_000; // 90 分钟:强烈建议休息
+    const BREAK_MS = 5 * 60_000; // 累计暂停 5 分钟算真正休息过,计时归零
+    let contMs = 0;
+    let pausedMs = 0;
+    let lastTick = Date.now();
+    const fired = new Set<number>();
+
+    const remind = (text: string) => {
+      const art = artRef.current;
+      if (art && (art.fullscreen || art.fullscreenWeb)) pushFx(text, "review");
+      else rewardToast({ text, tone: "review" });
+    };
+
+    // 20s 一跳(不依赖 art 事件,避开实例异步创建的竞态):
+    // 播放中累加连续时长;暂停累计够久就当休息过、清零重来
+    const timer = setInterval(() => {
+      const art = artRef.current;
+      const now = Date.now();
+      const dt = now - lastTick;
+      lastTick = now;
+      if (art?.playing) {
+        pausedMs = 0;
+        contMs += dt;
+        if (contMs >= HARD_MS && !fired.has(HARD_MS)) {
+          fired.add(HARD_MS);
+          remind("🧠 已连续学习 90 分钟,大脑需要休息才能巩固,去走走吧");
+        } else if (contMs >= REST_MS && !fired.has(REST_MS)) {
+          fired.add(REST_MS);
+          remind("⏸️ 连续学了 50 分钟,起来动一动、喝口水,记得更牢");
+        }
+      } else {
+        pausedMs += dt;
+        if (pausedMs >= BREAK_MS) {
+          contMs = 0;
+          fired.clear();
+        }
+      }
+    }, 20_000);
+
+    return () => clearInterval(timer);
+  }, [payload, pushFx]);
+
   // 键盘控制。只在鼠标停在播放器上、全屏中、或播放器内有焦点时接管——
   // 否则在页面别处敲空格会莫名其妙地暂停视频。
   // (不用 ArtPlayer 内建 hotkey:它要求先点击播放器聚焦,悬停不算)

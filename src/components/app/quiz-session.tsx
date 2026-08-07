@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Flame, Heart, Lightbulb, X, Zap } from "lucide-react";
+import { Flame, Heart, Lightbulb, ShieldHalf, X, Zap } from "lucide-react";
 import type { QuizQuestion } from "@/lib/game/quiz-draw";
 import {
   getTrialBatch,
@@ -54,6 +54,9 @@ export function QuizSession({
   const [combo, setCombo] = useState(0);
   const [maxCombo, setMaxCombo] = useState(0);
   const [hearts, setHearts] = useState(perks.hearts);
+  // 护盾血(蓝心):答错先扣它,扣完才动红心;结算时回写剩余数
+  const [shields, setShields] = useState(perks.shieldHearts);
+  const shieldsRef = useRef(perks.shieldHearts);
   const [hintsLeft, setHintsLeft] = useState(perks.hints);
   const [excluded, setExcluded] = useState<number[]>([]);
   const [settle, setSettle] = useState<
@@ -81,7 +84,12 @@ export function QuizSession({
         );
         setSettle(r);
       } else {
-        const r = await settleTrialRun(finalCorrect, finalFast);
+        // 护盾血消耗回写(shieldsRef 是当前剩余)
+        const r = await settleTrialRun(
+          finalCorrect,
+          finalFast,
+          shieldsRef.current,
+        );
         setSettle(r);
       }
     },
@@ -93,9 +101,15 @@ export function QuizSession({
       const nextCorrect = correct + (wasCorrect ? 1 : 0);
       const nextFast = fastCount + (wasFastAnswer ? 1 : 0);
       if (mode === "trial" && !wasCorrect) {
-        const left = hearts - 1;
-        setHearts(left);
-        if (left <= 0) return void finish(nextCorrect, nextFast);
+        // 先扣护盾血(蓝心),扣完才动红心
+        if (shieldsRef.current > 0) {
+          shieldsRef.current -= 1;
+          setShields(shieldsRef.current);
+        } else {
+          const left = hearts - 1;
+          setHearts(left);
+          if (left <= 0) return void finish(nextCorrect, nextFast);
+        }
       }
       const next = idx + 1;
       if (next >= questions.length) {
@@ -299,6 +313,15 @@ export function QuizSession({
               </span>
             )}
             <span className="quiz-hearts">
+              {/* 护盾血(蓝心)排在红心前,先被扣 */}
+              {Array.from({ length: perks.shieldHearts }, (_, i) => (
+                <ShieldHalf
+                  key={`s${i}`}
+                  size={20}
+                  className={`quiz-shield ${i < shields ? "" : "empty"}`}
+                  fill={i < shields ? "currentColor" : "none"}
+                />
+              ))}
               {Array.from({ length: perks.hearts }, (_, i) => (
                 <Heart
                   key={i}

@@ -154,7 +154,13 @@ export function TrialHome({
             <p>全学科题目连续来袭，看你能答对多少道</p>
             <ul className="trial-rules">
               <li>
-                <Heart size={16} aria-hidden /> 生命耗尽结束，答错或超时扣一条
+                <Heart size={16} aria-hidden /> 生命耗尽结束,答错或超时扣一条;
+                等级越高血条越长
+                {bootstrap.rpg.shieldHearts > 0 && (
+                  <em className="trial-shield-note">
+                    {" "}· 🛡️ 护盾血 ×{bootstrap.rpg.shieldHearts} 先替你挡
+                  </em>
+                )}
               </li>
               <li>
                 <Timer size={16} aria-hidden /> 每题限时，四维与装备改写手感

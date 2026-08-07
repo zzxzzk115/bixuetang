@@ -162,6 +162,13 @@
       "when": 1786183000000,
       "tag": "0022_equip_slots",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "6",
+      "when": 1786190000000,
+      "tag": "0023_shield_hearts",
+      "breakpoints": true
     }
   ]
 }

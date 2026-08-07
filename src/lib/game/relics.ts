@@ -11,6 +11,11 @@ import type { LootItem, LootRarity } from "./rpg";
 export const EQUIP_SLOTS = 3;
 export const MAX_EQUIP_SLOTS = 6;
 
+/** 护盾血(蓝心)持有上限;学习掉落攒到这个数就不再涨 */
+export const MAX_SHIELD_HEARTS = 3;
+/** 每次学习结算掉落一颗护盾血的基础概率(变率强化) */
+export const SHIELD_DROP_CHANCE = 0.12;
+
 /** 每个学科主加一项属性，对应它锻炼的能力 */
 export const SUBJECT_STAT: Record<Subject, StatKey> = {
   cs: "precision", // 工程实现讲究一次做对

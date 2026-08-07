@@ -16,7 +16,7 @@ import { getTotalXp } from "../progress/queries";
 import { dailyDateKey } from "./quests";
 import { courseHasQuiz, getQuizBank } from "./quiz-bank";
 import { drawQuiz, type QuizQuestion } from "./quiz-draw";
-import { getRpgProfile } from "./rpg-server";
+import { getRpgProfile, setShieldHearts } from "./rpg-server";
 import { sessionPerks, type SessionPerks } from "./session-perks";
 
 // 地图测验节点 / 无限试炼的服务端出题与结算。
@@ -76,7 +76,13 @@ export async function getCourseQuiz(
   return {
     ok: true,
     questions,
-    perks: sessionPerks(getRpgProfile(user.id).stats),
+    perks: (() => {
+      const prof = getRpgProfile(user.id);
+      return sessionPerks(prof.stats, {
+        level: levelFromXp(getTotalXp(user.id)),
+        shieldHearts: prof.shieldHearts,
+      });
+    })(),
     seed,
   };
 }
@@ -289,7 +295,13 @@ export async function getTrialBatch(
   return {
     ok: true,
     questions,
-    perks: sessionPerks(getRpgProfile(user.id).stats),
+    perks: (() => {
+      const prof = getRpgProfile(user.id);
+      return sessionPerks(prof.stats, {
+        level: levelFromXp(getTotalXp(user.id)),
+        shieldHearts: prof.shieldHearts,
+      });
+    })(),
     seed,
   };
 }
@@ -307,6 +319,8 @@ export interface TrialSettleResult {
 export async function settleTrialRun(
   correct: number,
   fast = 0,
+  /** 本场结束时剩余的护盾血(消耗掉的不回来);未传则不改动 */
+  shieldsLeft?: number,
 ): Promise<TrialSettleResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "请先登录" };
@@ -319,6 +333,10 @@ export async function settleTrialRun(
     fast > correct
   ) {
     return { ok: false, error: "非法结果" };
+  }
+  // 护盾血消耗回写(与得分无关,答错耗蓝心也要落库)
+  if (typeof shieldsLeft === "number" && Number.isInteger(shieldsLeft)) {
+    setShieldHearts(user.id, shieldsLeft);
   }
   if (correct === 0) return { ok: true, gained: 0, coins: 0 };
 

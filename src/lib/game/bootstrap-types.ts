@@ -37,6 +37,8 @@ export interface RpgDto {
   coins: number;
   /** 已解锁装备槽数(默认 3,商店扩容到 6) */
   equipSlots: number;
+  /** 护盾血(蓝心)持有数 */
+  shieldHearts: number;
   relics: RelicDto[];
   equipped: EquippedDto[];
   baseStats: StatBlock;
