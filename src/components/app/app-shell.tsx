@@ -203,6 +203,25 @@ export function AppShell({
             <span aria-hidden />
           )}
           <div className="app-topbar-stats">
+            {/* 右栏藏起来的窄屏上,昵称/等级/经验也得有处安身 */}
+            <button
+              className="app-stat level"
+              title={`${bootstrap.user.name} · Lv.${bootstrap.level.level} · ${bootstrap.level.current}/${bootstrap.level.span} XP`}
+              onClick={() => router.push("/settings")}
+            >
+              <span className="app-stat-name">{bootstrap.user.name}</span>
+              Lv.{bootstrap.level.level}
+              <i className="app-stat-xpbar" aria-hidden>
+                <b
+                  style={{
+                    width: `${Math.round(bootstrap.level.ratio * 100)}%`,
+                  }}
+                />
+              </i>
+              <small className="app-stat-xpnum">
+                {bootstrap.level.current}/{bootstrap.level.span}
+              </small>
+            </button>
             {bootstrap.boost && bootstrap.boost.episodesLeft > 0 && (
               <span
                 className="app-stat boost"

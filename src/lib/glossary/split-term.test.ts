@@ -33,3 +33,11 @@ test("keeps a genuine English tail with the English name", () => {
 test("keeps monolingual terms intact", () => {
   assert.deepEqual(splitBilingualTerm("ABI"), { en: "ABI", zh: "" });
 });
+
+test("keeps trailing letter that the Chinese side already repeats", () => {
+  // 「大 O 记号」自带 O:英文侧的 O 是 Big O 的本体,不该搬家
+  assert.deepEqual(splitBilingualTerm("Big O 大 O 记号"), {
+    en: "Big O",
+    zh: "大 O 记号",
+  });
+});

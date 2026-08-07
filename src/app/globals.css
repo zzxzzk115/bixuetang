@@ -180,6 +180,47 @@ html {
 .app-stat.coins {
   color: var(--app-gold);
 }
+/* 窄屏顶栏的「昵称 + 等级 + 经验条」:右栏被藏起时的替身 */
+.app-stat.level {
+  gap: 6px;
+  color: var(--app-strong);
+  cursor: pointer;
+  min-width: 0;
+}
+.app-stat-name {
+  max-width: 9ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--app-faint);
+  font-weight: 800;
+}
+.app-stat-xpbar {
+  display: inline-block;
+  width: 38px;
+  height: 7px;
+  border-radius: 4px;
+  background: var(--app-line);
+  overflow: hidden;
+}
+.app-stat-xpbar b {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--app-gold);
+}
+.app-stat-xpnum {
+  color: var(--app-faint);
+  font-size: 11.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 459px) {
+  /* 极窄机型给等级和经验数值让位,昵称先收 */
+  .app-stat-name {
+    display: none;
+  }
+}
 
 .app-content {
   flex: 1;
@@ -275,12 +316,12 @@ html {
     border-bottom: none;
     padding-top: 18px;
   }
-  /* 顶栏资源徽章在桌面由右栏承担 */
+}
+@media (min-width: 1280px) {
+  /* 右侧统计栏出现后,顶栏徽章才退场——1024~1279 的窄桌面两头都要有 */
   .app-topbar-stats {
     display: none;
   }
-}
-@media (min-width: 1280px) {
   .app-rail {
     order: 2;
     display: flex;
