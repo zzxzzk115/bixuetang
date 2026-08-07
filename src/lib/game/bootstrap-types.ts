@@ -26,6 +26,8 @@ export interface RelicDto {
   subject: Subject;
   rarity: LootRarity;
   quantity: number;
+  /** 诅咒遗物:主属性翻倍但另一项负增益 */
+  cursed?: boolean;
 }
 
 export interface EquippedDto {

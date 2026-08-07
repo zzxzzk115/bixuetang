@@ -23,6 +23,8 @@ import {
 } from "./relics";
 import {
   getLootItem,
+  isCursedDrop,
+  itemForEncounter,
   lootForEpisode,
   luckyBonusCoins,
   type EpisodeLoot,
@@ -75,6 +77,14 @@ export function settleEpisodeLoot(
   );
   // 幸运彩蛋只随掉落事件结算一次(loot 事件主键幂等),重勾刷不出第二份
   reward.luckyCoins = luckyBonusCoins(userId, course.id, episodeN);
+  // 约 8% 的掉落被诅咒:主属性翻倍但另一项负增益(确定性哈希,不可重刷)
+  if (isCursedDrop(userId, course.id, episodeN)) {
+    reward.item = itemForEncounter(
+      course.subject,
+      reward.encounterType,
+      true,
+    );
+  }
   const totalCoins = reward.coins + reward.luckyCoins;
   const now = Date.now();
 

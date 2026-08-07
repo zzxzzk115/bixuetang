@@ -401,26 +401,36 @@ export function BagHome({
             <div className="bag-grid">
               {sorted.map((r) => {
                 const color = SUBJECT_COLOR[r.subject];
-                const stat = SUBJECT_STAT[r.subject];
-                const value = relicBonus(r, r.quantity)[stat];
+                const b = relicBonus(r, r.quantity);
+                // 诅咒遗物有两项非零(主属性增益 + 惩罚属性负增益)
+                const deltas = (Object.keys(STAT_LABEL) as StatKey[])
+                  .filter((k) => b[k] !== 0)
+                  .map((k) => ({ k, v: b[k] }));
                 return (
                   <button
                     key={r.id}
-                    className={`bag-relic rarity-${r.rarity} ${selectedId === r.id ? "selected" : ""} ${equippedIds.has(r.id) ? "equipped" : ""}`}
+                    className={`bag-relic rarity-${r.rarity} ${r.cursed ? "cursed" : ""} ${selectedId === r.id ? "selected" : ""} ${equippedIds.has(r.id) ? "equipped" : ""}`}
                     onClick={() =>
                       setSelectedId((cur) => (cur === r.id ? null : r.id))
                     }
                   >
                     <span className="bag-relic-rarity">
-                      {RARITY_LABEL[r.rarity]}
+                      {r.cursed ? "诅咒" : RARITY_LABEL[r.rarity]}
                     </span>
                     <b>{r.title}</b>
                     <small>
                       ×{r.quantity} ·{" "}
-                      <span style={{ color }}>
-                        +{STAT_LABEL[stat]}
-                        {value}
-                      </span>
+                      {deltas.map((d, i) => (
+                        <span
+                          key={d.k}
+                          style={{ color: d.v > 0 ? color : "#e5484d" }}
+                        >
+                          {i > 0 ? " " : ""}
+                          {d.v > 0 ? "+" : ""}
+                          {d.v}
+                          {STAT_LABEL[d.k]}
+                        </span>
+                      ))}
                     </small>
                     {equippedIds.has(r.id) && (
                       <span className="bag-relic-on">已装备</span>

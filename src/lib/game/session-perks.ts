@@ -34,9 +34,13 @@ export function sessionPerks(
   return {
     timeLimitSec: Math.min(40, Math.max(15, Math.round(15 + stats.focus * 0.5))),
     hints: Math.min(3, Math.floor(stats.insight / 10)),
-    hearts: Math.min(
-      MAX_HEARTS,
-      3 + Math.floor(stats.resolve / 15) + Math.floor(level / 5),
+    // 诅咒遗物可能把意志扣成负数 → 血上限下降,但至少保 1 心
+    hearts: Math.max(
+      1,
+      Math.min(
+        MAX_HEARTS,
+        3 + Math.floor(stats.resolve / 15) + Math.floor(level / 5),
+      ),
     ),
     shieldHearts: Math.max(0, opts.shieldHearts ?? 0),
     fastRatio: Math.min(0.6, 0.35 + stats.precision / 200),

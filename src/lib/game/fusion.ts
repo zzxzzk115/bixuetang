@@ -65,10 +65,12 @@ export function fusionResult(
   const upgraded = next !== null && rollUpgrade < UPGRADE_CHANCE[rarity];
   const outRarity = upgraded && next ? next : rarity;
   const subjects: Subject[] = inputs.map((i) => i.subject);
-  const subject =
-    subjects[Math.min(FUSE_COUNT - 1, Math.floor(rollSubject * FUSE_COUNT))];
+  const idx = Math.min(FUSE_COUNT - 1, Math.floor(rollSubject * FUSE_COUNT));
+  const subject = subjects[idx];
+  // 诅咒会传染:参与融合的有诅咒遗物,产物也带诅咒(高风险高回报延续)
+  const cursed = inputs.some((i) => i.cursed);
   return {
-    item: itemForEncounter(subject, RARITY_ENCOUNTER[outRarity]),
+    item: itemForEncounter(subject, RARITY_ENCOUNTER[outRarity], cursed),
     upgraded,
   };
 }

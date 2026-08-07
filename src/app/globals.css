@@ -2232,6 +2232,14 @@ html {
   outline: 3px solid var(--app-green);
   outline-offset: 2px;
 }
+/* 诅咒遗物:暗紫描边 + 血色标签,一眼看出高风险 */
+.bag-relic.cursed {
+  border-color: #7c3aed;
+  background: color-mix(in srgb, #7c3aed 8%, transparent);
+}
+.bag-relic.cursed .bag-relic-rarity {
+  color: #b91c1c;
+}
 .bag-relic b {
   color: var(--app-strong);
   font-size: 13px;

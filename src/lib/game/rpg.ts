@@ -11,6 +11,8 @@ export interface LootItem {
   description: string;
   subject: Subject;
   rarity: LootRarity;
+  /** 诅咒遗物:主属性翻倍加成,但另一属性负增益(高风险高回报) */
+  cursed?: boolean;
 }
 
 export interface EpisodeLoot {
@@ -73,8 +75,22 @@ export function encounterForEpisode(episodeN: number, totalEpisodes: number): En
   return "mob";
 }
 
-export function itemForEncounter(subject: Subject, encounterType: EncounterType): LootItem {
+export function itemForEncounter(
+  subject: Subject,
+  encounterType: EncounterType,
+  cursed = false,
+): LootItem {
   const item = SUBJECT_ITEMS[subject][encounterType];
+  if (cursed) {
+    return {
+      id: `${subject}-${encounterType}-cursed`,
+      subject,
+      rarity: item.rarity,
+      title: `诅咒·${item.title}`,
+      description: `${item.description} 被诅咒缠绕:力量翻涌,却在别处留下裂痕。`,
+      cursed: true,
+    };
+  }
   return {
     id: `${subject}-${encounterType}`,
     subject,
@@ -108,6 +124,27 @@ export function luckyBonusCoins(
   return 10 + (Math.floor(h / 1000) % 21); // 10..30
 }
 
+/** 诅咒掉落概率(约 8%) */
+export const CURSE_CHANCE = 0.08;
+
+/**
+ * 这一集掉落的遗物是否被诅咒:用 (userId,courseId,episodeN) 播种的
+ * 确定性哈希,同键永远同结果,重勾刷不出第二份——与幸运彩蛋同一套幂等。
+ * 用不同的乘数种子,和幸运判定互相独立。
+ */
+export function isCursedDrop(
+  userId: number,
+  courseId: string,
+  episodeN: number,
+): boolean {
+  let h = (userId + 1) * 0x9e3779b1;
+  for (let i = 0; i < courseId.length; i++) {
+    h = Math.imul(h ^ courseId.charCodeAt(i), 0x85ebca6b);
+  }
+  h = Math.imul(h ^ (episodeN + 7), 0x85ebca6b) >>> 0;
+  return (h % 1000) / 1000 < CURSE_CHANCE;
+}
+
 export function lootForEpisode(
   subject: Subject,
   level: Level,
@@ -125,10 +162,13 @@ export function lootForEpisode(
 }
 
 export function getLootItem(itemId: string): LootItem | undefined {
+  const cursed = itemId.endsWith("-cursed");
+  const baseId = cursed ? itemId.slice(0, -"-cursed".length) : itemId;
   for (const subject of Object.keys(SUBJECT_ITEMS) as Subject[]) {
     for (const encounter of Object.keys(SUBJECT_ITEMS[subject]) as EncounterType[]) {
-      const item = itemForEncounter(subject, encounter);
-      if (item.id === itemId) return item;
+      if (`${subject}-${encounter}` === baseId) {
+        return itemForEncounter(subject, encounter, cursed);
+      }
     }
   }
   return undefined;

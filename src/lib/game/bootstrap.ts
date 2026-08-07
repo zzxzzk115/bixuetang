@@ -53,6 +53,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     subject: r.item.subject,
     rarity: r.item.rarity,
     quantity: r.quantity,
+    cursed: r.item.cursed,
   }));
   const relicById = new Map(relics.map((r) => [r.id, r]));
 

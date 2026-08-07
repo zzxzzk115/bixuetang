@@ -32,6 +32,12 @@ export function announceSettle(settle: ToggleResult) {
       text: `+${settle.loot.coins} 金币 · ${settle.loot.item.title}`,
       tone: "coin",
     });
+    if (settle.loot.item.cursed) {
+      rewardToast({
+        text: `🩸 诅咒遗物!力量翻倍,却有代价——去背包一探`,
+        tone: "lucky",
+      });
+    }
     if (settle.loot.luckyCoins > 0) {
       rewardToast({
         text: `🎉 幸运彩蛋 +${settle.loot.luckyCoins} 金币`,

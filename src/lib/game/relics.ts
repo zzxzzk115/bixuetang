@@ -67,14 +67,28 @@ export function stackMultiplier(quantity: number): number {
   return 1 + Math.floor(Math.log2(quantity));
 }
 
-/** 单件遗物在装备后提供的属性（只看学科与稀有度，客户端 DTO 也能直接传） */
+/** 诅咒遗物的惩罚落在哪项:默认扣意志(→掉血),若主属性就是意志则改扣专注 */
+export function curseStat(subject: Subject): StatKey {
+  return SUBJECT_STAT[subject] === "resolve" ? "focus" : "resolve";
+}
+
+/**
+ * 单件遗物在装备后提供的属性（只看学科、稀有度与是否被诅咒）。
+ * 诅咒遗物:主属性 ×2 加成,但 curseStat 上等量负增益——高风险高回报。
+ */
 export function relicBonus(
-  item: Pick<LootItem, "subject" | "rarity">,
+  item: Pick<LootItem, "subject" | "rarity" | "cursed">,
   quantity: number,
 ): StatBlock {
   const stat = SUBJECT_STAT[item.subject];
-  const value = RARITY_POWER[item.rarity] * stackMultiplier(quantity);
-  return { ...ZERO_STATS, [stat]: value };
+  const unit = RARITY_POWER[item.rarity] * stackMultiplier(quantity);
+  if (item.cursed) {
+    const penalty = curseStat(item.subject);
+    const block = { ...ZERO_STATS, [stat]: unit * 2 };
+    block[penalty] = (block[penalty] ?? 0) - unit;
+    return block;
+  }
+  return { ...ZERO_STATS, [stat]: unit };
 }
 
 export function sumStats(blocks: StatBlock[]): StatBlock {
