@@ -6195,8 +6195,20 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: rgba(255, 255, 255, 0.55);
   line-height: 1.4;
 }
-.artset-icon {
+/* 字幕设置控件按钮:CC 字样描边框,与章节「章」同款风格 */
+.artp-ccbtn {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 3px;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 6px;
+  font-size: 10px;
   font-weight: 900;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+  cursor: pointer;
 }
 
 /* ==== F3:章节缩略图(前端抓帧,dataURL) ==== */

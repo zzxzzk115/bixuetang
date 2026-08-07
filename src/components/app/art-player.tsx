@@ -597,6 +597,17 @@ export function BiliPlayer({
               ]
             : []),
           {
+            // 字幕设置:双语主/副 + 每轨时间轴数字偏移(单独控件,点开 React 面板)
+            name: "ccsettings",
+            position: "right",
+            index: 5,
+            tooltip: "字幕设置",
+            html: `<span class="artp-ccbtn">CC</span>`,
+            click: () => {
+              setCcPanelOpen((open) => !open);
+            },
+          },
+          {
             // 时间戳笔记:全屏里也能随手记(b 键同款)
             name: "note",
             position: "right",
@@ -843,21 +854,6 @@ export function BiliPlayer({
         },
       });
     }
-
-    // 字幕设置项:点开一张 React 面板(双语主/副 + 每轨数字偏移)。
-    // 不做成独立控件,避免控制条按钮太多;菜单里也塞不下这些控件。
-    // ArtPlayer 的设置项必须是 switch 或带 selector 的子菜单,
-    // 纯 onSelect 叶子会崩(给 undefined 设 tooltip),故挂一个子项承接点击。
-    settings.push({
-      html: "字幕设置",
-      tooltip: "双语 / 偏移",
-      icon: '<span class="artset-icon">CC</span>',
-      selector: [{ html: "双语 · 主/副 · 时间轴偏移", default: true }],
-      onSelect: () => {
-        setCcPanelOpen(true);
-        return "双语 / 偏移";
-      },
-    });
 
     settings.push({
       html: "离开页面自动暂停",
