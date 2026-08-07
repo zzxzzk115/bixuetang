@@ -115,7 +115,10 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
   );
 
   const courseById = new Map(courses.map((c) => [c.id, c]));
-  const paths: PathSummaryDto[] = content.paths.map((p) => {
+  // 影子跟读线(mode:shadow)节点不是课程,暂不进课程地图——等跟读节点渲染做好再接。
+  const paths: PathSummaryDto[] = content.paths
+    .filter((p) => p.mode === "course")
+    .map((p) => {
     const courseIds = p.stages.flatMap((s) => s.courses);
     // 路线是线性的：第一门课打不开，这条线就没法从头走，整条锁住。
     // 例外是已经在这条线上学过东西的人——那就让他继续。

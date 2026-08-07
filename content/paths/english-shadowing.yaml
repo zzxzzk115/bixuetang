@@ -1,0 +1,15 @@
+# 英语影子跟读线：由浅入深,重点是「敢说、说对、说像」,治哑巴英语。
+# mode: shadow → 地图节点是「跟读单元」而非「看视频」。
+# 阶段即难度档;单元在 S1d 内容运营阶段逐步补齐(现仅 L1 一个种子)。
+id: english-shadowing
+title: 英语影子跟读
+subject: en
+tier: basic
+mode: shadow
+description: >
+  影子跟读是练口语最直接的方法:听一句、立刻模仿一句,先模仿声音再管意思。
+  从慢速短句起步,一路到原速影视,把「听得懂但说不出」练成「张口就来」。
+stages:
+  - title: L1 · 慢速短句
+    courses:
+      - en-l1-self-intro

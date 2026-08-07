@@ -2,13 +2,14 @@ import { z } from "zod";
 
 // ---------- 基础枚举 ----------
 
-export const SUBJECTS = ["cs", "math", "physics", "ai"] as const;
+export const SUBJECTS = ["cs", "math", "physics", "ai", "en"] as const;
 export type Subject = (typeof SUBJECTS)[number];
 export const SUBJECT_LABEL: Record<Subject, string> = {
   cs: "计算机",
   math: "数学",
   physics: "物理",
   ai: "人工智能",
+  en: "英语",
 };
 
 export const LEVELS = ["basic", "intermediate", "advanced"] as const;
@@ -199,6 +200,12 @@ export const PathSchema = z.object({
   title: z.string(),
   subject: z.enum(SUBJECTS),
   tier: z.enum(PATH_TIERS).default("intermediate"),
+  /**
+   * 线路类型:course=普通课程线(节点=看视频/测验/宝箱);
+   * shadow=影子跟读线(节点=跟读单元)。默认 course,老线路不受影响。
+   * stages[].courses 里的 id:course 模式指向课程,shadow 模式指向跟读单元。
+   */
+  mode: z.enum(["course", "shadow"]).default("course"),
   description: z.string().optional(),
   stages: z
     .array(

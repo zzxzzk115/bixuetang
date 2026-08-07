@@ -83,6 +83,24 @@ export function loadContent(): ContentIndex {
     }
   }
 
+  // ---- 影子跟读单元（路径校验前先建好，跟读线要按它校验引用） ----
+  const shadowUnits: ShadowUnit[] = [];
+  for (const file of listYamlFiles(path.join(root, "shadowing"))) {
+    const parsed = ShadowUnitSchema.safeParse(readYaml(file));
+    if (parsed.success) shadowUnits.push(parsed.data);
+    else
+      problems.push(
+        `shadowing/${rel(file)}: ${parsed.error.issues
+          .map((i) => `${i.path.join(".")} ${i.message}`)
+          .join("; ")}`,
+      );
+  }
+  const shadowUnitsById = new Map<string, ShadowUnit>();
+  for (const u of shadowUnits) {
+    if (shadowUnitsById.has(u.id)) problems.push(`影子跟读单元 id 重复: ${u.id}`);
+    shadowUnitsById.set(u.id, u);
+  }
+
   // ---- 路径 ----
   const paths: LearningPath[] = [];
   for (const file of listYamlFiles(path.join(root, "paths"))) {
@@ -101,8 +119,14 @@ export function loadContent(): ContentIndex {
     pathsById.set(p.id, p);
     for (const stage of p.stages) {
       for (const cid of stage.courses) {
-        if (!coursesById.has(cid))
-          problems.push(`路径 ${p.id} 引用了不存在的课程: ${cid}`);
+        const ok =
+          p.mode === "shadow"
+            ? shadowUnitsById.has(cid)
+            : coursesById.has(cid);
+        if (!ok)
+          problems.push(
+            `路径 ${p.id} 引用了不存在的${p.mode === "shadow" ? "跟读单元" : "课程"}: ${cid}`,
+          );
       }
     }
   }
@@ -175,24 +199,6 @@ export function loadContent(): ContentIndex {
       }
       analysisByCourse.set(a.courseId, a);
     }
-  }
-
-  // ---- 影子跟读单元 ----
-  const shadowUnits: ShadowUnit[] = [];
-  for (const file of listYamlFiles(path.join(root, "shadowing"))) {
-    const parsed = ShadowUnitSchema.safeParse(readYaml(file));
-    if (parsed.success) shadowUnits.push(parsed.data);
-    else
-      problems.push(
-        `shadowing/${rel(file)}: ${parsed.error.issues
-          .map((i) => `${i.path.join(".")} ${i.message}`)
-          .join("; ")}`,
-      );
-  }
-  const shadowUnitsById = new Map<string, ShadowUnit>();
-  for (const u of shadowUnits) {
-    if (shadowUnitsById.has(u.id)) problems.push(`影子跟读单元 id 重复: ${u.id}`);
-    shadowUnitsById.set(u.id, u);
   }
 
   if (problems.length > 0) throw new ContentError(problems);

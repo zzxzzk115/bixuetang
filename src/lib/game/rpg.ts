@@ -49,6 +49,12 @@ const SUBJECT_ITEMS: Record<Subject, Record<EncounterType, Omit<LootItem, "id" |
     elite: { title: "推理徽记", description: "通过高难度智能系统遭遇的凭证。", rarity: "rare" },
     boss: { title: "智能核心", description: "完整攻克一门人工智能课程的核心遗物。", rarity: "legendary" },
   },
+  en: {
+    mob: { title: "音标碎片", description: "一次跟读留下的发音材料。", rarity: "common" },
+    cache: { title: "语料手册", description: "收录地道表达与连读弱读的手册。", rarity: "uncommon" },
+    elite: { title: "口语勋章", description: "攻克高难度原速跟读的凭证。", rarity: "rare" },
+    boss: { title: "母语者之证", description: "把一条跟读线练到张口就来的核心遗物。", rarity: "legendary" },
+  },
 };
 
 const LEVEL_COINS: Record<Level, number> = {

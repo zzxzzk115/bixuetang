@@ -22,6 +22,7 @@ export const SUBJECT_STAT: Record<Subject, StatKey> = {
   math: "insight", // 数学是看穿结构
   physics: "resolve", // 物理靠啃硬骨头
   ai: "focus", // 训练模型是长跑
+  en: "precision", // 口语跟读讲究发音精准
 };
 
 export type StatKey = "insight" | "focus" | "precision" | "resolve";

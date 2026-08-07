@@ -89,6 +89,8 @@ html {
   --app-orange: #ff9600;
   --app-gold: #ffc800;
   --app-red: #ff4b4b;
+  /* 英语等语言线学科色 */
+  --app-pink: #f25f9c;
 }
 :root[data-theme="dark"] {
   --app-bg: #131f24;
