@@ -112,7 +112,16 @@ export function CoursePlayer({
         onCompleted={() => router.refresh()}
         onLoaded={onLoaded}
       />
-      <BiliInteract key={`i:${bvid}:${page}`} bvid={bvid} aid={aid} page={page} />
+      <BiliInteract
+        key={`i:${bvid}:${page}`}
+        bvid={bvid}
+        aid={aid}
+        page={page}
+        courseId={courseId}
+        courseTitle={courseTitle}
+        episodeTitle={episode.title}
+        episodeN={episode.n}
+      />
     </div>
   );
 }

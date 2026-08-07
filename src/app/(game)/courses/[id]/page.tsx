@@ -41,7 +41,7 @@ export default async function CoursePage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ seg?: string }>;
+  searchParams: Promise<{ seg?: string; ep?: string }>;
 }) {
   const { id } = await params;
   const content = getContent();
@@ -80,8 +80,8 @@ export default async function CoursePage({
   const progress = getUserProgress(user.id);
   const watched = progress.watchedByCourse.get(id);
 
-  // 分段作用域：?seg= 对应地图上的视频节点
-  const { seg } = await searchParams;
+  // 分段作用域：?seg= 对应地图上的视频节点;?ep= 深链直达某集(分享/复习回看)
+  const { seg, ep } = await searchParams;
   const track = buildLessonTrack(
     course.episodes.map((e) => e.n),
     courseHasQuiz(id),
@@ -227,7 +227,15 @@ export default async function CoursePage({
             sources={course.sources}
             courseTitle={course.title}
             episodes={episodes}
-            initialEpisode={firstUnwatched?.n ?? episodes[0]?.n ?? 1}
+            initialEpisode={
+              (ep !== undefined &&
+              episodes.some((e) => e.n === Number(ep))
+                ? Number(ep)
+                : undefined) ??
+              firstUnwatched?.n ??
+              episodes[0]?.n ??
+              1
+            }
             resumeByEpisode={watchProgress}
             serverPrefs={playerPrefs}
             keyPointsByEpisode={keyPointsByEpisode}

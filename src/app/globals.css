@@ -7338,3 +7338,112 @@ body:has(.art-video-player.art-fullscreen-web) {
   border-color: var(--app-gold);
   color: var(--app-text);
 }
+
+/* ==== 分享弹层 ==== */
+.share-pop-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.55);
+}
+.share-pop {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(420px, 94vw);
+  max-height: min(90dvh, 780px);
+  padding: 14px;
+  border-radius: 18px;
+  background: var(--app-surface);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  animation: sheet-rise 180ms ease-out;
+}
+.share-pop header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.share-pop-tabs {
+  display: flex;
+  gap: 6px;
+}
+.share-pop-tabs button {
+  padding: 7px 14px;
+  border: 2px solid var(--app-line);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--app-faint);
+  cursor: pointer;
+}
+.share-pop-tabs button.on {
+  border-color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 14%, transparent);
+  color: var(--app-green);
+}
+.share-pop-tabs button.bili.on {
+  border-color: #fb7299;
+  background: color-mix(in srgb, #fb7299 14%, transparent);
+  color: #fb7299;
+}
+.share-pop-close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: var(--app-faint);
+  cursor: pointer;
+}
+.share-pop-close:hover {
+  background: color-mix(in srgb, var(--app-faint) 14%, transparent);
+}
+.share-pop-preview {
+  display: grid;
+  place-items: center;
+  min-height: 200px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--app-line) 30%, transparent);
+}
+.share-pop-preview img {
+  display: block;
+  width: 100%;
+  max-height: min(52dvh, 480px);
+  object-fit: contain;
+}
+.share-pop-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+}
+.share-pop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.share-pop-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 38px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+.share-pop-note {
+  color: var(--app-faint);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.share-pop-msg {
+  color: var(--app-green);
+  font-size: 12px;
+  font-weight: 800;
+}

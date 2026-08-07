@@ -204,6 +204,8 @@ export interface BiliViewData {
   aid: number;
   title: string;
   duration: number;
+  /** 封面图地址(分享卡用) */
+  pic?: string;
   pages: BiliViewPage[];
 }
 

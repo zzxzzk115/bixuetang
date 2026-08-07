@@ -20,6 +20,7 @@ import {
   toggleLike,
   type InteractState,
 } from "@/lib/bili/interact-actions";
+import { SharePopup } from "./share-popup";
 
 interface FavFolderVm {
   id: number;
@@ -50,10 +51,19 @@ export function BiliInteract({
   bvid,
   aid,
   page,
+  courseId,
+  courseTitle,
+  episodeTitle,
+  episodeN,
 }: {
   bvid: string;
   aid: number | null;
   page: number;
+  /** 分享卡用的课程上下文 */
+  courseId: string;
+  courseTitle: string;
+  episodeTitle: string;
+  episodeN: number;
 }) {
   const [state, setState] = useState<InteractState | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -66,6 +76,8 @@ export function BiliInteract({
   /** 收藏夹面板：null=未打开 */
   const [folders, setFolders] = useState<FavFolderVm[] | null>(null);
   const [checked, setChecked] = useState<Set<number>>(new Set());
+  /** 分享弹层 */
+  const [shareOpen, setShareOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -147,15 +159,7 @@ export function BiliInteract({
       );
     });
 
-  const onShare = async () => {
-    const url = `https://www.bilibili.com/video/${bvid}${page > 1 ? `?p=${page}` : ""}`;
-    try {
-      await navigator.clipboard.writeText(url);
-      setMsg("链接已复制");
-    } catch {
-      setMsg(url);
-    }
-  };
+  const onShare = () => setShareOpen(true);
 
   const openReplies = async () => {
     if (replies !== null || aid === null) {
@@ -244,10 +248,20 @@ export function BiliInteract({
           {state?.stat?.favorite ? <em>{fmtCount(state.stat.favorite)}</em> : null}
         </button>
 
-        <button onClick={onShare} title="复制视频链接">
+        <button onClick={onShare} title="生成分享图">
           <Link2 size={17} />
           <span>分享</span>
         </button>
+        <SharePopup
+          open={shareOpen}
+          onClose={() => setShareOpen(false)}
+          courseId={courseId}
+          courseTitle={courseTitle}
+          episodeTitle={episodeTitle}
+          episodeN={episodeN}
+          bvid={bvid}
+          page={page}
+        />
 
         <button
           className={replies !== null ? "on" : undefined}
