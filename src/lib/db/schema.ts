@@ -246,6 +246,8 @@ export const episodeWatch = sqliteTable(
     durationSec: integer("duration_sec").notNull().default(0),
     /** 观看覆盖率 ×100（0~100），≥ 90 视为看完 */
     ratioPct: integer("ratio_pct").notNull().default(0),
+    /** 分段覆盖率数组的 JSON(各段 ×100,段定义见 src/lib/segments.ts) */
+    segmentsJson: text("segments_json"),
     updatedAt: integer("updated_at").notNull(),
   },
   (t) => [primaryKey({ columns: [t.userId, t.courseId, t.episodeN] })],

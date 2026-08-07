@@ -24,6 +24,7 @@ export function CoursePlayer({
   initialEpisode,
   resumeByEpisode,
   serverPrefs,
+  keyPointsByEpisode = {},
 }: {
   courseId: string;
   sources: Source[];
@@ -32,6 +33,8 @@ export function CoursePlayer({
   initialEpisode: number;
   resumeByEpisode: Record<number, { positionSec: number; ratioPct: number }>;
   serverPrefs: string | null;
+  /** 各集带时间戳的关键点(进度条刻度 + 分段边界),来自 AI 分析 */
+  keyPointsByEpisode?: Record<number, { t: number; title: string }[]>;
 }) {
   const router = useRouter();
   const [episodeN, setEpisodeN] = useState(initialEpisode);
@@ -105,6 +108,7 @@ export function CoursePlayer({
         resumeAt={resumeByEpisode[episode.n]?.positionSec ?? 0}
         initialRatioPct={resumeByEpisode[episode.n]?.ratioPct ?? 0}
         serverPrefs={serverPrefs}
+        keyPointMarks={keyPointsByEpisode[episode.n] ?? []}
         onCompleted={() => router.refresh()}
         onLoaded={onLoaded}
       />

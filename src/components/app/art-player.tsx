@@ -18,6 +18,7 @@ import type { MediaPlayerClass } from "dashjs";
 import { reportWatchProgress } from "@/lib/game/watch-actions";
 import { saveCcOffset, savePlayerPrefs } from "@/lib/game/user-state-actions";
 import { announceSettle } from "@/lib/reward-feedback";
+import { buildSegments, segmentCoverage } from "@/lib/segments";
 import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
 import { detectPlayMode } from "./player-capability";
 import { prefsStore } from "./player-settings";
@@ -87,6 +88,7 @@ export function BiliPlayer({
   resumeAt = 0,
   initialRatioPct = 0,
   serverPrefs = null,
+  keyPointMarks = [],
   onCompleted,
   onLoaded,
   ref,
@@ -100,6 +102,8 @@ export function BiliPlayer({
   initialRatioPct?: number;
   /** 服务端存的播放偏好 JSON(权威值,跨设备一致) */
   serverPrefs?: string | null;
+  /** 本集 AI 分析里带时间戳的关键点(进度条刻度 + 分段边界) */
+  keyPointMarks?: { t: number; title: string }[];
   onCompleted?: () => void;
   onLoaded?: (info: { aid: number; cid: number }) => void;
   ref?: Ref<BiliPlayerHandle>;
@@ -116,6 +120,12 @@ export function BiliPlayer({
   const [ccOffset, setCcOffset] = useState(0);
   /** ArtPlayer 建好后暴露的层挂载点,React 往里 portal */
   const [ccHost, setCcHost] = useState<HTMLElement | null>(null);
+  /** 章节面板(viewPoints 或分段) */
+  const [chapterHost, setChapterHost] = useState<HTMLElement | null>(null);
+  const [chaptersOpen, setChaptersOpen] = useState(false);
+  const [chapters, setChapters] = useState<{ title: string; from: number }[]>(
+    [],
+  );
 
   const prefs = useSyncExternalStore(
     prefsStore.subscribe,
@@ -130,6 +140,10 @@ export function BiliPlayer({
   const hoverRef = useRef(false);
   /** 实例还没建好时收到的 seek 请求,建好后补跳 */
   const pendingSeekRef = useRef<number | null>(null);
+  /** 进度条刻度时间点(升序),「下一知识点」用 */
+  const marksRef = useRef<number[]>([]);
+  /** 覆盖率分段(与服务端 buildSegments 同一份纯函数,两边对齐) */
+  const segmentsRef = useRef<ReturnType<typeof buildSegments>>([]);
 
   // 偏好:库里那份是权威,挂载时 hydrate 一次;之后每次改动落库
   useEffect(() => {
@@ -223,6 +237,17 @@ export function BiliPlayer({
   const offsetSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cidRef = useRef<number | null>(null);
   cidRef.current = payload?.cid ?? null;
+  /** 跳到下一个进度条刻度(章节/关键点) */
+  const jumpNextMark = useCallback(() => {
+    const art = artRef.current;
+    if (!art) return;
+    const next = marksRef.current.find((t) => t > art.currentTime + 1);
+    if (next != null) {
+      art.currentTime = next;
+      void art.play();
+    }
+  }, []);
+
   const nudgeCcOffset = useCallback((deltaMs: number) => {
     setCcOffset((prev) => {
       const next =
@@ -270,9 +295,37 @@ export function BiliPlayer({
       const mp4Picked =
         mp4Qualities.find((q) => q.id === p.qualityId) ?? mp4Qualities[0];
 
-      // React 往这个层里 portal 自研 CC 字幕,挂在播放器内部才能在全屏时可见
+      // React 往这些层里 portal 自研 UI(CC 字幕/章节面板),
+      // 挂在播放器内部才能在全屏时可见
       const ccEl = document.createElement("div");
       ccEl.className = "artcc-host";
+      const chapterEl = document.createElement("div");
+      chapterEl.className = "artchapter-host";
+
+      // 进度条刻度 = UP 主章节 ∪ AI 关键点(5 秒内视为同一处,章节优先)
+      const marks: { time: number; text: string }[] = payload.viewPoints.map(
+        (v) => ({ time: v.from, text: v.content }),
+      );
+      for (const kp of keyPointMarks) {
+        if (!marks.some((m) => Math.abs(m.time - kp.t) < 5)) {
+          marks.push({ time: kp.t, text: kp.title });
+        }
+      }
+      marks.sort((a, b) => a.time - b.time);
+      marksRef.current = marks.map((m) => m.time);
+
+      // 覆盖率分段:只用 keyPoints/等分(服务端 chips 同款输入,两边一致)
+      segmentsRef.current = buildSegments({
+        durationSec: payload.durationSec,
+        keyPoints: keyPointMarks,
+      });
+
+      // 章节面板数据:章节优先,其次覆盖率分段
+      setChapters(
+        payload.viewPoints.length > 0
+          ? payload.viewPoints.map((v) => ({ title: v.content, from: v.from }))
+          : segmentsRef.current.map((s) => ({ title: s.title, from: s.from })),
+      );
 
       art = new ArtplayerCtor({
         container: hostRef.current,
@@ -368,13 +421,42 @@ export function BiliPlayer({
         autoOrientation: true, // 手机竖屏点网页全屏 → 自动转 90°(iOS 也适用)
         theme: accentColor(),
         lang: "zh-cn",
-        // 章节刻度:UP 主标的 view_points 显示在进度条上,悬停出标题
-        highlight: payload.viewPoints.map((v) => ({
-          time: v.from,
-          text: v.content,
-        })),
-        layers: [{ name: "cc", html: ccEl }],
+        // 进度条刻度:章节 + 关键点,悬停出标题,点击即跳
+        highlight: marks,
+        layers: [
+          { name: "cc", html: ccEl },
+          { name: "chapters", html: chapterEl },
+        ],
         controls: [
+          ...(marks.length > 0
+            ? [
+                {
+                  // 下一知识点:长视频里「跳去下一个讲点」比盲目快进有用得多
+                  name: "nextMark",
+                  position: "right" as const,
+                  index: 3,
+                  tooltip: "下一知识点(n)",
+                  html: `<span class="artp-next">⏭</span>`,
+                  click: () => {
+                    jumpNextMark();
+                  },
+                },
+              ]
+            : []),
+          ...(payload.viewPoints.length > 0 || segmentsRef.current.length > 0
+            ? [
+                {
+                  name: "chapters",
+                  position: "right" as const,
+                  index: 4,
+                  tooltip: "章节",
+                  html: `<span class="artp-chapters">章</span>`,
+                  click: () => {
+                    setChaptersOpen((open) => !open);
+                  },
+                },
+              ]
+            : []),
           {
             name: "watch",
             position: "right",
@@ -427,6 +509,7 @@ export function BiliPlayer({
 
       artRef.current = art;
       setCcHost(ccEl);
+      setChapterHost(chapterEl);
 
       // 服务端存的跨设备进度种进 autoPlayback 的 storage(取两边的较大值),
       // ready 时它会读这个键弹出「上次看到 X · 跳转播放」小条
@@ -532,6 +615,8 @@ export function BiliPlayer({
     return () => {
       cancelled = true;
       setCcHost(null);
+      setChapterHost(null);
+      setChaptersOpen(false);
       try {
         dashRef.current?.destroy();
       } catch {
@@ -734,6 +819,10 @@ export function BiliPlayer({
         art.currentTime,
         total,
         seenRef.current.size,
+        // 分段覆盖率(长视频才有段;服务端逐段取大合并)
+        segmentsRef.current.length > 0
+          ? segmentCoverage(seenRef.current, segmentsRef.current)
+          : undefined,
       );
       if (r.completed && !completedRef.current) {
         completedRef.current = true;
@@ -815,6 +904,9 @@ export function BiliPlayer({
         case "f":
           art.fullscreen = !art.fullscreen;
           break;
+        case "n":
+          jumpNextMark();
+          break;
         case "c": {
           const cur = prefsStore.get().cc;
           prefsStore.set({ cc: { ...cur, on: !cur.on } });
@@ -847,7 +939,7 @@ export function BiliPlayer({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [payload]);
+  }, [payload, jumpNextMark]);
 
   useImperativeHandle(
     ref,
@@ -924,6 +1016,50 @@ export function BiliPlayer({
             )}
           </div>,
           ccHost,
+        )}
+
+      {/* 章节面板:点「章」展开,当前章高亮,点击即跳 */}
+      {chapterHost &&
+        chaptersOpen &&
+        chapters.length > 0 &&
+        createPortal(
+          <div className="artchapter-panel" onClick={(e) => e.stopPropagation()}>
+            <header>
+              <b>章节</b>
+              <button onClick={() => setChaptersOpen(false)} aria-label="关闭">
+                ×
+              </button>
+            </header>
+            <ol>
+              {chapters.map((c, i) => {
+                const cur = artRef.current?.currentTime ?? 0;
+                const next = chapters[i + 1]?.from ?? Number.POSITIVE_INFINITY;
+                const active = cur >= c.from && cur < next;
+                return (
+                  <li key={`${c.from}:${i}`}>
+                    <button
+                      className={active ? "on" : undefined}
+                      onClick={() => {
+                        const art = artRef.current;
+                        if (art) {
+                          art.currentTime = c.from;
+                          void art.play();
+                        }
+                        setChaptersOpen(false);
+                      }}
+                    >
+                      <i>
+                        {Math.floor(c.from / 60)}:
+                        {String(Math.floor(c.from % 60)).padStart(2, "0")}
+                      </i>
+                      <span>{c.title}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>,
+          chapterHost,
         )}
 
       {ccOffset !== 0 && prefs.cc.on && (

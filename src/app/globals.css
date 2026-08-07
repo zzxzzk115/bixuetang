@@ -7193,3 +7193,148 @@ body:has(.art-video-player.art-fullscreen-web) {
 .shop-card-icon-freeze {
   color: var(--app-blue);
 }
+
+/* ==== P3:章节跳转 + 碎片化分段 ==== */
+/* 控制栏按钮:下一知识点 / 章节 */
+.artp-next,
+.artp-chapters {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  font-size: 13px;
+  font-weight: 800;
+  opacity: 0.85;
+  cursor: pointer;
+}
+.artp-chapters {
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 6px;
+  font-size: 11px;
+}
+/* 章节面板:右侧抽屉浮层(portal 进播放器,全屏可见) */
+.artchapter-host {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30;
+}
+.artchapter-panel {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  bottom: 54px;
+  width: min(280px, 70%);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background: rgba(16, 18, 22, 0.92);
+  color: #fff;
+  pointer-events: auto;
+  overflow: hidden;
+}
+.artchapter-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.artchapter-panel header button {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+.artchapter-panel header button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+.artchapter-panel ol {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px;
+  display: grid;
+  gap: 2px;
+}
+.artchapter-panel li button {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.artchapter-panel li button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.artchapter-panel li button.on {
+  background: color-mix(in srgb, var(--app-green) 26%, transparent);
+  color: #fff;
+}
+.artchapter-panel li button i {
+  flex-shrink: 0;
+  min-width: 42px;
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.55);
+}
+.artchapter-panel li button span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* 分集行下的分段 chips(li 是 flex 行:chips 占满一行换行排) */
+.app-eps-list li {
+  flex-wrap: wrap;
+}
+.app-eps-segs {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  /* 与圆圈对齐:44px 圈 + 10px gap */
+  padding: 0 0 8px 54px;
+}
+.app-eps-seg {
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+  padding: 5px 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-faint);
+  cursor: pointer;
+}
+.app-eps-seg span {
+  position: relative;
+  display: block;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.app-eps-seg-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0.22;
+  transition: width 300ms ease;
+}
+.app-eps-seg.done {
+  border-color: var(--app-gold);
+  color: var(--app-text);
+}

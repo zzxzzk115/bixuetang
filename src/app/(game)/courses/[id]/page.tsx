@@ -8,6 +8,7 @@ import { CoursePlayer } from "@/components/app/course-player";
 import { Fold } from "@/components/app/fold";
 import { renderLatex } from "@/lib/math/render-latex";
 import { renderMathText } from "@/lib/math/render-math-text";
+import { buildSegments } from "@/lib/segments";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
@@ -144,6 +145,31 @@ export default async function CoursePage({
   const playerPrefs = getUserState(user.id).playerPrefs;
   const firstUnwatched = episodes.find((e) => !watched?.has(e.n));
 
+  // 各集带时间戳的关键点(播放器进度条刻度 + 分段边界)
+  // 与分段定义(碎片化学习的 chips):两端都用 buildSegments 同一份纯函数
+  const keyPointsByEpisode: Record<number, { t: number; title: string }[]> = {};
+  for (const ep of analysisRaw?.episodes ?? []) {
+    const marks = ep.keyPoints
+      .filter((kp) => typeof kp.t === "number")
+      .map((kp) => ({ t: kp.t as number, title: kp.title }));
+    if (marks.length > 0) keyPointsByEpisode[ep.n] = marks;
+  }
+  const segmentsByEpisode: Record<
+    number,
+    { idx: number; title: string; from: number; to: number }[]
+  > = {};
+  for (const ep of episodes) {
+    // YAML 缺 durationSec 时用播放器实测的时长兜底(至少打开过一次才有)
+    const durationSec =
+      ep.durationSec ?? watchProgress[ep.n]?.durationSec ?? 0;
+    if (!durationSec) continue;
+    const segs = buildSegments({
+      durationSec,
+      keyPoints: keyPointsByEpisode[ep.n] ?? [],
+    });
+    if (segs.length > 0) segmentsByEpisode[ep.n] = segs;
+  }
+
   // 每集可得 XP（含药水加成）——学习前就让玩家看到收益
   const boost = getActiveBoost(user.id);
   const xpByEpisode: Record<number, number> = {};
@@ -204,6 +230,7 @@ export default async function CoursePage({
             initialEpisode={firstUnwatched?.n ?? episodes[0]?.n ?? 1}
             resumeByEpisode={watchProgress}
             serverPrefs={playerPrefs}
+            keyPointsByEpisode={keyPointsByEpisode}
           />
         </div>
 
@@ -229,6 +256,13 @@ export default async function CoursePage({
             color={color}
             xpByEpisode={xpByEpisode}
             multiplierPct={boost?.multiplierPct ?? 100}
+            segmentsByEpisode={segmentsByEpisode}
+            segmentCoverageByEpisode={Object.fromEntries(
+              Object.entries(watchProgress).map(([n, w]) => [
+                n,
+                w.segmentsPct,
+              ]),
+            )}
           />
         </section>
 

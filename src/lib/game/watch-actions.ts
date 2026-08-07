@@ -28,6 +28,8 @@ export async function reportWatchProgress(
   durationSec: number,
   /** 客户端累计的实际观看秒数（跳过的部分不计） */
   watchedSec: number,
+  /** 各分段覆盖率 ×100(段定义见 src/lib/segments.ts;短视频不分段传空) */
+  segmentsPct?: number[],
 ): Promise<WatchReport> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "请先登录" };
@@ -50,7 +52,10 @@ export async function reportWatchProgress(
   const now = Date.now();
 
   const prev = db
-    .select({ ratioPct: episodeWatch.ratioPct })
+    .select({
+      ratioPct: episodeWatch.ratioPct,
+      segmentsJson: episodeWatch.segmentsJson,
+    })
     .from(episodeWatch)
     .where(
       and(
@@ -61,6 +66,25 @@ export async function reportWatchProgress(
     )
     .get();
 
+  // 分段覆盖率与整集口径一致:逐段取大,只增不减
+  let mergedSegments: string | null = prev?.segmentsJson ?? null;
+  if (segmentsPct && segmentsPct.length > 0) {
+    const sane = segmentsPct
+      .slice(0, 64)
+      .map((v) => (Number.isFinite(v) ? Math.max(0, Math.min(100, Math.round(v))) : 0));
+    let prevArr: number[] = [];
+    try {
+      prevArr = prev?.segmentsJson ? (JSON.parse(prev.segmentsJson) as number[]) : [];
+    } catch {
+      prevArr = [];
+    }
+    const len = Math.max(prevArr.length, sane.length);
+    const merged = new Array(len)
+      .fill(0)
+      .map((_, i) => Math.max(prevArr[i] ?? 0, sane[i] ?? 0));
+    mergedSegments = JSON.stringify(merged);
+  }
+
   db.insert(episodeWatch)
     .values({
       userId: user.id,
@@ -70,6 +94,7 @@ export async function reportWatchProgress(
       durationSec: Math.round(durationSec),
       // 覆盖率只增不减（换设备重看不该把进度打回去）
       ratioPct: Math.max(ratioPct, prev?.ratioPct ?? 0),
+      segmentsJson: mergedSegments,
       updatedAt: now,
     })
     .onConflictDoUpdate({
@@ -82,6 +107,7 @@ export async function reportWatchProgress(
         positionSec: Math.round(positionSec),
         durationSec: Math.round(durationSec),
         ratioPct: Math.max(ratioPct, prev?.ratioPct ?? 0),
+        segmentsJson: mergedSegments,
         updatedAt: now,
       },
     })
@@ -96,10 +122,21 @@ export async function reportWatchProgress(
   return { ok: true, ratioPct, completed: false };
 }
 
-/** 读取某课程各集的观看进度（续播用） */
+/** 读取某课程各集的观看进度（续播 + 分段 chips 用） */
 export async function getWatchProgress(
   courseId: string,
-): Promise<Record<number, { positionSec: number; ratioPct: number }>> {
+): Promise<
+  Record<
+    number,
+    {
+      positionSec: number;
+      /** 播放器实测的该集时长(课程 YAML 缺 durationSec 时的兜底) */
+      durationSec: number;
+      ratioPct: number;
+      segmentsPct: number[];
+    }
+  >
+> {
   const user = await getCurrentUser();
   if (!user) return {};
   const rows = db
@@ -112,9 +149,28 @@ export async function getWatchProgress(
       ),
     )
     .all();
-  const out: Record<number, { positionSec: number; ratioPct: number }> = {};
+  const out: Record<
+    number,
+    {
+      positionSec: number;
+      durationSec: number;
+      ratioPct: number;
+      segmentsPct: number[];
+    }
+  > = {};
   for (const r of rows) {
-    out[r.episodeN] = { positionSec: r.positionSec, ratioPct: r.ratioPct };
+    let segmentsPct: number[] = [];
+    try {
+      segmentsPct = r.segmentsJson ? (JSON.parse(r.segmentsJson) as number[]) : [];
+    } catch {
+      segmentsPct = [];
+    }
+    out[r.episodeN] = {
+      positionSec: r.positionSec,
+      durationSec: r.durationSec,
+      ratioPct: r.ratioPct,
+      segmentsPct,
+    };
   }
   return out;
 }

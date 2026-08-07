@@ -27,6 +27,8 @@ export function AppEpisodeList({
   color,
   xpByEpisode,
   multiplierPct = 100,
+  segmentsByEpisode = {},
+  segmentCoverageByEpisode = {},
 }: {
   courseId: string;
   episodes: Episode[];
@@ -37,6 +39,13 @@ export function AppEpisodeList({
   xpByEpisode: Record<number, number>;
   /** 生效中的加成倍率（100=无） */
   multiplierPct?: number;
+  /** 长视频的分段(碎片化学习):集号 → 段列表 */
+  segmentsByEpisode?: Record<
+    number,
+    { idx: number; title: string; from: number; to: number }[]
+  >;
+  /** 各段已看覆盖率 ×100:集号 → 数组(与段列表同序) */
+  segmentCoverageByEpisode?: Record<number, number[]>;
 }) {
   const [watchedSet, setWatchedSet] = useState(() => new Set(watched));
   const [playing, setPlaying] = useState<number | null>(null);
@@ -227,6 +236,50 @@ export function AppEpisodeList({
                   />
                 )}
               </button>
+              {/* 长视频的分段 chips:每段一个可完成的小目标,
+                  通勤路上也能啃一段(碎片化学习) */}
+              {!locked &&
+                !isWatched &&
+                (segmentsByEpisode[episode.n]?.length ?? 0) > 1 && (
+                  <div className="app-eps-segs">
+                    {segmentsByEpisode[episode.n]!.map((seg) => {
+                      const pct =
+                        segmentCoverageByEpisode[episode.n]?.[seg.idx] ?? 0;
+                      const segDone = pct >= 90;
+                      return (
+                        <button
+                          key={seg.idx}
+                          className={`app-eps-seg ${segDone ? "done" : ""}`}
+                          title={`${seg.title} · 已看 ${pct}%`}
+                          onClick={() => {
+                            setPlaying(episode.n);
+                            seekTo({
+                              page: episode.n,
+                              seconds: seg.from,
+                              bvid: episode.bvid,
+                            });
+                            document
+                              .getElementById("course-player")
+                              ?.scrollIntoView({
+                                behavior: "smooth",
+                                block: "center",
+                              });
+                          }}
+                        >
+                          <i
+                            className="app-eps-seg-fill"
+                            style={{
+                              width: `${pct}%`,
+                              background: segDone ? "var(--app-gold)" : color,
+                            }}
+                            aria-hidden
+                          />
+                          <span>{seg.title}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
             </li>
           );
         })}
