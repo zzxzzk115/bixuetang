@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Eye, Loader2, NotebookPen, Pencil, Trash2 } from "lucide-react";
+import { Loader2, NotebookPen, Pencil, Trash2 } from "lucide-react";
 import {
   addVideoNote,
   deleteVideoNote,
@@ -12,6 +12,7 @@ import {
 import { renderMarkdown } from "@/lib/markdown";
 import { NOTES_CHANGED_EVENT } from "@/lib/notes-events";
 import { seekTo } from "@/lib/seek";
+import { MarkdownEditor } from "./markdown-editor";
 
 // 视频笔记面板(评论区右侧/下方):按时间戳记 Markdown 笔记。
 // 点时间戳 → 播放器跳到那一秒(跨集会先切集);播放器全屏速记层
@@ -47,6 +48,7 @@ export function VideoNotes({
   const [msg, setMsg] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editDraft, setEditDraft] = useState("");
+  const [editPreview, setEditPreview] = useState(false);
   /** 默认只看本集,可切整门课 */
   const [scope, setScope] = useState<"episode" | "course">("episode");
 
@@ -144,46 +146,30 @@ export function VideoNotes({
       </div>
 
       <div className="video-notes-compose">
-        <div className="video-notes-compose-bar">
-          <button
-            className="video-notes-time"
-            onClick={grabTime}
-            title="点击取播放器当前时间"
-          >
-            {draftAt === null ? "@ 取当前时间" : `@ ${fmtTime(draftAt)}`}
-          </button>
-          <button
-            className={`video-notes-preview ${preview ? "on" : ""}`}
-            onClick={() => setPreview((v) => !v)}
-            title="预览 Markdown"
-          >
-            <Eye size={15} aria-hidden /> 预览
-          </button>
-        </div>
-        {preview ? (
-          <div
-            className="video-notes-md video-notes-preview-body"
-            dangerouslySetInnerHTML={{
-              __html:
-                renderMarkdown(draft) || "<p style='opacity:.5'>(空)</p>",
-            }}
-          />
-        ) : (
-          <textarea
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            onFocus={() => {
-              // 开始写笔记就暂停视频,同时把时间戳锚在暂停的这一刻
-              onStartCompose?.();
-              if (draftAt === null) {
-                setDraftAt(Math.floor(getCurrentTime()));
-              }
-            }}
-            placeholder="记点什么…支持 Markdown:**重点**、`代码`、- 列表、> 引用"
-            rows={3}
-            maxLength={8000}
-          />
-        )}
+        <MarkdownEditor
+          value={draft}
+          onChange={setDraft}
+          preview={preview}
+          onTogglePreview={() => setPreview((v) => !v)}
+          onFocus={() => {
+            // 开始写笔记就暂停视频,同时把时间戳锚在暂停的这一刻
+            onStartCompose?.();
+            if (draftAt === null) {
+              setDraftAt(Math.floor(getCurrentTime()));
+            }
+          }}
+          placeholder="记点什么…支持 Markdown:**重点**、`代码`、- 列表、> 引用"
+          rows={3}
+          toolbarExtra={
+            <button
+              className="video-notes-time"
+              onClick={grabTime}
+              title="点击取播放器当前时间"
+            >
+              {draftAt === null ? "@ 取当前时间" : `@ ${fmtTime(draftAt)}`}
+            </button>
+          }
+        />
         {msg && <p className="video-notes-msg">{msg}</p>}
         <button
           className="app-btn-primary"
@@ -229,6 +215,7 @@ export function VideoNotes({
                     onClick={() => {
                       setEditingId(n.id);
                       setEditDraft(n.contentMd);
+                      setEditPreview(false);
                     }}
                     aria-label="编辑"
                     title="编辑"
@@ -246,12 +233,13 @@ export function VideoNotes({
               </div>
               {editingId === n.id ? (
                 <div className="video-notes-edit">
-                  <textarea
+                  <MarkdownEditor
                     value={editDraft}
-                    onChange={(e) => setEditDraft(e.target.value)}
+                    onChange={setEditDraft}
+                    preview={editPreview}
+                    onTogglePreview={() => setEditPreview((v) => !v)}
                     onFocus={() => onStartCompose?.()}
                     rows={3}
-                    maxLength={8000}
                   />
                   <div className="video-notes-edit-actions">
                     <button

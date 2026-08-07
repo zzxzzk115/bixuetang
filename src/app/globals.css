@@ -5980,6 +5980,225 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: #ff7b7b;
 }
 
+/* ==== F11:通用 Markdown 编辑器(工具栏 + 预览) ==== */
+.md-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.md-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+}
+.md-editor-toolbar-gap {
+  flex: 1 1 auto;
+}
+.md-editor-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: 7px;
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.md-editor-tool:hover {
+  color: var(--app-text);
+  background: color-mix(in srgb, var(--app-blue) 12%, transparent);
+}
+.md-editor-preview.on {
+  color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 14%, transparent);
+}
+.md-editor textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 2px solid var(--app-line);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font-size: 13px;
+  line-height: 1.55;
+  resize: vertical;
+}
+.md-editor textarea:focus {
+  outline: none;
+  border-color: var(--app-green);
+}
+.md-editor-preview-body {
+  min-height: 60px;
+  padding: 8px 10px;
+  border: 2px dashed var(--app-line);
+  border-radius: 10px;
+}
+/* 播放器内暗色速记层的适配:白字 + 半透明描边 */
+.artnote-panel .md-editor-tool {
+  color: rgba(255, 255, 255, 0.66);
+}
+.artnote-panel .md-editor-tool:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+}
+.artnote-panel .md-editor textarea {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+.artnote-panel .md-editor textarea:focus {
+  border-color: var(--app-green);
+}
+.artnote-panel .md-editor-preview-body {
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+/* ==== F10:字幕设置面板(bilibili 式双语主/副 + 数字偏移) ==== */
+.artccpanel-host {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 46;
+}
+.artccpanel {
+  position: absolute;
+  right: 10px;
+  bottom: 60px;
+  width: min(380px, calc(100% - 20px));
+  max-height: min(72%, 470px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(16, 18, 22, 0.95);
+  color: #fff;
+  pointer-events: auto;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+}
+.artccpanel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 800;
+}
+.artccpanel header button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+}
+.artccpanel header button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+.artccpanel-empty {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.artccpanel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+}
+.artccpanel-row > span {
+  flex-shrink: 0;
+  font-weight: 700;
+}
+.artccpanel-row select {
+  flex: 1;
+  min-width: 0;
+  max-width: 250px;
+  padding: 5px 8px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 13px;
+}
+.artccpanel-row select option {
+  color: #111;
+}
+.artccpanel-switch input {
+  width: 40px;
+  height: 22px;
+  accent-color: var(--app-green);
+  cursor: pointer;
+}
+.artccpanel-offsets {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.artccpanel-offsets-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.85);
+}
+.artccpanel-offset-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.artccpanel-offset-label {
+  flex-basis: 100%;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.artccpanel-offset-row button {
+  min-width: 34px;
+  padding: 4px 6px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.artccpanel-offset-row button:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+.artccpanel-zero {
+  margin-left: auto;
+  color: var(--app-gold) !important;
+}
+.artccpanel-input {
+  width: 64px;
+  padding: 4px 6px;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.artccpanel-hint {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.4;
+}
+.artset-icon {
+  font-weight: 900;
+}
+
 /* ==== F3:章节缩略图(前端抓帧,dataURL) ==== */
 .artchapter-panel li button {
   align-items: center;

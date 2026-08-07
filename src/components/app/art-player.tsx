@@ -27,6 +27,7 @@ import { announceSettle, rewardToast } from "@/lib/reward-feedback";
 import { notifyQuestsChanged } from "@/lib/quest-events";
 import { buildSegments, segmentCoverage } from "@/lib/segments";
 import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
+import { MarkdownEditor } from "./markdown-editor";
 import { detectPlayMode } from "./player-capability";
 import { prefsStore } from "./player-settings";
 
@@ -82,6 +83,44 @@ export interface BiliPlayerHandle {
   pause: () => void;
 }
 
+/**
+ * 字幕偏移数字输入(秒):本地暂存文本,让「0.8」这类能一位位敲进去,
+ * 不被外部值回写打断;快捷 ±按钮/归零改了外部值时再同步过来。
+ */
+function CcOffsetInput({
+  valueMs,
+  onCommit,
+}: {
+  valueMs: number;
+  onCommit: (seconds: number) => void;
+}) {
+  const [text, setText] = useState((valueMs / 1000).toString());
+  const [prevMs, setPrevMs] = useState(valueMs);
+  // 外部值变了(快捷 ±按钮/归零)才同步到输入框;渲染期调整而非 effect。
+  // 只在与当前输入不等价时回写,避免敲「0.」时被抹成「0」。
+  if (valueMs !== prevMs) {
+    setPrevMs(valueMs);
+    const cur = parseFloat(text);
+    if (Number.isNaN(cur) || cur !== valueMs / 1000) {
+      setText((valueMs / 1000).toString());
+    }
+  }
+  return (
+    <input
+      type="number"
+      step="0.1"
+      inputMode="decimal"
+      className="artccpanel-input"
+      value={text}
+      onChange={(e) => {
+        setText(e.target.value);
+        const n = parseFloat(e.target.value);
+        if (!Number.isNaN(n)) onCommit(n);
+      }}
+    />
+  );
+}
+
 /** 读主题色给 ArtPlayer 当强调色 */
 function accentColor(): string {
   if (typeof window === "undefined") return "#58cc02";
@@ -134,6 +173,9 @@ export function BiliPlayer({
   const [ccOffsets, setCcOffsets] = useState<Record<string, number>>({});
   /** ArtPlayer 建好后暴露的层挂载点,React 往里 portal */
   const [ccHost, setCcHost] = useState<HTMLElement | null>(null);
+  /** 字幕设置面板(双语主/副 + 数字偏移)的层挂载点与开合 */
+  const [ccPanelHost, setCcPanelHost] = useState<HTMLElement | null>(null);
+  const [ccPanelOpen, setCcPanelOpen] = useState(false);
   /** 章节面板(viewPoints 或分段) */
   const [chapterHost, setChapterHost] = useState<HTMLElement | null>(null);
   const [chaptersOpen, setChaptersOpen] = useState(false);
@@ -161,6 +203,7 @@ export function BiliPlayer({
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteAt, setNoteAt] = useState(0);
   const [noteDraft, setNoteDraft] = useState("");
+  const [notePreview, setNotePreview] = useState(false);
   const [noteSaving, setNoteSaving] = useState(false);
   const [noteMsg, setNoteMsg] = useState<string | null>(null);
 
@@ -249,25 +292,28 @@ export function BiliPlayer({
   const activeTracks = useMemo(() => {
     // 仓库轨(YouTube CC)的 lan 带 yt- 前缀,归一后按语言匹配
     const langOf = (lan: string) => lan.toLowerCase().replace(/^yt-/, "");
-    const pickList = (() => {
-      if (tracks.length === 0) return [] as SubtitleTrack[];
-      const picked = tracks.filter((t) => prefs.cc.lans.includes(t.lan));
-      if (picked.length > 0) return picked;
+    if (tracks.length === 0) return [] as SubtitleTrack[];
+    const byLan = new Map(tracks.map((t) => [t.lan, t]));
+    // 选过就按 lans 顺序取(顺序即 主→副,主轨渲染在上、字号大);
+    // 没选过就自动挑人工轨(中文优先,中英都有则叠加)。
+    let picked: SubtitleTrack[];
+    if (prefs.cc.lans.length > 0) {
+      picked = prefs.cc.lans
+        .map((l) => byLan.get(l))
+        .filter((t): t is SubtitleTrack => !!t);
+    } else {
       const human = tracks.filter((t) => !t.ai && !t.suspect);
       const zh = human.find((t) => langOf(t.lan).startsWith("zh"));
       const en = human.find((t) => langOf(t.lan).startsWith("en"));
-      if (zh && en) return [zh, en];
-      if (zh) return [zh];
-      if (en) return [en];
-      if (human.length > 0) return [human[0]];
-      return [] as SubtitleTrack[];
-    })();
-    // 主语言排最前(渲染在最上、字号最大)。默认中文在上;
-    // 英语为主的学习者可在设置里换成英文在上。
-    const primaryFirst = (t: SubtitleTrack) =>
-      langOf(t.lan).startsWith(prefs.cc.primary) ? 0 : 1;
-    return [...pickList].sort((a, b) => primaryFirst(a) - primaryFirst(b));
-  }, [tracks, prefs.cc.lans, prefs.cc.primary]);
+      if (zh && en) picked = [zh, en];
+      else if (zh) picked = [zh];
+      else if (en) picked = [en];
+      else if (human.length > 0) picked = [human[0]];
+      else picked = [];
+    }
+    // 关双语只留主轨;开双语最多两条叠加
+    return prefs.cc.bilingual ? picked.slice(0, 2) : picked.slice(0, 1);
+  }, [tracks, prefs.cc.lans, prefs.cc.bilingual]);
   const activeTracksRef = useRef(activeTracks);
   useEffect(() => {
     activeTracksRef.current = activeTracks;
@@ -317,27 +363,51 @@ export function BiliPlayer({
     if (!art) return;
     setNoteAt(Math.floor(art.currentTime));
     setNoteMsg(null);
+    setNotePreview(false);
     setNoteOpen(true);
     art.pause();
   }, []);
 
-  const nudgeCcOffset = useCallback((lan: string, deltaMs: number) => {
-    setCcOffsets((prev) => {
-      const cur = prev[lan] ?? 0;
-      const next =
-        deltaMs === 0 ? 0 : Math.max(-30_000, Math.min(30_000, cur + deltaMs));
-      const merged = { ...prev, [lan]: next };
-      ccOffsetsRef.current = merged;
-      const cid = cidRef.current;
-      if (cid) {
-        if (offsetSaveRef.current) clearTimeout(offsetSaveRef.current);
-        offsetSaveRef.current = setTimeout(() => {
-          void saveCcTrackOffset(cid, lan, next);
-        }, 600);
-      }
-      return merged;
-    });
+  /** 把某轨偏移落库(防抖 600ms),这条记录同时是众包反馈 */
+  const persistOffset = useCallback((lan: string, ms: number) => {
+    const cid = cidRef.current;
+    if (!cid) return;
+    if (offsetSaveRef.current) clearTimeout(offsetSaveRef.current);
+    offsetSaveRef.current = setTimeout(() => {
+      void saveCcTrackOffset(cid, lan, ms);
+    }, 600);
   }, []);
+
+  const nudgeCcOffset = useCallback(
+    (lan: string, deltaMs: number) => {
+      setCcOffsets((prev) => {
+        const cur = prev[lan] ?? 0;
+        const next =
+          deltaMs === 0
+            ? 0
+            : Math.max(-30_000, Math.min(30_000, cur + deltaMs));
+        const merged = { ...prev, [lan]: next };
+        ccOffsetsRef.current = merged;
+        persistOffset(lan, next);
+        return merged;
+      });
+    },
+    [persistOffset],
+  );
+
+  /** 直接设某轨的绝对偏移(秒),供数字输入用;支持 0.8 这类任意值 */
+  const setCcOffsetAbs = useCallback(
+    (lan: string, seconds: number) => {
+      const ms = Math.max(-30_000, Math.min(30_000, Math.round(seconds * 1000)));
+      setCcOffsets((prev) => {
+        const merged = { ...prev, [lan]: ms };
+        ccOffsetsRef.current = merged;
+        persistOffset(lan, ms);
+        return merged;
+      });
+    },
+    [persistOffset],
+  );
 
   // ==== 建 ArtPlayer 实例 ====
   useEffect(() => {
@@ -372,6 +442,8 @@ export function BiliPlayer({
       // 挂在播放器内部才能在全屏时可见
       const ccEl = document.createElement("div");
       ccEl.className = "artcc-host";
+      const ccPanelEl = document.createElement("div");
+      ccPanelEl.className = "artccpanel-host";
       const chapterEl = document.createElement("div");
       chapterEl.className = "artchapter-host";
       const fxEl = document.createElement("div");
@@ -502,6 +574,7 @@ export function BiliPlayer({
         highlight: marks,
         layers: [
           { name: "cc", html: ccEl },
+          { name: "ccpanel", html: ccPanelEl },
           { name: "chapters", html: chapterEl },
           { name: "fx", html: fxEl },
           { name: "note", html: noteEl },
@@ -580,6 +653,7 @@ export function BiliPlayer({
 
       artRef.current = art;
       setCcHost(ccEl);
+      setCcPanelHost(ccPanelEl);
       setChapterHost(chapterEl);
       setFxHost(fxEl);
       setNoteHost(noteEl);
@@ -694,6 +768,8 @@ export function BiliPlayer({
     return () => {
       cancelled = true;
       setCcHost(null);
+      setCcPanelHost(null);
+      setCcPanelOpen(false);
       setChapterHost(null);
       setChaptersOpen(false);
       setFxHost(null);
@@ -768,6 +844,21 @@ export function BiliPlayer({
       });
     }
 
+    // 字幕设置项:点开一张 React 面板(双语主/副 + 每轨数字偏移)。
+    // 不做成独立控件,避免控制条按钮太多;菜单里也塞不下这些控件。
+    // ArtPlayer 的设置项必须是 switch 或带 selector 的子菜单,
+    // 纯 onSelect 叶子会崩(给 undefined 设 tooltip),故挂一个子项承接点击。
+    settings.push({
+      html: "字幕设置",
+      tooltip: "双语 / 偏移",
+      icon: '<span class="artset-icon">CC</span>',
+      selector: [{ html: "双语 · 主/副 · 时间轴偏移", default: true }],
+      onSelect: () => {
+        setCcPanelOpen(true);
+        return "双语 / 偏移";
+      },
+    });
+
     settings.push({
       html: "离开页面自动暂停",
       tooltip: prefsStore.get().pauseOnBlur ? "开" : "关",
@@ -781,97 +872,8 @@ export function BiliPlayer({
     return settings;
   }
 
-  // 字幕轨到手后把 CC 设置塞进设置菜单(轨道列表取决于异步结果,
-  // 建播放器时还没有,只能后补)
-  useEffect(() => {
-    const art = artRef.current;
-    if (!art || tracks.length === 0) return;
-    const name = "cc-setting";
-    const ccSetting: ArtSetting = {
-      name,
-      html: "CC 字幕",
-      width: 240,
-      tooltip: prefsStore.get().cc.on ? "开" : "关",
-      selector: [
-        {
-          html: "显示字幕",
-          switch: prefsStore.get().cc.on,
-          onSwitch: (item) => {
-            const next = !item.switch;
-            prefsStore.set({ cc: { ...prefsStore.get().cc, on: next } });
-            return next;
-          },
-        },
-        ...tracks.map((t): ArtSetting => ({
-          html:
-            t.lanDoc + (t.ai ? " · AI" : "") + (t.suspect ? " ⚠" : ""),
-          tooltip: t.suspect
-            ? "时间轴对不上,多半挂错了"
-            : t.ai
-              ? "AI 生成,可能不准"
-              : undefined,
-          switch: activeTracks.some((a) => a.lan === t.lan),
-          onSwitch: (item) => {
-            const cur = prefsStore.get().cc;
-            const has = cur.lans.includes(t.lan);
-            const lans = has
-              ? cur.lans.filter((l) => l !== t.lan)
-              : [...cur.lans, t.lan];
-            prefsStore.set({ cc: { ...cur, lans, on: true } });
-            return !item.switch;
-          },
-        })),
-        {
-          html: "中文在上(主)",
-          switch: prefsStore.get().cc.primary === "zh",
-          onSwitch: (item) => {
-            const next = !item.switch;
-            prefsStore.set({
-              cc: { ...prefsStore.get().cc, primary: next ? "zh" : "en" },
-            });
-            return next;
-          },
-        },
-        // 时间轴微调按「轨」独立:调英文不动中文。校准会被记住,
-        // 也会作为众包数据帮到下一个看这条轨的人。
-        ...tracks.flatMap((t): ArtSetting[] => {
-          const label = t.lanDoc.split(/[\s·（(]/)[0] || t.lan;
-          return [
-            {
-              html: `⏱ ${label} 慢 0.5s`,
-              onSelect: () => {
-                nudgeCcOffset(t.lan, 500);
-                return "已调整";
-              },
-            },
-            {
-              html: `⏱ ${label} 快 0.5s`,
-              onSelect: () => {
-                nudgeCcOffset(t.lan, -500);
-                return "已调整";
-              },
-            },
-            {
-              html: `⏱ ${label} 归零`,
-              onSelect: () => {
-                nudgeCcOffset(t.lan, 0);
-                return "已归零";
-              },
-            },
-          ];
-        }),
-      ],
-    };
-    art.setting.add(ccSetting);
-    return () => {
-      try {
-        art.setting.remove(name);
-      } catch {
-        // 播放器已销毁
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- activeTracks 只影响初始勾选态,菜单不必随它重建
-  }, [tracks, nudgeCcOffset, ccHost]);
+  // CC 字幕设置改走 React 面板(设置菜单「字幕设置」→ ccPanelOpen),
+  // 双语主/副选择 + 每轨数字偏移,ArtPlayer 菜单塞不下这些控件。
 
   // 倍速偏好变化 → 应用到播放器(设置菜单里改的走 ratechange 已同步)
   useEffect(() => {
@@ -1280,6 +1282,178 @@ export function BiliPlayer({
           ccHost,
         )}
 
+      {/* 字幕设置面板(设置菜单「字幕设置」展开):bilibili 式双语主/副
+          选择 + 每轨时间轴数字偏移。portal 进播放器层,全屏也可用 */}
+      {ccPanelHost &&
+        ccPanelOpen &&
+        (() => {
+          const trackLabel = (t: SubtitleTrack) =>
+            t.lanDoc + (t.ai ? " · AI" : "") + (t.suspect ? " ⚠" : "");
+          const mainLan = activeTracks[0]?.lan ?? "";
+          const subLan = activeTracks[1]?.lan ?? "";
+          const cc = prefs.cc;
+          const setLans = (arr: string[]) =>
+            prefsStore.set({
+              cc: { ...prefsStore.get().cc, lans: arr.filter(Boolean), on: true },
+            });
+          return createPortal(
+            <div className="artccpanel" onClick={(e) => e.stopPropagation()}>
+              <header>
+                <b>字幕设置</b>
+                <button
+                  onClick={() => setCcPanelOpen(false)}
+                  aria-label="关闭"
+                  type="button"
+                >
+                  <X size={18} strokeWidth={2.6} aria-hidden />
+                </button>
+              </header>
+              {tracks.length === 0 ? (
+                <p className="artccpanel-empty">这个视频没有可用字幕</p>
+              ) : (
+                <>
+                  <label className="artccpanel-row artccpanel-switch">
+                    <span>显示字幕</span>
+                    <input
+                      type="checkbox"
+                      checked={cc.on}
+                      onChange={(e) =>
+                        prefsStore.set({
+                          cc: { ...prefsStore.get().cc, on: e.target.checked },
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="artccpanel-row artccpanel-switch">
+                    <span>双语字幕</span>
+                    <input
+                      type="checkbox"
+                      checked={cc.bilingual}
+                      onChange={(e) => {
+                        const on = e.target.checked;
+                        const prev = prefsStore.get().cc;
+                        // 关双语:只留主轨
+                        const lans = on
+                          ? prev.lans
+                          : mainLan
+                            ? [mainLan]
+                            : [];
+                        prefsStore.set({ cc: { ...prev, bilingual: on, lans } });
+                      }}
+                    />
+                  </label>
+
+                  {cc.bilingual ? (
+                    <>
+                      <label className="artccpanel-row">
+                        <span>主字幕</span>
+                        <select
+                          value={mainLan}
+                          onChange={(e) => {
+                            const m = e.target.value;
+                            const s = subLan && subLan !== m ? subLan : "";
+                            setLans([m, s]);
+                          }}
+                        >
+                          {tracks.map((t) => (
+                            <option key={t.lan} value={t.lan}>
+                              {trackLabel(t)}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label className="artccpanel-row">
+                        <span>副字幕</span>
+                        <select
+                          value={subLan}
+                          onChange={(e) => setLans([mainLan, e.target.value])}
+                        >
+                          <option value="">无</option>
+                          {tracks
+                            .filter((t) => t.lan !== mainLan)
+                            .map((t) => (
+                              <option key={t.lan} value={t.lan}>
+                                {trackLabel(t)}
+                              </option>
+                            ))}
+                        </select>
+                      </label>
+                    </>
+                  ) : (
+                    <label className="artccpanel-row">
+                      <span>字幕</span>
+                      <select
+                        value={mainLan}
+                        onChange={(e) => setLans([e.target.value])}
+                      >
+                        {tracks.map((t) => (
+                          <option key={t.lan} value={t.lan}>
+                            {trackLabel(t)}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  )}
+
+                  {activeTracks.length > 0 && (
+                    <div className="artccpanel-offsets">
+                      <p className="artccpanel-offsets-title">
+                        时间轴偏移(秒)· 正=字幕延后出现
+                      </p>
+                      {activeTracks.map((t) => (
+                        <div className="artccpanel-offset-row" key={t.lan}>
+                          <span className="artccpanel-offset-label">
+                            {trackLabel(t)}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => nudgeCcOffset(t.lan, -500)}
+                          >
+                            −0.5
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => nudgeCcOffset(t.lan, -100)}
+                          >
+                            −0.1
+                          </button>
+                          <CcOffsetInput
+                            valueMs={ccOffsets[t.lan] ?? 0}
+                            onCommit={(sec) => setCcOffsetAbs(t.lan, sec)}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => nudgeCcOffset(t.lan, 100)}
+                          >
+                            +0.1
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => nudgeCcOffset(t.lan, 500)}
+                          >
+                            +0.5
+                          </button>
+                          <button
+                            type="button"
+                            className="artccpanel-zero"
+                            onClick={() => nudgeCcOffset(t.lan, 0)}
+                          >
+                            归零
+                          </button>
+                        </div>
+                      ))}
+                      <p className="artccpanel-hint">
+                        只对本视频生效,校准结果会帮到其他学习者
+                      </p>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>,
+            ccPanelHost,
+          );
+        })()}
+
       {/* 章节面板:点「章」展开,当前章高亮,点击即跳 */}
       {chapterHost &&
         chaptersOpen &&
@@ -1366,12 +1540,13 @@ export function BiliPlayer({
                 <X size={18} strokeWidth={2.6} aria-hidden />
               </button>
             </header>
-            <textarea
+            <MarkdownEditor
               value={noteDraft}
-              onChange={(e) => setNoteDraft(e.target.value)}
+              onChange={setNoteDraft}
+              preview={notePreview}
+              onTogglePreview={() => setNotePreview((v) => !v)}
               placeholder="支持 Markdown:**重点**、`代码`、- 列表…"
               rows={5}
-              maxLength={8000}
               autoFocus
             />
             {noteMsg && <p className="artnote-msg">{noteMsg}</p>}
@@ -1435,7 +1610,7 @@ export function BiliPlayer({
           return (
             <p className="biliplayer-hint">
               字幕时间轴偏移:{text}
-              (设置菜单里按轨可调,只对本视频生效,校准结果会帮到其他学习者)
+              (设置菜单「字幕设置」里可调,只对本视频生效,校准结果会帮到其他学习者)
             </p>
           );
         })()}

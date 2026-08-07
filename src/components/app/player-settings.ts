@@ -19,21 +19,21 @@ export interface DanmakuSettings {
 export interface CcSettings {
   on: boolean;
   /**
-   * 选中的语言代码，可多选并叠加显示（中英对照很实用）。
-   * 空数组 = 自动用第一条轨。
+   * 显示的字幕轨（语言代码），顺序即 [主, 副]：主字幕在上、字号大。
+   * 关闭双语时只用第一条；空数组 = 自动挑轨（中文优先，中英都有则叠加）。
    */
   lans: string[];
+  /**
+   * 双语字幕开关（学 bilibili）：开→可分别选主/副两条轨叠加显示；
+   * 关→只允许选一条。默认开，自动挑轨时也能中英对照。
+   */
+  bilingual: boolean;
   /** 字号缩放 0.7~1.8 */
   scale: number;
   /** 距底部的比例 0.02~0.35 */
   bottom: number;
   /** 底色样式 */
   style: "shadow" | "box" | "plain";
-  /**
-   * 双语叠加时谁在上面当主语言（上面那条字号大）。
-   * 默认中文在上；以英语为主的学习者可切成英文在上。
-   */
-  primary: "zh" | "en";
 }
 
 export interface PlayerPrefs {
@@ -52,7 +52,7 @@ export interface PlayerPrefs {
   pauseOnBlur: boolean;
 }
 
-export const PREFS_VERSION = 6;
+export const PREFS_VERSION = 7;
 
 export const DEFAULT_PREFS: PlayerPrefs = {
   v: PREFS_VERSION,
@@ -74,10 +74,11 @@ export const DEFAULT_PREFS: PlayerPrefs = {
     // 默认开：自动挑人工字幕（中文优先，其次英文），实在没有才退到 AI 轨
     on: true,
     lans: [],
+    // 默认开双语：自动挑轨时中英都有就叠加对照
+    bilingual: true,
     scale: 1,
     bottom: 0.06,
     style: "shadow",
-    primary: "zh",
   },
   qualityId: null,
   autoQuality: true,
