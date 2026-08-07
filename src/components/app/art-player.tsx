@@ -217,14 +217,13 @@ export function BiliPlayer({
   const completedRef = useRef(false);
   const ccOffsetsRef = useRef<Record<string, number>>({});
   const lastCuesRef = useRef("");
-  /** 画中画(canvas 合成):原生 PiP 只搬 video 画面,DOM 字幕层进不去。
-      于是把「画面 + 当前双语字幕」逐帧画到 canvas,再把 canvas 流投进 PiP。
-      音频仍来自页面里的原视频(它不暂停),字幕一定显示、样式自控。 */
-  const pipOnRef = useRef(false);
+  /** 桌面字幕浮窗(Document PiP 文本窗):与视频画中画解耦,单独一个控件开关。
+      视频画中画走 ArtPlayer 原生 pip,这个只飘一行实时字幕当桌面字幕用。 */
+  const subOnRef = useRef(false);
   /** 控件点击时调用(实例建好后才有函数体) */
-  const togglePipRef = useRef<(() => void) | null>(null);
-  /** 卸载时收拾画中画(停 raf、断流、退出 PiP) */
-  const pipCleanupRef = useRef<(() => void) | null>(null);
+  const toggleSubRef = useRef<(() => void) | null>(null);
+  /** 卸载时收起字幕浮窗 */
+  const subCleanupRef = useRef<(() => void) | null>(null);
   const hoverRef = useRef(false);
   /** 实例还没建好时收到的 seek 请求,建好后补跳 */
   const pendingSeekRef = useRef<number | null>(null);
@@ -563,7 +562,7 @@ export function BiliPlayer({
         backdrop: true,
         setting: true,
         hotkey: false, // 自己接管:要支持「悬停即可用键盘」,ArtPlayer 的须先点击聚焦
-        pip: false, // 用自研 canvas 合成 PiP(带字幕),不用原生的
+        pip: true, // 视频画中画走 ArtPlayer 原生(真控件、最稳)
 
         airplay: false,
         fullscreen: true,
@@ -628,14 +627,14 @@ export function BiliPlayer({
             },
           },
           {
-            // 画中画(canvas 合成,带字幕)
-            name: "canvaspip",
+            // 桌面字幕浮窗(独立于视频画中画)
+            name: "subwindow",
             position: "right",
             index: 7,
-            tooltip: "画中画",
-            html: `<span class="artp-pipbtn">⧉</span>`,
+            tooltip: "桌面字幕",
+            html: `<span class="artp-pipbtn">幕</span>`,
             click: () => {
-              togglePipRef.current?.();
+              toggleSubRef.current?.();
             },
           },
         ],
@@ -764,10 +763,9 @@ export function BiliPlayer({
         }
       });
 
-      // 画中画:视频走原生 PiP(真控件、可拖进度条、最稳),字幕另开一个
-      // 极轻的 Document PiP 文本浮窗当「桌面字幕」——只放一行文字、不搬视频,
-      // 规避了「把 MSE 视频搬进浮窗」的各种坑。两者能否共存看浏览器,
-      // 拿不到字幕浮窗也不影响视频 PiP。
+      // 桌面字幕浮窗:一个极轻的 Document PiP 文本窗,只飘一行实时字幕。
+      // 与视频画中画完全解耦——视频要浮窗自己点播放器的原生 PiP 按钮;
+      // 这个按钮只管字幕,拿它当「桌面字幕」用(多任务时瞄一眼)。
       const srcVideo = art.video;
       let subWin: Window | null = null;
       let subEl: HTMLElement | null = null;
@@ -813,8 +811,8 @@ export function BiliPlayer({
         }
       ).documentPictureInPicture;
 
-      const stopPip = () => {
-        pipOnRef.current = false;
+      const closeSubWindow = () => {
+        subOnRef.current = false;
         subEl = null;
         if (subWin) {
           try {
@@ -824,41 +822,29 @@ export function BiliPlayer({
           }
           subWin = null;
         }
-        if (document.pictureInPictureElement === srcVideo) {
-          document.exitPictureInPicture().catch(() => {});
-        }
       };
 
-      const startPip = async () => {
-        if (pipOnRef.current) return;
-        pipOnRef.current = true;
-        // 1) 视频进原生 PiP(优先,gesture 先给它,保证控件可用)
+      const openSubWindow = async () => {
+        if (subOnRef.current || !docPip?.requestWindow) return;
         try {
-          await srcVideo.requestPictureInPicture();
+          const win = await docPip.requestWindow({ width: 520, height: 108 });
+          subWin = win;
+          subOnRef.current = true;
+          buildSubWindow(win);
+          win.addEventListener("pagehide", () => closeSubWindow(), {
+            once: true,
+          });
         } catch {
-          // 用户拒绝 / 不支持,忽略
-        }
-        // 2) 字幕桌面浮窗(能开就开,开不了不影响视频 PiP)
-        if (docPip?.requestWindow) {
-          try {
-            const win = await docPip.requestWindow({ width: 520, height: 108 });
-            subWin = win;
-            buildSubWindow(win);
-            win.addEventListener("pagehide", () => stopPip(), { once: true });
-          } catch {
-            // 拒绝 / 与原生 PiP 不共存 → 没有字幕浮窗
-          }
+          // 用户拒绝 / 不支持
+          closeSubWindow();
         }
       };
 
-      togglePipRef.current = () => {
-        if (pipOnRef.current) stopPip();
-        else void startPip();
+      toggleSubRef.current = () => {
+        if (subOnRef.current) closeSubWindow();
+        else void openSubWindow();
       };
-      pipCleanupRef.current = stopPip;
-
-      // 用户从系统 UI 关掉视频 PiP 时,连带收起字幕浮窗
-      srcVideo.addEventListener("leavepictureinpicture", () => stopPip());
+      subCleanupRef.current = closeSubWindow;
 
       // 覆盖率追踪 + CC 字幕行,都挂在 timeupdate 上
       // (覆盖率百分比不再占控制栏按钮位,分段 chips 与打卡反馈足够)
@@ -907,10 +893,10 @@ export function BiliPlayer({
       thumbsStartedRef.current = false;
       setThumbs({});
       deferredRef.current = null;
-      pipCleanupRef.current?.();
-      pipCleanupRef.current = null;
-      togglePipRef.current = null;
-      pipOnRef.current = false;
+      subCleanupRef.current?.();
+      subCleanupRef.current = null;
+      toggleSubRef.current = null;
+      subOnRef.current = false;
       try {
         dashRef.current?.destroy();
       } catch {
