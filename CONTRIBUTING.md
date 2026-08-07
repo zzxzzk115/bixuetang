@@ -165,6 +165,34 @@ stages:
 
 ---
 
+## 字幕与时间戳:bilibili 无 CC 时走 YouTube 官方 CC
+
+不少课在 bilibili 的搬运/官方号上**没有 CC 字幕轨**(硬字幕不算)。若原作者在
+YouTube 有官方 CC,可以补两样东西:仓库字幕轨 + 分析时间戳。管线:
+
+```bash
+npm run fetch:yt-subs -- <courseId> <YouTube播放列表URL> [--map=01:1,05:5]
+```
+
+脚本会自动做三件事:
+
+1. **逐集核对时长**:比对 YouTube 与 bilibili 源(YAML `sources[0]`)的视频时长,
+   差超过 3 秒 = 不同剪辑版本,**该集直接跳过**——错位的时间轴不如没有。
+   这是硬性规则:时间戳只在两边同一份渲染时才可信。
+2. **抓字幕**:优先人工 CC(`en`),抓不到退自动轨(`en-orig`,产物会标 `ai`)。
+   **抓取只在本地跑**——YouTube/bilibili 都拦数据中心 IP,别把这步塞进 CI。
+3. **转换入库**:
+   - `content/subtitles/<courseId>/<n>.json` → 播放器多出一条可开关的 CC 轨
+     (哪怕只有英文也多一种选择);格式 `{lan, lanDoc, ai, cues:[{from,to,text}]}`;
+   - `scratch/subtitles/<courseId>/<n>.txt` → 90 秒摘要,供 AI 分析定 `t`。
+
+CI 侧的校验是全自动的:`npm run validate` 会检查仓库字幕的 schema、
+集号对应课程存在、cues 时间轴单调——**生成在本地,验证在 CI**。
+
+依赖:`pip install yt-dlp`(建议同机有 node 供 `--js-runtimes`)。
+
+---
+
 ## 实验室任务 `content/labs/<labId>.yaml`
 
 ```yaml

@@ -1,0 +1,2572 @@
+{
+ "lan": "yt-en-auto",
+ "lanDoc": "English · 自动",
+ "ai": true,
+ "cues": [
+  {
+   "from": 3.8,
+   "to": 15,
+   "text": "[Music]"
+  },
+  {
+   "from": 15,
+   "to": 16.4,
+   "text": "When I first learned about Taylor"
+  },
+  {
+   "from": 16.4,
+   "to": 18.3,
+   "text": "series, I definitely didn't appreciate"
+  },
+  {
+   "from": 18.3,
+   "to": 20.4,
+   "text": "just how important they are. But time"
+  },
+  {
+   "from": 20.4,
+   "to": 22.2,
+   "text": "and time again, they come up in math and"
+  },
+  {
+   "from": 22.2,
+   "to": 24.4,
+   "text": "physics and many fields of engineering"
+  },
+  {
+   "from": 24.4,
+   "to": 25.8,
+   "text": "because they're one of the most powerful"
+  },
+  {
+   "from": 25.8,
+   "to": 27.8,
+   "text": "tools that math has to offer for"
+  },
+  {
+   "from": 27.8,
+   "to": 29.9,
+   "text": "approximating functions."
+  },
+  {
+   "from": 29.9,
+   "to": 31.3,
+   "text": "I think one of the first times this"
+  },
+  {
+   "from": 31.3,
+   "to": 33.4,
+   "text": "clicked for me as a student was not in a"
+  },
+  {
+   "from": 33.4,
+   "to": 36.1,
+   "text": "calculus class, but a physics class. We"
+  },
+  {
+   "from": 36.1,
+   "to": 37.6,
+   "text": "were studying a certain problem that had"
+  },
+  {
+   "from": 37.6,
+   "to": 39.3,
+   "text": "to do with the potential energy of a"
+  },
+  {
+   "from": 39.3,
+   "to": 41.5,
+   "text": "pendulum. And for that, you need an"
+  },
+  {
+   "from": 41.5,
+   "to": 43.4,
+   "text": "expression for how high the weight of"
+  },
+  {
+   "from": 43.4,
+   "to": 46.3,
+   "text": "the pendulum is above its lowest point."
+  },
+  {
+   "from": 46.3,
+   "to": 47.9,
+   "text": "And when you work that out, it comes out"
+  },
+  {
+   "from": 47.9,
+   "to": 50.3,
+   "text": "to be proportional to 1 minus the coine"
+  },
+  {
+   "from": 50.3,
+   "to": 52.5,
+   "text": "of the angle between the pendulum and"
+  },
+  {
+   "from": 52.6,
+   "to": 54.9,
+   "text": "the vertical. Now the specifics of the"
+  },
+  {
+   "from": 54.9,
+   "to": 56.2,
+   "text": "problem we were trying to solve are"
+  },
+  {
+   "from": 56.2,
+   "to": 58.3,
+   "text": "beyond the point here. But what I'll say"
+  },
+  {
+   "from": 58.3,
+   "to": 60.2,
+   "text": "is that this cosine function made the"
+  },
+  {
+   "from": 60.2,
+   "to": 63.3,
+   "text": "problem awkward and unwieldy and it made"
+  },
+  {
+   "from": 63.4,
+   "to": 65.3,
+   "text": "it less clear how pendulums relate to"
+  },
+  {
+   "from": 65.3,
+   "to": 68.6,
+   "text": "other oscillating phenomena. But if you"
+  },
+  {
+   "from": 68.6,
+   "to": 71.4,
+   "text": "approximate cosine of theta as 1us"
+  },
+  {
+   "from": 71.4,
+   "to": 75,
+   "text": "theta^ 2 of all things just fell into"
+  },
+  {
+   "from": 75,
+   "to": 77.4,
+   "text": "place much more easily. Now, if you've"
+  },
+  {
+   "from": 77.4,
+   "to": 79.7,
+   "text": "never seen anything like this before, an"
+  },
+  {
+   "from": 79.8,
+   "to": 81.4,
+   "text": "approximation like that might seem"
+  },
+  {
+   "from": 81.4,
+   "to": 84,
+   "text": "completely out of left field. I mean, if"
+  },
+  {
+   "from": 84,
+   "to": 95.1,
+   "text": "you graph cosine of"
+  },
+  {
+   "from": 95.1,
+   "to": 97.3,
+   "text": "think to make this approximation and how"
+  },
+  {
+   "from": 97.3,
+   "to": 98.9,
+   "text": "would you find that particular"
+  },
+  {
+   "from": 98.9,
+   "to": 101.2,
+   "text": "quadratic?"
+  },
+  {
+   "from": 101.2,
+   "to": 103.1,
+   "text": "The study of tailaylor series is largely"
+  },
+  {
+   "from": 103.1,
+   "to": 105.7,
+   "text": "about taking nonpols"
+  },
+  {
+   "from": 105.7,
+   "to": 107.9,
+   "text": "and finding polomials that approximate"
+  },
+  {
+   "from": 107.9,
+   "to": 110,
+   "text": "them near some input. And the motive"
+  },
+  {
+   "from": 110,
+   "to": 112,
+   "text": "here is that polomials tend to be much"
+  },
+  {
+   "from": 112,
+   "to": 113.4,
+   "text": "easier to deal with than other"
+  },
+  {
+   "from": 113.4,
+   "to": 115.5,
+   "text": "functions. They're easier to compute,"
+  },
+  {
+   "from": 115.5,
+   "to": 117.3,
+   "text": "easier to take derivatives, easier to"
+  },
+  {
+   "from": 117.3,
+   "to": 119.2,
+   "text": "integrate, just all around more"
+  },
+  {
+   "from": 119.2,
+   "to": 120.6,
+   "text": "friendly."
+  },
+  {
+   "from": 120.6,
+   "to": 122.7,
+   "text": "So let's take a look at that function"
+  },
+  {
+   "from": 122.7,
+   "to": 125.1,
+   "text": "cosine of x and really take a moment to"
+  },
+  {
+   "from": 125.1,
+   "to": 126.9,
+   "text": "think about how you might construct a"
+  },
+  {
+   "from": 126.9,
+   "to": 131.4,
+   "text": "quadratic approximation near x= 0. That"
+  },
+  {
+   "from": 131.4,
+   "to": 134.2,
+   "text": "is among all of the possible polomials"
+  },
+  {
+   "from": 134.2,
+   "to": 139.5,
+   "text": "that look like c 0 + c1 * x + c2 * x^ 2"
+  },
+  {
+   "from": 139.5,
+   "to": 142,
+   "text": "for some choice of these constants c 0"
+  },
+  {
+   "from": 142,
+   "to": 145.4,
+   "text": "c1 and c2. Find the one that most"
+  },
+  {
+   "from": 145.4,
+   "to": 149.1,
+   "text": "resembles cosine of x near x= 0 whose"
+  },
+  {
+   "from": 149.1,
+   "to": 151.2,
+   "text": "graph kind of spoons with the graph of"
+  },
+  {
+   "from": 151.2,
+   "to": 154.6,
+   "text": "cosine x at that point. Well, first of"
+  },
+  {
+   "from": 154.6,
+   "to": 157.4,
+   "text": "all, at the input 0, the value of cosine"
+  },
+  {
+   "from": 157.4,
+   "to": 160.2,
+   "text": "of x is 1. So, if our approximation is"
+  },
+  {
+   "from": 160.2,
+   "to": 162.2,
+   "text": "going to be any good at all, it should"
+  },
+  {
+   "from": 162.2,
+   "to": 165.7,
+   "text": "also equal one at the input x= 0."
+  },
+  {
+   "from": 165.7,
+   "to": 168.3,
+   "text": "Plugging in 0 just results in whatever c"
+  },
+  {
+   "from": 168.3,
+   "to": 173,
+   "text": "0 is. So, we can set that equal to one."
+  },
+  {
+   "from": 173,
+   "to": 175,
+   "text": "This leaves us free to choose constants"
+  },
+  {
+   "from": 175,
+   "to": 177.5,
+   "text": "C1 and C2 to make this approximation as"
+  },
+  {
+   "from": 177.5,
+   "to": 179.5,
+   "text": "good as we can. But nothing we do with"
+  },
+  {
+   "from": 179.5,
+   "to": 181,
+   "text": "them is going to change the fact that"
+  },
+  {
+   "from": 181,
+   "to": 185.6,
+   "text": "the polomial equals 1 at X= 0. Now it"
+  },
+  {
+   "from": 185.6,
+   "to": 187.4,
+   "text": "would also be good if our approximation"
+  },
+  {
+   "from": 187.4,
+   "to": 190,
+   "text": "had the same tangent slope as cosine X"
+  },
+  {
+   "from": 190,
+   "to": 192.6,
+   "text": "at this point of interest. Otherwise the"
+  },
+  {
+   "from": 192.6,
+   "to": 194.5,
+   "text": "approximation drifts away from the"
+  },
+  {
+   "from": 194.5,
+   "to": 196.4,
+   "text": "cosine graph much faster than it needs"
+  },
+  {
+   "from": 196.4,
+   "to": 198.2,
+   "text": "to."
+  },
+  {
+   "from": 198.2,
+   "to": 200.5,
+   "text": "The derivative of cosine is negative"
+  },
+  {
+   "from": 200.5,
+   "to": 204.1,
+   "text": "sign and at x= 0 that equals 0. Meaning"
+  },
+  {
+   "from": 204.2,
+   "to": 207.4,
+   "text": "the tangent line is perfectly flat."
+  },
+  {
+   "from": 207.4,
+   "to": 208.9,
+   "text": "On the other hand, when you work out the"
+  },
+  {
+   "from": 209,
+   "to": 212.3,
+   "text": "derivative of our quadratic, you get c1"
+  },
+  {
+   "from": 212.3,
+   "to": 217.8,
+   "text": "+ 2 * c2 * x. At x= 0, this just equals"
+  },
+  {
+   "from": 217.8,
+   "to": 220.6,
+   "text": "whatever we choose for c1. So this"
+  },
+  {
+   "from": 220.6,
+   "to": 222.9,
+   "text": "constant c1 has complete control over"
+  },
+  {
+   "from": 223,
+   "to": 225.1,
+   "text": "the derivative of our approximation"
+  },
+  {
+   "from": 225.1,
+   "to": 227,
+   "text": "around x=0."
+  },
+  {
+   "from": 227,
+   "to": 228.9,
+   "text": "Setting it equal to zero ensures that"
+  },
+  {
+   "from": 228.9,
+   "to": 231,
+   "text": "our approximation also has a flat"
+  },
+  {
+   "from": 231,
+   "to": 233.6,
+   "text": "tangent line at this point. And this"
+  },
+  {
+   "from": 233.6,
+   "to": 236.3,
+   "text": "leaves us free to change C2. But the"
+  },
+  {
+   "from": 236.3,
+   "to": 238.4,
+   "text": "value and the slope of our polomial at"
+  },
+  {
+   "from": 238.4,
+   "to": 241.6,
+   "text": "x=0 are locked in place to match that of"
+  },
+  {
+   "from": 241.6,
+   "to": 244.2,
+   "text": "cosine."
+  },
+  {
+   "from": 244.2,
+   "to": 246.1,
+   "text": "The final thing to take advantage of is"
+  },
+  {
+   "from": 246.2,
+   "to": 248.3,
+   "text": "the fact that the cosine graph curves"
+  },
+  {
+   "from": 248.3,
+   "to": 251.7,
+   "text": "downward above x= 0. It has a negative"
+  },
+  {
+   "from": 251.7,
+   "to": 254.2,
+   "text": "second derivative. Or in other words,"
+  },
+  {
+   "from": 254.2,
+   "to": 255.9,
+   "text": "even though the rate of change is zero"
+  },
+  {
+   "from": 255.9,
+   "to": 258.6,
+   "text": "at that point, the rate of change itself"
+  },
+  {
+   "from": 258.6,
+   "to": 261.5,
+   "text": "is decreasing around that point."
+  },
+  {
+   "from": 261.5,
+   "to": 263.7,
+   "text": "Specifically, since its derivative is"
+  },
+  {
+   "from": 263.7,
+   "to": 266.4,
+   "text": "negative sin of x, its second derivative"
+  },
+  {
+   "from": 266.4,
+   "to": 271.3,
+   "text": "is cosine of x and at x= 0, that equals"
+  },
+  {
+   "from": 271.3,
+   "to": 273,
+   "text": "-1."
+  },
+  {
+   "from": 273,
+   "to": 274.6,
+   "text": "Now, in the same way that we wanted the"
+  },
+  {
+   "from": 274.6,
+   "to": 276.6,
+   "text": "derivative of our approximation to match"
+  },
+  {
+   "from": 276.6,
+   "to": 278.9,
+   "text": "that of the cosine so that their values"
+  },
+  {
+   "from": 278.9,
+   "to": 281.4,
+   "text": "wouldn't drift apart needlessly quickly,"
+  },
+  {
+   "from": 281.4,
+   "to": 282.7,
+   "text": "making sure that their second"
+  },
+  {
+   "from": 282.7,
+   "to": 285,
+   "text": "derivatives match will ensure that they"
+  },
+  {
+   "from": 285,
+   "to": 287.7,
+   "text": "curve at the same rate, that the slope"
+  },
+  {
+   "from": 287.7,
+   "to": 289.9,
+   "text": "of our polomial doesn't drift away from"
+  },
+  {
+   "from": 289.9,
+   "to": 292.3,
+   "text": "the slope of cosine x any more quickly"
+  },
+  {
+   "from": 292.3,
+   "to": 294.4,
+   "text": "than it needs to."
+  },
+  {
+   "from": 294.4,
+   "to": 296,
+   "text": "pulling up the same derivative we had"
+  },
+  {
+   "from": 296,
+   "to": 298.8,
+   "text": "before and then taking its derivative,"
+  },
+  {
+   "from": 298.8,
+   "to": 300.6,
+   "text": "we see that the second derivative of"
+  },
+  {
+   "from": 300.6,
+   "to": 305.3,
+   "text": "this polomial is exactly 2 * c2. So to"
+  },
+  {
+   "from": 305.3,
+   "to": 307,
+   "text": "make sure that this second derivative"
+  },
+  {
+   "from": 307,
+   "to": 311.9,
+   "text": "also equals -1 at x= 0, 2 * c2 has to be"
+  },
+  {
+   "from": 311.9,
+   "to": 316.6,
+   "text": "-1, meaning c2 itself should be -2."
+  },
+  {
+   "from": 316.6,
+   "to": 319.5,
+   "text": "And this gives us the approximation 1 +"
+  },
+  {
+   "from": 319.5,
+   "to": 324.1,
+   "text": "0x - 12 x^2. And to get a feel for how"
+  },
+  {
+   "from": 324.1,
+   "to": 326.6,
+   "text": "good it is, if you estimate say cosine"
+  },
+  {
+   "from": 326.6,
+   "to": 329.6,
+   "text": "of 0.1 using this polomial, you'd"
+  },
+  {
+   "from": 329.6,
+   "to": 332.7,
+   "text": "estimate it to be 0.995."
+  },
+  {
+   "from": 332.7,
+   "to": 335.1,
+   "text": "And this is the true value of cosine of"
+  },
+  {
+   "from": 335.1,
+   "to": 336.6,
+   "text": "0.1."
+  },
+  {
+   "from": 336.6,
+   "to": 340.3,
+   "text": "It's a really good approximation."
+  },
+  {
+   "from": 340.3,
+   "to": 342.2,
+   "text": "Take a moment to reflect on what just"
+  },
+  {
+   "from": 342.2,
+   "to": 344.1,
+   "text": "happened. You had three degrees of"
+  },
+  {
+   "from": 344.1,
+   "to": 345.4,
+   "text": "freedom with this quadratic"
+  },
+  {
+   "from": 345.4,
+   "to": 348.2,
+   "text": "approximation. The constants C 0, C1,"
+  },
+  {
+   "from": 348.2,
+   "to": 351.4,
+   "text": "and C2. C 0 was responsible for making"
+  },
+  {
+   "from": 351.4,
+   "to": 352.6,
+   "text": "sure that the output of the"
+  },
+  {
+   "from": 352.6,
+   "to": 355.4,
+   "text": "approximation matches that of cosine X"
+  },
+  {
+   "from": 355.4,
+   "to": 358.9,
+   "text": "at X= 0. C1 was in charge of making sure"
+  },
+  {
+   "from": 358.9,
+   "to": 361,
+   "text": "that the derivatives match at that"
+  },
+  {
+   "from": 361,
+   "to": 364.1,
+   "text": "point."
+  },
+  {
+   "from": 364.1,
+   "to": 366.3,
+   "text": "And C2 was responsible for making sure"
+  },
+  {
+   "from": 366.3,
+   "to": 369.3,
+   "text": "that the second derivatives match up."
+  },
+  {
+   "from": 369.3,
+   "to": 370.8,
+   "text": "This ensures that the way your"
+  },
+  {
+   "from": 370.8,
+   "to": 373.2,
+   "text": "approximation changes as you move away"
+  },
+  {
+   "from": 373.2,
+   "to": 375.8,
+   "text": "from xals 0 and the way that the rate of"
+  },
+  {
+   "from": 375.8,
+   "to": 379,
+   "text": "change itself changes is as similar as"
+  },
+  {
+   "from": 379,
+   "to": 381.3,
+   "text": "possible to the behavior of cosine x"
+  },
+  {
+   "from": 381.3,
+   "to": 382.8,
+   "text": "given the amount of control that you"
+  },
+  {
+   "from": 382.8,
+   "to": 385.6,
+   "text": "have. You could give yourself more"
+  },
+  {
+   "from": 385.6,
+   "to": 387.6,
+   "text": "control by allowing more terms in your"
+  },
+  {
+   "from": 387.6,
+   "to": 389.7,
+   "text": "polomial and matching higher order"
+  },
+  {
+   "from": 389.8,
+   "to": 392.2,
+   "text": "derivatives. For example, let's say you"
+  },
+  {
+   "from": 392.2,
+   "to": 395.3,
+   "text": "added on the term c3 * x cubed for some"
+  },
+  {
+   "from": 395.3,
+   "to": 398.5,
+   "text": "constant c3. Well, in that case, if you"
+  },
+  {
+   "from": 398.5,
+   "to": 400.6,
+   "text": "take the third derivative of a cubic"
+  },
+  {
+   "from": 400.6,
+   "to": 403.1,
+   "text": "polomial, anything that's quadratic or"
+  },
+  {
+   "from": 403.1,
+   "to": 406.2,
+   "text": "smaller goes to zero. And as for that"
+  },
+  {
+   "from": 406.2,
+   "to": 408.7,
+   "text": "last term, after three iterations of the"
+  },
+  {
+   "from": 408.7,
+   "to": 410.6,
+   "text": "power rule,"
+  },
+  {
+   "from": 410.6,
+   "to": 414.6,
+   "text": "it looks like 1 * 2 * 3 * whatever c3"
+  },
+  {
+   "from": 414.6,
+   "to": 416.6,
+   "text": "is."
+  },
+  {
+   "from": 416.6,
+   "to": 418.3,
+   "text": "On the other hand, the third derivative"
+  },
+  {
+   "from": 418.3,
+   "to": 421.6,
+   "text": "of cosine x comes out to sin of x, which"
+  },
+  {
+   "from": 421.6,
+   "to": 424.8,
+   "text": "equals 0 at xals 0. So to make sure that"
+  },
+  {
+   "from": 424.8,
+   "to": 426.9,
+   "text": "the third derivatives match, the"
+  },
+  {
+   "from": 426.9,
+   "to": 430.3,
+   "text": "constant C3 should be zero. Or in other"
+  },
+  {
+   "from": 430.3,
+   "to": 434.1,
+   "text": "words, not only is 1 - 1/2x^2 the best"
+  },
+  {
+   "from": 434.1,
+   "to": 436.2,
+   "text": "possible quadratic approximation of"
+  },
+  {
+   "from": 436.2,
+   "to": 438.5,
+   "text": "cosine, it's also the best possible"
+  },
+  {
+   "from": 438.5,
+   "to": 441.5,
+   "text": "cubic approximation."
+  },
+  {
+   "from": 441.5,
+   "to": 443.5,
+   "text": "You can actually make an improvement by"
+  },
+  {
+   "from": 443.5,
+   "to": 448,
+   "text": "adding on a fourth order term C4 * x 4."
+  },
+  {
+   "from": 448,
+   "to": 450,
+   "text": "The fourth derivative of cosine is"
+  },
+  {
+   "from": 450,
+   "to": 454.2,
+   "text": "actually itself which equals 1 at x= 0."
+  },
+  {
+   "from": 454.2,
+   "to": 455.8,
+   "text": "And what's the fourth derivative of our"
+  },
+  {
+   "from": 455.8,
+   "to": 459.3,
+   "text": "polomial with this new term? Well, when"
+  },
+  {
+   "from": 459.3,
+   "to": 461,
+   "text": "you keep applying the power rule over"
+  },
+  {
+   "from": 461,
+   "to": 463,
+   "text": "and over with those exponents all"
+  },
+  {
+   "from": 463,
+   "to": 465.7,
+   "text": "hopping down in front, you end up with 1"
+  },
+  {
+   "from": 465.8,
+   "to": 471.7,
+   "text": "* 2 * 3 * 4 * c4, which is 24 * c4. So"
+  },
+  {
+   "from": 471.7,
+   "to": 473.6,
+   "text": "if we want this to match the fourth"
+  },
+  {
+   "from": 473.6,
+   "to": 477.4,
+   "text": "derivative of cosine x which is 1 c4 has"
+  },
+  {
+   "from": 477.4,
+   "to": 482.6,
+   "text": "to be 1 24 and indeed the polomial 1 -"
+  },
+  {
+   "from": 482.6,
+   "to": 488.1,
+   "text": "12 x^2 + 124 * x 4 which looks like this"
+  },
+  {
+   "from": 488.1,
+   "to": 491,
+   "text": "is a very close approximation for cosine"
+  },
+  {
+   "from": 491,
+   "to": 495,
+   "text": "x around x= 0. In any physics problem"
+  },
+  {
+   "from": 495,
+   "to": 497,
+   "text": "involving the cosine of a small angle,"
+  },
+  {
+   "from": 497,
+   "to": 499.6,
+   "text": "for example, predictions would be almost"
+  },
+  {
+   "from": 499.6,
+   "to": 501.4,
+   "text": "unnoticeably different if you"
+  },
+  {
+   "from": 501.4,
+   "to": 503.8,
+   "text": "substituted this polomial for cosine of"
+  },
+  {
+   "from": 503.8,
+   "to": 506.2,
+   "text": "x."
+  },
+  {
+   "from": 506.2,
+   "to": 508.2,
+   "text": "Now take a step back and notice a few"
+  },
+  {
+   "from": 508.2,
+   "to": 510.5,
+   "text": "things happening with this process."
+  },
+  {
+   "from": 510.5,
+   "to": 512.6,
+   "text": "First of all, factorial terms come up"
+  },
+  {
+   "from": 512.6,
+   "to": 515.3,
+   "text": "very naturally in this process. When you"
+  },
+  {
+   "from": 515.3,
+   "to": 517.4,
+   "text": "take n successive derivatives of the"
+  },
+  {
+   "from": 517.4,
+   "to": 519.7,
+   "text": "function x to the n, letting the power"
+  },
+  {
+   "from": 519.7,
+   "to": 522.6,
+   "text": "rule just keep cascading on down, what"
+  },
+  {
+   "from": 522.6,
+   "to": 526.6,
+   "text": "you'll be left with is 1 * 2 * 3 on and"
+  },
+  {
+   "from": 526.6,
+   "to": 529.8,
+   "text": "on and on up to whatever n is. So you"
+  },
+  {
+   "from": 529.8,
+   "to": 531.5,
+   "text": "don't simply set the coefficients of the"
+  },
+  {
+   "from": 531.5,
+   "to": 533.9,
+   "text": "polomial equal to whatever derivative"
+  },
+  {
+   "from": 533.9,
+   "to": 536.2,
+   "text": "you want. You have to divide by the"
+  },
+  {
+   "from": 536.2,
+   "to": 538.2,
+   "text": "appropriate factorial to cancel out this"
+  },
+  {
+   "from": 538.2,
+   "to": 541.2,
+   "text": "effect. For example, that x 4th"
+  },
+  {
+   "from": 541.2,
+   "to": 543.6,
+   "text": "coefficient was the fourth derivative of"
+  },
+  {
+   "from": 543.6,
+   "to": 549.4,
+   "text": "cosine 1, but divided by 4 factorial 24."
+  },
+  {
+   "from": 549.4,
+   "to": 551.1,
+   "text": "The second thing to notice is that"
+  },
+  {
+   "from": 551.1,
+   "to": 555.5,
+   "text": "adding on new terms like this c4 * x 4th"
+  },
+  {
+   "from": 555.5,
+   "to": 557.4,
+   "text": "doesn't mess up what the old terms"
+  },
+  {
+   "from": 557.4,
+   "to": 560.1,
+   "text": "should be. And that's really important."
+  },
+  {
+   "from": 560.1,
+   "to": 562.1,
+   "text": "For example, the second derivative of"
+  },
+  {
+   "from": 562.1,
+   "to": 565.7,
+   "text": "this polomial at x= 0 is still equal to"
+  },
+  {
+   "from": 565.7,
+   "to": 568.3,
+   "text": "2 * the second coefficient even after"
+  },
+  {
+   "from": 568.3,
+   "to": 571.1,
+   "text": "you introduce higher order terms. And"
+  },
+  {
+   "from": 571.1,
+   "to": 574.2,
+   "text": "it's because we're plugging in x= 0. So"
+  },
+  {
+   "from": 574.2,
+   "to": 576,
+   "text": "the second derivative of any higher"
+  },
+  {
+   "from": 576,
+   "to": 578.9,
+   "text": "order term which all include an x will"
+  },
+  {
+   "from": 578.9,
+   "to": 581.7,
+   "text": "just wash away. And the same goes for"
+  },
+  {
+   "from": 581.7,
+   "to": 584.1,
+   "text": "any other derivative which is why each"
+  },
+  {
+   "from": 584.1,
+   "to": 587.5,
+   "text": "derivative of a polomial at x=0 is"
+  },
+  {
+   "from": 587.5,
+   "to": 589.8,
+   "text": "controlled by one and only one of the"
+  },
+  {
+   "from": 589.8,
+   "to": 592.5,
+   "text": "coefficients."
+  },
+  {
+   "from": 592.5,
+   "to": 594.3,
+   "text": "If instead you were approximating near"
+  },
+  {
+   "from": 594.3,
+   "to": 597.1,
+   "text": "an input other than zero like maybe x="
+  },
+  {
+   "from": 597.1,
+   "to": 599.8,
+   "text": "pi in order to get the same effect you"
+  },
+  {
+   "from": 599.8,
+   "to": 601.4,
+   "text": "would have to write your polomial in"
+  },
+  {
+   "from": 601.4,
+   "to": 604.5,
+   "text": "terms of powers of x - pi or whatever"
+  },
+  {
+   "from": 604.5,
+   "to": 606.9,
+   "text": "input you're looking at. This makes it"
+  },
+  {
+   "from": 607,
+   "to": 609.1,
+   "text": "look noticeably more complicated, but"
+  },
+  {
+   "from": 609.1,
+   "to": 610.8,
+   "text": "all we're doing is just making sure that"
+  },
+  {
+   "from": 610.8,
+   "to": 613.3,
+   "text": "the point pi looks and behaves like"
+  },
+  {
+   "from": 613.3,
+   "to": 616.7,
+   "text": "zero. So that plugging in x= pi is going"
+  },
+  {
+   "from": 616.7,
+   "to": 618.8,
+   "text": "to result in a lot of nice cancellation"
+  },
+  {
+   "from": 618.8,
+   "to": 622.5,
+   "text": "that leaves only one constant."
+  },
+  {
+   "from": 622.5,
+   "to": 624.6,
+   "text": "And finally, on a more philosophical"
+  },
+  {
+   "from": 624.6,
+   "to": 626.7,
+   "text": "level, notice how what we're doing here"
+  },
+  {
+   "from": 626.7,
+   "to": 629.2,
+   "text": "is basically taking information about"
+  },
+  {
+   "from": 629.2,
+   "to": 631.2,
+   "text": "higher order derivatives of a function"
+  },
+  {
+   "from": 631.2,
+   "to": 633.8,
+   "text": "at a single point and then translating"
+  },
+  {
+   "from": 633.8,
+   "to": 635.9,
+   "text": "that into information about the value of"
+  },
+  {
+   "from": 635.9,
+   "to": 641.4,
+   "text": "the function near that point."
+  },
+  {
+   "from": 641.4,
+   "to": 643.2,
+   "text": "You can take as many derivatives of"
+  },
+  {
+   "from": 643.2,
+   "to": 645.4,
+   "text": "cosine as you want. It follows this nice"
+  },
+  {
+   "from": 645.4,
+   "to": 647.9,
+   "text": "cyclic pattern. cosine of x negative sin"
+  },
+  {
+   "from": 647.9,
+   "to": 652.2,
+   "text": "of x negative cosine s and then repeat"
+  },
+  {
+   "from": 652.2,
+   "to": 654.1,
+   "text": "and the value of each one of these is"
+  },
+  {
+   "from": 654.1,
+   "to": 656.6,
+   "text": "easy to compute at xals 0. It gives this"
+  },
+  {
+   "from": 656.6,
+   "to": 661.9,
+   "text": "cyclic pattern 1 0 1 0 and then repeat"
+  },
+  {
+   "from": 661.9,
+   "to": 664,
+   "text": "and knowing the values of all of those"
+  },
+  {
+   "from": 664,
+   "to": 666.1,
+   "text": "higher order derivatives is a lot of"
+  },
+  {
+   "from": 666.1,
+   "to": 668.8,
+   "text": "information about cosine of x even"
+  },
+  {
+   "from": 668.8,
+   "to": 670.7,
+   "text": "though it only involves plugging in a"
+  },
+  {
+   "from": 670.7,
+   "to": 674.4,
+   "text": "single number x= z."
+  },
+  {
+   "from": 674.4,
+   "to": 676.3,
+   "text": "So what we're doing is leveraging that"
+  },
+  {
+   "from": 676.3,
+   "to": 678.7,
+   "text": "information to get an approximation"
+  },
+  {
+   "from": 678.7,
+   "to": 681.1,
+   "text": "around this input. And you do it by"
+  },
+  {
+   "from": 681.1,
+   "to": 683.4,
+   "text": "creating a polomial whose higher order"
+  },
+  {
+   "from": 683.4,
+   "to": 685.5,
+   "text": "derivatives are designed to match up"
+  },
+  {
+   "from": 685.5,
+   "to": 688.2,
+   "text": "with those of cosine following the same"
+  },
+  {
+   "from": 688.2,
+   "to": 692.5,
+   "text": "1 0 1 0 cyclic pattern. And to do that"
+  },
+  {
+   "from": 692.5,
+   "to": 694.4,
+   "text": "you just make each coefficient of the"
+  },
+  {
+   "from": 694.4,
+   "to": 696.9,
+   "text": "polomial follow that same pattern. But"
+  },
+  {
+   "from": 697,
+   "to": 698.6,
+   "text": "you have to divide each one by the"
+  },
+  {
+   "from": 698.6,
+   "to": 700.6,
+   "text": "appropriate factorial. Like I mentioned"
+  },
+  {
+   "from": 700.6,
+   "to": 702.5,
+   "text": "before, this is what cancels out the"
+  },
+  {
+   "from": 702.5,
+   "to": 704.6,
+   "text": "cascading effect of many power rule"
+  },
+  {
+   "from": 704.6,
+   "to": 707.1,
+   "text": "applications."
+  },
+  {
+   "from": 707.1,
+   "to": 709.4,
+   "text": "The polomials you get by stopping this"
+  },
+  {
+   "from": 709.4,
+   "to": 711.1,
+   "text": "process at any point are called"
+  },
+  {
+   "from": 711.1,
+   "to": 713.8,
+   "text": "tailaylor polomials for cosine of x."
+  },
+  {
+   "from": 713.8,
+   "to": 715.5,
+   "text": "More generally and hence more"
+  },
+  {
+   "from": 715.5,
+   "to": 717.8,
+   "text": "abstractly, if we were dealing with some"
+  },
+  {
+   "from": 717.8,
+   "to": 720,
+   "text": "other function other than cosine, you"
+  },
+  {
+   "from": 720,
+   "to": 722,
+   "text": "would compute its derivative, its second"
+  },
+  {
+   "from": 722,
+   "to": 724.3,
+   "text": "derivative and so on getting as many"
+  },
+  {
+   "from": 724.3,
+   "to": 725.9,
+   "text": "terms as you'd like and you would"
+  },
+  {
+   "from": 725.9,
+   "to": 729.6,
+   "text": "evaluate each one of them at xals 0."
+  },
+  {
+   "from": 729.6,
+   "to": 732.5,
+   "text": "Then for the polomial approximation the"
+  },
+  {
+   "from": 732.5,
+   "to": 735.4,
+   "text": "coefficient of each x to the n term"
+  },
+  {
+   "from": 735.4,
+   "to": 737.4,
+   "text": "should be the value of the nth"
+  },
+  {
+   "from": 737.4,
+   "to": 740,
+   "text": "derivative of the function evaluated at"
+  },
+  {
+   "from": 740,
+   "to": 743.6,
+   "text": "zero but divided by n factorial."
+  },
+  {
+   "from": 743.6,
+   "to": 746.2,
+   "text": "And this whole rather abstract formula"
+  },
+  {
+   "from": 746.2,
+   "to": 748.1,
+   "text": "is something that you'll likely see in"
+  },
+  {
+   "from": 748.1,
+   "to": 750.2,
+   "text": "any text or any course that touches on"
+  },
+  {
+   "from": 750.2,
+   "to": 752.2,
+   "text": "tailaylor polomials. And when you see"
+  },
+  {
+   "from": 752.2,
+   "to": 754,
+   "text": "it, I want you to think to yourself that"
+  },
+  {
+   "from": 754,
+   "to": 756,
+   "text": "that constant term ensures that the"
+  },
+  {
+   "from": 756,
+   "to": 758.1,
+   "text": "value of the polomial matches with the"
+  },
+  {
+   "from": 758.1,
+   "to": 760.7,
+   "text": "value of f. The next term ensures that"
+  },
+  {
+   "from": 760.7,
+   "to": 763.3,
+   "text": "the slope of the polomial matches the"
+  },
+  {
+   "from": 763.3,
+   "to": 766.6,
+   "text": "slope of the function at x=0. The next"
+  },
+  {
+   "from": 766.6,
+   "to": 768.7,
+   "text": "term ensures that the rate at which the"
+  },
+  {
+   "from": 768.7,
+   "to": 771.1,
+   "text": "slope changes is the same at that point"
+  },
+  {
+   "from": 771.1,
+   "to": 773.2,
+   "text": "and so on depending on how many terms"
+  },
+  {
+   "from": 773.2,
+   "to": 775.8,
+   "text": "you want. And the more terms you choose,"
+  },
+  {
+   "from": 775.8,
+   "to": 777.6,
+   "text": "the closer the approximation. But the"
+  },
+  {
+   "from": 777.6,
+   "to": 779.8,
+   "text": "trade-off is that the polomial you'd get"
+  },
+  {
+   "from": 779.8,
+   "to": 782.5,
+   "text": "would be more complicated."
+  },
+  {
+   "from": 782.5,
+   "to": 784.7,
+   "text": "And to make things even more general, if"
+  },
+  {
+   "from": 784.7,
+   "to": 786.4,
+   "text": "you wanted to approximate near some"
+  },
+  {
+   "from": 786.4,
+   "to": 788.7,
+   "text": "input other than zero, which we'll call"
+  },
+  {
+   "from": 788.7,
+   "to": 791.4,
+   "text": "a, you would write this polomial in"
+  },
+  {
+   "from": 791.4,
+   "to": 794.4,
+   "text": "terms of powers of x - a, and you would"
+  },
+  {
+   "from": 794.4,
+   "to": 796.7,
+   "text": "evaluate all the derivatives of f at"
+  },
+  {
+   "from": 796.7,
+   "to": 799.1,
+   "text": "that input a."
+  },
+  {
+   "from": 799.1,
+   "to": 801.5,
+   "text": "This is what tailor polomials look like"
+  },
+  {
+   "from": 801.5,
+   "to": 804.3,
+   "text": "in their fullest generality. Changing"
+  },
+  {
+   "from": 804.3,
+   "to": 806.7,
+   "text": "the value of a changes where this"
+  },
+  {
+   "from": 806.7,
+   "to": 808.8,
+   "text": "approximation is hugging the original"
+  },
+  {
+   "from": 808.8,
+   "to": 810.8,
+   "text": "function where its higher order"
+  },
+  {
+   "from": 810.8,
+   "to": 812.8,
+   "text": "derivatives will be equal to those of"
+  },
+  {
+   "from": 812.8,
+   "to": 815.8,
+   "text": "the original function."
+  },
+  {
+   "from": 815.8,
+   "to": 817.8,
+   "text": "One of the simplest meaningful examples"
+  },
+  {
+   "from": 817.8,
+   "to": 820.2,
+   "text": "of this is the function e to the x"
+  },
+  {
+   "from": 820.2,
+   "to": 822.9,
+   "text": "around the input x=0."
+  },
+  {
+   "from": 822.9,
+   "to": 825.2,
+   "text": "Computing the derivatives is super nice,"
+  },
+  {
+   "from": 825.2,
+   "to": 827,
+   "text": "as nice as it gets, because the"
+  },
+  {
+   "from": 827,
+   "to": 829.7,
+   "text": "derivative of e to the x is itself. So"
+  },
+  {
+   "from": 829.7,
+   "to": 831.8,
+   "text": "the second derivative is also e to the x"
+  },
+  {
+   "from": 831.8,
+   "to": 834.8,
+   "text": "as is its third. and so on. So at the"
+  },
+  {
+   "from": 834.8,
+   "to": 839,
+   "text": "point x=0 all of these are equal to 1."
+  },
+  {
+   "from": 839,
+   "to": 841,
+   "text": "And what that means is our polomial"
+  },
+  {
+   "from": 841,
+   "to": 848.2,
+   "text": "approximation should look like 1 + 1 * x"
+  },
+  {
+   "from": 848.2,
+   "to": 852.1,
+   "text": "+ 1 / 2 * x^2"
+  },
+  {
+   "from": 852.1,
+   "to": 856,
+   "text": "+ 1 3 factorial * xub"
+  },
+  {
+   "from": 856,
+   "to": 858.2,
+   "text": "and so on depending on how many terms"
+  },
+  {
+   "from": 858.2,
+   "to": 861.6,
+   "text": "you want. These are the tailor polomials"
+  },
+  {
+   "from": 861.6,
+   "to": 866.7,
+   "text": "for e to the x."
+  },
+  {
+   "from": 866.7,
+   "to": 869.3,
+   "text": "Okay. So with that as a foundation in"
+  },
+  {
+   "from": 869.3,
+   "to": 870.6,
+   "text": "the spirit of showing you just how"
+  },
+  {
+   "from": 870.6,
+   "to": 872.9,
+   "text": "connected all the topics of calculus are"
+  },
+  {
+   "from": 873,
+   "to": 875.2,
+   "text": "let me turn to something kind of fun. A"
+  },
+  {
+   "from": 875.2,
+   "to": 876.9,
+   "text": "completely different way to understand"
+  },
+  {
+   "from": 877,
+   "to": 878.9,
+   "text": "this second order term of the tailaylor"
+  },
+  {
+   "from": 879,
+   "to": 881.6,
+   "text": "polinomials but geometrically. It's"
+  },
+  {
+   "from": 881.6,
+   "to": 883.1,
+   "text": "related to the fundamental theorem of"
+  },
+  {
+   "from": 883.1,
+   "to": 884.6,
+   "text": "calculus which I talked about in"
+  },
+  {
+   "from": 884.6,
+   "to": 886.7,
+   "text": "chapters 1 and chapters 8 if you need a"
+  },
+  {
+   "from": 886.7,
+   "to": 889,
+   "text": "quick refresher. Like we did in those"
+  },
+  {
+   "from": 889,
+   "to": 891,
+   "text": "videos, consider a function that gives"
+  },
+  {
+   "from": 891,
+   "to": 893.6,
+   "text": "the area under some graph between a"
+  },
+  {
+   "from": 893.6,
+   "to": 895.8,
+   "text": "fixed left point and a variable right"
+  },
+  {
+   "from": 895.8,
+   "to": 898.1,
+   "text": "point. What we're going to do here is"
+  },
+  {
+   "from": 898.1,
+   "to": 900.4,
+   "text": "think about how to approximate this area"
+  },
+  {
+   "from": 900.4,
+   "to": 902.6,
+   "text": "function, not the function for the graph"
+  },
+  {
+   "from": 902.6,
+   "to": 904.9,
+   "text": "itself like we've been doing before."
+  },
+  {
+   "from": 904.9,
+   "to": 907,
+   "text": "Focusing on that area is what's going to"
+  },
+  {
+   "from": 907,
+   "to": 909,
+   "text": "make the second order term kind of pop"
+  },
+  {
+   "from": 909,
+   "to": 912.3,
+   "text": "out. Remember the fundamental theorem of"
+  },
+  {
+   "from": 912.3,
+   "to": 915,
+   "text": "calculus is that this graph itself"
+  },
+  {
+   "from": 915,
+   "to": 917.4,
+   "text": "represents the derivative of the area"
+  },
+  {
+   "from": 917.4,
+   "to": 919.9,
+   "text": "function. And it's because a slight"
+  },
+  {
+   "from": 919.9,
+   "to": 922.8,
+   "text": "nudge dx to the right bound of the area"
+  },
+  {
+   "from": 922.8,
+   "to": 924.7,
+   "text": "gives a new bit of area that's"
+  },
+  {
+   "from": 924.7,
+   "to": 927.2,
+   "text": "approximately equal to the height of the"
+  },
+  {
+   "from": 927.2,
+   "to": 930.2,
+   "text": "graph* dx."
+  },
+  {
+   "from": 930.2,
+   "to": 932.2,
+   "text": "And that approximation is increasingly"
+  },
+  {
+   "from": 932.2,
+   "to": 933.9,
+   "text": "accurate for smaller and smaller choices"
+  },
+  {
+   "from": 933.9,
+   "to": 935.8,
+   "text": "of dx."
+  },
+  {
+   "from": 935.8,
+   "to": 937.4,
+   "text": "But if you wanted to be more accurate"
+  },
+  {
+   "from": 937.4,
+   "to": 939.4,
+   "text": "about this change in area given some"
+  },
+  {
+   "from": 939.4,
+   "to": 941.5,
+   "text": "change in x that isn't meant to approach"
+  },
+  {
+   "from": 941.5,
+   "to": 943.5,
+   "text": "zero, you would have to take into"
+  },
+  {
+   "from": 943.5,
+   "to": 946,
+   "text": "account this portion right here, which"
+  },
+  {
+   "from": 946,
+   "to": 949.6,
+   "text": "is approximately a triangle."
+  },
+  {
+   "from": 949.6,
+   "to": 952.7,
+   "text": "Let's name the starting input A and the"
+  },
+  {
+   "from": 952.7,
+   "to": 955.8,
+   "text": "nudged input above it X, so that that"
+  },
+  {
+   "from": 955.8,
+   "to": 959.9,
+   "text": "change is X - A. The base of that little"
+  },
+  {
+   "from": 959.9,
+   "to": 963.7,
+   "text": "triangle is that change x - a. And its"
+  },
+  {
+   "from": 963.8,
+   "to": 966.9,
+   "text": "height is the slope of the graph times x"
+  },
+  {
+   "from": 967,
+   "to": 970.4,
+   "text": "- a. Since this graph is the derivative"
+  },
+  {
+   "from": 970.4,
+   "to": 973.4,
+   "text": "of the area function, its slope is the"
+  },
+  {
+   "from": 973.4,
+   "to": 975.6,
+   "text": "second derivative of the area function"
+  },
+  {
+   "from": 975.6,
+   "to": 978.5,
+   "text": "evaluated at the input a."
+  },
+  {
+   "from": 978.5,
+   "to": 980.7,
+   "text": "So the area of this triangle 12 base"
+  },
+  {
+   "from": 980.7,
+   "to": 983.7,
+   "text": "time height is 12 * the second"
+  },
+  {
+   "from": 983.8,
+   "to": 985.5,
+   "text": "derivative of this area function"
+  },
+  {
+   "from": 985.5,
+   "to": 991.2,
+   "text": "evaluated at a multiplied by x - a^ 2."
+  },
+  {
+   "from": 991.2,
+   "to": 993.1,
+   "text": "And this is exactly what you would see"
+  },
+  {
+   "from": 993.1,
+   "to": 995.7,
+   "text": "with a tailaylor polomial if you knew"
+  },
+  {
+   "from": 995.7,
+   "to": 998,
+   "text": "the various derivative information about"
+  },
+  {
+   "from": 998,
+   "to": 1000.9,
+   "text": "this area function at the point a. How"
+  },
+  {
+   "from": 1001,
+   "to": 1002.6,
+   "text": "would you approximate the area at the"
+  },
+  {
+   "from": 1002.6,
+   "to": 1005.7,
+   "text": "point x?"
+  },
+  {
+   "from": 1005.7,
+   "to": 1007.4,
+   "text": "Well, you have to include all that area"
+  },
+  {
+   "from": 1007.4,
+   "to": 1011.1,
+   "text": "up to a f of a plus the area of this"
+  },
+  {
+   "from": 1011.1,
+   "to": 1013.3,
+   "text": "rectangle here, which is the first"
+  },
+  {
+   "from": 1013.3,
+   "to": 1017.2,
+   "text": "derivative * x - a plus the area of that"
+  },
+  {
+   "from": 1017.2,
+   "to": 1019.7,
+   "text": "little triangle, which is 12 * the"
+  },
+  {
+   "from": 1019.7,
+   "to": 1023.4,
+   "text": "second derivative * x - a^ 2. I really"
+  },
+  {
+   "from": 1023.4,
+   "to": 1025.3,
+   "text": "like this because even though it looks a"
+  },
+  {
+   "from": 1025.3,
+   "to": 1027.4,
+   "text": "bit messy all written out, each one of"
+  },
+  {
+   "from": 1027.4,
+   "to": 1029.2,
+   "text": "the terms has a very clear meaning that"
+  },
+  {
+   "from": 1029.2,
+   "to": 1033.6,
+   "text": "you can just point to on the diagram."
+  },
+  {
+   "from": 1033.6,
+   "to": 1035.2,
+   "text": "If you wanted, we could call it an end"
+  },
+  {
+   "from": 1035.2,
+   "to": 1037.1,
+   "text": "here and you would have a phenomenally"
+  },
+  {
+   "from": 1037.1,
+   "to": 1039.2,
+   "text": "useful tool for approximations with"
+  },
+  {
+   "from": 1039.2,
+   "to": 1041.6,
+   "text": "these tailaylor polomials."
+  },
+  {
+   "from": 1041.6,
+   "to": 1043.1,
+   "text": "But if you're thinking like a"
+  },
+  {
+   "from": 1043.1,
+   "to": 1045.4,
+   "text": "mathematician, one question you might"
+  },
+  {
+   "from": 1045.4,
+   "to": 1047.4,
+   "text": "ask is whether or not it makes sense to"
+  },
+  {
+   "from": 1047.4,
+   "to": 1050.1,
+   "text": "never stop and just add infinitely many"
+  },
+  {
+   "from": 1050.1,
+   "to": 1053.4,
+   "text": "terms. In math, an infinite sum is"
+  },
+  {
+   "from": 1053.4,
+   "to": 1056.1,
+   "text": "called a series. So even though one of"
+  },
+  {
+   "from": 1056.1,
+   "to": 1058,
+   "text": "these approximations with finitely many"
+  },
+  {
+   "from": 1058,
+   "to": 1060.5,
+   "text": "terms is called a tailaylor polomial"
+  },
+  {
+   "from": 1060.5,
+   "to": 1063.1,
+   "text": "adding all infinitely many terms gives"
+  },
+  {
+   "from": 1063.1,
+   "to": 1065.6,
+   "text": "what's called a tailaylor series."
+  },
+  {
+   "from": 1065.6,
+   "to": 1067,
+   "text": "You have to be really careful with the"
+  },
+  {
+   "from": 1067,
+   "to": 1069.4,
+   "text": "idea of an infinite series because it"
+  },
+  {
+   "from": 1069.4,
+   "to": 1071.4,
+   "text": "doesn't actually make sense to add"
+  },
+  {
+   "from": 1071.4,
+   "to": 1073.7,
+   "text": "infinitely many things. You can only hit"
+  },
+  {
+   "from": 1073.7,
+   "to": 1075.4,
+   "text": "the plus button on the calculator so"
+  },
+  {
+   "from": 1075.4,
+   "to": 1077.7,
+   "text": "many times."
+  },
+  {
+   "from": 1077.7,
+   "to": 1079.4,
+   "text": "But if you have a series where adding"
+  },
+  {
+   "from": 1079.4,
+   "to": 1081.4,
+   "text": "more and more of the terms, which make"
+  },
+  {
+   "from": 1081.4,
+   "to": 1083.4,
+   "text": "sense at each step, gets you"
+  },
+  {
+   "from": 1083.4,
+   "to": 1085.4,
+   "text": "increasingly close to some specific"
+  },
+  {
+   "from": 1085.4,
+   "to": 1088.2,
+   "text": "value, what you say is that the series"
+  },
+  {
+   "from": 1088.2,
+   "to": 1091.5,
+   "text": "converges to that value. Or if you're"
+  },
+  {
+   "from": 1091.5,
+   "to": 1093.4,
+   "text": "comfortable extending the definition of"
+  },
+  {
+   "from": 1093.4,
+   "to": 1095.4,
+   "text": "equality to include this kind of series"
+  },
+  {
+   "from": 1095.4,
+   "to": 1097.5,
+   "text": "convergence, you'd say that the series"
+  },
+  {
+   "from": 1097.5,
+   "to": 1100.7,
+   "text": "as a whole, this infinite sum, equals"
+  },
+  {
+   "from": 1100.7,
+   "to": 1103.8,
+   "text": "the value that it's converging to."
+  },
+  {
+   "from": 1103.8,
+   "to": 1105.7,
+   "text": "For example, look at the tailaylor"
+  },
+  {
+   "from": 1105.7,
+   "to": 1108.5,
+   "text": "polomial for e to the x and plug in some"
+  },
+  {
+   "from": 1108.6,
+   "to": 1112.4,
+   "text": "input like x= 1. As you add more and"
+  },
+  {
+   "from": 1112.4,
+   "to": 1115.9,
+   "text": "more polomial terms, the total sum gets"
+  },
+  {
+   "from": 1115.9,
+   "to": 1119,
+   "text": "closer and closer to the value e. So you"
+  },
+  {
+   "from": 1119,
+   "to": 1121.7,
+   "text": "say that this infinite series converges"
+  },
+  {
+   "from": 1121.7,
+   "to": 1124.3,
+   "text": "to the number e or what's saying the"
+  },
+  {
+   "from": 1124.3,
+   "to": 1128.1,
+   "text": "same thing that it equals the number e."
+  },
+  {
+   "from": 1128.1,
+   "to": 1130.1,
+   "text": "In fact, it turns out that if you plug"
+  },
+  {
+   "from": 1130.1,
+   "to": 1133.8,
+   "text": "in any other value of x like x= 2 and"
+  },
+  {
+   "from": 1133.8,
+   "to": 1135.6,
+   "text": "look at the value of the higher and"
+  },
+  {
+   "from": 1135.6,
+   "to": 1138.1,
+   "text": "higher order tailaylor polomials at this"
+  },
+  {
+   "from": 1138.1,
+   "to": 1141.4,
+   "text": "value, they will converge towards e to"
+  },
+  {
+   "from": 1141.4,
+   "to": 1145,
+   "text": "the x which in this case is e^2."
+  },
+  {
+   "from": 1145,
+   "to": 1147.4,
+   "text": "And this is true for any input no matter"
+  },
+  {
+   "from": 1147.4,
+   "to": 1150,
+   "text": "how far away from zero it is. Even"
+  },
+  {
+   "from": 1150,
+   "to": 1151.7,
+   "text": "though these tailaylor polinomials are"
+  },
+  {
+   "from": 1151.7,
+   "to": 1153.6,
+   "text": "constructed only from derivative"
+  },
+  {
+   "from": 1153.6,
+   "to": 1158.3,
+   "text": "information gathered at the input zero"
+  },
+  {
+   "from": 1158.3,
+   "to": 1160.7,
+   "text": "in a case like this we say that e to the"
+  },
+  {
+   "from": 1160.7,
+   "to": 1163.9,
+   "text": "x equals its own tailaylor series at all"
+  },
+  {
+   "from": 1163.9,
+   "to": 1166.5,
+   "text": "inputs x which is kind of a magical"
+  },
+  {
+   "from": 1166.6,
+   "to": 1168.7,
+   "text": "thing to have happen."
+  },
+  {
+   "from": 1168.7,
+   "to": 1170.5,
+   "text": "And even though this is also true for a"
+  },
+  {
+   "from": 1170.5,
+   "to": 1172.2,
+   "text": "couple other important functions, things"
+  },
+  {
+   "from": 1172.2,
+   "to": 1175.1,
+   "text": "like s and cosine, sometimes these"
+  },
+  {
+   "from": 1175.1,
+   "to": 1177.2,
+   "text": "series only converge within a certain"
+  },
+  {
+   "from": 1177.2,
+   "to": 1179.4,
+   "text": "range around the input whose derivative"
+  },
+  {
+   "from": 1179.4,
+   "to": 1182,
+   "text": "information you're using. If you work"
+  },
+  {
+   "from": 1182,
+   "to": 1184,
+   "text": "out the tailaylor series for the natural"
+  },
+  {
+   "from": 1184,
+   "to": 1187.6,
+   "text": "log of x around the input x= 1, which is"
+  },
+  {
+   "from": 1187.6,
+   "to": 1189.9,
+   "text": "built by evaluating the higher order"
+  },
+  {
+   "from": 1189.9,
+   "to": 1192.6,
+   "text": "derivatives of the natural log of x at"
+  },
+  {
+   "from": 1192.6,
+   "to": 1196.1,
+   "text": "x= 1. This is what it would look like"
+  },
+  {
+   "from": 1196.1,
+   "to": 1198.5,
+   "text": "when you plug in an input between 0 and"
+  },
+  {
+   "from": 1198.6,
+   "to": 1200.9,
+   "text": "two. Adding more and more terms of this"
+  },
+  {
+   "from": 1200.9,
+   "to": 1203.5,
+   "text": "series will indeed get you closer and"
+  },
+  {
+   "from": 1203.5,
+   "to": 1206.3,
+   "text": "closer to the natural log of that input."
+  },
+  {
+   "from": 1206.3,
+   "to": 1208.5,
+   "text": "But outside of that range, even by just"
+  },
+  {
+   "from": 1208.6,
+   "to": 1211,
+   "text": "a little bit, the series fails to"
+  },
+  {
+   "from": 1211,
+   "to": 1213.5,
+   "text": "approach anything. As you add on more"
+  },
+  {
+   "from": 1213.5,
+   "to": 1215.7,
+   "text": "and more terms, the sum just kind of"
+  },
+  {
+   "from": 1215.7,
+   "to": 1218.4,
+   "text": "bounces up back and forth wildly. It"
+  },
+  {
+   "from": 1218.4,
+   "to": 1220.5,
+   "text": "does not, as you might expect, approach"
+  },
+  {
+   "from": 1220.6,
+   "to": 1223.3,
+   "text": "the natural log of that value. Even"
+  },
+  {
+   "from": 1223.3,
+   "to": 1225.4,
+   "text": "though the natural log of x is perfectly"
+  },
+  {
+   "from": 1225.4,
+   "to": 1227.4,
+   "text": "well defined for inputs that are above"
+  },
+  {
+   "from": 1227.4,
+   "to": 1230.3,
+   "text": "2, in some sense, the derivative"
+  },
+  {
+   "from": 1230.3,
+   "to": 1234.1,
+   "text": "information of ln of x at x= 1 doesn't"
+  },
+  {
+   "from": 1234.1,
+   "to": 1236.5,
+   "text": "propagate out that far."
+  },
+  {
+   "from": 1236.6,
+   "to": 1238.5,
+   "text": "In a case like this, we're adding more"
+  },
+  {
+   "from": 1238.6,
+   "to": 1240.4,
+   "text": "terms of the series doesn't approach"
+  },
+  {
+   "from": 1240.4,
+   "to": 1242.4,
+   "text": "anything. You say that the series"
+  },
+  {
+   "from": 1242.4,
+   "to": 1244.1,
+   "text": "diverges"
+  },
+  {
+   "from": 1244.1,
+   "to": 1246,
+   "text": "and that maximum distance between the"
+  },
+  {
+   "from": 1246,
+   "to": 1248.1,
+   "text": "input you're approximating near and"
+  },
+  {
+   "from": 1248.2,
+   "to": 1249.7,
+   "text": "points where the outputs of these"
+  },
+  {
+   "from": 1249.7,
+   "to": 1252.5,
+   "text": "polomials actually do converge is called"
+  },
+  {
+   "from": 1252.6,
+   "to": 1254.8,
+   "text": "the radius of convergence for the"
+  },
+  {
+   "from": 1254.8,
+   "to": 1256.9,
+   "text": "tailaylor series."
+  },
+  {
+   "from": 1256.9,
+   "to": 1258.5,
+   "text": "There remains more to learn about"
+  },
+  {
+   "from": 1258.5,
+   "to": 1260.2,
+   "text": "tailaylor series. There are many use"
+  },
+  {
+   "from": 1260.2,
+   "to": 1262.8,
+   "text": "cases, tactics for placing bounds on the"
+  },
+  {
+   "from": 1262.8,
+   "to": 1265.4,
+   "text": "error of these approximations, tests for"
+  },
+  {
+   "from": 1265.4,
+   "to": 1267.2,
+   "text": "understanding when series do and don't"
+  },
+  {
+   "from": 1267.2,
+   "to": 1269.6,
+   "text": "converge. And for that matter, there"
+  },
+  {
+   "from": 1269.6,
+   "to": 1271.4,
+   "text": "remains more to learn about calculus as"
+  },
+  {
+   "from": 1271.4,
+   "to": 1273.6,
+   "text": "a whole and the countless topics not"
+  },
+  {
+   "from": 1273.6,
+   "to": 1276,
+   "text": "touched by this series. The goal with"
+  },
+  {
+   "from": 1276,
+   "to": 1277.8,
+   "text": "these videos is to give you the"
+  },
+  {
+   "from": 1277.8,
+   "to": 1279.9,
+   "text": "fundamental intuitions that make you"
+  },
+  {
+   "from": 1279.9,
+   "to": 1282.4,
+   "text": "feel confident and efficient in learning"
+  },
+  {
+   "from": 1282.4,
+   "to": 1284.8,
+   "text": "more on your own and potentially even"
+  },
+  {
+   "from": 1284.8,
+   "to": 1286.6,
+   "text": "rediscovering more of the topic for"
+  },
+  {
+   "from": 1286.6,
+   "to": 1289.8,
+   "text": "yourself. In the case of Taylor series,"
+  },
+  {
+   "from": 1289.8,
+   "to": 1291.8,
+   "text": "the fundamental intuition to keep in"
+  },
+  {
+   "from": 1291.8,
+   "to": 1293.6,
+   "text": "mind as you explore more of what there"
+  },
+  {
+   "from": 1293.6,
+   "to": 1296.2,
+   "text": "is is that they translate derivative"
+  },
+  {
+   "from": 1296.2,
+   "to": 1298.5,
+   "text": "information at a single point to"
+  },
+  {
+   "from": 1298.6,
+   "to": 1300.9,
+   "text": "approximation information around that"
+  },
+  {
+   "from": 1300.9,
+   "to": 1302.3,
+   "text": "point."
+  },
+  {
+   "from": 1302.4,
+   "to": 1304.1,
+   "text": "[Music]"
+  },
+  {
+   "from": 1304.1,
+   "to": 1305.8,
+   "text": "Thank you once again to everybody who"
+  },
+  {
+   "from": 1305.8,
+   "to": 1307.8,
+   "text": "supported the series. The next series"
+  },
+  {
+   "from": 1307.8,
+   "to": 1309.8,
+   "text": "like it will be on probability. And if"
+  },
+  {
+   "from": 1309.8,
+   "to": 1311.6,
+   "text": "you want early access as those videos"
+  },
+  {
+   "from": 1311.6,
+   "to": 1315.1,
+   "text": "are made, you know where to go."
+  },
+  {
+   "from": 1315.1,
+   "to": 1338.7,
+   "text": "[Music]"
+  }
+ ]
+}

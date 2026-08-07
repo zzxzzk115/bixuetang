@@ -1,0 +1,196 @@
+{
+  "courseId": "cs50",
+  "generatedAt": "2026-08-07",
+  "model": "claude-fable-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "哈佛 CS50:全世界最受欢迎的零基础 CS 入门课。从 Scratch 积木出发,潜入 C 语言把内存、指针、数据结构摸个通透,再浮上来用 Python、SQL、Flask 建起真实的 Web 应用。Malan 的课堂是一场秀,但秀的底下是扎实的第一性原理:计算机到底怎么表示信息、怎么执行代码、怎么组织数据。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "第 0 周用 Scratch 拖积木写程序,把「计算思维」先于任何语法立起来:程序 = 输入→处理→输出;功能拆成函数、循环、条件与事件。同时讲清计算机的表示底座:二进制、比特与字节,ASCII/Unicode 表示文字,RGB 表示颜色——一切信息皆是数字。",
+      "keyPoints": [
+        { "title": "一切信息都是二进制", "detail": "比特是 0/1 的最小单位,8 位一字节;数字、字母(ASCII/Unicode)、图像(RGB)、声音全是比特的不同解释方式。" },
+        { "title": "计算思维:输入→算法→输出", "detail": "问题求解的骨架先于语言:明确输入输出,中间的处理步骤就是算法。" },
+        { "title": "Scratch 的积木即编程原语", "detail": "事件、循环、条件、变量、函数(自定义积木)——图形积木与任何语言的核心构件一一对应。" },
+        { "title": "抽象:把细节打包", "detail": "把一段积木封成一个新积木就是函数;抽象让复杂程序保持可读,这个思想贯穿整门课。" },
+        { "title": "伪代码:先想清楚再动手", "detail": "找电话本例子:一页页翻、两页两页翻、对半翻——同一问题的不同算法,效率天差地别,埋下算法复杂度的伏笔。" }
+      ],
+      "terms": [
+        { "term": "binary 二进制", "definition": "计算机用 0 和 1 表示一切信息的记数系统" },
+        { "term": "bit 比特", "definition": "信息的最小单位,一个 0 或 1" },
+        { "term": "byte 字节", "definition": "8 个比特,内存计量的基本单位" },
+        { "term": "algorithm 算法", "definition": "解决问题的明确步骤序列,同一问题可有效率迥异的多种算法" },
+        { "term": "abstraction 抽象", "definition": "隐藏实现细节、只暴露功能接口的思维工具" },
+        { "term": "pseudocode 伪代码", "definition": "用自然语言写出的算法草稿,先想清楚再翻译成代码" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "第 1 周从 Scratch 落地到 C:同样的循环、条件、变量、函数,换上真语法。认识编译的存在(make/clang)、main 函数、头文件与库、printf 格式化输出、数据类型与取值范围。第一次直面「计算机不是无限精确的」:整数溢出与浮点不精确。",
+      "keyPoints": [
+        { "title": "从积木到源代码", "detail": "Scratch 的每块积木都有 C 对应物:when-clicked 是 main,say 是 printf,repeat 是 for——语法变了,思想没变。" },
+        { "title": "编译:源码变机器码", "detail": "C 是编译型语言,make/clang 把 .c 文件翻译成可执行文件;写-编译-运行是新的循环节奏。" },
+        { "title": "数据类型与取值范围", "detail": "int、long、float、double、char、bool、string(CS50 库):类型决定占多少字节,也决定能表示的范围。" },
+        { "title": "整数溢出", "detail": "int 约 ±21 亿,再加一就绕回负数——千年虫与波音 787 的整数计数 bug 都源于此。" },
+        { "title": "浮点不精确", "detail": "1/10 在二进制里是无限循环小数,float 只能近似——钱该用整数分来存,别用浮点。" },
+        { "title": "运算符与控制流", "detail": "算术、比较、逻辑运算符,if/else、while、for、do-while——所有程序逻辑的原料。" }
+      ],
+      "terms": [
+        { "term": "compiler 编译器", "definition": "把源代码翻译为机器码的程序,C 用 clang" },
+        { "term": "data type 数据类型", "definition": "变量的种类,决定占用字节数与合法取值范围" },
+        { "term": "integer overflow 整数溢出", "definition": "数值超出类型上限后回绕的现象" },
+        { "term": "floating-point imprecision 浮点不精确", "definition": "二进制无法精确表示部分十进制小数导致的误差" },
+        { "term": "header file 头文件", "definition": "声明库函数接口的 .h 文件,#include 引入" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "第 2-3 周打开编译的黑盒(预处理→编译→汇编→链接),用数组存放同类型数据,并第一次严肃讨论算法效率:线性搜索对二分搜索、选择/冒泡/归并排序,用大 O 记号刻画增长阶。字符串在 C 里露出真身:以 \\0 结尾的字符数组。",
+      "keyPoints": [
+        { "title": "编译四步曲", "detail": "预处理(展开 #include)→编译(生成汇编)→汇编(生成机器码)→链接(拼上库)——make 一键背后的完整流水线。" },
+        { "title": "数组:连续内存放同类数据", "detail": "定长、同类型、下标从 0 起;越界访问是 C 最经典的错误来源。" },
+        { "title": "字符串的真身", "detail": "string 其实是 char 数组,末尾藏着 \\0 终止符;strlen 就是数到 \\0 为止。" },
+        { "title": "线性搜索 vs 二分搜索", "detail": "无序数据只能挨个看 O(n);排好序就能对半砍 O(log n)——前提「有序」本身要花代价。", "formula": "O(n) \\;\\text{vs}\\; O(\\log n)" },
+        { "title": "初级排序:选择与冒泡", "detail": "选择排序每轮挑最小,冒泡排序相邻交换,都是 O(n²)——数据一大就原形毕露。", "formula": "O(n^2)" },
+        { "title": "归并排序:分而治之", "detail": "递归地把数组对半分、分别排序再合并,O(n log n);用空间换时间的典范。", "formula": "O(n \\log n)" },
+        { "title": "大 O 记号", "detail": "只看增长的量级、忽略常数:O(1)、O(log n)、O(n)、O(n log n)、O(n²) 是本课常客;Ω 表示下界。" }
+      ],
+      "terms": [
+        { "term": "array 数组", "definition": "内存中连续存放的同类型元素序列,定长、下标从 0 起" },
+        { "term": "binary search 二分搜索", "definition": "在有序数据上每次砍半的搜索,O(log n)" },
+        { "term": "bubble sort 冒泡排序", "definition": "反复交换相邻逆序对的 O(n²) 排序" },
+        { "term": "merge sort 归并排序", "definition": "分治递归再合并的 O(n log n) 排序" },
+        { "term": "Big O 大 O 记号", "definition": "描述算法运行时间随规模增长量级的记号" },
+        { "term": "null terminator 空终止符", "definition": "C 字符串末尾的 \\0,标记字符串结束" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "第 4 周揭开 C 最凶险也最迷人的一层:内存。十六进制读地址,指针就是存地址的变量,* 取内容 & 取地址;string 的真相是 char*。malloc/free 手动管理堆内存,忘 free 就泄漏、越界就段错误,valgrind 是照妖镜。顺带理解为什么交换函数必须传指针。",
+      "keyPoints": [
+        { "title": "十六进制与内存地址", "detail": "一个十六进制位顶四个二进制位,0x 前缀;内存像一条编了号的长街,地址就是门牌。" },
+        { "title": "指针 = 存地址的变量", "detail": "& 取地址、* 解引用取内容;int *p = &n 后,*p 与 n 是同一块内存的两个名字。" },
+        { "title": "string 的真相是 char*", "detail": "所谓字符串变量存的只是首字符的地址;比较字符串要 strcmp 而不是 ==(那比的是地址)。" },
+        { "title": "malloc 与 free", "detail": "运行期在堆上要内存、用完亲手还;忘记 free 是内存泄漏,valgrind 能抓出来。" },
+        { "title": "段错误与越界", "detail": "解引用野指针或访问不属于你的内存,程序当场崩死——这是 C 给你的自由的代价。" },
+        { "title": "按值传递与 swap 之谜", "detail": "C 函数拿到的是实参的拷贝,想真正交换两个变量必须把地址传进去。" }
+      ],
+      "terms": [
+        { "term": "pointer 指针", "definition": "存放内存地址的变量,* 解引用、& 取地址" },
+        { "term": "hexadecimal 十六进制", "definition": "0-9A-F 的记数法,一位对应四个二进制位,常用于表示地址" },
+        { "term": "malloc 动态内存分配", "definition": "运行期在堆上申请指定字节数内存的函数" },
+        { "term": "memory leak 内存泄漏", "definition": "malloc 的内存忘记 free,程序占用只增不减" },
+        { "term": "segmentation fault 段错误", "definition": "访问了不属于程序的内存导致的崩溃" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "第 5 周用指针搭出真正的数据结构:程序内存布局(代码/全局/堆↓栈↑),堆栈相向而长。数组扩容要整体搬家,链表用「值+下一个的地址」换来 O(1) 插入但失去随机访问;树把二分搜索长成结构(BST 查找 O(log n));散列表用哈希函数直奔桶位,理想 O(1);字典树用空间换极致的键查找。",
+      "keyPoints": [
+        { "title": "程序内存布局", "detail": "机器码、全局量、堆、栈各占一段;堆向下长、栈向上长,相撞就是溢出——stack overflow 的字面来源。" },
+        { "title": "链表:指针串起来的节点", "detail": "每个节点存值和 next 指针;插入 O(1),但找第 n 个只能从头数,失去数组的随机访问。" },
+        { "title": "二叉搜索树", "detail": "左小右大递归成立,查找沿一条路径下行 O(log n);退化成链表时最坏 O(n),平衡是关键。" },
+        { "title": "散列表:哈希直达", "detail": "哈希函数把键映射到桶,理想 O(1);冲突用链表挂在同桶下,哈希函数的均匀性决定成色。" },
+        { "title": "字典树 Trie", "detail": "按字符逐层分叉,查一个词的代价只与词长有关,与词典大小无关——空间换时间的极端案例。" },
+        { "title": "取舍思维", "detail": "数组、链表、树、散列表没有全能冠军:插入、查找、内存、有序性各有牺牲——工程即取舍。" }
+      ],
+      "terms": [
+        { "term": "linked list 链表", "definition": "节点存值与 next 指针串成的线性结构,插入 O(1)" },
+        { "term": "stack 栈", "definition": "后进先出的结构,也指函数调用占用的那段内存" },
+        { "term": "queue 队列", "definition": "先进先出的线性结构" },
+        { "term": "binary search tree 二叉搜索树", "definition": "左小右大的树,查找期望 O(log n)" },
+        { "term": "hash table 散列表", "definition": "哈希函数把键映射到桶实现近 O(1) 查找的结构" },
+        { "term": "trie 字典树", "definition": "按字符逐层分叉的树,查找代价只与键长有关" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "本集从单机跳进网络:互联网是路由器接力转发的分组交换网,TCP/IP 负责编址与可靠送达,DNS 把域名翻成 IP。HTTP 是浏览器与服务器的对话协议(GET/POST、状态码、首部),HTTPS 加密同一段对话。HTML 用标签描述页面结构,CSS 负责观感,开发者工具是透视这一切的 X 光机。",
+      "keyPoints": [
+        { "title": "互联网:分组交换 + 路由接力", "detail": "数据切成小包,每个包带着目的 IP 被路由器一跳跳送达,途中可以走不同路线。" },
+        { "title": "TCP/IP 与端口", "detail": "IP 负责找到主机,TCP 负责按序可靠重组并用端口号区分服务(80=HTTP,443=HTTPS)。" },
+        { "title": "DNS:域名电话簿", "detail": "把 example.com 翻译成 IP 地址的分布式系统,浏览器上网的第一步。" },
+        { "title": "HTTP 请求与响应", "detail": "GET 要资源、POST 送数据;状态码报结果(200 成功、301 重定向、404 不存在、500 服务器错)。" },
+        { "title": "HTML:结构标签", "detail": "标签嵌套成树(DOM):head/body、p、a、img、form——页面的骨架,不管长相。" },
+        { "title": "CSS:样式层", "detail": "选择器+属性声明控制字体、颜色、布局;结构与样式分离是 Web 的基本教养。" }
+      ],
+      "terms": [
+        { "term": "TCP/IP 传输控制/网际协议", "definition": "互联网的地址与可靠传输协议族" },
+        { "term": "DNS 域名系统", "definition": "把域名解析为 IP 地址的分布式服务" },
+        { "term": "HTTP 超文本传输协议", "definition": "浏览器与服务器之间请求-响应的应用层协议" },
+        { "term": "HTML 超文本标记语言", "definition": "用嵌套标签描述网页结构的语言" },
+        { "term": "CSS 层叠样式表", "definition": "控制网页外观与布局的样式语言" },
+        { "term": "status code 状态码", "definition": "HTTP 响应里的三位数结果代号,如 200/404/500" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "第 6 周换上 Python:同样的编程思想,十分之一的代码量。没有编译、没有指针、没有 \\0,字符串/列表/字典开箱即用,for-in 优雅遍历,异常处理取代返回码。代价是解释执行的速度与对底层的失控——学过 C 再看 Python,才知道每行「魔法」底下垫着什么。",
+      "keyPoints": [
+        { "title": "解释执行,即写即跑", "detail": "python file.py 直接运行,解释器边读边执行;省去编译环节,开发循环更快。" },
+        { "title": "动态类型与简洁语法", "detail": "变量不声明类型、缩进即块结构、input/print 一行搞定 IO——C 里几十行的活儿几行完事。" },
+        { "title": "内置数据结构", "detail": "list 是能自动扩容的数组,dict 是现成的散列表,str 自带一堆方法——第 5 周手搓的东西这里全是标配。" },
+        { "title": "for-in 与库生态", "detail": "直接遍历序列成员;import 引入标准库与第三方库(csv、random 等),站在别人肩膀上编程。" },
+        { "title": "异常处理", "detail": "try/except 捕获 ValueError 等错误,取代 C 的返回码检查,错误路径更清晰。" },
+        { "title": "便利的代价", "detail": "解释开销让 Python 比 C 慢一个量级,且摸不到内存——知道底下发生什么,才有资格享受抽象。" }
+      ],
+      "terms": [
+        { "term": "interpreter 解释器", "definition": "逐行读取并执行源代码的程序,Python 的运行方式" },
+        { "term": "dynamic typing 动态类型", "definition": "变量类型由运行时的值决定,无需声明" },
+        { "term": "list 列表", "definition": "Python 内置的可变长有序序列" },
+        { "term": "dict 字典", "definition": "Python 内置的键值映射,底层是散列表" },
+        { "term": "exception 异常", "definition": "运行期错误的对象化表示,用 try/except 捕获" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "把 Python 接上 Web:Flask 按路由把 URL 分发给处理函数,Jinja 模板让 HTML 里长出变量与循环,表单经 GET/POST 提交进服务器。JavaScript 则守在浏览器端,监听事件、改写 DOM,让页面活起来。前后端分工的全景图在这一集拼完整。",
+      "keyPoints": [
+        { "title": "Flask:路由到函数", "detail": "@app.route(\"/\") 把 URL 映射到 Python 函数,函数返回的内容就是响应——Web 框架的最小心智模型。" },
+        { "title": "Jinja 模板", "detail": "HTML 里嵌 {{ 变量 }} 与 {% 逻辑 %},配合模板继承(layout)消灭重复页面代码。" },
+        { "title": "表单与 GET/POST", "detail": "GET 参数拼在 URL 上适合检索,POST 藏在请求体里适合提交;request.args 与 request.form 分别取用。" },
+        { "title": "会话与 Cookie", "detail": "HTTP 无状态,cookie 让浏览器带上「工牌」,session 据此在服务器端记住登录态与购物车。" },
+        { "title": "JavaScript 与 DOM", "detail": "浏览器里的编程语言:querySelector 抓节点、addEventListener 听事件、改 DOM 即改页面,无需回服务器。" },
+        { "title": "前后端分工", "detail": "服务器管数据与逻辑,浏览器管交互与即时反馈;两边各写一层校验,信任永远不给客户端。" }
+      ],
+      "terms": [
+        { "term": "Flask 微框架", "definition": "Python 的轻量 Web 框架,路由+模板+请求处理" },
+        { "term": "route 路由", "definition": "URL 模式到处理函数的映射" },
+        { "term": "Jinja 模板引擎", "definition": "在 HTML 中嵌入变量与控制逻辑的模板语言" },
+        { "term": "session 会话", "definition": "服务器借 cookie 识别用户并保存状态的机制" },
+        { "term": "DOM 文档对象模型", "definition": "浏览器把 HTML 解析成的可编程节点树" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "数据落进真正的数据库:SQL 一门语言管完增删改查(SELECT/INSERT/UPDATE/DELETE),WHERE 过滤、JOIN 关联多表、索引加速查询。关系模型用主键外键组织数据,消灭电子表格式的冗余。Flask 里执行 SQL 时,占位符是抵御 SQL 注入的生死线;竞态条件提醒你并发从不温柔。",
+      "keyPoints": [
+        { "title": "SQL 四大操作", "detail": "SELECT 查、INSERT 增、UPDATE 改、DELETE 删,配 WHERE 条件与 ORDER BY 排序——声明式:说要什么,不说怎么拿。" },
+        { "title": "关系模型与主外键", "detail": "数据拆成多张表,主键唯一标识行,外键指向别表的主键——冗余消失,一致性有了锚点。" },
+        { "title": "JOIN 关联查询", "detail": "按键把多张表拼回一张视图;规范化拆开的数据,查询时再合起来。" },
+        { "title": "索引:查询加速器", "detail": "对常查列建 B 树索引,搜索从全表扫描 O(n) 降到 O(log n);代价是写入变慢与额外空间。" },
+        { "title": "SQL 注入", "detail": "把用户输入直接拼进 SQL,一句 ' OR '1'='1 就能洗劫数据库;永远用参数占位符,永不拼接字符串。" },
+        { "title": "竞态条件", "detail": "两个请求同时读改同一行(点赞计数)会互相覆盖;事务与锁保证「读-改-写」的原子性。" }
+      ],
+      "terms": [
+        { "term": "SQL 结构化查询语言", "definition": "对关系数据库增删改查的声明式语言" },
+        { "term": "primary key 主键", "definition": "唯一标识表中一行的列" },
+        { "term": "foreign key 外键", "definition": "指向另一张表主键的列,表间关系的纽带" },
+        { "term": "JOIN 连接查询", "definition": "按键把多张表的行拼合成一张结果表" },
+        { "term": "SQL injection SQL 注入", "definition": "借拼接字符串把恶意 SQL 混入查询的攻击,占位符可防" },
+        { "term": "race condition 竞态条件", "definition": "并发读写共享数据因时序交错产生的错误" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "结课周:Malan 带全场回望从 Scratch 到全栈的旅程,穿插恶搞视频与现场竞答。没有新知识点,但有一个重要的收尾观念:CS50 教的不是某门语言,而是「如何在不断出现的新问题前自己学下去」——take CS50 的结束是 do computer science 的开始。",
+      "keyPoints": [
+        { "title": "课程主线回望", "detail": "表示(二进制)→过程(C 与内存)→组织(数据结构)→协作(网络与 Web)→表达(Python/SQL/JS):一条从比特到产品的完整链路。" },
+        { "title": "语言只是载体", "detail": "十周换了四五种语言,不变的是分解问题、权衡取舍、调试验证的功夫——这才是可迁移资产。" },
+        { "title": "接下来去哪", "detail": "结课项目自选方向;官网的 CS50 系列(Web/AI/SQL)与 csdiy 路线图都是顺理成章的下一站。" }
+      ],
+      "terms": []
+    }
+  ]
+}

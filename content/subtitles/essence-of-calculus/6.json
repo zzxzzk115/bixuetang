@@ -1,0 +1,1012 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 10.3,
+   "to": 13.2,
+   "text": "Let me share with you something I found particularly"
+  },
+  {
+   "from": 13.2,
+   "to": 16,
+   "text": "weird when I was a student first learning calculus."
+  },
+  {
+   "from": 16.8,
+   "to": 21.5,
+   "text": "Let's say you have a circle with radius 5 centered at the origin of the xy plane."
+  },
+  {
+   "from": 22.1,
+   "to": 26.3,
+   "text": "This is something defined with the equation x2 plus y2 equals 5 squared,"
+  },
+  {
+   "from": 26.3,
+   "to": 30.6,
+   "text": "that is, all the points on the circle are a distance 5 from the origin as"
+  },
+  {
+   "from": 30.6,
+   "to": 34.9,
+   "text": "encapsulated by the Pythagorean theorem, where the sum of the squares of"
+  },
+  {
+   "from": 34.9,
+   "to": 39.4,
+   "text": "the two legs on this triangle equals the square of the hypotenuse, 5 squared."
+  },
+  {
+   "from": 40.5,
+   "to": 44.9,
+   "text": "And suppose you want to find the slope of a tangent line to the circle,"
+  },
+  {
+   "from": 44.9,
+   "to": 47.1,
+   "text": "maybe at the point xy equals 3,4."
+  },
+  {
+   "from": 48.1,
+   "to": 51.8,
+   "text": "Now if you're savvy with geometry, you might already know that this"
+  },
+  {
+   "from": 51.8,
+   "to": 55.7,
+   "text": "tangent line is perpendicular to the radius touching it at that point."
+  },
+  {
+   "from": 56.4,
+   "to": 59.5,
+   "text": "But let's say you don't already know that, or maybe you want a"
+  },
+  {
+   "from": 59.5,
+   "to": 62.7,
+   "text": "technique that generalizes to curves other than just circles."
+  },
+  {
+   "from": 63.6,
+   "to": 67.3,
+   "text": "As with other problems about the slopes of tangent lines to curves,"
+  },
+  {
+   "from": 67.3,
+   "to": 71.4,
+   "text": "the key thought here is to zoom in close enough that the curve basically"
+  },
+  {
+   "from": 71.4,
+   "to": 76.2,
+   "text": "looks just like its own tangent line, and then ask about a tiny step along that curve."
+  },
+  {
+   "from": 77,
+   "to": 81.4,
+   "text": "The y component of that little step is what you might call dy,"
+  },
+  {
+   "from": 81.4,
+   "to": 87.7,
+   "text": "and the x component is dx, so the slope we want is the rise over run, dy divided by dx."
+  },
+  {
+   "from": 88.5,
+   "to": 91.6,
+   "text": "But unlike other tangent slope problems in calculus,"
+  },
+  {
+   "from": 91.6,
+   "to": 96.9,
+   "text": "this curve is not the graph of a function, so we can't just take a simple derivative,"
+  },
+  {
+   "from": 96.9,
+   "to": 102,
+   "text": "asking about the size of some tiny nudge to the output of a function caused by some"
+  },
+  {
+   "from": 102,
+   "to": 103.5,
+   "text": "tiny nudge to the input."
+  },
+  {
+   "from": 104,
+   "to": 107.9,
+   "text": "x is not an input, and y is not an output, they're both"
+  },
+  {
+   "from": 107.9,
+   "to": 111.7,
+   "text": "just interdependent values related by some equation."
+  },
+  {
+   "from": 112.8,
+   "to": 118.2,
+   "text": "This is what's called an implicit curve, it's just the set of all points x,"
+  },
+  {
+   "from": 118.2,
+   "to": 123.8,
+   "text": "y that satisfy some property written in terms of the two variables, x and y."
+  },
+  {
+   "from": 124.9,
+   "to": 128.5,
+   "text": "The procedure for how you actually find dy, dx for curves like"
+  },
+  {
+   "from": 128.5,
+   "to": 132,
+   "text": "this is the thing I found very weird as a calculus student."
+  },
+  {
+   "from": 132.7,
+   "to": 139.1,
+   "text": "You take the derivative of both sides like this, for x squared you write 2x times dx,"
+  },
+  {
+   "from": 139.1,
+   "to": 144.3,
+   "text": "and similarly y squared becomes 2y times dy, and then the derivative"
+  },
+  {
+   "from": 144.3,
+   "to": 148.2,
+   "text": "of that constant 5 squared on the right is just 0."
+  },
+  {
+   "from": 149.5,
+   "to": 152.1,
+   "text": "Now you can see why this feels a little strange, right?"
+  },
+  {
+   "from": 152.6,
+   "to": 157.1,
+   "text": "What does it mean to take the derivative of an expression that has multiple"
+  },
+  {
+   "from": 157.1,
+   "to": 161.6,
+   "text": "variables in it, and why is it that we're tacking on dy and dx in this way?"
+  },
+  {
+   "from": 162.4,
+   "to": 166.1,
+   "text": "But if you just blindly move forward with what you get,"
+  },
+  {
+   "from": 166.1,
+   "to": 171.2,
+   "text": "you can rearrange this equation and find an expression for dy divided by dx,"
+  },
+  {
+   "from": 171.2,
+   "to": 175.2,
+   "text": "which in this case comes out to be negative x divided by y."
+  },
+  {
+   "from": 176,
+   "to": 179.9,
+   "text": "So at the point with coordinates x, y equals 3, 4,"
+  },
+  {
+   "from": 179.9,
+   "to": 184.1,
+   "text": "that slope would be negative 3 divided by 4, evidently."
+  },
+  {
+   "from": 185.1,
+   "to": 188.9,
+   "text": "This strange process is called implicit differentiation."
+  },
+  {
+   "from": 189.6,
+   "to": 192.7,
+   "text": "Don't worry, I have an explanation for how you can interpret"
+  },
+  {
+   "from": 192.7,
+   "to": 196.1,
+   "text": "taking a derivative of an expression with two variables like this."
+  },
+  {
+   "from": 196.6,
+   "to": 201,
+   "text": "But first I want to set aside this particular problem and show how it's connected"
+  },
+  {
+   "from": 201,
+   "to": 205.5,
+   "text": "to a different type of calculus problem, something called a related rates problem."
+  },
+  {
+   "from": 206.3,
+   "to": 210.4,
+   "text": "Imagine a 5 meter long ladder held up against a wall where the top"
+  },
+  {
+   "from": 210.4,
+   "to": 213.4,
+   "text": "of the ladder starts 4 meters above the ground,"
+  },
+  {
+   "from": 213.4,
+   "to": 218.7,
+   "text": "which by the Pythagorean theorem means that the bottom is 3 meters away from the wall."
+  },
+  {
+   "from": 219.6,
+   "to": 222.7,
+   "text": "And let's say it's slipping down in such a way that the top"
+  },
+  {
+   "from": 222.7,
+   "to": 225.8,
+   "text": "of the ladder is dropping at a rate of 1 meter per second."
+  },
+  {
+   "from": 226.8,
+   "to": 230.2,
+   "text": "The question is, in that initial moment, what's the rate at"
+  },
+  {
+   "from": 230.2,
+   "to": 233.8,
+   "text": "which the bottom of the ladder is moving away from the wall?"
+  },
+  {
+   "from": 235,
+   "to": 236.2,
+   "text": "It's interesting, right?"
+  },
+  {
+   "from": 236.5,
+   "to": 240.4,
+   "text": "That distance from the bottom of the ladder to the wall is 100%"
+  },
+  {
+   "from": 240.4,
+   "to": 244.5,
+   "text": "determined by the distance from the top of the ladder to the floor."
+  },
+  {
+   "from": 245.1,
+   "to": 248.8,
+   "text": "So we should have enough information to figure out how the rates of"
+  },
+  {
+   "from": 248.8,
+   "to": 252.3,
+   "text": "change for each of those values actually depend on each other,"
+  },
+  {
+   "from": 252.3,
+   "to": 256.2,
+   "text": "but it might not be entirely clear how exactly you relate those two."
+  },
+  {
+   "from": 256.8,
+   "to": 261.6,
+   "text": "First things first, it's always nice to give names to the quantities that we care about,"
+  },
+  {
+   "from": 261.6,
+   "to": 265.8,
+   "text": "so let's label that distance from the top of the ladder to the ground y of t,"
+  },
+  {
+   "from": 265.8,
+   "to": 268.7,
+   "text": "written as a function of time because it's changing."
+  },
+  {
+   "from": 269.7,
+   "to": 273.9,
+   "text": "Likewise, label the distance between the bottom of the ladder and the wall x of t."
+  },
+  {
+   "from": 274.8,
+   "to": 279.5,
+   "text": "The key equation that relates these terms is the Pythagorean theorem,"
+  },
+  {
+   "from": 279.5,
+   "to": 283.1,
+   "text": "x of t squared plus y of t squared equals 5 squared."
+  },
+  {
+   "from": 283.9,
+   "to": 288.5,
+   "text": "What makes that a powerful equation to use is that it's true at all points of time."
+  },
+  {
+   "from": 290.3,
+   "to": 294.2,
+   "text": "One way that you could solve this would be to isolate x of t,"
+  },
+  {
+   "from": 294.2,
+   "to": 299.3,
+   "text": "and then figure out what y of t has to be based on that 1 m per second drop rate,"
+  },
+  {
+   "from": 299.3,
+   "to": 303.6,
+   "text": "and you could take the derivative of the resulting function dx dt,"
+  },
+  {
+   "from": 303.6,
+   "to": 307,
+   "text": "the rate at which x is changing with respect to time."
+  },
+  {
+   "from": 307.9,
+   "to": 311,
+   "text": "That's fine, it involves a couple layers of using the chain rule,"
+  },
+  {
+   "from": 311,
+   "to": 315.2,
+   "text": "and it'll definitely work for you, but I want to show a different way that you can think"
+  },
+  {
+   "from": 315.2,
+   "to": 316.4,
+   "text": "about the same problem."
+  },
+  {
+   "from": 317.3,
+   "to": 321.1,
+   "text": "This left hand side of the equation is a function of time, right?"
+  },
+  {
+   "from": 321.4,
+   "to": 326.1,
+   "text": "It just so happens to equal a constant, meaning the value evidently doesn't change"
+  },
+  {
+   "from": 326.1,
+   "to": 330.5,
+   "text": "while time passes, but it's still written as an expression dependent on time,"
+  },
+  {
+   "from": 330.5,
+   "to": 335.1,
+   "text": "which means we can manipulate it like any other function that has t as an input."
+  },
+  {
+   "from": 336.1,
+   "to": 340.2,
+   "text": "In particular, we can take a derivative of this left hand side,"
+  },
+  {
+   "from": 340.2,
+   "to": 345.2,
+   "text": "which is a way of saying if I let a little bit of time pass, some small dt,"
+  },
+  {
+   "from": 345.2,
+   "to": 349.4,
+   "text": "which causes y to slightly decrease and x to slightly increase,"
+  },
+  {
+   "from": 349.4,
+   "to": 351.9,
+   "text": "how much does this expression change?"
+  },
+  {
+   "from": 353,
+   "to": 356,
+   "text": "On the one hand, we know that the derivative should be 0,"
+  },
+  {
+   "from": 356,
+   "to": 360.6,
+   "text": "since the expression is a constant, and constants don't care about your tiny nudges in"
+  },
+  {
+   "from": 360.6,
+   "to": 362.3,
+   "text": "time, they just remain unchanged."
+  },
+  {
+   "from": 363.1,
+   "to": 366.5,
+   "text": "But on the other hand, what do you get when you compute this derivative?"
+  },
+  {
+   "from": 368,
+   "to": 374.1,
+   "text": "Well, the derivative of x of t squared is 2 times x of t times the derivative of x."
+  },
+  {
+   "from": 374.4,
+   "to": 377,
+   "text": "That's the chain rule that I talked about last video."
+  },
+  {
+   "from": 377.6,
+   "to": 383.7,
+   "text": "2x dx represents the size of a change to x squared caused by some change to x,"
+  },
+  {
+   "from": 383.7,
+   "to": 386.4,
+   "text": "and then we're dividing out by dt."
+  },
+  {
+   "from": 387.5,
+   "to": 390.8,
+   "text": "Likewise, the rate at which y of t squared is"
+  },
+  {
+   "from": 390.8,
+   "to": 394.7,
+   "text": "changing is 2 times y of t times the derivative of y."
+  },
+  {
+   "from": 395.7,
+   "to": 398.4,
+   "text": "Now evidently, this whole expression must be 0,"
+  },
+  {
+   "from": 398.4,
+   "to": 402.8,
+   "text": "and that's an equivalent way of saying that x squared plus y squared must not"
+  },
+  {
+   "from": 402.8,
+   "to": 404.6,
+   "text": "change while the ladder moves."
+  },
+  {
+   "from": 405.9,
+   "to": 409.9,
+   "text": "At the very start, time t equals 0, the height, y of t,"
+  },
+  {
+   "from": 409.9,
+   "to": 413.7,
+   "text": "is 4 meters, and that distance x of t is 3 meters."
+  },
+  {
+   "from": 414.5,
+   "to": 419.6,
+   "text": "And since the top of the ladder is dropping at a rate of 1 meter per second,"
+  },
+  {
+   "from": 419.6,
+   "to": 423.4,
+   "text": "that derivative, dy dt, is negative 1 meters per second."
+  },
+  {
+   "from": 424.5,
+   "to": 428.8,
+   "text": "Now, this gives us enough information to isolate the derivative, dx dt,"
+  },
+  {
+   "from": 428.8,
+   "to": 433.4,
+   "text": "and when you work it out, it comes out to be 4 thirds meters per second."
+  },
+  {
+   "from": 434.4,
+   "to": 437.9,
+   "text": "The reason I bring up this ladder problem is that I want you to compare"
+  },
+  {
+   "from": 437.9,
+   "to": 441.5,
+   "text": "it to the problem of finding the slope of a tangent line to the circle."
+  },
+  {
+   "from": 442.4,
+   "to": 446.6,
+   "text": "In both cases, we had the equation x squared plus y squared equals 5 squared,"
+  },
+  {
+   "from": 446.6,
+   "to": 451.3,
+   "text": "and in both cases we ended up taking the derivative of each side of this expression."
+  },
+  {
+   "from": 452.2,
+   "to": 456.2,
+   "text": "But for the ladder question, these expressions were functions of time,"
+  },
+  {
+   "from": 456.2,
+   "to": 458.8,
+   "text": "so taking the derivative has a clear meaning,"
+  },
+  {
+   "from": 458.8,
+   "to": 462.4,
+   "text": "it's the rate at which the expression changes as time changes."
+  },
+  {
+   "from": 463.3,
+   "to": 468.4,
+   "text": "But what makes the circle situation strange is that rather than saying that a small"
+  },
+  {
+   "from": 468.4,
+   "to": 472.3,
+   "text": "amount of time dt has passed, which causes x and y to change,"
+  },
+  {
+   "from": 472.3,
+   "to": 476.8,
+   "text": "the derivative just has these tiny nudges dx and dy just floating free,"
+  },
+  {
+   "from": 476.8,
+   "to": 480,
+   "text": "not tied to some other common variable, like time."
+  },
+  {
+   "from": 481.1,
+   "to": 483,
+   "text": "Let me show you a nice way to think about this."
+  },
+  {
+   "from": 483.2,
+   "to": 487.4,
+   "text": "Let's give this expression x squared plus y squared a name, maybe s."
+  },
+  {
+   "from": 488.2,
+   "to": 491.1,
+   "text": "s is essentially a function of two variables."
+  },
+  {
+   "from": 491.9,
+   "to": 495.7,
+   "text": "It takes every point xy on the plane and associates it with a number."
+  },
+  {
+   "from": 496.6,
+   "to": 499.7,
+   "text": "For points on the circle, that number happens to be 25."
+  },
+  {
+   "from": 500.6,
+   "to": 504.4,
+   "text": "If you stepped off the circle away from the center, that value would be bigger."
+  },
+  {
+   "from": 505.1,
+   "to": 509.7,
+   "text": "For other points xy closer to the origin, that value would be smaller."
+  },
+  {
+   "from": 509.7,
+   "to": 514.8,
+   "text": "Now what it means to take a derivative of this expression, a derivative of s,"
+  },
+  {
+   "from": 514.8,
+   "to": 520.3,
+   "text": "is to consider a tiny change to both of these variables, some tiny change dx to x,"
+  },
+  {
+   "from": 520.3,
+   "to": 525.9,
+   "text": "and some tiny change dy to y, and not necessarily one that keeps you on the circle,"
+  },
+  {
+   "from": 525.9,
+   "to": 530.5,
+   "text": "by the way, it's just any tiny step in any direction of the xy plane."
+  },
+  {
+   "from": 531.5,
+   "to": 535,
+   "text": "From there you ask how much does the value of s change?"
+  },
+  {
+   "from": 536,
+   "to": 541.6,
+   "text": "That difference, the difference in the value of s before the nudge and after the nudge,"
+  },
+  {
+   "from": 541.6,
+   "to": 543.4,
+   "text": "is what I'm writing as ds."
+  },
+  {
+   "from": 544.5,
+   "to": 549.9,
+   "text": "For example, in this picture we're starting off at a point where"
+  },
+  {
+   "from": 549.9,
+   "to": 555,
+   "text": "x equals 3 and where y equals 4, and let's just say that the"
+  },
+  {
+   "from": 555,
+   "to": 560.2,
+   "text": "step I drew has dx at negative 0.02 and dy at negative 0.01."
+  },
+  {
+   "from": 561.1,
+   "to": 568.2,
+   "text": "Then the decrease in s, the amount that x squared plus y squared changes over that step,"
+  },
+  {
+   "from": 568.2,
+   "to": 574.8,
+   "text": "would be about 2 times 3 times negative 0.02 plus 2 times 4 times negative 0.01."
+  },
+  {
+   "from": 575.6,
+   "to": 580.8,
+   "text": "That's what this derivative expression, 2x dx plus 2y dy, actually means."
+  },
+  {
+   "from": 581.4,
+   "to": 586.7,
+   "text": "It's a recipe for telling you how much the value x squared plus y squared changes as"
+  },
+  {
+   "from": 586.7,
+   "to": 592.1,
+   "text": "determined by the point xy where you start and the tiny step dx dy that you take. And"
+  },
+  {
+   "from": 593.1,
+   "to": 596.6,
+   "text": "As with all things derivative, this is only an approximation,"
+  },
+  {
+   "from": 596.6,
+   "to": 601.6,
+   "text": "but it's one that gets truer and truer for smaller and smaller choices of dx and dy."
+  },
+  {
+   "from": 602.5,
+   "to": 607.1,
+   "text": "The key point here is that when you restrict yourself to steps along the circle,"
+  },
+  {
+   "from": 607.1,
+   "to": 611.7,
+   "text": "you're essentially saying you want to ensure that this value of s doesn't change."
+  },
+  {
+   "from": 612.2,
+   "to": 616.5,
+   "text": "It starts at a value of 25 and you want to keep it at a value of 25."
+  },
+  {
+   "from": 617.2,
+   "to": 619.1,
+   "text": "That is, ds should be 0."
+  },
+  {
+   "from": 620.2,
+   "to": 625.1,
+   "text": "So setting the expression 2x dx plus 2y dy equal to 0 is the condition"
+  },
+  {
+   "from": 625.1,
+   "to": 629.7,
+   "text": "under which one of these tiny steps actually stays on the circle."
+  },
+  {
+   "from": 630.6,
+   "to": 632.5,
+   "text": "Again, this is only an approximation."
+  },
+  {
+   "from": 633,
+   "to": 636.4,
+   "text": "Speaking more precisely, that condition is what keeps you"
+  },
+  {
+   "from": 636.4,
+   "to": 639.9,
+   "text": "on the tangent line of the circle, not the circle itself."
+  },
+  {
+   "from": 640.6,
+   "to": 643.9,
+   "text": "But for tiny enough steps, those are essentially the same thing."
+  },
+  {
+   "from": 645.2,
+   "to": 647.8,
+   "text": "Of course, there's nothing special about the expression"
+  },
+  {
+   "from": 647.8,
+   "to": 649.8,
+   "text": "x squared plus y squared equals 5 squared."
+  },
+  {
+   "from": 650.4,
+   "to": 653.5,
+   "text": "It's always nice to think through more examples,"
+  },
+  {
+   "from": 653.5,
+   "to": 657.5,
+   "text": "so let's consider this expression sin of x times y2 equals x."
+  },
+  {
+   "from": 658.2,
+   "to": 661.6,
+   "text": "This corresponds to a whole bunch of u-shaped curves on the plane."
+  },
+  {
+   "from": 662.4,
+   "to": 666.9,
+   "text": "And those curves, remember, represent all of the points xy where the"
+  },
+  {
+   "from": 666.9,
+   "to": 671.3,
+   "text": "value of sine of x times y squared happens to equal the value of x."
+  },
+  {
+   "from": 676,
+   "to": 679.6,
+   "text": "Now imagine taking some tiny step with components dx and dy,"
+  },
+  {
+   "from": 679.6,
+   "to": 682.7,
+   "text": "and not necessarily one that keeps you on the curve."
+  },
+  {
+   "from": 683.8,
+   "to": 687.7,
+   "text": "Taking the derivative of each side of this equation will tell"
+  },
+  {
+   "from": 687.7,
+   "to": 691.4,
+   "text": "us how much the value of that side changes during the step."
+  },
+  {
+   "from": 692.5,
+   "to": 695.5,
+   "text": "On the left side, the product rule that we talked through last"
+  },
+  {
+   "from": 695.5,
+   "to": 698.8,
+   "text": "video tells us that this should be left d right plus right d left."
+  },
+  {
+   "from": 699.5,
+   "to": 705,
+   "text": "That is sine of x times the change to y squared, which is 2y times dy,"
+  },
+  {
+   "from": 705,
+   "to": 711,
+   "text": "plus y squared times the change to sine of x, which is cosine of x times dx."
+  },
+  {
+   "from": 712,
+   "to": 716.9,
+   "text": "The right side is simply x, so the size of a change to that value is exactly dx,"
+  },
+  {
+   "from": 716.9,
+   "to": 717.6,
+   "text": "right? Now"
+  },
+  {
+   "from": 719.2,
+   "to": 724.3,
+   "text": "setting these two sides equal to each other is a way of saying whatever your tiny"
+  },
+  {
+   "from": 724.3,
+   "to": 729.1,
+   "text": "step with coordinates dx and dy is, if it's going to keep us on the curve,"
+  },
+  {
+   "from": 729.1,
+   "to": 734.3,
+   "text": "the values of both the left hand side and the right hand side must change by the"
+  },
+  {
+   "from": 734.3,
+   "to": 735.1,
+   "text": "same amount."
+  },
+  {
+   "from": 735.6,
+   "to": 738.9,
+   "text": "That's the only way this top equation can remain true."
+  },
+  {
+   "from": 740.2,
+   "to": 743.7,
+   "text": "From there, depending on what problem you're trying to solve,"
+  },
+  {
+   "from": 743.7,
+   "to": 746.4,
+   "text": "you have something to work with algebraically,"
+  },
+  {
+   "from": 746.4,
+   "to": 751.1,
+   "text": "and maybe the most common goal is to try to figure out what dy divided by dx is."
+  },
+  {
+   "from": 753.2,
+   "to": 757.7,
+   "text": "As a final example here, I want to show you how you can use this technique"
+  },
+  {
+   "from": 757.7,
+   "to": 761.7,
+   "text": "of implicit differentiation to figure out new derivative formulas."
+  },
+  {
+   "from": 762.6,
+   "to": 766.1,
+   "text": "I've mentioned that the derivative of e to the x is itself,"
+  },
+  {
+   "from": 766.1,
+   "to": 770.6,
+   "text": "but what about the derivative of its inverse function, the natural log of x?"
+  },
+  {
+   "from": 770.6,
+   "to": 775.3,
+   "text": "Well the graph of the natural log of x can be thought of as an implicit curve."
+  },
+  {
+   "from": 776.1,
+   "to": 780.8,
+   "text": "It's all of the points xy on the plane where y happens to equal ln of x."
+  },
+  {
+   "from": 781.6,
+   "to": 784.6,
+   "text": "It just happens to be the case that the x's and y's of this"
+  },
+  {
+   "from": 784.6,
+   "to": 788.1,
+   "text": "equation aren't as intermingled as they were in our other examples."
+  },
+  {
+   "from": 789.4,
+   "to": 795.4,
+   "text": "The slope of this graph, dy divided by dx, should be the derivative of ln of x, right?"
+  },
+  {
+   "from": 796.7,
+   "to": 800.5,
+   "text": "Well to find that, first rearrange this equation"
+  },
+  {
+   "from": 800.5,
+   "to": 804,
+   "text": "y equals ln of x to be e to the y equals x."
+  },
+  {
+   "from": 804.7,
+   "to": 810.9,
+   "text": "This is exactly what the natural log of x means, it's saying e to the what equals x."
+  },
+  {
+   "from": 811.9,
+   "to": 816,
+   "text": "Since we know the derivative of e to the y, we can take the derivative"
+  },
+  {
+   "from": 816,
+   "to": 819.5,
+   "text": "of both sides here, effectively asking how a tiny step with"
+  },
+  {
+   "from": 819.5,
+   "to": 823.4,
+   "text": "components dx and dy changes the value of each one of these sides."
+  },
+  {
+   "from": 824.5,
+   "to": 830.1,
+   "text": "To ensure that a step stays on the curve, the change to the left side of the equation,"
+  },
+  {
+   "from": 830.1,
+   "to": 834.7,
+   "text": "which is e to the y times dy, must equal the change to the right side,"
+  },
+  {
+   "from": 834.7,
+   "to": 836.7,
+   "text": "which in this case is just dx."
+  },
+  {
+   "from": 837.9,
+   "to": 843.4,
+   "text": "Rearranging, that means dy divided by dx, the slope of our graph,"
+  },
+  {
+   "from": 843.4,
+   "to": 846.2,
+   "text": "equals 1 divided by e to the y."
+  },
+  {
+   "from": 846.9,
+   "to": 851.8,
+   "text": "When we're on the curve, e to the y is by definition the same thing as x,"
+  },
+  {
+   "from": 851.8,
+   "to": 854.6,
+   "text": "so evidently this slope is 1 divided by x."
+  },
+  {
+   "from": 855.8,
+   "to": 859.9,
+   "text": "And of course, an expression for the slope of a graph of a function"
+  },
+  {
+   "from": 859.9,
+   "to": 864.1,
+   "text": "written in terms of x like this is the derivative of that function,"
+  },
+  {
+   "from": 864.1,
+   "to": 867.6,
+   "text": "so evidently the derivative of ln of x is 1 divided by x."
+  },
+  {
+   "from": 872.6,
+   "to": 877.1,
+   "text": "By the way, all of this is a little sneak peek into multivariable calculus,"
+  },
+  {
+   "from": 877.1,
+   "to": 880.9,
+   "text": "where you consider functions that have multiple inputs and how"
+  },
+  {
+   "from": 880.9,
+   "to": 883.8,
+   "text": "they change as you tweak those multiple inputs."
+  },
+  {
+   "from": 884.9,
+   "to": 888.9,
+   "text": "The key, as always, is to have a clear image in your head of what"
+  },
+  {
+   "from": 888.9,
+   "to": 893.1,
+   "text": "tiny nudges are at play, and how exactly they depend on each other."
+  },
+  {
+   "from": 894.5,
+   "to": 896.9,
+   "text": "Next up, I'm going to be talking about limits,"
+  },
+  {
+   "from": 896.9,
+   "to": 900,
+   "text": "and how they're used to formalize the idea of a derivative."
+  },
+  {
+   "from": 917.5,
+   "to": 922.7,
+   "text": "Thank you."
+  }
+ ]
+}

@@ -1,0 +1,387 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 0,
+   "to": 4,
+   "text": "[Submit subtitle corrections at criblate.com]"
+  },
+  {
+   "from": 4,
+   "to": 6.7,
+   "text": "In the next chapter about Taylor series, I make"
+  },
+  {
+   "from": 6.7,
+   "to": 9.5,
+   "text": "frequent reference to higher order derivatives."
+  },
+  {
+   "from": 10.1,
+   "to": 12.5,
+   "text": "And if you're already comfortable with second derivatives,"
+  },
+  {
+   "from": 12.5,
+   "to": 14,
+   "text": "third derivatives, and so on, great!"
+  },
+  {
+   "from": 14.4,
+   "to": 16.7,
+   "text": "Feel free to just skip ahead to the main event now."
+  },
+  {
+   "from": 16.9,
+   "to": 17.8,
+   "text": "You won't hurt my feelings."
+  },
+  {
+   "from": 19,
+   "to": 21.5,
+   "text": "But somehow, I've managed not to bring up higher"
+  },
+  {
+   "from": 21.5,
+   "to": 24,
+   "text": "order derivatives at all so far in this series."
+  },
+  {
+   "from": 24.5,
+   "to": 26.8,
+   "text": "So for the sake of completeness, I thought I'd give you"
+  },
+  {
+   "from": 26.8,
+   "to": 29.1,
+   "text": "this little footnote just to go over them very quickly."
+  },
+  {
+   "from": 29.6,
+   "to": 34.1,
+   "text": "I'll focus mainly on the second derivative, showing what it looks like in the context"
+  },
+  {
+   "from": 34.1,
+   "to": 38.6,
+   "text": "of graphs and motion, and leave you to think about the analogies for higher orders."
+  },
+  {
+   "from": 40.1,
+   "to": 43.9,
+   "text": "Given some function f of x, the derivative can be interpreted"
+  },
+  {
+   "from": 43.9,
+   "to": 47.2,
+   "text": "as the slope of this graph above some point, right?"
+  },
+  {
+   "from": 47.8,
+   "to": 50.3,
+   "text": "A steep slope means a high value for the derivative,"
+  },
+  {
+   "from": 50.3,
+   "to": 52.5,
+   "text": "a downward slope means a negative derivative."
+  },
+  {
+   "from": 53.2,
+   "to": 57.3,
+   "text": "So the second derivative, whose notation I'll explain in just a moment,"
+  },
+  {
+   "from": 57.3,
+   "to": 62.3,
+   "text": "is the derivative of the derivative, meaning it tells you how that slope is changing."
+  },
+  {
+   "from": 63.3,
+   "to": 67.5,
+   "text": "The way to see that at a glance is to think about how the graph of f of x curves."
+  },
+  {
+   "from": 68.1,
+   "to": 72,
+   "text": "At points where it curves upwards, the slope is increasing,"
+  },
+  {
+   "from": 72,
+   "to": 75.2,
+   "text": "and that means the second derivative is positive."
+  },
+  {
+   "from": 77.8,
+   "to": 81.1,
+   "text": "At points where it's curving downwards, the slope is decreasing,"
+  },
+  {
+   "from": 81.1,
+   "to": 83.1,
+   "text": "so the second derivative is negative."
+  },
+  {
+   "from": 86,
+   "to": 92.1,
+   "text": "For example, a graph like this one has a very positive second derivative at the point 4,"
+  },
+  {
+   "from": 92.1,
+   "to": 96,
+   "text": "since the slope is rapidly increasing around that point,"
+  },
+  {
+   "from": 96,
+   "to": 102.1,
+   "text": "whereas a graph like this one still has a positive second derivative at the same point,"
+  },
+  {
+   "from": 102.1,
+   "to": 105.6,
+   "text": "but it's smaller, the slope only increases slowly."
+  },
+  {
+   "from": 106.5,
+   "to": 110.9,
+   "text": "At points where there's not really any curvature, the second derivative is just 0."
+  },
+  {
+   "from": 113.4,
+   "to": 117.4,
+   "text": "As far as notation goes, you could try writing it like this,"
+  },
+  {
+   "from": 117.4,
+   "to": 121.3,
+   "text": "indicating some small change to the derivative function,"
+  },
+  {
+   "from": 121.3,
+   "to": 126.4,
+   "text": "divided by some small change to x, where as always the use of this letter d"
+  },
+  {
+   "from": 126.4,
+   "to": 132,
+   "text": "suggests that what you really want to consider is what this ratio approaches as dx,"
+  },
+  {
+   "from": 132,
+   "to": 134.4,
+   "text": "both dx's in this case, approach 0."
+  },
+  {
+   "from": 135.5,
+   "to": 139.4,
+   "text": "That's pretty awkward and clunky, so the standard is to"
+  },
+  {
+   "from": 139.4,
+   "to": 143.2,
+   "text": "abbreviate this as d squared f divided by dx squared."
+  },
+  {
+   "from": 144.4,
+   "to": 148.5,
+   "text": "And even though it's not terribly important for getting an intuition for the second"
+  },
+  {
+   "from": 148.5,
+   "to": 152.5,
+   "text": "derivative, I think it might be worth showing you how you can read this notation."
+  },
+  {
+   "from": 153.2,
+   "to": 156.4,
+   "text": "To start off, think of some input to your function,"
+  },
+  {
+   "from": 156.4,
+   "to": 160.9,
+   "text": "and then take two small steps to the right, each one with a size of dx."
+  },
+  {
+   "from": 162,
+   "to": 165.8,
+   "text": "I'm choosing rather big steps here so we'll be able to see what's going on,"
+  },
+  {
+   "from": 165.8,
+   "to": 169.7,
+   "text": "but in principle keep in the back of your mind that dx should be rather tiny."
+  },
+  {
+   "from": 170.9,
+   "to": 175.7,
+   "text": "The first step causes some change to the function, which I'll call df1,"
+  },
+  {
+   "from": 175.7,
+   "to": 181.1,
+   "text": "and the second step causes some similar but possibly slightly different change,"
+  },
+  {
+   "from": 181.1,
+   "to": 182.5,
+   "text": "which I'll call df2."
+  },
+  {
+   "from": 183.3,
+   "to": 188.9,
+   "text": "The difference between these changes, the change in how the function changes,"
+  },
+  {
+   "from": 188.9,
+   "to": 190.7,
+   "text": "is what we'll call ddf."
+  },
+  {
+   "from": 192,
+   "to": 197.5,
+   "text": "You should think of this as really small, typically proportional to the size of dx2."
+  },
+  {
+   "from": 198.4,
+   "to": 203,
+   "text": "So if, for example, you substituted in 0.01 for dx,"
+  },
+  {
+   "from": 203,
+   "to": 208.6,
+   "text": "you would expect this ddf to be about proportional to 0.0001."
+  },
+  {
+   "from": 209.7,
+   "to": 214.4,
+   "text": "The second derivative is the size of this change to the change,"
+  },
+  {
+   "from": 214.4,
+   "to": 217.9,
+   "text": "divided by the size of dx2, or more precisely,"
+  },
+  {
+   "from": 217.9,
+   "to": 221.6,
+   "text": "whatever that ratio approaches as dx approaches 0."
+  },
+  {
+   "from": 223,
+   "to": 227.6,
+   "text": "Even though it's not like this letter d is a variable multiplied by f,"
+  },
+  {
+   "from": 227.6,
+   "to": 233.3,
+   "text": "for the sake of more compact notation, you'd write it as d squared f, divided by (dx)²,"
+  },
+  {
+   "from": 233.3,
+   "to": 237.7,
+   "text": "and you don't typically bother with any parenthesis on the bottom."
+  },
+  {
+   "from": 237.7,
+   "to": 241.9,
+   "text": "Maybe the most visceral understanding of the second derivative,"
+  },
+  {
+   "from": 241.9,
+   "to": 244.2,
+   "text": "is that it represents acceleration. 58 00:04:05,180 --> 00:04:04,691 Maybe the most visceral understanding of the second 59 00:04:04,691 --> 00:04:04,240 derivative is that it represents acceleration."
+  },
+  {
+   "from": 245.2,
+   "to": 248.8,
+   "text": "Given some movement along a line, suppose you have some function"
+  },
+  {
+   "from": 248.8,
+   "to": 251.6,
+   "text": "that records the distance traveled versus time,"
+  },
+  {
+   "from": 251.6,
+   "to": 255.8,
+   "text": "maybe its graph looks something like this, steadily increasing over time."
+  },
+  {
+   "from": 256.7,
+   "to": 259.9,
+   "text": "Then its derivative tells you velocity at each point in time,"
+  },
+  {
+   "from": 259.9,
+   "to": 262.9,
+   "text": "right, for example the graph might look like this bump,"
+  },
+  {
+   "from": 262.9,
+   "to": 266.3,
+   "text": "increasing up to some maximum, and then decreasing back to zero."
+  },
+  {
+   "from": 267.2,
+   "to": 272.1,
+   "text": "So the second derivative tells you the rate of change for the velocity,"
+  },
+  {
+   "from": 272.1,
+   "to": 278.2,
+   "text": "which is the acceleration at each point in time. In this example, the second derivative"
+  },
+  {
+   "from": 278.2,
+   "to": 281.5,
+   "text": "is positive for the first half of the journey, which indicates speeding up,"
+  },
+  {
+   "from": 281.5,
+   "to": 284.4,
+   "text": "that's the sensation of being pushed back into your car's seat,"
+  },
+  {
+   "from": 284.4,
+   "to": 286.8,
+   "text": "or rather having the car's seat pushing you forward."
+  },
+  {
+   "from": 287.5,
+   "to": 292.5,
+   "text": "A negative second derivative indicates slowing down, negative acceleration."
+  },
+  {
+   "from": 294,
+   "to": 297.1,
+   "text": "The third derivative, and this is not a joke, is called jerk."
+  },
+  {
+   "from": 297.8,
+   "to": 300.8,
+   "text": "So if the jerk is not zero, it means that the"
+  },
+  {
+   "from": 300.8,
+   "to": 303.9,
+   "text": "strength of the acceleration itself is changing."
+  },
+  {
+   "from": 306.3,
+   "to": 309.6,
+   "text": "One of the most useful things about higher order derivatives is"
+  },
+  {
+   "from": 309.6,
+   "to": 313.1,
+   "text": "how they help us in approximating functions, which is exactly the"
+  },
+  {
+   "from": 313.1,
+   "to": 316.6,
+   "text": "topic of the next chapter on Taylor series, so I'll see you there."
+  }
+ ]
+}

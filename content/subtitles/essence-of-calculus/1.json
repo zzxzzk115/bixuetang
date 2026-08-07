@@ -1,0 +1,1222 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 15,
+   "to": 16.5,
+   "text": "Hey everyone, Grant here."
+  },
+  {
+   "from": 16.8,
+   "to": 19.8,
+   "text": "This is the first video in a series on the essence of calculus,"
+  },
+  {
+   "from": 19.8,
+   "to": 23.6,
+   "text": "and I'll be publishing the following videos once per day for the next 10 days."
+  },
+  {
+   "from": 24.3,
+   "to": 26.9,
+   "text": "The goal here, as the name suggests, is to really get"
+  },
+  {
+   "from": 26.9,
+   "to": 29.7,
+   "text": "the heart of the subject out in one binge-watchable set."
+  },
+  {
+   "from": 30.3,
+   "to": 34.2,
+   "text": "But with a topic that's as broad as calculus, there's a lot of things that can mean,"
+  },
+  {
+   "from": 34.2,
+   "to": 36.2,
+   "text": "so here's what I have in mind specifically."
+  },
+  {
+   "from": 36.9,
+   "to": 39.4,
+   "text": "Calculus has a lot of rules and formulas which"
+  },
+  {
+   "from": 39.4,
+   "to": 41.9,
+   "text": "are often presented as things to be memorized."
+  },
+  {
+   "from": 42.5,
+   "to": 45.8,
+   "text": "Lots of derivative formulas, the product rule, the chain rule,"
+  },
+  {
+   "from": 45.8,
+   "to": 50,
+   "text": "implicit differentiation, the fact that integrals and derivatives are opposite,"
+  },
+  {
+   "from": 50,
+   "to": 52.5,
+   "text": "Taylor series, just a lot of things like that."
+  },
+  {
+   "from": 53,
+   "to": 55.1,
+   "text": "And my goal is for you to come away feeling like"
+  },
+  {
+   "from": 55.1,
+   "to": 57.1,
+   "text": "you could have invented calculus yourself."
+  },
+  {
+   "from": 57.6,
+   "to": 61.6,
+   "text": "That is, cover all those core ideas, but in a way that makes clear where they"
+  },
+  {
+   "from": 61.6,
+   "to": 66,
+   "text": "actually come from, and what they really mean, using an all-around visual approach."
+  },
+  {
+   "from": 66.9,
+   "to": 70.4,
+   "text": "Inventing math is no joke, and there is a difference between being"
+  },
+  {
+   "from": 70.4,
+   "to": 74,
+   "text": "told why something's true, and actually generating it from scratch."
+  },
+  {
+   "from": 74.7,
+   "to": 79.1,
+   "text": "But at all points, I want you to think to yourself, if you were an early mathematician,"
+  },
+  {
+   "from": 79.1,
+   "to": 82,
+   "text": "pondering these ideas and drawing out the right diagrams,"
+  },
+  {
+   "from": 82,
+   "to": 86.2,
+   "text": "does it feel reasonable that you could have stumbled across these truths yourself?"
+  },
+  {
+   "from": 86.8,
+   "to": 91.6,
+   "text": "In this initial video, I want to show how you might stumble into the core ideas of"
+  },
+  {
+   "from": 91.6,
+   "to": 95.6,
+   "text": "calculus by thinking very deeply about one specific bit of geometry,"
+  },
+  {
+   "from": 95.6,
+   "to": 96.8,
+   "text": "the area of a circle."
+  },
+  {
+   "from": 97.8,
+   "to": 101,
+   "text": "Maybe you know that this is pi times its radius squared, but why?"
+  },
+  {
+   "from": 101.6,
+   "to": 104.5,
+   "text": "Is there a nice way to think about where this formula comes from?"
+  },
+  {
+   "from": 105.4,
+   "to": 109.3,
+   "text": "Well, contemplating this problem and leaving yourself open to exploring the"
+  },
+  {
+   "from": 109.3,
+   "to": 113.5,
+   "text": "interesting thoughts that come about can actually lead you to a glimpse of three"
+  },
+  {
+   "from": 113.5,
+   "to": 117.9,
+   "text": "big ideas in calculus, integrals, derivatives, and the fact that they're opposites."
+  },
+  {
+   "from": 119.8,
+   "to": 124.8,
+   "text": "But the story starts more simply, just you and a circle, let's say with radius 3."
+  },
+  {
+   "from": 125.7,
+   "to": 129.4,
+   "text": "You're trying to figure out its area, and after going through a lot of"
+  },
+  {
+   "from": 129.4,
+   "to": 133.5,
+   "text": "paper trying different ways to chop up and rearrange the pieces of that area,"
+  },
+  {
+   "from": 133.5,
+   "to": 136.9,
+   "text": "many of which might lead to their own interesting observations,"
+  },
+  {
+   "from": 136.9,
+   "to": 141.1,
+   "text": "maybe you try out the idea of slicing up the circle into many concentric rings."
+  },
+  {
+   "from": 142,
+   "to": 145.8,
+   "text": "This should seem promising because it respects the symmetry of the circle,"
+  },
+  {
+   "from": 145.8,
+   "to": 149.5,
+   "text": "and math has a tendency to reward you when you respect its symmetries."
+  },
+  {
+   "from": 150.4,
+   "to": 155.1,
+   "text": "Let's take one of those rings, which has some inner radius r that's between 0 and 3."
+  },
+  {
+   "from": 156.2,
+   "to": 159.9,
+   "text": "If we can find a nice expression for the area of each ring like this one,"
+  },
+  {
+   "from": 159.9,
+   "to": 162.3,
+   "text": "and if we have a nice way to add them all up,"
+  },
+  {
+   "from": 162.3,
+   "to": 165.5,
+   "text": "it might lead us to an understanding of the full circle's area."
+  },
+  {
+   "from": 166.4,
+   "to": 169.1,
+   "text": "Maybe you start by imagining straightening out this ring."
+  },
+  {
+   "from": 170.8,
+   "to": 175,
+   "text": "And you could try thinking through exactly what this new shape is and what its"
+  },
+  {
+   "from": 175,
+   "to": 179.2,
+   "text": "area should be, but for simplicity, let's just approximate it as a rectangle."
+  },
+  {
+   "from": 180.2,
+   "to": 183.9,
+   "text": "The width of that rectangle is the circumference of the original ring,"
+  },
+  {
+   "from": 183.9,
+   "to": 185.4,
+   "text": "which is 2 pi times r, right?"
+  },
+  {
+   "from": 185.9,
+   "to": 188.1,
+   "text": "I mean, that's essentially the definition of pi."
+  },
+  {
+   "from": 188.7,
+   "to": 189.4,
+   "text": "And its thickness?"
+  },
+  {
+   "from": 190.2,
+   "to": 194.2,
+   "text": "Well, that depends on how finely you chopped up the circle in the first place,"
+  },
+  {
+   "from": 194.2,
+   "to": 195.6,
+   "text": "which was kind of arbitrary."
+  },
+  {
+   "from": 196.3,
+   "to": 200.1,
+   "text": "In the spirit of using what will come to be standard calculus notation,"
+  },
+  {
+   "from": 200.1,
+   "to": 204.4,
+   "text": "let's call that thickness dr for a tiny difference in the radius from one ring to"
+  },
+  {
+   "from": 204.4,
+   "to": 205,
+   "text": "the next."
+  },
+  {
+   "from": 205.5,
+   "to": 207.9,
+   "text": "Maybe you think of it as something like 0.1."
+  },
+  {
+   "from": 209,
+   "to": 212.8,
+   "text": "So approximating this unwrapped ring as a thin rectangle,"
+  },
+  {
+   "from": 212.8,
+   "to": 217.6,
+   "text": "its area is 2 pi times r, the radius, times dr, the little thickness."
+  },
+  {
+   "from": 218.6,
+   "to": 222.4,
+   "text": "And even though that's not perfect, for smaller and smaller choices of dr,"
+  },
+  {
+   "from": 222.4,
+   "to": 226.5,
+   "text": "this is actually going to be a better and better approximation for that area,"
+  },
+  {
+   "from": 226.5,
+   "to": 231,
+   "text": "since the top and the bottom sides of this shape are going to get closer and closer to"
+  },
+  {
+   "from": 231,
+   "to": 232.6,
+   "text": "being exactly the same length."
+  },
+  {
+   "from": 233.5,
+   "to": 235.9,
+   "text": "So let's just move forward with this approximation,"
+  },
+  {
+   "from": 235.9,
+   "to": 238.7,
+   "text": "keeping in the back of our minds that it's slightly wrong,"
+  },
+  {
+   "from": 238.7,
+   "to": 242.4,
+   "text": "but it's going to become more accurate for smaller and smaller choices of dr."
+  },
+  {
+   "from": 243.2,
+   "to": 246.4,
+   "text": "That is, if we slice up the circle into thinner and thinner rings."
+  },
+  {
+   "from": 247.7,
+   "to": 252.4,
+   "text": "So just to sum up where we are, you've broken up the area of the circle into"
+  },
+  {
+   "from": 252.4,
+   "to": 257.2,
+   "text": "all of these rings, and you're approximating the area of each one of those as"
+  },
+  {
+   "from": 257.2,
+   "to": 262.1,
+   "text": "2 pi times its radius times dr, where the specific value for that inner radius"
+  },
+  {
+   "from": 262.1,
+   "to": 266.8,
+   "text": "ranges from 0 for the smallest ring up to just under 3 for the biggest ring,"
+  },
+  {
+   "from": 266.8,
+   "to": 272,
+   "text": "spaced out by whatever the thickness is that you choose for dr, something like 0.1."
+  },
+  {
+   "from": 273.1,
+   "to": 277,
+   "text": "And notice that the spacing between the values here corresponds to the"
+  },
+  {
+   "from": 277,
+   "to": 281.3,
+   "text": "thickness dr of each ring, the difference in radius from one ring to the next."
+  },
+  {
+   "from": 282.3,
+   "to": 286,
+   "text": "In fact, a nice way to think about the rectangles approximating each"
+  },
+  {
+   "from": 286,
+   "to": 289.8,
+   "text": "ring's area is to fit them all upright side by side along this axis."
+  },
+  {
+   "from": 290.7,
+   "to": 295.8,
+   "text": "Each one has a thickness dr, which is why they fit so snugly right there together,"
+  },
+  {
+   "from": 295.8,
+   "to": 301.2,
+   "text": "and the height of any one of these rectangles sitting above some specific value of r,"
+  },
+  {
+   "from": 301.2,
+   "to": 304,
+   "text": "like 0.6, is exactly 2 pi times that value."
+  },
+  {
+   "from": 304.6,
+   "to": 309,
+   "text": "That's the circumference of the corresponding ring that this rectangle approximates."
+  },
+  {
+   "from": 309.6,
+   "to": 312.5,
+   "text": "Pictures like this 2 pi r can get tall for the screen,"
+  },
+  {
+   "from": 312.5,
+   "to": 316.9,
+   "text": "I mean 2 times pi times 3 is around 19, so let's just throw up a y axis that's"
+  },
+  {
+   "from": 316.9,
+   "to": 321.4,
+   "text": "scaled a little differently so that we can actually fit all of these rectangles"
+  },
+  {
+   "from": 321.4,
+   "to": 322.2,
+   "text": "on the screen."
+  },
+  {
+   "from": 323.3,
+   "to": 326.9,
+   "text": "A nice way to think about this setup is to draw the graph of 2 pi r,"
+  },
+  {
+   "from": 326.9,
+   "to": 329.5,
+   "text": "which is a straight line that has a slope 2 pi."
+  },
+  {
+   "from": 330.1,
+   "to": 334.8,
+   "text": "Each of these rectangles extends up to the point where it just barely touches that graph."
+  },
+  {
+   "from": 336,
+   "to": 337.5,
+   "text": "Again, we're being approximate here."
+  },
+  {
+   "from": 337.9,
+   "to": 340,
+   "text": "Each of these rectangles only approximates the"
+  },
+  {
+   "from": 340,
+   "to": 342.2,
+   "text": "area of the corresponding ring from the circle."
+  },
+  {
+   "from": 342.9,
+   "to": 346.2,
+   "text": "But remember, that approximation, 2 pi r times dr,"
+  },
+  {
+   "from": 346.2,
+   "to": 350.8,
+   "text": "gets less and less wrong as the size of dr gets smaller and smaller."
+  },
+  {
+   "from": 351.8,
+   "to": 354,
+   "text": "And this has a very beautiful meaning when we're"
+  },
+  {
+   "from": 354,
+   "to": 356.5,
+   "text": "looking at the sum of the areas of all those rectangles."
+  },
+  {
+   "from": 357.1,
+   "to": 360.1,
+   "text": "For smaller and smaller choices of dr, you might at first"
+  },
+  {
+   "from": 360.1,
+   "to": 363.1,
+   "text": "think that turns the problem into a monstrously large sum."
+  },
+  {
+   "from": 363.6,
+   "to": 365.6,
+   "text": "I mean, there's many many rectangles to consider,"
+  },
+  {
+   "from": 365.6,
+   "to": 368.4,
+   "text": "and the decimal precision of each one of their areas is going to be an"
+  },
+  {
+   "from": 368.4,
+   "to": 369.2,
+   "text": "absolute nightmare."
+  },
+  {
+   "from": 370.1,
+   "to": 375.3,
+   "text": "But notice, all of their areas in aggregate just looks like the area under a graph."
+  },
+  {
+   "from": 376,
+   "to": 379.4,
+   "text": "And that portion under the graph is just a triangle,"
+  },
+  {
+   "from": 379.4,
+   "to": 383.4,
+   "text": "a triangle with a base of 3 and a height that's 2 pi times 3."
+  },
+  {
+   "from": 384.1,
+   "to": 390.5,
+   "text": "So its area, 1 half base times height, works out to be exactly pi times 3 squared."
+  },
+  {
+   "from": 391.4,
+   "to": 395.1,
+   "text": "Or if the radius of our original circle was some other value,"
+  },
+  {
+   "from": 395.1,
+   "to": 398.7,
+   "text": "capital R, that area comes out to be pi times r squared."
+  },
+  {
+   "from": 399.4,
+   "to": 401.5,
+   "text": "And that's the formula for the area of a circle."
+  },
+  {
+   "from": 402.3,
+   "to": 405.4,
+   "text": "It doesn't matter who you are or what you typically think of math,"
+  },
+  {
+   "from": 405.4,
+   "to": 407.4,
+   "text": "that right there is a beautiful argument."
+  },
+  {
+   "from": 410.2,
+   "to": 412.8,
+   "text": "But if you want to think like a mathematician here,"
+  },
+  {
+   "from": 412.8,
+   "to": 415.2,
+   "text": "you don't just care about finding the answer,"
+  },
+  {
+   "from": 415.2,
+   "to": 418.9,
+   "text": "you care about developing general problem-solving tools and techniques."
+  },
+  {
+   "from": 419.7,
+   "to": 423.8,
+   "text": "So take a moment to meditate on what exactly just happened and why it worked,"
+  },
+  {
+   "from": 423.8,
+   "to": 427.6,
+   "text": "because the way we transitioned from something approximate to something"
+  },
+  {
+   "from": 427.6,
+   "to": 431.8,
+   "text": "precise is actually pretty subtle and cuts deep to what calculus is all about."
+  },
+  {
+   "from": 433.8,
+   "to": 438.9,
+   "text": "You had this problem that could be approximated with the sum of many small numbers,"
+  },
+  {
+   "from": 438.9,
+   "to": 444.1,
+   "text": "each of which looked like 2 pi r times dr, for values of r ranging between 0 and 3."
+  },
+  {
+   "from": 446.6,
+   "to": 451.9,
+   "text": "Remember, the small number dr here represents our choice for the thickness of each ring,"
+  },
+  {
+   "from": 451.9,
+   "to": 453,
+   "text": "for example 0.1."
+  },
+  {
+   "from": 453.5,
+   "to": 455.6,
+   "text": "And there are two important things to note here."
+  },
+  {
+   "from": 456.1,
+   "to": 460.6,
+   "text": "First of all, not only is dr a factor in the quantities we're adding up,"
+  },
+  {
+   "from": 460.6,
+   "to": 465.6,
+   "text": "2 pi r times dr, it also gives the spacing between the different values of r."
+  },
+  {
+   "from": 466.2,
+   "to": 470.5,
+   "text": "And secondly, the smaller our choice for dr, the better the approximation."
+  },
+  {
+   "from": 472.2,
+   "to": 475.2,
+   "text": "Adding all of those numbers could be seen in a different,"
+  },
+  {
+   "from": 475.2,
+   "to": 478.5,
+   "text": "pretty clever way as adding the areas of many thin rectangles"
+  },
+  {
+   "from": 478.5,
+   "to": 482.4,
+   "text": "sitting underneath a graph, the graph of the function 2 pi r in this case."
+  },
+  {
+   "from": 482.9,
+   "to": 487.4,
+   "text": "Then, and this is key, by considering smaller and smaller choices for dr,"
+  },
+  {
+   "from": 487.4,
+   "to": 492.6,
+   "text": "corresponding to better and better approximations of the original problem, the sum,"
+  },
+  {
+   "from": 492.6,
+   "to": 495.9,
+   "text": "thought of as the aggregate area of those rectangles,"
+  },
+  {
+   "from": 495.9,
+   "to": 498.2,
+   "text": "approaches the area under the graph."
+  },
+  {
+   "from": 499,
+   "to": 503.5,
+   "text": "And because of that, you can conclude that the answer to the original question,"
+  },
+  {
+   "from": 503.5,
+   "to": 508.5,
+   "text": "in full unapproximated precision, is exactly the same as the area underneath this graph."
+  },
+  {
+   "from": 510.9,
+   "to": 515.3,
+   "text": "A lot of other hard problems in math and science can be broken down and"
+  },
+  {
+   "from": 515.3,
+   "to": 518.4,
+   "text": "approximated as the sum of many small quantities,"
+  },
+  {
+   "from": 518.4,
+   "to": 523.9,
+   "text": "like figuring out how far a car has traveled based on its velocity at each point in time."
+  },
+  {
+   "from": 524.8,
+   "to": 528.8,
+   "text": "In a case like that, you might range through many different points in time,"
+  },
+  {
+   "from": 528.8,
+   "to": 533.3,
+   "text": "and at each one multiply the velocity at that time times a tiny change in time, dt,"
+  },
+  {
+   "from": 533.3,
+   "to": 537.9,
+   "text": "which would give the corresponding little bit of distance traveled during that little"
+  },
+  {
+   "from": 537.9,
+   "to": 538.2,
+   "text": "time."
+  },
+  {
+   "from": 539.3,
+   "to": 543.2,
+   "text": "I'll talk through the details of examples like this later in the series,"
+  },
+  {
+   "from": 543.2,
+   "to": 547.4,
+   "text": "but at a high level many of these types of problems turn out to be equivalent"
+  },
+  {
+   "from": 547.4,
+   "to": 552.1,
+   "text": "to finding the area under some graph, in much the same way that our circle problem did."
+  },
+  {
+   "from": 553.2,
+   "to": 556.1,
+   "text": "This happens whenever the quantities you're adding up,"
+  },
+  {
+   "from": 556.1,
+   "to": 559,
+   "text": "the one whose sum approximates the original problem,"
+  },
+  {
+   "from": 559,
+   "to": 563.2,
+   "text": "can be thought of as the areas of many thin rectangles sitting side by side."
+  },
+  {
+   "from": 564.6,
+   "to": 569.8,
+   "text": "If finer and finer approximations of the original problem correspond to thinner and"
+  },
+  {
+   "from": 569.8,
+   "to": 575.1,
+   "text": "thinner rings, then the original problem is equivalent to finding the area under some"
+  },
+  {
+   "from": 575.1,
+   "to": 575.5,
+   "text": "graph."
+  },
+  {
+   "from": 576.6,
+   "to": 580.4,
+   "text": "Again, this is an idea we'll see in more detail later in the series,"
+  },
+  {
+   "from": 580.4,
+   "to": 583.2,
+   "text": "so don't worry if it's not 100% clear right now."
+  },
+  {
+   "from": 583.8,
+   "to": 587.2,
+   "text": "The point now is that you, as the mathematician having just"
+  },
+  {
+   "from": 587.2,
+   "to": 590.6,
+   "text": "solved a problem by reframing it as the area under a graph,"
+  },
+  {
+   "from": 590.6,
+   "to": 594.5,
+   "text": "might start thinking about how to find the areas under other graphs."
+  },
+  {
+   "from": 595.6,
+   "to": 600.3,
+   "text": "We were lucky in the circle problem that the relevant area turned out to be a triangle,"
+  },
+  {
+   "from": 600.3,
+   "to": 603.8,
+   "text": "but imagine instead something like a parabola, the graph of x2."
+  },
+  {
+   "from": 604.8,
+   "to": 608,
+   "text": "What's the area underneath that curve, say between"
+  },
+  {
+   "from": 608,
+   "to": 610.7,
+   "text": "the values of x equals 0 and x equals 3?"
+  },
+  {
+   "from": 612.1,
+   "to": 614.8,
+   "text": "Well, it's hard to think about, right?"
+  },
+  {
+   "from": 615.2,
+   "to": 618,
+   "text": "And let me reframe that question in a slightly different way."
+  },
+  {
+   "from": 618,
+   "to": 623.1,
+   "text": "We'll fix that left endpoint in place at 0, and let the right endpoint vary."
+  },
+  {
+   "from": 626.9,
+   "to": 630.6,
+   "text": "Are you able to find a function, a of x, that gives"
+  },
+  {
+   "from": 630.6,
+   "to": 634.2,
+   "text": "you the area under this parabola between 0 and x?"
+  },
+  {
+   "from": 635.6,
+   "to": 639.6,
+   "text": "A function a of x like this is called an integral of x2."
+  },
+  {
+   "from": 640.5,
+   "to": 644.6,
+   "text": "Calculus holds within it the tools to figure out what an integral like this is,"
+  },
+  {
+   "from": 644.6,
+   "to": 647.2,
+   "text": "but right now it's just a mystery function to us."
+  },
+  {
+   "from": 647.5,
+   "to": 651.3,
+   "text": "We know it gives the area under the graph of x2 between some fixed left"
+  },
+  {
+   "from": 651.3,
+   "to": 654.9,
+   "text": "point and some variable right point, but we don't know what it is."
+  },
+  {
+   "from": 655.7,
+   "to": 659.8,
+   "text": "And again, the reason we care about this kind of question is not just for"
+  },
+  {
+   "from": 659.8,
+   "to": 664,
+   "text": "the sake of asking hard geometry questions, it's because many practical"
+  },
+  {
+   "from": 664,
+   "to": 668.1,
+   "text": "problems that can be approximated by adding up a large number of small"
+  },
+  {
+   "from": 668.1,
+   "to": 672.3,
+   "text": "things can be reframed as a question about an area under a certain graph."
+  },
+  {
+   "from": 673.4,
+   "to": 677.4,
+   "text": "I'll tell you right now that finding this area, this integral function,"
+  },
+  {
+   "from": 677.4,
+   "to": 682,
+   "text": "is genuinely hard, and whenever you come across a genuinely hard question in math,"
+  },
+  {
+   "from": 682,
+   "to": 685.8,
+   "text": "a good policy is to not try too hard to get at the answer directly,"
+  },
+  {
+   "from": 685.8,
+   "to": 689.3,
+   "text": "since usually you just end up banging your head against a wall."
+  },
+  {
+   "from": 690.1,
+   "to": 693.8,
+   "text": "Instead, play around with the idea, with no particular goal in mind."
+  },
+  {
+   "from": 694.3,
+   "to": 698.6,
+   "text": "Spend some time building up familiarity with the interplay between the function"
+  },
+  {
+   "from": 698.6,
+   "to": 702.4,
+   "text": "defining the graph, in this case x2, and the function giving the area."
+  },
+  {
+   "from": 704.1,
+   "to": 708,
+   "text": "In that playful spirit, if you're lucky, here's something you might notice."
+  },
+  {
+   "from": 708.6,
+   "to": 714.8,
+   "text": "When you slightly increase x by some tiny nudge dx, look at the resulting change in area,"
+  },
+  {
+   "from": 714.8,
+   "to": 720.4,
+   "text": "represented with this sliver I'm going to call da for a tiny difference in area."
+  },
+  {
+   "from": 721.4,
+   "to": 725.5,
+   "text": "That sliver can be pretty well approximated with a rectangle,"
+  },
+  {
+   "from": 725.5,
+   "to": 728.6,
+   "text": "one whose height is x2 and whose width is dx."
+  },
+  {
+   "from": 729.7,
+   "to": 732.2,
+   "text": "And the smaller the size of that nudge dx, the"
+  },
+  {
+   "from": 732.2,
+   "to": 735,
+   "text": "more that sliver actually looks like a rectangle."
+  },
+  {
+   "from": 736.8,
+   "to": 741.1,
+   "text": "This gives us an interesting way to think about how a of x is related to x2."
+  },
+  {
+   "from": 742,
+   "to": 746.6,
+   "text": "A change to the output of a, this little da, is about equal to x2,"
+  },
+  {
+   "from": 746.6,
+   "to": 750.2,
+   "text": "where x is whatever input you started at, times dx,"
+  },
+  {
+   "from": 750.2,
+   "to": 754,
+   "text": "the little nudge to the input that caused a to change."
+  },
+  {
+   "from": 754.8,
+   "to": 760.3,
+   "text": "Or rearranged, da divided by dx, the ratio of a tiny change in a to the tiny"
+  },
+  {
+   "from": 760.3,
+   "to": 765.8,
+   "text": "change in x that caused it, is approximately whatever x2 is at that point."
+  },
+  {
+   "from": 766.6,
+   "to": 768.8,
+   "text": "And that's an approximation that should get better"
+  },
+  {
+   "from": 768.8,
+   "to": 771,
+   "text": "and better for smaller and smaller choices of dx."
+  },
+  {
+   "from": 772.1,
+   "to": 775.6,
+   "text": "In other words, we don't know what a of x is, that remains a mystery."
+  },
+  {
+   "from": 776.1,
+   "to": 779.5,
+   "text": "But we do know a property that this mystery function must have."
+  },
+  {
+   "from": 780.2,
+   "to": 785,
+   "text": "When you look at two nearby points, for example 3 and 3.001,"
+  },
+  {
+   "from": 785,
+   "to": 790.2,
+   "text": "consider the change to the output of a between those two points,"
+  },
+  {
+   "from": 790.2,
+   "to": 796.1,
+   "text": "the difference between the mystery function evaluated at 3.001 and 3.001."
+  },
+  {
+   "from": 796.1,
+   "to": 802.1,
+   "text": "That change, divided by the difference in the input values, which in this case is 0.001,"
+  },
+  {
+   "from": 802.1,
+   "to": 808.1,
+   "text": "should be about equal to the value of x2 for the starting input, in this case 3 squared."
+  },
+  {
+   "from": 810.2,
+   "to": 814.4,
+   "text": "And this relationship between tiny changes to the mystery function"
+  },
+  {
+   "from": 814.4,
+   "to": 818.4,
+   "text": "and the values of x2 itself is true at all inputs, not just 3."
+  },
+  {
+   "from": 819.4,
+   "to": 822,
+   "text": "That doesn't immediately tell us how to find a of x,"
+  },
+  {
+   "from": 822,
+   "to": 824.8,
+   "text": "but it provides a very strong clue that we can work with."
+  },
+  {
+   "from": 826.3,
+   "to": 828.7,
+   "text": "And there's nothing special about the graph x2 here."
+  },
+  {
+   "from": 829.3,
+   "to": 833.6,
+   "text": "Any function defined as the area under some graph has this property,"
+  },
+  {
+   "from": 833.6,
+   "to": 838.6,
+   "text": "that da divided by dx, a slight nudge to the output of a divided by a slight"
+  },
+  {
+   "from": 838.6,
+   "to": 843.7,
+   "text": "nudge to the input that caused it, is about equal to the height of the graph at"
+  },
+  {
+   "from": 843.7,
+   "to": 844.5,
+   "text": "that point."
+  },
+  {
+   "from": 846.2,
+   "to": 850.4,
+   "text": "Again, that's an approximation that gets better and better for smaller choices of dx."
+  },
+  {
+   "from": 851.6,
+   "to": 856,
+   "text": "And here, we're stumbling into another big idea from calculus, derivatives."
+  },
+  {
+   "from": 857.1,
+   "to": 862.1,
+   "text": "This ratio da divided by dx is called the derivative of a, or more technically,"
+  },
+  {
+   "from": 862.1,
+   "to": 867.2,
+   "text": "the derivative is whatever this ratio approaches as dx gets smaller and smaller."
+  },
+  {
+   "from": 868.2,
+   "to": 872,
+   "text": "I'll dive much more deeply into the idea of a derivative in the next video,"
+  },
+  {
+   "from": 872,
+   "to": 876.5,
+   "text": "but loosely speaking it's a measure of how sensitive a function is to small changes in"
+  },
+  {
+   "from": 876.5,
+   "to": 877.1,
+   "text": "its input."
+  },
+  {
+   "from": 877.9,
+   "to": 882.2,
+   "text": "You'll see as the series goes on that there are many ways you can visualize a derivative,"
+  },
+  {
+   "from": 882.2,
+   "to": 885.2,
+   "text": "depending on what function you're looking at and how you think"
+  },
+  {
+   "from": 885.2,
+   "to": 886.7,
+   "text": "about tiny nudges to its output."
+  },
+  {
+   "from": 888.6,
+   "to": 892.2,
+   "text": "We care about derivatives because they help us solve problems,"
+  },
+  {
+   "from": 892.2,
+   "to": 897.1,
+   "text": "and in our little exploration here, we already have a glimpse of one way they're used."
+  },
+  {
+   "from": 897.8,
+   "to": 900.4,
+   "text": "They are the key to solving integral questions,"
+  },
+  {
+   "from": 900.4,
+   "to": 903.4,
+   "text": "problems that require finding the area under a curve."
+  },
+  {
+   "from": 904.4,
+   "to": 907.7,
+   "text": "Once you gain enough familiarity with computing derivatives,"
+  },
+  {
+   "from": 907.7,
+   "to": 912.6,
+   "text": "you'll be able to look at a situation like this one where you don't know what a function"
+  },
+  {
+   "from": 912.6,
+   "to": 915.6,
+   "text": "is, but you do know that its derivative should be x2,"
+  },
+  {
+   "from": 915.6,
+   "to": 918.8,
+   "text": "and from that reverse engineer what the function must be."
+  },
+  {
+   "from": 920.7,
+   "to": 923.8,
+   "text": "This back and forth between integrals and derivatives,"
+  },
+  {
+   "from": 923.8,
+   "to": 928,
+   "text": "where the derivative of a function for the area under a graph gives you"
+  },
+  {
+   "from": 928,
+   "to": 932.1,
+   "text": "back the function defining the graph itself, is called the fundamental"
+  },
+  {
+   "from": 932.1,
+   "to": 933.3,
+   "text": "theorem of calculus."
+  },
+  {
+   "from": 934.2,
+   "to": 938.8,
+   "text": "It ties together the two big ideas of integrals and derivatives,"
+  },
+  {
+   "from": 938.8,
+   "to": 942.4,
+   "text": "and shows how each one is an inverse of the other."
+  },
+  {
+   "from": 944.8,
+   "to": 947.3,
+   "text": "All of this is only a high-level view, just a peek"
+  },
+  {
+   "from": 947.3,
+   "to": 949.9,
+   "text": "at some of the core ideas that emerge in calculus."
+  },
+  {
+   "from": 950.5,
+   "to": 954.4,
+   "text": "And what follows in this series are the details, for derivatives and integrals and more."
+  },
+  {
+   "from": 955,
+   "to": 959.1,
+   "text": "At all points, I want you to feel that you could have invented calculus yourself,"
+  },
+  {
+   "from": 959.1,
+   "to": 963.4,
+   "text": "that if you drew the right pictures and played with each idea in just the right way,"
+  },
+  {
+   "from": 963.4,
+   "to": 967.3,
+   "text": "these formulas and rules and constructs that are presented could have just"
+  },
+  {
+   "from": 967.3,
+   "to": 970.3,
+   "text": "as easily popped out naturally from your own explorations."
+  },
+  {
+   "from": 972.4,
+   "to": 976.3,
+   "text": "And before you go, it would feel wrong not to give the people who supported this"
+  },
+  {
+   "from": 976.3,
+   "to": 980.1,
+   "text": "series on Patreon a well-deserved thanks, both for their financial backing as"
+  },
+  {
+   "from": 980.1,
+   "to": 983.9,
+   "text": "well as for the suggestions they gave while the series was being developed."
+  },
+  {
+   "from": 984.7,
+   "to": 987.9,
+   "text": "You see, supporters got early access to the videos as I made them,"
+  },
+  {
+   "from": 987.9,
+   "to": 991.6,
+   "text": "and they'll continue to get early access for future essence-of type series."
+  },
+  {
+   "from": 992.1,
+   "to": 996.2,
+   "text": "And as a thanks to the community, I keep ads off of new videos for their first month."
+  },
+  {
+   "from": 997,
+   "to": 1000.5,
+   "text": "I'm still astounded that I can spend time working on videos like these,"
+  },
+  {
+   "from": 1000.5,
+   "to": 1003.4,
+   "text": "and in a very direct way, you are the one to thank for that."
+  }
+ ]
+}

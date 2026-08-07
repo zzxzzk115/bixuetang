@@ -1,0 +1,1337 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 0,
+   "to": 14.3,
+   "text": "[Submit subtitle corrections at criblate.com]"
+  },
+  {
+   "from": 14.3,
+   "to": 17.3,
+   "text": "The last several videos have been about the idea of a derivative,"
+  },
+  {
+   "from": 17.3,
+   "to": 20.9,
+   "text": "and before moving on to integrals I want to take some time to talk about limits."
+  },
+  {
+   "from": 21.7,
+   "to": 24.8,
+   "text": "To be honest, the idea of a limit is not really anything new."
+  },
+  {
+   "from": 25.2,
+   "to": 28.7,
+   "text": "If you know what the word approach means you pretty much already know what a limit is."
+  },
+  {
+   "from": 29,
+   "to": 32.2,
+   "text": "You could say it's a matter of assigning fancy notation to"
+  },
+  {
+   "from": 32.2,
+   "to": 35.6,
+   "text": "the intuitive idea of one value that gets closer to another."
+  },
+  {
+   "from": 36.4,
+   "to": 39.7,
+   "text": "But there actually are a few reasons to devote a full video to this topic."
+  },
+  {
+   "from": 40.3,
+   "to": 43.6,
+   "text": "For one thing, it's worth showing how the way I've been describing"
+  },
+  {
+   "from": 43.6,
+   "to": 46.7,
+   "text": "derivatives so far lines up with the formal definition of a"
+  },
+  {
+   "from": 46.7,
+   "to": 50.2,
+   "text": "derivative as it's typically presented in most courses and textbooks."
+  },
+  {
+   "from": 50.9,
+   "to": 55,
+   "text": "I want to give you a little confidence that thinking in terms of dx and df as"
+  },
+  {
+   "from": 55,
+   "to": 58.8,
+   "text": "concrete non-zero nudges is not just some trick for building intuition,"
+  },
+  {
+   "from": 58.8,
+   "to": 63.4,
+   "text": "it's actually backed up by the formal definition of a derivative in all of its rigor."
+  },
+  {
+   "from": 64.3,
+   "to": 68,
+   "text": "I also want to shed light on what exactly mathematicians mean when"
+  },
+  {
+   "from": 68,
+   "to": 71.9,
+   "text": "they say approach in terms of the epsilon-delta definition of limits."
+  },
+  {
+   "from": 72.5,
+   "to": 76.6,
+   "text": "Then we'll finish off with a clever trick for computing limits called L'Hopital's rule."
+  },
+  {
+   "from": 77.8,
+   "to": 81.7,
+   "text": "So, first things first, let's take a look at the formal definition of the derivative."
+  },
+  {
+   "from": 82.3,
+   "to": 85.4,
+   "text": "As a reminder, when you have some function f of x,"
+  },
+  {
+   "from": 85.4,
+   "to": 89.7,
+   "text": "to think about its derivative at a particular input, maybe x equals 2,"
+  },
+  {
+   "from": 89.7,
+   "to": 93.5,
+   "text": "you start by imagining nudging that input some little dx away,"
+  },
+  {
+   "from": 93.5,
+   "to": 96.9,
+   "text": "and looking at the resulting change to the output, df."
+  },
+  {
+   "from": 98,
+   "to": 101.6,
+   "text": "The ratio df divided by dx, which can be nicely thought of as"
+  },
+  {
+   "from": 101.6,
+   "to": 106.7,
+   "text": "the rise over run slope between the starting point on the graph and the nudged point,"
+  },
+  {
+   "from": 106.7,
+   "to": 108.7,
+   "text": "is almost what the derivative is."
+  },
+  {
+   "from": 109.1,
+   "to": 114,
+   "text": "The actual derivative is whatever this ratio approaches as dx approaches 0."
+  },
+  {
+   "from": 115,
+   "to": 117.9,
+   "text": "Just to spell out a little what's meant there,"
+  },
+  {
+   "from": 117.9,
+   "to": 121.8,
+   "text": "that nudge to the output df is the difference between f at the"
+  },
+  {
+   "from": 121.8,
+   "to": 125.1,
+   "text": "starting input plus dx and f at the starting input,"
+  },
+  {
+   "from": 125.1,
+   "to": 127.5,
+   "text": "the change to the output caused by dx."
+  },
+  {
+   "from": 128.7,
+   "to": 134.3,
+   "text": "To express that you want to find what this ratio approaches as dx approaches 0,"
+  },
+  {
+   "from": 134.3,
+   "to": 137.9,
+   "text": "you write lim for limit, with dx arrow 0 below it."
+  },
+  {
+   "from": 139,
+   "to": 141.8,
+   "text": "You'll almost never see terms with a lowercase"
+  },
+  {
+   "from": 141.8,
+   "to": 144.8,
+   "text": "d like dx inside a limit expression like this."
+  },
+  {
+   "from": 145.3,
+   "to": 148,
+   "text": "Instead, the standard is to use a different variable,"
+  },
+  {
+   "from": 148,
+   "to": 151,
+   "text": "something like delta x, or commonly h for whatever reason."
+  },
+  {
+   "from": 151.9,
+   "to": 155.6,
+   "text": "The way I like to think of it is that terms with this lowercase d"
+  },
+  {
+   "from": 155.6,
+   "to": 160.1,
+   "text": "in the typical derivative expression have built into them this idea of a limit,"
+  },
+  {
+   "from": 160.1,
+   "to": 163.1,
+   "text": "the idea that dx is supposed to eventually go to 0."
+  },
+  {
+   "from": 164.7,
+   "to": 167.6,
+   "text": "In a sense, this left hand side here, df over dx,"
+  },
+  {
+   "from": 167.6,
+   "to": 171.1,
+   "text": "the ratio we've been thinking about for the past few videos,"
+  },
+  {
+   "from": 171.1,
+   "to": 175.8,
+   "text": "is just shorthand for what the right hand side here spells out in more detail,"
+  },
+  {
+   "from": 175.8,
+   "to": 180.9,
+   "text": "writing out exactly what we mean by df, and writing out this limit process explicitly."
+  },
+  {
+   "from": 181.6,
+   "to": 185.2,
+   "text": "This right hand side here is the formal definition of a derivative,"
+  },
+  {
+   "from": 185.2,
+   "to": 188.2,
+   "text": "as you would commonly see it in any calculus textbook."
+  },
+  {
+   "from": 188.8,
+   "to": 191.2,
+   "text": "And if you'll pardon me for a small rant here,"
+  },
+  {
+   "from": 191.2,
+   "to": 195.7,
+   "text": "I want to emphasize that nothing about this right hand side references the paradoxical"
+  },
+  {
+   "from": 195.7,
+   "to": 197.6,
+   "text": "idea of an infinitely small change."
+  },
+  {
+   "from": 198.3,
+   "to": 200,
+   "text": "The point of limits is to avoid that."
+  },
+  {
+   "from": 200.6,
+   "to": 203,
+   "text": "This value h is the exact same thing as the dx"
+  },
+  {
+   "from": 203,
+   "to": 205.3,
+   "text": "I've been referencing throughout the series."
+  },
+  {
+   "from": 205.9,
+   "to": 212.3,
+   "text": "It's a nudge to the input of f with some non-zero, finitely small size, like 0.001."
+  },
+  {
+   "from": 213.1,
+   "to": 217.7,
+   "text": "It's just that we're analyzing what happens for arbitrarily small choices of h."
+  },
+  {
+   "from": 218.6,
+   "to": 223.1,
+   "text": "In fact, the only reason people introduce a new variable name into this formal"
+  },
+  {
+   "from": 223.1,
+   "to": 225.9,
+   "text": "definition, rather than just, you know, using dx,"
+  },
+  {
+   "from": 225.9,
+   "to": 230.8,
+   "text": "is to be super extra clear that these changes to the input are just ordinary numbers"
+  },
+  {
+   "from": 230.8,
+   "to": 233.4,
+   "text": "that have nothing to do with infinitesimals."
+  },
+  {
+   "from": 234.4,
+   "to": 237.9,
+   "text": "The thing is, there are others who like to interpret this dx as an"
+  },
+  {
+   "from": 237.9,
+   "to": 240.3,
+   "text": "infinitely small change, whatever that means,"
+  },
+  {
+   "from": 240.3,
+   "to": 243.8,
+   "text": "or to just say that dx and df are nothing more than symbols that we"
+  },
+  {
+   "from": 243.8,
+   "to": 245.4,
+   "text": "shouldn't take too seriously."
+  },
+  {
+   "from": 246.2,
+   "to": 249.5,
+   "text": "But by now in the series, you know I'm not really a fan of either of those views."
+  },
+  {
+   "from": 250,
+   "to": 254.2,
+   "text": "I think you can and should interpret dx as a concrete, finitely small nudge,"
+  },
+  {
+   "from": 254.2,
+   "to": 258.5,
+   "text": "just so long as you remember to ask what happens when that thing approaches 0."
+  },
+  {
+   "from": 259.4,
+   "to": 263,
+   "text": "For one thing, and I hope the past few videos have helped convince you of this,"
+  },
+  {
+   "from": 263,
+   "to": 266.9,
+   "text": "that helps to build stronger intuition for where the rules of calculus actually come"
+  },
+  {
+   "from": 266.9,
+   "to": 267.2,
+   "text": "from."
+  },
+  {
+   "from": 267.2,
+   "to": 269.9,
+   "text": "But it's not just some trick for building intuitions."
+  },
+  {
+   "from": 270.5,
+   "to": 274.1,
+   "text": "Everything I've been saying about derivatives with this concrete,"
+  },
+  {
+   "from": 274.1,
+   "to": 278.9,
+   "text": "finitely small nudge philosophy is just a translation of this formal definition we're"
+  },
+  {
+   "from": 278.9,
+   "to": 280.1,
+   "text": "staring at right now."
+  },
+  {
+   "from": 281,
+   "to": 285,
+   "text": "Long story short, the big fuss about limits is that they let us avoid"
+  },
+  {
+   "from": 285,
+   "to": 288.9,
+   "text": "talking about infinitely small changes by instead asking what happens"
+  },
+  {
+   "from": 288.9,
+   "to": 292.5,
+   "text": "as the size of some small change to our variable approaches 0."
+  },
+  {
+   "from": 293.3,
+   "to": 296.1,
+   "text": "And this brings us to goal number 2, understanding"
+  },
+  {
+   "from": 296.1,
+   "to": 299.3,
+   "text": "exactly what it means for one value to approach another."
+  },
+  {
+   "from": 300.4,
+   "to": 307.1,
+   "text": "For example, consider the function 2 plus h cubed minus 2 cubed all divided by h."
+  },
+  {
+   "from": 308.5,
+   "to": 312.2,
+   "text": "This happens to be the expression that pops out when you unravel"
+  },
+  {
+   "from": 312.2,
+   "to": 316.1,
+   "text": "the definition of a derivative of x cubed evaluated at x equals 2,"
+  },
+  {
+   "from": 316.1,
+   "to": 319.9,
+   "text": "but let's just think of it as any old function with an input h."
+  },
+  {
+   "from": 320.4,
+   "to": 323.2,
+   "text": "Its graph is this nice continuous looking parabola,"
+  },
+  {
+   "from": 323.2,
+   "to": 327.4,
+   "text": "which would make sense because it's a cubic term divided by a linear term."
+  },
+  {
+   "from": 328.2,
+   "to": 332.1,
+   "text": "But actually, if you think about what's going on at h equals 0,"
+  },
+  {
+   "from": 332.1,
+   "to": 336.5,
+   "text": "plugging that in you would get 0 divided by 0, which is not defined."
+  },
+  {
+   "from": 337.4,
+   "to": 340,
+   "text": "So really, this graph has a hole at that point,"
+  },
+  {
+   "from": 340,
+   "to": 343,
+   "text": "and you have to kind of exaggerate to draw that hole,"
+  },
+  {
+   "from": 343,
+   "to": 345.1,
+   "text": "often with an empty circle like this."
+  },
+  {
+   "from": 345.1,
+   "to": 347.8,
+   "text": "But keep in mind, the function is perfectly well"
+  },
+  {
+   "from": 347.8,
+   "to": 350.3,
+   "text": "defined for inputs as close to 0 as you want."
+  },
+  {
+   "from": 351.3,
+   "to": 355.6,
+   "text": "Wouldn't you agree that as h approaches 0, the corresponding output,"
+  },
+  {
+   "from": 355.6,
+   "to": 358.3,
+   "text": "the height of this graph, approaches 12?"
+  },
+  {
+   "from": 359.2,
+   "to": 361.6,
+   "text": "It doesn't matter which side you come at it from."
+  },
+  {
+   "from": 363.7,
+   "to": 368.2,
+   "text": "That limit of this ratio as h approaches 0 is equal to 12."
+  },
+  {
+   "from": 369.4,
+   "to": 372.9,
+   "text": "But imagine that you're a mathematician inventing calculus,"
+  },
+  {
+   "from": 372.9,
+   "to": 377.5,
+   "text": "and someone skeptically asks you, well, what exactly do you mean by approach?"
+  },
+  {
+   "from": 378.4,
+   "to": 381.2,
+   "text": "That would be kind of an annoying question, I mean, come on,"
+  },
+  {
+   "from": 381.2,
+   "to": 384.2,
+   "text": "we all know what it means for one value to get closer to another."
+  },
+  {
+   "from": 384.9,
+   "to": 388.5,
+   "text": "But let's start thinking about ways that you might be able to answer that person,"
+  },
+  {
+   "from": 388.5,
+   "to": 389.7,
+   "text": "completely unambiguously."
+  },
+  {
+   "from": 390.9,
+   "to": 394.1,
+   "text": "For a given range of inputs within some distance of 0,"
+  },
+  {
+   "from": 394.1,
+   "to": 399,
+   "text": "excluding the forbidden point 0 itself, look at all of the corresponding outputs,"
+  },
+  {
+   "from": 399,
+   "to": 402,
+   "text": "all possible heights of the graph above that range."
+  },
+  {
+   "from": 402.9,
+   "to": 407.2,
+   "text": "As the range of input values closes in more and more tightly around 0,"
+  },
+  {
+   "from": 407.2,
+   "to": 411.6,
+   "text": "that range of output values closes in more and more closely around 12."
+  },
+  {
+   "from": 412.4,
+   "to": 417.3,
+   "text": "And importantly, the size of that range of output values can be made as small as you want."
+  },
+  {
+   "from": 419,
+   "to": 422.4,
+   "text": "As a counter example, consider a function that looks like this,"
+  },
+  {
+   "from": 422.4,
+   "to": 426.2,
+   "text": "which is also not defined at 0, but it kind of jumps up at that point."
+  },
+  {
+   "from": 427,
+   "to": 431.5,
+   "text": "When you approach h equals 0 from the right, the function approaches the value 2,"
+  },
+  {
+   "from": 431.5,
+   "to": 434.6,
+   "text": "but as you come at it from the left, it approaches 1."
+  },
+  {
+   "from": 435.5,
+   "to": 439.8,
+   "text": "Since there's not a single clear, unambiguous value that this function"
+  },
+  {
+   "from": 439.8,
+   "to": 444.4,
+   "text": "approaches as h approaches 0, the limit is simply not defined at that point."
+  },
+  {
+   "from": 445.2,
+   "to": 450,
+   "text": "One way to think of this is that when you look at any range of inputs around 0,"
+  },
+  {
+   "from": 450,
+   "to": 455,
+   "text": "and consider the corresponding range of outputs, as you shrink that input range,"
+  },
+  {
+   "from": 455,
+   "to": 459,
+   "text": "the corresponding outputs don't narrow in on any specific value."
+  },
+  {
+   "from": 459.8,
+   "to": 463.9,
+   "text": "Instead, those outputs straddle a range that never shrinks smaller than 1,"
+  },
+  {
+   "from": 463.9,
+   "to": 467.4,
+   "text": "even as you make that input range as tiny as you could imagine."
+  },
+  {
+   "from": 468.5,
+   "to": 472.2,
+   "text": "This perspective of shrinking an input range around the limiting point,"
+  },
+  {
+   "from": 472.2,
+   "to": 476.8,
+   "text": "and seeing whether or not you're restricted in how much that shrinks the output range,"
+  },
+  {
+   "from": 476.8,
+   "to": 480.3,
+   "text": "leads to something called the epsilon-delta definition of limits."
+  },
+  {
+   "from": 481.2,
+   "to": 483.3,
+   "text": "Now I should tell you, you could argue that this is"
+  },
+  {
+   "from": 483.3,
+   "to": 485.5,
+   "text": "needlessly heavy duty for an introduction to calculus."
+  },
+  {
+   "from": 486.1,
+   "to": 488.3,
+   "text": "Like I said, if you know what the word approach means,"
+  },
+  {
+   "from": 488.3,
+   "to": 491.9,
+   "text": "you already know what a limit means, there's nothing new on the conceptual level here."
+  },
+  {
+   "from": 492.3,
+   "to": 496.2,
+   "text": "But this is an interesting glimpse into the field of real analysis,"
+  },
+  {
+   "from": 496.2,
+   "to": 501.3,
+   "text": "and gives you a taste for how mathematicians make the intuitive ideas of calculus more"
+  },
+  {
+   "from": 501.3,
+   "to": 502.6,
+   "text": "airtight and rigorous."
+  },
+  {
+   "from": 503.7,
+   "to": 505.3,
+   "text": "You've already seen the main idea here."
+  },
+  {
+   "from": 505.7,
+   "to": 509.6,
+   "text": "When a limit exists, you can make this output range as small as you want,"
+  },
+  {
+   "from": 509.6,
+   "to": 513.9,
+   "text": "but when the limit doesn't exist, that output range cannot get smaller than some"
+  },
+  {
+   "from": 513.9,
+   "to": 518.4,
+   "text": "particular value, no matter how much you shrink the input range around the limiting"
+  },
+  {
+   "from": 518.4,
+   "to": 518.8,
+   "text": "input."
+  },
+  {
+   "from": 519.7,
+   "to": 522.5,
+   "text": "Let's freeze that same idea, but a little more precisely,"
+  },
+  {
+   "from": 522.5,
+   "to": 525.9,
+   "text": "maybe in the context of this example where the limiting value was 12."
+  },
+  {
+   "from": 526.8,
+   "to": 530,
+   "text": "Think about any distance away from 12, where for some reason it's"
+  },
+  {
+   "from": 530,
+   "to": 533.1,
+   "text": "common to use the Greek letter epsilon to denote that distance."
+  },
+  {
+   "from": 533.8,
+   "to": 538,
+   "text": "And the intent here is gonna be that this distance epsilon is as small as you want."
+  },
+  {
+   "from": 538.8,
+   "to": 544.6,
+   "text": "What it means for the limit to exist is that you will always be able to find a"
+  },
+  {
+   "from": 544.6,
+   "to": 550.1,
+   "text": "range of inputs around our limiting point, some distance delta around 0,"
+  },
+  {
+   "from": 550.1,
+   "to": 555.9,
+   "text": "so that any input within delta of 0 corresponds to an output within a distance"
+  },
+  {
+   "from": 555.9,
+   "to": 557.1,
+   "text": "epsilon of 12."
+  },
+  {
+   "from": 558.4,
+   "to": 561.1,
+   "text": "The key point here is that that's true for any epsilon,"
+  },
+  {
+   "from": 561.1,
+   "to": 564.8,
+   "text": "no matter how small, you'll always be able to find the corresponding delta."
+  },
+  {
+   "from": 565.6,
+   "to": 569.9,
+   "text": "In contrast, when a limit does not exist, as in this example here,"
+  },
+  {
+   "from": 569.9,
+   "to": 573.4,
+   "text": "you can find a sufficiently small epsilon, like 0.4,"
+  },
+  {
+   "from": 573.4,
+   "to": 579.2,
+   "text": "so that no matter how small you make your range around 0, no matter how tiny delta is,"
+  },
+  {
+   "from": 579.2,
+   "to": 583.1,
+   "text": "the corresponding range of outputs is just always too big."
+  },
+  {
+   "from": 583.7,
+   "to": 588.6,
+   "text": "There is no limiting output where everything is within a distance epsilon of that output."
+  },
+  {
+   "from": 594.1,
+   "to": 597.2,
+   "text": "So far, this is all pretty theory-heavy, don't you think?"
+  },
+  {
+   "from": 597.7,
+   "to": 600.3,
+   "text": "Limits being used to formally define the derivative,"
+  },
+  {
+   "from": 600.3,
+   "to": 604.1,
+   "text": "and epsilons and deltas being used to rigorously define the limit itself."
+  },
+  {
+   "from": 604.9,
+   "to": 608.3,
+   "text": "So let's finish things off here with a trick for actually computing limits."
+  },
+  {
+   "from": 609.1,
+   "to": 612.3,
+   "text": "For instance, let's say for some reason you were studying"
+  },
+  {
+   "from": 612.3,
+   "to": 615.7,
+   "text": "the function sin of pi times x divided by x squared minus 1."
+  },
+  {
+   "from": 616.2,
+   "to": 619.2,
+   "text": "Maybe this was modeling some kind of dampened oscillation."
+  },
+  {
+   "from": 620.2,
+   "to": 623.5,
+   "text": "When you plot a bunch of points to graph this, it looks pretty continuous."
+  },
+  {
+   "from": 627.3,
+   "to": 629.5,
+   "text": "But there's a problematic value at x equals 1."
+  },
+  {
+   "from": 630,
+   "to": 635.3,
+   "text": "When you plug that in, sin of pi is 0, and the denominator also comes out to 0,"
+  },
+  {
+   "from": 635.3,
+   "to": 638.9,
+   "text": "so the function is actually not defined at that input,"
+  },
+  {
+   "from": 638.9,
+   "to": 641.6,
+   "text": "and the graph should have a hole there."
+  },
+  {
+   "from": 642.2,
+   "to": 645,
+   "text": "This also happens, by the way, at x equals negative 1,"
+  },
+  {
+   "from": 645,
+   "to": 648.9,
+   "text": "but let's just focus our attention on a single one of these holes for now."
+  },
+  {
+   "from": 650,
+   "to": 653.7,
+   "text": "The graph certainly does seem to approach a distinct value at that point,"
+  },
+  {
+   "from": 653.7,
+   "to": 654.6,
+   "text": "wouldn't you say?"
+  },
+  {
+   "from": 657.3,
+   "to": 662.9,
+   "text": "So you might ask, how exactly do you find what output this approaches as x approaches 1,"
+  },
+  {
+   "from": 662.9,
+   "to": 665,
+   "text": "since you can't just plug in 1?"
+  },
+  {
+   "from": 668,
+   "to": 673.2,
+   "text": "Well, one way to approximate it would be to plug in a number that's just really,"
+  },
+  {
+   "from": 673.2,
+   "to": 675.4,
+   "text": "really close to 1, like 1.00001."
+  },
+  {
+   "from": 676.1,
+   "to": 680.1,
+   "text": "Doing that, you'd find that this should be a number around negative 1.57."
+  },
+  {
+   "from": 681.2,
+   "to": 683.6,
+   "text": "But is there a way to know precisely what it is?"
+  },
+  {
+   "from": 684,
+   "to": 687.5,
+   "text": "Some systematic process to take an expression like this one,"
+  },
+  {
+   "from": 687.5,
+   "to": 690.3,
+   "text": "that looks like 0 divided by 0 at some input,"
+  },
+  {
+   "from": 690.3,
+   "to": 693.5,
+   "text": "and ask what is its limit as x approaches that input?"
+  },
+  {
+   "from": 696.4,
+   "to": 700.1,
+   "text": "After limits, so helpfully let us write the definition for derivatives,"
+  },
+  {
+   "from": 700.1,
+   "to": 704.7,
+   "text": "derivatives can actually come back here and return the favor to help us evaluate limits."
+  },
+  {
+   "from": 705.2,
+   "to": 706,
+   "text": "Let me show you what I mean."
+  },
+  {
+   "from": 707,
+   "to": 710.3,
+   "text": "Here's what the graph of sin of pi times x looks like,"
+  },
+  {
+   "from": 710.3,
+   "to": 713.9,
+   "text": "and here's what the graph of x squared minus 1 looks like."
+  },
+  {
+   "from": 713.9,
+   "to": 716.7,
+   "text": "That's a lot to have up on the screen, but just"
+  },
+  {
+   "from": 716.7,
+   "to": 719.4,
+   "text": "focus on what's happening around x equals 1."
+  },
+  {
+   "from": 720.2,
+   "to": 726.2,
+   "text": "The point here is that sin of pi times x and x squared minus 1 are both 0 at that point,"
+  },
+  {
+   "from": 726.2,
+   "to": 728.2,
+   "text": "they both cross the x axis."
+  },
+  {
+   "from": 729,
+   "to": 734.2,
+   "text": "In the same spirit as plugging in a specific value near 1, like 1.00001,"
+  },
+  {
+   "from": 734.2,
+   "to": 740.6,
+   "text": "let's zoom in on that point and consider what happens just a tiny nudge dx away from it."
+  },
+  {
+   "from": 741.3,
+   "to": 746.3,
+   "text": "The value sin of pi times x is bumped down, and the value of that nudge,"
+  },
+  {
+   "from": 746.3,
+   "to": 752.2,
+   "text": "which was caused by the nudge dx to the input, is what we might call d sin of pi x."
+  },
+  {
+   "from": 753,
+   "to": 757.2,
+   "text": "And from our knowledge of derivatives, using the chain rule,"
+  },
+  {
+   "from": 757.2,
+   "to": 761.5,
+   "text": "that should be around cosine of pi times x times pi times dx."
+  },
+  {
+   "from": 762.7,
+   "to": 767.7,
+   "text": "Since the starting value was x equals 1, we plug in x equals 1 to that expression."
+  },
+  {
+   "from": 771.3,
+   "to": 776.6,
+   "text": "In other words, the amount that this sin of pi times x graph changes is roughly"
+  },
+  {
+   "from": 776.6,
+   "to": 782.4,
+   "text": "proportional to dx, with a proportionality constant equal to cosine of pi times pi."
+  },
+  {
+   "from": 783.4,
+   "to": 787.9,
+   "text": "And cosine of pi, if we think back to our trig knowledge, is exactly negative 1,"
+  },
+  {
+   "from": 787.9,
+   "to": 791.2,
+   "text": "so we can write this whole thing as negative pi times dx."
+  },
+  {
+   "from": 792.2,
+   "to": 798.4,
+   "text": "Similarly, the value of the x squared minus 1 graph changes by some dx squared minus 1,"
+  },
+  {
+   "from": 798.4,
+   "to": 803.5,
+   "text": "and taking the derivative, the size of that nudge should be 2x times dx."
+  },
+  {
+   "from": 804.5,
+   "to": 809.3,
+   "text": "Again, we were starting at x equals 1, so we plug in x equals 1 to that expression,"
+  },
+  {
+   "from": 809.3,
+   "to": 813.3,
+   "text": "meaning the size of that output nudge is about 2 times 1 times dx."
+  },
+  {
+   "from": 814.9,
+   "to": 821.2,
+   "text": "What this means is that for values of x which are just a tiny nudge dx away from 1,"
+  },
+  {
+   "from": 821.2,
+   "to": 826.4,
+   "text": "the ratio sin of pi x divided by x squared minus 1 is approximately"
+  },
+  {
+   "from": 826.4,
+   "to": 829.7,
+   "text": "negative pi times dx divided by 2 times dx."
+  },
+  {
+   "from": 830.9,
+   "to": 834.7,
+   "text": "The dx's here cancel out, so what's left is negative pi over 2."
+  },
+  {
+   "from": 835.7,
+   "to": 838.5,
+   "text": "And importantly, those approximations get more and more"
+  },
+  {
+   "from": 838.5,
+   "to": 841.4,
+   "text": "accurate for smaller and smaller choices of dx, right?"
+  },
+  {
+   "from": 842.3,
+   "to": 845.5,
+   "text": "This ratio, negative pi over 2, actually tells"
+  },
+  {
+   "from": 845.5,
+   "to": 849,
+   "text": "us the precise limiting value as x approaches 1."
+  },
+  {
+   "from": 849.5,
+   "to": 853,
+   "text": "Remember, what that means is that the limiting height on"
+  },
+  {
+   "from": 853,
+   "to": 856.8,
+   "text": "our original graph is evidently exactly negative pi over 2."
+  },
+  {
+   "from": 858.2,
+   "to": 861.6,
+   "text": "What happened there is a little subtle, so I want to go through it again,"
+  },
+  {
+   "from": 861.6,
+   "to": 863.3,
+   "text": "but this time a little more generally."
+  },
+  {
+   "from": 864.1,
+   "to": 869.3,
+   "text": "Instead of these two specific functions, which are both equal to 0 at x equals 1,"
+  },
+  {
+   "from": 869.3,
+   "to": 874.8,
+   "text": "think of any two functions, f of x and g of x, which are both 0 at some common value,"
+  },
+  {
+   "from": 874.8,
+   "to": 875.6,
+   "text": "x equals a."
+  },
+  {
+   "from": 876.3,
+   "to": 879.7,
+   "text": "The only constraint is that these have to be functions where you're able"
+  },
+  {
+   "from": 879.7,
+   "to": 883,
+   "text": "to take a derivative of them at x equals a, which means that they each"
+  },
+  {
+   "from": 883,
+   "to": 886.4,
+   "text": "basically look like a line when you zoom in close enough to that value."
+  },
+  {
+   "from": 887.8,
+   "to": 892.1,
+   "text": "Even though you can't compute f divided by g at this trouble point,"
+  },
+  {
+   "from": 892.1,
+   "to": 897.4,
+   "text": "since both of them equal 0, you can ask about this ratio for values of x really,"
+  },
+  {
+   "from": 897.4,
+   "to": 900.5,
+   "text": "really close to a, the limit as x approaches a."
+  },
+  {
+   "from": 901.2,
+   "to": 906.2,
+   "text": "It's helpful to think of those nearby inputs as just a tiny nudge, dx, away from a."
+  },
+  {
+   "from": 906.8,
+   "to": 912.1,
+   "text": "The value of f at that nudged point is approximately its derivative,"
+  },
+  {
+   "from": 912.1,
+   "to": 915,
+   "text": "df over dx, evaluated at a times dx."
+  },
+  {
+   "from": 916,
+   "to": 922.1,
+   "text": "Likewise, the value of g at that nudged point is approximately the derivative of g,"
+  },
+  {
+   "from": 922.1,
+   "to": 923.9,
+   "text": "evaluated at a times dx."
+  },
+  {
+   "from": 925.1,
+   "to": 930.9,
+   "text": "So, near that trouble point, the ratio between the outputs of f and g is actually about"
+  },
+  {
+   "from": 930.9,
+   "to": 934,
+   "text": "the same as the derivative of f at a times dx,"
+  },
+  {
+   "from": 934,
+   "to": 937.1,
+   "text": "divided by the derivative of g at a times dx."
+  },
+  {
+   "from": 937.9,
+   "to": 941.2,
+   "text": "Those dx's cancel out, so the ratio of f and g near a is"
+  },
+  {
+   "from": 941.2,
+   "to": 944.5,
+   "text": "about the same as the ratio between their derivatives."
+  },
+  {
+   "from": 945.9,
+   "to": 950.3,
+   "text": "Because each of those approximations gets more and more accurate for smaller and"
+  },
+  {
+   "from": 950.3,
+   "to": 954.7,
+   "text": "smaller nudges, this ratio of derivatives gives the precise value for the limit."
+  },
+  {
+   "from": 955.5,
+   "to": 958.5,
+   "text": "This is a really handy trick for computing a lot of limits."
+  },
+  {
+   "from": 958.9,
+   "to": 962.9,
+   "text": "Whenever you come across some expression that seems to equal 0 divided by"
+  },
+  {
+   "from": 962.9,
+   "to": 966.8,
+   "text": "0 when you plug in some particular input, just try taking the derivative"
+  },
+  {
+   "from": 966.8,
+   "to": 970.9,
+   "text": "of the top and bottom expressions and plugging in that same trouble input."
+  },
+  {
+   "from": 974,
+   "to": 976.3,
+   "text": "This clever trick is called L'Hopital's Rule."
+  },
+  {
+   "from": 977.2,
+   "to": 980.1,
+   "text": "Interestingly, it was actually discovered by Johann Bernoulli,"
+  },
+  {
+   "from": 980.1,
+   "to": 982.8,
+   "text": "but L'Hopital was this wealthy dude who essentially paid"
+  },
+  {
+   "from": 982.8,
+   "to": 985.9,
+   "text": "Bernoulli for the rights to some of his mathematical discoveries."
+  },
+  {
+   "from": 986.7,
+   "to": 990.1,
+   "text": "Academia is weird back then, but hey, in a very literal way,"
+  },
+  {
+   "from": 990.1,
+   "to": 992.5,
+   "text": "it pays to understand these tiny nudges."
+  },
+  {
+   "from": 995,
+   "to": 998.7,
+   "text": "Right now, you might be remembering that the definition of a derivative"
+  },
+  {
+   "from": 998.7,
+   "to": 1002.2,
+   "text": "for a given function comes down to computing the limit of a certain"
+  },
+  {
+   "from": 1002.2,
+   "to": 1005.6,
+   "text": "fraction that looks like 0 divided by 0, so you might think that"
+  },
+  {
+   "from": 1005.6,
+   "to": 1009.8,
+   "text": "L'Hopital's Rule could give us a handy way to discover new derivative formulas."
+  },
+  {
+   "from": 1010.7,
+   "to": 1013.4,
+   "text": "But that would actually be cheating, since presumably"
+  },
+  {
+   "from": 1013.4,
+   "to": 1016.3,
+   "text": "you don't know what the derivative of the numerator is."
+  },
+  {
+   "from": 1017,
+   "to": 1019.5,
+   "text": "When it comes to discovering derivative formulas,"
+  },
+  {
+   "from": 1019.5,
+   "to": 1022.3,
+   "text": "something we've been doing a fair amount this series,"
+  },
+  {
+   "from": 1022.3,
+   "to": 1024.6,
+   "text": "there is no systematic plug-and-chug method."
+  },
+  {
+   "from": 1025.1,
+   "to": 1026,
+   "text": "But that's a good thing!"
+  },
+  {
+   "from": 1026.4,
+   "to": 1029.3,
+   "text": "Whenever creativity is needed to solve problems like these,"
+  },
+  {
+   "from": 1029.3,
+   "to": 1031.9,
+   "text": "it's a good sign that you're doing something real,"
+  },
+  {
+   "from": 1031.9,
+   "to": 1035.4,
+   "text": "something that might give you a powerful tool to solve future problems."
+  },
+  {
+   "from": 1038.3,
+   "to": 1041.8,
+   "text": "And speaking of powerful tools, up next I'm going to be talking about"
+  },
+  {
+   "from": 1041.8,
+   "to": 1045.3,
+   "text": "what an integral is, as well as the fundamental theorem of calculus."
+  },
+  {
+   "from": 1045.3,
+   "to": 1048.7,
+   "text": "This is another example of where limits can be used to help give a"
+  },
+  {
+   "from": 1048.7,
+   "to": 1052.1,
+   "text": "clear meaning to a pretty delicate idea that flirts with infinity."
+  },
+  {
+   "from": 1053.6,
+   "to": 1056.8,
+   "text": "As you know, most support for this channel comes through Patreon,"
+  },
+  {
+   "from": 1056.8,
+   "to": 1060.7,
+   "text": "and the primary perk for patrons is early access to future series like this one,"
+  },
+  {
+   "from": 1060.7,
+   "to": 1063.2,
+   "text": "where the next one is going to be on probability."
+  },
+  {
+   "from": 1064.3,
+   "to": 1068.1,
+   "text": "But for those of you who want a more tangible way to flag that you're"
+  },
+  {
+   "from": 1068.1,
+   "to": 1071.6,
+   "text": "part of the community, there is also a small 3blue1brown store."
+  },
+  {
+   "from": 1072.3,
+   "to": 1074,
+   "text": "Links on the screen and in the description."
+  },
+  {
+   "from": 1074.7,
+   "to": 1085,
+   "text": "I'm still debating whether or not to make a preliminary batch of plushie pie creatures,"
+  },
+  {
+   "from": 1085,
+   "to": 1093.9,
+   "text": "it depends on how many viewers seem interested in the store more generally,"
+  },
+  {
+   "from": 1093.9,
+   "to": 1103.8,
+   "text": "but let me know in comments what other kinds of things you'd like to see in there."
+  },
+  {
+   "from": 1103.8,
+   "to": 1106.2,
+   "text": "Thanks for watching!"
+  }
+ ]
+}

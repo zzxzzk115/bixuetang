@@ -183,7 +183,7 @@ export function BiliPlayer({
     if (!payload?.cid) return;
     let cancelled = false;
     fetch(
-      `/api/bili/subtitle?bvid=${encodeURIComponent(bvid)}&cid=${payload.cid}&duration=${payload.durationSec}`,
+      `/api/bili/subtitle?bvid=${encodeURIComponent(bvid)}&cid=${payload.cid}&duration=${payload.durationSec}&courseId=${encodeURIComponent(courseId)}&ep=${episodeN}`,
     )
       .then((r) => r.json())
       .then((data: { tracks?: SubtitleTrack[]; offsetMs?: number }) => {
@@ -199,7 +199,7 @@ export function BiliPlayer({
     return () => {
       cancelled = true;
     };
-  }, [payload?.cid, payload?.durationSec, bvid]);
+  }, [payload?.cid, payload?.durationSec, bvid, courseId, episodeN]);
 
   // 启用的字幕轨:用户选过就用选的;没选过自动挑人工轨(中文优先,
   // 中英都有就叠加双语)。只有 AI/可疑轨时不自动开——bilibili 的 AI

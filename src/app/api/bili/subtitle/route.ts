@@ -5,8 +5,10 @@ import { db } from "@/lib/db/client";
 import { ccOffsets } from "@/lib/db/schema";
 import { getBiliSessdata } from "@/lib/bili/account";
 import { fetchSubtitles } from "@/lib/bili/api";
+import { loadRepoSubtitle } from "@/lib/content/subtitles";
 
-// CC 字幕：服务端拉取并转成 JSON 下发（字幕源要 Referer，且多数需登录态）
+// CC 字幕：服务端拉取并转成 JSON 下发（字幕源要 Referer，且多数需登录态）。
+// 仓库自带的字幕轨（content/subtitles/，通常是官方 YouTube CC）一并附上。
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +34,14 @@ export async function GET(request: NextRequest) {
       .where(and(eq(ccOffsets.userId, user.id), eq(ccOffsets.cid, cid)))
       .get()?.offsetMs ?? 0;
 
+  // 仓库字幕轨(可选参数,老客户端不传也不影响 bilibili 轨)
+  const courseId = request.nextUrl.searchParams.get("courseId");
+  const episodeN = Number(request.nextUrl.searchParams.get("ep"));
+  const repoTrack =
+    courseId && /^[a-z0-9-]+$/.test(courseId) && Number.isInteger(episodeN)
+      ? loadRepoSubtitle(courseId, episodeN)
+      : null;
+
   try {
     const tracks = await fetchSubtitles(
       bvid,
@@ -39,8 +49,11 @@ export async function GET(request: NextRequest) {
       getBiliSessdata(user.id) ?? undefined,
       duration,
     );
-    return Response.json({ tracks, offsetMs });
+    return Response.json({
+      tracks: repoTrack ? [...tracks, repoTrack] : tracks,
+      offsetMs,
+    });
   } catch {
-    return Response.json({ tracks: [], offsetMs });
+    return Response.json({ tracks: repoTrack ? [repoTrack] : [], offsetMs });
   }
 }

@@ -1,0 +1,922 @@
+{
+ "lan": "yt-en",
+ "lanDoc": "English · 官方 CC",
+ "ai": false,
+ "cues": [
+  {
+   "from": 14.8,
+   "to": 17.3,
+   "text": "I've introduced a few derivative formulas, but a"
+  },
+  {
+   "from": 17.3,
+   "to": 20.2,
+   "text": "really important one that I left out was exponentials."
+  },
+  {
+   "from": 20.8,
+   "to": 26.1,
+   "text": "So here I want to talk about the derivatives of functions like 2 to the x, 7 to the x,"
+  },
+  {
+   "from": 26.1,
+   "to": 31,
+   "text": "and also to show why e to the x is arguably the most important of the exponentials."
+  },
+  {
+   "from": 32.2,
+   "to": 36.1,
+   "text": "First of all, to get an intuition, let's just focus on the function 2 to the x."
+  },
+  {
+   "from": 36.9,
+   "to": 41.5,
+   "text": "Let's think of that input as a time, t, maybe in days, and the output,"
+  },
+  {
+   "from": 41.5,
+   "to": 45.4,
+   "text": "2 to the t, as a population size, perhaps of a particularly"
+  },
+  {
+   "from": 45.4,
+   "to": 49.3,
+   "text": "fertile band of pie creatures which doubles every single day."
+  },
+  {
+   "from": 50.6,
+   "to": 56,
+   "text": "And actually, instead of population size, which grows in discrete little jumps with each"
+  },
+  {
+   "from": 56,
+   "to": 60.9,
+   "text": "new baby pie creature, maybe let's think of 2 to the t as the total mass of the"
+  },
+  {
+   "from": 60.9,
+   "to": 61.5,
+   "text": "population."
+  },
+  {
+   "from": 62.2,
+   "to": 65.3,
+   "text": "I think that better reflects the continuity of this function, don't you?"
+  },
+  {
+   "from": 66.4,
+   "to": 71.6,
+   "text": "So for example, at time t equals 0, the total mass is 2 to the 0 equals 1,"
+  },
+  {
+   "from": 71.6,
+   "to": 73.7,
+   "text": "for the mass of one creature."
+  },
+  {
+   "from": 74.4,
+   "to": 80.2,
+   "text": "At t equals 1 day, the population has grown to 2 to the 1 equals 2 creature masses."
+  },
+  {
+   "from": 81.2,
+   "to": 87.1,
+   "text": "At day t equals 2, it's t squared, or 4, and in general it just keeps doubling every day."
+  },
+  {
+   "from": 88.3,
+   "to": 94,
+   "text": "For the derivative, we want dm dt, the rate at which this population mass is growing,"
+  },
+  {
+   "from": 94,
+   "to": 98.9,
+   "text": "thought of as a tiny change in the mass, divided by a tiny change in time."
+  },
+  {
+   "from": 99.8,
+   "to": 104.1,
+   "text": "Let's start by thinking of the rate of change over a full day,"
+  },
+  {
+   "from": 104.1,
+   "to": 106.1,
+   "text": "say between day 3 and day 4."
+  },
+  {
+   "from": 106.5,
+   "to": 110.2,
+   "text": "In this case, it grows from 8 to 16, so that's 8"
+  },
+  {
+   "from": 110.2,
+   "to": 114.2,
+   "text": "new creature masses added over the course of one day."
+  },
+  {
+   "from": 115.1,
+   "to": 119.8,
+   "text": "And notice, that rate of growth equals the population size at the start of the day."
+  },
+  {
+   "from": 121.5,
+   "to": 124.9,
+   "text": "Between day 4 and day 5, it grows from 16 to 32,"
+  },
+  {
+   "from": 124.9,
+   "to": 128.4,
+   "text": "so that's a rate of 16 new creature masses per day,"
+  },
+  {
+   "from": 128.4,
+   "to": 132.8,
+   "text": "which again equals the population size at the start of the day."
+  },
+  {
+   "from": 133.5,
+   "to": 137.1,
+   "text": "And in general, this rate of growth over a full day"
+  },
+  {
+   "from": 137.1,
+   "to": 140.7,
+   "text": "equals the population size at the start of that day."
+  },
+  {
+   "from": 141.7,
+   "to": 145.8,
+   "text": "So it might be tempting to say that this means the derivative"
+  },
+  {
+   "from": 145.8,
+   "to": 149.8,
+   "text": "of 2 to the t equals itself, that the rate of change of this"
+  },
+  {
+   "from": 149.8,
+   "to": 154.1,
+   "text": "function at a given time t is equal to the value of that function."
+  },
+  {
+   "from": 154.1,
+   "to": 158.9,
+   "text": "And this is definitely in the right direction, but it's not quite correct."
+  },
+  {
+   "from": 159.5,
+   "to": 163.4,
+   "text": "What we're doing here is making comparisons over a full day,"
+  },
+  {
+   "from": 163.4,
+   "to": 167.7,
+   "text": "considering the difference between 2 to the t plus 1 and 2 to the t."
+  },
+  {
+   "from": 168.6,
+   "to": 173.3,
+   "text": "But for the derivative, we need to ask what happens for smaller and smaller changes."
+  },
+  {
+   "from": 174,
+   "to": 176.7,
+   "text": "What's the growth over the course of a tenth of a day,"
+  },
+  {
+   "from": 176.7,
+   "to": 179.2,
+   "text": "a hundredth of a day, one one billionth of a day?"
+  },
+  {
+   "from": 180,
+   "to": 184.2,
+   "text": "This is why I had us think of the function as representing population mass,"
+  },
+  {
+   "from": 184.2,
+   "to": 189.1,
+   "text": "since it makes sense to ask about a tiny change in mass over a tiny fraction of a day,"
+  },
+  {
+   "from": 189.1,
+   "to": 194.1,
+   "text": "but it doesn't make as much sense to ask about the tiny change in a discrete population"
+  },
+  {
+   "from": 194.1,
+   "to": 195,
+   "text": "size per second."
+  },
+  {
+   "from": 195.9,
+   "to": 199.6,
+   "text": "More abstractly, for a tiny change in time, dt,"
+  },
+  {
+   "from": 199.6,
+   "to": 205.8,
+   "text": "we want to understand the difference between 2 to the t plus dt and 2 to the t,"
+  },
+  {
+   "from": 205.8,
+   "to": 207.1,
+   "text": "all divided by dt."
+  },
+  {
+   "from": 207.7,
+   "to": 212.2,
+   "text": "The change in the function per unit time, but now we're looking very narrowly"
+  },
+  {
+   "from": 212.2,
+   "to": 216.4,
+   "text": "around a given point in time, rather than over the course of a full day."
+  },
+  {
+   "from": 219.6,
+   "to": 224.1,
+   "text": "And here's the thing, I would love if there was some very clear geometric picture"
+  },
+  {
+   "from": 224.1,
+   "to": 227.4,
+   "text": "that made everything that's about to follow just pop out,"
+  },
+  {
+   "from": 227.4,
+   "to": 231.4,
+   "text": "some diagram where you could point to one value and say, see, that part,"
+  },
+  {
+   "from": 231.4,
+   "to": 233.5,
+   "text": "that is the derivative of 2 to the t."
+  },
+  {
+   "from": 234.4,
+   "to": 236.6,
+   "text": "And if you know of one, please let me know."
+  },
+  {
+   "from": 237,
+   "to": 239.9,
+   "text": "And while the goal here, as with the rest of the series,"
+  },
+  {
+   "from": 239.9,
+   "to": 243.4,
+   "text": "is to maintain a playful spirit of discovery, the type of play that"
+  },
+  {
+   "from": 243.4,
+   "to": 247.7,
+   "text": "follows will have more to do with finding numerical patterns rather than visual ones."
+  },
+  {
+   "from": 248.7,
+   "to": 253.6,
+   "text": "So start by just taking a very close look at this term, 2 to the t plus dt."
+  },
+  {
+   "from": 254.4,
+   "to": 257.6,
+   "text": "A core property of exponentials is that you can"
+  },
+  {
+   "from": 257.6,
+   "to": 260.7,
+   "text": "break this up as 2 to the t times 2 to the dt."
+  },
+  {
+   "from": 261.3,
+   "to": 264.1,
+   "text": "That really is the most important property of exponents."
+  },
+  {
+   "from": 264.7,
+   "to": 267.5,
+   "text": "If you add two values in that exponent, you can"
+  },
+  {
+   "from": 267.5,
+   "to": 270.1,
+   "text": "break up the output as a product of some kind."
+  },
+  {
+   "from": 270.8,
+   "to": 274.9,
+   "text": "This is what lets you relate additive ideas, things like tiny steps in time,"
+  },
+  {
+   "from": 274.9,
+   "to": 277.7,
+   "text": "to multiplicative ideas, things like rates and ratios."
+  },
+  {
+   "from": 278.4,
+   "to": 280,
+   "text": "I mean, just look at what happens here."
+  },
+  {
+   "from": 280.8,
+   "to": 284.8,
+   "text": "After that move, we can factor out the term 2 to the t,"
+  },
+  {
+   "from": 284.8,
+   "to": 289.8,
+   "text": "which is now just multiplied by 2 to the dt minus 1, all divided by dt."
+  },
+  {
+   "from": 290.7,
+   "to": 294.2,
+   "text": "And remember, the derivative of 2 to the t is whatever"
+  },
+  {
+   "from": 294.2,
+   "to": 297.5,
+   "text": "this whole expression approaches as dt approaches 0."
+  },
+  {
+   "from": 298.5,
+   "to": 302.1,
+   "text": "And at first glance, that might seem like an unimportant manipulation."
+  },
+  {
+   "from": 302.7,
+   "to": 306.4,
+   "text": "But a tremendously important fact is that this term on the right,"
+  },
+  {
+   "from": 306.4,
+   "to": 310.8,
+   "text": "where all of the dt stuff lives, is completely separate from the t term itself."
+  },
+  {
+   "from": 311.3,
+   "to": 313.9,
+   "text": "It doesn't depend on the actual time where we started."
+  },
+  {
+   "from": 314.6,
+   "to": 320.7,
+   "text": "You can go off to a calculator and plug in very small values for dt here,"
+  },
+  {
+   "from": 320.7,
+   "to": 326.3,
+   "text": "for example, maybe typing in 2 to the 0.001 minus 1 divided by 0.001."
+  },
+  {
+   "from": 327.8,
+   "to": 332.8,
+   "text": "What you'll find is that for smaller and smaller choices of dt,"
+  },
+  {
+   "from": 332.8,
+   "to": 337.6,
+   "text": "this value approaches a very specific number, around 0.6931."
+  },
+  {
+   "from": 338.6,
+   "to": 341,
+   "text": "Don't worry if that number seems mysterious, the"
+  },
+  {
+   "from": 341,
+   "to": 343.6,
+   "text": "central point is that this is some kind of constant."
+  },
+  {
+   "from": 344.5,
+   "to": 348.3,
+   "text": "Unlike derivatives of other functions, all of the stuff"
+  },
+  {
+   "from": 348.3,
+   "to": 352.1,
+   "text": "that depends on dt is separate from the value of t itself."
+  },
+  {
+   "from": 352.8,
+   "to": 358.1,
+   "text": "So the derivative of 2 to the t is just itself, but multiplied by some constant."
+  },
+  {
+   "from": 359.3,
+   "to": 363.8,
+   "text": "And that should make sense, because earlier it felt like the derivative for 2 to the t"
+  },
+  {
+   "from": 363.8,
+   "to": 368.4,
+   "text": "should be itself, at least when we were looking at changes over the course of a full day."
+  },
+  {
+   "from": 369,
+   "to": 373.8,
+   "text": "And evidently, the rate of change for this function over much smaller"
+  },
+  {
+   "from": 373.8,
+   "to": 378.8,
+   "text": "timescales is not quite equal to itself, but it's proportional to itself,"
+  },
+  {
+   "from": 378.8,
+   "to": 382.8,
+   "text": "with this very peculiar proportionality constant of 0.6931."
+  },
+  {
+   "from": 389,
+   "to": 392.2,
+   "text": "And there's not too much special about the number 2 here."
+  },
+  {
+   "from": 392.8,
+   "to": 396.1,
+   "text": "If instead we had dealt with the function 3 to the t,"
+  },
+  {
+   "from": 396.1,
+   "to": 401.4,
+   "text": "the exponential property would also have led us to the conclusion that the derivative"
+  },
+  {
+   "from": 401.4,
+   "to": 406,
+   "text": "of 3 to the t is proportional to itself, but this time it would have had a"
+  },
+  {
+   "from": 406,
+   "to": 408.1,
+   "text": "proportionality constant of 1.0986."
+  },
+  {
+   "from": 409.2,
+   "to": 413.2,
+   "text": "And for other bases to your exponent, you can have fun trying to see what the"
+  },
+  {
+   "from": 413.2,
+   "to": 417.5,
+   "text": "various proportionality constants are, maybe seeing if you can find a pattern in them."
+  },
+  {
+   "from": 418.4,
+   "to": 423.4,
+   "text": "For example, if you plug in 8 to the power of a very tiny number,"
+  },
+  {
+   "from": 423.4,
+   "to": 428.1,
+   "text": "minus 1, and divide by that same tiny number, you'd find that"
+  },
+  {
+   "from": 428.1,
+   "to": 432.1,
+   "text": "the relevant proportionality constant is around 2.079."
+  },
+  {
+   "from": 432.7,
+   "to": 437.1,
+   "text": "And maybe, just maybe, you would notice that this number happens"
+  },
+  {
+   "from": 437.1,
+   "to": 441.7,
+   "text": "to be exactly 3 times the constant associated with the base for 2."
+  },
+  {
+   "from": 442.5,
+   "to": 448,
+   "text": "So these numbers certainly aren't random, there is some kind of pattern, but what is it?"
+  },
+  {
+   "from": 448.2,
+   "to": 451.7,
+   "text": "What does 2 have to do with the number 0.6931,"
+  },
+  {
+   "from": 451.7,
+   "to": 455.4,
+   "text": "and what does 8 have to do with the number 2.079?"
+  },
+  {
+   "from": 456.8,
+   "to": 462.2,
+   "text": "Well, a second question that is ultimately going to explain these mystery constants is"
+  },
+  {
+   "from": 462.2,
+   "to": 466.5,
+   "text": "whether there's some base where that proportionality constant is 1,"
+  },
+  {
+   "from": 466.5,
+   "to": 471.4,
+   "text": "where the derivative of a to the power t is not just proportional to itself,"
+  },
+  {
+   "from": 471.4,
+   "to": 473.2,
+   "text": "but actually equal to itself."
+  },
+  {
+   "from": 473.7,
+   "to": 474.7,
+   "text": "And there is!"
+  },
+  {
+   "from": 475.1,
+   "to": 479.3,
+   "text": "It's the special constant e around 2.71828."
+  },
+  {
+   "from": 480.3,
+   "to": 484.4,
+   "text": "In fact, it's not just that the number e happens to show up here,"
+  },
+  {
+   "from": 484.4,
+   "to": 487.2,
+   "text": "this is in a sense what defines the number e."
+  },
+  {
+   "from": 488.6,
+   "to": 491.6,
+   "text": "If you ask why does e of all numbers have this property,"
+  },
+  {
+   "from": 491.6,
+   "to": 494.7,
+   "text": "it's a little like asking why does pi of all numbers happen"
+  },
+  {
+   "from": 494.7,
+   "to": 498.1,
+   "text": "to be the ratio of the circumference of a circle to its diameter."
+  },
+  {
+   "from": 498.7,
+   "to": 501.3,
+   "text": "This is at its heart what defines this value."
+  },
+  {
+   "from": 502.1,
+   "to": 506.3,
+   "text": "All exponential functions are proportional to their own derivative,"
+  },
+  {
+   "from": 506.3,
+   "to": 510.8,
+   "text": "but e alone is the special number so that proportionality constant is 1,"
+  },
+  {
+   "from": 510.8,
+   "to": 514.1,
+   "text": "meaning e to the t actually equals its own derivative."
+  },
+  {
+   "from": 515.4,
+   "to": 519.5,
+   "text": "One way to think of that is that if you look at the graph of e to the t,"
+  },
+  {
+   "from": 519.5,
+   "to": 523.6,
+   "text": "it has the peculiar property that the slope of a tangent line to any point"
+  },
+  {
+   "from": 523.6,
+   "to": 527.6,
+   "text": "on this graph equals the height of that point above the horizontal axis."
+  },
+  {
+   "from": 528.8,
+   "to": 532.9,
+   "text": "The existence of a function like this answers the question of the mystery constants,"
+  },
+  {
+   "from": 532.9,
+   "to": 536.1,
+   "text": "and it's because it gives a different way to think about functions"
+  },
+  {
+   "from": 536.1,
+   "to": 538.3,
+   "text": "that are proportional to their own derivative."
+  },
+  {
+   "from": 539.2,
+   "to": 541,
+   "text": "The key is to use the chain rule."
+  },
+  {
+   "from": 541.9,
+   "to": 545.3,
+   "text": "For example, what is the derivative of e to the 3t?"
+  },
+  {
+   "from": 546.3,
+   "to": 549.9,
+   "text": "Well, you take the derivative of the outermost function,"
+  },
+  {
+   "from": 549.9,
+   "to": 553.3,
+   "text": "which due to this special nature of e is just itself,"
+  },
+  {
+   "from": 553.3,
+   "to": 558.4,
+   "text": "and multiply by the derivative of that inner function 3t, which is the constant 3."
+  },
+  {
+   "from": 559.5,
+   "to": 563.6,
+   "text": "Or rather than just applying a rule blindly, you could take this moment"
+  },
+  {
+   "from": 563.6,
+   "to": 568,
+   "text": "to practice the intuition for the chain rule that I talked through last video,"
+  },
+  {
+   "from": 568,
+   "to": 571.7,
+   "text": "thinking about how a slight nudge to t changes the value of 3t,"
+  },
+  {
+   "from": 571.7,
+   "to": 575.7,
+   "text": "and how that intermediate change nudges the final value of e to the 3t."
+  },
+  {
+   "from": 578.4,
+   "to": 582.8,
+   "text": "Either way, the point is e to the power of some constant"
+  },
+  {
+   "from": 582.8,
+   "to": 586.8,
+   "text": "times t is equal to that same constant times itself."
+  },
+  {
+   "from": 588,
+   "to": 591.2,
+   "text": "And from here, the question of those mystery constants"
+  },
+  {
+   "from": 591.2,
+   "to": 594.6,
+   "text": "really just comes down to a certain algebraic manipulation."
+  },
+  {
+   "from": 596.3,
+   "to": 601.1,
+   "text": "The number 2 can also be written as e to the natural log of 2."
+  },
+  {
+   "from": 601.1,
+   "to": 606.4,
+   "text": "There's nothing fancy here, this is just the definition of the natural log,"
+  },
+  {
+   "from": 606.4,
+   "to": 609.5,
+   "text": "it asks the question e to the what equals 2."
+  },
+  {
+   "from": 610.8,
+   "to": 614.9,
+   "text": "So the function 2 to the t is the same as the function"
+  },
+  {
+   "from": 614.9,
+   "to": 618.4,
+   "text": "e to the power of the natural log of 2 times t."
+  },
+  {
+   "from": 620.3,
+   "to": 624.4,
+   "text": "And from what we just saw, combining the fact that e to the t is its own"
+  },
+  {
+   "from": 624.4,
+   "to": 628.9,
+   "text": "derivative with the chain rule, the derivative of this function is proportional"
+  },
+  {
+   "from": 628.9,
+   "to": 633,
+   "text": "to itself, with a proportionality constant equal to the natural log of 2."
+  },
+  {
+   "from": 634.1,
+   "to": 638.4,
+   "text": "And indeed, if you go plug in the natural log of 2 to a calculator,"
+  },
+  {
+   "from": 638.4,
+   "to": 642.9,
+   "text": "you'll find that it's 0.6931, the mystery constant we ran into earlier."
+  },
+  {
+   "from": 644,
+   "to": 646.2,
+   "text": "And the same goes for all the other bases."
+  },
+  {
+   "from": 646.8,
+   "to": 650,
+   "text": "The mystery proportionality constant that pops up when taking derivatives is just"
+  },
+  {
+   "from": 650,
+   "to": 653.4,
+   "text": "the natural log of the base. The answer to the question e to the what equals that base."
+  },
+  {
+   "from": 653.4,
+   "to": 660.8,
+   "text": "In fact, throughout applications of calculus, you rarely"
+  },
+  {
+   "from": 660.8,
+   "to": 667.4,
+   "text": "see exponentials written as some base to a power t."
+  },
+  {
+   "from": 668.1,
+   "to": 670.9,
+   "text": "Instead, you almost always write the exponential"
+  },
+  {
+   "from": 670.9,
+   "to": 673.3,
+   "text": "as e to the power of some constant times t."
+  },
+  {
+   "from": 674.2,
+   "to": 678.3,
+   "text": "It's all equivalent, I mean any function like 2 to the t or"
+  },
+  {
+   "from": 678.3,
+   "to": 682.4,
+   "text": "3 to the t can also be written as e to some constant times t."
+  },
+  {
+   "from": 684.5,
+   "to": 687.9,
+   "text": "At the risk of staying overfocused on the symbols here,"
+  },
+  {
+   "from": 687.9,
+   "to": 692.5,
+   "text": "I want to emphasize that there are many ways to write down any particular"
+  },
+  {
+   "from": 692.5,
+   "to": 693.7,
+   "text": "exponential function."
+  },
+  {
+   "from": 694.5,
+   "to": 698.5,
+   "text": "And when you see something written as e to some constant times t,"
+  },
+  {
+   "from": 698.5,
+   "to": 703.7,
+   "text": "that's a choice we make to write it that way, and the number e is not fundamental to"
+  },
+  {
+   "from": 703.7,
+   "to": 704.9,
+   "text": "that function itself."
+  },
+  {
+   "from": 705.6,
+   "to": 709.7,
+   "text": "What is special about writing exponentials in terms of e like this is"
+  },
+  {
+   "from": 709.7,
+   "to": 713.8,
+   "text": "that it gives that constant in the exponent a nice readable meaning."
+  },
+  {
+   "from": 714.4,
+   "to": 715.5,
+   "text": "Here, let me show you what I mean."
+  },
+  {
+   "from": 716.3,
+   "to": 719.2,
+   "text": "All sorts of natural phenomena involve some rate of"
+  },
+  {
+   "from": 719.2,
+   "to": 722.3,
+   "text": "change that's proportional to the thing that's changing."
+  },
+  {
+   "from": 723.3,
+   "to": 726.6,
+   "text": "For example, the rate of growth of a population actually does"
+  },
+  {
+   "from": 726.6,
+   "to": 730,
+   "text": "tend to be proportional to the size of the population itself,"
+  },
+  {
+   "from": 730,
+   "to": 733.5,
+   "text": "assuming there isn't some limited resource slowing things down."
+  },
+  {
+   "from": 734.1,
+   "to": 737.3,
+   "text": "And if you put a cup of hot water in a cool room,"
+  },
+  {
+   "from": 737.3,
+   "to": 742.6,
+   "text": "the rate at which the water cools is proportional to the difference in temperature"
+  },
+  {
+   "from": 742.6,
+   "to": 746.5,
+   "text": "between the room and the water, or said a little differently,"
+  },
+  {
+   "from": 746.5,
+   "to": 750.8,
+   "text": "the rate at which that difference changes is proportional to itself."
+  },
+  {
+   "from": 752,
+   "to": 755.6,
+   "text": "If you invest your money, the rate at which it grows is"
+  },
+  {
+   "from": 755.6,
+   "to": 759.1,
+   "text": "proportional to the amount of money there at any time."
+  },
+  {
+   "from": 759.9,
+   "to": 765.1,
+   "text": "In all of these cases, where some variable's rate of change is proportional to itself,"
+  },
+  {
+   "from": 765.1,
+   "to": 768.6,
+   "text": "the function describing that variable over time is going to"
+  },
+  {
+   "from": 768.6,
+   "to": 770.6,
+   "text": "look like some kind of exponential."
+  },
+  {
+   "from": 771.8,
+   "to": 776.1,
+   "text": "And even though there are lots of ways to write any exponential function,"
+  },
+  {
+   "from": 776.1,
+   "to": 780.4,
+   "text": "it's very natural to choose to express these functions as e to the power"
+  },
+  {
+   "from": 780.4,
+   "to": 784.9,
+   "text": "of some constant times t, since that constant carries a very natural meaning."
+  },
+  {
+   "from": 784.9,
+   "to": 788.2,
+   "text": "It's the same as the proportionality constant between"
+  },
+  {
+   "from": 788.2,
+   "to": 791.7,
+   "text": "the size of the changing variable and the rate of change."
+  },
+  {
+   "from": 794.8,
+   "to": 797.9,
+   "text": "And as always, I want to thank those who have made this series possible."
+  },
+  {
+   "from": 814.9,
+   "to": 829.5,
+   "text": "Thank you."
+  }
+ ]
+}
