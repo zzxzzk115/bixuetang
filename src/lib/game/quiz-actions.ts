@@ -213,6 +213,103 @@ export async function submitQuizNode(
   };
 }
 
+// 分集小测验：看完一集后自愿点按钮做的巩固小测。
+// 不在通关强制路径上（AppEpisodeList 的返回判定只看观看状态），
+// 纯粹给「又主动测了一把」的人一点额外 XP。首测才入账（幂等）。
+const MINI_QUIZ_SIZE = 3;
+
+/** 分集小测出题：题目仅出自该集，干扰项退回全课程 → 同学科 */
+export async function getEpisodeQuiz(
+  courseId: string,
+  epN: number,
+): Promise<QuizPayload> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+
+  const course = getContent().coursesById.get(courseId);
+  if (!course) return { ok: false, error: "课程不存在" };
+
+  const bank = getQuizBank();
+  const courseEntries = bank.byCourse.get(courseId) ?? [];
+  const pool = courseEntries.filter((e) => e.epN === epN);
+  if (pool.length === 0) return { ok: false, error: "这一集还没有题库" };
+
+  const seed = (Date.now() ^ (user.id << 16) ^ (epN << 8)) >>> 0;
+  const questions = drawQuiz({
+    pool,
+    // 本集题不够凑干扰项时，借全课程 → 同学科补
+    fallback:
+      courseEntries.length > pool.length
+        ? courseEntries
+        : (bank.bySubject.get(course.subject) ?? []),
+    count: MINI_QUIZ_SIZE,
+    seed,
+  });
+  if (questions.length < 1) return { ok: false, error: "这一集题目不足" };
+
+  return { ok: true, questions, seed };
+}
+
+/** 交分集小测：≥60% 正确发一小笔 XP（幂等，首测才有）。fast=快答数 */
+export async function submitEpisodeQuiz(
+  courseId: string,
+  epN: number,
+  correct: number,
+  total: number,
+  fast = 0,
+): Promise<QuizSettleResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+
+  const course = getContent().coursesById.get(courseId);
+  if (!course) return { ok: false, error: "课程不存在" };
+  if (
+    !Number.isInteger(correct) ||
+    !Number.isInteger(total) ||
+    !Number.isInteger(fast) ||
+    total < 1 ||
+    total > MINI_QUIZ_SIZE ||
+    correct < 0 ||
+    correct > total ||
+    fast < 0 ||
+    fast > correct
+  ) {
+    return { ok: false, error: "非法结果" };
+  }
+
+  const passed = correct / total >= 0.6;
+  if (!passed) return { ok: true, passed: false, gained: 0 };
+
+  // 比节点测验轻：底分 3 + 每对 2 + 快答 1，再乘课程难度系数；时长药水生效
+  const amount = applyTimedBoost(
+    user.id,
+    Math.round((3 + correct * 2 + fast) * LEVEL_FACTOR[course.level]),
+  );
+  const before = getTotalXp(user.id);
+  const inserted = db
+    .insert(xpEvents)
+    .values({
+      userId: user.id,
+      amount,
+      reason: "mini-quiz",
+      ref: `${courseId}:ep${epN}`,
+      createdAt: Date.now(),
+    })
+    .onConflictDoNothing()
+    .returning({ amount: xpEvents.amount })
+    .get();
+
+  const gained = inserted?.amount ?? 0;
+  const totalXp = before + gained;
+  return {
+    ok: true,
+    passed: true,
+    gained,
+    levelUp: levelFromXp(totalXp) > levelFromXp(before),
+    newLevel: levelFromXp(totalXp),
+  };
+}
+
 export interface ChestResult {
   ok: boolean;
   error?: string;

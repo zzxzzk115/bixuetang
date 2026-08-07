@@ -274,6 +274,7 @@ export default async function CoursePage({
             courseId={id}
             episodes={episodes}
             watched={watched ? [...watched] : []}
+            scopedNode={!!segNode}
             color={color}
             xpByEpisode={xpByEpisode}
             multiplierPct={boost?.multiplierPct ?? 100}

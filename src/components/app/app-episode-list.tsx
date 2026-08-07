@@ -1,11 +1,14 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
-import { Check, Lock, Play, Search } from "lucide-react";
+import { useEffect, useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { Brain, Check, Lock, Play, Search } from "lucide-react";
 import type { Episode } from "@/lib/content/schema";
+import { celebrate } from "@/lib/celebrate";
 import { toggleEpisode, type ToggleResult } from "@/lib/progress/actions";
 import { announceSettle } from "@/lib/reward-feedback";
 import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
+import { MiniQuiz } from "./mini-quiz";
 import { seekTo } from "@/lib/seek";
 
 // 分集清单（多邻国式原生版）：大圆勾 + 粗行 + 进度条 + 线性解锁——
@@ -29,10 +32,13 @@ export function AppEpisodeList({
   multiplierPct = 100,
   segmentsByEpisode = {},
   segmentCoverageByEpisode = {},
+  scopedNode = false,
 }: {
   courseId: string;
   episodes: Episode[];
   watched: number[];
+  /** 是否是地图视频节点的作用域视图(1-4 集):全部看完则庆祝并返回地图 */
+  scopedNode?: boolean;
   /** 学科色（CSS 颜色值） */
   color: string;
   /** 每集完成可得 XP（已含药水加成）：集号 → XP */
@@ -53,8 +59,28 @@ export function AppEpisodeList({
   const [newTerms, setNewTerms] = useState<UnlockedTerm[]>([]);
   const [query, setQuery] = useState("");
   const [expanded, setExpanded] = useState(false);
+  // 当前展开小测验的集号(null=没展开);自愿点开,不影响通关
+  const [quizEp, setQuizEp] = useState<number | null>(null);
   const [, startTransition] = useTransition();
   const toastSeq = useRef(0);
+  const router = useRouter();
+  const returnedRef = useRef(false);
+
+  // 分集节点(1-4 集)全部看完 → 庆祝一下,自动回地图主线。
+  // 只在作用域视图触发,且只触发一次;给用户看两秒庆祝再跳。
+  useEffect(() => {
+    if (!scopedNode || returnedRef.current || episodes.length === 0) return;
+    const allDone = episodes.every((e) => watchedSet.has(e.n));
+    if (!allDone) return;
+    returnedRef.current = true;
+    celebrate({
+      kind: "quest",
+      title: "本节全部完成！",
+      subtitle: "干得漂亮,回地图继续闯关",
+    });
+    const t = setTimeout(() => router.push("/play"), 2200);
+    return () => clearTimeout(t);
+  }, [scopedNode, episodes, watchedSet, router]);
 
   const pushToast = (text: string) => {
     const id = ++toastSeq.current;
@@ -281,6 +307,24 @@ export function AppEpisodeList({
                     })}
                   </div>
                 )}
+              {/* 看完这集后可自愿做的小测验:巩固 + 一小笔 XP。
+                  不在通关路径上,纯粹给主动复习的人的额外奖励。 */}
+              {isWatched &&
+                (quizEp === episode.n ? (
+                  <MiniQuiz
+                    courseId={courseId}
+                    epN={episode.n}
+                    color={color}
+                    onClose={() => setQuizEp(null)}
+                  />
+                ) : (
+                  <button
+                    className="app-eps-quiz-btn"
+                    onClick={() => setQuizEp(episode.n)}
+                  >
+                    <Brain size={15} aria-hidden /> 小测验 · 巩固得 XP
+                  </button>
+                ))}
             </li>
           );
         })}

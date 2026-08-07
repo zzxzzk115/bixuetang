@@ -5361,6 +5361,112 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-text);
 }
 
+/* ==== 分集小测验（自愿版） ==== */
+.app-eps-quiz-btn {
+  flex-basis: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin: 0 0 8px 54px;
+  padding: 5px 12px;
+  border: 2px dashed var(--app-line);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-faint);
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+.app-eps-quiz-btn:hover {
+  border-color: var(--app-blue);
+  color: var(--app-text);
+}
+.mini-quiz {
+  flex-basis: 100%;
+  margin: 0 0 10px 54px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--app-line);
+  border-radius: 14px;
+  background: var(--app-surface);
+}
+.mini-quiz-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.mini-quiz-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--app-faint);
+}
+.mini-quiz-close {
+  display: inline-flex;
+  padding: 2px;
+  border: none;
+  background: transparent;
+  color: var(--app-faint);
+  cursor: pointer;
+}
+.mini-quiz-prompt {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--app-text);
+}
+.mini-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.mini-quiz-option {
+  padding: 10px 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 10px;
+  background: var(--app-bg);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--app-text);
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+.mini-quiz-option:not(:disabled):hover {
+  border-color: var(--app-blue);
+}
+.mini-quiz-option.right {
+  border-color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 14%, transparent);
+}
+.mini-quiz-option.wrong {
+  border-color: var(--app-red);
+  background: color-mix(in srgb, var(--app-red) 14%, transparent);
+}
+.mini-quiz-option.dim {
+  opacity: 0.5;
+}
+.mini-quiz-empty,
+.mini-quiz-result {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--app-faint);
+}
+.mini-quiz-result {
+  color: var(--app-text);
+}
+.mini-quiz-done {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
 /* ==== 分享弹层 ==== */
 .share-pop-mask {
   position: fixed;
