@@ -1,0 +1,149 @@
+# 影子跟读单元 · Health Chronicle《How to Not Overthink》(TED-Ed 风格科普)
+# 句子由真实 ai-en 字幕轨按语义重新断句而成:每句=一条或多条完整字幕 cue,
+# from/to 对齐该句音频窗口。zh 为中文对照。
+id: en-l3-stop-overthinking
+title: 如何停止过度思考(科普演讲)
+lang: en
+level: l3
+description: >
+  一支讲「停止内耗、缓解焦虑」的科普短片,语速清晰、口语地道、带点幽默,
+  适合练地道表达与连读。
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV1br421g7tR
+  uploader: B 站搬运(Health Chronicle）
+bvid: BV1br421g7tR
+page: 1
+sentences:
+  - text: "What are you thinking right now? And how about now? Our brains are incredibly active."
+    zh: "你现在在想什么?现在呢?我们的大脑异常活跃。"
+    from: 0.14
+    to: 6.66
+  - text: "But sometimes you just want that big ball of gray meat to shut the hell up, right?"
+    zh: "但有时你只想让那团灰色的肉疙瘩闭上嘴,对吧?"
+    from: 6.66
+    to: 12.71
+  - text: "Thinking is good. It's what makes humans special."
+    zh: "思考是好事。正是它让人类与众不同。"
+    from: 12.71
+    to: 15.79
+  - text: "Without thinking, we'd have no farms, no books, no jobs. It would just be reality TV."
+    zh: "没有思考,就没有农田、没有书籍、没有工作。剩下的只有真人秀。"
+    from: 15.79
+    to: 22.39
+  - text: "No thinking required there. But often we overthink, and cause ourselves a lot of unnecessary anxiety."
+    zh: "那玩意儿不用动脑。但我们常常想太多,给自己招来许多不必要的焦虑。"
+    from: 22.39
+    to: 29.63
+  - text: "So today we're going to look at how we can tune out those annoying thoughts and make things quieter inside our heads."
+    zh: "所以今天我们来看看,怎样屏蔽那些烦人的念头,让脑子里安静一些。"
+    from: 29.63
+    to: 36.54
+  - text: "This is today's episode: how to not overthink, by Health Chronicle."
+    zh: "这就是今天这期:如何停止过度思考,来自 Health Chronicle。"
+    from: 36.54
+    to: 42.06
+  - text: "Like most problems, the first step is seeing that there is one. You need to learn to recognize when you are feeling anxious because of your internal problems, not external."
+    zh: "和大多数问题一样,第一步是意识到问题的存在。你要学会分辨:何时的焦虑源于内在,而非外部。"
+    from: 42.84
+    to: 52.64
+  - text: "For example, being anxious that you might crash when your friend is driving fast — that's fine. That is a sensible thing to worry about. Tell them to slow down."
+    zh: "比如,朋友开快车时你担心出事——这没问题。那是合理的担忧。让他开慢点就是。"
+    from: 52.64
+    to: 60.94
+  - text: "But if you feel the same when you have a presentation tomorrow, then the problem is coming from within. You're overthinking and stressing yourself out."
+    zh: "但如果明天有个演讲你也这么紧张,那问题就出在内部了。你在过度思考,自己把自己逼疯。"
+    from: 60.94
+    to: 68.2
+  - text: "And let's be honest, you're not thinking about how well it's going to go. No, you're telling yourself you will fail, you'll forget what to say, your boss will hate it, and you'll forget to wear pants."
+    zh: "老实说,你根本没在想它会多顺利。不,你在告诉自己:我会搞砸、会忘词、老板会讨厌、还会忘穿裤子。"
+    from: 68.2
+    to: 77.88
+  - text: "When you realize you're doing this, start picturing all the ways it can go right. You'll charm them like Barack Obama. Your boss will love it and promote you."
+    zh: "当你意识到自己在这么想,就开始设想所有顺利的可能。你会像奥巴马一样迷倒全场。老板会喜欢并给你升职。"
+    from: 77.88
+    to: 85.54
+  - text: "You'll wear pants. Once you've pictured all these things, write them down."
+    zh: "你会记得穿裤子。把这些画面都想过一遍后,写下来。"
+    from: 85.54
+    to: 89.09
+  - text: "In fact, write down all the worries too. It's a well-established idea in psychology: writing things down helps you to combat stress."
+    zh: "其实,把所有担忧也写下来。心理学里有个公认的观点:写下来有助于对抗压力。"
+    from: 89.09
+    to: 96.54
+  - text: "It's especially useful before bed, as a way to help you get to sleep."
+    zh: "睡前尤其管用,能帮你更快入睡。"
+    from: 96.54
+    to: 100.2
+  - text: "But the important thing with this type of journal is to focus on what you need to do, not what you have done. It's a to-do list, not a diary."
+    zh: "但这种记录的关键,是聚焦你要做什么,而非你做过什么。它是待办清单,不是日记。"
+    from: 100.2
+    to: 107.4
+  - text: "A study published in 2017 in the Journal of Experimental Psychology showed that, writing a list of tasks for the next day, people fall asleep nine minutes faster."
+    zh: "2017 年发表在《实验心理学杂志》的一项研究显示,写下第二天的任务清单,人能快九分钟入睡。"
+    from: 107.4
+    to: 117.6
+  - text: "That may not sound like a lot, but it's a similar result to a lot of pharmaceutical trials for sleeping aid drugs."
+    zh: "听着不多,但这和许多安眠药物试验的效果相当。"
+    from: 117.6
+    to: 123.32
+  - text: "The reason you focus on a to-do list is that these are the type of thoughts that normally keep us awake."
+    zh: "之所以聚焦待办清单,是因为正是这类念头通常让我们睡不着。"
+    from: 123.32
+    to: 128.26
+  - text: "Sure, sometimes you sit there embarrassed about some stupid thing you did, like missing a meeting or calling your partner someone else's name."
+    zh: "当然,有时你会为做过的蠢事而尴尬,比如错过会议,或把伴侣叫成别人的名字。"
+    from: 128.26
+    to: 134.65
+  - text: "But normally it's about things in the future: tests, bills, work, the apocalypse."
+    zh: "但通常还是关于未来的事:考试、账单、工作、世界末日。"
+    from: 134.65
+    to: 139.82
+  - text: "You know, that stuff. Our mind pays more attention to uncompleted tasks."
+    zh: "你懂的,那些东西。我们的大脑更在意没完成的任务。"
+    from: 139.82
+    to: 143.48
+  - text: "For example, most of us have one person we were attracted to, but we never did anything about it."
+    zh: "比如,我们多数人都曾心动过某个人,却始终没有行动。"
+    from: 143.48
+    to: 148.16
+  - text: "That memory can stay with you for a lifetime. If you had asked them out, and you had dated a while then broke up,"
+    zh: "那段记忆能伴随你一生。可如果你当初约了对方,谈了一阵又分了,"
+    from: 148.16
+    to: 153.58
+  - text: "you're much more likely to forget them. The task was completed."
+    zh: "你反而更容易把他们忘掉。因为这件事已经了结了。"
+    from: 153.58
+    to: 156.8
+  - text: "So the process of writing things down will help you to stop overthinking. It's like you have taken some of the weight out of your mind."
+    zh: "所以把事情写下来,能帮你停止过度思考。就像给大脑卸下了一部分负担。"
+    from: 156.8
+    to: 163.06
+  - text: "You're saying, \"Hey brain, I know this is important. I promise I will do something about it.\""
+    zh: "你在对它说:“嘿大脑,我知道这很重要。我保证会去处理。”"
+    from: 163.06
+    to: 167.97
+  - text: "Another method is to try to distract your mind. But not just any distraction — something peaceful, that requires concentration."
+    zh: "另一个办法是分散注意力。但不是随便什么分心之事——要是平静、又需要专注的事。"
+    from: 167.97
+    to: 174.26
+  - text: "If you just watch TV, it's still easy for your mind to wander. So meditation is an excellent option."
+    zh: "光看电视,思绪照样容易乱飘。所以冥想是个绝佳选择。"
+    from: 174.26
+    to: 179.86
+  - text: "But if that doesn't appeal, try practicing a new skill. Maybe you learn to paint or draw. How about learning a new instrument, or teaching yourself to cook?"
+    zh: "如果你不感兴趣,那就练一门新技能。也许学画画,学一件新乐器,或者自学做饭,如何?"
+    from: 179.86
+    to: 187.5
+  - text: "Not only will these skills bring you happiness on their own, they will act as an excellent distraction, because you need to concentrate."
+    zh: "这些技能本身会带来快乐,还能极好地分散注意,因为你必须专注其中。"
+    from: 187.5
+    to: 193.66
+  - text: "And our final message is: give yourself a break. All you can do is your best."
+    zh: "最后一句话:放过自己吧。你能做的,就是尽力而为。"
+    from: 193.66
+    to: 198.66
+  - text: "So stop trying to make every part of your life perfect. Because here's a secret: we're all just making it up as we go along."
+    zh: "所以别再想把人生的每一处都做到完美。告诉你个秘密:我们都是走一步看一步、边走边编的。"
+    from: 198.66
+    to: 204.66
