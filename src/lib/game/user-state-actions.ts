@@ -2,7 +2,7 @@
 
 import { getCurrentUser } from "../auth/session";
 import { db } from "../db/client";
-import { ccOffsets, userState } from "../db/schema";
+import { ccOffsets, ccTrackOffsets, userState } from "../db/schema";
 
 // 学习状态写入（跨设备该一致的东西走这里）
 
@@ -55,6 +55,31 @@ export async function saveCcOffset(
     .values({ userId: user.id, cid, offsetMs: clamped, updatedAt: now })
     .onConflictDoUpdate({
       target: [ccOffsets.userId, ccOffsets.cid],
+      set: { offsetMs: clamped, updatedAt: now },
+    })
+    .run();
+}
+
+/**
+ * 保存某个视频「某条字幕轨」的时间轴偏移(中文对齐、英文慢半秒时
+ * 只调英文)。这条记录同时是众包数据:别的用户首次加载这条轨时,
+ * 会以报告人数最多的非零偏移作默认值。
+ */
+export async function saveCcTrackOffset(
+  cid: number,
+  lan: string,
+  offsetMs: number,
+): Promise<void> {
+  const user = await getCurrentUser();
+  if (!user) return;
+  if (!Number.isInteger(cid) || cid <= 0) return;
+  if (!lan || lan.length > 32) return;
+  const clamped = Math.max(-30_000, Math.min(30_000, Math.round(offsetMs)));
+  const now = Date.now();
+  db.insert(ccTrackOffsets)
+    .values({ userId: user.id, cid, lan, offsetMs: clamped, updatedAt: now })
+    .onConflictDoUpdate({
+      target: [ccTrackOffsets.userId, ccTrackOffsets.cid, ccTrackOffsets.lan],
       set: { offsetMs: clamped, updatedAt: now },
     })
     .run();

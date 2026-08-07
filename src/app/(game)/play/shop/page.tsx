@@ -16,6 +16,7 @@ export default async function ShopPage() {
   const specs: PotionSpecDto[] = Object.values(POTIONS).map((p) => ({
     kind: p.kind,
     title: p.title,
+    badge: p.badge,
     multiplierPct: p.multiplierPct,
     episodes: p.episodes,
     price: p.price,

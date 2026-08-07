@@ -49,9 +49,20 @@ interface EquipVm {
   itemId: string;
 }
 
-const POTION_LABEL: Record<PotionKind, { title: string; blurb: string }> = {
-  x15: { title: "经验药水 ×1.5", blurb: "2 集内单集经验 ×1.5" },
-  x3: { title: "浓缩经验药水 ×3", blurb: "4 集内单集经验 ×3" },
+const POTION_LABEL: Record<
+  PotionKind,
+  { title: string; badge: string; blurb: string }
+> = {
+  x15: {
+    title: "经验药水",
+    badge: "XP ×1.5",
+    blurb: "6 次结算(整集或章节)经验 ×1.5",
+  },
+  x3: {
+    title: "浓缩经验药水",
+    badge: "XP ×3",
+    blurb: "12 次结算(整集或章节)经验 ×3",
+  },
 };
 
 export function BagHome({
@@ -192,9 +203,12 @@ export function BagHome({
                     <FlaskRound size={22} aria-hidden />
                   </span>
                   <div className="bag-potion-body">
-                    <b>{POTION_LABEL[k].title}</b>
+                    <b>
+                      {POTION_LABEL[k].title}{" "}
+                      <span className="xp-badge">{POTION_LABEL[k].badge}</span>
+                    </b>
                     <small>
-                      {POTION_LABEL[k].blurb} · ×{potions[k]}
+                      {POTION_LABEL[k].blurb} · 持有 {potions[k]} 瓶
                     </small>
                   </div>
                   <button

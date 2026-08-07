@@ -72,24 +72,26 @@ export default async function GlossaryPage({
   return (
     <AppShell bootstrap={bootstrap}>
       <div className="app-page lex-root">
-        <header className="lex-head">
-          <h1>术语卷宗</h1>
-          <span className="lex-count">{all.length} 条</span>
-        </header>
+        {/* 标题+搜索吸顶:反复搜索时不用滚回顶部 */}
+        <div className="lex-sticky">
+          <header className="lex-head">
+            <h1>术语卷宗</h1>
+            <span className="lex-count">{all.length} 条</span>
+          </header>
+          <form action="/glossary" method="get" className="lex-search">
+            <input
+              name="q"
+              defaultValue={q ?? ""}
+              placeholder="搜索英文、中文或定义关键词"
+            />
+            <button className="app-btn-primary" type="submit">
+              搜索
+            </button>
+          </form>
+        </div>
         <p className="lex-lead">
           从课程知识点聚合的中英术语索引，点出处直达课程。
         </p>
-
-        <form action="/glossary" method="get" className="lex-search">
-          <input
-            name="q"
-            defaultValue={q ?? ""}
-            placeholder="搜索英文、中文或定义关键词"
-          />
-          <button className="app-btn-primary" type="submit">
-            搜索
-          </button>
-        </form>
 
         {entries.length === 0 ? (
           <div className="lex-empty">

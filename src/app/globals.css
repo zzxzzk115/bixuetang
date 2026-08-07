@@ -1883,6 +1883,19 @@ html {
   font-size: 12px;
   font-weight: 800;
 }
+/* 标题+搜索吸顶:反复搜索时不用滚回顶部(在 .app-page 滚动容器内 sticky) */
+.lex-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 -2px;
+  padding: 2px 2px 10px;
+  background: var(--app-bg);
+  box-shadow: 0 6px 10px -8px rgba(0, 0, 0, 0.18);
+}
 /* 字母索引条样式在文件末尾统一覆盖（旧主题规则特异性高，必须压轴） */
 /* 桌面端：索引统一放内容列右侧空余空间（iOS 联系人式，可点可拖拽）。
    .lex-rail-slot 占右列并 sticky，rail 自身从 fixed 改回文档流竖条 */
@@ -2691,17 +2704,19 @@ math-field {
 :root .lex-root .glossary-index-rail,
 :root[data-theme="light"] .lex-root .glossary-index-rail,
 :root[data-theme="dark"] .lex-root .glossary-index-rail {
-  border: 2px solid var(--app-line);
+  border: 2px solid color-mix(in srgb, var(--app-line) 72%, transparent);
   border-radius: 999px;
-  background: var(--app-surface);
+  /* 半透明 + 毛玻璃:悬浮在词条上时不糊住内容 */
+  background: color-mix(in srgb, var(--app-surface) 68%, transparent);
   color: var(--app-text);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  backdrop-filter: none;
+  backdrop-filter: blur(8px);
 }
 @media (max-width: 1023px) {
   :root .lex-root .glossary-index-rail {
-    top: 90px;
+    /* 吸顶的标题+搜索占掉上方 ~150px,索引条从其下开始 */
+    top: 156px;
     right: 8px;
     bottom: 90px;
     width: 34px;
@@ -2710,18 +2725,25 @@ math-field {
 :root .lex-root .glossary-index-caption {
   display: none;
 }
+/* 组多高度小(手机)时格子允许压缩到 0:所有字母永远塞得下,
+   字号随视口高度自适应——尾部字母被裁掉等于索引条残废 */
 :root .lex-root .glossary-index-items {
-  padding: 6px 0;
+  padding: 4px 0;
+  grid-auto-rows: minmax(0, 1fr);
+  min-height: 0;
+  overflow: hidden;
 }
 :root .lex-root .glossary-index-items button,
 :root[data-theme="light"] .lex-root .glossary-index-items button {
+  min-height: 0;
   border-radius: 8px;
   background: none;
   color: var(--app-text);
-  font: 800 10px ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  font: 800 clamp(7px, 1.4dvh, 10px) ui-rounded, "PingFang SC",
+    "Microsoft YaHei", system-ui, sans-serif;
 }
 :root .lex-root .glossary-index-items button:first-child {
-  font-size: 10px;
+  font-size: clamp(7px, 1.4dvh, 10px);
 }
 :root .lex-root .glossary-index-items button:hover,
 :root .lex-root .glossary-index-items button.active,
@@ -5196,6 +5218,19 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-green);
   font-size: 12px;
   font-weight: 800;
+}
+
+/* 经验倍率徽章:药水名不带倍率(会被读成 1.5 瓶),倍率单独成章 */
+.xp-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-green) 16%, transparent);
+  color: var(--app-green);
+  font-size: 11.5px;
+  font-weight: 800;
+  vertical-align: 2px;
+  white-space: nowrap;
 }
 
 /* ==== F6:设置页退出登录 ==== */

@@ -16,8 +16,10 @@ import {
 export interface PotionSpecDto {
   kind: PotionKind;
   title: string;
+  /** 倍率徽章(XP ×1.5)——放名字里会被读成「1.5 瓶」 */
+  badge: string;
   multiplierPct: number;
-  /** 覆盖集数 */
+  /** 覆盖多少次结算(整集或章节) */
   episodes: number;
   price: number;
   bagPrice: number;
@@ -107,7 +109,9 @@ export function ShopHome({
             <FlaskRound size={30} strokeWidth={2.2} />
           </span>
           <div className="shop-card-body">
-            <h2>{p.title}</h2>
+            <h2>
+              {p.title} <span className="xp-badge">{p.badge}</span>
+            </h2>
             <p>{p.blurb}</p>
             <div className="shop-card-actions">
               <button

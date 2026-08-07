@@ -10,7 +10,13 @@ import { potionItemId } from "./boosts";
 import { settleBoostedXp } from "./boosts";
 import { recordActivity } from "./streak-server";
 import type { StreakAdvance } from "./streak";
-import { segmentRef, segmentXpShare, XP_REASON, episodeXp } from "./xp";
+import {
+  episodeRef,
+  episodeXp,
+  segmentRef,
+  segmentXpShare,
+  XP_REASON,
+} from "./xp";
 
 // 章节(分段)阶段性奖励——心理学锚点:
 //   · 目标梯度:70 分钟的课拆成 5 个可完成的小里程碑,每段立刻回报;
@@ -78,6 +84,30 @@ export function settleSegments(
     (s) => (nextPct[s.idx] ?? 0) >= 90 && (prevPct[s.idx] ?? 0) < 90,
   );
   if (newlyDone.length === 0) return null;
+
+  // 老账号一致性:这一集在分章节机制上线前就拿过整集 XP 的,
+  // 重看章节不再发钱、不进宝箱里程碑计数(否则重刷老课就能刷奖励);
+  // 但「看了一章」仍算今天打过卡——温故也是学习
+  const alreadyScored = db
+    .select({ id: xpEvents.id })
+    .from(xpEvents)
+    .where(
+      and(
+        eq(xpEvents.userId, userId),
+        eq(xpEvents.reason, XP_REASON.episode),
+        eq(xpEvents.ref, episodeRef(course.id, episodeN)),
+      ),
+    )
+    .get();
+  if (alreadyScored) {
+    return {
+      settles: [],
+      chestCoins: 0,
+      potionAwarded: false,
+      totalCount: segmentEventCount(userId),
+      streak: recordActivity(userId),
+    };
+  }
 
   const share = segmentXpShare(
     episodeXp(course.level, durationSec),

@@ -17,7 +17,10 @@ import type { Setting as ArtSetting } from "artplayer";
 import type { MediaPlayerClass } from "dashjs";
 import { reportWatchProgress, type WatchReport } from "@/lib/game/watch-actions";
 import { addVideoNote } from "@/lib/game/notes-actions";
-import { saveCcOffset, savePlayerPrefs } from "@/lib/game/user-state-actions";
+import {
+  saveCcTrackOffset,
+  savePlayerPrefs,
+} from "@/lib/game/user-state-actions";
 import { NOTES_CHANGED_EVENT } from "@/lib/notes-events";
 import type { ToggleResult } from "@/lib/progress/actions";
 import { announceSettle, rewardToast } from "@/lib/reward-feedback";
@@ -33,7 +36,8 @@ import { prefsStore } from "./player-settings";
 //   · 弹幕用官方 artplayer-plugin-danmuku(防重叠,设置面板自带)
 //   · CC 字幕仍是自研 DOM 层:双语双行、per-user 时间轴偏移、
 //     AI/可疑轨标记,这些 ArtPlayer 的单轨 VTT 引擎做不了
-//   · 业务钩子不变:逐秒记录看过的秒,覆盖率 ≥90% 自动打卡
+//   · 业务钩子不变:逐秒记录看过的秒;覆盖率 ≥90% 自动完成本集,
+//     章节跨 90% 阶段性结算(每日打卡看完一章即算)
 
 interface DashQuality {
   id: number;
@@ -125,7 +129,8 @@ export function BiliPlayer({
   const [tracks, setTracks] = useState<SubtitleTrack[]>([]);
   const [cues, setCues] = useState<string[]>([]);
   const [newTerms, setNewTerms] = useState<UnlockedTerm[]>([]);
-  const [ccOffset, setCcOffset] = useState(0);
+  /** 按轨道的时间轴偏移(lan → ms);服务端已按 个人>旧全局>众包 合成 */
+  const [ccOffsets, setCcOffsets] = useState<Record<string, number>>({});
   /** ArtPlayer 建好后暴露的层挂载点,React 往里 portal */
   const [ccHost, setCcHost] = useState<HTMLElement | null>(null);
   /** 章节面板(viewPoints 或分段) */
@@ -166,7 +171,7 @@ export function BiliPlayer({
 
   const seenRef = useRef<Set<number>>(new Set());
   const completedRef = useRef(false);
-  const ccOffsetRef = useRef(0);
+  const ccOffsetsRef = useRef<Record<string, number>>({});
   const lastCuesRef = useRef("");
   const hoverRef = useRef(false);
   /** 实例还没建好时收到的 seek 请求,建好后补跳 */
@@ -217,13 +222,18 @@ export function BiliPlayer({
       `/api/bili/subtitle?bvid=${encodeURIComponent(bvid)}&cid=${payload.cid}&duration=${payload.durationSec}&courseId=${encodeURIComponent(courseId)}&ep=${episodeN}`,
     )
       .then((r) => r.json())
-      .then((data: { tracks?: SubtitleTrack[]; offsetMs?: number }) => {
-        if (cancelled) return;
-        setTracks(data.tracks ?? []);
-        const saved = data.offsetMs ?? 0;
-        setCcOffset(saved);
-        ccOffsetRef.current = saved;
-      })
+      .then(
+        (data: {
+          tracks?: SubtitleTrack[];
+          offsets?: Record<string, number>;
+        }) => {
+          if (cancelled) return;
+          setTracks(data.tracks ?? []);
+          const saved = data.offsets ?? {};
+          setCcOffsets(saved);
+          ccOffsetsRef.current = saved;
+        },
+      )
       .catch(() => {
         if (!cancelled) setTracks([]);
       });
@@ -264,8 +274,8 @@ export function BiliPlayer({
   }, [activeTracks]);
 
   /**
-   * 调字幕时间轴。立刻生效,落库防抖 600ms——按住 -0.5 连点时
-   * 不该每下都写一次数据库。
+   * 调某条轨的字幕时间轴。立刻生效,落库防抖 600ms——按住 -0.5 连点时
+   * 不该每下都写一次数据库。落库的这条记录同时是众包反馈。
    */
   const offsetSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cidRef = useRef<number | null>(null);
@@ -310,21 +320,21 @@ export function BiliPlayer({
     art.pause();
   }, []);
 
-  const nudgeCcOffset = useCallback((deltaMs: number) => {
-    setCcOffset((prev) => {
+  const nudgeCcOffset = useCallback((lan: string, deltaMs: number) => {
+    setCcOffsets((prev) => {
+      const cur = prev[lan] ?? 0;
       const next =
-        deltaMs === 0
-          ? 0
-          : Math.max(-30_000, Math.min(30_000, prev + deltaMs));
-      ccOffsetRef.current = next;
+        deltaMs === 0 ? 0 : Math.max(-30_000, Math.min(30_000, cur + deltaMs));
+      const merged = { ...prev, [lan]: next };
+      ccOffsetsRef.current = merged;
       const cid = cidRef.current;
       if (cid) {
         if (offsetSaveRef.current) clearTimeout(offsetSaveRef.current);
         offsetSaveRef.current = setTimeout(() => {
-          void saveCcOffset(cid, next);
+          void saveCcTrackOffset(cid, lan, next);
         }, 600);
       }
-      return next;
+      return merged;
     });
   }, []);
 
@@ -654,13 +664,15 @@ export function BiliPlayer({
         if (!art) return;
         const t = art.currentTime;
         seenRef.current.add(Math.floor(t));
-        // 正偏移 = 字幕延后出现,查表时把时间轴往回拨
+        // 正偏移 = 字幕延后出现,查表时把时间轴往回拨(每轨独立:
+        // 中文对齐、英文轨慢半秒是常态,一个全局偏移调不动)
         if (prefsStore.get().cc.on && activeTracksRef.current.length > 0) {
-          const at = t - ccOffsetRef.current / 1000;
-          const next = activeTracksRef.current.map(
-            (track) =>
-              track.cues.find((c) => at >= c.from && at <= c.to)?.text ?? "",
-          );
+          const next = activeTracksRef.current.map((track) => {
+            const at = t - (ccOffsetsRef.current[track.lan] ?? 0) / 1000;
+            return (
+              track.cues.find((c) => at >= c.from && at <= c.to)?.text ?? ""
+            );
+          });
           const key = next.join("");
           if (key !== lastCuesRef.current) {
             lastCuesRef.current = key;
@@ -819,27 +831,34 @@ export function BiliPlayer({
             return next;
           },
         },
-        {
-          html: "字幕慢 0.5s",
-          onSelect: () => {
-            nudgeCcOffset(500);
-            return "已调整";
-          },
-        },
-        {
-          html: "字幕快 0.5s",
-          onSelect: () => {
-            nudgeCcOffset(-500);
-            return "已调整";
-          },
-        },
-        {
-          html: "时间轴归零",
-          onSelect: () => {
-            nudgeCcOffset(0);
-            return "已归零";
-          },
-        },
+        // 时间轴微调按「轨」独立:调英文不动中文。校准会被记住,
+        // 也会作为众包数据帮到下一个看这条轨的人。
+        ...tracks.flatMap((t): ArtSetting[] => {
+          const label = t.lanDoc.split(/[\s·（(]/)[0] || t.lan;
+          return [
+            {
+              html: `⏱ ${label} 慢 0.5s`,
+              onSelect: () => {
+                nudgeCcOffset(t.lan, 500);
+                return "已调整";
+              },
+            },
+            {
+              html: `⏱ ${label} 快 0.5s`,
+              onSelect: () => {
+                nudgeCcOffset(t.lan, -500);
+                return "已调整";
+              },
+            },
+            {
+              html: `⏱ ${label} 归零`,
+              onSelect: () => {
+                nudgeCcOffset(t.lan, 0);
+                return "已归零";
+              },
+            },
+          ];
+        }),
       ],
     };
     art.setting.add(ccSetting);
@@ -1351,12 +1370,24 @@ export function BiliPlayer({
           noteHost,
         )}
 
-      {ccOffset !== 0 && prefs.cc.on && (
-        <p className="biliplayer-hint">
-          字幕时间轴偏移 {ccOffset > 0 ? "+" : ""}
-          {(ccOffset / 1000).toFixed(1)}s(设置菜单里可调,只对本视频生效)
-        </p>
-      )}
+      {prefs.cc.on &&
+        (() => {
+          const shifted = tracks.filter((t) => (ccOffsets[t.lan] ?? 0) !== 0);
+          if (shifted.length === 0) return null;
+          const text = shifted
+            .map((t) => {
+              const ms = ccOffsets[t.lan] ?? 0;
+              const label = t.lanDoc.split(/[\s·（(]/)[0] || t.lan;
+              return `${label} ${ms > 0 ? "+" : ""}${(ms / 1000).toFixed(1)}s`;
+            })
+            .join(" · ");
+          return (
+            <p className="biliplayer-hint">
+              字幕时间轴偏移:{text}
+              (设置菜单里按轨可调,只对本视频生效,校准结果会帮到其他学习者)
+            </p>
+          );
+        })()}
       {!payload.bound && (
         <p className="biliplayer-hint">
           绑定 bilibili 账号后可解锁高清晰度与 CC 字幕

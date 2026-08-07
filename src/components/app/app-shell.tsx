@@ -208,8 +208,8 @@ export function AppShell({
                 className="app-stat boost"
                 title={`经验 ×${bootstrap.boost.multiplierPct / 100}，还剩 ${bootstrap.boost.episodesLeft} 次结算(整集或章节)`}
               >
-                <Zap aria-hidden size={18} />×
-                {bootstrap.boost.multiplierPct / 100}
+                <Zap aria-hidden size={18} />
+                XP ×{bootstrap.boost.multiplierPct / 100}
                 <small>{bootstrap.boost.episodesLeft}次</small>
               </span>
             )}

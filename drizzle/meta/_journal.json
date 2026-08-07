@@ -141,6 +141,20 @@
       "when": 1786158000000,
       "tag": "0019_video_notes",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "6",
+      "when": 1786173000000,
+      "tag": "0020_cc_track_offsets",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "6",
+      "when": 1786174000000,
+      "tag": "0021_boost_charges",
+      "breakpoints": true
     }
   ]
 }

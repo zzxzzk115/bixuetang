@@ -334,8 +334,9 @@ export const subtitleCache = sqliteTable("subtitle_cache", {
   viewPointsJson: text("view_points_json"),
 });
 
-// 字幕时间轴偏移。有些搬运稿件的字幕整体早／晚半秒到几秒，
+// 字幕时间轴偏移(旧·全局)。有些搬运稿件的字幕整体早／晚半秒到几秒，
 // 这是稿件本身的问题，只能让用户自己校准；按 cid 记，跟人走。
+// 已被下面的按轨道偏移取代,保留作老数据的兜底基底。
 export const ccOffsets = sqliteTable(
   "cc_offsets",
   {
@@ -348,6 +349,29 @@ export const ccOffsets = sqliteTable(
     updatedAt: integer("updated_at").notNull(),
   },
   (t) => [primaryKey({ columns: [t.userId, t.cid] })],
+);
+
+// 按「轨道」的字幕偏移:中文轨对齐、YouTube 英文轨慢半秒是常态
+// (自动轨 rolling caption 天然滞后),全局一个偏移调不动这种局面。
+// 同时它就是众包数据:某视频某轨报告人数最多的非零偏移,会作为
+// 没校准过的用户的默认值下发(用户自己的设置永远优先)。
+export const ccTrackOffsets = sqliteTable(
+  "cc_track_offsets",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    cid: integer("cid").notNull(),
+    /** 轨道标识(SubtitleTrack.lan:zh-Hans / ai-zh / yt-en …) */
+    lan: text("lan").notNull(),
+    /** 正数=字幕延后出现,毫秒 */
+    offsetMs: integer("offset_ms").notNull().default(0),
+    updatedAt: integer("updated_at").notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.userId, t.cid, t.lan] }),
+    index("cc_track_offsets_cid_lan").on(t.cid, t.lan),
+  ],
 );
 
 // 扫码登录时如果这个 bilibili 账号还没绑过任何本站账号，就先把凭据

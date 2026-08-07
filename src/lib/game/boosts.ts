@@ -16,7 +16,10 @@ export type PotionKind = "x15" | "x3";
 
 export interface PotionSpec {
   kind: PotionKind;
+  /** 名字不带倍率——「经验药水 ×1.5」会被读成 1.5 瓶,倍率放 badge */
   title: string;
+  /** 倍率徽章文案(XP ×1.5 / XP ×3) */
+  badge: string;
   multiplierPct: number;
   /** 覆盖多少次结算(整集或章节) */
   episodes: number;
@@ -30,7 +33,8 @@ export interface PotionSpec {
 export const POTIONS: Record<PotionKind, PotionSpec> = {
   x15: {
     kind: "x15",
-    title: "经验药水 ×1.5",
+    title: "经验药水",
+    badge: "XP ×1.5",
     multiplierPct: 150,
     episodes: 6,
     price: 100,
@@ -39,7 +43,8 @@ export const POTIONS: Record<PotionKind, PotionSpec> = {
   },
   x3: {
     kind: "x3",
-    title: "浓缩经验药水 ×3",
+    title: "浓缩经验药水",
+    badge: "XP ×3",
     multiplierPct: 300,
     episodes: 12,
     price: 300,
