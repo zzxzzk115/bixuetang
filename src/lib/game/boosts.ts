@@ -64,6 +64,165 @@ export function potionKindFromItemId(itemId: string): PotionKind | null {
   return null;
 }
 
+// ==== 时长型经验药水(全局按时长) ====
+// 激活后一段时间内所有「学习所得 XP」×倍率(墙钟计时,跨课程/试炼/测验/复习)。
+// 与按次型并存互不冲突;任务/全勤/月度奖励只发这类(按次型只在商店买)。
+export type TimedPotionKind = "t30" | "t60";
+
+export interface TimedPotionSpec {
+  kind: TimedPotionKind;
+  title: string;
+  badge: string;
+  multiplierPct: number;
+  /** 持续分钟数 */
+  minutes: number;
+  price: number;
+  bagPrice: number;
+  blurb: string;
+}
+
+export const TIMED_POTIONS: Record<TimedPotionKind, TimedPotionSpec> = {
+  t30: {
+    kind: "t30",
+    title: "急速经验药水",
+    badge: "XP ×2",
+    multiplierPct: 200,
+    minutes: 30,
+    price: 120,
+    bagPrice: 180,
+    blurb: "30 分钟内一切学习所得经验 ×2(跨课程/试炼/复习)",
+  },
+  t60: {
+    kind: "t60",
+    title: "悠长经验药水",
+    badge: "XP ×1.5",
+    multiplierPct: 150,
+    minutes: 60,
+    price: 150,
+    bagPrice: 220,
+    blurb: "60 分钟内一切学习所得经验 ×1.5(跨课程/试炼/复习)",
+  },
+};
+
+export function timedPotionItemId(kind: TimedPotionKind): string {
+  return `timed-${kind}`;
+}
+
+export function timedPotionKindFromItemId(
+  itemId: string,
+): TimedPotionKind | null {
+  if (itemId === "timed-t30") return "t30";
+  if (itemId === "timed-t60") return "t60";
+  return null;
+}
+
+export interface ActiveTimedBoost {
+  multiplierPct: number;
+  /** 剩余秒数 */
+  secondsLeft: number;
+}
+
+export function getTimedBoost(userId: number): ActiveTimedBoost | null {
+  const row = db
+    .select({
+      pct: xpBoosts.timedMultiplierPct,
+      exp: xpBoosts.timedExpiresAt,
+    })
+    .from(xpBoosts)
+    .where(eq(xpBoosts.userId, userId))
+    .get();
+  if (!row || row.pct <= 0) return null;
+  const left = row.exp - Date.now();
+  if (left <= 0) return null;
+  return { multiplierPct: row.pct, secondsLeft: Math.ceil(left / 1000) };
+}
+
+/** 激活时长药水:同倍率顺延到期时间,不同倍率替换并从现在起计时 */
+export function activateTimedBoost(
+  userId: number,
+  spec: TimedPotionSpec,
+): ActiveTimedBoost {
+  const now = Date.now();
+  const addMs = spec.minutes * 60_000;
+  const cur = getTimedBoost(userId);
+  const base =
+    cur && cur.multiplierPct === spec.multiplierPct
+      ? now + cur.secondsLeft * 1000
+      : now;
+  const expiresAt = base + addMs;
+  db.insert(xpBoosts)
+    .values({
+      userId,
+      multiplierPct: 0,
+      episodesLeft: 0,
+      timedMultiplierPct: spec.multiplierPct,
+      timedExpiresAt: expiresAt,
+      updatedAt: now,
+    })
+    .onConflictDoUpdate({
+      target: xpBoosts.userId,
+      set: {
+        timedMultiplierPct: spec.multiplierPct,
+        timedExpiresAt: expiresAt,
+        updatedAt: now,
+      },
+    })
+    .run();
+  return {
+    multiplierPct: spec.multiplierPct,
+    secondsLeft: Math.ceil((expiresAt - now) / 1000),
+  };
+}
+
+/** 任务/全勤/月度奖励发放时长药水(入包)。qty 默认 1 */
+export function grantTimedPotion(
+  userId: number,
+  kind: TimedPotionKind,
+  qty = 1,
+) {
+  const now = Date.now();
+  db.insert(rpgInventory)
+    .values({
+      userId,
+      itemId: timedPotionItemId(kind),
+      quantity: qty,
+      acquiredAt: now,
+      updatedAt: now,
+    })
+    .onConflictDoUpdate({
+      target: [rpgInventory.userId, rpgInventory.itemId],
+      set: { quantity: sql`${rpgInventory.quantity} + ${qty}`, updatedAt: now },
+    })
+    .run();
+}
+
+/** 时长药水的库存计数(入包备用) */
+export function timedPotionCounts(
+  userId: number,
+): Record<TimedPotionKind, number> {
+  const rows = db
+    .select({ itemId: rpgInventory.itemId, quantity: rpgInventory.quantity })
+    .from(rpgInventory)
+    .where(eq(rpgInventory.userId, userId))
+    .all();
+  const byId = new Map(rows.map((r) => [r.itemId, r.quantity]));
+  return {
+    t30: byId.get(timedPotionItemId("t30")) ?? 0,
+    t60: byId.get(timedPotionItemId("t60")) ?? 0,
+  };
+}
+
+/**
+ * 给一笔「学习所得 XP」叠加时长加成(不消耗,时长型是墙钟计时)。
+ * 所有非课程结算点(试炼/测验/复习)用它;课程结算点在 settleBoostedXp
+ * 里已顺带调用。取整到 5(与各处口径一致)。
+ */
+export function applyTimedBoost(userId: number, baseXp: number): number {
+  const t = getTimedBoost(userId);
+  if (!t) return baseXp;
+  return Math.max(5, Math.round((baseXp * t.multiplierPct) / 100 / 5) * 5);
+}
+
 export interface ActiveBoost {
   multiplierPct: number;
   /** 还能加成几集 */
@@ -142,22 +301,33 @@ export function settleBoostedXp(
   baseXp: number,
   opts: { consume: boolean; roundTo?: 5 | 10 } = { consume: true },
 ): number {
-  const boost = getActiveBoost(userId);
-  if (!boost) return baseXp;
-  if (opts.consume) {
-    db.update(xpBoosts)
-      .set({
-        episodesLeft: sql`${xpBoosts.episodesLeft} - 1`,
-        updatedAt: Date.now(),
-      })
-      .where(eq(xpBoosts.userId, userId))
-      .run();
-  }
   const round = opts.roundTo ?? 10;
-  return Math.max(
-    round,
-    Math.round((baseXp * boost.multiplierPct) / 100 / round) * round,
-  );
+  const boost = getActiveBoost(userId);
+  let xp = baseXp;
+  if (boost) {
+    if (opts.consume) {
+      db.update(xpBoosts)
+        .set({
+          episodesLeft: sql`${xpBoosts.episodesLeft} - 1`,
+          updatedAt: Date.now(),
+        })
+        .where(eq(xpBoosts.userId, userId))
+        .run();
+    }
+    xp = Math.max(
+      round,
+      Math.round((baseXp * boost.multiplierPct) / 100 / round) * round,
+    );
+  }
+  // 时长型加成叠加在按次型之上(全局,墙钟计时,不消耗)
+  const t = getTimedBoost(userId);
+  if (t) {
+    xp = Math.max(
+      round,
+      Math.round((xp * t.multiplierPct) / 100 / round) * round,
+    );
+  }
+  return xp;
 }
 
 /** 结算一集(兼容旧调用):应用加成并消耗一次药水次数 */

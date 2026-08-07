@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "../auth/session";
 import { db } from "../db/client";
 import { reviewCards, xpEvents } from "../db/schema";
+import { applyTimedBoost } from "./boosts";
 import { dayKey } from "./day";
 import { getQuizBank } from "./quiz-bank";
 import { drawQuiz, mulberry32, type QuizQuestion } from "./quiz-draw";
@@ -191,7 +192,8 @@ export async function settleReviewDay(): Promise<ReviewSettleResult> {
       .insert(xpEvents)
       .values({
         userId: user.id,
-        amount: REVIEW_XP,
+        // 时长药水对复习奖励也生效(全局)
+        amount: applyTimedBoost(user.id, REVIEW_XP),
         reason: "review",
         ref: today,
         createdAt: Date.now(),

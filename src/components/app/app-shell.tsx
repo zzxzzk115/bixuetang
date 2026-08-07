@@ -16,6 +16,7 @@ import {
   ShoppingBag,
   Sigma,
   Swords,
+  Timer,
   User,
   X,
   Zap,
@@ -230,6 +231,16 @@ export function AppShell({
                 <Zap aria-hidden size={18} />
                 XP ×{bootstrap.boost.multiplierPct / 100}
                 <small>{bootstrap.boost.episodesLeft}次</small>
+              </span>
+            )}
+            {bootstrap.timedBoost && bootstrap.timedBoost.secondsLeft > 0 && (
+              <span
+                className="app-stat boost timed"
+                title={`全局经验 ×${bootstrap.timedBoost.multiplierPct / 100}，剩 ${Math.ceil(bootstrap.timedBoost.secondsLeft / 60)} 分钟`}
+              >
+                <Timer aria-hidden size={18} />
+                XP ×{bootstrap.timedBoost.multiplierPct / 100}
+                <small>{Math.ceil(bootstrap.timedBoost.secondsLeft / 60)}分</small>
               </span>
             )}
             <span className="app-stat streak" title="连续学习天数">

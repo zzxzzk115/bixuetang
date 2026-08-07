@@ -12,9 +12,9 @@ import {
   Zap,
 } from "lucide-react";
 import type { GameBootstrap, RelicDto } from "@/lib/game/bootstrap-types";
-import type { PotionKind } from "@/lib/game/boosts";
+import type { PotionKind, TimedPotionKind } from "@/lib/game/boosts";
 import { equipRelic, unequipRelic } from "@/lib/game/equipment-actions";
-import { drinkPotion } from "@/lib/game/shop-actions";
+import { drinkPotion, drinkTimedPotion } from "@/lib/game/shop-actions";
 import type { StatBlock } from "@/lib/game/relics";
 import {
   STAT_LABEL,
@@ -64,15 +64,34 @@ const POTION_LABEL: Record<
   },
 };
 
+const TIMED_LABEL: Record<
+  TimedPotionKind,
+  { title: string; badge: string; blurb: string }
+> = {
+  t30: {
+    title: "急速经验药水",
+    badge: "XP ×2",
+    blurb: "30 分钟内一切学习所得经验 ×2(全局)",
+  },
+  t60: {
+    title: "悠长经验药水",
+    badge: "XP ×1.5",
+    blurb: "60 分钟内一切学习所得经验 ×1.5(全局)",
+  },
+};
+
 export function BagHome({
   bootstrap,
   potions: initialPotions,
+  timedPotions: initialTimed,
 }: {
   bootstrap: GameBootstrap;
   potions: Record<PotionKind, number>;
+  timedPotions: Record<TimedPotionKind, number>;
 }) {
   const router = useRouter();
   const [potions, setPotions] = useState(initialPotions);
+  const [timedPotions, setTimedPotions] = useState(initialTimed);
   const [boost, setBoost] = useState(bootstrap.boost);
   const [drinking, setDrinking] = useState(false);
   const relics = bootstrap.rpg.relics;
@@ -169,8 +188,25 @@ export function BagHome({
     }
   };
 
+  const drinkTimed = async (kind: TimedPotionKind) => {
+    if (drinking) return;
+    setDrinking(true);
+    try {
+      const r = await drinkTimedPotion(kind);
+      if (r.ok) {
+        setTimedPotions(r.timedPotions ?? timedPotions);
+        router.refresh();
+      }
+    } finally {
+      setDrinking(false);
+    }
+  };
+
   const potionEntries = (Object.keys(POTION_LABEL) as PotionKind[]).filter(
     (k) => potions[k] > 0,
+  );
+  const timedEntries = (Object.keys(TIMED_LABEL) as TimedPotionKind[]).filter(
+    (k) => timedPotions[k] > 0,
   );
 
   return (
@@ -192,7 +228,14 @@ export function BagHome({
               生效中 · 还能加成 {boost.episodesLeft} 次(整集或章节)
             </p>
           )}
-          {potionEntries.length === 0 ? (
+          {bootstrap.timedBoost && bootstrap.timedBoost.secondsLeft > 0 && (
+            <p className="bag-boost">
+              <Timer size={15} aria-hidden /> 全局经验 ×
+              {bootstrap.timedBoost.multiplierPct / 100} 生效中 · 剩{" "}
+              {Math.ceil(bootstrap.timedBoost.secondsLeft / 60)} 分钟
+            </p>
+          )}
+          {potionEntries.length === 0 && timedEntries.length === 0 ? (
             <p className="bag-tip">背包里没有药水——去商店逛逛</p>
           ) : (
             <div className="bag-potions">
@@ -214,6 +257,29 @@ export function BagHome({
                     className="app-btn-primary"
                     disabled={drinking}
                     onClick={() => drink(k)}
+                  >
+                    使用
+                  </button>
+                </div>
+              ))}
+              {timedEntries.map((k) => (
+                <div key={k} className="bag-potion">
+                  <span className="bag-potion-icon bag-potion-icon-timed">
+                    <Timer size={22} aria-hidden />
+                  </span>
+                  <div className="bag-potion-body">
+                    <b>
+                      {TIMED_LABEL[k].title}{" "}
+                      <span className="xp-badge">{TIMED_LABEL[k].badge}</span>
+                    </b>
+                    <small>
+                      {TIMED_LABEL[k].blurb} · 持有 {timedPotions[k]} 瓶
+                    </small>
+                  </div>
+                  <button
+                    className="app-btn-primary"
+                    disabled={drinking}
+                    onClick={() => drinkTimed(k)}
                   >
                     使用
                   </button>
@@ -273,29 +339,56 @@ export function BagHome({
         <section className="bag-card">
           <h2>四维 · 战力 {total.insight + total.focus + total.precision + total.resolve}</h2>
           <div className="bag-stats">
-            {(Object.keys(STAT_LABEL) as StatKey[]).map((k) => (
-              <span key={k}>
-                <small>{STAT_LABEL[k]}</small>
-                <b>
-                  {total[k]}
-                  {bonus[k] > 0 && <em>+{bonus[k]}</em>}
-                </b>
-              </span>
-            ))}
+            {(Object.keys(STAT_LABEL) as StatKey[]).map((k) => {
+              const base = total[k] - bonus[k];
+              return (
+                <span key={k}>
+                  <small>{STAT_LABEL[k]}</small>
+                  <b>{total[k]}</b>
+                  {/* 构成:基础值 + 装备增益(绿)/减益(红) */}
+                  <i className="bag-stat-break">
+                    {base}
+                    {bonus[k] !== 0 && (
+                      <em className={bonus[k] > 0 ? "up" : "down"}>
+                        {bonus[k] > 0 ? "+" : ""}
+                        {bonus[k]}
+                      </em>
+                    )}
+                  </i>
+                </span>
+              );
+            })}
           </div>
+          <p className="bag-stats-note">数值 = 学习积累的基础 + 装备增益(绿)/减益(红)</p>
           <ul className="bag-perks">
             <li>
-              <Timer size={16} aria-hidden /> 专注 → 每题限时 {perks.timeLimitSec}s
+              <Timer size={16} aria-hidden />
+              <span>
+                <b>专注 {total.focus}</b> → 每题限时 {perks.timeLimitSec}s
+                <small>基础 15s,每点专注 +0.5s,封顶 40s</small>
+              </span>
             </li>
             <li>
-              <Lightbulb size={16} aria-hidden /> 洞察 → 排除提示 ×{perks.hints}
+              <Lightbulb size={16} aria-hidden />
+              <span>
+                <b>洞察 {total.insight}</b> → 排除提示 ×{perks.hints}
+                <small>每 10 点洞察 +1 次,封顶 3 次</small>
+              </span>
             </li>
             <li>
-              <Zap size={16} aria-hidden /> 精准 → 快答窗口{" "}
-              {Math.round(perks.fastRatio * 100)}%
+              <Zap size={16} aria-hidden />
+              <span>
+                <b>精准 {total.precision}</b> → 快答窗口{" "}
+                {Math.round(perks.fastRatio * 100)}%
+                <small>限时前这么多比例内答对算快答(有额外经验)</small>
+              </span>
             </li>
             <li>
-              <Heart size={16} aria-hidden /> 意志 → 试炼生命 ×{perks.hearts}
+              <Heart size={16} aria-hidden />
+              <span>
+                <b>意志 {total.resolve}</b> → 试炼生命 {perks.hearts} 心
+                <small>基础 3 心,每 15 点意志 +1、每 5 级 +1,封顶 8</small>
+              </span>
             </li>
           </ul>
         </section>

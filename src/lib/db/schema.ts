@@ -194,15 +194,21 @@ export const rpgLootEvents = sqliteTable(
   (t) => [primaryKey({ columns: [t.userId, t.courseId, t.episodeN] })],
 );
 
-// 经验加成（药水）：每人同时只有一个生效中的加成。
+// 经验加成（药水）：每人一行,同时可有两种加成并存——
+//  · 按次(episodesLeft):只作用于课程完成(整集/章节)结算,喝一瓶顶几次;
+//  · 按时长(timed):激活后一段时间内所有「学习所得 XP」×倍率(墙钟计时,
+//    跨课程/试炼/测验/复习通吃)——「全局」加成,任务奖励只发这类。
 // multiplier_pct：150=x1.5、300=x3。
-// 按「还能加成几集」计数（不是时间）——长视频课不会喝了药水看不完一集就过期。
 export const xpBoosts = sqliteTable("xp_boosts", {
   userId: integer("user_id")
     .primaryKey()
     .references(() => users.id, { onDelete: "cascade" }),
   multiplierPct: integer("multiplier_pct").notNull(),
   episodesLeft: integer("episodes_left").notNull().default(0),
+  /** 时长型加成倍率(0=无) */
+  timedMultiplierPct: integer("timed_multiplier_pct").notNull().default(0),
+  /** 时长型加成到期的 unix 毫秒(now 超过即失效) */
+  timedExpiresAt: integer("timed_expires_at").notNull().default(0),
   updatedAt: integer("updated_at").notNull(),
 });
 

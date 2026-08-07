@@ -7,12 +7,19 @@ import { db } from "../db/client";
 import { rpgInventory, rpgProfiles } from "../db/schema";
 import {
   POTIONS,
+  TIMED_POTIONS,
   activateBoost,
+  activateTimedBoost,
   getActiveBoost,
+  getTimedBoost,
   potionCounts,
   potionItemId,
+  timedPotionCounts,
+  timedPotionItemId,
   type ActiveBoost,
+  type ActiveTimedBoost,
   type PotionKind,
+  type TimedPotionKind,
 } from "./boosts";
 import {
   FUSE_COUNT,
@@ -34,8 +41,10 @@ export interface ShopResult {
   error?: string;
   coins?: number;
   boost?: ActiveBoost | null;
+  timedBoost?: ActiveTimedBoost | null;
   /** 各药水的背包存量 */
   potions?: Record<PotionKind, number>;
+  timedPotions?: Record<TimedPotionKind, number>;
 }
 
 function snapshot(userId: number): ShopResult {
@@ -49,7 +58,9 @@ function snapshot(userId: number): ShopResult {
     ok: true,
     coins,
     boost: getActiveBoost(userId),
+    timedBoost: getTimedBoost(userId),
     potions: potionCounts(userId),
+    timedPotions: timedPotionCounts(userId),
   };
 }
 
@@ -93,6 +104,48 @@ export async function buyPotion(
     activateBoost(user.id, spec);
   }
 
+  return snapshot(user.id);
+}
+
+/** 购买时长型药水(全局按时长):立即生效 / 入包备用 */
+export async function buyTimedPotion(
+  kind: TimedPotionKind,
+  toBag: boolean,
+): Promise<ShopResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+  const spec = TIMED_POTIONS[kind];
+  if (!spec) return { ok: false, error: "没有这种药水" };
+  const price = toBag ? spec.bagPrice : spec.price;
+  if (!charge(user.id, price)) return { ok: false, error: "金币不够" };
+  if (toBag) addItem(user.id, timedPotionItemId(kind));
+  else activateTimedBoost(user.id, spec);
+  return snapshot(user.id);
+}
+
+/** 喝背包里的时长药水 */
+export async function drinkTimedPotion(
+  kind: TimedPotionKind,
+): Promise<ShopResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+  const spec = TIMED_POTIONS[kind];
+  if (!spec) return { ok: false, error: "没有这种药水" };
+  const now = Date.now();
+  const used = db
+    .update(rpgInventory)
+    .set({ quantity: sql`${rpgInventory.quantity} - 1`, updatedAt: now })
+    .where(
+      and(
+        eq(rpgInventory.userId, user.id),
+        eq(rpgInventory.itemId, timedPotionItemId(kind)),
+        gt(rpgInventory.quantity, 0),
+      ),
+    )
+    .returning({ quantity: rpgInventory.quantity })
+    .get();
+  if (!used) return { ok: false, error: "背包里没有这瓶药水" };
+  activateTimedBoost(user.id, spec);
   return snapshot(user.id);
 }
 

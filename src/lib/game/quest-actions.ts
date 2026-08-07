@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "@/lib/auth/session";
 import { db } from "@/lib/db/client";
 import { questInstances, rpgProfiles, xpEvents } from "@/lib/db/schema";
+import { grantTimedPotion } from "@/lib/game/boosts";
 import {
   getDailyQuests,
   getMonthlyQuest,
@@ -61,6 +62,8 @@ export async function claimMonthlyQuest(): Promise<{
       },
     })
     .run();
+  // 月度奖励额外送一瓶时长药水(任务奖励只发时长型)
+  grantTimedPotion(user.id, "t30", 1);
   revalidatePath("/");
   revalidatePath("/play/trial");
   return { ok: true, reward: { xp: monthly.rewardXp, coins: monthly.rewardCoins } };

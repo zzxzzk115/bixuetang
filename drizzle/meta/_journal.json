@@ -169,6 +169,13 @@
       "when": 1786190000000,
       "tag": "0023_shield_hearts",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "6",
+      "when": 1786196000000,
+      "tag": "0024_timed_boost",
+      "breakpoints": true
     }
   ]
 }

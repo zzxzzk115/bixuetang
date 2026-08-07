@@ -7,7 +7,7 @@ import { db } from "../db/client";
 import { xpEvents } from "../db/schema";
 import { getUserProgress } from "../progress/queries";
 import { computeUnlocks, unlockEntry } from "./unlock";
-import { getActiveBoost } from "./boosts";
+import { getActiveBoost, getTimedBoost } from "./boosts";
 import { dailyDateKey } from "./quests";
 import { getStreak } from "./streak-server";
 import { courseHasQuiz } from "./quiz-bank";
@@ -169,6 +169,7 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     chestDone,
     trialClaimedToday,
     boost: getActiveBoost(user.id),
+    timedBoost: getTimedBoost(user.id),
     routeId: state.routeId,
     lastWatched: state.last,
   };

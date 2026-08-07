@@ -104,8 +104,10 @@ export interface GameBootstrap {
   chestDone: string[];
   /** 今天的试炼奖励是否已领 */
   trialClaimedToday: boolean;
-  /** 生效中的经验加成（药水），无则 null */
+  /** 生效中的按次经验加成（药水），无则 null */
   boost: { multiplierPct: number; episodesLeft: number } | null;
+  /** 生效中的时长型经验加成（全局按时长），无则 null */
+  timedBoost: { multiplierPct: number; secondsLeft: number } | null;
   /** 当前选中的冒险路线（存库，跨设备一致） */
   routeId: string | null;
   /** 上次学到哪一集（存库） */

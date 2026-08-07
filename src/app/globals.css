@@ -2154,13 +2154,35 @@ html {
   font-style: normal;
   font-weight: 800;
 }
+/* 四维构成:基础 + 增益/减益 */
+.bag-stat-break {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--app-faint);
+}
+.bag-stat-break em.up {
+  color: var(--app-green);
+}
+.bag-stat-break em.down {
+  color: #e5484d;
+}
+.bag-stats-note {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--app-faint);
+}
 .bag-perks {
   display: grid;
   gap: 8px;
+  margin-top: 8px;
 }
 .bag-perks li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   color: var(--app-text);
   font-size: 13px;
@@ -2169,6 +2191,17 @@ html {
 .bag-perks li svg {
   color: var(--app-blue);
   flex-shrink: 0;
+  margin-top: 2px;
+}
+.bag-perks li span {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.bag-perks li span small {
+  color: var(--app-faint);
+  font-size: 11.5px;
+  font-weight: 600;
 }
 .bag-grid {
   display: grid;
@@ -5433,6 +5466,24 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-green);
   font-size: 12px;
   font-weight: 800;
+}
+
+/* 时长型药水:商店卡片图标 + 顶栏徽章 + 生效条 */
+.shop-card-icon-timed {
+  color: #c084fc;
+}
+.potion-timed {
+  border-color: color-mix(in srgb, #c084fc 35%, var(--app-line));
+}
+.shop-active-timed {
+  background: color-mix(in srgb, #c084fc 12%, transparent);
+  color: #9333ea;
+}
+.app-stat.boost.timed {
+  color: #c084fc;
+}
+.bag-potion-icon-timed {
+  color: #c084fc;
 }
 
 /* ==== 商店扩展柜台:装备槽 / 遗物直售 / 融合 ==== */

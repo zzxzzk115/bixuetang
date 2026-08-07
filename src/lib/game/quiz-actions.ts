@@ -8,7 +8,7 @@ import { LEVEL_FACTOR } from "../content/schema";
 import type { Subject } from "../content/schema";
 import { db } from "../db/client";
 import { rpgProfiles, xpEvents } from "../db/schema";
-import { getActiveBoost } from "./boosts";
+import { applyTimedBoost, getActiveBoost } from "./boosts";
 import { levelFromXp } from "./level";
 import { boostedXp, episodeXp } from "./xp";
 import { buildLessonTrack, findTrackNode } from "./lesson-track";
@@ -180,8 +180,10 @@ export async function submitQuizNode(
   if (!passed) return { ok: true, passed: false, gained: 0 };
 
   // 快答每题 +1 底分——精准属性放宽快答窗口，让「又快又准」有回报
-  const amount = Math.round(
-    (6 + correct * 3 + fast) * LEVEL_FACTOR[found.course.level],
+  // 时长药水对测验所得也生效(全局)
+  const amount = applyTimedBoost(
+    user.id,
+    Math.round((6 + correct * 3 + fast) * LEVEL_FACTOR[found.course.level]),
   );
   const before = getTotalXp(user.id);
   const inserted = db
@@ -341,7 +343,8 @@ export async function settleTrialRun(
   if (correct === 0) return { ok: true, gained: 0, coins: 0 };
 
   const now = Date.now();
-  const xp = Math.min(correct * 2 + fast, 60);
+  // 时长药水对试炼所得也生效(全局)
+  const xp = applyTimedBoost(user.id, Math.min(correct * 2 + fast, 60));
   const coins = Math.min(correct, 30);
   const inserted = db
     .insert(xpEvents)

@@ -4,9 +4,10 @@ import {
   ShopHome,
   type PotionSpecDto,
   type RelicDto,
+  type TimedPotionSpecDto,
 } from "@/components/app/shop-home";
 import { getCurrentUser } from "@/lib/auth/session";
-import { POTIONS } from "@/lib/game/boosts";
+import { POTIONS, TIMED_POTIONS } from "@/lib/game/boosts";
 import {
   RELIC_SHOP_PRICES,
   SLOT_PRICES,
@@ -34,6 +35,18 @@ export default async function ShopPage() {
     blurb: p.blurb,
   }));
 
+  const timedSpecs: TimedPotionSpecDto[] = Object.values(TIMED_POTIONS).map(
+    (p) => ({
+      kind: p.kind,
+      title: p.title,
+      badge: p.badge,
+      minutes: p.minutes,
+      price: p.price,
+      bagPrice: p.bagPrice,
+      blurb: p.blurb,
+    }),
+  );
+
   const relics: RelicDto[] = bootstrap.rpg.relics.map((r) => ({
     id: r.id,
     title: r.title,
@@ -48,6 +61,7 @@ export default async function ShopPage() {
         <ShopHome
           bootstrap={bootstrap}
           specs={specs}
+          timedSpecs={timedSpecs}
           freezePrice={FREEZE_PRICE}
           freezesOwned={getStreak(user.id).freezes}
           maxFreezes={MAX_FREEZES}

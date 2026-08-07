@@ -10,16 +10,18 @@ import {
   Grid2X2,
   Snowflake,
   Sparkles,
+  Timer,
   Zap,
 } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
-import type { PotionKind } from "@/lib/game/boosts";
+import type { PotionKind, TimedPotionKind } from "@/lib/game/boosts";
 import type { Subject } from "@/lib/content/schema";
 import {
   buyEquipSlot,
   buyPotion,
   buyRelic,
   buyStreakFreeze,
+  buyTimedPotion,
   fuseRelics,
   type ShopResult,
 } from "@/lib/game/shop-actions";
@@ -63,9 +65,20 @@ export interface PotionSpecDto {
   blurb: string;
 }
 
+export interface TimedPotionSpecDto {
+  kind: TimedPotionKind;
+  title: string;
+  badge: string;
+  minutes: number;
+  price: number;
+  bagPrice: number;
+  blurb: string;
+}
+
 export function ShopHome({
   bootstrap,
   specs,
+  timedSpecs,
   freezePrice,
   freezesOwned,
   maxFreezes,
@@ -78,6 +91,7 @@ export function ShopHome({
 }: {
   bootstrap: GameBootstrap;
   specs: PotionSpecDto[];
+  timedSpecs: TimedPotionSpecDto[];
   freezePrice: number;
   freezesOwned: number;
   maxFreezes: number;
@@ -95,6 +109,7 @@ export function ShopHome({
   const router = useRouter();
   const [coins, setCoins] = useState(bootstrap.rpg.coins);
   const [boost, setBoost] = useState(bootstrap.boost);
+  const [timedBoost] = useState(bootstrap.timedBoost);
   const [freezes, setFreezes] = useState(freezesOwned);
   const [busy, setBusy] = useState<string | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
@@ -271,6 +286,24 @@ export function ShopHome({
     }
   };
 
+  const onBuyTimed = async (kind: TimedPotionKind, toBag: boolean) => {
+    if (busy) return;
+    setBusy(`t:${kind}:${toBag}`);
+    setMsg(null);
+    try {
+      const r = await buyTimedPotion(kind, toBag);
+      if (!r.ok) {
+        setMsg(r.error ?? "购买失败");
+        return;
+      }
+      setCoins(r.coins ?? coins);
+      setMsg(toBag ? "已放入背包" : "时长药水开始计时！");
+      router.refresh();
+    } finally {
+      setBusy(null);
+    }
+  };
+
   return (
     <div className="shop-root">
       <header className="shop-head">
@@ -313,6 +346,46 @@ export function ShopHome({
                 disabled={busy !== null || coins < p.bagPrice}
                 onClick={() => onBuy(p.kind, true)}
                 title="囤进背包，想用时再喝"
+              >
+                <Backpack size={15} aria-hidden /> 放入背包 · {p.bagPrice}
+              </button>
+            </div>
+          </div>
+        </section>
+      ))}
+
+      {timedBoost && timedBoost.secondsLeft > 0 && (
+        <div className="shop-active shop-active-timed">
+          <Timer size={18} aria-hidden />
+          全局经验 ×{timedBoost.multiplierPct / 100} 生效中 · 剩{" "}
+          {Math.ceil(timedBoost.secondsLeft / 60)} 分钟
+        </div>
+      )}
+
+      {/* 时长型药水:全局按时长,跨课程/试炼/复习 */}
+      {timedSpecs.map((p) => (
+        <section key={p.kind} className="shop-card potion-timed">
+          <span className="shop-card-icon shop-card-icon-timed">
+            <Timer size={30} strokeWidth={2.2} />
+          </span>
+          <div className="shop-card-body">
+            <h2>
+              {p.title} <span className="xp-badge">{p.badge}</span>
+            </h2>
+            <p>{p.blurb}</p>
+            <div className="shop-card-actions">
+              <button
+                className="app-btn-primary"
+                disabled={busy !== null || coins < p.price}
+                onClick={() => onBuyTimed(p.kind, false)}
+              >
+                <Timer size={15} aria-hidden /> 立即计时 · {p.price}
+              </button>
+              <button
+                className="app-btn-plain"
+                disabled={busy !== null || coins < p.bagPrice}
+                onClick={() => onBuyTimed(p.kind, true)}
+                title="囤进背包,想用时再喝"
               >
                 <Backpack size={15} aria-hidden /> 放入背包 · {p.bagPrice}
               </button>
