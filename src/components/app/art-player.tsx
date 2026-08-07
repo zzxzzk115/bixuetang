@@ -217,6 +217,10 @@ export function BiliPlayer({
   const completedRef = useRef(false);
   const ccOffsetsRef = useRef<Record<string, number>>({});
   const lastCuesRef = useRef("");
+  /** 画中画字幕(方案 A):原生 PiP 只搬 video 画面,DOM 字幕层进不去,
+      于是挂一条原生字幕轨,仅 PiP 期间 showing,把当前双语行合成一条 cue 喂进去 */
+  const pipTrackRef = useRef<TextTrack | null>(null);
+  const pipOnRef = useRef(false);
   const hoverRef = useRef(false);
   /** 实例还没建好时收到的 seek 请求,建好后补跳 */
   const pendingSeekRef = useRef<number | null>(null);
@@ -744,6 +748,57 @@ export function BiliPlayer({
         }
       });
 
+      // 画中画字幕轨:进 PiP 时 showing、把当前双语行合成一条原生 cue;
+      // 退出就禁用并清空。正常观看仍走自绘 DOM 层,不受影响。
+      const pipVideo = art.video;
+      try {
+        const track = pipVideo.addTextTrack("subtitles", "字幕", "zh");
+        track.mode = "disabled";
+        pipTrackRef.current = track;
+      } catch {
+        // 个别环境不支持 addTextTrack,PiP 就没字幕,不影响播放
+      }
+      const clearPipCue = () => {
+        const tr = pipTrackRef.current;
+        if (!tr?.cues) return;
+        for (let i = tr.cues.length - 1; i >= 0; i--) tr.removeCue(tr.cues[i]);
+      };
+      const syncPipCue = (text: string) => {
+        const tr = pipTrackRef.current;
+        if (!tr) return;
+        clearPipCue();
+        if (!text) return;
+        try {
+          // 一条长 cue 顶到下次换字幕时被替换;时间戳锚在当前秒
+          tr.addCue(
+            new VTTCue(pipVideo.currentTime, pipVideo.currentTime + 3600, text),
+          );
+        } catch {
+          // VTTCue 不可用就算了
+        }
+      };
+      const currentCcText = () => {
+        if (!prefsStore.get().cc.on) return "";
+        const t = pipVideo.currentTime;
+        return activeTracksRef.current
+          .map((track) => {
+            const at = t - (ccOffsetsRef.current[track.lan] ?? 0) / 1000;
+            return track.cues.find((c) => at >= c.from && at <= c.to)?.text ?? "";
+          })
+          .filter(Boolean)
+          .join("\n");
+      };
+      pipVideo.addEventListener("enterpictureinpicture", () => {
+        pipOnRef.current = true;
+        if (pipTrackRef.current) pipTrackRef.current.mode = "showing";
+        syncPipCue(currentCcText());
+      });
+      pipVideo.addEventListener("leavepictureinpicture", () => {
+        pipOnRef.current = false;
+        if (pipTrackRef.current) pipTrackRef.current.mode = "disabled";
+        clearPipCue();
+      });
+
       // 覆盖率追踪 + CC 字幕行,都挂在 timeupdate 上
       // (覆盖率百分比不再占控制栏按钮位,分段 chips 与打卡反馈足够)
       art.on("video:timeupdate", () => {
@@ -763,10 +818,12 @@ export function BiliPlayer({
           if (key !== lastCuesRef.current) {
             lastCuesRef.current = key;
             setCues(next);
+            if (pipOnRef.current) syncPipCue(next.filter(Boolean).join("\n"));
           }
         } else if (lastCuesRef.current !== "") {
           lastCuesRef.current = "";
           setCues([]);
+          if (pipOnRef.current) syncPipCue("");
         }
       });
 
@@ -789,6 +846,8 @@ export function BiliPlayer({
       thumbsStartedRef.current = false;
       setThumbs({});
       deferredRef.current = null;
+      pipTrackRef.current = null;
+      pipOnRef.current = false;
       try {
         dashRef.current?.destroy();
       } catch {
