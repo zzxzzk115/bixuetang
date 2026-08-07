@@ -18,7 +18,8 @@
     "merge:analysis": "tsx scripts/merge-analysis-parts.ts",
     "brand:gen": "tsx scripts/gen-brand.ts",
     "migrate": "tsx scripts/migrate.ts",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "make:shadowing": "tsx scripts/make-shadowing.ts"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.4",
