@@ -764,154 +764,101 @@ export function BiliPlayer({
         }
       });
 
-      // 画中画(canvas 合成):把「原视频画面 + 当前双语字幕」逐帧画到
-      // 离屏 canvas,再把 canvas.captureStream 投进 PiP。原视频不暂停,
-      // 音频照常;PiP 小窗里字幕一定显示、样式自控(代价:小窗只有播放/暂停)。
+      // 画中画(Document PiP):把整个播放器(视频 + 自绘字幕层 + 控制条)
+      // 整体搬进一个真正的浮动窗口。字幕、进度条、播放/暂停全都在——因为它们
+      // 本就是这个 DOM 子树的一部分。Chrome/Edge 116+ 支持;不支持则退回原生
+      // PiP(有控件、无自绘字幕)。
       const srcVideo = art.video;
-      const pipVideo = document.createElement("video");
-      pipVideo.muted = true;
-      pipVideo.playsInline = true;
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      let rafId = 0;
+      const playerHost = hostRef.current!;
+      let placeholder: HTMLElement | null = null;
+      let docPipWin: Window | null = null;
 
-      const currentCcText = () => {
-        if (!prefsStore.get().cc.on) return "";
-        const t = srcVideo.currentTime;
-        return activeTracksRef.current
-          .map((track) => {
-            const at = t - (ccOffsetsRef.current[track.lan] ?? 0) / 1000;
-            return track.cues.find((c) => at >= c.from && at <= c.to)?.text ?? "";
-          })
-          .filter(Boolean)
-          .join("\n");
-      };
-
-      const drawSubtitle = (text: string) => {
-        if (!ctx || !text) return;
-        const lines = text.split("\n");
-        const base = Math.round(canvas.height * 0.05); // 字号随分辨率缩放
-        ctx.textAlign = "center";
-        ctx.textBaseline = "bottom";
-        ctx.lineJoin = "round";
-        let y = canvas.height - Math.round(canvas.height * 0.04);
-        // 从下往上画(主字幕在上、略大),与页面内叠加顺序一致
-        for (let i = lines.length - 1; i >= 0; i--) {
-          const size = i === 0 ? base : Math.round(base * 0.86);
-          ctx.font = `700 ${size}px system-ui, "PingFang SC", "Microsoft YaHei", sans-serif`;
-          ctx.lineWidth = Math.max(3, size * 0.14);
-          ctx.strokeStyle = "rgba(0,0,0,0.85)";
-          ctx.fillStyle = "#fff";
-          ctx.strokeText(lines[i], canvas.width / 2, y);
-          ctx.fillText(lines[i], canvas.width / 2, y);
-          y -= size * 1.3;
-        }
-      };
-
-      // canvas 流没有时间轴 → PiP 小窗默认只有播放/暂停。用 MediaSession
-      // 把真实时长/进度喂给系统媒体控件,并把 seekto 拖动映射回原视频,
-      // 这样 PiP 里也能有进度条(Chrome 支持)。
-      const ms =
-        typeof navigator !== "undefined" ? navigator.mediaSession : undefined;
-      const MS_ACTIONS = [
-        "play",
-        "pause",
-        "seekto",
-        "seekbackward",
-        "seekforward",
-      ] as const;
-      const updatePositionState = () => {
-        if (!ms?.setPositionState) return;
-        const dur = srcVideo.duration;
-        if (!Number.isFinite(dur) || dur <= 0) return;
-        try {
-          ms.setPositionState({
-            duration: dur,
-            position: Math.min(Math.max(0, srcVideo.currentTime), dur),
-            playbackRate: srcVideo.playbackRate || 1,
-          });
-        } catch {
-          // 参数越界等忽略
-        }
-      };
-      const setupMediaSession = () => {
-        if (!ms) return;
-        try {
-          ms.setActionHandler("play", () => void srcVideo.play());
-          ms.setActionHandler("pause", () => srcVideo.pause());
-          ms.setActionHandler("seekto", (d) => {
-            if (d.seekTime != null) srcVideo.currentTime = d.seekTime;
-          });
-          ms.setActionHandler("seekbackward", (d) => {
-            srcVideo.currentTime = Math.max(
-              0,
-              srcVideo.currentTime - (d.seekOffset || 10),
-            );
-          });
-          ms.setActionHandler("seekforward", (d) => {
-            const dur = srcVideo.duration || Number.MAX_SAFE_INTEGER;
-            srcVideo.currentTime = Math.min(
-              dur,
-              srcVideo.currentTime + (d.seekOffset || 10),
-            );
-          });
-        } catch {
-          // 个别浏览器不支持某个 action,不影响其余
-        }
-      };
-      const clearMediaSession = () => {
-        if (!ms) return;
-        for (const a of MS_ACTIONS) {
+      // 把主文档样式表克隆进 PiP 窗口,字幕/控件才有样式;主题跟随
+      const copyStyles = (win: Window) => {
+        for (const sheet of Array.from(document.styleSheets)) {
           try {
-            ms.setActionHandler(a, null);
+            const cssText = Array.from(sheet.cssRules)
+              .map((r) => r.cssText)
+              .join("\n");
+            const style = win.document.createElement("style");
+            style.textContent = cssText;
+            win.document.head.appendChild(style);
           } catch {
-            // 忽略
+            // 跨域样式表读不到 cssRules → 用 <link> 兜底
+            if (sheet.href) {
+              const link = win.document.createElement("link");
+              link.rel = "stylesheet";
+              link.href = sheet.href;
+              win.document.head.appendChild(link);
+            }
           }
         }
-      };
-
-      let posTick = 0;
-      const drawFrame = () => {
-        if (ctx && srcVideo.videoWidth) {
-          if (canvas.width !== srcVideo.videoWidth) {
-            canvas.width = srcVideo.videoWidth;
-            canvas.height = srcVideo.videoHeight;
-          }
-          ctx.drawImage(srcVideo, 0, 0, canvas.width, canvas.height);
-          drawSubtitle(currentCcText());
-        }
-        // 每 ~15 帧刷一次进度状态(约 2 次/秒),够进度条平滑又不浪费
-        if (++posTick % 15 === 0) updatePositionState();
-        rafId = requestAnimationFrame(drawFrame);
+        const theme = document.documentElement.getAttribute("data-theme");
+        if (theme) win.document.documentElement.setAttribute("data-theme", theme);
+        win.document.documentElement.style.background = "#000";
+        win.document.body.style.margin = "0";
       };
 
       const stopPip = () => {
         pipOnRef.current = false;
-        cancelAnimationFrame(rafId);
-        rafId = 0;
-        clearMediaSession();
-        if (document.pictureInPictureElement === pipVideo) {
+        // 文档级:把播放器移回原位并关窗
+        if (placeholder && placeholder.parentElement) {
+          placeholder.replaceWith(playerHost);
+        }
+        placeholder = null;
+        if (docPipWin) {
+          try {
+            docPipWin.close();
+          } catch {
+            // 已关闭
+          }
+          docPipWin = null;
+        }
+        // 原生兜底路径:退出
+        if (document.pictureInPictureElement === srcVideo) {
           document.exitPictureInPicture().catch(() => {});
         }
-        const s = pipVideo.srcObject as MediaStream | null;
-        if (s) s.getTracks().forEach((t) => t.stop());
-        pipVideo.srcObject = null;
       };
 
+      const docPip = (
+        window as unknown as {
+          documentPictureInPicture?: {
+            requestWindow: (opts?: {
+              width?: number;
+              height?: number;
+            }) => Promise<Window>;
+          };
+        }
+      ).documentPictureInPicture;
+
       const startPip = async () => {
-        if (pipOnRef.current || !ctx || !srcVideo.videoWidth) return;
-        canvas.width = srcVideo.videoWidth;
-        canvas.height = srcVideo.videoHeight;
-        drawFrame();
-        pipVideo.srcObject = canvas.captureStream(30);
+        if (pipOnRef.current) return;
+        if (docPip?.requestWindow) {
+          try {
+            const w = Math.min(srcVideo.videoWidth || 640, 720);
+            const h = Math.round(
+              w * ((srcVideo.videoHeight || 9) / (srcVideo.videoWidth || 16)),
+            );
+            const win = await docPip.requestWindow({ width: w, height: h });
+            docPipWin = win;
+            copyStyles(win);
+            placeholder = document.createElement("div");
+            // 先在原位插占位,再把整棵播放器搬进浮窗
+            playerHost.replaceWith(placeholder);
+            win.document.body.appendChild(playerHost);
+            pipOnRef.current = true;
+            win.addEventListener("pagehide", () => stopPip(), { once: true });
+            return;
+          } catch {
+            stopPip(); // 失败 → 收拾干净,走原生兜底
+          }
+        }
+        // 兜底:原生 PiP(有控件,但没有自绘字幕)
         try {
-          await pipVideo.play();
-          await pipVideo.requestPictureInPicture();
+          await srcVideo.requestPictureInPicture();
           pipOnRef.current = true;
-          setupMediaSession();
-          updatePositionState();
         } catch {
-          stopPip(); // 用户拒绝 / 不支持 → 收拾干净
+          // 用户拒绝 / 不支持,忽略
         }
       };
 
@@ -921,14 +868,10 @@ export function BiliPlayer({
       };
       pipCleanupRef.current = stopPip;
 
-      // PiP 小窗的播放/暂停镜像回原视频(保持音画同步)
-      pipVideo.addEventListener("play", () => {
-        if (srcVideo.paused) void srcVideo.play();
+      // 原生兜底路径:用户从系统 UI 关掉 PiP 时同步状态
+      srcVideo.addEventListener("leavepictureinpicture", () => {
+        if (!docPipWin) pipOnRef.current = false;
       });
-      pipVideo.addEventListener("pause", () => {
-        if (!srcVideo.paused) srcVideo.pause();
-      });
-      pipVideo.addEventListener("leavepictureinpicture", () => stopPip());
 
       // 覆盖率追踪 + CC 字幕行,都挂在 timeupdate 上
       // (覆盖率百分比不再占控制栏按钮位,分段 chips 与打卡反馈足够)
