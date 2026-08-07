@@ -49,10 +49,17 @@ export function SharePopup({
   const imgUrl = card?.key === cardKey ? card.url : null;
   const blob = card?.key === cardKey ? card.blob : null;
 
-  const siteLink =
-    typeof window === "undefined"
-      ? ""
-      : `${window.location.origin}/courses/${courseId}?ep=${episodeN}`;
+  // 本站链接:配了域名走域名;开发环境 localhost 换成局域网地址
+  // (服务端探测后写在 data-lan-origin)——手机扫 localhost 毫无意义
+  const siteOrigin = (() => {
+    if (typeof window === "undefined") return "";
+    const lan = document.documentElement.dataset.lanOrigin;
+    if (lan && /^(localhost|127\.)/.test(window.location.hostname)) return lan;
+    return window.location.origin;
+  })();
+  const siteLink = siteOrigin
+    ? `${siteOrigin}/courses/${courseId}?ep=${episodeN}`
+    : "";
   const biliLink = `https://www.bilibili.com/video/${bvid}${page > 1 ? `?p=${page}` : ""}`;
   const link = mode === "site" ? siteLink : biliLink;
   const shareTitle = `${courseTitle} · 第 ${episodeN} 集 ${episodeTitle}`;

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
 import { CelebrationLayer } from "@/components/celebration-layer";
+import { DevLanQr } from "@/components/dev-lan-qr";
 import { PwaRegister } from "@/components/pwa-register";
 import { RewardToastLayer } from "@/components/reward-toast";
 
@@ -44,15 +45,44 @@ export default async function RootLayout({
   // 设备形态由服务端 UA 判定后写进 data-device,前端按它切交互
   // (桌面「复制图片」/移动「保存图片」等)——不靠分辨率猜。
   // iPad 桌面版 UA 伪装成 Mac,由 PwaRegister 在客户端用触点数矫正。
-  const ua = (await headers()).get("user-agent") ?? "";
+  const requestHeaders = await headers();
+  const ua = requestHeaders.get("user-agent") ?? "";
   const device = /Mobi|Android|iPhone|iPad|HarmonyOS/i.test(ua)
     ? "mobile"
     : "desktop";
+
+  // 开发环境把本机局域网地址下发给前端:分享链接/调试二维码都用它,
+  // 手机扫码即可访问 dev 服务(localhost 对别的设备毫无意义)。
+  // 生产构建 NODE_ENV=production,这段整体不存在。
+  let lanOrigin: string | null = null;
+  if (process.env.NODE_ENV === "development") {
+    const os = await import("node:os");
+    const port = (requestHeaders.get("host") ?? "").split(":")[1] ?? "3000";
+    // 真实私网段优先:VPN/虚拟网卡(198.18/15 基准段、169.254 链路本地)
+    // 常排在枚举前面,直接取第一个会拿到手机根本连不上的地址
+    const rank = (ip: string) =>
+      ip.startsWith("192.168.") ? 0
+      : ip.startsWith("10.") ? 1
+      : /^172\.(1[6-9]|2\d|3[01])\./.test(ip) ? 2
+      : ip.startsWith("198.18.") || ip.startsWith("169.254.") ? 9
+      : 5;
+    const candidates: string[] = [];
+    for (const list of Object.values(os.networkInterfaces())) {
+      for (const ni of list ?? []) {
+        if (ni.family === "IPv4" && !ni.internal) candidates.push(ni.address);
+      }
+    }
+    candidates.sort((a, b) => rank(a) - rank(b));
+    const best = candidates.find((ip) => rank(ip) < 9);
+    if (best) lanOrigin = `http://${best}:${port}`;
+  }
+
   return (
     <html
       lang="zh-CN"
       className="h-full antialiased"
       data-device={device}
+      data-lan-origin={lanOrigin ?? undefined}
       suppressHydrationWarning
     >
       <head>
@@ -62,6 +92,7 @@ export default async function RootLayout({
         <PwaRegister />
         <CelebrationLayer />
         <RewardToastLayer />
+        <DevLanQr />
         {children}
       </body>
     </html>

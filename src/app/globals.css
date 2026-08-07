@@ -4897,6 +4897,46 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-blue);
 }
 
+/* ==== 开发调试:左下角局域网二维码(仅 dev 渲染) ==== */
+.dev-lan-qr {
+  position: fixed;
+  left: 12px;
+  /* 让开左下角的 Next.js dev tools 圆钮 */
+  bottom: 64px;
+  z-index: 95;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 8px;
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  background: var(--app-surface);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+}
+.dev-lan-qr img {
+  display: block;
+  width: 104px;
+  height: 104px;
+}
+.dev-lan-qr small {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--app-faint);
+  font-size: 10px;
+  font-weight: 700;
+}
+.dev-lan-qr.collapsed {
+  padding: 6px 10px;
+}
+.dev-lan-qr-pill {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--app-faint);
+}
+
 /* ==== P3:章节跳转 + 碎片化分段 ==== */
 /* 控制栏按钮:下一知识点 / 章节 */
 .artp-next,
