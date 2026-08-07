@@ -1,0 +1,324 @@
+{
+  "courseId": "cmu-15-721",
+  "generatedAt": "2026-08-07",
+  "model": "claude-opus-5",
+  "sourceIndex": 0,
+  "basis": "titles-only",
+  "overview": "CMU 15-721(Andy Pavlo,2023 春)是 15-445 的进阶续作,专攻现代内存/列存分析型(OLAP)数据库的内核设计。前半程系统讲原理:列存布局、压缩、向量化执行、查询编译、并行连接算法、优化器;后半程逐个剖析工业界真实系统(BigQuery Dremel、Databricks Photon、Snowflake、DuckDB、Velox、Redshift)如何做工程取舍。以论文研讨为主,是想深入数据库内核者的必修。搬运源无 CC 轨,本分析基于官方讲次编排,不含时间戳。",
+  "episodes": [
+    {
+      "n": 1,
+      "summary": "第 1 讲 · 数据库简史:用历史脉络串起本课的坐标系。从 1960s 的网状/层次模型,到 Codd 的关系模型与 System R/Ingres,到 1980-90s 的并行与分布式,再到 2000s 后 OLTP 与 OLAP 的分野、列存与内存数据库的兴起。核心分野:面向事务(行存、写密集)vs 面向分析(列存、读密集),本课专注后者。",
+      "keyPoints": [
+        { "title": "关系模型的胜利", "detail": "Codd 用「数据与物理存储解耦 + 声明式查询」终结了各家专有模型;SQL 至今是数据库的普通话。" },
+        { "title": "OLTP vs OLAP 分野", "detail": "事务处理(短、写多、点查)与分析处理(长、读多、扫描聚合)负载特征相反,催生了两套截然不同的存储与执行设计。" },
+        { "title": "列存与内存的崛起", "detail": "内存变便宜 + 分析只读少数列 → 列存 + 向量化成为 OLAP 主流;本课就是讲这条线上的现代系统。" }
+      ],
+      "terms": [
+        { "term": "OLTP", "definition": "联机事务处理,短事务写密集负载" },
+        { "term": "OLAP", "definition": "联机分析处理,大扫描读密集负载" },
+        { "term": "relational model 关系模型", "definition": "以表与声明式查询解耦逻辑与物理" }
+      ]
+    },
+    {
+      "n": 2,
+      "summary": "第 2 讲 · 现代分析型数据库系统:鸟瞰当代 OLAP 架构的组成部件与设计维度。存算分离(compute-shared storage)成为云原生标配;向量化 vs 编译两条执行路线;列存 + 压缩 + 分区裁剪;分布式 shuffle。为后续每一讲的深入定位——每个部件都会单独拆一讲。",
+      "keyPoints": [
+        { "title": "存算分离架构", "detail": "计算节点无状态、数据放对象存储(S3),按需弹性扩缩——Snowflake 开创、如今云数仓标配;代价是网络 I/O。" },
+        { "title": "现代 OLAP 的四大支柱", "detail": "列存布局、轻量压缩、向量化/编译执行、并行 shuffle——本课后面逐个展开。" },
+        { "title": "设计是取舍矩阵", "detail": "延迟 vs 吞吐、内存 vs 磁盘、向量化 vs 编译——没有最优解,只有对特定负载的最优点。" }
+      ],
+      "terms": [
+        { "term": "shared-storage 存算分离", "definition": "计算与存储解耦,计算无状态弹性伸缩" },
+        { "term": "columnar 列存", "definition": "按列组织数据,利于分析扫描与压缩" }
+      ]
+    },
+    {
+      "n": 3,
+      "summary": "第 3 讲 · 存储模型与数据布局:行存(NSM)、列存(DSM)与混合(PAX)的取舍。OLAP 为何要列存——只读需要的列、同列同类型压缩率高、向量化友好;数据在磁盘/内存里如何编排(定长 vs 变长、null 位图、字典);块内布局(PAX)兼顾扫描与点取。",
+      "keyPoints": [
+        { "title": "NSM / DSM / PAX", "detail": "N-ary(整行连续)利于点查写入;Decomposition(整列连续)利于分析扫描;PAX 在块内分列、块间行式,鱼与熊掌兼顾。" },
+        { "title": "列存为何赢在分析", "detail": "一个只用 3 列的聚合查询,列存只读那 3 列;同列同类型让压缩与 SIMD 都事半功倍。" },
+        { "title": "变长与 null 编码", "detail": "字符串等变长列用偏移数组 + 数据区;null 用位图——布局细节直接决定扫描速度。" }
+      ],
+      "terms": [
+        { "term": "NSM / DSM 行存/列存", "definition": "整行连续 vs 整列连续的存储模型" },
+        { "term": "PAX", "definition": "块内按列、块间按行的混合布局" }
+      ]
+    },
+    {
+      "n": 4,
+      "summary": "第 4 讲 · 分析型数据库索引:OLAP 不用 OLTP 的 B+ 树主索引,而靠「过滤掉不必扫的数据」。Zone map / min-max 索引按块记录范围,谓词不命中就跳过;布隆过滤器加速点查/连接探测;位图索引对低基数列;以及分区裁剪。索引在分析里是「剪枝器」而非「定位器」。",
+      "keyPoints": [
+        { "title": "Zone map(区域图)", "detail": "每个数据块记 min/max,谓词 x>100 时 max≤100 的块整块跳过——分析扫描最有效的省 I/O 手段。" },
+        { "title": "布隆过滤器", "detail": "概率性判断「某值一定不在这块/这批」,用于连接探测与点查预筛;假阳可接受、假阴不可能。", "formula": "P_{fp} \\approx (1 - e^{-kn/m})^k" },
+        { "title": "位图索引", "detail": "低基数列(性别、状态)每个取值一个位图,谓词用位运算求交——极快但高基数会爆内存。" },
+        { "title": "剪枝 > 定位", "detail": "OLAP 索引目标是「少扫」,不是「精确定位一行」——与 OLTP 的 B+ 树世界观根本不同。" }
+      ],
+      "terms": [
+        { "term": "zone map", "definition": "按块记录 min/max 以跳过不命中块" },
+        { "term": "Bloom filter 布隆过滤器", "definition": "概率性集合成员判断,无假阴" },
+        { "term": "bitmap index 位图索引", "definition": "低基数列的位图,谓词用位运算" }
+      ]
+    },
+    {
+      "n": 5,
+      "summary": "第 5 讲 · 数据库压缩:列存的超能力。目标是「压得小又能直接在压缩态上算」。轻量编码:游程(RLE)、字典、位打包(bit-packing)、Frame-of-Reference、delta;与重量级通用压缩(LZ4/zstd)的取舍;最关键的「延迟解压」——尽量在压缩/编码态执行谓词与聚合,避免解压开销。",
+      "keyPoints": [
+        { "title": "轻量列编码", "detail": "字典(把长字符串映射成小整数)、RLE(连续重复值记值+次数)、bit-packing、delta、FOR——列同质所以压缩率高。" },
+        { "title": "可计算的压缩", "detail": "理想是不解压就能算:字典列上比较整数码、RLE 上按段聚合——压缩不只省空间,还省 CPU。" },
+        { "title": "轻量 vs 通用", "detail": "LZ4/zstd 压得更狠但要整块解压才能用;分析引擎偏爱轻量编码换「就地计算」。" }
+      ],
+      "terms": [
+        { "term": "dictionary encoding 字典编码", "definition": "把值映射为小整数码,省空间且可就地比较" },
+        { "term": "RLE 游程编码", "definition": "连续重复值记为(值,次数)" },
+        { "term": "late materialization 延迟物化", "definition": "尽量在编码态处理,推迟解压/取值" }
+      ]
+    },
+    {
+      "n": 6,
+      "summary": "第 6 讲 · 查询执行与处理模型:算子如何把数据推来拉去。三种模型——迭代器(Volcano,一次一行,简单但函数调用开销大)、物化(一次一批全量,内存压力大)、向量化(一次一批向量,兼顾缓存与开销)。以及数据流方向:拉取(pull)vs 推送(push)。现代 OLAP 几乎都走向量化 + 推送。",
+      "keyPoints": [
+        { "title": "Volcano 迭代器模型", "detail": "每个算子实现 next() 一次吐一行;优雅可组合,但每行一次虚函数调用,分析场景开销爆炸。" },
+        { "title": "向量化模型", "detail": "一次处理一「批」(如 1024 行)的列向量:摊薄函数调用、命中缓存、喂饱 SIMD——OLAP 的默认执行范式。" },
+        { "title": "pull vs push", "detail": "拉取由根算子驱动 next();推送由叶子把批往上推,更利于流水线与编译——现代引擎多转向 push。" }
+      ],
+      "terms": [
+        { "term": "Volcano/iterator model 迭代器模型", "definition": "算子逐行 next() 的经典执行模型" },
+        { "term": "vectorized execution 向量化执行", "definition": "按批处理列向量,摊薄开销并用 SIMD" },
+        { "term": "push-based 推送式", "definition": "数据由下往上推动的执行流" }
+      ]
+    },
+    {
+      "n": 7,
+      "summary": "第 7 讲 · 查询调度:一条查询如何变成可并行的任务并铺到多核/多机。查询计划切成算子流水线,划分 morsel(小块数据)做工作窃取式并行(morsel-driven);线程与 NUMA 的亲和;算子间的调度依赖与背压。目标:把所有核喂饱又不让内存爆掉。",
+      "keyPoints": [
+        { "title": "morsel-driven 并行", "detail": "把数据切成小块(morsel),线程池按工作窃取动态领取——负载天然均衡,是 HyPer/Umbra 的招牌。" },
+        { "title": "流水线与调度", "detail": "计划按「阻塞算子(如构建哈希表)」切成流水线段;段内并行、段间有依赖——调度器编排先后。" },
+        { "title": "NUMA 亲和", "detail": "多路 CPU 下,让线程处理本地内存的数据、哈希表分区绑核——跨 NUMA 访问是隐形性能杀手。" }
+      ],
+      "terms": [
+        { "term": "morsel-driven parallelism", "definition": "细粒度数据块 + 工作窃取的并行调度" },
+        { "term": "pipeline 流水线", "definition": "被阻塞算子切分的可并行执行段" },
+        { "term": "NUMA", "definition": "非一致内存访问,跨节点访存更慢" }
+      ]
+    },
+    {
+      "n": 8,
+      "summary": "第 8 讲 · SIMD 向量化执行:让一条指令同时算多份数据。SIMD(SSE/AVX-512)如何加速谓词过滤、字典解码、哈希;选择向量(selection vector)表达「哪些行还活着」;分支消除与掩码运算;gather/scatter 的代价。向量化模型之所以快,底层就靠 SIMD 把每批列向量并行处理。",
+      "keyPoints": [
+        { "title": "SIMD 数据并行", "detail": "AVX-512 一条指令处理 16 个 32 位整数;谓词比较、加法、哈希都能批量化——列向量正好喂给它。" },
+        { "title": "选择向量与掩码", "detail": "过滤不删数据,而是维护「存活行下标」或位掩码,后续算子只碰存活行——避免数据搬移。" },
+        { "title": "分支是 SIMD 的敌人", "detail": "用掩码/无分支写法替代 if,避免分支预测失败打断向量流水——向量化代码的核心纪律。" }
+      ],
+      "terms": [
+        { "term": "SIMD", "definition": "单指令多数据,一条指令并行算多份" },
+        { "term": "selection vector 选择向量", "definition": "记录存活行下标,避免过滤时搬数据" },
+        { "term": "AVX-512", "definition": "Intel 的 512 位宽 SIMD 指令集" }
+      ]
+    },
+    {
+      "n": 9,
+      "summary": "第 9 讲 · 查询编译与 JIT 代码生成:另一条加速路线。不解释执行计划,而是把查询即时编译成原生机器码(经 LLVM),消除解释开销与虚函数调用,把整条流水线融合成一个紧凑循环(operator fusion)。HyPer 首倡「data-centric」编译;代价是编译延迟与调试难度。",
+      "keyPoints": [
+        { "title": "为什么编译更快", "detail": "解释执行每行都要查「现在该做什么」;编译把这决策在编译期定死,生成专用机器码,循环里没有分派开销。" },
+        { "title": "算子融合(fusion)", "detail": "把 filter→project→aggregate 融进一个循环,数据不出寄存器/缓存——data-centric 编译的精髓。" },
+        { "title": "LLVM JIT", "detail": "生成 LLVM IR 再即时编译成本机码;编译耗时几十毫秒,对长查询划算、对短查询是负担。" }
+      ],
+      "terms": [
+        { "term": "query compilation 查询编译", "definition": "把查询计划即时编译成原生机器码执行" },
+        { "term": "JIT", "definition": "即时编译,运行时生成机器码" },
+        { "term": "operator fusion 算子融合", "definition": "多算子融进一个循环减少物化" }
+      ]
+    },
+    {
+      "n": 10,
+      "summary": "第 10 讲 · 向量化 vs 编译:两条路线的正面对决(基于 Kersten 等的经典论文)。向量化(批处理 + 预写好的向量原语)工程简单、编译零延迟、调试友好;编译(融合成机器码)峰值更快但有编译开销。结论:两者性能同一量级,选择取决于工程复杂度、查询时长与团队偏好——现代系统甚至两者混用。",
+      "keyPoints": [
+        { "title": "殊途同归", "detail": "向量化靠「宽批摊薄开销」,编译靠「消除开销」;实测两者性能相近,不存在碾压。" },
+        { "title": "工程性取舍", "detail": "向量化用现成 C++ 原语库、易调试、无编译延迟;编译峰值高但要维护 codegen 与容忍编译时间。" },
+        { "title": "混合路线", "detail": "有系统对短查询走向量化、对长查询走编译,或用编译生成向量化原语的调用——不必二选一。" }
+      ],
+      "terms": [
+        { "term": "vectorization vs compilation", "definition": "OLAP 执行的两条主流加速路线" }
+      ]
+    },
+    {
+      "n": 11,
+      "summary": "第 11 讲 · 并行哈希连接算法:分析负载最重的算子之一。哈希连接分构建(build)与探测(probe)两阶;并行化的关键是哈希表布局与分区。无分区(共享哈希表 + 原子插入)、按分区(radix partition 先按哈希高位分桶再各自建表,缓存友好);NUMA 与并发写的处理。",
+      "keyPoints": [
+        { "title": "build / probe 两阶段", "detail": "小表建哈希表,大表逐行探测匹配;分析里的星型/雪花连接几乎都是它。" },
+        { "title": "radix 分区哈希连接", "detail": "先按哈希值高位把两表分到同号桶,桶小到能进缓存再各自 build/probe——减少缓存缺失,多核扩展好。" },
+        { "title": "共享 vs 分区", "detail": "共享一张大哈希表实现简单但有并发写竞争与缓存抖动;分区法多一趟 shuffle 但每桶独立、扩展性强。" }
+      ],
+      "terms": [
+        { "term": "hash join 哈希连接", "definition": "构建哈希表再探测匹配的连接算法" },
+        { "term": "radix partitioning 基数分区", "definition": "按哈希高位分桶以适配缓存" },
+        { "term": "build/probe", "definition": "哈希连接的建表与探测两阶段" }
+      ]
+    },
+    {
+      "n": 12,
+      "summary": "第 12 讲 · 并行排序-合并连接算法:哈希连接之外的另一条路。两表各自并行排序,再归并匹配;排序用多路归并 + SIMD 加速的排序网络;对已排序/带索引数据、或需要有序输出(如窗口函数)的场景更优。与哈希连接的取舍:排序连接对倾斜更稳、可复用排序结果,但整体常慢于哈希。",
+      "keyPoints": [
+        { "title": "sort-merge join", "detail": "两表排序后线性归并匹配;输出天然有序,利于后续排序/窗口算子复用。" },
+        { "title": "并行排序", "detail": "分区并行排序 + 多路归并;排序网络(sorting network)可 SIMD 化,是并行排序的热点。" },
+        { "title": "与哈希连接的取舍", "detail": "哈希连接通常更快,但排序连接对数据倾斜更鲁棒、且能与需要有序性的算子共享成果。" }
+      ],
+      "terms": [
+        { "term": "sort-merge join 排序合并连接", "definition": "各表排序后归并匹配的连接" },
+        { "term": "sorting network 排序网络", "definition": "可 SIMD 化的固定比较排序结构" }
+      ]
+    },
+    {
+      "n": 13,
+      "summary": "第 13 讲 · 多路最坏情况最优连接(WCOJ):理论前沿。传统的二元连接逐对做,遇到多表环状连接(如三角形查询)会产生巨大中间结果;WCOJ(如 Leapfrog Triejoin)一次性对所有表按变量做,中间结果被 AGM 界严格约束,复杂度达到理论最优。图分析与复杂连接场景的利器。",
+      "keyPoints": [
+        { "title": "二元连接的中间结果爆炸", "detail": "A⋈B⋈C 逐对做时,中间结果可能远大于最终结果(尤其环状连接)——WCOJ 要解决的痛点。" },
+        { "title": "AGM 界与最坏最优", "detail": "AGM 不等式给出连接结果大小的理论上界;WCOJ 保证运行时间不超过这个界,故称「最坏情况最优」。" },
+        { "title": "Leapfrog Triejoin", "detail": "按属性变量逐个求交、多路同步推进,而非逐对连接——三角形计数等图查询的标准算法。" }
+      ],
+      "terms": [
+        { "term": "WCOJ 最坏情况最优连接", "definition": "运行时间受 AGM 界约束的多路连接" },
+        { "term": "AGM bound", "definition": "连接结果大小的理论上界" }
+      ]
+    },
+    {
+      "n": 14,
+      "summary": "第 14 讲 · 服务端逻辑执行与用户自定义函数(UDF):把计算推到数据旁边。存储过程与 UDF 让逻辑在库内跑,省去数据来回搬;但传统 UDF 是性能黑洞——逐行解释、阻断优化器、无法向量化。现代做法:把 UDF 内联/编译进查询计划、批量化执行(如 Froid 的把命令式 UDF 重写成关系代数)。",
+      "keyPoints": [
+        { "title": "UDF 的诱惑与代价", "detail": "库内执行省了数据搬运,但传统 UDF 逐行解释、对优化器是黑盒,常让查询慢几个数量级。" },
+        { "title": "UDF 内联(Froid)", "detail": "把命令式标量 UDF 自动重写成子查询/关系代数,融进主查询让优化器统一优化——化黑盒为透明。" },
+        { "title": "沙箱与安全", "detail": "库内跑用户代码要隔离(进程/WASM 沙箱),防其拖垮或攻破数据库进程。" }
+      ],
+      "terms": [
+        { "term": "UDF 用户自定义函数", "definition": "用户写的库内计算逻辑" },
+        { "term": "UDF inlining UDF 内联", "definition": "把 UDF 重写进查询计划以便优化" }
+      ]
+    },
+    {
+      "n": 15,
+      "summary": "第 15 讲 · 数据库网络层:客户端与服务端如何对话,以及分布式内部如何传数据。有线协议(Postgres/MySQL wire protocol)的设计与开销;结果集的行式 vs 列式/Arrow 传输;分布式执行的 shuffle——重分区数据到各节点是分析查询的最大网络成本;压缩与批量化传输。",
+      "keyPoints": [
+        { "title": "有线协议开销", "detail": "传统行式协议逐行编码、往返多;大结果集导出时协议本身成瓶颈——Arrow Flight 等列式协议为此而生。" },
+        { "title": "shuffle 是分布式的税", "detail": "连接/聚合常需按 key 把数据重分区到各节点,网络传输量巨大;分区裁剪与本地聚合是省 shuffle 的关键。" },
+        { "title": "列式传输", "detail": "用 Arrow 等列式格式跨节点/跨进程传数据,零拷贝、可直接向量化——现代数据栈的通用语。" }
+      ],
+      "terms": [
+        { "term": "wire protocol 有线协议", "definition": "客户端与数据库的通信编码格式" },
+        { "term": "shuffle", "definition": "分布式执行中按 key 重分区数据" },
+        { "term": "Apache Arrow", "definition": "跨系统的列式内存格式" }
+      ]
+    },
+    {
+      "n": 16,
+      "summary": "第 16 讲 · 查询优化器实现(上):优化器是数据库皇冠上的明珠。查询重写(谓词下推、连接消除、子查询解嵌套)是启发式的第一道;然后是基于代价的连接顺序枚举——为什么连接顺序决定成败,搜索空间为何指数级,以及自底向上动态规划(System R 式)如何在小连接数下求全局最优。",
+      "keyPoints": [
+        { "title": "重写 vs 代价优化", "detail": "重写阶段做「几乎总对」的变换(谓词下推、常量折叠);代价阶段在等价计划里按代价模型选最优——两阶段分工。" },
+        { "title": "连接顺序是核心", "detail": "n 表连接的顺序有指数种,不同顺序的中间结果大小可差几个数量级——优化器主要就在搜这个空间。" },
+        { "title": "System R 动态规划", "detail": "自底向上枚举子集的最优连接计划、逐步合并;对小 n 求全局最优,大 n 需启发式剪枝(下一讲)。" }
+      ],
+      "terms": [
+        { "term": "query optimizer 查询优化器", "definition": "从等价计划中按代价选最优的组件" },
+        { "term": "predicate pushdown 谓词下推", "definition": "把过滤尽早下推减少数据量" },
+        { "term": "join ordering 连接顺序", "definition": "决定中间结果规模的关键搜索空间" }
+      ]
+    },
+    {
+      "n": 17,
+      "summary": "第 17 讲 · 查询优化器实现(下):大规模与现代优化器。基数估计(cardinality estimation)——直方图、采样如何估中间结果大小,以及它为何是优化器最不准也最要命的一环;Cascades/Volcano 框架的自顶向下、基于规则与备忘(memo)的变换驱动优化(Orca、SQL Server、CockroachDB 都用它);学习型优化器的探索。",
+      "keyPoints": [
+        { "title": "基数估计:优化器的阿喀琉斯之踵", "detail": "直方图/采样估行数,一旦跨多个谓词与连接就误差累积——「优化器选错计划」几乎都源于估计失真。" },
+        { "title": "Cascades 框架", "detail": "自顶向下、以变换规则 + memo 备忘去重驱动;可扩展地插入新规则,是现代工业优化器(Orca 等)的骨架。" },
+        { "title": "统计与自适应", "detail": "多列相关性、动态运行时反馈(adaptive query processing)、乃至 ML 估计器——都在补基数估计的坑。" }
+      ],
+      "terms": [
+        { "term": "cardinality estimation 基数估计", "definition": "估计中间结果行数,优化器决策的基础" },
+        { "term": "Cascades framework", "definition": "规则驱动 + memo 的自顶向下优化框架" },
+        { "term": "histogram 直方图", "definition": "列值分布的统计摘要,用于估计" }
+      ]
+    },
+    {
+      "n": 18,
+      "summary": "第 19 讲 · Google BigQuery / Dremel:系统剖析之一。Dremel 首创「列存 + 树形聚合」的大规模交互式分析:嵌套数据的列式编码(repetition/definition level)让 protobuf 般的嵌套结构也能列存;多级 serving tree 把聚合下推到叶子并层层汇总;完全存算分离、按查询弹性调度。是现代云数仓的思想源头之一。",
+      "keyPoints": [
+        { "title": "嵌套数据的列式编码", "detail": "用 repetition/definition level 把嵌套/可选字段无损压平进列——嵌套结构也能享受列存与向量化(Parquet 的直系祖先)。" },
+        { "title": "多级 serving tree", "detail": "查询沿树下发到大量叶子节点各扫一片,聚合结果层层向上归并——秒级扫描 PB 级数据的架构底座。" },
+        { "title": "存算彻底分离", "detail": "数据在 Colossus/对象存储,计算(Dremel/BigQuery)按查询临时拉起——弹性与多租户共享。" }
+      ],
+      "terms": [
+        { "term": "Dremel", "definition": "Google 的列式交互分析引擎,BigQuery 内核" },
+        { "term": "repetition/definition level", "definition": "无损列式编码嵌套数据的两个层级标记" },
+        { "term": "serving tree 服务树", "definition": "多级下发聚合上卷的执行拓扑" }
+      ]
+    },
+    {
+      "n": 19,
+      "summary": "第 20 讲 · Databricks Photon / Spark SQL:把 JVM 上的 Spark SQL 换上原生向量化引擎。Spark SQL 的 Catalyst 优化器与 Tungsten 代码生成的历史包袱(JVM、行式、GC);Photon 用 C++ 写的向量化引擎替换执行层,兼容 Spark API 却拿到数量级加速;湖仓一体(lakehouse)——直接在 Parquet/Delta 湖上跑数仓级查询。",
+      "keyPoints": [
+        { "title": "为什么要 Photon", "detail": "Spark 的 JVM 执行受 GC 与行式开销拖累;Photon 用原生 C++ 向量化引擎替换,API 不变、性能翻倍级。" },
+        { "title": "Catalyst 与向量化的结合", "detail": "沿用 Spark 的 Catalyst 优化器出计划,交给 Photon 向量化执行——上层生态不动、下层换引擎。" },
+        { "title": "Lakehouse", "detail": "在开放格式(Delta/Parquet)的数据湖上直接提供数仓级性能与事务,省去「湖→仓」搬运。" }
+      ],
+      "terms": [
+        { "term": "Photon", "definition": "Databricks 的原生向量化执行引擎" },
+        { "term": "Catalyst", "definition": "Spark SQL 的可扩展查询优化器" },
+        { "term": "lakehouse 湖仓一体", "definition": "在数据湖上提供数仓能力的架构" }
+      ]
+    },
+    {
+      "n": 20,
+      "summary": "第 21 讲 · Snowflake 数据仓库内核:云原生数仓的范式定义者。三层解耦——存储(S3 上的不可变微分区)、计算(无状态虚拟仓库,按需弹性且相互隔离)、云服务(元数据、优化、事务);多集群共享数据、自动弹性、按秒计费。剖析它如何用「存算分离 + 不可变存储 + 元数据裁剪」把弹性与性能同时做到。",
+      "keyPoints": [
+        { "title": "三层架构", "detail": "存储(S3 微分区)/ 计算(虚拟仓库)/ 云服务(元数据与优化)彻底分离——各自独立扩展,是 Snowflake 的立身之本。" },
+        { "title": "不可变微分区 + 元数据裁剪", "detail": "数据切成不可变微分区,每个存 min/max 等元数据;查询靠元数据大量剪枝,只拉需要的分区。" },
+        { "title": "弹性虚拟仓库", "detail": "计算集群按需秒级起停、互相隔离、共享同一份存储——多团队互不抢资源,按用量计费。" }
+      ],
+      "terms": [
+        { "term": "Snowflake", "definition": "存算分离的云原生数据仓库" },
+        { "term": "virtual warehouse 虚拟仓库", "definition": "无状态弹性计算集群" },
+        { "term": "micro-partition 微分区", "definition": "带元数据的不可变存储单元" }
+      ]
+    },
+    {
+      "n": 21,
+      "summary": "第 22 讲 · DuckDB 内核:「数据库界的 SQLite」——嵌入式、单机、面向分析。无服务器进程,以库形式嵌进应用;列存 + 向量化执行 + morsel 并行;直接查询 Parquet/CSV/Arrow 而无需导入;MVCC 支持事务。剖析它如何在单机上把现代 OLAP 的一整套(列存/向量化/优化器)做得又小又快,成为数据科学家的本地分析利器。",
+      "keyPoints": [
+        { "title": "嵌入式分析", "detail": "像 SQLite 一样 pip install 就能用、进程内运行、零配置;却是列存向量化的现代 OLAP 引擎——本地分析首选。" },
+        { "title": "直查外部文件", "detail": "对 Parquet/CSV/Arrow 就地查询,无需 ETL 导入;和 pandas/Arrow 零拷贝互通——嵌进数据科学工作流。" },
+        { "title": "麻雀虽小五脏俱全", "detail": "列存、向量化、morsel 并行、代价优化器、MVCC 事务——本课前半程讲的一切,DuckDB 都在单机实现了。" }
+      ],
+      "terms": [
+        { "term": "DuckDB", "definition": "嵌入式单机列存分析数据库" },
+        { "term": "embedded database 嵌入式数据库", "definition": "以库形式进程内运行,无独立服务" }
+      ]
+    },
+    {
+      "n": 22,
+      "summary": "第 23 讲 · Meta Velox:不是数据库,而是「可复用的执行引擎库」。Velox 把向量化执行的算子、表达式求值、类型系统抽出成 C++ 库,供 Presto、Spark 等多个引擎共用——避免每个系统重复造向量化轮子。剖析「执行引擎组件化」这一趋势:未来数据系统由 Velox(执行)、Arrow(格式)、Substrait(计划)等可复用组件拼装。",
+      "keyPoints": [
+        { "title": "执行引擎作为库", "detail": "Velox 把向量化算子/表达式引擎做成可嵌入的 C++ 库,Presto/Spark 等换上它就共享同一套高性能执行——不再各造轮子。" },
+        { "title": "组件化数据栈", "detail": "格式(Arrow)、计划(Substrait)、执行(Velox)各自标准化、可复用——数据系统正从「铁板一块」走向乐高式拼装。" },
+        { "title": "统一带来的收益", "detail": "一处优化,多引擎受益;跨引擎行为一致——工程与生态的双重复利。" }
+      ],
+      "terms": [
+        { "term": "Velox", "definition": "Meta 的可复用向量化执行引擎库" },
+        { "term": "composable data systems 组件化数据系统", "definition": "由可复用标准组件拼装的数据栈" }
+      ]
+    },
+    {
+      "n": 23,
+      "summary": "第 24 讲 · Amazon Redshift 内核:AWS 的旗舰云数仓,收官系统剖析。从早期基于 ParAccel 的 MPP 架构,到向存算分离(RA3 + Redshift Managed Storage)与 AQUA(近存储计算加速)的演进;编译式执行(生成 C++ 代码缓存复用)、区域图剪枝、并发扩展。剖析一个诞生更早的 MPP 数仓如何持续演进以对标云原生对手。",
+      "keyPoints": [
+        { "title": "MPP 到存算分离", "detail": "Redshift 早期是紧耦合的 MPP(计算存储绑在节点上);RA3 引入托管存储层向 Snowflake 式存算分离靠拢——老将的自我革新。" },
+        { "title": "编译式执行 + 缓存", "detail": "把查询段编译成 C++ 机器码并跨查询缓存复用,摊薄编译开销——工程化的编译执行落地。" },
+        { "title": "近存储加速(AQUA)", "detail": "在存储层旁用定制硬件做谓词过滤/聚合,减少往计算节点搬的数据——把计算推向数据的又一形态。" }
+      ],
+      "terms": [
+        { "term": "Redshift", "definition": "AWS 的 MPP 云数据仓库" },
+        { "term": "MPP 大规模并行处理", "definition": "多节点各处理一片数据的并行架构" },
+        { "term": "compute pushdown 计算下推", "definition": "把过滤/聚合推向存储层就近执行" }
+      ]
+    }
+  ]
+}
