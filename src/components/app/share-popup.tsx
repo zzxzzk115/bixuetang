@@ -45,8 +45,6 @@ export function SharePopup({
     blob: Blob;
   } | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
-  /** 微信面板:大二维码,微信扫一扫直达(网页没有拉起微信的通道) */
-  const [wechatQr, setWechatQr] = useState<string | null>(null);
   const cardKey = `${bvid}:${mode}`;
   const imgUrl = card?.key === cardKey ? card.url : null;
   const blob = card?.key === cardKey ? card.blob : null;
@@ -132,16 +130,6 @@ export function SharePopup({
     }
   };
 
-  const wechatShare = async () => {
-    if (wechatQr) {
-      setWechatQr(null);
-      return;
-    }
-    const { default: QRCode } = await import("qrcode");
-    const url = await QRCode.toDataURL(link, { width: 480, margin: 1 });
-    setWechatQr(url);
-  };
-
   const qqShare = () => {
     window.open(
       `https://connect.qq.com/widget/shareqq/index.html?url=${encodeURIComponent(link)}&title=${encodeURIComponent(shareTitle)}&summary=${encodeURIComponent("在必学堂用游戏化的方式自学公开课")}`,
@@ -203,12 +191,6 @@ export function SharePopup({
           <button className="app-btn-plain" onClick={copyLink}>
             <Copy size={16} aria-hidden /> 复制链接
           </button>
-          <button
-            className={wechatQr ? "app-btn-plain on" : "app-btn-plain"}
-            onClick={() => void wechatShare()}
-          >
-            微信
-          </button>
           <button className="app-btn-plain" onClick={qqShare}>
             <MessageCircle size={16} aria-hidden /> QQ
           </button>
@@ -216,22 +198,10 @@ export function SharePopup({
             微博
           </button>
         </div>
-        {wechatQr ? (
-          <div className="share-pop-wechat">
-            {/* eslint-disable-next-line @next/next/no-img-element -- data URL 二维码 */}
-            <img src={wechatQr} alt="微信扫码二维码" />
-            <p>
-              微信「扫一扫」直达{mode === "site" ? "本站" : "bilibili"},
-              打开后点右上角即可转发好友/朋友圈;
-              或保存上面的分享图直接发送。
-            </p>
-          </div>
-        ) : (
-          <p className="share-pop-note">
-            微信:点「微信」出大二维码扫码直达;或保存图片后发给好友/朋友圈,
-            对方长按识别图上二维码。手机上「系统分享」也能直接选微信/QQ。
-          </p>
-        )}
+        <p className="share-pop-note">
+          微信没有网页分享通道:保存图片发给好友/朋友圈即可,
+          对方长按识别图上二维码直达;手机上「系统分享」也能直接选微信。
+        </p>
         {msg && <p className="share-pop-msg">{msg}</p>}
       </div>
     </div>

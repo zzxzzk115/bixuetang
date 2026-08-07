@@ -5147,23 +5147,3 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-size: 12px;
   font-weight: 800;
 }
-.share-pop-wechat {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px;
-  border: 2px solid color-mix(in srgb, #07c160 55%, transparent);
-  border-radius: 12px;
-  background: color-mix(in srgb, #07c160 8%, transparent);
-}
-.share-pop-wechat img {
-  width: 132px;
-  height: 132px;
-  flex-shrink: 0;
-  border-radius: 8px;
-}
-.share-pop-wechat p {
-  color: var(--app-text);
-  font-size: 12px;
-  line-height: 1.7;
-}
