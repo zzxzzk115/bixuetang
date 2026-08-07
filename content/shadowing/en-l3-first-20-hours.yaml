@@ -1,65 +1,141 @@
-# 影子跟读单元(由 BV11y4y1272t 的真实 en 字幕轨生成,句子即字幕 cue)
+# 影子跟读单元 · Josh Kaufman《The First 20 Hours》(TED)
+# 句子由真实 ai-en 字幕轨按语义重新断句而成:每句=一条或多条完整字幕 cue,
+# from/to 对齐该句音频窗口,读的正好是听到的。zh 为中文对照。
 id: en-l3-first-20-hours
 title: 如何快速学会任何技能(TED)
 lang: en
 level: l3
+description: >
+  Josh Kaufman 的经典 TED 演讲:任何技能只需 20 小时刻意练习就能上手。
+  语速中等、逻辑清晰,适合练成段的连贯表达。
 source:
   platform: bilibili
   url: https://www.bilibili.com/video/BV11y4y1272t
+  uploader: B 站搬运(TED · Josh Kaufman）
 bvid: BV11y4y1272t
 page: 1
 sentences:
   - text: "Hi everyone."
+    zh: "大家好。"
     from: 2.26
     to: 3.32
   - text: "One of the things that I enjoy is learning new things."
+    zh: "我最喜欢做的事情之一,就是学习新东西。"
     from: 4.7
     to: 8.9
-  - text: "How long does it take to acquire a new skill."
+  - text: "How long does it take to acquire a new skill?"
+    zh: "掌握一项新技能要花多久?"
     from: 8.9
     to: 12.1
-  - text: "You know what I found ten thousand hours."
+  - text: "You know what I found? Ten thousand hours."
+    zh: "你知道我查到的是什么吗?一万小时。"
     from: 12.1
     to: 16.28
-  - text: "I am never going to be able to learn anything new ever again."
+  - text: "\"I'm never going to be able to learn anything new ever again.\""
+    zh: "“我这辈子再也学不会任何新东西了。”"
     from: 18.58
     to: 23.88
-  - text: "But that's not true the ten thousand hour rule came out of studies of."
+  - text: "But that's not true."
+    zh: "但事实并非如此。"
     from: 24.44
-    to: 29.86
-  - text: "Professional athletes world class musicians."
-    from: 32.34
+    to: 25.76
+  - text: "The ten-thousand-hour rule came out of studies of professional athletes and world-class musicians."
+    zh: "一万小时定律,来自对职业运动员和世界级音乐家的研究。"
+    from: 25.76
     to: 35.22
-  - text: "And the folks at the tippy top of their fields."
+  - text: "The folks at the tippy top of their fields put in around ten thousand hours of practice."
+    zh: "那些站在各自领域顶端的人,大约投入了一万小时的练习。"
     from: 35.22
-    to: 37.52
-  - text: "Put in around ten thousand hours of practice."
-    from: 37.52
     to: 41.06
-  - text: "But that last statement it takes ten thousand hours to learn something."
+  - text: "But that last statement, that it takes ten thousand hours to learn something, is not true."
+    zh: "但最后那句话——学会一样东西要花一万小时——是不对的。"
     from: 41.06
-    to: 44.309
-  - text: "It's not true this is the learning curve."
-    from: 44.309
-    to: 46.689
-  - text: "And the story of the learning curve is when you start."
-    from: 46.689
-    to: 49.209
-  - text: "You're grossly incompetent and you know it with a little bit of practice."
-    from: 49.209
-    to: 53.149
-  - text: "You get really good really quick."
-    from: 53.149
-    to: 54.849
-  - text: "And then at a certain point you reach a plateau."
-    from: 54.849
-    to: 57.66
-  - text: "And the subsequent gains become much harder to get."
-    from: 57.66
+    to: 45.41
+  - text: "This is the learning curve."
+    zh: "这就是学习曲线。"
+    from: 45.41
+    to: 46.69
+  - text: "The story of the learning curve is: when you start, you're grossly incompetent."
+    zh: "学习曲线的故事是这样的:刚开始时,你菜得一塌糊涂。"
+    from: 46.69
+    to: 50.81
+  - text: "And you know it. With a little bit of practice, you get really good, really quick."
+    zh: "而且你自己也清楚。稍加练习,你就会进步神速。"
+    from: 50.81
+    to: 54.85
+  - text: "And then at a certain point you reach a plateau, and the subsequent gains become much harder to get."
+    zh: "然后到某个点,你会遇到瓶颈,之后的进步就难得多了。"
+    from: 54.85
     to: 61.4
-  - text: "How long does it take from starting something and being grossly incompetent."
+  - text: "How long does it take, from starting something and being grossly incompetent, to being reasonably good?"
+    zh: "从一窍不通的起点,到还算拿得出手,要花多久?"
     from: 61.4
-    to: 66.21
-  - text: "And knowing it to being reasonably good."
-    from: 66.21
     to: 68.67
+  - text: "Here's what my research says: twenty hours. That's it."
+    zh: "我的研究结论是:二十小时。就这么多。"
+    from: 68.67
+    to: 72.44
+  - text: "You can go from knowing nothing; if you put twenty hours of focused, deliberate practice into that thing, you'll be astounded at how good you are."
+    zh: "你可以从零起步——只要投入二十小时专注、刻意的练习,你会惊讶于自己有多厉害。"
+    from: 72.58
+    to: 83.02
+  - text: "Twenty hours is doable. That's about forty-five minutes a day for about a month."
+    zh: "二十小时是做得到的。差不多每天四十五分钟,坚持一个月。"
+    from: 83.02
+    to: 87.42
+  - text: "There's a method to doing this. The first is to deconstruct the skill."
+    zh: "这是有方法的。第一步,拆解这项技能。"
+    from: 87.42
+    to: 92.44
+  - text: "Decide exactly what you want to be able to do, and break it down into smaller and smaller pieces."
+    zh: "明确你到底想做到什么,然后把它拆成越来越小的部分。"
+    from: 92.44
+    to: 99.56
+  - text: "The more you're able to decide what parts of this skill will actually help you get to what you want, the more you'll improve your performance in the least amount of time possible."
+    zh: "你越能分辨出这项技能里哪些部分真正帮你达成目标,就越能在最短时间内提升表现。"
+    from: 99.56
+    to: 110.19
+  - text: "The second is: learn enough to self-correct."
+    zh: "第二步:学到足够,好让自己能自我纠正。"
+    from: 110.19
+    to: 113.29
+  - text: "Get three to five resources about what you're trying to learn; it could be books, could be courses, could be anything."
+    zh: "找三到五份关于你要学的东西的资料——可以是书,可以是课程,什么都行。"
+    from: 113.29
+    to: 120.15
+  - text: "What you want to do is learn just enough that you can actually practice and self-correct."
+    zh: "你要做的,是学到刚好够用,能真正开始练习并自我纠正。"
+    from: 120.15
+    to: 125.09
+  - text: "Noticing when you're making a mistake, and then doing something a little different."
+    zh: "察觉自己何时出错,然后换个方式再来。"
+    from: 125.09
+    to: 128.43
+  - text: "The third is to remove barriers to practice: distractions, television, the internet."
+    zh: "第三步,排除练习的障碍:各种干扰、电视、网络。"
+    from: 128.43
+    to: 134.15
+  - text: "Most skills have what I call a frustration barrier. By pre-committing to practicing whatever it is you want to do for at least twenty hours,"
+    zh: "大多数技能都有我所说的“挫败门槛”。只要你预先承诺,对想做的事至少练二十小时,"
+    from: 138.8
+    to: 147.22
+  - text: "you'll overcome that initial frustration barrier and stick with the practice long enough to actually reap the rewards."
+    zh: "你就能跨过最初的挫败门槛,坚持练下去,久到真正尝到回报。"
+    from: 147.22
+    to: 154.52
+  - text: "That's it. It's not rocket science."
+    zh: "就这样。这不是什么高深的学问。"
+    from: 154.52
+    to: 156.18
+  - text: "The major barrier to learning something new is not intellectual; the major barrier is emotional: feeling stupid."
+    zh: "学习新东西的主要障碍不是智力上的,而是情绪上的——觉得自己很蠢。"
+    from: 156.18
+    to: 162.91
+  - text: "It doesn't feel good in the beginning of learning anything new. You feel really stupid."
+    zh: "学任何新东西,一开始都不好受。你会觉得自己蠢极了。"
+    from: 162.91
+    to: 167.51
+  - text: "You want to learn how to draw? Go out and do that thing. It only takes twenty hours. Have fun."
+    zh: "你想学画画?那就去做。只要二十小时。享受它。"
+    from: 173.26
+    to: 178.9

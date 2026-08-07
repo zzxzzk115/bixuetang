@@ -1,53 +1,113 @@
-# 影子跟读单元(由 BV14p4y197in 的真实 en 字幕轨生成,句子即字幕 cue)
+# 影子跟读单元 · Jay Walker《The World's English Mania》(TED)
+# 句子由真实 ai-en 字幕轨按语义重新断句而成:每句=一条或多条完整字幕 cue,
+# from/to 对齐该句音频窗口,读的正好是听到的。zh 为中文对照。
 id: en-l2-english-mania
-title: 英语狂热(TED短演讲)
+title: 英语狂热(TED 短演讲)
 lang: en
 level: l2
+description: >
+  Jay Walker 2 分钟短演讲,句子短、节奏明快、主题清晰,适合入门跟读:
+  先把一句句短而完整的话读顺、读像。
 source:
   platform: bilibili
   url: https://www.bilibili.com/video/BV14p4y197in
+  uploader: B 站搬运(TED · Jay Walker）
 bvid: BV14p4y197in
 page: 1
 sentences:
-  - text: "Let's start with beatlemania."
+  - text: "Let's start with Beatlemania."
+    zh: "我们先从“披头士狂热”说起。"
     from: 19.82
     to: 22.26
-  - text: "All for one idea get the ball in the net."
+  - text: "All for one idea: get the ball in the net."
+    zh: "全都为了一个念头:把球送进网里。"
     from: 37.1
-    to: 41.879
-  - text: "Okay religious mania there's rapture."
+    to: 41.88
+  - text: "Okay, religious mania: there's rapture, there's weeping, there's visions."
+    zh: "好,宗教狂热:有狂喜,有痛哭,有异象。"
     from: 43.44
-    to: 46.66
-  - text: "There's weeping there's visions manias can be good."
-    from: 46.66
+    to: 49.94
+  - text: "Manias can be good."
+    zh: "狂热可以是好的。"
+    from: 49.94
     to: 52.08
   - text: "Manias can be alarming."
+    zh: "狂热可以令人不安。"
     from: 52.4
     to: 54.08
   - text: "Or manias can be deadly."
+    zh: "也可以是致命的。"
     from: 55.4
     to: 57.86
-  - text: "The world has a new mania."
+  - text: "The world has a new mania: a mania for learning English."
+    zh: "世界有了一种新狂热:学英语的狂热。"
     from: 61
-    to: 62.96
-  - text: "A mania for learning english."
-    from: 62.96
-    to: 65.519
-  - text: "How many people are trying to learn english worldwide."
-    from: 65.519
-    to: 68.779
-  - text: "Two billion of them in latin."
-    from: 68.779
-    to: 72.7
-  - text: "America in india in southeast asia."
-    from: 72.7
-    to: 76.84
-  - text: "And most of all in china."
-    from: 76.84
-    to: 79.679
-  - text: "Why english in a single word opportunity."
+    to: 65.52
+  - text: "How many people are trying to learn English worldwide?"
+    zh: "全世界有多少人在学英语?"
+    from: 65.52
+    to: 68.78
+  - text: "Two billion of them, in Latin America, in India, in Southeast Asia, and most of all in China."
+    zh: "有二十亿——在拉丁美洲、在印度、在东南亚,而最多的是在中国。"
+    from: 68.78
+    to: 79.68
+  - text: "Why English? In a single word: opportunity."
+    zh: "为什么是英语?一个词:机会。"
     from: 79.92
     to: 83.36
-  - text: "Opportunity for a better life."
+  - text: "Opportunity for a better life: a job, to be able to pay for school, or put better food on the table."
+    zh: "通往更好生活的机会:一份工作,供得起学费,或让餐桌上有更好的食物。"
     from: 83.36
-    to: 85.2
+    to: 89.42
+  - text: "So is English mania good or bad? Is English a tsunami, washing away other languages? Not likely."
+    zh: "那么英语狂热是好是坏?英语是不是一场海啸,把其他语言冲走?不太可能。"
+    from: 89.42
+    to: 98.1
+  - text: "English is the world's second language."
+    zh: "英语是全世界的第二语言。"
+    from: 98.1
+    to: 100.84
+  - text: "Your native language is your life. But with English, you can become part of a wider conversation."
+    zh: "母语是你的生活。但有了英语,你就能加入一场更广的对话。"
+    from: 101.16
+    to: 107.43
+  - text: "A global conversation about global problems, like climate change, or poverty, or hunger, or disease."
+    zh: "一场关于全球问题的全球对话——气候变化、贫困、饥饿、疾病。"
+    from: 107.43
+    to: 116.52
+  - text: "The world has other universal languages."
+    zh: "世界还有别的通用语言。"
+    from: 116.52
+    to: 119.4
+  - text: "Mathematics is the language of science."
+    zh: "数学是科学的语言。"
+    from: 120.44
+    to: 123.1
+  - text: "Music is the language of emotions."
+    zh: "音乐是情感的语言。"
+    from: 123.28
+    to: 126.19
+  - text: "And now English is becoming the language of problem-solving."
+    zh: "而如今,英语正成为解决问题的语言。"
+    from: 126.19
+    to: 130.71
+  - text: "Not because America is pushing it, but because the world is pulling it."
+    zh: "不是因为美国在推动它,而是因为世界在拉动它。"
+    from: 130.71
+    to: 136
+  - text: "So English mania is a turning point, like the harnessing of electricity in our cities, or the fall of the Berlin Wall."
+    zh: "所以英语狂热是一个转折点,就像城市开始用电,或柏林墙的倒塌。"
+    from: 136.46
+    to: 144.63
+  - text: "English represents hope for a better future."
+    zh: "英语代表着对更美好未来的希望。"
+    from: 144.63
+    to: 148.62
+  - text: "A future where the world has a common language to solve its common problems."
+    zh: "一个世界拥有共同语言、去解决共同问题的未来。"
+    from: 148.62
+    to: 155.38
+  - text: "Thank you very much."
+    zh: "非常感谢。"
+    from: 155.38
+    to: 156.72

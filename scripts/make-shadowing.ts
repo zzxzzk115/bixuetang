@@ -167,7 +167,11 @@ async function main() {
   if (cues.length === 0) throw new Error("过滤后没有可用句子");
 
   const lines = [
-    `# 影子跟读单元(由 ${bvid} 的真实 ${lang} 字幕轨生成,句子即字幕 cue)`,
+    `# ⚠ 草稿:由 ${bvid} 的真实 ${lang} 字幕轨机械切分而成(按时长/停顿,非语义)。`,
+    `# ASR 无标点,句子边界切不准 → 发布前需人工/LLM 按语义重新断句:`,
+    `#   npx tsx scripts/dump-cues.ts ${bvid} ${lang}   # 看逐字 cue+时间轴`,
+    `# 规则:一句=一条或多条【完整】cue(不可拆 cue,否则文与音对不上),`,
+    `# 合并成完整句、补标点、可选加 zh。参考 en-l3-first-20-hours.yaml。`,
     `id: ${id}`,
     `title: ${title}`,
     `lang: ${lang === "en" ? "en" : lang}`,
