@@ -2,6 +2,7 @@
  *  用法: npm run tsx scripts/dump-cues.ts -- BV.. en */
 import fs from "node:fs";
 import path from "node:path";
+import { signedUrl } from "./wbi";
 function loadEnv() {
   const p = path.join(process.cwd(), ".env.local");
   if (!fs.existsSync(p)) return;
@@ -32,7 +33,7 @@ async function main() {
     for (const s of list ?? []) if (s?.lan && (!merged.has(s.lan) || (!urlOf(merged.get(s.lan)) && urlOf(s)))) merged.set(s.lan, s);
   };
   for (let i = 0; i < 4; i++) {
-    try { const j = await gj(`https://api.bilibili.com/x/player/wbi/v2?bvid=${bvid}&cid=${cid}`); if (j.code === 0) absorb(j.data?.subtitle?.subtitles); } catch {}
+    try { const url = await signedUrl("https://api.bilibili.com/x/player/wbi/v2", { bvid, cid }); const j = await gj(url); if (j.code === 0) absorb(j.data?.subtitle?.subtitles); } catch {}
     try { const j = await gj(`https://api.bilibili.com/x/player/v2?bvid=${bvid}&cid=${cid}`); absorb(j.data?.subtitle?.subtitles); } catch {}
     const re = new RegExp(`^(ai-)?${lang}`, "i");
     const pick = [...merged.values()].find((s) => re.test(s.lan) && urlOf(s));

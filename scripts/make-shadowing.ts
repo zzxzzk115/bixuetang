@@ -11,6 +11,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { signedUrl } from "./wbi";
 
 function loadEnvLocal() {
   const p = path.join(process.cwd(), ".env.local");
@@ -62,11 +63,14 @@ async function cuesForLang(bvid: string, cid: number, lang: string): Promise<Cue
   const absorb = (list?: Sub[]) => {
     for (const s of list ?? []) if (s?.lan && (!merged.has(s.lan) || (!urlOf(merged.get(s.lan)) && urlOf(s)))) merged.set(s.lan, s);
   };
+  // WBI 签名的 wbi/v2 才会返回人工字幕轨(en-US 等,带标点、质量最高);
+  // 未签名只剩 ai- 轨。签名失败再回退未签名 player/v2。
   try {
-    const j = await getJson<PV2>(`https://api.bilibili.com/x/player/wbi/v2?bvid=${bvid}&cid=${cid}`);
+    const url = await signedUrl("https://api.bilibili.com/x/player/wbi/v2", { bvid, cid });
+    const j = await getJson<PV2>(url);
     if (j.code === 0) absorb(j.data?.subtitle?.subtitles);
   } catch {
-    /* 412 → 回退 */
+    /* 签名/网络失败 → 回退 */
   }
   for (let i = 0; i < 3; i++) {
     try {

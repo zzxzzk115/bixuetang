@@ -12,7 +12,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { createHash } from "node:crypto";
+import { signWbi, signedUrl } from "./wbi";
 
 function loadEnvLocal() {
   const p = path.join(process.cwd(), ".env.local");
@@ -38,40 +38,6 @@ async function getJson<T>(url: string): Promise<T> {
   return (await res.json()) as T;
 }
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
-// ---- WBI 签名(与 src/lib/bili/wbi.ts 同算法,脚本内自带一份避开 server-only) ----
-const MIXIN_TAB = [
-  46, 47, 18, 2, 53, 8, 23, 32, 15, 50, 10, 31, 58, 3, 45, 35, 27, 43, 5, 49, 33,
-  9, 42, 19, 29, 28, 14, 39, 12, 38, 41, 13, 37, 48, 7, 16, 24, 55, 40, 61, 26, 17,
-  0, 1, 60, 51, 30, 4, 22, 25, 54, 21, 56, 59, 6, 63, 57, 62, 11, 36, 20, 34, 44, 52,
-];
-let mixinCache = "";
-function keyFromUrl(u: string) {
-  return u.slice(u.lastIndexOf("/") + 1).split(".")[0];
-}
-async function mixinKey(): Promise<string> {
-  if (mixinCache) return mixinCache;
-  const j = await getJson<{ data?: { wbi_img?: { img_url: string; sub_url: string } } }>(
-    "https://api.bilibili.com/x/web-interface/nav",
-  );
-  const img = j.data?.wbi_img;
-  if (!img) throw new Error("拿不到 WBI key");
-  const raw = keyFromUrl(img.img_url) + keyFromUrl(img.sub_url);
-  mixinCache = MIXIN_TAB.map((i) => raw[i]).join("").slice(0, 32);
-  return mixinCache;
-}
-async function signWbi(params: Record<string, string | number>): Promise<string> {
-  const mixin = await mixinKey();
-  const wts = Math.floor(Date.now() / 1000);
-  const merged: Record<string, string> = { wts: String(wts) };
-  for (const [k, v] of Object.entries(params)) merged[k] = String(v).replace(/[!'()*]/g, "");
-  const query = Object.keys(merged)
-    .sort()
-    .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(merged[k])}`)
-    .join("&");
-  const wRid = createHash("md5").update(query + mixin).digest("hex");
-  return `${query}&w_rid=${wRid}`;
-}
 
 // ---- 搜索 ----
 type SearchItem = { bvid: string; title: string; duration: string; play?: number; author?: string };
@@ -111,7 +77,10 @@ async function subTracks(bvid: string, cid: number): Promise<Sub[]> {
       if (s?.lan && (!merged.has(s.lan) || (!urlOf(merged.get(s.lan)) && urlOf(s)))) merged.set(s.lan, s);
   };
   try {
-    const j = await getJson<PV2>(`https://api.bilibili.com/x/player/wbi/v2?bvid=${bvid}&cid=${cid}`);
+    // 签名后 wbi/v2 才返回人工字幕轨(en-US 等)
+    const j = await getJson<PV2>(
+      await signedUrl("https://api.bilibili.com/x/player/wbi/v2", { bvid, cid }),
+    );
     if (j.code === 0) absorb(j.data?.subtitle?.subtitles);
   } catch {}
   try {
