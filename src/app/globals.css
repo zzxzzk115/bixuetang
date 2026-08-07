@@ -6211,6 +6211,15 @@ body:has(.art-video-player.art-fullscreen-web) {
   cursor: pointer;
 }
 
+/* 章节、笔记控件只在全屏时出现:窗口模式下页面本身就有分集清单和笔记区,
+   控制条不必重复它们;CC/清晰度等仍常驻。 */
+.art-video-player:not(.art-fullscreen):not(.art-fullscreen-web)
+  .art-control-chapters,
+.art-video-player:not(.art-fullscreen):not(.art-fullscreen-web)
+  .art-control-note {
+  display: none !important;
+}
+
 /* ==== F3:章节缩略图(前端抓帧,dataURL) ==== */
 .artchapter-panel li button {
   align-items: center;
