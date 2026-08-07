@@ -2706,12 +2706,12 @@ math-field {
 :root[data-theme="dark"] .lex-root .glossary-index-rail {
   border: 2px solid color-mix(in srgb, var(--app-line) 55%, transparent);
   border-radius: 999px;
-  /* 真透明:悬浮在词条上也能看清后面的文字(重模糊看起来像实底) */
+  /* 纯透明,不做毛玻璃:悬浮在词条上时后面的文字原样可读 */
   background: color-mix(in srgb, var(--app-surface) 38%, transparent);
   color: var(--app-text);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
   overflow: hidden;
-  backdrop-filter: blur(2.5px);
+  backdrop-filter: none;
 }
 @media (max-width: 1023px) {
   :root .lex-root .glossary-index-rail {
