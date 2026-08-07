@@ -764,60 +764,42 @@ export function BiliPlayer({
         }
       });
 
-      // 画中画(Document PiP):把整个播放器(视频 + 自绘字幕层 + 控制条)
-      // 整体搬进一个真正的浮动窗口。字幕、进度条、播放/暂停全都在——因为它们
-      // 本就是这个 DOM 子树的一部分。Chrome/Edge 116+ 支持;不支持则退回原生
-      // PiP(有控件、无自绘字幕)。
+      // 画中画:视频走原生 PiP(真控件、可拖进度条、最稳),字幕另开一个
+      // 极轻的 Document PiP 文本浮窗当「桌面字幕」——只放一行文字、不搬视频,
+      // 规避了「把 MSE 视频搬进浮窗」的各种坑。两者能否共存看浏览器,
+      // 拿不到字幕浮窗也不影响视频 PiP。
       const srcVideo = art.video;
-      const playerHost = hostRef.current!;
-      let placeholder: HTMLElement | null = null;
-      let docPipWin: Window | null = null;
+      let subWin: Window | null = null;
+      let subEl: HTMLElement | null = null;
 
-      // 把主文档样式表克隆进 PiP 窗口,字幕/控件才有样式;主题跟随
-      const copyStyles = (win: Window) => {
-        for (const sheet of Array.from(document.styleSheets)) {
-          try {
-            const cssText = Array.from(sheet.cssRules)
-              .map((r) => r.cssText)
-              .join("\n");
-            const style = win.document.createElement("style");
-            style.textContent = cssText;
-            win.document.head.appendChild(style);
-          } catch {
-            // 跨域样式表读不到 cssRules → 用 <link> 兜底
-            if (sheet.href) {
-              const link = win.document.createElement("link");
-              link.rel = "stylesheet";
-              link.href = sheet.href;
-              win.document.head.appendChild(link);
-            }
-          }
-        }
-        const theme = document.documentElement.getAttribute("data-theme");
-        if (theme) win.document.documentElement.setAttribute("data-theme", theme);
-        win.document.documentElement.style.background = "#000";
-        win.document.body.style.margin = "0";
+      const currentCcText = () => {
+        if (!prefsStore.get().cc.on) return "";
+        const t = srcVideo.currentTime;
+        return activeTracksRef.current
+          .map((track) => {
+            const at = t - (ccOffsetsRef.current[track.lan] ?? 0) / 1000;
+            return track.cues.find((c) => at >= c.from && at <= c.to)?.text ?? "";
+          })
+          .filter(Boolean)
+          .join("\n");
       };
-
-      const stopPip = () => {
-        pipOnRef.current = false;
-        // 文档级:把播放器移回原位并关窗
-        if (placeholder && placeholder.parentElement) {
-          placeholder.replaceWith(playerHost);
-        }
-        placeholder = null;
-        if (docPipWin) {
-          try {
-            docPipWin.close();
-          } catch {
-            // 已关闭
-          }
-          docPipWin = null;
-        }
-        // 原生兜底路径:退出
-        if (document.pictureInPictureElement === srcVideo) {
-          document.exitPictureInPicture().catch(() => {});
-        }
+      const updateSubWindow = () => {
+        if (subEl) subEl.textContent = currentCcText();
+      };
+      const buildSubWindow = (win: Window) => {
+        win.document.title = "字幕";
+        win.document.body.style.cssText =
+          "margin:0;height:100vh;display:flex;align-items:center;" +
+          "justify-content:center;background:rgba(10,10,12,0.82);";
+        const box = win.document.createElement("div");
+        box.style.cssText =
+          "width:100%;padding:8px 16px;text-align:center;color:#fff;" +
+          "white-space:pre-wrap;word-break:break-word;" +
+          'font:700 26px/1.4 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;' +
+          "text-shadow:0 2px 8px #000,0 0 3px #000;";
+        win.document.body.appendChild(box);
+        subEl = box;
+        updateSubWindow();
       };
 
       const docPip = (
@@ -831,34 +813,41 @@ export function BiliPlayer({
         }
       ).documentPictureInPicture;
 
+      const stopPip = () => {
+        pipOnRef.current = false;
+        subEl = null;
+        if (subWin) {
+          try {
+            subWin.close();
+          } catch {
+            // 已关闭
+          }
+          subWin = null;
+        }
+        if (document.pictureInPictureElement === srcVideo) {
+          document.exitPictureInPicture().catch(() => {});
+        }
+      };
+
       const startPip = async () => {
         if (pipOnRef.current) return;
-        if (docPip?.requestWindow) {
-          try {
-            const w = Math.min(srcVideo.videoWidth || 640, 720);
-            const h = Math.round(
-              w * ((srcVideo.videoHeight || 9) / (srcVideo.videoWidth || 16)),
-            );
-            const win = await docPip.requestWindow({ width: w, height: h });
-            docPipWin = win;
-            copyStyles(win);
-            placeholder = document.createElement("div");
-            // 先在原位插占位,再把整棵播放器搬进浮窗
-            playerHost.replaceWith(placeholder);
-            win.document.body.appendChild(playerHost);
-            pipOnRef.current = true;
-            win.addEventListener("pagehide", () => stopPip(), { once: true });
-            return;
-          } catch {
-            stopPip(); // 失败 → 收拾干净,走原生兜底
-          }
-        }
-        // 兜底:原生 PiP(有控件,但没有自绘字幕)
+        pipOnRef.current = true;
+        // 1) 视频进原生 PiP(优先,gesture 先给它,保证控件可用)
         try {
           await srcVideo.requestPictureInPicture();
-          pipOnRef.current = true;
         } catch {
           // 用户拒绝 / 不支持,忽略
+        }
+        // 2) 字幕桌面浮窗(能开就开,开不了不影响视频 PiP)
+        if (docPip?.requestWindow) {
+          try {
+            const win = await docPip.requestWindow({ width: 520, height: 108 });
+            subWin = win;
+            buildSubWindow(win);
+            win.addEventListener("pagehide", () => stopPip(), { once: true });
+          } catch {
+            // 拒绝 / 与原生 PiP 不共存 → 没有字幕浮窗
+          }
         }
       };
 
@@ -868,10 +857,8 @@ export function BiliPlayer({
       };
       pipCleanupRef.current = stopPip;
 
-      // 原生兜底路径:用户从系统 UI 关掉 PiP 时同步状态
-      srcVideo.addEventListener("leavepictureinpicture", () => {
-        if (!docPipWin) pipOnRef.current = false;
-      });
+      // 用户从系统 UI 关掉视频 PiP 时,连带收起字幕浮窗
+      srcVideo.addEventListener("leavepictureinpicture", () => stopPip());
 
       // 覆盖率追踪 + CC 字幕行,都挂在 timeupdate 上
       // (覆盖率百分比不再占控制栏按钮位,分段 chips 与打卡反馈足够)
@@ -892,10 +879,12 @@ export function BiliPlayer({
           if (key !== lastCuesRef.current) {
             lastCuesRef.current = key;
             setCues(next);
+            updateSubWindow(); // 桌面字幕浮窗(开着才更新)
           }
         } else if (lastCuesRef.current !== "") {
           lastCuesRef.current = "";
           setCues([]);
+          updateSubWindow();
         }
       });
 
