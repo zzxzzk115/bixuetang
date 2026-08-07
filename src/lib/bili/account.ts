@@ -26,6 +26,16 @@ export function getBiliBinding(userId: number): BiliBinding | null {
   return row ?? null;
 }
 
+/** 这个 bilibili mid 已绑到哪个本站账号（没有则 null）。用于防重复绑定 */
+export function getUserIdByBiliMid(mid: string): number | null {
+  const row = db
+    .select({ userId: biliAccounts.userId })
+    .from(biliAccounts)
+    .where(eq(biliAccounts.mid, mid))
+    .get();
+  return row?.userId ?? null;
+}
+
 /** server-only：取凭据用于代理请求 */
 export function getBiliSessdata(userId: number): string | null {
   const row = db

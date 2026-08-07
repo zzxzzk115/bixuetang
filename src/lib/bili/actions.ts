@@ -5,6 +5,7 @@ import { fetchSelfInfo, qrGenerate, qrPoll } from "./api";
 import {
   clearBiliBinding,
   getBiliBinding,
+  getUserIdByBiliMid,
   saveBiliBinding,
   type BiliBinding,
 } from "./account";
@@ -72,6 +73,17 @@ export async function pollBiliLogin(
           result.rawCode !== undefined
             ? `bilibili 返回 code=${result.rawCode}${result.rawMessage ? ` ${result.rawMessage}` : ""}`
             : undefined,
+      };
+    }
+
+    // 一个 bilibili 账号只能绑定一个必学堂账号：已绑到别人名下就拒绝，
+    // 否则多个账号共用一个 b 站，扫码登录会落到不确定的那个上。
+    const owner = getUserIdByBiliMid(result.mid!);
+    if (owner != null && owner !== user.id) {
+      return {
+        ok: false,
+        error:
+          "该 bilibili 账号已绑定到另一个必学堂账号。请先在那个账号里解绑，或直接用扫码登录进入它。",
       };
     }
 

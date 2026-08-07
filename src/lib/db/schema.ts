@@ -228,21 +228,27 @@ export const userState = sqliteTable("user_state", {
 });
 
 // bilibili 账号绑定（扫码登录换取的凭据）。凭据只在服务端使用，不下发客户端。
-export const biliAccounts = sqliteTable("bili_accounts", {
-  userId: integer("user_id")
-    .primaryKey()
-    .references(() => users.id, { onDelete: "cascade" }),
-  /** bilibili uid */
-  mid: text("mid").notNull(),
-  nickname: text("nickname"),
-  avatarUrl: text("avatar_url"),
-  sessdata: text("sessdata").notNull(),
-  biliJct: text("bili_jct"),
-  refreshToken: text("refresh_token"),
-  expiresAt: integer("expires_at"),
-  createdAt: integer("created_at").notNull(),
-  updatedAt: integer("updated_at").notNull(),
-});
+// mid 唯一：一个 bilibili 账号只能绑到一个必学堂账号，否则扫码登录会落到
+// 不确定的那个账号上（见迁移 0025）。
+export const biliAccounts = sqliteTable(
+  "bili_accounts",
+  {
+    userId: integer("user_id")
+      .primaryKey()
+      .references(() => users.id, { onDelete: "cascade" }),
+    /** bilibili uid */
+    mid: text("mid").notNull(),
+    nickname: text("nickname"),
+    avatarUrl: text("avatar_url"),
+    sessdata: text("sessdata").notNull(),
+    biliJct: text("bili_jct"),
+    refreshToken: text("refresh_token"),
+    expiresAt: integer("expires_at"),
+    createdAt: integer("created_at").notNull(),
+    updatedAt: integer("updated_at").notNull(),
+  },
+  (t) => [uniqueIndex("bili_accounts_mid_unique").on(t.mid)],
+);
 
 // 单集观看进度（自研播放器上报）：看到哪、看了多少、是否达标
 export const episodeWatch = sqliteTable(
