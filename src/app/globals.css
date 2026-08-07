@@ -208,9 +208,15 @@ html {
   font-weight: 700;
   cursor: pointer;
 }
-/* 当前 tab 高亮(移动端底栏,桌面侧栏在下面的媒体查询里另有底色版) */
+/* 当前 tab 高亮:图标+文字变绿,加绿底圆角块——只变个字色在
+   小图标上根本看不出来(桌面侧栏在下面的媒体查询里覆盖成蓝色版) */
 .app-tabs button.active {
   color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 13%, transparent);
+  border-radius: 14px;
+}
+.app-tabs button.active svg {
+  stroke-width: 2.8;
 }
 
 /* ---------- 桌面端：左导航 + 中内容列 + 右统计栏，占满全屏 ---------- */
