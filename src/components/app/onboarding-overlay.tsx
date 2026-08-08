@@ -87,18 +87,11 @@ export function OnboardingOverlay({
     });
   }
 
-  // 选定「成为 X」职业目标:存目标 + 尽量把地图切到含首门课的路线
+  // 选定「成为 X」职业目标:只存目标,不钉死路线——地图跟随目标线走(routeId 留空)
   function pickCareer(r: RoadmapChoice) {
     setChosen(r.title);
-    const route = bootstrap.paths.find(
-      (p) => p.mode === "course" && p.courseIds.includes(r.firstCourseId),
-    );
-    if (route) onPick(route.id);
     startTransition(async () => {
-      const res = await completeOnboarding({
-        goalRoadmap: r.id,
-        pathId: route?.id ?? null,
-      });
+      const res = await completeOnboarding({ goalRoadmap: r.id });
       finish(r.title, res.coins);
     });
   }

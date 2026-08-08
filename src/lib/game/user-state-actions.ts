@@ -6,7 +6,9 @@ import { ccOffsets, ccTrackOffsets, userState } from "../db/schema";
 
 // 学习状态写入（跨设备该一致的东西走这里）
 
-export async function saveRouteChoice(routeId: string): Promise<void> {
+// routeId 为 null = 「跟随目标」:不钉死某条线,地图按当前目标的进度自动跟。
+// 明确选了某条线(含偏离目标去探索别的线)才存具体 id。
+export async function saveRouteChoice(routeId: string | null): Promise<void> {
   const user = await getCurrentUser();
   if (!user) return;
   const now = Date.now();

@@ -41,10 +41,7 @@ export default async function PlayPage() {
       roadmaps={roadmaps}
       topSlot={
         <>
-          <NextStepCard
-            step={nextStep}
-            goal={goal ? { id: goal.id, title: goal.title } : null}
-          />
+          <NextStepCard step={nextStep} />
           {dueCount > 0 && (
             <Link href="/review" className="review-entry">
               <span className="review-entry-icon" aria-hidden>

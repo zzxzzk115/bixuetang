@@ -1,8 +1,20 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Brain, Check, FlaskConical, Gift, Lock, Mic, Play } from "lucide-react";
+import {
+  Brain,
+  Check,
+  FlaskConical,
+  Gift,
+  Lock,
+  MapPin,
+  Mic,
+  Play,
+  RotateCcw,
+  Target,
+} from "lucide-react";
 import type {
   CourseSummaryDto,
   GameBootstrap,
@@ -147,13 +159,12 @@ export function RouteMap({
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [width, setWidth] = useState(0);
   const [sheetOpen, setSheetOpen] = useState(false);
-  // 路线选择属于「这个人的学习状态」，存库跨设备一致（原来在 localStorage）
-  const [routeId, setRouteId] = useState(
-    () =>
-      (bootstrap.routeId &&
-      bootstrap.paths.some((p) => p.id === bootstrap.routeId)
-        ? bootstrap.routeId
-        : bootstrap.paths[0]?.id) ?? "",
+  // 路线选择属于「这个人的学习状态」，存库跨设备一致（原来在 localStorage）。
+  // 空串 = 跟随目标：地图跟着 goalRoute 走、随进度自动前进；显式选了才存具体 id。
+  const [routeId, setRouteId] = useState(() =>
+    bootstrap.routeId && bootstrap.paths.some((p) => p.id === bootstrap.routeId)
+      ? bootstrap.routeId
+      : "",
   );
   const [shakeKey, setShakeKey] = useState<string | null>(null);
   const [chestOpening, setChestOpening] = useState(false);
@@ -177,13 +188,21 @@ export function RouteMap({
     return () => ro.disconnect();
   }, []);
 
+  // 有效线:显式选的优先,否则跟随目标(goalRoute),再否则第一条能走的线
+  const goalRoute = bootstrap.goalRoute;
+  const goalTitle =
+    roadmaps.find((r) => r.id === bootstrap.goalRoadmap)?.title ?? "";
+  const effectiveId = routeId || goalRoute?.id || bootstrap.paths[0]?.id || "";
   // 存着的 routeId 可能指向一条现在还锁着的线（内容更新或换了账号），
   // 那就退到第一条能走的线，别把人扔在一屏的锁前面
-  const picked = bootstrap.paths.find((p) => p.id === routeId);
+  const picked = bootstrap.paths.find((p) => p.id === effectiveId);
   const path =
     picked?.unlocked === false || !picked
       ? (bootstrap.paths.find((p) => p.unlocked) ?? bootstrap.paths[0])
       : picked;
+  // 跟随目标 = 没显式选线且有目标线;偏离 = 显式选了、且不是目标线
+  const followingGoal = !routeId && !!goalRoute;
+  const detoured = !!routeId && !!goalRoute && routeId !== goalRoute.id;
 
   const { nodes, banners, totalH } = useMemo(() => {
     if (!path || width === 0)
@@ -354,6 +373,14 @@ export function RouteMap({
     void saveRouteChoice(id);
   };
 
+  // 回到目标路线:清掉显式选择,重新跟随目标(routeId=null)
+  const followGoal = () => {
+    setRouteId("");
+    setSheetOpen(false);
+    scrolledOnce.current = false;
+    void saveRouteChoice(null);
+  };
+
   const shake = (key: string) => {
     setShakeKey(key);
     setTimeout(() => setShakeKey(null), 400);
@@ -444,6 +471,58 @@ export function RouteMap({
       />
       <GoalPromptOverlay bootstrap={bootstrap} roadmaps={roadmaps} />
       <div className="route-map" ref={scrollRef}>
+        {/* 目标 + 当前路线关系条:目标为纲,地图跟随目标线;偏离了给回引 */}
+        <div className="map-goalbar">
+          {goalRoute && bootstrap.goalRoadmap ? (
+            <>
+              <Link
+                href={`/roadmaps/${bootstrap.goalRoadmap}`}
+                className="map-goalbar-goal"
+              >
+                <Target size={14} aria-hidden />
+                <span>
+                  目标 · <b>{goalTitle}</b>
+                </span>
+                <span className="map-goalbar-edit">换目标</span>
+              </Link>
+              <div className="map-goalbar-route">
+                <MapPin size={13} aria-hidden />
+                <span>
+                  {followingGoal ? "跟随目标 · 在爬 " : "在爬 · "}
+                  <b>{path?.title}</b>
+                </span>
+                <button
+                  className="map-goalbar-link"
+                  onClick={() => setSheetOpen(true)}
+                >
+                  换路线
+                </button>
+                {detoured && (
+                  <button className="map-goalbar-back" onClick={followGoal}>
+                    <RotateCcw size={12} aria-hidden /> 回到目标路线
+                  </button>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="map-goalbar-route">
+              <MapPin size={13} aria-hidden />
+              <span>
+                当前路线 · <b>{path?.title}</b>
+              </span>
+              <button
+                className="map-goalbar-link"
+                onClick={() => setSheetOpen(true)}
+              >
+                换路线
+              </button>
+              <Link href="/roadmaps" className="map-goalbar-link">
+                设定目标 →
+              </Link>
+            </div>
+          )}
+        </div>
+
         {topSlot && <div className="route-map-top">{topSlot}</div>}
 
         {path?.mode === "shadow" && shadowLayout.snodes.length === 0 && (

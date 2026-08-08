@@ -17,16 +17,23 @@ export async function setGoalRoadmap(roadmapId: string): Promise<GoalResult> {
   if (!user) return { ok: false };
   if (!getContent().roadmapsById.has(roadmapId)) return { ok: false };
   const now = Date.now();
+  // 定/换目标 → 路线回到「跟随目标」(routeId=null),地图切到新目标当前该爬的线
   db.insert(userState)
     .values({
       userId: user.id,
       goalRoadmap: roadmapId,
+      routeId: null,
       goalPromptedAt: now,
       updatedAt: now,
     })
     .onConflictDoUpdate({
       target: userState.userId,
-      set: { goalRoadmap: roadmapId, goalPromptedAt: now, updatedAt: now },
+      set: {
+        goalRoadmap: roadmapId,
+        routeId: null,
+        goalPromptedAt: now,
+        updatedAt: now,
+      },
     })
     .run();
   return { ok: true };

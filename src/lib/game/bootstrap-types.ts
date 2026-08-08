@@ -142,4 +142,9 @@ export interface GameBootstrap {
   goalRoadmap: string | null;
   /** 是否已就「成为 X 目标」弹过提示（老用户补弹一次的门控） */
   goalPrompted: boolean;
+  /**
+   * 目标当前该爬的那条冒险路线（含目标 roadmap 里首门未完成课的那条 path）。
+   * routeId 为空时地图跟着它走、随进度自动前进；未设目标或无对应线则 null。
+   */
+  goalRoute: { id: string; title: string; subject: Subject } | null;
 }

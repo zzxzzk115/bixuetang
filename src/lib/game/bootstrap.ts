@@ -190,6 +190,24 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     };
   });
 
+  // 目标当前该爬的冒险路线:目标 roadmap 里「首门未完成课」所在的那条 path。
+  // routeId 为空时地图跟它走,课学完了目标下一门进了别的学科,这条线自动前移。
+  let goalRoute: GameBootstrap["goalRoute"] = null;
+  if (state.goalRoadmap) {
+    const rm = content.roadmapsById.get(state.goalRoadmap);
+    if (rm) {
+      const statusOf = new Map(courses.map((c) => [c.id, c.status]));
+      const goalCourseIds = rm.stages.flatMap((s) => s.courses);
+      const cur =
+        goalCourseIds.find((cid) => statusOf.get(cid) !== "done") ??
+        goalCourseIds[goalCourseIds.length - 1];
+      const p = cur
+        ? paths.find((pp) => pp.mode === "course" && pp.courseIds.includes(cur))
+        : undefined;
+      if (p) goalRoute = { id: p.id, title: p.title, subject: p.subject };
+    }
+  }
+
   return {
     user: { id: user.id, name: user.displayName || user.username, avatar: user.avatar },
     level: {
@@ -231,5 +249,6 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     onboarded: state.onboardedAt != null,
     goalRoadmap: state.goalRoadmap,
     goalPrompted: state.goalPromptedAt != null,
+    goalRoute,
   };
 }
