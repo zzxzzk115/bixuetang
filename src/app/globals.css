@@ -3482,6 +3482,101 @@ math-field {
 .video-report-subtle:hover {
   color: var(--app-ink);
 }
+
+/* ---- 运营:视频失效反馈列表 ---- */
+.app-page-head {
+  margin-bottom: 4px;
+}
+.app-page-head h1 {
+  font-size: 20px;
+  font-weight: 800;
+}
+.report-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.report-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--app-line) 22%, transparent);
+}
+.report-row.is-resolved {
+  opacity: 0.62;
+}
+.report-main {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  flex: 1 1 240px;
+}
+.report-main > small {
+  color: var(--app-faint);
+}
+.report-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--app-faint);
+  margin-top: 2px;
+}
+.report-meta code {
+  font-family: ui-monospace, monospace;
+  background: color-mix(in srgb, var(--app-line) 40%, transparent);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+.report-kind {
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 999px;
+  color: #fff;
+}
+.report-kind-gone {
+  background: var(--app-red, #e5533c);
+}
+.report-kind-wrong {
+  background: var(--app-brown, #b3703a);
+}
+.report-kind-other {
+  background: var(--app-faint);
+}
+.report-note {
+  font-size: 13px;
+  color: var(--app-ink);
+  white-space: pre-wrap;
+}
+.report-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.report-resolve {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  border-radius: 999px;
+  background: var(--app-green);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.report-resolve:disabled {
+  opacity: 0.6;
+}
 .app-btn-plain .spin,
 .video-report-menu .spin {
   margin-right: 4px;

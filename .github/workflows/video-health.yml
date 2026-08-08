@@ -1,0 +1,70 @@
+name: 视频失效探活
+
+# 每周主动扫全站课程的 bilibili 稿件,发现被下架/失效的、该补备源的。
+# 和播放器的多 bvid 容错、「视频不见了」反馈配套:主动发现,不等用户报。
+#
+# 关键约束:
+#  · 用游客态跑(不放 BILI_SESSDATA)——机房 IP 高频打接口有账号风控风险,
+#    而判存活不需要登录(稿件被删对游客也返回失效码)。
+#  · 脚本三态判定:被 -412 限速的算「未判定」不算失效,大面积未判定会提前
+#    退出(exit 0),不会因机房 IP 被风控而误报红。
+#  · 只有「确证失效且无可用备源」才让本 job 失败并开 issue。
+
+on:
+  schedule:
+    - cron: "0 2 * * 1" # 每周一 02:00 UTC(北京时间 10:00)
+  workflow_dispatch: {} # 也可手动触发
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - name: 探活(游客态)
+        id: probe
+        continue-on-error: true
+        run: npm run check:videos
+      - name: 上传台账
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-health
+          path: scratch/video-health.md
+          if-no-files-found: ignore
+      - name: 有确证失效 → 开/更新 issue
+        if: steps.probe.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = '探活发现确证失效的视频(详见 Actions 运行的 video-health 台账)。';
+            try { body = fs.readFileSync('scratch/video-health.md', 'utf8'); } catch {}
+            body += `\n\n---\n自动生成:${context.workflow} #${context.runNumber}`;
+            const label = 'video-health';
+            const title = '⚠ 视频失效探活发现问题';
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: label,
+            });
+            if (existing.data.length) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.data[0].number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, body, labels: [label],
+              });
+            }
+      - name: 让本次运行标红
+        if: steps.probe.outcome == 'failure'
+        run: exit 1
