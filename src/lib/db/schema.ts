@@ -310,6 +310,21 @@ export const pkRuns = sqliteTable("pk_runs", {
   createdAt: integer("created_at").notNull(),
 });
 
+// 课程学习心得(UGC):过来人给某门课留的短评/建议,公开可见,走敏感词过滤。
+export const courseTips = sqliteTable(
+  "course_tips",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    courseId: text("course_id").notNull(),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    text: text("text").notNull(),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [index("course_tips_course").on(t.courseId)],
+);
+
 // Web Push 订阅(一个用户可多设备)。endpoint 唯一;发失败(410/404)即删。
 export const pushSubscriptions = sqliteTable(
   "push_subscriptions",

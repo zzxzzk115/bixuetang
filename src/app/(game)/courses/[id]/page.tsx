@@ -5,6 +5,7 @@ import { AppAnalysisMap } from "@/components/app/app-analysis-map";
 import { AppEpisodeList } from "@/components/app/app-episode-list";
 import { AppShell } from "@/components/app/app-shell";
 import { CoursePlayer } from "@/components/app/course-player";
+import { CourseTips } from "@/components/app/course-tips";
 import { Fold } from "@/components/app/fold";
 import { renderLatex } from "@/lib/math/render-latex";
 import { renderMathText } from "@/lib/math/render-math-text";
@@ -21,6 +22,7 @@ import { courseHasQuiz } from "@/lib/game/quiz-bank";
 import { LEVEL_LABEL, SUBJECT_LABEL } from "@/lib/content/schema";
 import { LABS } from "@/lib/labs";
 import { getCourseMastery, getUserProgress } from "@/lib/progress/queries";
+import { listCourseTips } from "@/lib/game/course-tips";
 
 // 课程页（多邻国式原生布局）：学科色 Hero + 播放器卡 + 大圆勾分集清单 +
 // 折叠的知识点/关联信息。AI 分析等重组件复用旧实现，套 .app-skin 适配层。
@@ -201,6 +203,8 @@ export default async function CoursePage({
       : Math.round((watchedCount / episodes.length) * 100);
   // 掌握度:整门课的复习卡留存派生(null=还没复习过);段视图不显示(按整课算)
   const mastery = segLabel ? null : getCourseMastery(user.id, id);
+  // 课程学习心得(UGC),整门课共享,不随分段收窄
+  const tips = listCourseTips(id, user.id);
 
   return (
     // 不传 routeTitle：课程名在 Hero 里，顶栏不再出现假按钮胶囊
@@ -314,6 +318,14 @@ export default async function CoursePage({
             />
           </Fold>
         )}
+
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>学习心得</h2>
+            <small className="course-card-sub">过来人的经验,也留一句帮帮后来人</small>
+          </div>
+          <CourseTips courseId={id} initial={tips} />
+        </section>
 
         {course.lab && (
           <Link href={LABS[course.lab].href} className="course-row">
