@@ -3483,7 +3483,114 @@ math-field {
   color: var(--app-ink);
 }
 
-/* ---- 运营:视频失效反馈列表 ---- */
+/* ---- 管理端 ---- */
+.admin-head h1 {
+  font-size: 20px;
+  font-weight: 800;
+}
+.admin-nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--app-line);
+  margin-bottom: 4px;
+}
+.admin-nav-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--app-faint);
+  text-decoration: none;
+}
+.admin-nav-tab:hover {
+  color: var(--app-ink);
+  background: color-mix(in srgb, var(--app-line) 30%, transparent);
+}
+.admin-nav-tab.is-active {
+  color: #fff;
+  background: var(--app-green);
+}
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+.admin-stat-card {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--app-line) 24%, transparent);
+  text-decoration: none;
+  color: var(--app-ink);
+}
+.admin-stat-card:not(.is-static):hover {
+  background: color-mix(in srgb, var(--app-green) 16%, transparent);
+}
+.admin-stat-card b {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+.admin-stat-card span {
+  font-size: 13px;
+  color: var(--app-faint);
+}
+.admin-stat-card svg {
+  color: var(--app-green);
+}
+.admin-modules {
+  display: grid;
+  gap: 8px;
+}
+.admin-module {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--app-line) 22%, transparent);
+  text-decoration: none;
+  color: var(--app-ink);
+}
+.admin-module:hover {
+  background: color-mix(in srgb, var(--app-green) 14%, transparent);
+}
+.admin-module > svg {
+  color: var(--app-green);
+  flex: none;
+}
+.admin-module b {
+  font-weight: 800;
+}
+.admin-module small {
+  display: block;
+  color: var(--app-faint);
+  font-size: 12.5px;
+  margin-top: 2px;
+}
+.admin-badge {
+  margin-left: auto;
+  flex: none;
+  min-width: 22px;
+  text-align: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--app-red, #e5533c);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+}
+.admin-section-intro {
+  margin-bottom: 4px;
+}
+
+/* ---- 视频失效反馈列表 ---- */
 .app-page-head {
   margin-bottom: 4px;
 }

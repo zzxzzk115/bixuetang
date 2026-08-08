@@ -150,15 +150,15 @@ export default async function SettingsPage() {
           <p className="me-note">开源协议 · GPL-3.0-or-later</p>
         </section>
 
-        {/* 运营入口:仅管理员可见,看用户上报的视频失效反馈 */}
+        {/* 管理端入口:仅管理员可见 */}
         {isAdmin(user) ? (
           <section className="course-card">
             <div className="course-card-head">
               <h2>运营</h2>
             </div>
-            <Link className="settings-about-link" href="/reports">
+            <Link className="settings-about-link" href="/admin">
               <Inbox size={18} aria-hidden />
-              <span>视频失效反馈</span>
+              <span>进入管理端</span>
               <ExternalLink
                 size={14}
                 className="settings-about-ext"
