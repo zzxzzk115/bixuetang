@@ -1,5 +1,5 @@
 // 本地生产托管：组装 standalone 产物并启动（与 Docker 镜像同一运行方式）。
-// 用法：npm run build && npm run serve   （PORT / DATABASE_PATH 可用环境变量覆盖）
+// 用法：pnpm build && pnpm serve   （PORT / DATABASE_PATH 可用环境变量覆盖）
 import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -8,11 +8,11 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const standalone = path.join(root, ".next", "standalone");
 // 运行目录与构建产物分离：否则运行中的服务占着 .next/standalone，
-// 下一次 npm run build 会 EBUSY 失败
+// 下一次 pnpm build 会 EBUSY 失败
 const runtime = path.join(root, ".runtime");
 
 if (!fs.existsSync(path.join(standalone, "server.js"))) {
-  console.error("未找到 .next/standalone，请先执行 npm run build");
+  console.error("未找到 .next/standalone，请先执行 pnpm build");
   process.exit(1);
 }
 

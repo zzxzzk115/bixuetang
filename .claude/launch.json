@@ -3,15 +3,15 @@
   "configurations": [
     {
       "name": "guild-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
       "port": 3000,
       "autoPort": true
     },
     {
       "name": "guild-prod",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "serve"],
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["serve"],
       "port": 3005
     }
   ]

@@ -9,7 +9,7 @@
 改完必须跑：
 
 ```bash
-npm run validate    # Zod 校验 + 引用完整性；不通过 CI 会拦
+pnpm validate    # Zod 校验 + 引用完整性；不通过 CI 会拦
 ```
 
 ---
@@ -71,7 +71,7 @@ https://api.bilibili.com/x/web-interface/view?bvid=<BV号>
 **分集标题不用手写。** 填好 `sources` 后跑：
 
 ```bash
-npm run fetch:episodes -- <courseId>
+pnpm fetch:episodes -- <courseId>
 ```
 
 会从 bilibili 拉真实的分集标题与时长写回 YAML，多 P 与合集两种结构都支持。
@@ -171,7 +171,7 @@ stages:
 YouTube 有官方 CC,可以补两样东西:仓库字幕轨 + 分析时间戳。管线:
 
 ```bash
-npm run fetch:yt-subs -- <courseId> <YouTube播放列表URL> [--map=01:1,05:5]
+pnpm fetch:yt-subs -- <courseId> <YouTube播放列表URL> [--map=01:1,05:5]
 ```
 
 脚本会自动做三件事:
@@ -186,7 +186,7 @@ npm run fetch:yt-subs -- <courseId> <YouTube播放列表URL> [--map=01:1,05:5]
      (哪怕只有英文也多一种选择);格式 `{lan, lanDoc, ai, cues:[{from,to,text}]}`;
    - `scratch/subtitles/<courseId>/<n>.txt` → 90 秒摘要,供 AI 分析定 `t`。
 
-CI 侧的校验是全自动的:`npm run validate` 会检查仓库字幕的 schema、
+CI 侧的校验是全自动的:`pnpm validate` 会检查仓库字幕的 schema、
 集号对应课程存在、cues 时间轴单调——**生成在本地,验证在 CI**。
 
 依赖:`pip install yt-dlp`(建议同机有 node 供 `--js-runtimes`)。
@@ -211,9 +211,9 @@ tasks:
 ## 提交前检查
 
 ```bash
-npm run validate                  # 必跑
-npm run check:links -- --bili     # 改了视频源时跑，确认稿件还活着
-npm test                          # 改了 src/ 时跑
+pnpm validate                  # 必跑
+pnpm check:links -- --bili     # 改了视频源时跑，确认稿件还活着
+pnpm test                         # 改了 src/ 时跑
 ```
 
 PR 描述里写清楚：加了什么课/路线、视频源是官方还是搬运、BV 号核实过没有。

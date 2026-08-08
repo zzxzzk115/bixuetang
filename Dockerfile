@@ -7,16 +7,22 @@ RUN apk add --no-cache python3 make g++
 # node-gyp 默认去 unofficial-builds.nodejs.org 下载头文件,那个源时不时
 # 挂掉会把 CI 一起带走;官方镜像本身就带头文件,指过去让构建离线可复现
 ENV npm_config_nodedir=/usr/local
-COPY package.json package-lock.json ./
-# npm ci 在 Windows 生成的 lock 上可能缺可选依赖（npm/cli#4828），与 CI 保持一致用 install
-RUN npm install --no-audit --no-fund
+# corepack 随 node 分发,按 package.json 的 packageManager 锁定 pnpm 版本。
+# 非 TTY 构建里关掉下载确认提示,否则会卡住等输入。
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN corepack enable
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+# --frozen-lockfile:严格按 lock 装,lock 与 package.json 不一致就报错
+RUN pnpm install --frozen-lockfile
 
 # ---- 构建层 ----
 FROM node:22-alpine AS build
 WORKDIR /app
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN corepack enable
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN npm run build
+RUN pnpm run build
 
 # ---- 运行层 ----
 FROM node:22-alpine AS runner

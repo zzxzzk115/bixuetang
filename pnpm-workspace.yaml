@@ -1,0 +1,15 @@
+# pnpm 工作区。目前只有根应用一个包;以后要拆内部包(如 content / db /
+# game-core / hack-lab),建在 packages/ 下即可被自动纳入,用 workspace:* 互引。
+packages:
+  - "packages/*"
+
+# pnpm 10 默认不执行依赖的安装/构建脚本(供应链安全)。下面这些原生模块必须
+# 放行,否则装不出本地二进制:better-sqlite3 要 node-gyp 现编,argon2/esbuild
+# 靠脚本拉对应平台的预编译包。
+onlyBuiltDependencies:
+  - better-sqlite3
+  - "@node-rs/argon2"
+  - esbuild
+  # sharp:Next.js 生产图片优化的原生库;unrs-resolver:eslint 解析器的原生绑定
+  - sharp
+  - unrs-resolver

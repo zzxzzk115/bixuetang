@@ -11,15 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      # 不用 npm ci：Windows 上生成的 lock 会缺可选依赖的嵌套包（npm/cli#4828）
-      - run: npm install --no-audit --no-fund
-      - run: npx tsc --noEmit
-      - run: npm run lint
-      - run: npm test
-      - run: npm run validate
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec tsc --noEmit
+      - run: pnpm lint
+      - run: pnpm test
+      - run: pnpm validate
 
   # PR / dev 上构建并冒烟测试，尽早发现镜像坏掉；正式镜像由 tag 上的 release 出。
   docker-smoke:

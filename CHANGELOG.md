@@ -23,6 +23,12 @@
   (原有 AI 工程师 / 全栈 / 数据科学家),都用真实课程编排跨学科里程碑。
 - 路径指引:地图顶部新增「继续学习 / 下一步」推荐卡(接上次没看完的一集 + 推荐首门
   可学未学的课),治「120 门课不知道先学什么」。
+
+### 工程
+- 包管理迁移到 pnpm(workspace 骨架):npm→pnpm,加 `pnpm-workspace.yaml`(留
+  `packages/*` 口子供以后拆包)、`.npmrc`(node-linker=hoisted,贴近 npm 布局、
+  最省心)。CI / Dockerfile / release.sh / 文档 / 本地启动配置全部改用 pnpm;
+  原生模块(better-sqlite3 等)经 `onlyBuiltDependencies` 放行构建。
 - 「成为 X」跨学科学习路线:新增 `/roadmaps`——成为 AI 工程师 / 全栈工程师 / 数据科学家
   三条职业路线,把数学→编程→AI 的课程串成里程碑清单,每门带学科徽标与锁/进度。
 - 分享拉新:分享链接带 `?ref=<用户id>`,新用户经此注册记归因(`users.referred_by`),

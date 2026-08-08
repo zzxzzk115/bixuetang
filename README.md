@@ -163,7 +163,7 @@ ADMIN_INITIAL_PASSWORD=换成你的强密码
 （不是每次 push master 都出）。发布一个版本（在 `master` 上）：
 
 ```bash
-npm run release            # patch，或  npm run release -- minor / -- major
+pnpm release            # patch，或  pnpm release -- minor / -- major
 ```
 
 `release.sh` 会：跑检查 → 升 `package.json` 版本号 →（`version` 钩子）把
@@ -195,20 +195,20 @@ SQLite 开了 WAL，**别直接 cp 正在写的库**。
 需要 Node 22+。
 
 ```bash
-npm install
-npm run dev        # 启动时自动建库迁移，DB 在 ./data/dev.db
+pnpm install
+pnpm dev        # 启动时自动建库迁移，DB 在 ./data/dev.db
 ```
 
 | 命令 | 作用 |
 |---|---|
-| `npm test` | 纯函数单测（解锁规则、XP、SRS、分段、字幕优选、Markdown、Hack 工具链、数学引擎） |
-| `npm run validate` | 校验 `content/`（Zod + 引用完整性 + 仓库字幕） |
-| `npm run fetch:episodes` | 从 bilibili 拉真实分集标题写回 YAML |
-| `npm run fetch:subtitles -- <courseId>` | 抓 bilibili CC 字幕供 AI 分析定时间戳 |
-| `npm run fetch:yt-subs -- <courseId> <playlist>` | 抓 YouTube 官方 CC 入仓库（流程见 CONTRIBUTING） |
-| `npm run check:links -- --bili` | 体检所有视频源是否还活着 |
-| `npm run brand:gen` | 由 `src/lib/brand/sigil.ts` 重新生成 favicon 与 OG 图 |
-| `npm run db:generate` | 改完 `src/lib/db/schema.ts` 后生成迁移 |
+| `pnpm test` | 纯函数单测（解锁规则、XP、SRS、分段、字幕优选、Markdown、Hack 工具链、数学引擎） |
+| `pnpm validate` | 校验 `content/`（Zod + 引用完整性 + 仓库字幕） |
+| `pnpm fetch:episodes` | 从 bilibili 拉真实分集标题写回 YAML |
+| `pnpm fetch:subtitles -- <courseId>` | 抓 bilibili CC 字幕供 AI 分析定时间戳 |
+| `pnpm fetch:yt-subs -- <courseId> <playlist>` | 抓 YouTube 官方 CC 入仓库（流程见 CONTRIBUTING） |
+| `pnpm check:links -- --bili` | 体检所有视频源是否还活着 |
+| `pnpm brand:gen` | 由 `src/lib/brand/sigil.ts` 重新生成 favicon 与 OG 图 |
+| `pnpm db:generate` | 改完 `src/lib/db/schema.ts` 后生成迁移 |
 
 ## 贡献内容
 

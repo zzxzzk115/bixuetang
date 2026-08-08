@@ -24,14 +24,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install --no-audit --no-fund
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - name: 探活(游客态)
         id: probe
         continue-on-error: true
-        run: npm run check:videos
+        run: pnpm check:videos
       - name: 上传台账
         if: always()
         uses: actions/upload-artifact@v4

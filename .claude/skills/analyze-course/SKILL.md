@@ -15,11 +15,11 @@ schema 见 `src/lib/content/schema.ts` 的 `CourseAnalysisSchema`。
    将来能对上的源（官方源优先）。
 
 2. **拉字幕**（存 scratch/，勿入仓库）：
-   - **bilibili**：直接跑 `npm run fetch:subtitles -- <courseId>`。需要 `.env.local` 里的
+   - **bilibili**：直接跑 `pnpm fetch:subtitles -- <courseId>`。需要 `.env.local` 里的
      `BILI_SESSDATA`（游客态拿不到字幕列表）；脚本顶部注释写了怎么取。
      产物：`scratch/subtitles/<courseId>/<n>.json`（逐字原文）与 `<n>.txt`（**分析读这个**）。
      `.txt` 每行形如 `[12:30|750s] 这 90 秒在讲的内容…`，**方括号里的秒数直接就是 `t`**。
-   - 不确定哪些课有 CC 字幕时先普查：`npm run fetch:subtitles -- --probe`
+   - 不确定哪些课有 CC 字幕时先普查：`pnpm fetch:subtitles -- --probe`
      （每门课抽第 1 集，报告有无字幕）。全站约 7 成课程有 AI 中文字幕。
    - **YouTube**：`yt-dlp --skip-download --write-subs --write-auto-subs
      --sub-langs "zh.*,en" -o "<scratch>/%(playlist_index)s.%(ext)s" <播放列表URL>`
@@ -43,7 +43,7 @@ schema 见 `src/lib/content/schema.ts` 的 `CourseAnalysisSchema`。
 
 5. **写文件并自检**：写 `content/analysis/<courseId>.json`
    （`generatedAt` 用今天日期，`model` 写你的模型 id），然后跑
-   `npm run validate`；报错则按错误信息修正重写，直到通过。
+   `pnpm validate`；报错则按错误信息修正重写，直到通过。
 
 6. **汇报**：集数覆盖率、basis、是否有集因无字幕被降级。
 
