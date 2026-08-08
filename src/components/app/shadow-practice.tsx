@@ -164,7 +164,6 @@ export function ShadowPractice({
       // 环境不支持就只听不抓,不影响练习
     }
 
-    v.currentTime = cur.from;
     const finish = () => {
       if (chunks.length) {
         const len = chunks.reduce((s, c) => s + c.length, 0);
@@ -191,7 +190,34 @@ export function ShadowPractice({
       }
     };
     v.addEventListener("timeupdate", stopAt);
-    void v.play();
+
+    // 跳到本句起点再播。首次播放时 DASH 媒体常还没「可 seek」,直接设 currentTime
+    // 会被 clamp 回 0——表现就是「第一句第一次播放,从视频 0 开始响、没跳转」。
+    // 改用 dashjs 的 seek 加载目标片段,并等 seeked 事件确认跳到位后再 play。
+    const seekThenPlay = () => {
+      if (Math.abs(v.currentTime - cur.from) < 0.2) {
+        void v.play();
+        return;
+      }
+      const onSeeked = () => {
+        v.removeEventListener("seeked", onSeeked);
+        void v.play();
+      };
+      v.addEventListener("seeked", onSeeked);
+      const dp = dashRef.current;
+      if (dp && typeof dp.seek === "function") {
+        try {
+          dp.seek(cur.from);
+          return;
+        } catch {
+          // 回退到原生 seek
+        }
+      }
+      v.currentTime = cur.from;
+    };
+    // 媒体还没加载出元数据(readyState 0)时 seek 无效,等 loadedmetadata 再跳
+    if (v.readyState >= 1) seekThenPlay();
+    else v.addEventListener("loadedmetadata", seekThenPlay, { once: true });
   }, [cur, rate]);
 
   // ---- 录音 ----
