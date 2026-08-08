@@ -6133,8 +6133,17 @@ body:has(.art-video-player.art-fullscreen-web) {
   transition: transform 0.2s ease;
   color: var(--app-faint);
 }
+/* 折叠态收成贴右下的小药丸,不再占满 340px、不挡地图 */
+.quest-fab.closed {
+  width: auto;
+  max-width: calc(100vw - 28px);
+  opacity: 0.92;
+}
 .quest-fab.closed .quest-fab-chev {
   transform: rotate(-90deg);
+}
+.quest-fab.closed:hover {
+  opacity: 1;
 }
 .quest-fab-body {
   padding: 0 12px 12px;
