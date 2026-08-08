@@ -107,6 +107,9 @@ export function ShadowPractice({
         const dashjs = await import("dashjs");
         if (cancelled) return;
         const player = dashjs.MediaPlayer().create();
+        // 关掉 CMCD 遥测:它会对分片 URL 做 new URL(),而我们的代理 MPD 用相对
+        // BaseURL(/api/bili/stream?...),CMCD 拿相对地址构造 URL 会抛 Invalid URL。
+        player.updateSettings({ streaming: { cmcd: { enabled: false } } });
         player.initialize(v, data.dash.mpd, false);
         dashRef.current = player;
         setReady(true);

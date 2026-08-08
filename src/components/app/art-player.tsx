@@ -498,6 +498,9 @@ export function BiliPlayer({
             const player = dashjs.MediaPlayer().create();
             player.updateSettings({
               streaming: {
+                // 关掉 CMCD 遥测:它对分片 URL 做 new URL(),而代理 MPD 用相对
+                // BaseURL(/api/bili/stream?...),会抛 Invalid URL 刷屏控制台。
+                cmcd: { enabled: false },
                 // 手动切清晰度时直接替换缓冲区,立刻见效(不等旧档播完)
                 buffer: { fastSwitchEnabled: true },
                 abr: {
