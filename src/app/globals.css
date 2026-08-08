@@ -6489,26 +6489,41 @@ body:has(.art-video-player.art-fullscreen-web) {
 }
 .shadow-hero h1 {
   margin: 8px 0 2px;
-  font-size: 20px;
+  font-size: 22px;
+  color: #fff;
 }
 .shadow-hero p {
-  font-size: 12px;
-  opacity: 0.92;
-  line-height: 1.5;
+  font-size: 12.5px;
+  color: #fff;
+  opacity: 0.94;
+  line-height: 1.55;
 }
-/* 一次只练一句:整块占满宽度,不再有左侧清单 */
+/* 一次只练一句:整块占满宽度并尽量撑满高度(移动端好点按) */
 .shadow-practice {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
   max-width: 760px;
   margin: 0 auto;
 }
 .shadow-stage {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 16px;
   padding: 20px;
   border: 2px solid var(--app-line);
   border-radius: 16px;
+}
+/* 字幕区占据中间剩余空间,把动作按钮推到舒适的下半屏 */
+.shadow-caption {
+  flex: 1;
+}
+@media (max-width: 700px) {
+  .shadow-page {
+    min-height: calc(100svh - 128px);
+  }
 }
 /* 进度条:第 N / M 句 + 圆点进度 + 已跟读数 */
 .shadow-progress {
@@ -6596,11 +6611,20 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-size: 15px;
   color: var(--app-faint);
 }
-.shadow-controls {
+/* 每步一个大动作按钮:居中、显眼;听/跟读步旁带小小的变速 */
+.shadow-action {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 12px;
+}
+.shadow-bigbtn {
+  font-size: 16px;
+  font-weight: 800;
+  padding: 14px 30px;
+  min-width: 220px;
+  justify-content: center;
 }
 .shadow-rates {
   display: inline-flex;
@@ -6620,6 +6644,21 @@ body:has(.art-video-player.art-fullscreen-web) {
 }
 .shadow-rec.on {
   background: var(--app-red);
+}
+/* 「准备好了,下一步」:整块靠下的推进按钮 */
+.shadow-next {
+  align-self: stretch;
+  padding: 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--app-pink);
+  cursor: pointer;
+}
+.shadow-next:disabled {
+  color: var(--app-faint);
+  cursor: default;
 }
 .shadow-waves {
   display: flex;

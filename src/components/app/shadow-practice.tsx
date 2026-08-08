@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Mic, Play, Square } from "lucide-react";
+import { Mic, Play, Square } from "lucide-react";
 import type { ShadowSentence } from "@/lib/content/schema";
 import { scoreShadow, type ShadowScore } from "@/lib/shadow/score";
 import { completeShadowSegment } from "@/lib/game/shadow-actions";
@@ -59,7 +59,6 @@ export function ShadowPractice({
   const [idx, setIdx] = useState(0);
   const [step, setStep] = useState(0);
   const [rate, setRate] = useState<number>(1);
-  const [showText, setShowText] = useState(false);
   const [recording, setRecording] = useState(false);
   const [score, setScore] = useState<ShadowScore | null>(null);
   const [ready, setReady] = useState(false);
@@ -78,7 +77,6 @@ export function ShadowPractice({
   const recRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const completedRef = useRef(false);
-  const advanceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const cur = sentences[idx];
 
@@ -220,15 +218,6 @@ export function ShadowPractice({
           const origRate = audioCtxRef.current?.sampleRate ?? 44100;
           setScore(scoreShadow(orig, pcm, origRate, decoded.sampleRate));
         }
-        // 本句录完打分后,自动切到下一句(留时间看分数与波形);末句停下
-        if (idx < sentences.length - 1) {
-          if (advanceRef.current) clearTimeout(advanceRef.current);
-          advanceRef.current = setTimeout(() => {
-            setIdx((i) => Math.min(sentences.length - 1, i + 1));
-            setStep(0);
-            setShowText(false);
-          }, 2200);
-        }
         // 记下这句已练;本段每句都练过 → 练完这段发 XP(幂等)
         setRecorded((prev) => {
           const next = new Set(prev).add(idx);
@@ -261,19 +250,25 @@ export function ShadowPractice({
     setRecording(false);
   }, []);
 
-  // 原声抓取已在 playSentence 里做:先点「播放原声」抓本句 PCM,再录音即出分。
+  // 原声抓取已在 playSentence 里做:听/跟读步先播放抓本句 PCM,录音步即出分。
 
-  const go = (d: number) => {
-    if (advanceRef.current) clearTimeout(advanceRef.current); // 手动切换取消自动前进
-    setIdx((i) => Math.min(sentences.length - 1, Math.max(0, i + d)));
-    setStep(0);
-    setShowText(false);
+  const isLast = idx === sentences.length - 1 && step === STEPS.length - 1;
+
+  // 「准备好了,下一步」:推进到下一步;末步则进到下一句第 1 步(手动,不自动跳)
+  const nextStep = () => {
+    if (recording) stopRec();
+    if (step < STEPS.length - 1) {
+      setStep(step + 1);
+    } else if (idx < sentences.length - 1) {
+      setIdx(idx + 1);
+      setStep(0);
+    }
   };
 
-  // 卸载时清掉未触发的自动前进定时器
-  useEffect(() => () => {
-    if (advanceRef.current) clearTimeout(advanceRef.current);
-  }, []);
+  // 每步一种交互:听/跟读步只有「播放」,录音步只有「录音」;文字在盲听/复述隐藏
+  const isRecordStep = step >= 3; // 3 录音对比 / 4 复述
+  const blurText = step === 0 || step === 4;
+  const PLAY_LABEL = ["盲听(不看字)", "精听(看字)", "跟读(边听边说)"];
 
   return (
     <div className="shadow-practice">
@@ -300,14 +295,15 @@ export function ShadowPractice({
           </span>
           <span className="shadow-done-count">已跟读 {recorded.size}</span>
         </div>
+        {/* 五步进度:点一步就是那一步的交互 */}
         <div className="shadow-steps">
           {STEPS.map((s, i) => (
             <button
               key={s}
               className={`shadow-step ${i === step ? "on" : ""} ${i < step ? "done" : ""}`}
               onClick={() => {
+                if (recording) stopRec();
                 setStep(i);
-                setShowText(i >= 1); // 精听起看文;盲听不看文
               }}
             >
               {i + 1}. {s}
@@ -315,62 +311,83 @@ export function ShadowPractice({
           ))}
         </div>
 
-        <div className={`shadow-caption ${showText ? "" : "blur"}`}>
+        <div className={`shadow-caption ${blurText ? "blur" : ""}`}>
           <p className="shadow-en">{cur.text}</p>
           {cur.zh && <p className="shadow-zh">{cur.zh}</p>}
         </div>
 
-        <div className="shadow-controls">
-          <button className="app-btn-plain" onClick={() => go(-1)} disabled={idx === 0}>
-            <ChevronLeft size={16} /> 上一句
-          </button>
-          <button className="app-btn-primary" onClick={playSentence} disabled={!ready}>
-            <Play size={16} /> 播放原声
-          </button>
-          <div className="shadow-rates">
-            {RATES.map((r) => (
+        {/* 单一交互:听/跟读步 = 播放;录音步 = 录音 */}
+        <div className="shadow-action">
+          {!isRecordStep ? (
+            <>
               <button
-                key={r}
-                className={rate === r ? "on" : ""}
-                onClick={() => setRate(r)}
+                className="app-btn-primary shadow-bigbtn"
+                onClick={playSentence}
+                disabled={!ready}
               >
-                {r}×
+                <Play size={20} /> {PLAY_LABEL[step] ?? "播放原声"}
               </button>
-            ))}
-          </div>
-          {recording ? (
-            <button className="app-btn-primary shadow-rec on" onClick={stopRec}>
-              <Square size={15} /> 停止
+              <div className="shadow-rates">
+                {RATES.map((r) => (
+                  <button
+                    key={r}
+                    className={rate === r ? "on" : ""}
+                    onClick={() => setRate(r)}
+                  >
+                    {r}×
+                  </button>
+                ))}
+              </div>
+            </>
+          ) : recording ? (
+            <button
+              className="app-btn-primary shadow-bigbtn shadow-rec on"
+              onClick={stopRec}
+            >
+              <Square size={18} /> 停止录音
             </button>
           ) : (
-            <button className="app-btn-primary shadow-rec" onClick={startRec}>
-              <Mic size={16} /> 跟读录音
+            <button
+              className="app-btn-primary shadow-bigbtn shadow-rec"
+              onClick={startRec}
+              disabled={!ready}
+            >
+              <Mic size={20} /> {step === 4 ? "复述录音(不看字)" : "跟读录音"}
             </button>
           )}
-          <button className="app-btn-plain" onClick={() => go(1)} disabled={idx === sentences.length - 1}>
-            下一句 <ChevronRight size={16} />
-          </button>
         </div>
 
-        {/* 双波形对照 */}
-        <div className="shadow-waves">
-          <div>
-            <small>原声</small>
-            <canvas ref={origCanvasRef} width={520} height={56} />
-          </div>
-          <div>
-            <small>你的录音</small>
-            <canvas ref={userCanvasRef} width={520} height={56} />
-          </div>
-        </div>
-
-        {score && (
-          <div className="shadow-score">
-            <b className="shadow-score-overall">{score.overall}</b>
-            <span>发音 {score.phonetic}</span>
-            <span>语调 {score.intonation}</span>
-          </div>
+        {/* 录音步才显示双波形对照 + 打分 */}
+        {isRecordStep && (
+          <>
+            <div className="shadow-waves">
+              <div>
+                <small>原声</small>
+                <canvas ref={origCanvasRef} width={520} height={84} />
+              </div>
+              <div>
+                <small>你的录音</small>
+                <canvas ref={userCanvasRef} width={520} height={84} />
+              </div>
+            </div>
+            {score && (
+              <div className="shadow-score">
+                <b className="shadow-score-overall">{score.overall}</b>
+                <span>发音 {score.phonetic}</span>
+                <span>语调 {score.intonation}</span>
+              </div>
+            )}
+          </>
         )}
+
+        {/* 准备好了再手动进入下一步(末步则进下一句),不自动跳 */}
+        <button className="shadow-next" onClick={nextStep} disabled={isLast}>
+          {step < STEPS.length - 1
+            ? "准备好了,下一步 →"
+            : idx < sentences.length - 1
+              ? "完成本句,下一句 →"
+              : "已是最后一句"}
+        </button>
       </div>
     </div>
   );
