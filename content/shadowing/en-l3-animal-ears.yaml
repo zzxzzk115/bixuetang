@@ -1,0 +1,73 @@
+# 影子跟读单元 · TED-Ed《动物们神奇的耳朵》
+# 句子由真实 ai-en 字幕轨按语义重新断句而成:每句=一条或多条完整字幕 cue,
+# from/to 对齐音频窗口。zh 为中文对照。(ASR 把 jerboa/Sahara 等听错,已订正)
+id: en-l3-animal-ears
+title: 动物们神奇的耳朵(TED-Ed)
+lang: en
+level: l3
+description: >
+  TED-Ed 讲动物如何「听」:从猫头鹰到长耳跳鼠、耳廓狐,吐字清晰、节奏稳,
+  练科普说明文与一批生物学词汇。
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV1aS411A7FG
+  uploader: B 站搬运(TED-Ed）
+bvid: BV1aS411A7FG
+page: 1
+sentences:
+  - text: "The world is always abuzz with sounds, many of which human ears simply can't hear."
+    zh: "世界始终喧嚣着各种声音,其中许多是人耳根本听不到的。"
+    from: 6.84
+    to: 13.09
+  - text: "Other species have extraordinary adaptations that grant them access to realms of sonic extremes."
+    zh: "其他物种拥有非凡的适应能力,让它们能进入声音极端的领域。"
+    from: 13.95
+    to: 21.08
+  - text: "And some of them don't even have ears, at least not like we typically imagine. To understand how the animal kingdom's best listeners do it, we need to know the rules of their game."
+    zh: "其中一些甚至没有耳朵——至少不是我们通常想象的那种。想弄懂动物界最会听的高手是怎么做到的,我们得先了解这场游戏的规则。"
+    from: 21.08
+    to: 34
+  - text: "When an object in a medium like air or water moves, it sends out physical waves."
+    zh: "当一个物体在空气或水这类介质中移动时,它会发出物理性的波。"
+    from: 34.14
+    to: 41.39
+  - text: "The basics of hearing involve structures that vibrate in response to these waves and excite sensory cells, generating signals that nerves transmit to the brain, where they are processed."
+    zh: "听觉的基本原理是:一些结构随这些波振动,激发感觉细胞,产生信号,再由神经传到大脑加工处理。"
+    from: 41.39
+    to: 53.18
+  - text: "Our external ears funnel sounds inward, but many owls use their whole faces to do this."
+    zh: "我们的外耳把声音向内汇聚,但许多猫头鹰是用整张脸来做这件事。"
+    from: 66.16
+    to: 73.53
+  - text: "Their ears, hidden beneath a flap of feathers, have eardrums proportionally much larger and more sensitive than humans'."
+    zh: "它们的耳朵藏在一片羽毛下面,鼓膜按比例比人类的大得多、也敏感得多。"
+    from: 73.53
+    to: 80.8
+  - text: "And because many owls' ears are positioned asymmetrically, sound waves reach them at different times. This slight delay helps their brains determine the direction of the sound source."
+    zh: "而且因为许多猫头鹰的两耳位置不对称,声波到达两耳的时间不同。这一点点时间差,帮它们的大脑判断声源的方向。"
+    from: 80.8
+    to: 92.36
+  - text: "Great grey owl wings have especially thick, velvety coatings and long feather combs and fringes, which are thought to help reduce their flight sounds."
+    zh: "乌林鸮的翅膀有格外厚实的天鹅绒般的覆羽,以及长长的羽梳与羽缘,一般认为这有助于减小飞行时的声音。"
+    from: 92.36
+    to: 102.28
+  - text: "So while hovering, they can go undetected and concentrate on the subtle sounds of their prey."
+    zh: "于是在悬停时,它们能不被察觉,专注于猎物细微的声响。"
+    from: 102.34
+    to: 109.94
+  - text: "All these adaptations enable a great grey owl to hear a vole tunneling under eighteen inches of snow."
+    zh: "所有这些适应,让一只乌林鸮能听见一只田鼠在十八英寸厚的雪下打洞。"
+    from: 109.94
+    to: 117.24
+  - text: "Other animals are almost all ears, like the aptly named long-eared jerboa, which has the animal kingdom's largest ears in proportion to body length."
+    zh: "另一些动物几乎「浑身是耳」,比如名副其实的长耳跳鼠——按耳朵与身长之比,它有动物界最大的耳朵。"
+    from: 119.5
+    to: 129.59
+  - text: "These sizeable sound collectors help the jerboas sense low-frequency noises and keep cool by radiating heat."
+    zh: "这对硕大的「集音器」帮跳鼠感知低频声响,还能通过散热来保持凉爽。"
+    from: 129.59
+    to: 137.41
+  - text: "Fennec foxes use their large, swiveling ears to rapidly hone in on activity beneath Sahara sands."
+    zh: "耳廓狐则用它们又大又能转动的耳朵,迅速锁定撒哈拉沙子底下的动静。"
+    from: 137.41
+    to: 144.07
