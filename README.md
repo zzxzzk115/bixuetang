@@ -131,16 +131,29 @@ SITE_DOMAIN=bixuetang.com
 
 然后执行 `docker compose up -d` 即可（首次会自动 pull 镜像）。
 
-### 更新
+### 发布与更新
 
-`master` 每次 push，CI 会构建并推好新镜像；服务器上执行：
+分支约定：日常开发在 `dev`，要发版时合并到 `master`。**镜像由版本 tag 触发**
+（不是每次 push master 都出）。发布一个版本（在 `master` 上）：
 
 ```bash
-./scripts/deploy.sh
+npm run release            # patch，或  npm run release -- minor / -- major
 ```
 
-拉取仓库（更新 compose/脚本）→ `docker compose pull` 拉新镜像 → 滚动重启 → 清理旧层。
-**不在服务器上构建**，因此不吃 `next build` 的内存与磁盘峰值。
+`release.sh` 会：跑检查 → 升 `package.json` 版本号 →（`version` 钩子）把
+`CHANGELOG.md` 的「未发布」定版为 `[X.Y.Z] - 日期` → 提交并打 `vX.Y.Z` tag → 推送。
+CI 在 tag 上构建 `ghcr.io/zzxzzk115/bixuetang:X.Y.Z` + `:latest`，并据 CHANGELOG
+生成 GitHub Release。
+
+然后到服务器**手动上线**（保留上线把关，不自动部署）：
+
+```bash
+cd /srv/bixuetang && git pull && ./scripts/deploy.sh
+```
+
+`deploy.sh`：拉仓库 → `docker compose pull` 拉新镜像 → 滚动重启 → 清理旧层。
+**不在服务器上构建**，不吃 `next build` 的内存与磁盘峰值。日常改动记进
+[`CHANGELOG.md`](CHANGELOG.md) 的「未发布」段即可。
 
 ### 备份
 

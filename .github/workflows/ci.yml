@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [master, dev]
+    tags: ["v*.*.*"]
   pull_request:
 
 jobs:
@@ -20,10 +21,9 @@ jobs:
       - run: npm test
       - run: npm run validate
 
-  # PR / dev 上构建并冒烟测试，尽早发现镜像坏掉；
-  # master 的构建交给 release（构建+推送一次搞定，不重复 build）。
+  # PR / dev 上构建并冒烟测试，尽早发现镜像坏掉；正式镜像由 tag 上的 release 出。
   docker-smoke:
-    if: github.ref != 'refs/heads/master'
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,14 +39,15 @@ jobs:
           docker logs guild
           exit 1
 
-  # 只有 master push 且 check 通过，才构建镜像并推 GHCR，供服务器免 build 拉取部署。
+  # 只有推送 vX.Y.Z tag（且 check 通过）才发布：出带版本号的镜像 + GitHub Release。
+  # 部署仍手动：之后到服务器跑 scripts/deploy.sh 拉取。
   release:
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: check
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      packages: write
+      contents: write # 创建 GitHub Release
+      packages: write # 推 GHCR
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
@@ -56,14 +57,36 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Docker tags from git tag
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value=latest
       - name: Build & push image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          # github.repository = zzxzzk115/bixuetang（全小写，符合 GHCR 要求）
-          tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Extract release notes from CHANGELOG
+        run: |
+          VER="${GITHUB_REF_NAME#v}"
+          # 用 index() 做字符串前缀匹配(避开 gawk 动态正则里 \[ 被当字符类的坑);
+          # 段落边界用字面正则 /^## \[/ 是安全的。
+          awk -v hdr="## [$VER]" '
+            index($0, hdr) == 1 { grab=1; next }
+            grab && /^## \[/ { exit }
+            grab { print }
+          ' CHANGELOG.md > RELEASE_NOTES.md
+          echo "---- release notes ----"; cat RELEASE_NOTES.md
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          body_path: RELEASE_NOTES.md

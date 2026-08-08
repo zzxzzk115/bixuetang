@@ -20,7 +20,9 @@
     "migrate": "tsx scripts/migrate.ts",
     "db:generate": "drizzle-kit generate",
     "make:shadowing": "tsx scripts/make-shadowing.ts",
-    "find:shadowing": "tsx scripts/find-shadowing.ts"
+    "find:shadowing": "tsx scripts/find-shadowing.ts",
+    "release": "bash scripts/release.sh",
+    "version": "node scripts/changelog-release.mjs && git add CHANGELOG.md"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.4",
