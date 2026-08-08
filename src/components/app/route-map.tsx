@@ -17,6 +17,7 @@ import {
 import { openShadowChest } from "@/lib/game/shadow-actions";
 import { saveRouteChoice } from "@/lib/game/user-state-actions";
 import { AppShell } from "./app-shell";
+import { OnboardingOverlay } from "./onboarding-overlay";
 import { RouteSheet } from "./route-sheet";
 
 // 多邻国式路线地图（纯 DOM）。一门课不再是一个节点，而是一个「单元」：
@@ -431,6 +432,7 @@ export function RouteMap({
       routeSubject={path?.subject}
       onRoutePress={() => setSheetOpen(true)}
     >
+      <OnboardingOverlay bootstrap={bootstrap} onPick={selectRoute} />
       <div className="route-map" ref={scrollRef}>
         {topSlot && <div className="route-map-top">{topSlot}</div>}
 

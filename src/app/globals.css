@@ -3590,6 +3590,135 @@ math-field {
   margin-bottom: 4px;
 }
 
+/* ===== 新用户上手引导浮层 ===== */
+.onboard-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  background: color-mix(in srgb, #000 55%, transparent);
+  backdrop-filter: blur(3px);
+}
+.onboard-card {
+  width: 100%;
+  max-width: 440px;
+  max-height: 90dvh;
+  overflow-y: auto;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  text-align: center;
+  padding: 28px 24px;
+  border-radius: 20px;
+  background: var(--app-card, #fff);
+  border: 1px solid var(--app-line);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+.onboard-hero {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--app-green);
+}
+.onboard-hero-ok {
+  animation: onboard-pop 0.4s ease;
+}
+@keyframes onboard-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.onboard-card h1 {
+  font-size: 22px;
+  font-weight: 800;
+}
+.onboard-lead {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--app-faint);
+}
+.onboard-primary {
+  width: 100%;
+  margin-top: 4px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: var(--app-green);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.onboard-skip {
+  border: none;
+  background: none;
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px;
+}
+.onboard-skip:hover {
+  color: var(--app-ink);
+}
+.onboard-goals {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.onboard-goal {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 16px 12px;
+  border-radius: 14px;
+  border: 2px solid var(--app-line);
+  background: var(--app-bg);
+  color: var(--app-ink);
+  cursor: pointer;
+  transition: border-color 0.12s, transform 0.12s;
+}
+.onboard-goal:hover:not(:disabled) {
+  border-color: var(--tone, var(--app-green));
+  transform: translateY(-2px);
+}
+.onboard-goal:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.onboard-goal-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--tone, var(--app-green));
+}
+.onboard-goal b {
+  font-size: 15px;
+  font-weight: 800;
+}
+.onboard-goal small {
+  font-size: 12px;
+  color: var(--app-faint);
+}
+
 /* ===== 独立管理端(/console,admin. 子域)===== */
 .admin-auth-page {
   min-height: 100dvh;

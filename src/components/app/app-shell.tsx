@@ -31,14 +31,16 @@ import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 //   桌面端  —— 左侧导航栏 + 中间内容列 + 右侧统计栏（占满全屏，无竖屏假框）
 // 同一份 markup，纯 CSS 切换。
 
+// hideForNewUser:零进度新用户首屏做减法,把重系统(试炼/商店/背包/工坊)先收起,
+// 拿到任意 XP 后自动全部出现(见 AppShell 里按 totalXp===0 过滤)。
 const TABS = [
   { key: "map", label: "地图", href: "/play", icon: MapIcon },
-  { key: "trial", label: "试炼", href: "/play/trial", icon: Swords },
-  { key: "shop", label: "商店", href: "/play/shop", icon: ShoppingBag },
-  { key: "bag", label: "背包", href: "/play/bag", icon: Backpack },
+  { key: "trial", label: "试炼", href: "/play/trial", icon: Swords, hideForNewUser: true },
+  { key: "shop", label: "商店", href: "/play/shop", icon: ShoppingBag, hideForNewUser: true },
+  { key: "bag", label: "背包", href: "/play/bag", icon: Backpack, hideForNewUser: true },
   { key: "lexicon", label: "卷宗", href: "/glossary", icon: BookOpen },
   // 工坊要键盘，窄屏上藏起来（CSS 控制），底部 Tab 也塞不下这么多项
-  { key: "lab", label: "工坊", href: "/lab/hack", icon: FlaskConical, desktopOnly: true },
+  { key: "lab", label: "工坊", href: "/lab/hack", icon: FlaskConical, desktopOnly: true, hideForNewUser: true },
   { key: "me", label: "我的", href: "/settings", icon: User },
 ] as const;
 
@@ -98,7 +100,12 @@ export function AppShell({
   // 底部 Tab 放得下的数量有限，窄屏尤其挤。前 MOBILE_TABS 个直接摆出来，
   // 其余收进「更多」——不做的话第 6、7 项会被挤成一条缝，谁都点不准。
   // 桌面是竖向侧栏，位置管够，全部平铺（CSS 里把 .app-tab-more 藏掉）。
-  const overflow = TABS.slice(MOBILE_TABS);
+  // 新用户(零进度)首屏做减法:收起重系统 tab;拿到 XP 后自动全出
+  const newUser = bootstrap.level.totalXp === 0;
+  const tabs = newUser
+    ? TABS.filter((t) => !("hideForNewUser" in t && t.hideForNewUser))
+    : TABS;
+  const overflow = tabs.slice(MOBILE_TABS);
   const overflowActive = overflow.some((t) => pathname.startsWith(t.href));
 
   const go = (href: string) => {
@@ -115,7 +122,7 @@ export function AppShell({
           <GuildSigil size={26} />
           <b>必学堂</b>
         </span>
-        {TABS.map((tab) => {
+        {tabs.map((tab) => {
           const Icon = tab.icon;
           const active =
             tab.href === "/play"

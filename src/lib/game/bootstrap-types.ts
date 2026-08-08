@@ -136,4 +136,6 @@ export interface GameBootstrap {
     positionSec: number;
     ratioPct: number;
   } | null;
+  /** 是否已完成/跳过首次运行引导（false + 零进度 = 新用户弹欢迎） */
+  onboarded: boolean;
 }

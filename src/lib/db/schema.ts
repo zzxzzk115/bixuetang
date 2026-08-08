@@ -224,6 +224,8 @@ export const userState = sqliteTable("user_state", {
   lastEpisodeN: integer("last_episode_n"),
   /** 播放器偏好 JSON（音量/倍速/弹幕/字幕/清晰度）——换设备也跟着走 */
   playerPrefs: text("player_prefs"),
+  /** 首次运行引导完成/跳过的时间戳;空=还没引导过(新用户首屏弹欢迎) */
+  onboardedAt: integer("onboarded_at"),
   updatedAt: integer("updated_at").notNull(),
 });
 

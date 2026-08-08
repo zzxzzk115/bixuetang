@@ -228,5 +228,6 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     timedBoost: getTimedBoost(user.id),
     routeId: state.routeId,
     lastWatched: state.last,
+    onboarded: state.onboardedAt != null,
   };
 }
