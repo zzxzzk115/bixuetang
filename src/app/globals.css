@@ -6096,6 +6096,192 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-weight: 800;
 }
 
+/* 「继续学习 / 下一步」推荐卡 */
+.nextstep-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 2px solid color-mix(in srgb, var(--app-green) 40%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--app-green) 9%, var(--app-surface));
+}
+.nextstep-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: inherit;
+}
+.nextstep-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--app-green) 22%, transparent);
+  color: var(--app-green);
+  flex-shrink: 0;
+}
+.nextstep-icon.primary {
+  background: var(--app-green);
+  color: #fff;
+}
+.nextstep-body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.nextstep-body b {
+  font-size: 14px;
+  font-weight: 800;
+}
+.nextstep-body small {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nextstep-roadmap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px 0;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--app-green);
+  text-decoration: none;
+}
+
+/* 学习路线(成为 X) */
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.roadmap-card {
+  display: grid;
+  gap: 5px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--app-line);
+  background: var(--app-card, color-mix(in srgb, var(--app-line) 10%, transparent));
+  text-decoration: none;
+  color: var(--app-ink);
+}
+.roadmap-card:hover {
+  border-color: var(--app-green);
+}
+.roadmap-card b {
+  font-size: 17px;
+  font-weight: 800;
+}
+.roadmap-card small {
+  font-size: 13px;
+  color: var(--app-faint);
+}
+.roadmap-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-green);
+}
+.roadmap-progress {
+  font-weight: 800;
+  color: var(--app-green);
+}
+.roadmap-stages {
+  display: grid;
+  gap: 14px;
+}
+.roadmap-stage {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--app-line);
+  background: var(--app-card, color-mix(in srgb, var(--app-line) 8%, transparent));
+}
+.roadmap-stage-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.roadmap-stage-no {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--app-green);
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+}
+.roadmap-stage-head b {
+  font-size: 15px;
+  font-weight: 800;
+}
+.roadmap-stage-head small {
+  display: block;
+  font-size: 12px;
+  color: var(--app-faint);
+}
+.roadmap-course-list {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.roadmap-course-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-line) 16%, transparent);
+  text-decoration: none;
+  color: var(--app-ink);
+}
+.roadmap-course-link:hover {
+  background: color-mix(in srgb, var(--app-green) 12%, transparent);
+}
+.roadmap-course-link.is-locked {
+  opacity: 0.6;
+}
+.roadmap-course-state {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  flex: none;
+  color: var(--app-green);
+}
+.roadmap-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid var(--app-faint);
+}
+.roadmap-course-body {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+.roadmap-course-body b {
+  font-size: 14px;
+  font-weight: 700;
+}
+.roadmap-course-body small {
+  font-size: 12px;
+  color: var(--app-faint);
+}
+
 /* ==== 复习会话补充(其余复用 quiz-*) ==== */
 .review-count {
   color: var(--app-faint);

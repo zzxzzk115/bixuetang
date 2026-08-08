@@ -20,6 +20,8 @@ export const users = sqliteTable("users", {
   // 空值回退到用户名首字母色块。
   avatar: text("avatar"),
   activeJobId: text("active_job_id"),
+  /** 拉新归因:经谁的分享链接(?ref=<userId>)注册来的;空=自然流量 */
+  referredBy: integer("referred_by"),
   createdAt: integer("created_at").notNull(),
 });
 

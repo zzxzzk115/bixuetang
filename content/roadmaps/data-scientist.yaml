@@ -1,0 +1,20 @@
+id: data-scientist
+title: 成为数据科学家
+tagline: 用数据讲出可信的故事,并让机器替你决策
+description: >
+  数据科学 = 数学 + 编程 + 领域判断。这条路线先打牢线性代数与概率统计的基础,
+  再学编程与数据处理工具,然后系统学机器学习,最后进到大规模数据挖掘。
+  走完你能从原始数据一路做到建模、评估与洞察。
+stages:
+  - title: 第一章 · 数学基础
+    note: 概率统计是数据科学的语言
+    courses: [essence-of-linear-algebra, stat110, mit-6-041]
+  - title: 第二章 · 编程与数据处理
+    note: 会写代码,会把脏数据洗干净
+    courses: [cs50, berkeley-data100]
+  - title: 第三章 · 机器学习
+    note: 从入门到能实现
+    courses: [andrew-ng-ml, d2l]
+  - title: 第四章 · 规模化与进阶
+    note: 面对海量数据的方法
+    courses: [cs229, stanford-cs246]

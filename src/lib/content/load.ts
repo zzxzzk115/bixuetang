@@ -6,12 +6,14 @@ import {
   CourseSchema,
   LabTasksSchema,
   PathSchema,
+  RoadmapSchema,
   ShadowUnitSchema,
   type Course,
   type CourseAnalysis,
   type LabId,
   type LabTasks,
   type LearningPath,
+  type Roadmap,
   type ShadowUnit,
 } from "./schema";
 
@@ -20,6 +22,9 @@ export interface ContentIndex {
   coursesById: Map<string, Course>;
   paths: LearningPath[];
   pathsById: Map<string, LearningPath>;
+  /** 「成为 X」跨学科路线图 */
+  roadmaps: Roadmap[];
+  roadmapsById: Map<string, Roadmap>;
   labTasksById: Map<LabId, LabTasks>;
   analysisByCourse: Map<string, CourseAnalysis>;
   /** 影子跟读单元（口语训练，与课程体系并行） */
@@ -131,6 +136,30 @@ export function loadContent(): ContentIndex {
     }
   }
 
+  // ---- 「成为 X」路线图(跨学科,引用现有课程) ----
+  const roadmaps: Roadmap[] = [];
+  for (const file of listYamlFiles(path.join(root, "roadmaps"))) {
+    const parsed = RoadmapSchema.safeParse(readYaml(file));
+    if (parsed.success) roadmaps.push(parsed.data);
+    else
+      problems.push(
+        `roadmaps/${rel(file)}: ${parsed.error.issues
+          .map((i) => `${i.path.join(".")} ${i.message}`)
+          .join("; ")}`,
+      );
+  }
+  const roadmapsById = new Map<string, Roadmap>();
+  for (const r of roadmaps) {
+    if (roadmapsById.has(r.id)) problems.push(`路线图 id 重复: ${r.id}`);
+    roadmapsById.set(r.id, r);
+    for (const stage of r.stages) {
+      for (const cid of stage.courses) {
+        if (!coursesById.has(cid))
+          problems.push(`路线图 ${r.id} 引用了不存在的课程: ${cid}`);
+      }
+    }
+  }
+
   // ---- 实验室任务 ----
   const labTasksById = new Map<LabId, LabTasks>();
   for (const file of listYamlFiles(path.join(root, "labs"))) {
@@ -208,6 +237,8 @@ export function loadContent(): ContentIndex {
     coursesById,
     paths: paths.sort((a, b) => a.id.localeCompare(b.id)),
     pathsById,
+    roadmaps: roadmaps.sort((a, b) => a.id.localeCompare(b.id)),
+    roadmapsById,
     labTasksById,
     analysisByCourse,
     shadowUnits: shadowUnits.sort((a, b) => a.id.localeCompare(b.id)),

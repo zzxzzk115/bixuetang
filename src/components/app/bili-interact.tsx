@@ -59,6 +59,7 @@ export function BiliInteract({
   episodeTitle,
   episodeN,
   owner = null,
+  viewerId,
   notesOpen = false,
   onToggleNotes,
 }: {
@@ -70,6 +71,8 @@ export function BiliInteract({
   courseTitle: string;
   episodeTitle: string;
   episodeN: number;
+  /** 当前用户 id:分享链接带 ?ref= 拉新 */
+  viewerId?: number;
   /** UP 主(credit 展示 + 关注入口) */
   owner?: { mid: number; name: string; face: string } | null;
   /** 笔记面板开关(面板本体渲染在互动区下方,默认收起不占位) */
@@ -329,6 +332,7 @@ export function BiliInteract({
           episodeN={episodeN}
           bvid={bvid}
           page={page}
+          viewerId={viewerId}
         />
 
         <button

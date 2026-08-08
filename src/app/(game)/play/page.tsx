@@ -2,9 +2,11 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { RotateCcw } from "lucide-react";
 import { RouteMap } from "@/components/app/route-map";
+import { NextStepCard } from "@/components/app/next-step-card";
 import { QuestFab } from "@/components/app/quest-fab";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
+import { pickNextStep } from "@/lib/game/next-step";
 import { getDailyQuests, getMonthlyQuest } from "@/lib/game/quests";
 import { getDueCount } from "@/lib/game/review-actions";
 
@@ -21,12 +23,14 @@ export default async function PlayPage() {
   const quests = getDailyQuests(user.id);
   const monthly = getMonthlyQuest(user.id);
   const dueCount = await getDueCount();
+  const nextStep = pickNextStep(bootstrap);
 
   return (
     <RouteMap
       bootstrap={bootstrap}
       topSlot={
         <>
+          <NextStepCard step={nextStep} />
           {dueCount > 0 && (
             <Link href="/review" className="review-entry">
               <span className="review-entry-icon" aria-hidden>

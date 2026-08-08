@@ -63,7 +63,18 @@ export function middleware(request: NextRequest) {
     return new NextResponse(null, { status: 404 });
   }
 
-  return NextResponse.next();
+  const res = NextResponse.next();
+  // 拉新:分享链接带 ?ref=<数字> 就种一个 cookie,注册时读取归因(见 lib/referral.ts)
+  const ref = request.nextUrl.searchParams.get("ref");
+  if (ref && /^\d{1,12}$/.test(ref)) {
+    res.cookies.set("ref", ref, {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 30 * 24 * 60 * 60,
+    });
+  }
+  return res;
 }
 
 export const config = {

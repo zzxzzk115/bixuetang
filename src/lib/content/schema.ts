@@ -240,6 +240,29 @@ export const PathSchema = z.object({
 });
 export type LearningPath = z.infer<typeof PathSchema>;
 
+// ---------- 「成为 X」跨学科路线图 ----------
+//
+// 与 LearningPath 的区别:path 是单学科闯关线(驱动地图配色/分组);
+// roadmap 是**跨学科的职业路线**(如「成为 AI 工程师」串起数学→编程→AI),
+// 用里程碑清单页总览,stages[].courses 可跨学科引用现有课程。
+export const RoadmapSchema = z.object({
+  id: slug,
+  title: z.string(),
+  /** 一句话卖点 */
+  tagline: z.string().optional(),
+  description: z.string().optional(),
+  stages: z
+    .array(
+      z.object({
+        title: z.string(),
+        note: z.string().optional(),
+        courses: z.array(slug).min(1),
+      }),
+    )
+    .min(1),
+});
+export type Roadmap = z.infer<typeof RoadmapSchema>;
+
 // ---------- 技能树 ----------
 
 export const SkillNodeSchema = z.object({

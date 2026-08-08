@@ -262,6 +262,7 @@ export default async function CoursePage({
             resumeByEpisode={watchProgress}
             serverPrefs={playerPrefs}
             keyPointsByEpisode={keyPointsByEpisode}
+            viewerId={user.id}
           />
         </div>
 

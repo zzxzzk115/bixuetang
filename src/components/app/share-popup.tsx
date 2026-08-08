@@ -27,6 +27,7 @@ export function SharePopup({
   episodeN,
   bvid,
   page,
+  viewerId,
 }: {
   open: boolean;
   onClose: () => void;
@@ -36,6 +37,8 @@ export function SharePopup({
   episodeN: number;
   bvid: string;
   page: number;
+  /** 当前用户 id:分享链接带 ?ref= 做拉新归因 */
+  viewerId?: number;
 }) {
   const [mode, setMode] = useState<Mode>("site");
   /** 生成结果带 key:mode 切换时旧图自然失效,不用在 effect 里同步清空 */
@@ -58,7 +61,7 @@ export function SharePopup({
     return window.location.origin;
   })();
   const siteLink = siteOrigin
-    ? `${siteOrigin}/courses/${courseId}?ep=${episodeN}`
+    ? `${siteOrigin}/courses/${courseId}?ep=${episodeN}${viewerId ? `&ref=${viewerId}` : ""}`
     : "";
   const biliLink = `https://www.bilibili.com/video/${bvid}${page > 1 ? `?p=${page}` : ""}`;
   const link = mode === "site" ? siteLink : biliLink;

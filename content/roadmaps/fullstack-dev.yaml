@@ -1,0 +1,20 @@
+id: fullstack-dev
+title: 成为全栈工程师
+tagline: 从零到能独立做出一个上线的网站
+description: >
+  全栈是「前端 + 后端 + 让它跑起来」的手艺。这条路线先建立计算机全局观、补上命令行
+  与 Git 这些学校不教的基本功,再学 Web 开发,用一门全栈实战课把前后端串起来,
+  最后补数据库与网络,让你能独立设计并上线一个真实应用。
+stages:
+  - title: 第一章 · 计算机全局观
+    note: 先看见全景,再补工具课
+    courses: [cs50, missing-semester]
+  - title: 第二章 · Web 开发入门
+    note: 前端后端都摸一遍
+    courses: [cs50w]
+  - title: 第三章 · 全栈实战
+    note: 用现代技术栈做一个完整应用
+    courses: [fullstackopen]
+  - title: 第四章 · 数据库与网络
+    note: 让应用扛得住真实流量
+    courses: [cs186, cs144]

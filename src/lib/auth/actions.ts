@@ -7,6 +7,7 @@ import { users } from "../db/schema";
 import { passwordStrength, verifyCaptcha } from "./captcha";
 import { hashPassword, verifyPassword } from "./password";
 import { createSession, destroySession } from "./session";
+import { takeReferrer } from "../referral";
 
 export type AuthFormState = { error: string } | null;
 
@@ -59,6 +60,15 @@ export async function register(
     })
     .returning({ id: users.id })
     .get();
+
+  // 拉新归因:经谁的分享链接来的(排除自荐)
+  const ref = await takeReferrer();
+  if (ref && ref !== inserted.id) {
+    db.update(users)
+      .set({ referredBy: ref })
+      .where(eq(users.id, inserted.id))
+      .run();
+  }
 
   await createSession(inserted.id);
   redirect("/play");

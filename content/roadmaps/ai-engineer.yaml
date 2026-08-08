@@ -1,0 +1,20 @@
+id: ai-engineer
+title: 成为 AI 工程师
+tagline: 从数学直觉到能训模型、读论文,一条路走通
+description: >
+  AI 不是从调库开始的。这条路线先补齐线性代数与概率的直觉,再打好编程功底,
+  然后系统学机器学习与深度学习,最后进到计算机视觉、自然语言处理等前沿方向。
+  跨数学、计算机、人工智能三大学科,走完你能独立训练模型、看懂主流论文。
+stages:
+  - title: 第一章 · 数学地基
+    note: 看得懂公式,才不是调包侠
+    courses: [essence-of-linear-algebra, mit-18-06, stat110]
+  - title: 第二章 · 编程功底
+    note: 会写、会调、会读别人的代码
+    courses: [cs50, cs61a]
+  - title: 第三章 · 机器学习
+    note: 从吴恩达入门到动手实现
+    courses: [andrew-ng-ml, d2l]
+  - title: 第四章 · 深入与前沿
+    note: 理论深挖 + 选一个方向扎进去
+    courses: [cs229, cs231n, cs224n]

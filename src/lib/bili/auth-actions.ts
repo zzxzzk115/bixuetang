@@ -7,6 +7,7 @@ import { hashPassword } from "../auth/password";
 import { createSession } from "../auth/session";
 import { fetchSelfInfo, qrGenerate, qrPoll } from "./api";
 import { saveBiliBinding } from "./account";
+import { takeReferrer } from "../referral";
 
 // 用 bilibili 扫码直接登录 / 注册必学堂账号。
 // 已绑定过的 bilibili 账号 → 登录既有账号；没绑过 → 建号并绑定，昵称取 bilibili 昵称（可改）。
@@ -217,6 +218,15 @@ export async function completeBiliSignup(
     })
     .returning({ id: users.id })
     .get();
+
+  // 拉新归因(排除自荐)
+  const ref = await takeReferrer();
+  if (ref && ref !== inserted.id) {
+    db.update(users)
+      .set({ referredBy: ref })
+      .where(eq(users.id, inserted.id))
+      .run();
+  }
 
   saveBiliBinding(inserted.id, {
     mid: pending.mid,
