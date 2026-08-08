@@ -1,0 +1,89 @@
+# 影子跟读单元 · TED-Ed《The Philosophy of the Absurd(Camus)》
+# 句子由真实 ai-en 字幕轨按语义重新断句而成:每句=一条或多条完整字幕 cue,
+# from/to 对齐该句音频窗口。zh 为中文对照。(ASR 把主角名 Meursault 听错,已订正)
+id: en-l3-camus-absurd
+title: 加缪与荒诞哲学(TED-Ed)
+lang: en
+level: l3
+description: >
+  TED-Ed 讲加缪的「荒诞哲学」:词汇偏抽象、句子偏长,叙述清晰稳,
+  练学术/思辨类长句与地道书面表达。
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV1yT411C7pz
+  uploader: B 站搬运(TED-Ed）
+bvid: BV1yT411C7pz
+page: 1
+sentences:
+  - text: "Albert Camus grew up surrounded by violence. His homeland of Algeria was mired in conflict between native Algerians and colonizing French Europeans."
+    zh: "阿尔贝·加缪在暴力中长大。他的故乡阿尔及利亚,深陷本地阿尔及利亚人与殖民的法国欧洲人之间的冲突。"
+    from: 7.66
+    to: 18.74
+  - text: "He lost his father in the First World War, and was deemed unfit to fight in the second."
+    zh: "他在一战中失去了父亲,又被认定不适合参加二战。"
+    from: 18.74
+    to: 24.2
+  - text: "Battling tuberculosis in France, and confronting the war's devastation as a resistance journalist,"
+    zh: "在法国与肺结核抗争,又作为抵抗运动的记者直面战争的毁灭,"
+    from: 24.2
+    to: 30.28
+  - text: "Camus grew despondent. He couldn't fathom any meaning behind all this endless bloodshed and suffering."
+    zh: "加缪日渐消沉。他无法参透这无尽的血腥与苦难背后有任何意义。"
+    from: 30.28
+    to: 38.54
+  - text: "He asked: if the world was meaningless, could our individual lives still hold value?"
+    zh: "他发问:如果世界毫无意义,我们个体的生命还能有价值吗?"
+    from: 38.54
+    to: 46.16
+  - text: "Many of Camus's contemporaries were exploring similar questions, under the banner of a new philosophy called existentialism."
+    zh: "加缪的许多同代人也在探索类似的问题,打着一门新哲学的旗号——存在主义。"
+    from: 46.76
+    to: 55.42
+  - text: "Existentialists believed people were born as blank slates, each responsible for creating their life's meaning amidst a chaotic world."
+    zh: "存在主义者认为人生来是一张白纸,各自在混乱的世界里,为自己的人生创造意义。"
+    from: 56
+    to: 64.12
+  - text: "But Camus rejected their school of thought. He argued all people were born with a shared human nature that bonded them toward common goals."
+    zh: "但加缪否定了他们的学派。他主张,所有人生来都有一种共通的人性,把彼此维系在共同的目标上。"
+    from: 64.12
+    to: 73.35
+  - text: "One such goal was to seek out meaning, despite the world's arbitrary cruelty."
+    zh: "其中一个目标,就是在世界任意的残酷之中,去寻找意义。"
+    from: 74.35
+    to: 80.82
+  - text: "Camus viewed humanity's desire for meaning, and the universe's silent indifference, as two incompatible puzzle pieces,"
+    zh: "加缪把人类对意义的渴望,与宇宙沉默的冷漠,看作两块无法拼合的拼图,"
+    from: 81.34
+    to: 90.86
+  - text: "and considered trying to fit them together to be fundamentally absurd."
+    zh: "而试图把它们拼到一起,在他看来根本就是荒诞的。"
+    from: 90.86
+    to: 96.68
+  - text: "This tension became the heart of Camus's philosophy of the absurd, which argued that life is inherently futile."
+    zh: "这种张力,成了加缪「荒诞哲学」的核心——它主张生命本质上是徒劳的。"
+    from: 96.9
+    to: 105.78
+  - text: "Exploring how to live without meaning became the guiding question behind Camus's early work, which he called his cycle of the absurd."
+    zh: "如何在没有意义的情况下活下去,成了加缪早期作品的核心命题,他称之为「荒诞循环」。"
+    from: 106.5
+    to: 115.82
+  - text: "The star of this cycle, and Camus's first published novel, offers a rather bleak response."
+    zh: "这一循环的主角,也是加缪出版的第一部小说,给出了一个相当灰暗的回答。"
+    from: 116.46
+    to: 123.28
+  - text: "The Stranger follows Meursault, an emotionally detached young man who doesn't attribute much meaning to anything."
+    zh: "《局外人》讲的是默尔索——一个情感疏离的年轻人,他不给任何事物赋予多少意义。"
+    from: 123.52
+    to: 131.96
+  - text: "He doesn't cry at his mother's funeral. He supports his neighbour's scheme to humiliate a woman. He even commits a violent crime."
+    zh: "他在母亲的葬礼上没有哭。他帮着邻居去羞辱一个女人。他甚至犯下了一桩暴力罪行。"
+    from: 132.22
+    to: 141.68
+  - text: "But Meursault feels no remorse. For him, the world is pointless, and moral judgment has no place in it."
+    zh: "但默尔索毫无悔意。对他而言,世界毫无意义,道德评判在其中也没有立足之地。"
+    from: 141.68
+    to: 151.1
+  - text: "This attitude creates hostility between Meursault and the orderly society he inhabits, slowly increasing his alienation until the novel's explosive climax."
+    zh: "这种态度,在默尔索与他所处的有序社会之间制造了敌意,一步步加深他的疏离,直到小说爆发式的高潮。"
+    from: 151.14
+    to: 162.86

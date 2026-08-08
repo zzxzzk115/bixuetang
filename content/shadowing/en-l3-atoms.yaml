@@ -1,0 +1,137 @@
+# 影子跟读单元 · TED-Ed《原子与电子(orbitals)》
+# 源自人工英文字幕轨(lan=en,带标点),按句子边界断句,from/to 对齐音频窗口。
+# zh 为中文对照。
+id: en-l3-atoms
+title: 原子里的电子(TED-Ed 科学)
+lang: en
+level: l3
+description: >
+  TED-Ed 科普原子结构与电子轨道:吐字标准清晰、逻辑严谨,含一批科学词汇
+  (proton/electron/orbital/probability),练严谨说明文与学术表达。
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV1Gf4y1y7wc
+  uploader: B 站搬运(TED-Ed）
+bvid: BV1Gf4y1y7wc
+page: 1
+sentences:
+  - text: "You probably know that all stuff is made up of atoms, and that an atom is a really, really, really, really tiny particle."
+    zh: "你大概知道,一切物质都由原子构成,而原子是一种非常非常非常非常小的粒子。"
+    from: 6.99
+    to: 15.17
+  - text: "Every atom has a core, which is made up of at least one positively charged particle called a proton, and in most cases, some number of neutral particles called neutrons."
+    zh: "每个原子都有一个核,核里至少有一个带正电的粒子,叫质子;多数情况下,还有若干不带电的粒子,叫中子。"
+    from: 15.19
+    to: 25.57
+  - text: "That core is surrounded by negatively charged particles called electrons."
+    zh: "核的周围环绕着带负电的粒子,叫电子。"
+    from: 25.59
+    to: 30.15
+  - text: "The identity of an atom is determined only by the number of protons in its nucleus."
+    zh: "一个原子的「身份」,只由它核内质子的数目决定。"
+    from: 30.79
+    to: 36.9
+  - text: "Hydrogen is hydrogen because it has just one proton, carbon is carbon because it has six, gold is gold because it has 79, and so on."
+    zh: "氢之所以是氢,因为它只有一个质子;碳之所以是碳,因为它有六个;金有 79 个,以此类推。"
+    from: 36.92
+    to: 44.68
+  - text: "Indulge me in a momentary tangent."
+    zh: "容我岔开一小会儿。"
+    from: 45.14
+    to: 47.13
+  - text: "How do we know about atomic structure? We can't see protons, neutrons, or electrons."
+    zh: "我们是怎么知道原子结构的?我们看不见质子、中子或电子。"
+    from: 47.15
+    to: 52.72
+  - text: "So, we do a bunch of experiments and develop a model for what we think is there."
+    zh: "于是,我们做一堆实验,为我们认为存在的东西建立一个模型。"
+    from: 53.81
+    to: 58.26
+  - text: "Then we do some more experiments and see if they agree with the model."
+    zh: "然后再做一些实验,看它们是否与模型吻合。"
+    from: 58.28
+    to: 61.59
+  - text: "If they do, great. If they don't, it might be time for a new model."
+    zh: "吻合,很好;不吻合,那可能就该换个新模型了。"
+    from: 61.62
+    to: 65.68
+  - text: "We've had lots of very different models for atoms since Democritus in 400 BC, and there will almost certainly be many more to come."
+    zh: "自公元前 400 年的德谟克利特以来,我们有过许许多多迥异的原子模型,而且几乎肯定还会有更多。"
+    from: 65.7
+    to: 73.58
+  - text: "Okay, tangent over."
+    zh: "好,岔话说完。"
+    from: 73.6
+    to: 75.45
+  - text: "The cores of atoms tend to stick together, but electrons are free to move, and this is why chemists love electrons."
+    zh: "原子核倾向于聚在一起,但电子可以自由移动——这正是化学家钟爱电子的原因。"
+    from: 75.47
+    to: 82.77
+  - text: "If we could marry them, we probably would."
+    zh: "要是能和电子结婚,我们大概真会去结。"
+    from: 82.8
+    to: 85.64
+  - text: "But electrons are weird. They appear to behave either as particles, like little baseballs, or as waves, like water waves,"
+    zh: "但电子很古怪。它们时而表现得像粒子,像小棒球;时而像波,像水波,"
+    from: 85.66
+    to: 93.3
+  - text: "depending on the experiment that we perform."
+    zh: "这取决于我们做的是哪种实验。"
+    from: 93.32
+    to: 96.5
+  - text: "One of the weirdest things about electrons is that we can't exactly say where they are."
+    zh: "电子最古怪的一点是:我们说不准它们到底在哪儿。"
+    from: 96.52
+    to: 100.67
+  - text: "It's not that we don't have the equipment, it's that this uncertainty is part of our model of the electron."
+    zh: "这不是因为我们没有设备,而是这种不确定性本身,就是电子模型的一部分。"
+    from: 100.7
+    to: 106.47
+  - text: "So, we can't pinpoint them, fine."
+    zh: "所以,我们无法精确定位它们,行吧。"
+    from: 106.5
+    to: 109.04
+  - text: "But we can say there's a certain probability of finding an electron in a given space around the nucleus."
+    zh: "但我们可以说,在核周围某块空间里找到一个电子,有一定的概率。"
+    from: 109.06
+    to: 115.68
+  - text: "And that means that we can ask the following question: if we drew a shape around the nucleus such that we would be 95% sure of finding a given electron within that shape, what would it look like?"
+    zh: "这意味着我们能提出这样一个问题:如果在核周围画一个形状,使我们有 95% 的把握在其中找到某个电子,那它会是什么样子?"
+    from: 115.7
+    to: 127.07
+  - text: "Here are a few of these shapes. Chemists call them orbitals,"
+    zh: "这就是其中几个形状。化学家称它们为轨道,"
+    from: 128.59
+    to: 132.54
+  - text: "and what each one looks like depends on, among other things, how much energy it has."
+    zh: "而每个轨道长什么样,取决于诸多因素,其中之一是它拥有多少能量。"
+    from: 132.57
+    to: 137.69
+  - text: "The more energy an orbital has, the farther most of its density is from the nucleus."
+    zh: "轨道的能量越高,它的大部分「密度」离核就越远。"
+    from: 137.72
+    to: 142.27
+  - text: "By the way, why did we pick 95% and not 100%?"
+    zh: "顺便说一句,为什么我们取 95% 而不是 100%?"
+    from: 142.29
+    to: 146.89
+  - text: "Well, that's another quirk of our model of the electron."
+    zh: "嗯,这是电子模型的又一个古怪之处。"
+    from: 146.91
+    to: 149.98
+  - text: "Past a certain distance from the nucleus, the probability of finding an electron starts to decrease more or less exponentially,"
+    zh: "超过离核的某个距离后,找到电子的概率就开始大致按指数下降,"
+    from: 150
+    to: 157.91
+  - text: "which means that while it will approach zero, it'll never actually hit zero."
+    zh: "这意味着,概率会趋近于零,却永远不会真正等于零。"
+    from: 157.94
+    to: 162.58
+  - text: "So, in every atom, there is some small, but non-zero, probability that for a very, very short period of time, one of its electrons is at the other end of the known universe."
+    zh: "所以在每个原子里,都存在一个很小、但不为零的概率:在极其短暂的一瞬,它的某个电子正处在已知宇宙的另一端。"
+    from: 163.12
+    to: 174.97
+  - text: "But mostly electrons stay close to their nucleus as clouds of negatively charged density."
+    zh: "但大多数时候,电子还是以带负电的「密度云」形式,待在自己的核附近。"
+    from: 175.97
+    to: 180.54

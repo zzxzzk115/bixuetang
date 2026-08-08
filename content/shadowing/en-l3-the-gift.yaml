@@ -1,0 +1,101 @@
+# 影子跟读单元 · 一场关于「礼物」的演讲(先描述一份神奇礼物,最后揭示它是一场疾病)
+# 句子由真实 ai-en 字幕轨按语义重新断句而成:每句=一条或多条完整字幕 cue,
+# from/to 对齐该句音频窗口。zh 为中文对照。
+id: en-l3-the-gift
+title: 一份特别的礼物(励志演讲)
+lang: en
+level: l3
+description: >
+  一位讲者把人生的一次意外重新框定为「礼物」——吐字清晰、节奏从容、情感饱满,
+  很适合练完整长句的语气与停顿。
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV1g7421d7jf
+  uploader: B 站搬运(励志演讲）
+bvid: BV1g7421d7jf
+page: 1
+sentences:
+  - text: "Imagine, if you will, a gift. I'd like for you to picture it in your mind."
+    zh: "请你想象一份礼物。我想请你在脑海里描绘它。"
+    from: 0.24
+    to: 6.04
+  - text: "It's not too big — about the size of a golf ball. Envision what it looks like, all wrapped up."
+    zh: "它不大——差不多一个高尔夫球那么大。想象它包好之后的样子。"
+    from: 7.4
+    to: 13.78
+  - text: "And before I show you what's inside, I will tell you: it's going to do incredible things for you."
+    zh: "在我给你看里面是什么之前,我要告诉你:它会为你做很多不可思议的事。"
+    from: 14.92
+    to: 20.26
+  - text: "It will bring all of your family together. You will feel loved and appreciated like never before, and reconnect with friends you haven't heard from in years."
+    zh: "它会让你全家团聚。你会前所未有地感到被爱、被珍惜,还会重新联系上多年没消息的朋友。"
+    from: 20.7
+    to: 31.24
+  - text: "Adoration and admiration will overwhelm you. It will recalibrate what's most important in your life."
+    zh: "爱慕与敬佩会将你淹没。它会重新校准你生命中最重要的东西。"
+    from: 31.44
+    to: 38.98
+  - text: "It will redefine your sense of spirituality and faith."
+    zh: "它会重新定义你对精神与信仰的感受。"
+    from: 39.2
+    to: 43.52
+  - text: "You'll have a new understanding and trust in your body. You'll have unsurpassed vitality and energy."
+    zh: "你会对自己的身体有全新的理解与信任。你会拥有无与伦比的活力与精力。"
+    from: 44.16
+    to: 51.52
+  - text: "You'll expand your vocabulary, meet new people, and you'll have a healthier lifestyle. And get this:"
+    zh: "你会扩充词汇、结识新朋友,过上更健康的生活。还有这个:"
+    from: 51.52
+    to: 59.62
+  - text: "you'll have an eight-week vacation of doing absolutely nothing. You'll eat countless gourmet meals."
+    zh: "你会有一个八周的假期,什么都不用做。你会吃到数不清的美食。"
+    from: 59.62
+    to: 67.84
+  - text: "Flowers will arrive by the truckload. People will say to you, \"You look great — have you had any work done?\""
+    zh: "鲜花会一卡车一卡车地送来。人们会对你说:“你气色真好——是不是做了什么保养?”"
+    from: 67.84
+    to: 75.12
+  - text: "And you'll have a lifetime supply of good drugs."
+    zh: "而且你会有一辈子用不完的好药。"
+    from: 76.08
+    to: 80.14
+  - text: "You'll be challenged, inspired, motivated, and humbled."
+    zh: "你会被挑战、被激励、被鼓舞,也会变得谦卑。"
+    from: 80.76
+    to: 86.2
+  - text: "Your life will have new meaning."
+    zh: "你的人生会有新的意义。"
+    from: 87.36
+    to: 89.18
+  - text: "The price? Fifty-five thousand dollars. And that's an incredible deal."
+    zh: "价格呢?五万五千美元。而且这还是个超值的买卖。"
+    from: 97.2
+    to: 105.9
+  - text: "By now I know you're dying to know what it is, and where you can get one. Does Amazon carry it? Does it have the Apple logo on it?"
+    zh: "现在你一定特别想知道它是什么,在哪能买到。亚马逊有卖吗?上面有苹果的标志吗?"
+    from: 105.9
+    to: 114.48
+  - text: "Is there a waiting list? Not likely."
+    zh: "需要排队等候吗?不太可能。"
+    from: 114.48
+    to: 118.38
+  - text: "This gift came to me about five months ago. It looked more like this when it was all wrapped up — not quite so pretty."
+    zh: "这份礼物大约五个月前来到我身边。它包起来的时候,更像这个样子——没那么好看。"
+    from: 119.4
+    to: 125.54
+  - text: "It was a rare gem of a brain tumor — hemangioblastoma — the gift that keeps on giving."
+    zh: "那是一颗罕见的「珍宝」——一个脑瘤,血管母细胞瘤——一份「不断馈赠」的礼物。"
+    from: 133.24
+    to: 142.64
+  - text: "And while I'm okay now, I wouldn't wish this gift for you. I'm not sure you'd want it."
+    zh: "虽然我现在没事了,但我不会把这份礼物许给你。我也不确定你会想要它。"
+    from: 143.5
+    to: 149.3
+  - text: "But I wouldn't change my experience. It profoundly altered my life in ways I didn't expect — in all the ways I just shared with you."
+    zh: "但我不会想改变这段经历。它以我意想不到的方式深刻改变了我的人生——就是我刚跟你说的那些方式。"
+    from: 149.54
+    to: 158.52
+  - text: "So the next time you're faced with something that's unexpected, unwanted, and uncertain, consider that it just may be a gift."
+    zh: "所以下次当你面对某件意外、不想要、又充满未知的事时,想一想——它或许正是一份礼物。"
+    from: 159.26
+    to: 170.48

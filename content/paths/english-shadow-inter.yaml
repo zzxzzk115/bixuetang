@@ -10,3 +10,7 @@ stages:
   - title: 演讲长句
     courses:
       - en-l3-first-20-hours
+      - en-l3-the-gift
+  - title: 科学说明
+    courses:
+      - en-l3-atoms

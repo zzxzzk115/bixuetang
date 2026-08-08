@@ -10,3 +10,6 @@ stages:
   - title: 地道口语
     courses:
       - en-l3-stop-overthinking
+  - title: 思辨长篇
+    courses:
+      - en-l3-camus-absurd
