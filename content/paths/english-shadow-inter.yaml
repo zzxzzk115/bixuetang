@@ -4,6 +4,9 @@ title: 影读循声
 subject: en
 tier: intermediate
 mode: shadow
+# 完成「影读启声」(初级)全部单元后解锁
+gate:
+  afterPath: english-shadow-basic
 description: >
   成段的演讲跟读,句子更长、逻辑更完整,练连贯表达与自然的连读、重音。
 stages:

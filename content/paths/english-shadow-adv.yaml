@@ -4,6 +4,10 @@ title: 影读化境
 subject: en
 tier: advanced
 mode: shadow
+# 在「影读循声」(中级)完成任意 1 个单元后解锁
+gate:
+  afterPath: english-shadow-inter
+  units: 1
 description: >
   语速偏快、口语地道、带俚语与幽默的真实语料,冲原声表达——听得像、说得溜。
 stages:

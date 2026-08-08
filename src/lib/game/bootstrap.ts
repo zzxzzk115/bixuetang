@@ -137,10 +137,27 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
   });
 
   const courseById = new Map(courses.map((c) => [c.id, c]));
+  // 跟读单元「整篇练完」= 所有段都完成;供跨线解锁门槛判定
+  const shadowUnitDone = new Map(
+    shadowUnits.map((u) => [u.id, u.segDone.length > 0 && u.segDone.every(Boolean)]),
+  );
+  const pathById = new Map(content.paths.map((p) => [p.id, p]));
   const paths: PathSummaryDto[] = content.paths.map((p) => {
     const courseIds = p.stages.flatMap((s) => s.courses);
-    // 跟读线:基础线、无课程前置,直接可选;解锁靠单元线性推进(前端算)。
+    // 跟读线:基础线无门槛直接可选;设了 gate 的需先在前置线完成若干单元。
     if (p.mode === "shadow") {
+      let unlocked = true;
+      const missingPrereqs: { id: string; title: string }[] = [];
+      if (p.gate) {
+        const gatePath = pathById.get(p.gate.afterPath);
+        const gateUnitIds = gatePath?.stages.flatMap((s) => s.courses) ?? [];
+        const doneCount = gateUnitIds.filter((id) => shadowUnitDone.get(id)).length;
+        const need = p.gate.units ?? gateUnitIds.length;
+        unlocked = doneCount >= need;
+        if (!unlocked && gatePath) {
+          missingPrereqs.push({ id: gatePath.id, title: gatePath.title });
+        }
+      }
       return {
         id: p.id,
         title: p.title,
@@ -148,8 +165,8 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
         tier: p.tier,
         mode: "shadow" as const,
         courseIds,
-        unlocked: true,
-        missingPrereqs: [],
+        unlocked,
+        missingPrereqs,
         unlockEntry: null,
       };
     }

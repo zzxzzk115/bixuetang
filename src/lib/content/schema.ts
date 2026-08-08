@@ -206,6 +206,13 @@ export const PathSchema = z.object({
    * stages[].courses 里的 id:course 模式指向课程,shadow 模式指向跟读单元。
    */
   mode: z.enum(["course", "shadow"]).default("course"),
+  /**
+   * 跟读线解锁门槛:需先在 afterPath 完成 units 个单元才解锁本线。
+   * units 省略 = 需完成 afterPath 的全部单元。仅对 shadow 线生效。
+   */
+  gate: z
+    .object({ afterPath: slug, units: z.number().int().min(1).optional() })
+    .optional(),
   description: z.string().optional(),
   stages: z
     .array(
