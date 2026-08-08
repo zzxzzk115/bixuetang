@@ -223,12 +223,21 @@ CI 在 tag 上构建 `ghcr.io/zzxzzk115/bixuetang:X.Y.Z` + `:latest`，并据 CH
 然后到服务器**手动上线**（保留上线把关，不自动部署）：
 
 ```bash
-cd /srv/bixuetang && git pull && ./scripts/deploy.sh
+cd /srv/bixuetang && ./scripts/deploy.sh
 ```
 
-`deploy.sh`：拉仓库 → `docker compose pull` 拉新镜像 → 滚动重启 → 清理旧层。
-**不在服务器上构建**，不吃 `next build` 的内存与磁盘峰值。日常改动记进
-[`CHANGELOG.md`](CHANGELOG.md) 的「未发布」段即可。
+`deploy.sh`：（缺必填配置时先弹**配置向导**）拉仓库 → `docker compose pull` 拉新镜像 →
+滚动重启 → 清理旧层。**不在服务器上构建**，不吃 `next build` 的内存与磁盘峰值。
+
+配置向导把上面「环境变量 / 学习提醒与邮件」那些值交互式写进 `.env`（含**自动生成
+VAPID 密钥**、密码类输入不回显、已填项回车保留）：
+
+```bash
+./scripts/deploy.sh --config        # 只跑配置向导，不部署
+./scripts/deploy.sh --reconfigure   # 部署前逐项过一遍已有配置
+```
+
+日常改动记进 [`CHANGELOG.md`](CHANGELOG.md) 的「未发布」段即可。
 
 ### 备份
 
