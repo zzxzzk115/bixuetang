@@ -27,7 +27,7 @@ export default async function StudyPage() {
 
   return (
     <AppShell bootstrap={bootstrap}>
-      <div className="app-page study-page">
+      <div className="app-page">
         <header className="app-page-head">
           <h1>自习室</h1>
           <p className="me-note">
