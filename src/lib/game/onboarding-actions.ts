@@ -42,6 +42,8 @@ export async function completeOnboarding(
       routeId,
       goalRoadmap,
       onboardedAt: now,
+      // 走过本版引导就算「见过成为 X 目标」,老用户补弹的提示不再对其触发
+      goalPromptedAt: now,
       updatedAt: now,
     })
     .onConflictDoUpdate({
@@ -51,6 +53,7 @@ export async function completeOnboarding(
         ...(routeId ? { routeId } : {}),
         ...(goalRoadmap ? { goalRoadmap } : {}),
         onboardedAt: now,
+        goalPromptedAt: now,
         updatedAt: now,
       },
     })

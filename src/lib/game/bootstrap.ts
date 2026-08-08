@@ -230,5 +230,6 @@ export function getGameBootstrap(user: SessionUser): GameBootstrap {
     lastWatched: state.last,
     onboarded: state.onboardedAt != null,
     goalRoadmap: state.goalRoadmap,
+    goalPrompted: state.goalPromptedAt != null,
   };
 }

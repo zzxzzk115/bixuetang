@@ -25,6 +25,7 @@ export function getUserState(userId: number): {
   playerPrefs: string | null;
   onboardedAt: number | null;
   goalRoadmap: string | null;
+  goalPromptedAt: number | null;
 } {
   const row = db
     .select()
@@ -46,6 +47,7 @@ export function getUserState(userId: number): {
     playerPrefs: row?.playerPrefs ?? null,
     onboardedAt: row?.onboardedAt ?? null,
     goalRoadmap: row?.goalRoadmap ?? null,
+    goalPromptedAt: row?.goalPromptedAt ?? null,
     last: recent
       ? {
           courseId: recent.courseId,

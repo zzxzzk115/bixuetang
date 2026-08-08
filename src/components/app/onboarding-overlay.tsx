@@ -2,25 +2,13 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Atom,
-  BarChart3,
-  Brain,
-  Cpu,
-  Gamepad2,
-  Globe,
-  Languages,
-  Landmark,
-  Server,
-  ShieldCheck,
-  Sigma,
-  Sparkles,
-} from "lucide-react";
+import { Atom, Brain, Cpu, Languages, Landmark, Sigma, Sparkles } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import type { RoadmapChoice } from "@/lib/game/roadmap-choices";
 import { completeOnboarding } from "@/lib/game/onboarding-actions";
 import { celebrate } from "@/lib/celebrate";
 import { rewardToast } from "@/lib/reward-feedback";
+import { CareerGlyph, ROADMAP_TONE } from "./career-glyph";
 
 // 首次运行引导。新用户(未引导 + 零进度)进 /play 弹出:
 //   欢迎 → 选「成为 X」职业目标(或退回选单科入门)→ 发启程礼包 + 指到第一关。
@@ -43,16 +31,6 @@ const SUBJECT_TONE: Record<string, string> = {
   history: "var(--app-brown)",
 };
 
-// 职业路线的配色,按 id 上色让六张卡有区分
-const ROADMAP_TONE: Record<string, string> = {
-  "ai-engineer": "var(--app-green)",
-  "fullstack-dev": "var(--app-blue)",
-  "data-scientist": "var(--app-teal)",
-  "game-dev": "var(--app-pink)",
-  "security-engineer": "var(--app-orange)",
-  "backend-engineer": "var(--app-brown)",
-};
-
 function SubjectGlyph({ subject }: { subject: string }) {
   const s = 26;
   if (subject === "math") return <Sigma size={s} aria-hidden />;
@@ -61,17 +39,6 @@ function SubjectGlyph({ subject }: { subject: string }) {
   if (subject === "cs") return <Cpu size={s} aria-hidden />;
   if (subject === "en") return <Languages size={s} aria-hidden />;
   if (subject === "history") return <Landmark size={s} aria-hidden />;
-  return <Sparkles size={s} aria-hidden />;
-}
-
-function CareerGlyph({ icon }: { icon: string }) {
-  const s = 26;
-  if (icon === "brain") return <Brain size={s} aria-hidden />;
-  if (icon === "globe") return <Globe size={s} aria-hidden />;
-  if (icon === "chart") return <BarChart3 size={s} aria-hidden />;
-  if (icon === "gamepad") return <Gamepad2 size={s} aria-hidden />;
-  if (icon === "shield") return <ShieldCheck size={s} aria-hidden />;
-  if (icon === "server") return <Server size={s} aria-hidden />;
   return <Sparkles size={s} aria-hidden />;
 }
 

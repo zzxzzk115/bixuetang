@@ -18,6 +18,7 @@ import { openShadowChest } from "@/lib/game/shadow-actions";
 import { saveRouteChoice } from "@/lib/game/user-state-actions";
 import { AppShell } from "./app-shell";
 import { OnboardingOverlay } from "./onboarding-overlay";
+import { GoalPromptOverlay } from "./goal-prompt-overlay";
 import type { RoadmapChoice } from "@/lib/game/roadmap-choices";
 import { RouteSheet } from "./route-sheet";
 
@@ -441,6 +442,7 @@ export function RouteMap({
         roadmaps={roadmaps}
         onPick={selectRoute}
       />
+      <GoalPromptOverlay bootstrap={bootstrap} roadmaps={roadmaps} />
       <div className="route-map" ref={scrollRef}>
         {topSlot && <div className="route-map-top">{topSlot}</div>}
 

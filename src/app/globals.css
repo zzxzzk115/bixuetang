@@ -6311,6 +6311,101 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-weight: 800;
   color: var(--app-green);
 }
+
+/* 设为目标 / 当前目标 */
+.goal-set-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  background: var(--app-green);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.goal-set-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.goal-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+.goal-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 15%, transparent);
+}
+.goal-clear {
+  border: none;
+  background: none;
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+.goal-clear:hover:not(:disabled) {
+  color: var(--app-ink);
+}
+/* 「不忘初心」切换确认弹层 */
+.goal-confirm-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+}
+.goal-confirm {
+  position: relative;
+  width: min(420px, 100%);
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--app-surface);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+.goal-confirm h2 {
+  font-size: 19px;
+  font-weight: 900;
+}
+.goal-confirm p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--app-text);
+}
+.goal-confirm-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: none;
+  color: var(--app-faint);
+  cursor: pointer;
+}
+.goal-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
 .roadmap-stages {
   display: grid;
   gap: 14px;

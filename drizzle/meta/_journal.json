@@ -225,6 +225,13 @@
       "when": 1786300000000,
       "tag": "0031_password_reset",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "6",
+      "when": 1786310000000,
+      "tag": "0032_goal_prompt",
+      "breakpoints": true
     }
   ]
 }

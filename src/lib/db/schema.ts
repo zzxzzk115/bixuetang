@@ -247,6 +247,8 @@ export const userState = sqliteTable("user_state", {
   onboardedAt: integer("onboarded_at"),
   /** 选定的职业目标(成为 X 路线 id);驱动推荐卡「下一步」与目标展示 */
   goalRoadmap: text("goal_roadmap"),
+  /** 是否已就「成为 X 目标」弹过提示;空=老用户还没见过这功能,补弹一次 */
+  goalPromptedAt: integer("goal_prompted_at"),
   updatedAt: integer("updated_at").notNull(),
 });
 

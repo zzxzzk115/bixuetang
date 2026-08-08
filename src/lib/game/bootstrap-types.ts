@@ -140,4 +140,6 @@ export interface GameBootstrap {
   onboarded: boolean;
   /** 选定的职业目标（成为 X 路线 id），未选则 null */
   goalRoadmap: string | null;
+  /** 是否已就「成为 X 目标」弹过提示（老用户补弹一次的门控） */
+  goalPrompted: boolean;
 }

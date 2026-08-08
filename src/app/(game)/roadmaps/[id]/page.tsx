@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, Check, Lock } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
+import { GoalButton } from "@/components/app/goal-button";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { SUBJECT_LABEL } from "@/lib/content/schema";
@@ -23,6 +24,10 @@ export default async function RoadmapDetailPage({
 
   const bootstrap = getGameBootstrap(user);
   const byId = new Map(bootstrap.courses.map((c) => [c.id, c]));
+  const currentGoalId = bootstrap.goalRoadmap;
+  const currentGoalTitle = currentGoalId
+    ? (getContent().roadmapsById.get(currentGoalId)?.title ?? null)
+    : null;
 
   let doneN = 0;
   let totalN = 0;
@@ -47,6 +52,12 @@ export default async function RoadmapDetailPage({
           <p className="me-note roadmap-progress">
             已完成 {doneN}/{totalN} 门课
           </p>
+          <GoalButton
+            roadmapId={roadmap.id}
+            roadmapTitle={roadmap.title}
+            currentGoalId={currentGoalId}
+            currentGoalTitle={currentGoalTitle}
+          />
         </header>
 
         <div className="roadmap-stages">
