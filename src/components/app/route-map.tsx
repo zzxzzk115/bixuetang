@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import {
   Brain,
   Check,
+  ChevronDown,
   FlaskConical,
   Gift,
   Lock,
@@ -486,16 +487,17 @@ export function RouteMap({
                 <span className="map-goalbar-edit">换目标</span>
               </Link>
               <div className="map-goalbar-route">
-                <MapPin size={13} aria-hidden />
-                <span>
-                  {followingGoal ? "跟随目标 · 在爬 " : "在爬 · "}
-                  <b>{path?.title}</b>
-                </span>
+                {/* 整行就是换路线入口:点开路线选择,不再单列「换路线」按钮 */}
                 <button
-                  className="map-goalbar-link"
+                  className="map-goalbar-routebtn"
                   onClick={() => setSheetOpen(true)}
                 >
-                  换路线
+                  <MapPin size={13} aria-hidden />
+                  <span>
+                    {followingGoal ? "跟随目标 · 正在学 " : "正在学 · "}
+                    <b>{path?.title}</b>
+                  </span>
+                  <ChevronDown size={14} aria-hidden />
                 </button>
                 {detoured && (
                   <button className="map-goalbar-back" onClick={followGoal}>
@@ -506,18 +508,18 @@ export function RouteMap({
             </>
           ) : (
             <div className="map-goalbar-route">
-              <MapPin size={13} aria-hidden />
-              <span>
-                暂时随便逛逛 · 在爬 <b>{path?.title}</b>
-              </span>
               <button
-                className="map-goalbar-link"
+                className="map-goalbar-routebtn"
                 onClick={() => setSheetOpen(true)}
               >
-                换路线
+                <MapPin size={13} aria-hidden />
+                <span>
+                  暂时随便逛逛 · 正在学 <b>{path?.title}</b>
+                </span>
+                <ChevronDown size={14} aria-hidden />
               </button>
-              <Link href="/roadmaps" className="map-goalbar-link">
-                设定目标 →
+              <Link href="/roadmaps" className="map-goalbar-cta">
+                设定目标
               </Link>
             </div>
           )}

@@ -5943,27 +5943,42 @@ body:has(.art-video-player.art-fullscreen-web) {
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  padding-left: 4px;
+}
+/* 整行即换路线入口:点开路线选择 */
+.map-goalbar-routebtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 6px;
+  border: 1px solid var(--app-line);
+  border-radius: 999px;
+  background: var(--app-surface);
+  color: var(--app-faint);
   font-size: 12.5px;
   font-weight: 700;
-  color: var(--app-faint);
+  cursor: pointer;
 }
-.map-goalbar-route b {
+.map-goalbar-routebtn:hover {
+  border-color: var(--app-blue);
+}
+.map-goalbar-routebtn b {
   color: var(--app-ink);
   font-weight: 800;
 }
-.map-goalbar-link {
-  border: none;
-  background: none;
-  padding: 0;
-  color: var(--app-blue);
+.map-goalbar-routebtn svg:last-child {
+  color: var(--app-faint);
+}
+/* 「设定目标」实心按钮:好点 */
+.map-goalbar-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--app-green);
+  color: #fff;
   font-size: 12.5px;
   font-weight: 800;
-  cursor: pointer;
   text-decoration: none;
-}
-.map-goalbar-link:hover {
-  text-decoration: underline;
 }
 .map-goalbar-back {
   display: inline-flex;

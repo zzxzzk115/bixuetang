@@ -1,5 +1,7 @@
-// 敏感词种子词库(按类别分组,便于运营增删)。这是「起步集」,不求全:
-// UGC 合规是持续运营的事,管理员应按实际情况在这里补充/精简。
+import { GENERATED_WORDS } from "./words-generated";
+
+// 业务补充词库(按类别分组,便于运营增删)。综合底库在 words-generated.ts,
+// 这里只放底库未必覆盖的业务词(引流/广告等);两者合并成最终词表。
 //
 // 匹配前会做归一化(见 filter.ts):去空白与常见分隔符、全角转半角、转小写,
 // 所以词条只写核心形态即可(如「加微信」能挡住「加 微 信」「加-微-信」)。
@@ -52,9 +54,8 @@ const POLITICAL: string[] = [
   // 例:此处按当地法规与平台要求补充相应词条
 ];
 
-export const SENSITIVE_WORDS: string[] = [
-  ...ABUSE,
-  ...SPAM,
-  ...PORN,
-  ...POLITICAL,
-];
+// 业务补充词(引流/广告/辱骂等,综合底库未必覆盖全)
+const BUSINESS: string[] = [...ABUSE, ...SPAM, ...PORN, ...POLITICAL];
+
+// 综合底库(开源综合词库,见 words-generated.ts)+ 业务补充词
+export const SENSITIVE_WORDS: string[] = [...BUSINESS, ...GENERATED_WORDS];
