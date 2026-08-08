@@ -4473,6 +4473,29 @@ math-field {
 .report-resolve:disabled {
   opacity: 0.6;
 }
+.report-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  border-radius: 999px;
+  background: var(--app-red, #e5484d);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.report-danger:disabled {
+  opacity: 0.6;
+}
+.admin-link {
+  color: var(--app-blue, #1cb0f6);
+  text-decoration: none;
+}
+.admin-link:hover {
+  text-decoration: underline;
+}
 .app-btn-plain .spin,
 .video-report-menu .spin {
   margin-right: 4px;

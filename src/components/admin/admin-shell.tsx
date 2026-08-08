@@ -7,6 +7,7 @@ import {
   Inbox,
   LayoutDashboard,
   LogOut,
+  MessageSquare,
   MoreHorizontal,
   Settings,
   ShieldCheck,
@@ -22,6 +23,7 @@ const NAV = [
   { href: "/console/users", label: "用户", icon: Users, exact: false, primary: true },
   { href: "/console/reports", label: "视频反馈", icon: Inbox, exact: false, primary: true },
   { href: "/console/career-suggestions", label: "职业建议", icon: Target, exact: false, primary: false },
+  { href: "/console/tips", label: "课程心得", icon: MessageSquare, exact: false, primary: false },
   { href: "/console/settings", label: "设置", icon: Settings, exact: false, primary: false },
 ];
 
