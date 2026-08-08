@@ -1,0 +1,12 @@
+# 两个站点、同一个上游服务:
+#   · 主域 → 学员端(游戏化自学)
+#   · admin. 子域 → 管理端(Next 内部按 host 重写到 /console 树)
+# Caddy 为每个 host 自动申请并续期 HTTPS 证书。SITE_DOMAIN 由 compose 注入。
+
+{$SITE_DOMAIN} {
+	reverse_proxy bixuetang:3000
+}
+
+admin.{$SITE_DOMAIN} {
+	reverse_proxy bixuetang:3000
+}

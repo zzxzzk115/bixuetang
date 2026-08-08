@@ -7,11 +7,9 @@ services:
       - "443:443/udp"
     environment:
       SITE_DOMAIN: ${SITE_DOMAIN:?请在 .env 中设置 SITE_DOMAIN，例如 bixuetang.com}
-    command: >
-      caddy reverse-proxy
-      --from ${SITE_DOMAIN}
-      --to bixuetang:3000
+    # 主域 + admin. 子域两个 vhost,见仓库根的 Caddyfile(镜像默认 CMD 会加载它)
     volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy-data:/data
       - caddy-config:/config
     depends_on:
@@ -28,9 +26,9 @@ services:
       - bixuetang-data:/data
     environment:
       COOKIE_SECURE: "1"
-      # 管理端(/admin)权限:逗号分隔的用户 id。从服务器环境或 .env 注入,
-      # 留空则退回默认(id=1)。查自己的 id:见 README「管理员」一节。
-      ADMIN_USER_IDS: "${ADMIN_USER_IDS:-}"
+      # 管理端(admin. 子域)默认账户 admin 的初始密码。留空则首启用弱口令
+      # "admin" 并强制首登修改。见 README「管理端」一节。
+      ADMIN_INITIAL_PASSWORD: "${ADMIN_INITIAL_PASSWORD:-}"
     restart: unless-stopped
 
 volumes:
