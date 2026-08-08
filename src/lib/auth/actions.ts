@@ -10,6 +10,7 @@ import { isValidEmail, normalizeEmail } from "./email";
 import { hashPassword, verifyPassword } from "./password";
 import { createSession, destroySession } from "./session";
 import { takeReferrer } from "../referral";
+import { linkInviteFollow } from "../social/invite";
 
 export type AuthFormState = { error: string } | null;
 
@@ -81,13 +82,14 @@ export async function register(
     .returning({ id: users.id })
     .get();
 
-  // 拉新归因:经谁的分享链接来的(排除自荐)
+  // 拉新归因:经谁的分享链接来的(排除自荐)+ 邀请人与被邀人互相关注
   const ref = await takeReferrer();
   if (ref && ref !== inserted.id) {
     db.update(users)
       .set({ referredBy: ref })
       .where(eq(users.id, inserted.id))
       .run();
+    linkInviteFollow(ref, inserted.id);
   }
 
   await createSession(inserted.id);

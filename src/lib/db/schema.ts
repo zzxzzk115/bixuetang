@@ -310,6 +310,24 @@ export const pkRuns = sqliteTable("pk_runs", {
   createdAt: integer("created_at").notNull(),
 });
 
+// 关注关系（单向）。好友榜 = 自己 + 关注的人;经邀请链接注册双方自动互关。
+export const follows = sqliteTable(
+  "follows",
+  {
+    followerId: integer("follower_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    followeeId: integer("followee_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.followerId, t.followeeId] }),
+    index("follows_followee").on(t.followeeId),
+  ],
+);
+
 // 排位分（ELO）。行不存在视为初始 1000 分。
 export const pkRatings = sqliteTable("pk_ratings", {
   userId: integer("user_id")

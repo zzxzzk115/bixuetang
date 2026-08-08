@@ -129,6 +129,8 @@ export function getXpLog(userId: number, limit = 20): XpLogEntry[] {
       label = `今日复习完成 · ${r.ref}`;
     } else if (r.reason === "review-hit") {
       label = "复习答对";
+    } else if (r.reason === "invite") {
+      label = "邀请好友加入";
     }
     return { ...r, label };
   });

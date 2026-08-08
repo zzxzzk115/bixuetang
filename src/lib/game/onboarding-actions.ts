@@ -4,6 +4,7 @@ import { eq, sql } from "drizzle-orm";
 import { getCurrentUser } from "../auth/session";
 import { db } from "../db/client";
 import { rpgProfiles, userState } from "../db/schema";
+import { grantInviteReward } from "../social/invite";
 
 // 首次运行引导的收尾:选好起步路线(可选)、发启程礼包、置 onboarded 标记。
 // 幂等——只在 onboarded_at 为空时发礼包,防重复领(刷新/并发)。
@@ -60,6 +61,9 @@ export async function completeOnboarding(
     .run();
 
   if (already) return { ok: true };
+
+  // 首次完成引导 → 若是被邀请来的,给邀请人发奖(幂等,轻门槛防刷)
+  grantInviteReward(user.id);
 
   // 启程礼包:金币,让新人第一步就有正反馈(rpg_profiles 不存在则建行)
   db.insert(rpgProfiles)

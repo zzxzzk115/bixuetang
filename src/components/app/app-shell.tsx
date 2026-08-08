@@ -20,6 +20,7 @@ import {
   Swords,
   Timer,
   User,
+  Users,
   X,
   Zap,
 } from "lucide-react";
@@ -36,6 +37,7 @@ import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 const TABS = [
   { key: "map", label: "地图", href: "/play", icon: MapIcon },
   { key: "trial", label: "试炼", href: "/play/trial", icon: Swords, hideForNewUser: true },
+  { key: "social", label: "好友", href: "/social", icon: Users },
   { key: "shop", label: "商店", href: "/play/shop", icon: ShoppingBag, hideForNewUser: true },
   { key: "bag", label: "背包", href: "/play/bag", icon: Backpack, hideForNewUser: true },
   { key: "lexicon", label: "卷宗", href: "/glossary", icon: BookOpen },

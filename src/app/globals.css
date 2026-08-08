@@ -5980,6 +5980,161 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-weight: 800;
   text-decoration: none;
 }
+
+/* ===== 好友 / 社交 ===== */
+.invite-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 2px solid color-mix(in srgb, var(--app-green) 40%, transparent);
+  background: color-mix(in srgb, var(--app-green) 8%, var(--app-surface));
+}
+.invite-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.invite-card-head b {
+  font-size: 16px;
+  font-weight: 800;
+}
+.invite-card-head span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-faint);
+}
+.invite-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.invite-card-msg {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--app-green);
+}
+.friend-board {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.friend-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: var(--app-bg);
+}
+.friend-row.is-self {
+  background: color-mix(in srgb, var(--app-blue) 12%, var(--app-surface));
+  outline: 1px solid color-mix(in srgb, var(--app-blue) 40%, transparent);
+}
+.friend-rank {
+  width: 24px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--app-faint);
+  flex: none;
+}
+.friend-rank.rank-1 {
+  color: var(--app-gold);
+}
+.friend-main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.friend-main b {
+  font-size: 14px;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.friend-main small {
+  font-size: 12px;
+  color: var(--app-faint);
+}
+.friend-xp {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--app-green);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+}
+.add-friend {
+  display: grid;
+  gap: 10px;
+}
+.add-friend-bar {
+  display: flex;
+  gap: 8px;
+}
+.add-friend-bar input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--app-line);
+  background: var(--app-bg);
+  color: var(--app-ink);
+  font-size: 14px;
+}
+.add-friend-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.add-friend-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.add-friend-list li b {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.add-friend-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 999px;
+  background: var(--app-blue);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  flex: none;
+}
+.add-friend-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.add-friend-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--app-faint);
+  flex: none;
+}
 .map-goalbar-back {
   display: inline-flex;
   align-items: center;

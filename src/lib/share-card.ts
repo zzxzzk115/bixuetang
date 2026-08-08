@@ -70,6 +70,89 @@ function loadImage(src: string): Promise<HTMLImageElement | null> {
   });
 }
 
+export interface InviteCardInput {
+  /** 邀请人昵称 */
+  inviterName: string;
+  /** 站点 logo(同源) */
+  logoUrl: string;
+  /** 二维码目标:邀请注册链接(带 ?ref=) */
+  link: string;
+}
+
+/** 邀请分享图:大标题 + 二维码,复用本模块的 canvas/二维码逻辑 */
+export async function drawInviteCard(
+  input: InviteCardInput,
+): Promise<HTMLCanvasElement> {
+  const { default: QRCode } = await import("qrcode");
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d")!;
+  const accent = "#58cc02";
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = accent;
+  ctx.fillRect(0, 0, W, 12);
+
+  const font = (s: string) =>
+    `${s} 'PingFang SC', 'Microsoft YaHei', sans-serif`;
+  ctx.textBaseline = "alphabetic";
+
+  // logo + 品牌
+  const logo = await loadImage(input.logoUrl);
+  if (logo) {
+    ctx.save();
+    roundRect(ctx, 40, 70, 96, 96, 24);
+    ctx.clip();
+    ctx.drawImage(logo, 40, 70, 96, 96);
+    ctx.restore();
+  }
+  ctx.fillStyle = "#26313c";
+  ctx.font = font("bold 48px");
+  ctx.fillText("必学堂", 156, 118);
+  ctx.fillStyle = "#9aa7b3";
+  ctx.font = font("26px");
+  ctx.fillText("把公开课学成闯关的自学平台", 156, 156);
+
+  // 大标题
+  ctx.fillStyle = "#26313c";
+  ctx.font = font("bold 60px");
+  const nameLine = wrapText(ctx, input.inviterName, W - 80, 1)[0] ?? "";
+  ctx.fillText(nameLine, 40, 320);
+  ctx.font = font("bold 60px");
+  ctx.fillText("邀你一起学", 40, 400);
+
+  ctx.fillStyle = "#58cc02";
+  ctx.font = font("bold 30px");
+  ctx.fillText("互相较劲,一起变强 · 上榜比学习", 40, 460);
+
+  // 二维码(居中偏下)
+  const qrSize = 300;
+  const qrCanvas = document.createElement("canvas");
+  await QRCode.toCanvas(qrCanvas, input.link, {
+    width: qrSize,
+    margin: 1,
+    color: { dark: "#26313c", light: "#ffffff" },
+  });
+  const qrX = (W - qrSize) / 2;
+  const qrY = 560;
+  ctx.save();
+  roundRect(ctx, qrX - 20, qrY - 20, qrSize + 40, qrSize + 40, 24);
+  ctx.fillStyle = "#f4f7f9";
+  ctx.fill();
+  ctx.restore();
+  ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
+
+  ctx.fillStyle = "#7b8a99";
+  ctx.font = font("26px");
+  ctx.textAlign = "center";
+  ctx.fillText("扫码注册,成为好友", W / 2, qrY + qrSize + 60);
+  ctx.textAlign = "left";
+
+  return canvas;
+}
+
 export async function drawShareCard(
   input: ShareCardInput,
 ): Promise<HTMLCanvasElement> {

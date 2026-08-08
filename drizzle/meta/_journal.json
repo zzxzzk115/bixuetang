@@ -239,6 +239,13 @@
       "when": 1786320000000,
       "tag": "0033_career_suggestions",
       "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "6",
+      "when": 1786330000000,
+      "tag": "0034_follows",
+      "breakpoints": true
     }
   ]
 }
