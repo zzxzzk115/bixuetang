@@ -6117,6 +6117,37 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-blue);
   text-decoration: underline;
 }
+/* 填空(主动回忆)题:输入框 + 提交 */
+.review-fill {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+  margin: 8px auto 0;
+}
+.review-fill-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 2px solid var(--app-line);
+  background: var(--app-bg);
+  color: var(--app-ink);
+  font-size: 18px;
+  text-align: center;
+  outline: none;
+}
+.review-fill-input:focus {
+  border-color: var(--app-green);
+}
+.review-fill-input:disabled {
+  opacity: 0.7;
+}
+/* 课程头部:掌握度提示(还没复习过时) */
+.course-hero-mastery-hint {
+  opacity: 0.85;
+  font-style: italic;
+}
 .review-next {
   min-width: 200px;
 }

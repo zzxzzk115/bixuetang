@@ -8,38 +8,41 @@ import { celebrate } from "@/lib/celebrate";
 import {
   gradeReviewCard,
   settleReviewDay,
+  type GradeResult,
   type ReviewCardView,
   type ReviewSettleResult,
 } from "@/lib/game/review-actions";
 import { rewardToast } from "@/lib/reward-feedback";
 
 // 今日复习会话(间隔重复的「测试效应」执行层):
-// 逐卡四选一,答错立刻看到正确答案 + 出处集链接(错了马上重学);
+// 逐卡答题,答错立刻看到正确答案 + 出处集链接(错了马上重学);
 // 没有红心没有倒计时——复习是巩固不是考试,压力感只会赶人走。
-// 快答(5 秒内)有 ease 加成:答得快说明记得牢,间隔可以拉更长。
+// 判分在服务端(不信客户端),答对才给 XP;熟练的短术语卡升级成填空(主动回忆)。
 
 const FAST_MS = 5000;
 
-/** 快答判定(独立函数,只在点击回调里调用) */
 function isFastAnswer(startedAt: number): boolean {
   return startedAt > 0 && performance.now() - startedAt < FAST_MS;
 }
 
 export function ReviewSession({ cards }: { cards: ReviewCardView[] }) {
   const router = useRouter();
+  // 结算后 settleReviewDay 会 revalidate,cards prop 可能被刷成空——
+  // 用挂载时的张数记住这次会话的规模,别让结算屏塌成「没有到期的卡」空态
+  const [sessionTotal] = useState(cards.length);
   const [idx, setIdx] = useState(0);
   const [phase, setPhase] = useState<"asking" | "feedback" | "result">(
     cards.length === 0 ? "result" : "asking",
   );
   const [selected, setSelected] = useState<number | null>(null);
+  const [fillText, setFillText] = useState("");
+  const [graded, setGraded] = useState<GradeResult | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
-  const [nextInterval, setNextInterval] = useState<number | null>(null);
   const [settle, setSettle] = useState<ReviewSettleResult | null>(null);
   const askedAt = useRef(0);
 
   const card = cards[idx];
 
-  // 第一张卡的计时起点(之后每张在 next() 里重置)
   useEffect(() => {
     askedAt.current = performance.now();
   }, []);
@@ -50,13 +53,16 @@ export function ReviewSession({ cards }: { cards: ReviewCardView[] }) {
     setSettle(r);
     if (r.ok && r.gained > 0) {
       rewardToast({ text: `+${r.gained} XP · 今日复习完成`, tone: "review" });
+      if (r.coins > 0) {
+        rewardToast({ text: `+${r.coins} 金币 · 正确率奖励`, tone: "coin" });
+      }
       if (r.streak > 1) {
         rewardToast({ text: `🔥 连续学习 ${r.streak} 天`, tone: "streak" });
       }
       celebrate({
         kind: "quest",
         title: "今日复习完成！",
-        subtitle: `${cards.length} 张卡片 · 记忆曲线已续上`,
+        subtitle: `正确率 ${Math.round(r.accuracy * 100)}% · 记忆曲线已续上`,
       });
       if (r.levelUp) {
         celebrate({
@@ -68,21 +74,22 @@ export function ReviewSession({ cards }: { cards: ReviewCardView[] }) {
     }
   };
 
-  const answer = (i: number) => {
+  // 提交作答(mcq 传下标 / fill 传文本),服务端判分回来再显示反馈
+  const submit = (submission: { mode: "mcq"; index: number } | { mode: "fill"; text: string }) => {
     if (!card || phase !== "asking") return;
-    const correct = i === card.question.answerIndex;
     const fast = isFastAnswer(askedAt.current);
-    setSelected(i);
+    if (submission.mode === "mcq") setSelected(submission.index);
     setPhase("feedback");
-    if (correct) setCorrectCount((n) => n + 1);
-    void gradeReviewCard(card.cardId, correct, correct && fast).then((r) => {
-      if (r.ok) setNextInterval(r.nextIntervalDays ?? null);
+    void gradeReviewCard(card.cardId, { ...submission, fast }).then((r) => {
+      setGraded(r);
+      if (r.ok && r.correct) setCorrectCount((n) => n + 1);
     });
   };
 
   const next = () => {
     setSelected(null);
-    setNextInterval(null);
+    setFillText("");
+    setGraded(null);
     askedAt.current = performance.now();
     if (idx + 1 >= cards.length) {
       void finish();
@@ -97,14 +104,14 @@ export function ReviewSession({ cards }: { cards: ReviewCardView[] }) {
       <div className="quiz-root">
         <div className="quiz-result">
           <span className="quiz-result-icon pass" aria-hidden>
-            {cards.length === 0 ? <RotateCcw size={44} /> : <Zap size={44} strokeWidth={2.2} />}
+            {sessionTotal === 0 ? <RotateCcw size={44} /> : <Zap size={44} strokeWidth={2.2} />}
           </span>
-          <h1>{cards.length === 0 ? "今天没有到期的卡" : "今日复习完成！"}</h1>
-          {cards.length > 0 && (
+          <h1>{sessionTotal === 0 ? "今天没有到期的卡" : "今日复习完成！"}</h1>
+          {sessionTotal > 0 && (
             <div className="quiz-result-stats">
               <div>
                 <b>
-                  {correctCount}/{cards.length}
+                  {correctCount}/{sessionTotal}
                 </b>
                 <small>答对</small>
               </div>
@@ -120,12 +127,12 @@ export function ReviewSession({ cards }: { cards: ReviewCardView[] }) {
             </div>
           )}
           <p className="quiz-result-note">
-            {cards.length === 0
+            {sessionTotal === 0
               ? "看完新的一集,明天这里就会长出复习卡。"
               : settle == null
                 ? "结算中…"
                 : settle.gained > 0
-                  ? `+${settle.gained} XP${settle.levelUp ? ` · 升到 ${settle.newLevel} 级！` : ""}`
+                  ? `+${settle.gained} XP${settle.coins > 0 ? ` · +${settle.coins} 金币` : ""}${settle.levelUp ? ` · 升到 ${settle.newLevel} 级！` : ""}`
                   : "今天的复习奖励已领过,这轮算加练。"}
           </p>
           <div className="quiz-result-actions">
@@ -143,6 +150,7 @@ export function ReviewSession({ cards }: { cards: ReviewCardView[] }) {
 
   if (!card) return null;
   const q = card.question;
+  const isFill = q.mode === "fill";
 
   return (
     <div className="quiz-root">
@@ -169,38 +177,75 @@ export function ReviewSession({ cards }: { cards: ReviewCardView[] }) {
               {card.courseTitle} · 第 {card.episodeN} 集
             </span>
           )}
-          {q.kind === "term" ? "还记得这个术语吗?" : "这个知识点讲的是?"}
+          {isFill
+            ? "看定义,打出这个术语(主动回忆)"
+            : q.kind === "term"
+              ? "还记得这个术语吗?"
+              : "这个知识点讲的是?"}
         </p>
         <h1 className="quiz-prompt">{q.prompt}</h1>
-        <div className="quiz-options">
-          {q.options.map((opt, i) => {
-            let cls = "quiz-option";
-            if (phase === "feedback") {
-              if (i === q.answerIndex) cls += " right";
-              else if (i === selected) cls += " wrong";
-              else cls += " dim";
-            }
-            return (
+
+        {isFill ? (
+          <form
+            className="review-fill"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (phase === "asking" && fillText.trim()) {
+                submit({ mode: "fill", text: fillText });
+              }
+            }}
+          >
+            <input
+              className="review-fill-input"
+              value={fillText}
+              onChange={(e) => setFillText(e.target.value)}
+              disabled={phase === "feedback"}
+              placeholder="打出你记得的术语…"
+              autoFocus
+              autoComplete="off"
+            />
+            {phase === "asking" && (
               <button
-                key={i}
-                className={cls}
-                disabled={phase === "feedback"}
-                onClick={() => answer(i)}
+                type="submit"
+                className="app-btn-primary"
+                disabled={!fillText.trim()}
               >
-                {opt}
+                提交
               </button>
-            );
-          })}
-        </div>
+            )}
+          </form>
+        ) : (
+          <div className="quiz-options">
+            {(q.options ?? []).map((opt, i) => {
+              let cls = "quiz-option";
+              if (phase === "feedback" && graded) {
+                if (i === graded.correctIndex) cls += " right";
+                else if (i === selected) cls += " wrong";
+                else cls += " dim";
+              }
+              return (
+                <button
+                  key={i}
+                  className={cls}
+                  disabled={phase === "feedback"}
+                  onClick={() => submit({ mode: "mcq", index: i })}
+                >
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         <div className="quiz-underline review-underline">
-          {phase === "feedback" && (
+          {phase === "feedback" && graded && (
             <>
               <p className="review-next-note">
-                {selected === q.answerIndex
-                  ? nextInterval
-                    ? `记住了!${nextInterval} 天后再见`
+                {graded.correct
+                  ? graded.nextIntervalDays
+                    ? `记住了!${graded.nextIntervalDays} 天后再见`
                     : "记住了!"
-                  : "忘了没关系,明天再来一次"}
+                  : `正确答案:${graded.correctText}`}
                 {" · "}
                 <Link
                   href={`/courses/${card.courseId}?ep=${card.episodeN}`}

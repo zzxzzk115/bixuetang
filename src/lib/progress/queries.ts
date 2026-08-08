@@ -1,9 +1,10 @@
 import "server-only";
-import { desc, eq, sum } from "drizzle-orm";
+import { and, desc, eq, sum } from "drizzle-orm";
 import { db } from "../db/client";
 import {
   courseProgress,
   episodeProgress,
+  reviewCards,
   xpEvents,
   type CourseStatus,
 } from "../db/schema";
@@ -11,6 +12,7 @@ import { getContent } from "../content/load";
 import { SUBJECTS, type Subject } from "../content/schema";
 import { episodeXp } from "../game/xp";
 import { levelProgress, type LevelProgress } from "../game/level";
+import { masteryPct } from "../game/mastery";
 
 export interface UserProgress {
   /** courseId → 状态 */
@@ -123,9 +125,31 @@ export function getXpLog(userId: number, limit = 20): XpLogEntry[] {
       label = `开启宝箱：${title}`;
     } else if (r.reason === "trial") {
       label = `无限试炼：${r.ref} 每日结算`;
+    } else if (r.reason === "review") {
+      label = `今日复习完成 · ${r.ref}`;
+    } else if (r.reason === "review-hit") {
+      label = "复习答对";
     }
     return { ...r, label };
   });
+}
+
+/**
+ * 某课程的掌握度百分比(0–100),从该课的复习卡间隔派生;还没复习过返回 null。
+ * outcome 信号:量的是长期留存,不是看了多久。
+ */
+export function getCourseMastery(
+  userId: number,
+  courseId: string,
+): number | null {
+  const rows = db
+    .select({ intervalDays: reviewCards.intervalDays })
+    .from(reviewCards)
+    .where(
+      and(eq(reviewCards.userId, userId), eq(reviewCards.courseId, courseId)),
+    )
+    .all();
+  return masteryPct(rows);
 }
 
 /** 某实验室已完成的任务 id 集合（从 xp_events 的幂等键推导） */

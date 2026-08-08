@@ -20,7 +20,7 @@ import { buildLessonTrack, findTrackNode } from "@/lib/game/lesson-track";
 import { courseHasQuiz } from "@/lib/game/quiz-bank";
 import { LEVEL_LABEL, SUBJECT_LABEL } from "@/lib/content/schema";
 import { LABS } from "@/lib/labs";
-import { getUserProgress } from "@/lib/progress/queries";
+import { getCourseMastery, getUserProgress } from "@/lib/progress/queries";
 
 // 课程页（多邻国式原生布局）：学科色 Hero + 播放器卡 + 大圆勾分集清单 +
 // 折叠的知识点/关联信息。AI 分析等重组件复用旧实现，套 .app-skin 适配层。
@@ -199,6 +199,8 @@ export default async function CoursePage({
     episodes.length === 0
       ? 0
       : Math.round((watchedCount / episodes.length) * 100);
+  // 掌握度:整门课的复习卡留存派生(null=还没复习过);段视图不显示(按整课算)
+  const mastery = segLabel ? null : getCourseMastery(user.id, id);
 
   return (
     // 不传 routeTitle：课程名在 Hero 里，顶栏不再出现假按钮胶囊
@@ -227,8 +229,14 @@ export default async function CoursePage({
           <small>
             {segLabel ? `本小节 ${watchedCount}/${episodes.length} 集` : `${watchedCount}/${episodes.length} 集`}
             {" · "}
-            {percent}%
+            观看 {percent}%
+            {mastery !== null ? ` · 掌握 ${mastery}%` : ""}
           </small>
+          {mastery === null && !segLabel && (
+            <small className="course-hero-mastery-hint">
+              学完并复习后,这里会显示你的掌握度
+            </small>
+          )}
           {segLabel && (
             <Link className="course-hero-all" href={`/courses/${id}`}>
               查看整门课程 ›
