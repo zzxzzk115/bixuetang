@@ -2,11 +2,13 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, Check, Lock } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
+import { CareerGlyph, ROADMAP_TONE } from "@/components/app/career-glyph";
 import { GoalButton } from "@/components/app/goal-button";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { SUBJECT_LABEL } from "@/lib/content/schema";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
+import { roadmapIcon } from "@/lib/game/roadmap-choices";
 
 export const metadata = { title: "学习路线" };
 export const dynamic = "force-dynamic";
@@ -45,7 +47,19 @@ export default async function RoadmapDetailPage({
           <ArrowLeft size={15} aria-hidden /> 全部学习路线
         </Link>
         <header className="app-page-head">
-          <h1>{roadmap.title}</h1>
+          <h1 className="roadmap-detail-title">
+            <span
+              className="roadmap-card-icon"
+              style={{
+                ["--tone" as string]:
+                  ROADMAP_TONE[roadmap.id] ?? "var(--app-green)",
+              }}
+              aria-hidden
+            >
+              <CareerGlyph icon={roadmapIcon(roadmap.id)} size={22} />
+            </span>
+            {roadmap.title}
+          </h1>
           {roadmap.description ? (
             <p className="me-note">{roadmap.description}</p>
           ) : null}

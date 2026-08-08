@@ -22,12 +22,17 @@ const ICON: Record<string, string> = {
   "backend-engineer": "server",
 };
 
+/** roadmap id → CareerGlyph 图标键(供卡片/关系条直接取图标) */
+export function roadmapIcon(id: string): string {
+  return ICON[id] ?? "sparkles";
+}
+
 export function roadmapChoices(roadmaps: Roadmap[]): RoadmapChoice[] {
   return roadmaps.map((r) => ({
     id: r.id,
     title: r.title,
     tagline: r.tagline ?? "",
-    icon: ICON[r.id] ?? "sparkles",
+    icon: roadmapIcon(r.id),
     firstCourseId: r.stages[0]?.courses[0] ?? "",
   }));
 }

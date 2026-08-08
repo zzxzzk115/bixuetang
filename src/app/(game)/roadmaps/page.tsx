@@ -2,9 +2,11 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChevronRight, Route } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
+import { CareerGlyph, ROADMAP_TONE } from "@/components/app/career-glyph";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
+import { roadmapIcon } from "@/lib/game/roadmap-choices";
 
 export const metadata = { title: "学习路线" };
 export const dynamic = "force-dynamic";
@@ -40,6 +42,16 @@ export default async function RoadmapsPage() {
                 href={`/roadmaps/${r.id}`}
                 className="roadmap-card"
               >
+                <span
+                  className="roadmap-card-icon"
+                  style={{
+                    ["--tone" as string]:
+                      ROADMAP_TONE[r.id] ?? "var(--app-green)",
+                  }}
+                  aria-hidden
+                >
+                  <CareerGlyph icon={roadmapIcon(r.id)} size={22} />
+                </span>
                 <b>{r.title}</b>
                 {r.tagline ? <small>{r.tagline}</small> : null}
                 <span className="roadmap-card-meta">

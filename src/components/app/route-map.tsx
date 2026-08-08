@@ -13,7 +13,6 @@ import {
   Mic,
   Play,
   RotateCcw,
-  Target,
 } from "lucide-react";
 import type {
   CourseSummaryDto,
@@ -31,7 +30,8 @@ import { saveRouteChoice } from "@/lib/game/user-state-actions";
 import { AppShell } from "./app-shell";
 import { OnboardingOverlay } from "./onboarding-overlay";
 import { GoalPromptOverlay } from "./goal-prompt-overlay";
-import type { RoadmapChoice } from "@/lib/game/roadmap-choices";
+import { CareerGlyph } from "./career-glyph";
+import { roadmapIcon, type RoadmapChoice } from "@/lib/game/roadmap-choices";
 import { RouteSheet } from "./route-sheet";
 
 // 多邻国式路线地图（纯 DOM）。一门课不再是一个节点，而是一个「单元」：
@@ -479,7 +479,7 @@ export function RouteMap({
                 href={`/roadmaps/${bootstrap.goalRoadmap}`}
                 className="map-goalbar-goal"
               >
-                <Target size={14} aria-hidden />
+                <CareerGlyph icon={roadmapIcon(bootstrap.goalRoadmap)} size={14} />
                 <span>
                   目标 · <b>{goalTitle}</b>
                 </span>

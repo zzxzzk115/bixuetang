@@ -6201,6 +6201,28 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-size: 11px;
   font-weight: 900;
 }
+/* 折叠时的红色角标:提醒还有 N 个任务没搞定 */
+.quest-fab-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.quest-fab-dot {
+  position: absolute;
+  top: -6px;
+  right: -7px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--app-red, #e5484d);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 16px;
+  text-align: center;
+  box-shadow: 0 0 0 2px var(--app-surface);
+}
 .quest-fab-chev {
   margin-left: auto;
   transition: transform 0.2s ease;
@@ -6362,6 +6384,24 @@ body:has(.art-video-player.art-fullscreen-web) {
 }
 .roadmap-card:hover {
   border-color: var(--app-green);
+}
+/* 成为 X 的职业图标章:按路线 tone 上色,给每条线一点辨识度 */
+.roadmap-card-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--tone, var(--app-green));
+}
+.roadmap-detail-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.roadmap-detail-title .roadmap-card-icon {
+  flex: none;
 }
 .roadmap-card b {
   font-size: 17px;

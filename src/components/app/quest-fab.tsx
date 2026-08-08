@@ -42,11 +42,20 @@ export function QuestFab({
     });
   const claimable = quests.filter((q) => q.complete && !q.claimed).length;
   const doneCount = quests.filter((q) => q.complete).length;
+  // 还没搞定的任务(没完成 + 已完成待领)——折叠时用红角标提醒,别让人忘了
+  const pending = quests.length - doneCount + claimable;
 
   return (
     <div className={`quest-fab ${open ? "open" : "closed"}`}>
       <button className="quest-fab-bar" onClick={toggle} aria-expanded={open}>
-        <ClipboardList size={18} strokeWidth={2.4} aria-hidden />
+        <span className="quest-fab-icon">
+          <ClipboardList size={18} strokeWidth={2.4} aria-hidden />
+          {!open && pending > 0 && (
+            <span className="quest-fab-dot" aria-hidden>
+              {pending}
+            </span>
+          )}
+        </span>
         <b>每日任务</b>
         <span className="quest-fab-count">
           {doneCount}/{quests.length}
