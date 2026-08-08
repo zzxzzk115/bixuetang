@@ -6656,6 +6656,35 @@ body:has(.art-video-player.art-fullscreen-web) {
   overflow-y: auto;
 }
 
+/* 新手解锁提示:告诉 0 XP 新人学一课就解锁更多 Tab/玩法 */
+.unlock-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 13px;
+  border-radius: 14px;
+  border: 2px dashed color-mix(in srgb, var(--app-gold) 55%, transparent);
+  background: color-mix(in srgb, var(--app-gold) 12%, var(--app-surface));
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--app-text);
+}
+.unlock-hint b {
+  color: var(--app-strong);
+  font-weight: 900;
+}
+.unlock-hint-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 9px;
+  color: #4a3500;
+  background: var(--app-gold);
+}
+
 .review-entry {
   display: flex;
   align-items: center;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { RotateCcw } from "lucide-react";
+import { LockOpen, RotateCcw } from "lucide-react";
 import { RouteMap } from "@/components/app/route-map";
 import { NextStepCard } from "@/components/app/next-step-card";
 import { QuestFab } from "@/components/app/quest-fab";
@@ -41,6 +41,16 @@ export default async function PlayPage() {
       roadmaps={roadmaps}
       topSlot={
         <>
+          {bootstrap.level.totalXp === 0 && (
+            <div className="unlock-hint">
+              <span className="unlock-hint-icon" aria-hidden>
+                <LockOpen size={16} />
+              </span>
+              <span>
+                学完任意一课(拿到经验),即解锁<b>试炼、商店、背包、好友</b>等更多玩法。
+              </span>
+            </div>
+          )}
           <NextStepCard step={nextStep} />
           {dueCount > 0 && (
             <Link href="/review" className="review-entry">
