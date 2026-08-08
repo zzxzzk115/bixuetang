@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Users } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { CreateRoom } from "@/components/app/study-tools";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -9,6 +8,16 @@ import { getRooms } from "@/lib/social/study";
 
 export const metadata = { title: "自习室" };
 export const dynamic = "force-dynamic";
+
+// 每间房一个柔和主题色,循环取
+const ROOM_TONES = [
+  "var(--app-purple, #ce82ff)",
+  "var(--app-blue)",
+  "var(--app-orange)",
+  "var(--app-teal)",
+  "var(--app-pink)",
+  "var(--app-green)",
+];
 
 export default async function StudyPage() {
   const user = await getCurrentUser();
@@ -27,13 +36,22 @@ export default async function StudyPage() {
         </header>
 
         <div className="study-room-grid">
-          {rooms.map((r) => (
-            <Link key={r.id} href={`/study/${r.id}`} className="study-room-card">
+          {rooms.map((r, i) => (
+            <Link
+              key={r.id}
+              href={`/study/${r.id}`}
+              className="study-room-card"
+              style={{ ["--tone" as string]: ROOM_TONES[i % ROOM_TONES.length] }}
+            >
               <span className="study-room-emoji">{r.emoji ?? "📚"}</span>
               <b>{r.name}</b>
-              <small>
-                <Users size={13} aria-hidden /> {r.count} 人在学
-              </small>
+              {r.count > 0 ? (
+                <span className="study-room-live on">
+                  <i className="live-dot" aria-hidden /> {r.count} 人在学
+                </span>
+              ) : (
+                <span className="study-room-live">空着 · 进来坐坐</span>
+              )}
             </Link>
           ))}
         </div>

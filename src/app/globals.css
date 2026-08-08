@@ -6174,32 +6174,75 @@ body:has(.art-video-player.art-fullscreen-web) {
 }
 .study-room-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 12px;
 }
 .study-room-card {
+  position: relative;
   display: grid;
   justify-items: center;
-  gap: 4px;
-  padding: 20px 12px;
-  border-radius: 16px;
-  border: 1px solid var(--app-line);
-  background: var(--app-surface);
+  gap: 9px;
+  padding: 24px 14px 18px;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--tone) 30%, var(--app-line));
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--tone) 16%, var(--app-surface)),
+    var(--app-surface) 70%
+  );
   text-decoration: none;
   color: var(--app-ink);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
 }
 .study-room-card:hover {
-  border-color: var(--app-purple, #ce82ff);
+  transform: translateY(-3px);
+  border-color: var(--tone);
+  box-shadow: 0 12px 26px color-mix(in srgb, var(--tone) 22%, transparent);
 }
 .study-room-emoji {
-  font-size: 34px;
+  display: grid;
+  place-items: center;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  font-size: 32px;
   line-height: 1;
+  background: color-mix(in srgb, var(--tone) 22%, var(--app-surface));
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--tone) 35%, transparent);
 }
 .study-room-card b {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
 }
-.study-room-card small,
+.study-room-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--app-faint);
+}
+.study-room-live.on {
+  color: var(--app-green);
+}
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--app-green);
+  animation: live-pulse 1.6s ease-out infinite;
+}
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--app-green) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
 .study-room-head small {
   display: inline-flex;
   align-items: center;
@@ -6218,7 +6261,11 @@ body:has(.art-video-player.art-fullscreen-web) {
   gap: 12px;
 }
 .study-room-head .study-room-emoji {
-  font-size: 44px;
+  width: 72px;
+  height: 72px;
+  font-size: 38px;
+  --tone: var(--app-purple, #ce82ff);
+  flex: none;
 }
 .study-room-head h1 {
   font-size: 22px;
