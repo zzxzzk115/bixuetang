@@ -1,4 +1,4 @@
-import { LogOut } from "lucide-react";
+import { Bug, ExternalLink, LogOut, Star } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BiliBind } from "@/components/app/bili-bind";
@@ -11,6 +11,17 @@ import { requireUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 
 export const metadata = { title: "设置" };
+
+const REPO = "https://github.com/zzxzzk115/bixuetang";
+
+// lucide 新版移除了 Github 品牌图标，内联官方 GitHub mark
+function GithubMark() {
+  return (
+    <svg viewBox="0 0 24 24" width={18} height={18} fill="currentColor" aria-hidden>
+      <path d="M12 .5C5.37.5 0 5.78 0 12.29c0 5.2 3.44 9.6 8.2 11.16.6.11.82-.25.82-.56 0-.28-.01-1.02-.02-2-3.34.71-4.04-1.58-4.04-1.58-.55-1.37-1.34-1.74-1.34-1.74-1.09-.73.08-.72.08-.72 1.2.08 1.84 1.22 1.84 1.22 1.07 1.8 2.81 1.28 3.5.98.11-.76.42-1.28.76-1.58-2.67-.3-5.47-1.31-5.47-5.83 0-1.29.47-2.34 1.24-3.17-.12-.3-.54-1.52.12-3.16 0 0 1.01-.32 3.3 1.21a11.6 11.6 0 016 0c2.29-1.53 3.3-1.21 3.3-1.21.66 1.64.24 2.86.12 3.16.77.83 1.24 1.88 1.24 3.17 0 4.53-2.81 5.53-5.49 5.82.43.36.81 1.09.81 2.2 0 1.59-.01 2.87-.01 3.26 0 .31.22.68.83.56A12.02 12.02 0 0024 12.29C24 5.78 18.63.5 12 .5z" />
+    </svg>
+  );
+}
 
 export default async function SettingsPage() {
   const user = await requireUser();
@@ -93,6 +104,48 @@ export default async function SettingsPage() {
           <div className="app-skin">
             <PasswordForm />
           </div>
+        </section>
+
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>关于</h2>
+          </div>
+          <p className="me-note">
+            必学堂 · 把公开课做成闯关游戏的自学平台。开源项目,欢迎 Star 与反馈。
+          </p>
+          <div className="settings-about">
+            <a
+              className="settings-about-link"
+              href={REPO}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GithubMark />
+              <span>GitHub 仓库</span>
+              <ExternalLink size={14} className="settings-about-ext" aria-hidden />
+            </a>
+            <a
+              className="settings-about-link"
+              href={`${REPO}/issues/new`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Bug size={18} aria-hidden />
+              <span>反馈问题 / 提 Issue</span>
+              <ExternalLink size={14} className="settings-about-ext" aria-hidden />
+            </a>
+            <a
+              className="settings-about-link"
+              href={`${REPO}/stargazers`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Star size={18} aria-hidden />
+              <span>喜欢就点个 Star</span>
+              <ExternalLink size={14} className="settings-about-ext" aria-hidden />
+            </a>
+          </div>
+          <p className="me-note">开源协议 · GPL-3.0-or-later</p>
         </section>
 
         {/* 退出登录:此前整站没有任何登出入口(用户点名的问题) */}

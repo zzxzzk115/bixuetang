@@ -5730,6 +5730,35 @@ body:has(.art-video-player.art-fullscreen-web) {
 .settings-logout:hover {
   background: color-mix(in srgb, #e5484d 10%, transparent);
 }
+/* 关于:仓库 / issue / star 链接列表 */
+.settings-about {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4px 0 10px;
+}
+.settings-about-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 2px solid var(--app-line);
+  border-radius: 12px;
+  color: var(--app-strong);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.settings-about-link:hover {
+  border-color: var(--app-blue);
+  background: color-mix(in srgb, var(--app-blue) 8%, transparent);
+}
+.settings-about-link > span {
+  flex: 1;
+}
+.settings-about-ext {
+  color: var(--app-faint);
+}
 
 /* ==== F6:注册的强度条与验证码 ==== */
 .auth-strength {
