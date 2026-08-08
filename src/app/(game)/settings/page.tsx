@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Bug, ExternalLink, Inbox, LogOut, Star } from "lucide-react";
+import { Bug, ExternalLink, LogOut, Star } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BiliBind } from "@/components/app/bili-bind";
@@ -8,7 +7,6 @@ import { AvatarForm } from "@/components/app/avatar-form";
 import { PasswordForm, ProfileForm } from "@/components/settings-forms";
 import { UserAvatar } from "@/components/user-avatar";
 import { logout } from "@/lib/auth/actions";
-import { isAdmin } from "@/lib/auth/admin";
 import { requireUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 
@@ -149,24 +147,6 @@ export default async function SettingsPage() {
           </div>
           <p className="me-note">开源协议 · GPL-3.0-or-later</p>
         </section>
-
-        {/* 管理端入口:仅管理员可见 */}
-        {isAdmin(user) ? (
-          <section className="course-card">
-            <div className="course-card-head">
-              <h2>运营</h2>
-            </div>
-            <Link className="settings-about-link" href="/admin">
-              <Inbox size={18} aria-hidden />
-              <span>进入管理端</span>
-              <ExternalLink
-                size={14}
-                className="settings-about-ext"
-                aria-hidden
-              />
-            </Link>
-          </section>
-        ) : null}
 
         {/* 退出登录:此前整站没有任何登出入口(用户点名的问题) */}
         <section className="course-card">

@@ -1,7 +1,7 @@
 "use server";
 
 import { desc, eq } from "drizzle-orm";
-import { isAdmin } from "../auth/admin";
+import { getCurrentAdmin } from "../admin/session";
 import { getCurrentUser } from "../auth/session";
 import { getContent } from "../content/load";
 import { db } from "../db/client";
@@ -85,8 +85,8 @@ export interface VideoReportRow {
 
 /** 反馈列表(未处理在前,再按时间倒序)。非管理员返回 null,页面据此 404。 */
 export async function listVideoReports(): Promise<VideoReportRow[] | null> {
-  const user = await getCurrentUser();
-  if (!isAdmin(user)) return null;
+  const admin = await getCurrentAdmin();
+  if (!admin) return null;
 
   const rows = await db
     .select({
@@ -137,8 +137,8 @@ export async function setReportResolved(
   id: number,
   resolved: boolean,
 ): Promise<ReportResult> {
-  const user = await getCurrentUser();
-  if (!isAdmin(user)) return { ok: false, error: "无权限" };
+  const admin = await getCurrentAdmin();
+  if (!admin) return { ok: false, error: "无权限" };
   if (!Number.isInteger(id)) return { ok: false, error: "参数不完整" };
   try {
     await db
