@@ -78,6 +78,7 @@ export function ShadowPractice({
   const recRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const completedRef = useRef(false);
+  const advanceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const cur = sentences[idx];
 
@@ -219,6 +220,15 @@ export function ShadowPractice({
           const origRate = audioCtxRef.current?.sampleRate ?? 44100;
           setScore(scoreShadow(orig, pcm, origRate, decoded.sampleRate));
         }
+        // 本句录完打分后,自动切到下一句(留时间看分数与波形);末句停下
+        if (idx < sentences.length - 1) {
+          if (advanceRef.current) clearTimeout(advanceRef.current);
+          advanceRef.current = setTimeout(() => {
+            setIdx((i) => Math.min(sentences.length - 1, i + 1));
+            setStep(0);
+            setShowText(false);
+          }, 2200);
+        }
         // 记下这句已练;本段每句都练过 → 练完这段发 XP(幂等)
         setRecorded((prev) => {
           const next = new Set(prev).add(idx);
@@ -254,10 +264,16 @@ export function ShadowPractice({
   // 原声抓取已在 playSentence 里做:先点「播放原声」抓本句 PCM,再录音即出分。
 
   const go = (d: number) => {
+    if (advanceRef.current) clearTimeout(advanceRef.current); // 手动切换取消自动前进
     setIdx((i) => Math.min(sentences.length - 1, Math.max(0, i + d)));
     setStep(0);
     setShowText(false);
   };
+
+  // 卸载时清掉未触发的自动前进定时器
+  useEffect(() => () => {
+    if (advanceRef.current) clearTimeout(advanceRef.current);
+  }, []);
 
   return (
     <div className="shadow-practice">
@@ -266,29 +282,23 @@ export function ShadowPractice({
 
       {err && <p className="shadow-err">{err}</p>}
 
-      {/* 句子清单 */}
-      <ol className="shadow-list">
-        {sentences.map((s, i) => (
-          <li key={i}>
-            <button
-              className={`shadow-list-item ${i === idx ? "on" : ""}`}
-              onClick={() => {
-                setIdx(i);
-                setStep(0);
-                setShowText(false);
-              }}
-            >
-              <b>{i + 1}</b>
-              <span>{s.text}</span>
-            </button>
-          </li>
-        ))}
-      </ol>
-
-      {/* 当前句练习区 */}
+      {/* 当前句练习区:一次只练一句,录完自动进到下一句 */}
       <div className="shadow-stage">
         <div className="shadow-progress">
-          本单元 {recorded.size}/{sentences.length} 句已跟读
+          <span className="shadow-pos">
+            第 <b>{idx + 1}</b> / {sentences.length} 句
+          </span>
+          <span className="shadow-dots" aria-hidden>
+            {sentences.map((_, i) => (
+              <i
+                key={i}
+                className={
+                  recorded.has(i) ? "done" : i === idx ? "on" : undefined
+                }
+              />
+            ))}
+          </span>
+          <span className="shadow-done-count">已跟读 {recorded.size}</span>
         </div>
         <div className="shadow-steps">
           {STEPS.map((s, i) => (

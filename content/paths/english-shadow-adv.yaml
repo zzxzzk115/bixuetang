@@ -13,3 +13,6 @@ stages:
   - title: 思辨长篇
     courses:
       - en-l3-camus-absurd
+  - title: 风趣科普
+    courses:
+      - en-l3-spread

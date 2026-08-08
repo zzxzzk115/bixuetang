@@ -1,0 +1,80 @@
+# 影子跟读单元 · 一支讲「东西/观念传遍世界有多快」的科普短片(人工 en 字幕轨)
+# 每句=一条或多条完整字幕 cue,from/to 对齐音频窗口。zh 为中文对照。
+id: en-l3-spread
+title: 东西传遍世界有多快(科普)
+lang: en
+level: l3
+description: >
+  从地球诞生讲到 SARS,用「头发长多长」作尺子丈量传播速度——语言风趣、
+  用词地道、含年代与数字,练叙述节奏与幽默口吻。
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV1Jy4y1U7S8
+  uploader: B 站搬运(科普短片）
+bvid: BV1Jy4y1U7S8
+page: 1
+sentences:
+  - text: "As far as we know, around 4,500 million years ago, this rock that we live on coalesced from the dust and debris left over from the formation of our sun."
+    zh: "据我们所知,大约 45 亿年前,我们脚下这块石头,由太阳形成后残留的尘埃与碎屑凝聚而成。"
+    from: 0.28
+    to: 8.37
+  - text: "Without airplanes, pizza delivery, or the Internet, things moved more slowly across the early earth than they do today."
+    zh: "没有飞机、外卖披萨或互联网,早期地球上万物的移动比今天慢得多。"
+    from: 8.37
+    to: 14.41
+  - text: "For example, from isolated puddles of water, the oceans formed over the course of 400 to 800 million years."
+    zh: "比如,海洋从一个个孤立的小水洼,历经四到八亿年才形成。"
+    from: 14.41
+    to: 20.72
+  - text: "That's how long it would take for your hair to grow around the earth — twice."
+    zh: "这么长的时间,足够你的头发绕地球长两圈。"
+    from: 20.72
+    to: 23.95
+  - text: "In that same time, bacterial life did spread across the watery globe."
+    zh: "在同样的时间里,细菌生命确实传遍了这颗水汪汪的星球。"
+    from: 23.95
+    to: 28.42
+  - text: "Higher plants and animals, on the other hand, took much longer to develop and disperse."
+    zh: "而更高等的动植物,发育与扩散所花的时间要长得多。"
+    from: 28.42
+    to: 32.5
+  - text: "But we're going to skip those 3 billion years — during which your hair would have grown to the moon — and talk about us, Homo sapiens."
+    zh: "但我们要跳过那 30 亿年——这期间你的头发都能长到月球了——直接聊我们,智人。"
+    from: 32.5
+    to: 38.93
+  - text: "We were much faster than our own hair, which would have grown a meager 27km in the 180,000 years we took to cross Africa and reach all the unfrozen continents."
+    zh: "我们比自己的头发快多了:我们花 18 万年走出非洲、抵达所有没结冰的大陆,而头发这期间才长了区区 27 公里。"
+    from: 38.93
+    to: 47.89
+  - text: "In many of these places we were able to develop useful practices like agriculture, but because we were scattered across the globe, the best ideas and tastiest regional foods could only gain ground through trade or human migration."
+    zh: "在许多地方,我们发展出了农业这类有用的做法;但因为我们散布全球,最好的点子和最好吃的地方美食,只能靠贸易或人口迁徙才传得开。"
+    from: 47.89
+    to: 59.05
+  - text: "Wheat, for example, was domesticated around 8500 BC to make porridge."
+    zh: "以小麦为例,它大约在公元前 8500 年被驯化,用来熬粥。"
+    from: 59.05
+    to: 63.81
+  - text: "Actually, some speculate it might have been for beer, but either way, wheat made it from the Fertile Crescent to both the Atlantic and the Pacific by roughly 2500 BC."
+    zh: "其实也有人猜是为了酿啤酒;但无论如何,到公元前 2500 年前后,小麦已从新月沃地一路传到大西洋和太平洋两岸。"
+    from: 63.81
+    to: 72.25
+  - text: "6000km in 6000 years might seem like a blistering pace, but just wait for the Middle Ages!"
+    zh: "六千年走六千公里,看着像是飞速,但等你看看中世纪就知道了!"
+    from: 72.25
+    to: 78.7
+  - text: "The bubonic plague and the printing press each spread across Europe in less than a hundred years, bringing death and literacy to the populace before their hair could have even grown 15 meters."
+    zh: "黑死病和印刷术,各自在不到一百年里传遍欧洲——在民众的头发还没长到 15 米之前,就带去了死亡与识字能力。"
+    from: 78.7
+    to: 87.77
+  - text: "In the 20th century, mania for both the Beatles and the Hula hoop raced around the world in a year or two."
+    zh: "到了 20 世纪,对披头士和呼啦圈的狂热,一两年就席卷了全世界。"
+    from: 87.77
+    to: 94.11
+  - text: "Now, even a year is a long time."
+    zh: "如今,连一年都算久了。"
+    from: 94.11
+    to: 96.51
+  - text: "With millions of people jet-setting across the globe every day, diseases such as SARS can vacation almost anywhere within a few short weeks."
+    zh: "每天有数百万人搭着飞机满世界跑,像 SARS 这样的疾病,几周之内几乎就能到任何地方「度假」。"
+    from: 96.51
+    to: 104.07

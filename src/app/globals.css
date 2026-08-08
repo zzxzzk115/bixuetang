@@ -6496,49 +6496,59 @@ body:has(.art-video-player.art-fullscreen-web) {
   opacity: 0.92;
   line-height: 1.5;
 }
+/* 一次只练一句:整块占满宽度,不再有左侧清单 */
 .shadow-practice {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 14px;
-}
-@media (max-width: 700px) {
-  .shadow-practice {
-    grid-template-columns: 1fr;
-  }
-}
-.shadow-list {
-  max-height: 460px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.shadow-list-item {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 10px;
-  border: 2px solid var(--app-line);
-  border-radius: 10px;
-  text-align: left;
-  font-size: 13px;
-  line-height: 1.4;
-  cursor: pointer;
-}
-.shadow-list-item b {
-  color: var(--app-faint);
-}
-.shadow-list-item.on {
-  border-color: var(--app-pink);
-  background: color-mix(in srgb, var(--app-pink) 10%, transparent);
+  display: block;
+  max-width: 760px;
+  margin: 0 auto;
 }
 .shadow-stage {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 14px;
+  gap: 16px;
+  padding: 20px;
   border: 2px solid var(--app-line);
-  border-radius: 14px;
+  border-radius: 16px;
+}
+/* 进度条:第 N / M 句 + 圆点进度 + 已跟读数 */
+.shadow-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.shadow-pos {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--app-faint);
+}
+.shadow-pos b {
+  color: var(--app-pink);
+  font-size: 16px;
+}
+.shadow-dots {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  flex: 1;
+}
+.shadow-dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--app-line);
+}
+.shadow-dots i.on {
+  background: var(--app-pink);
+  transform: scale(1.25);
+}
+.shadow-dots i.done {
+  background: var(--app-green);
+}
+.shadow-done-count {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--app-green);
 }
 .shadow-steps {
   display: flex;
@@ -6562,8 +6572,12 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-green);
 }
 .shadow-caption {
-  padding: 16px;
-  border-radius: 12px;
+  padding: 28px 24px;
+  min-height: 132px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 14px;
   background: var(--app-surface);
   text-align: center;
   transition: filter 0.2s;
@@ -6573,13 +6587,13 @@ body:has(.art-video-player.art-fullscreen-web) {
   filter: blur(7px);
 }
 .shadow-en {
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 .shadow-zh {
-  margin-top: 6px;
-  font-size: 13px;
+  margin-top: 10px;
+  font-size: 15px;
   color: var(--app-faint);
 }
 .shadow-controls {
@@ -6623,7 +6637,7 @@ body:has(.art-video-player.art-fullscreen-web) {
 }
 .shadow-waves canvas {
   width: 100%;
-  height: 56px;
+  height: 84px;
   border: 1.5px solid var(--app-line);
   border-radius: 8px;
   background: var(--app-surface);
@@ -6722,5 +6736,3 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-size: 14px;
   font-weight: 700;
 }
-
-.shadow-progress{font-size:12px;font-weight:800;color:var(--app-faint);}
