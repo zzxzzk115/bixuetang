@@ -29,6 +29,7 @@ export default async function SocialPage() {
         <InviteCard
           viewerId={user.id}
           viewerName={user.displayName || user.username}
+          viewerAvatar={user.avatar}
           invited={stats.invited}
         />
 

@@ -61,25 +61,64 @@ function wrapText(
   return lines;
 }
 
-function loadImage(src: string): Promise<HTMLImageElement | null> {
+function loadImage(
+  src: string,
+  cors = false,
+): Promise<HTMLImageElement | null> {
   return new Promise((resolve) => {
     const img = new Image();
+    // 跨域头像:声明 anonymous——服务器给 CORS 就干净加载,不给就 onerror 回退,
+    // 两种都不会污染画布(污染会让 toBlob 抛 SecurityError)。
+    if (cors) img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
     img.onerror = () => resolve(null);
     img.src = src;
   });
 }
 
+// 首字母色块(头像兜底):按名字取一个稳定的柔和底色
+const AVATAR_TONES = [
+  "#58cc02",
+  "#1cb0f6",
+  "#ce82ff",
+  "#ff9600",
+  "#ff4b4b",
+  "#2ec4b6",
+];
+function drawLetterAvatar(
+  ctx: CanvasRenderingContext2D,
+  name: string,
+  cx: number,
+  cy: number,
+  r: number,
+) {
+  let h = 0;
+  for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fillStyle = AVATAR_TONES[h % AVATAR_TONES.length];
+  ctx.fill();
+  ctx.fillStyle = "#fff";
+  ctx.font = `bold ${Math.round(r)}px 'PingFang SC', 'Microsoft YaHei', sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText((name.slice(0, 1) || "?").toUpperCase(), cx, cy + 2);
+  ctx.restore();
+}
+
 export interface InviteCardInput {
   /** 邀请人昵称 */
   inviterName: string;
+  /** 邀请人头像地址(avatarSrc 解析后;同源可画,跨域走 CORS 兜底) */
+  avatarUrl: string | null;
   /** 站点 logo(同源) */
   logoUrl: string;
   /** 二维码目标:邀请注册链接(带 ?ref=) */
   link: string;
 }
 
-/** 邀请分享图:大标题 + 二维码,复用本模块的 canvas/二维码逻辑 */
+/** 邀请分享图:邀请人头像 + 大标题 + 二维码,复用本模块的 canvas/二维码逻辑 */
 export async function drawInviteCard(
   input: InviteCardInput,
 ): Promise<HTMLCanvasElement> {
@@ -98,37 +137,62 @@ export async function drawInviteCard(
   const font = (s: string) =>
     `${s} 'PingFang SC', 'Microsoft YaHei', sans-serif`;
   ctx.textBaseline = "alphabetic";
+  ctx.textAlign = "left";
 
-  // logo + 品牌
+  // 顶部:小 logo + 品牌
   const logo = await loadImage(input.logoUrl);
   if (logo) {
     ctx.save();
-    roundRect(ctx, 40, 70, 96, 96, 24);
+    roundRect(ctx, 40, 56, 64, 64, 16);
     ctx.clip();
-    ctx.drawImage(logo, 40, 70, 96, 96);
+    ctx.drawImage(logo, 40, 56, 64, 64);
     ctx.restore();
   }
   ctx.fillStyle = "#26313c";
-  ctx.font = font("bold 48px");
-  ctx.fillText("必学堂", 156, 118);
-  ctx.fillStyle = "#9aa7b3";
-  ctx.font = font("26px");
-  ctx.fillText("把公开课学成闯关的自学平台", 156, 156);
+  ctx.font = font("bold 34px");
+  ctx.fillText("必学堂", 120, 100);
 
-  // 大标题
+  // 邀请人头像:大圆(居中),同源直接画,跨域声明 CORS,失败画首字母块
+  const cx = W / 2;
+  const avatarY = 300;
+  const r = 100;
+  const isSameOrigin = !!input.avatarUrl && input.avatarUrl.startsWith("/");
+  const avatar = input.avatarUrl
+    ? await loadImage(input.avatarUrl, !isSameOrigin)
+    : null;
+  if (avatar) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, avatarY, r, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+    const scale = Math.max((2 * r) / avatar.width, (2 * r) / avatar.height);
+    const dw = avatar.width * scale;
+    const dh = avatar.height * scale;
+    ctx.drawImage(avatar, cx - dw / 2, avatarY - dh / 2, dw, dh);
+    ctx.restore();
+    // 头像描边
+    ctx.beginPath();
+    ctx.arc(cx, avatarY, r, 0, Math.PI * 2);
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 6;
+    ctx.stroke();
+  } else {
+    drawLetterAvatar(ctx, input.inviterName, cx, avatarY, r);
+  }
+
+  // 大标题(居中)
+  ctx.textAlign = "center";
   ctx.fillStyle = "#26313c";
-  ctx.font = font("bold 60px");
-  const nameLine = wrapText(ctx, input.inviterName, W - 80, 1)[0] ?? "";
-  ctx.fillText(nameLine, 40, 320);
-  ctx.font = font("bold 60px");
-  ctx.fillText("邀你一起学", 40, 400);
-
-  ctx.fillStyle = "#58cc02";
+  ctx.font = font("bold 52px");
+  const nameLine = wrapText(ctx, input.inviterName, W - 120, 1)[0] ?? "";
+  ctx.fillText(`${nameLine} 邀你一起学`, cx, avatarY + r + 80);
+  ctx.fillStyle = accent;
   ctx.font = font("bold 30px");
-  ctx.fillText("互相较劲,一起变强 · 上榜比学习", 40, 460);
+  ctx.fillText("互相较劲,一起变强 · 上榜比学习", cx, avatarY + r + 128);
 
   // 二维码(居中偏下)
-  const qrSize = 300;
+  const qrSize = 280;
   const qrCanvas = document.createElement("canvas");
   await QRCode.toCanvas(qrCanvas, input.link, {
     width: qrSize,
@@ -136,7 +200,7 @@ export async function drawInviteCard(
     color: { dark: "#26313c", light: "#ffffff" },
   });
   const qrX = (W - qrSize) / 2;
-  const qrY = 560;
+  const qrY = 660;
   ctx.save();
   roundRect(ctx, qrX - 20, qrY - 20, qrSize + 40, qrSize + 40, 24);
   ctx.fillStyle = "#f4f7f9";
@@ -146,8 +210,7 @@ export async function drawInviteCard(
 
   ctx.fillStyle = "#7b8a99";
   ctx.font = font("26px");
-  ctx.textAlign = "center";
-  ctx.fillText("扫码注册,成为好友", W / 2, qrY + qrSize + 60);
+  ctx.fillText("扫码注册,成为好友", cx, qrY + qrSize + 56);
   ctx.textAlign = "left";
 
   return canvas;

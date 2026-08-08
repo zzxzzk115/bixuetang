@@ -10,10 +10,12 @@ import { drawInviteCard } from "@/lib/share-card";
 export function InviteSharePopup({
   onClose,
   inviterName,
+  avatarUrl,
   link,
 }: {
   onClose: () => void;
   inviterName: string;
+  avatarUrl: string | null;
   link: string;
 }) {
   const [card, setCard] = useState<{ url: string; blob: Blob } | null>(null);
@@ -23,6 +25,7 @@ export function InviteSharePopup({
     let cancelled = false;
     void drawInviteCard({
       inviterName,
+      avatarUrl,
       logoUrl: "/icon-192.png",
       link,
     }).then((canvas) => {
@@ -37,7 +40,7 @@ export function InviteSharePopup({
     return () => {
       cancelled = true;
     };
-  }, [inviterName, link]);
+  }, [inviterName, avatarUrl, link]);
 
   function flash(t: string) {
     setMsg(t);
