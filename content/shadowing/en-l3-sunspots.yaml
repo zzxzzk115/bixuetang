@@ -1,0 +1,93 @@
+# 影子跟读单元 · TED-Ed《凝视太阳的女人(小山日子与太阳黑子)》
+# 源自人工 en-US 字幕轨(带标点、质量最高),按句子边界断句,from/to 对齐音频窗口。
+# zh 为中文对照。
+id: en-l3-sunspots
+title: 凝视太阳的女人(TED-Ed)
+lang: en
+level: l3
+description: >
+  TED-Ed 讲二战时自学天文的小山日子,如何画下人类最重要的太阳黑子记录之一。
+  叙事+科普交织,句子偏长、用词讲究,练书面叙述与科学表达。
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV1bb4y1S7Ed
+  uploader: B 站搬运(TED-Ed）
+bvid: BV1bb4y1S7Ed
+page: 1
+sentences:
+  - text: "In the spring of 1944, Tokyo residents experienced numerous aerial attacks from Allied bombers."
+    zh: "1944 年春,东京居民经历了盟军轰炸机的多次空袭。"
+    from: 6.9
+    to: 14.12
+  - text: "Air raid sirens warned citizens to get indoors, and preceded strategic blackouts across the city."
+    zh: "空袭警报提醒市民躲进室内,随后全城进入战略性的灯火管制。"
+    from: 14.41
+    to: 20.79
+  - text: "But 28-year-old Hisako Koyama saw these blackouts as opportunities."
+    zh: "但 28 岁的小山日子,却把这些灯火管制看作机会。"
+    from: 21.37
+    to: 26.5
+  - text: "Dragging a futon over her head for protection, Koyama would gaze at the night sky, tracking all sorts of astronomical phenomena."
+    zh: "她把一床被褥拉到头上作掩护,凝望夜空,追踪各种各样的天文现象。"
+    from: 26.5
+    to: 35.12
+  - text: "However, her latest endeavor required the light of day."
+    zh: "然而,她最新的尝试却需要白昼的光。"
+    from: 35.7
+    to: 39.75
+  - text: "By angling her telescope towards the sun, Koyama could project the star's light onto a sheet of paper, allowing her to sketch the sun's shifting surface."
+    zh: "把望远镜对准太阳,小山就能把这颗恒星的光投到一张纸上,从而描绘太阳不断变化的表面。"
+    from: 39.75
+    to: 50.45
+  - text: "She spent weeks recreating this setup, tracking every change she saw."
+    zh: "她花了数周反复搭建这套装置,记录下自己看到的每一处变化。"
+    from: 50.45
+    to: 56.25
+  - text: "But while Koyama didn't know it, these drawings were the start of one of the most important records of solar activity in human history."
+    zh: "但小山当时并不知道,这些画作,竟是人类历史上最重要的太阳活动记录之一的开端。"
+    from: 56.25
+    to: 64.66
+  - text: "To understand exactly what Koyama saw on the sun's surface, we first need to understand what's happening inside the star."
+    zh: "要弄清小山在太阳表面究竟看到了什么,我们得先了解这颗恒星内部正在发生什么。"
+    from: 65.29
+    to: 73.29
+  - text: "Every second, trillions of oxygen molecules fuse into helium molecules in a process called nuclear fusion."
+    zh: "每一秒,数以万亿计的分子聚变生成氦,这一过程称为核聚变。"
+    from: 73.29
+    to: 81.7
+  - text: "This ongoing explosion maintains the sun's internal temperature of roughly 15 million degrees Celsius, which is more than enough energy to transform gas into churning pools of plasma."
+    zh: "这场持续的爆发,把太阳内部温度维持在约 1500 万摄氏度——足以把气体化作翻腾的等离子体之海。"
+    from: 82.37
+    to: 96.41
+  - text: "Plasma consists of charged particles that produce powerful magnetic fields."
+    zh: "等离子体由带电粒子组成,会产生强大的磁场。"
+    from: 97
+    to: 102.58
+  - text: "But unlike the stable charged particles that maintain magnetic activity on Earth, this plasma is constantly in flux,"
+    zh: "但与维持地球磁场活动的稳定带电粒子不同,这些等离子体一直在剧烈变动,"
+    from: 102.58
+    to: 110.95
+  - text: "alternately disrupting and amplifying the sun's magnetic field."
+    zh: "交替地扰乱又增强着太阳的磁场。"
+    from: 110.95
+    to: 115.16
+  - text: "This ongoing movement can produce temporary concentrations of magnetic activity, which inhibit the movement of molecules and in turn reduce heat in that area."
+    zh: "这种持续的运动会产生磁活动的短暂聚集,抑制分子的运动,进而降低该区域的热量。"
+    from: 115.7
+    to: 125.83
+  - text: "And since regions with less heat generate less light, places with the strongest magnetic fields appear as dark spots scattered across the sun's surface."
+    zh: "而由于热量较少的区域发光也较弱,磁场最强的地方,就成了散布在太阳表面的暗斑。"
+    from: 126.25
+    to: 136.08
+  - text: "These so-called sunspots are always moving, both as a result of plasma swirling within the sphere, and the sun's rotation."
+    zh: "这些所谓的「太阳黑子」始终在移动,既因为等离子体在球体内旋涌,也因为太阳自转。"
+    from: 136.5
+    to: 145.16
+  - text: "And because they're often clustered together, accurately counting sunspots and tracking their movement can be a challenge, depending greatly on the perception and judgment of the viewer."
+    zh: "又因为它们常常成簇聚集,准确地数出黑子、追踪其移动就成了难题,极大地依赖观测者的感知与判断。"
+    from: 145.66
+    to: 156.37
+  - text: "This is precisely where Koyama's contributions would be so valuable. Despite having no formal training in astronomy, her observations and sketches were remarkably accurate."
+    zh: "而这,正是小山的贡献如此宝贵之处。尽管从未受过正规的天文训练,她的观测与素描却精确得惊人。"
+    from: 156.95
+    to: 167.87
