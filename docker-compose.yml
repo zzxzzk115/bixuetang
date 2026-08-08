@@ -29,6 +29,17 @@ services:
       # 管理端(admin. 子域)默认账户 admin 的初始密码。留空则首启用弱口令
       # "admin" 并强制首登修改。见 README「管理端」一节。
       ADMIN_INITIAL_PASSWORD: "${ADMIN_INITIAL_PASSWORD:-}"
+      # 学习提醒 Web Push:一次性生成密钥对(node -e "console.log(require('web-push').generateVAPIDKeys())"),
+      # 填进 .env 即启用;留空则推送功能自动关闭。回访提醒靠 `pnpm push:reminders`(挂 cron)。
+      VAPID_PUBLIC_KEY: "${VAPID_PUBLIC_KEY:-}"
+      VAPID_PRIVATE_KEY: "${VAPID_PRIVATE_KEY:-}"
+      VAPID_SUBJECT: "${VAPID_SUBJECT:-mailto:admin@bixuetang.com}"
+      # 邮件重置链接的 SMTP(可选,见 src/lib/mail.ts)
+      SMTP_HOST: "${SMTP_HOST:-}"
+      SMTP_PORT: "${SMTP_PORT:-}"
+      SMTP_USER: "${SMTP_USER:-}"
+      SMTP_PASS: "${SMTP_PASS:-}"
+      SMTP_FROM: "${SMTP_FROM:-}"
     restart: unless-stopped
 
 volumes:

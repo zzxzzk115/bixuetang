@@ -253,6 +253,13 @@
       "when": 1786340000000,
       "tag": "0035_study_rooms",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "6",
+      "when": 1786350000000,
+      "tag": "0036_push_subscriptions",
+      "breakpoints": true
     }
   ]
 }

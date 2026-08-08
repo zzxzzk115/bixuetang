@@ -82,3 +82,42 @@ self.addEventListener("fetch", (event) => {
     );
   }
 });
+
+// Web Push:收到推送弹通知(学习提醒/复习到期/断签召回)
+self.addEventListener("push", (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch {
+    data = { title: "必学堂", body: event.data ? event.data.text() : "" };
+  }
+  const title = data.title || "必学堂";
+  const options = {
+    body: data.body || "",
+    icon: "/icon-192.png",
+    badge: "/icon-192.png",
+    // 同 tag 的通知折叠,别刷屏
+    tag: data.tag || "bixuetang",
+    data: { url: data.url || "/play" },
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// 点通知:已开着就聚焦,否则新开到目标页
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const target = (event.notification.data && event.notification.data.url) || "/play";
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clients) => {
+        for (const c of clients) {
+          if ("focus" in c) {
+            c.navigate(target);
+            return c.focus();
+          }
+        }
+        return self.clients.openWindow(target);
+      }),
+  );
+});
