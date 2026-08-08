@@ -1,0 +1,25 @@
+id: wonders-of-the-universe
+title: 宇宙的奇迹
+code: "BBC 2011"
+institution: BBC
+instructor: Brian Cox
+subject: physics
+level: basic
+tags: [科普, 纪录片, 宇宙, 引力, 时间, 光]
+prerequisites: []
+estimatedHours: 4
+description: >
+  物理学家 Brian Cox 的 BBC 科普经典:不用一个公式,从时间之箭、构成万物的星尘、
+  引力如何塑造宇宙,到光作为信使——把最核心的物理概念讲得直观又壮美。
+  作为物理入门的第一课,先建立对世界的好奇与直觉,等有了微积分再进正课。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV11L4y1G79q
+    uploader: 爱学习的水滴（搬运）
+    note: BBC《宇宙的奇迹》全 4 集·中英双字幕·真视频(帧率25)
+    mirrors: [BV1a34y177BK]
+episodes:
+  - { n: 1, title: "第1集 命运" }
+  - { n: 2, title: "第2集 星辰" }
+  - { n: 3, title: "第3集 陷落" }
+  - { n: 4, title: "第4集 信使" }

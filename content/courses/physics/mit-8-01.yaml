@@ -6,9 +6,7 @@ instructor: Walter Lewin
 subject: physics
 level: intermediate
 tags: [ 力学, 牛顿 ]
-# 物理主线的入门课:定为零前置的物理起点(微积分边学边补,先建物理直觉),
-# 让物理方向也有一条人人可入的地基线。
-prerequisites: []
+prerequisites: [ mit-18-01 ]
 estimatedHours: 60
 description: >
   Walter Lewin 的传奇物理课：亲自当单摆、用生命演示能量守恒。 微积分基础的经典力学，物理主线第一课。
