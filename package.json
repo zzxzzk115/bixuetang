@@ -13,6 +13,7 @@
     "validate": "tsx scripts/validate-content.ts",
     "fetch:episodes": "tsx scripts/fetch-episodes.ts",
     "check:links": "tsx scripts/check-links.ts",
+    "check:videos": "tsx scripts/check-videos.ts",
     "fetch:subtitles": "tsx scripts/fetch-subtitles.ts",
     "fetch:yt-subs": "tsx scripts/fetch-yt-subs.ts",
     "merge:analysis": "tsx scripts/merge-analysis-parts.ts",
