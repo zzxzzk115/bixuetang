@@ -14,3 +14,13 @@ export function verifyPassword(
 ): Promise<boolean> {
   return verify(passwordHash, password).catch(() => false);
 }
+
+// 时序防探测:登录时「用户不存在」也要跑一次真实 argon2 校验,与「用户存在」
+// 分支耗时一致,避免用响应时间枚举账号。用本模块自己的 hashPassword 现算一次
+// (与真实用户同参数,时序最贴合),惰性缓存;不写死密文字面量——省得被密钥
+// 扫描器(GitGuardian 等)误报成泄露的口令哈希。
+let dummyHashPromise: Promise<string> | null = null;
+export function dummyPasswordHash(): Promise<string> {
+  if (!dummyHashPromise) dummyHashPromise = hashPassword("timing-guard");
+  return dummyHashPromise;
+}

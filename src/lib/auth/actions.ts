@@ -7,7 +7,7 @@ import { users } from "../db/schema";
 import { containsSensitive } from "../moderation/filter";
 import { passwordStrength, verifyCaptcha } from "./captcha";
 import { isValidEmail, normalizeEmail } from "./email";
-import { hashPassword, verifyPassword } from "./password";
+import { dummyPasswordHash, hashPassword, verifyPassword } from "./password";
 import { createSession, destroySession } from "./session";
 import { takeReferrer } from "../referral";
 import { linkInviteFollow } from "../social/invite";
@@ -117,10 +117,9 @@ export async function login(
   // 用户不存在时也走一次哈希校验，避免用响应时间探测用户名
   const ok = user
     ? await verifyPassword(user.passwordHash, password)
-    : await verifyPassword(
-        "$argon2id$v=19$m=19456,t=2,p=1$AAAAAAAAAAAAAAAAAAAAAA$AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        password,
-      ).then(() => false);
+    : await verifyPassword(await dummyPasswordHash(), password).then(
+        () => false,
+      );
 
   if (!user || !ok) {
     return { error: "用户名/邮箱或密码不正确" };

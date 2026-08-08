@@ -5,7 +5,11 @@ import { redirect } from "next/navigation";
 import { db } from "../db/client";
 import { adminUsers } from "../db/schema";
 import { passwordStrength } from "../auth/captcha";
-import { hashPassword, verifyPassword } from "../auth/password";
+import {
+  dummyPasswordHash,
+  hashPassword,
+  verifyPassword,
+} from "../auth/password";
 import {
   createAdminSession,
   destroyAdminSession,
@@ -29,10 +33,9 @@ export async function adminLogin(
   // 用户不存在也走一次哈希,避免用响应时间探测账号
   const ok = admin
     ? await verifyPassword(admin.passwordHash, password)
-    : await verifyPassword(
-        "$argon2id$v=19$m=19456,t=2,p=1$AAAAAAAAAAAAAAAAAAAAAA$AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        password,
-      ).then(() => false);
+    : await verifyPassword(await dummyPasswordHash(), password).then(
+        () => false,
+      );
 
   if (!admin || !ok) return { error: "用户名或密码不正确" };
 
