@@ -7,6 +7,7 @@ import { db } from "../db/client";
 import { careerSuggestions, users, userState } from "../db/schema";
 import { getContent } from "../content/load";
 import { containsSensitive } from "../moderation/filter";
+import { RATE, overRateLimit } from "../moderation/ratelimit";
 
 // 职业目标(成为 X)的改/清/关提示。改目标不强切地图路线——推荐卡的「下一步」
 // 本就跟着目标走,硬把用户的闯关面挪走反而突兀;地图仍由用户自己选。
@@ -67,6 +68,16 @@ export async function suggestCareer(
   if (!t) return { ok: false, error: "写点你想成为什么吧" };
   if (containsSensitive(t))
     return { ok: false, error: "内容含有不当词汇,换个说法" };
+  if (
+    overRateLimit(
+      careerSuggestions,
+      careerSuggestions.userId,
+      careerSuggestions.createdAt,
+      user.id,
+      RATE.careerSuggestion,
+    )
+  )
+    return { ok: false, error: "提交太频繁了,明天再来吧" };
   const now = Date.now();
   db.insert(careerSuggestions)
     .values({ userId: user.id, text: t, createdAt: now })

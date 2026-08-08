@@ -9,6 +9,7 @@ import { fetchSelfInfo, qrGenerate, qrPoll } from "./api";
 import { saveBiliBinding } from "./account";
 import { takeReferrer } from "../referral";
 import { linkInviteFollow } from "../social/invite";
+import { containsSensitive } from "../moderation/filter";
 
 // 用 bilibili 扫码直接登录 / 注册必学堂账号。
 // 已绑定过的 bilibili 账号 → 登录既有账号；没绑过 → 建号并绑定，昵称取 bilibili 昵称（可改）。
@@ -177,6 +178,14 @@ export async function completeBiliSignup(
   if (password.length < 8) {
     return { ok: false, error: "密码至少 8 位" };
   }
+  // 用户自填的昵称过敏感词;取 bilibili 昵称的兜底不拦(是本人真实昵称)
+  const typedName = displayName.trim();
+  if (typedName && typedName.length > 32) {
+    return { ok: false, error: "昵称最长 32 个字符" };
+  }
+  if (typedName && containsSensitive(typedName)) {
+    return { ok: false, error: "昵称含有不当词汇,换一个吧" };
+  }
 
   const pending = db
     .select()
@@ -213,7 +222,7 @@ export async function completeBiliSignup(
     .values({
       username: name,
       passwordHash: await hashPassword(password),
-      displayName: displayName.trim() || pending.nickname,
+      displayName: (typedName || pending.nickname || "").slice(0, 32),
       avatar: pending.avatarUrl ? `bili:${pending.avatarUrl}` : null,
       createdAt: Date.now(),
     })

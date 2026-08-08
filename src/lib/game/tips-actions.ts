@@ -7,6 +7,7 @@ import { getContent } from "../content/load";
 import { db } from "../db/client";
 import { courseTips, users } from "../db/schema";
 import { containsSensitive } from "../moderation/filter";
+import { RATE, overRateLimit } from "../moderation/ratelimit";
 
 // 课程心得的写侧:发/删(只能删自己的)。文本过敏感词、限长。
 
@@ -20,6 +21,16 @@ export async function postCourseTip(
   const t = text.trim().slice(0, 300);
   if (!t) return { ok: false, error: "写点心得再发吧" };
   if (containsSensitive(t)) return { ok: false, error: "内容含有不当词汇,请修改" };
+  if (
+    overRateLimit(
+      courseTips,
+      courseTips.userId,
+      courseTips.createdAt,
+      user.id,
+      RATE.courseTip,
+    )
+  )
+    return { ok: false, error: "发得太频繁了,过会儿再来吧" };
   db.insert(courseTips)
     .values({ courseId, userId: user.id, text: t, createdAt: Date.now() })
     .run();

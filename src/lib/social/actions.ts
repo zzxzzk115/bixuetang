@@ -4,6 +4,7 @@ import { and, eq, inArray, like, ne, or } from "drizzle-orm";
 import { getCurrentUser } from "../auth/session";
 import { db } from "../db/client";
 import { follows, users } from "../db/schema";
+import { RATE, overRateLimit } from "../moderation/ratelimit";
 
 // 关注/取关 + 找人。好友 = 你关注的人;经邀请注册的双方自动互关(见 invite.ts)。
 
@@ -72,6 +73,16 @@ export async function followUser(targetId: number): Promise<{ ok: boolean }> {
     .where(eq(users.id, targetId))
     .get();
   if (!exists) return { ok: false };
+  if (
+    overRateLimit(
+      follows,
+      follows.followerId,
+      follows.createdAt,
+      me.id,
+      RATE.follow,
+    )
+  )
+    return { ok: false };
   db.insert(follows)
     .values({ followerId: me.id, followeeId: targetId, createdAt: Date.now() })
     .onConflictDoNothing()

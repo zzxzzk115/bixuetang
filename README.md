@@ -119,6 +119,10 @@ docker compose up -d          # 自动 pull 公开镜像并起容器，无需登
 | `COOKIE_SECURE` | compose 内为 `1` | 会话 cookie 是否仅走 HTTPS。本地开发保持 `0` |
 | `PORT` / `HOSTNAME` | `3000` / `0.0.0.0` | 应用容器内部监听地址 |
 | `ADMIN_INITIAL_PASSWORD` | 无（用弱口令并强制改） | 管理端默认账户 `admin` 的初始密码，见下「管理端」 |
+| `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` | 无（不配则推送自动关闭） | Web Push 密钥对，见下「学习提醒与邮件」 |
+| `VAPID_SUBJECT` | `mailto:admin@<域名>` | Web Push 联系人，一般填 `mailto:` 邮箱 |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | 无（不配则重置邮件只打日志） | 发密码重置邮件的 SMTP，见下「学习提醒与邮件」 |
+| `SMTP_FROM` | `SMTP_USER` | 发件人地址 |
 
 数据库迁移在服务启动时自动执行，不用手动跑。
 
@@ -156,6 +160,51 @@ ADMIN_INITIAL_PASSWORD=换成你的强密码
 
 再把 `bixuetang.com` 与 `admin.bixuetang.com` 的 DNS 都指到本机，`docker compose up -d`
 即可（首次自动 pull 镜像）。
+
+### 学习提醒与邮件（可选，不配就不生效，功能自动降级）
+
+这两块**不配也能正常上线**，但相应功能会静默关闭，配好才有效——上线时按需勾选：
+
+**① Web Push 学习提醒**（设置页「学习提醒」开关 + 复习卡到期召回）
+
+1. 生成一次 VAPID 密钥对，把公私钥写进服务器 `.env`：
+
+   ```bash
+   docker compose run --rm bixuetang npx web-push generate-vapid-keys
+   # 或本地：pnpm dlx web-push generate-vapid-keys
+   ```
+
+   ```dotenv
+   VAPID_PUBLIC_KEY=...
+   VAPID_PRIVATE_KEY=...
+   VAPID_SUBJECT=mailto:you@bixuetang.com
+   ```
+
+   不配 `VAPID_*`：设置页的推送开关会自动隐藏/失效，不报错。
+
+2. 到期召回是**定时脚本**，需要挂 cron/systemd timer（容器内不自带调度）。
+   例如宿主机 crontab 每天 9 点推一次：
+
+   ```cron
+   0 9 * * *  cd /srv/bixuetang && docker compose exec -T bixuetang pnpm push:reminders
+   ```
+
+   脚本只给「有到期复习卡且开了推送」的用户发，自带清理失效订阅。**不挂 cron 的话
+   开关能开、但永远不会收到提醒。**
+
+**② 密码重置邮件**（登录页「忘记密码」）
+
+配 `SMTP_*` 即可用自建/第三方 SMTP 发重置链接。**不配**时重置链接只打进容器日志
+（`docker compose logs bixuetang`），适合自用/内测；对外开放建议配好，否则用户收不到邮件。
+自建 25 端口能发，但很多收件方会因缺 SPF/DKIM/PTR 判垃圾邮件，量大建议用中继。
+
+### 防刷与限流
+
+- **登录态写操作**（课程心得、职业建议、建自习室、关注）已内置**每用户限流**
+  （如心得 8 条/时、建自习室 5 间/天），挡机器人刷屏爆库，正常用户无感。
+- **匿名端点**（注册 / 登录 / 找回密码）无法按用户限流，建议在反向代理层按 IP 限速。
+  Caddy 可用 `rate_limit`（或前置 Cloudflare）对这些 `POST` 路由设阈值，防批量注册灌库。
+- 公开 UGC（课程心得、自习室名）除敏感词过滤外，管理端 `课程心得` 页可人工下架漏网内容。
 
 ### 发布与更新
 

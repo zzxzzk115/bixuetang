@@ -5,6 +5,7 @@ import { getCurrentUser } from "../auth/session";
 import { db } from "../db/client";
 import { studyPresence, studyRooms } from "../db/schema";
 import { containsSensitive } from "../moderation/filter";
+import { RATE, overRateLimit } from "../moderation/ratelimit";
 import { getRoom } from "./study";
 import type { RoomView } from "./study-types";
 
@@ -55,6 +56,16 @@ export async function createRoom(
   const n = name.trim().slice(0, 20);
   if (!n) return { ok: false, error: "给自习室起个名字吧" };
   if (containsSensitive(n)) return { ok: false, error: "名称含有不当词汇" };
+  if (
+    overRateLimit(
+      studyRooms,
+      studyRooms.createdBy,
+      studyRooms.createdAt,
+      user.id,
+      RATE.studyRoom,
+    )
+  )
+    return { ok: false, error: "今天建的自习室有点多了,明天再来吧" };
   const now = Date.now();
   const r = db
     .insert(studyRooms)

@@ -31,6 +31,9 @@ export async function register(
   if (!USERNAME_RE.test(username)) {
     return { error: "用户名需为 3–32 位小写字母、数字或下划线" };
   }
+  if (displayName.length > 32) {
+    return { error: "昵称最长 32 个字符" };
+  }
   if (displayName && containsSensitive(displayName)) {
     return { error: "昵称含有不当词汇,换一个吧" };
   }
