@@ -1,0 +1,13 @@
+id: physics-start
+title: 物理启程
+subject: physics
+tier: basic
+description: >
+  物理方向的地基线,从经典力学入门——Walter Lewin 亲自当单摆、用生命演示能量守恒,
+  几条牛顿定律解释整个宏观世界;再进电磁学。微积分边学边补,先把物理直觉建起来。
+  走完这条线,物理方向的中高级线基本都会解锁。
+stages:
+  - title: 第一章 · 经典力学
+    courses: [mit-8-01]
+  - title: 第二章 · 电磁世界
+    courses: [mit-8-02]
