@@ -40,16 +40,28 @@ export function RouteSheet({
   // 而不是在 21 条里翻哪条没锁
   const groups = useMemo(() => {
     const byId = new Map(bootstrap.courses.map((c) => [c.id, c]));
+    const byUnit = new Map(bootstrap.shadowUnits.map((u) => [u.id, u]));
     const rows = bootstrap.paths.map((p) => {
       let watched = 0;
       let total = 0;
       let done = 0;
-      for (const cid of p.courseIds) {
-        const c = byId.get(cid);
-        if (!c) continue;
-        watched += c.watchedCount;
-        total += c.episodeCount;
-        if (c.status === "done") done += 1;
+      if (p.mode === "shadow") {
+        // 跟读线按「段」记进度、按「单元」记通关,不是集
+        for (const uid of p.courseIds) {
+          const u = byUnit.get(uid);
+          if (!u) continue;
+          watched += u.segDone.filter(Boolean).length;
+          total += u.segDone.length;
+          if (u.segDone.length > 0 && u.segDone.every(Boolean)) done += 1;
+        }
+      } else {
+        for (const cid of p.courseIds) {
+          const c = byId.get(cid);
+          if (!c) continue;
+          watched += c.watchedCount;
+          total += c.episodeCount;
+          if (c.status === "done") done += 1;
+        }
       }
       return { path: p, watched, total, done };
     });
@@ -111,7 +123,9 @@ export function RouteSheet({
                     />
                   </span>
                   <small>
-                    {done}/{path.courseIds.length} 课通关 · {watched}/{total} 集
+                    {path.mode === "shadow"
+                      ? `${done}/${path.courseIds.length} 单元 · ${watched}/${total} 跟读片段`
+                      : `${done}/${path.courseIds.length} 课通关 · ${watched}/${total} 集`}
                   </small>
                 </>
               ) : (
