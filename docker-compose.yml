@@ -28,6 +28,9 @@ services:
       - bixuetang-data:/data
     environment:
       COOKIE_SECURE: "1"
+      # 管理端(/admin)权限:逗号分隔的用户 id。从服务器环境或 .env 注入,
+      # 留空则退回默认(id=1)。查自己的 id:见 README「管理员」一节。
+      ADMIN_USER_IDS: "${ADMIN_USER_IDS:-}"
     restart: unless-stopped
 
 volumes:

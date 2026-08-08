@@ -118,8 +118,26 @@ docker compose up -d          # 自动 pull 公开镜像并起容器，无需登
 | `DATABASE_PATH` | 镜像内 `/data/bixuetang.db` | SQLite 路径，上传的头像存同目录的 `avatars/` |
 | `COOKIE_SECURE` | compose 内为 `1` | 会话 cookie 是否仅走 HTTPS。本地开发保持 `0` |
 | `PORT` / `HOSTNAME` | `3000` / `0.0.0.0` | 应用容器内部监听地址 |
+| `ADMIN_USER_IDS` | 无（退回 id=1） | 管理端 `/admin` 权限，逗号分隔的用户 id，见下「管理员」 |
 
 数据库迁移在服务启动时自动执行，不用手动跑。
+
+### 管理员
+
+管理端 `/admin`（视频失效反馈处理等运营功能）只对管理员可见，非管理员访问 404。
+谁是管理员按优先级判定：
+
+1. `ADMIN_USER_IDS`（如 `1,5`）——**首选**，用户 id 不可变、不会被改名或抢注影响；
+2. `ADMIN_USERNAMES`（如 `alice`）——兼容用，注意用户名可在设置页修改；
+3. 都没配 → 默认首个账号（`id=1`）。
+
+线上务必显式配 `ADMIN_USER_IDS` 指向你本人的号——「谁先注册谁是 id=1」在生产库里未必是站主。查自己的 id（服务器上）：
+
+```bash
+docker compose exec bixuetang node -e "const d=require('better-sqlite3')(process.env.DATABASE_PATH||'/data/bixuetang.db');console.table(d.prepare('SELECT id,username FROM users').all())"
+```
+
+在服务器 `.env` 里写 `ADMIN_USER_IDS=<你的id>`，`docker compose up -d` 重启生效。
 
 ### 反向代理
 
