@@ -136,12 +136,12 @@ export default async function SettingsPage() {
             </a>
             <a
               className="settings-about-link"
-              href={`${REPO}/stargazers`}
+              href={REPO}
               target="_blank"
               rel="noopener noreferrer"
             >
               <Star size={18} aria-hidden />
-              <span>喜欢就点个 Star</span>
+              <span>喜欢就去点个 Star ⭐</span>
               <ExternalLink size={14} className="settings-about-ext" aria-hidden />
             </a>
           </div>
