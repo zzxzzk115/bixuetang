@@ -267,8 +267,17 @@ export function ShadowPractice({
 
   // 每步一种交互:听/跟读步只有「播放」,录音步只有「录音」;文字在盲听/复述隐藏
   const isRecordStep = step >= 3; // 3 录音对比 / 4 复述
+  const showWaves = step >= 2; // 跟读起显示波形(跟读看原声,录音步双波形对照)
   const blurText = step === 0 || step === 4;
   const PLAY_LABEL = ["盲听(不看字)", "精听(看字)", "跟读(边听边说)"];
+
+  // 波形画布是按需挂载的:进到显示波形的步骤时,用已抓到的 PCM 重绘一次
+  // (原声在播放步抓取,但画布那时没挂载 → 到这一步才画得出)
+  useEffect(() => {
+    if (!showWaves) return;
+    drawWave(origCanvasRef.current, origPcmRef.current, "var(--app-blue)");
+    drawWave(userCanvasRef.current, userPcmRef.current, "var(--app-pink)");
+  }, [showWaves, step, idx]);
 
   return (
     <div className="shadow-practice">
@@ -357,20 +366,22 @@ export function ShadowPractice({
           )}
         </div>
 
-        {/* 录音步才显示双波形对照 + 打分 */}
-        {isRecordStep && (
+        {/* 跟读步显示原声波形;录音步再叠上「你的录音」波形 + 打分 */}
+        {showWaves && (
           <>
             <div className="shadow-waves">
               <div>
                 <small>原声</small>
                 <canvas ref={origCanvasRef} width={520} height={84} />
               </div>
-              <div>
-                <small>你的录音</small>
-                <canvas ref={userCanvasRef} width={520} height={84} />
-              </div>
+              {isRecordStep && (
+                <div>
+                  <small>你的录音</small>
+                  <canvas ref={userCanvasRef} width={520} height={84} />
+                </div>
+              )}
             </div>
-            {score && (
+            {isRecordStep && score && (
               <div className="shadow-score">
                 <b className="shadow-score-overall">{score.overall}</b>
                 <span>发音 {score.phonetic}</span>

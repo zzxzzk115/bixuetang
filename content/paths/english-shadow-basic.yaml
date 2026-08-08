@@ -1,7 +1,7 @@
 # 英语影子跟读 · 初级线。mode:shadow → 节点是「跟读单元」而非看视频。
 # 单元均由 B 站真实软字幕轨生成,句子=字幕 cue,读的正好是听到的。
 id: english-shadow-basic
-title: 英语跟读 · 初级
+title: 影读启声
 subject: en
 tier: basic
 mode: shadow
