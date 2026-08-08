@@ -1,0 +1,21 @@
+id: alphago
+title: AlphaGo 世纪对决
+code: "Netflix 2017"
+institution: DeepMind
+subject: ai
+level: basic
+tags: [科普, 纪录片, 人工智能, 深度学习, 强化学习, 围棋]
+prerequisites: []
+estimatedHours: 2
+description: >
+  2016 年,DeepMind 的 AlphaGo 击败围棋世界冠军李世石——这部纪录片记录了这场
+  被认为「十年内都不可能」的对决。不用一个公式,看深度学习与强化学习如何让机器
+  走出人类想不到的一手,建立对现代 AI 的震撼、直觉与好奇。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Ct411u71n
+    uploader: 喜欢喵喵叫的小猫咪（搬运）
+    note: Netflix《AlphaGo》(2017) 中字·真视频(帧率23.976)
+    mirrors: [BV1pE411y7Pu]
+episodes:
+  - { n: 1, title: "AlphaGo 世纪对决" }

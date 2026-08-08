@@ -3,11 +3,13 @@ title: 智能启程
 subject: ai
 tier: basic
 description: >
-  人工智能的入门线:先用「深度学习的本质」建立直觉——3Blue1Brown 把神经网络到底
-  在算什么讲得一清二楚,零前置今天就能看;再上吴恩达的机器学习打好基础。
-  走完这条线,AI 方向的中高级线会陆续解锁。
+  人工智能的入门线,一路从直觉到基础:先看《AlphaGo》纪录片,不用公式感受现代 AI
+  的震撼;再用 3Blue1Brown 的「神经网络的本质」看懂它到底在算什么;等有了线性代数,
+  再上吴恩达的机器学习打好正课基础。
 stages:
-  - title: 第一章 · 看懂神经网络
+  - title: 第一章 · 感受 AI
+    courses: [alphago]
+  - title: 第二章 · 看懂神经网络
     courses: [essence-of-neural-networks]
-  - title: 第二章 · 机器学习入门
+  - title: 第三章 · 机器学习入门
     courses: [andrew-ng-ml]
