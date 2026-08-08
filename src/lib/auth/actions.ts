@@ -94,14 +94,17 @@ export async function login(
   _prev: AuthFormState,
   formData: FormData,
 ): Promise<AuthFormState> {
-  const username = String(formData.get("username") ?? "").trim();
+  const identifier = String(formData.get("username") ?? "").trim();
   const password = String(formData.get("password") ?? "");
 
-  const user = db
-    .select()
-    .from(users)
-    .where(eq(users.username, username))
-    .get();
+  // 登录凭据用户名或邮箱都行:带 @ 按邮箱查(规范化小写),否则按用户名
+  const user = identifier.includes("@")
+    ? db
+        .select()
+        .from(users)
+        .where(eq(users.email, normalizeEmail(identifier)))
+        .get()
+    : db.select().from(users).where(eq(users.username, identifier)).get();
   // 用户不存在时也走一次哈希校验，避免用响应时间探测用户名
   const ok = user
     ? await verifyPassword(user.passwordHash, password)
@@ -111,7 +114,7 @@ export async function login(
       ).then(() => false);
 
   if (!user || !ok) {
-    return { error: "用户名或密码不正确" };
+    return { error: "用户名/邮箱或密码不正确" };
   }
 
   await createSession(user.id);

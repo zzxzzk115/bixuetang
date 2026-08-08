@@ -59,14 +59,21 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   return (
     <form action={formAction} className="auth-pwd">
       <label className="bili-signup-field">
-        <span>用户名</span>
+        <span>{mode === "login" ? "用户名 / 邮箱" : "用户名"}</span>
         <input
           name="username"
           required
           autoComplete="username"
-          pattern="[a-z0-9_]{3,32}"
-          title="3–32 位小写字母、数字或下划线"
-          placeholder={mode === "register" ? "3–32 位小写字母、数字或下划线" : ""}
+          // 登录允许用邮箱,故不加用户名字符限制;注册仍限用户名格式
+          pattern={mode === "register" ? "[a-z0-9_]{3,32}" : undefined}
+          title={
+            mode === "register" ? "3–32 位小写字母、数字或下划线" : undefined
+          }
+          placeholder={
+            mode === "register"
+              ? "3–32 位小写字母、数字或下划线"
+              : "用户名或注册邮箱"
+          }
         />
       </label>
 
