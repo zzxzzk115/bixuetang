@@ -1,0 +1,22 @@
+id: cn-xinhai-huguo
+title: 从辛亥到护法
+institution: 央视纪录片
+subject: history
+level: intermediate
+tags: [中国史, 近代史, 辛亥革命, 民国, 纪录片]
+prerequisites: [cn-spring-to-tang]
+estimatedHours: 4
+description: >
+  五集纪录片,聚焦辛亥革命前后到护法运动的近代变局:武昌首义、临时大总统、
+  宋教仁案、二次革命、护法运动。承接古代主线,进入风云激荡的近代中国。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1xS4y187ap
+    uploader: 种花乐未央（搬运）
+    note: 央视 1080P·5 集
+episodes:
+  - { n: 1, title: "辛亥" }
+  - { n: 2, title: "临时大总统" }
+  - { n: 3, title: "宋教仁案件" }
+  - { n: 4, title: "二次革命" }
+  - { n: 5, title: "护法运动" }

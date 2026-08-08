@@ -1,0 +1,12 @@
+# 历史 · 中级线:中国近代史(辛亥→护法)。前置课已设 cn-spring-to-tang,天然需先过初级。
+id: history-china-modern
+title: 近代风云
+subject: history
+tier: intermediate
+description: >
+  从武昌首义到护法运动,看古老帝国如何在千年未有之变局中转身——
+  读懂近代中国的挣扎与新生。
+stages:
+  - title: 辛亥变局
+    courses:
+      - cn-xinhai-huguo

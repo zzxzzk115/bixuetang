@@ -1,0 +1,29 @@
+id: cn-spring-to-tang
+title: 中国·从春秋到盛唐
+institution: 纪录片《中国》第一季
+subject: history
+level: basic
+tags: [中国史, 先秦, 秦汉, 魏晋南北朝, 隋唐, 纪录片]
+estimatedHours: 10
+description: >
+  纪录片《中国》第一季,以思想与人物为线,从春秋诸子讲到盛唐气象:
+  孔子问礼、百家争鸣、秦汉一统、魏晋南渡、佛法东传、关陇集团直至开元盛世。
+  画面考究、叙事从容,适合作为中国古代史的入门主线。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV18w411F7BA
+    uploader: 叶凌尘-生财有道（搬运）
+    note: 纪录片《中国》第一季·全 12 集
+episodes:
+  - { n: 1, title: "第1集：春秋" }
+  - { n: 2, title: "第2集：众声" }
+  - { n: 3, title: "第3集：洪流" }
+  - { n: 4, title: "第4集：一统" }
+  - { n: 5, title: "第5集：天下" }
+  - { n: 6, title: "第6集：视野" }
+  - { n: 7, title: "第7集：南渡" }
+  - { n: 8, title: "第8集：融合" }
+  - { n: 9, title: "第9集：佛变" }
+  - { n: 10, title: "第10集：关陇" }
+  - { n: 11, title: "第11集：基业" }
+  - { n: 12, title: "第12集：盛世" }

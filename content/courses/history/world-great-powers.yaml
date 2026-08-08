@@ -1,0 +1,30 @@
+id: world-great-powers
+title: 大国崛起
+institution: 央视纪录片
+subject: history
+level: advanced
+tags: [世界史, 外国史, 大国, 现代化, 纪录片]
+prerequisites: [cn-xinhai-huguo]
+estimatedHours: 10
+description: >
+  央视十二集大型纪录片,回望葡萄牙、西班牙、荷兰、英、法、德、日、俄、美等
+  九个世界性大国五百年的兴衰之路:海洋时代、工业先声、百年维新、危局新政。
+  以世界的尺度看现代化,作为外国史与全球视野的高阶主线。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1be411s7SZ
+    uploader: 钟山之英（搬运）
+    note: 央视大型纪录片《大国崛起》·全 12 集
+episodes:
+  - { n: 1, title: "海洋时代（葡萄牙·西班牙）" }
+  - { n: 2, title: "小国大业（荷兰）" }
+  - { n: 3, title: "走向现代（英国 上）" }
+  - { n: 4, title: "工业先声（英国 下）" }
+  - { n: 5, title: "激情岁月（法国）" }
+  - { n: 6, title: "帝国春秋（德国）" }
+  - { n: 7, title: "百年维新（日本）" }
+  - { n: 8, title: "寻道图强（俄国）" }
+  - { n: 9, title: "风云新途（苏联）" }
+  - { n: 10, title: "新国新梦（美国 上）" }
+  - { n: 11, title: "危局新政（美国 下）" }
+  - { n: 12, title: "大道行思（总结）" }

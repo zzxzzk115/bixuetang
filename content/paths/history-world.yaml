@@ -1,0 +1,12 @@
+# 历史 · 高级线:外国史/世界史(大国崛起)。前置课 cn-xinhai-huguo,需先过中级。
+id: history-world
+title: 大国之路
+subject: history
+tier: advanced
+description: >
+  跳出一国之视角,回望五百年间九大强国的兴衰起落——以世界的尺度看现代化,
+  也以他人之路观照自身。
+stages:
+  - title: 列强五百年
+    courses:
+      - world-great-powers
