@@ -6137,6 +6137,18 @@ body:has(.art-video-player.art-fullscreen-web) {
 }
 
 /* ===== 自习室 ===== */
+/* 页面纵向节奏:各区块之间统一留白,且都撑满同宽对齐(不再挤在一起) */
+.study-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.study-page > * {
+  align-self: stretch;
+}
+.study-page .app-page-head {
+  margin-bottom: 0;
+}
 .study-entry {
   display: flex;
   align-items: center;
