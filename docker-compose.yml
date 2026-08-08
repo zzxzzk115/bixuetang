@@ -19,7 +19,9 @@ services:
     restart: unless-stopped
 
   bixuetang:
-    build: .
+    # 镜像由 GitHub Actions 在 master push 时构建并推到 GHCR，服务器只 pull 不 build。
+    # 想本地自行构建：BIXUETANG_IMAGE 留空并临时改回 `build: .`，或 `docker compose build`。
+    image: ${BIXUETANG_IMAGE:-ghcr.io/zzxzzk115/bixuetang:latest}
     expose:
       - "3000"
     volumes:

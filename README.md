@@ -97,11 +97,17 @@
 
 只需要 Docker。用户数据是一个 SQLite 文件，整目录拷走就是完整备份。
 
+镜像由 GitHub Actions 在 `master` 有 push 时自动构建并推到 GHCR
+（`ghcr.io/zzxzzk115/bixuetang:latest`）——**服务器只拉镜像、不本地 build**，
+小内存/小盘机器也能轻松部署。
+
 ```bash
 git clone https://github.com/zzxzzk115/bixuetang.git
 cd bixuetang
 printf 'SITE_DOMAIN=bixuetang.com\n' > .env
-docker compose up -d --build
+# 若该 GHCR package 是私有的，先登录（PAT 只需 read:packages）：
+#   echo <GHCR_PAT> | docker login ghcr.io -u zzxzzk115 --password-stdin
+docker compose up -d          # 自动 pull 镜像并起容器
 ```
 
 访问 `https://bixuetang.com`。Caddy 会在容器里读取 `.env` 的 `SITE_DOMAIN`，自动申请和续期 HTTPS 证书。
@@ -125,16 +131,18 @@ docker compose up -d --build
 SITE_DOMAIN=bixuetang.com
 ```
 
-然后执行 `docker compose up -d --build` 即可。
+然后执行 `docker compose up -d` 即可（首次会自动 pull 镜像）。
 
 ### 更新
+
+`master` 每次 push，CI 会构建并推好新镜像；服务器上执行：
 
 ```bash
 ./scripts/deploy.sh
 ```
 
-拉代码 → 重建镜像 → 滚动重启 → 清理旧层。小内存机器（1G）要先开 2G swap，
-否则 `next build` 会 OOM。
+拉取仓库（更新 compose/脚本）→ `docker compose pull` 拉新镜像 → 滚动重启 → 清理旧层。
+**不在服务器上构建**，因此不吃 `next build` 的内存与磁盘峰值。
 
 ### 备份
 
