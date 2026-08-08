@@ -6135,6 +6135,162 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-faint);
   flex: none;
 }
+
+/* ===== 自习室 ===== */
+.study-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 2px solid color-mix(in srgb, var(--app-purple, #ce82ff) 40%, transparent);
+  background: color-mix(in srgb, var(--app-purple, #ce82ff) 8%, var(--app-surface));
+  text-decoration: none;
+  color: inherit;
+}
+.study-entry-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--app-purple, #ce82ff);
+  flex: none;
+}
+.study-entry-body {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.study-entry-body b {
+  font-size: 15px;
+  font-weight: 800;
+}
+.study-entry-body small {
+  font-size: 12px;
+  color: var(--app-faint);
+}
+.study-room-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+.study-room-card {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 20px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--app-line);
+  background: var(--app-surface);
+  text-decoration: none;
+  color: var(--app-ink);
+}
+.study-room-card:hover {
+  border-color: var(--app-purple, #ce82ff);
+}
+.study-room-emoji {
+  font-size: 34px;
+  line-height: 1;
+}
+.study-room-card b {
+  font-size: 15px;
+  font-weight: 800;
+}
+.study-room-card small,
+.study-room-head small {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-faint);
+}
+.study-room {
+  display: grid;
+  gap: 16px;
+}
+.study-room-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.study-room-head .study-room-emoji {
+  font-size: 44px;
+}
+.study-room-head h1 {
+  font-size: 22px;
+  font-weight: 900;
+}
+.study-members {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 14px;
+}
+.study-member {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  text-align: center;
+}
+.study-member-avatar {
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-green) 22%, transparent);
+  animation: study-pulse 2.4s ease-in-out infinite;
+}
+@keyframes study-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--app-green) 40%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+.study-member b {
+  font-size: 13px;
+  font-weight: 800;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.study-member small {
+  font-size: 11px;
+  color: var(--app-faint);
+}
+.study-leave {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--app-line);
+  border-radius: 999px;
+  background: var(--app-surface);
+  color: var(--app-ink);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.study-create {
+  display: grid;
+  gap: 10px;
+}
+.study-create input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--app-line);
+  background: var(--app-bg);
+  color: var(--app-ink);
+  font-size: 14px;
+}
 .map-goalbar-back {
   display: inline-flex;
   align-items: center;

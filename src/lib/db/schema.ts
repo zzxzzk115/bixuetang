@@ -310,6 +310,34 @@ export const pkRuns = sqliteTable("pk_runs", {
   createdAt: integer("created_at").notNull(),
 });
 
+// 自习室:一起自习的房间。presence 记录谁此刻在哪个房间、上次心跳时间——
+// 前端每隔一会儿发心跳并拉取在场成员,超过存活窗口(默认 90s)没心跳即视为离开。
+export const studyRooms = sqliteTable("study_rooms", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  emoji: text("emoji"),
+  createdBy: integer("created_by").references(() => users.id, {
+    onDelete: "set null",
+  }),
+  createdAt: integer("created_at").notNull(),
+});
+
+export const studyPresence = sqliteTable(
+  "study_presence",
+  {
+    // 一人同一时刻只在一个房间
+    userId: integer("user_id")
+      .primaryKey()
+      .references(() => users.id, { onDelete: "cascade" }),
+    roomId: integer("room_id")
+      .notNull()
+      .references(() => studyRooms.id, { onDelete: "cascade" }),
+    enteredAt: integer("entered_at").notNull(),
+    lastSeenAt: integer("last_seen_at").notNull(),
+  },
+  (t) => [index("study_presence_room").on(t.roomId)],
+);
+
 // 关注关系（单向）。好友榜 = 自己 + 关注的人;经邀请链接注册双方自动互关。
 export const follows = sqliteTable(
   "follows",

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { Crown } from "lucide-react";
+import Link from "next/link";
+import { ChevronRight, Crown, Users } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { AddFriend, InviteCard } from "@/components/app/social-tools";
 import { UserAvatar } from "@/components/user-avatar";
@@ -32,6 +33,17 @@ export default async function SocialPage() {
           viewerAvatar={user.avatar}
           invited={stats.invited}
         />
+
+        <Link href="/study" className="study-entry">
+          <span className="study-entry-icon" aria-hidden>
+            <Users size={20} />
+          </span>
+          <span className="study-entry-body">
+            <b>自习室</b>
+            <small>和同学一起自习,互相监督更学得下去</small>
+          </span>
+          <ChevronRight size={18} aria-hidden />
+        </Link>
 
         <section className="course-card">
           <div className="course-card-head">
