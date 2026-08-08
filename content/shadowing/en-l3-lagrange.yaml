@@ -1,0 +1,48 @@
+# 影读单元 · TED-Ed《拉格朗日点:宇宙中的引力平衡点》
+# 由真实 ai-en 字幕轨按语义断句;每句=一条或多条完整 cue,from/to 对齐音频窗口。
+id: en-l3-lagrange
+title: 拉格朗日点(TED-Ed)
+lang: en
+level: l3
+description: >
+  TED-Ed 科普太空中珍贵的「引力平衡点」拉格朗日点:吐字清晰、逻辑严谨,
+  练科学说明文与太空题材词汇。
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV1Z84y1o7tk
+  uploader: B 站搬运(TED-Ed）
+bvid: BV1Z84y1o7tk
+page: 1
+sentences:
+  - text: "Since the launch of the first artificial satellite in 1957, governments, companies, and research institutions have been planting flags among the stars."
+    zh: "自 1957 年第一颗人造卫星升空以来,各国政府、公司与科研机构就一直在群星之间「插旗」。"
+    from: 6.98
+    to: 16.76
+  - text: "But while it might seem like there's plenty of room in this vast expanse, some pieces of celestial real estate are more valuable than others."
+    zh: "但尽管这片广袤看似空间充裕,某些「天上的地皮」却比别处金贵得多。"
+    from: 16.76
+    to: 25.12
+  - text: "Each of these dots is a Lagrange point, and as far as human space exploration is concerned, they may be the most important places in our solar system."
+    zh: "这些点中的每一个都是拉格朗日点;就人类太空探索而言,它们也许是太阳系里最重要的地方。"
+    from: 25.12
+    to: 35.44
+  - text: "Named after the 18th-century mathematician who deduced their position, Lagrange points are rare places of equilibrium in our constantly shifting universe."
+    zh: "它们以那位推算出其位置的 18 世纪数学家命名——拉格朗日点,是在这个不断变动的宇宙里难得的平衡之地。"
+    from: 35.72
+    to: 45.31
+  - text: "All celestial bodies exert a gravitational force on nearby objects, pulling them in and out of orbits."
+    zh: "所有天体都会对附近物体施加引力,把它们拉进或拉出轨道。"
+    from: 45.31
+    to: 52.75
+  - text: "And gravity acts alongside several apparent forces to determine what those orbits look like."
+    zh: "引力还与若干「表观力」一同作用,决定这些轨道呈现什么样子。"
+    from: 52.75
+    to: 59.07
+  - text: "However, Lagrange points are places where all these forces balance out."
+    zh: "然而,拉格朗日点正是所有这些力相互抵消、达成平衡的地方。"
+    from: 59.07
+    to: 64.32
+  - text: "So if we place a relatively low-mass object here, it will maintain a constant distance from the massive bodies pulling on it."
+    zh: "所以,若把一个质量较小的物体放在这里,它就能与拉扯它的那些大质量天体保持恒定的距离。"
+    from: 64.32
+    to: 73.06

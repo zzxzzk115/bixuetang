@@ -1,0 +1,72 @@
+# 影读单元 · TED-Ed《引力 vs 压力:大爆炸之战》
+# 由真实 ai-en 字幕轨按语义断句;每句=一条或多条完整 cue,from/to 对齐音频窗口。
+id: en-l3-bigbang
+title: 引力与压力的宇宙之战(TED-Ed)
+lang: en
+level: l3
+description: >
+  TED-Ed 用「拳赛解说」的口吻讲大爆炸后引力与压力的较量:语气活泼、比喻密集、
+  含物理词汇,练风趣解说腔与长句。
+source:
+  platform: bilibili
+  url: https://www.bilibili.com/video/BV1mg4y1A7XH
+  uploader: B 站搬运(TED-Ed）
+bvid: BV1mg4y1A7XH
+page: 1
+sentences:
+  - text: "It's time to grab your seat for the biggest battle in the soon-to-be-formed universe. That's right — the Big Bang is about to go down!"
+    zh: "该就座了,来看这场即将成形的宇宙里最大的一战。没错——大爆炸就要开打了!"
+    from: 13.17
+    to: 19.15
+  - text: "In one corner is the force that brings all matter together. It acts on any particle with mass, and its range is infinite."
+    zh: "这一角,是把万物聚拢的力。它作用于任何有质量的粒子,作用范围无穷远。"
+    from: 19.15
+    to: 31.55
+  - text: "Give it up for gravity!"
+    zh: "有请——引力!"
+    from: 31.55
+    to: 33.26
+  - text: "In the other corner, our contender can push matter away with spectacular strength. When the going gets tough, this fighter just gets tougher. That's right — pressure!"
+    zh: "另一角,我们的选手能以惊人之力把物质推开。局面越难,这位斗士就越强。没错——压力!"
+    from: 36.5
+    to: 48.92
+  - text: "Over the next several hundred thousand years, these two contenders will be wrestling for the fate of the universe. That's right, folks — the ripple effect of this historic match will shape the structure of the universe as we know it today."
+    zh: "在接下来的几十万年里,这两位选手将为宇宙的命运缠斗。没错,各位——这场历史之战的涟漪,将塑造我们今天所知的宇宙结构。"
+    from: 50.96
+    to: 64.9
+  - text: "But what are these powers fighting over? We'll find out when the Big Bang hits."
+    zh: "可这两股力量到底在争什么?大爆炸一响,我们就见分晓。"
+    from: 64.9
+    to: 69.84
+  - text: "Now let's zoom in for the play-by-play. This epic event has brought three components into our infant universe:"
+    zh: "现在我们放大,来场逐回合解说。这场史诗事件,给初生的宇宙带来了三样东西:"
+    from: 71.58
+    to: 81.05
+  - text: "dark matter, which only interacts with gravity; baryonic matter, which makes up all matter you've ever seen, affected by both gravity and pressure; and radiation, composed of innumerable particles of light, also known as photons."
+    zh: "暗物质,只与引力相互作用;重子物质,构成你见过的一切物质,同时受引力与压力影响;还有辐射,由无数光的粒子——也就是光子——组成。"
+    from: 81.05
+    to: 95.81
+  - text: "In the moments just after the Big Bang, all three components are in equilibrium, meaning no one location is denser than another."
+    zh: "大爆炸刚过的那一刻,这三者处于平衡,也就是说没有哪个地方比别处更稠密。"
+    from: 95.81
+    to: 103.92
+  - text: "But as the universe starts expanding, differences in density start to emerge. Gravity immediately gets to work, pulling matter together."
+    zh: "但随着宇宙开始膨胀,密度的差异开始显现。引力立刻上工,把物质往一起拉。"
+    from: 103.92
+    to: 111.54
+  - text: "Dark matter begins to collect at the center of these increasingly dense regions, forming the foundations of future galaxies."
+    zh: "暗物质开始在这些愈发稠密的区域中心聚集,奠定了未来星系的地基。"
+    from: 111.54
+    to: 118.84
+  - text: "Meanwhile, pressure begins gathering its strength. In this hot, high-energy environment, protons and electrons can't come together to form atoms, so these loose particles zip around freely, interacting with ambient photons."
+    zh: "与此同时,压力开始蓄力。在这个高温高能的环境里,质子和电子无法结合成原子,于是这些散粒子四处乱窜,与周围的光子相互作用。"
+    from: 118.84
+    to: 132.26
+  - text: "The result is almost a fluid of baryonic matter and radiation. But the closer these baryonic particles get, the hotter the fluid becomes, pushing photons to ping around with incredible force."
+    zh: "结果几乎成了一锅重子物质与辐射的「流体」。但这些重子粒子挨得越近,流体就越热,逼着光子以惊人的力道乱弹。"
+    from: 132.26
+    to: 144.76
+  - text: "This is the power of pressure — specifically, radiation pressure, battling to push things apart. With each of gravity's vicious tugs, pressure exerts a forceful shove back."
+    zh: "这就是压力之力——确切说是辐射压,奋力要把东西推开。引力每一次凶狠地拉扯,压力就用力地反推回去。"
+    from: 144.76
+    to: 159.19

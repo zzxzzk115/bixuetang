@@ -18,3 +18,4 @@ stages:
     courses:
       - en-l3-atoms
       - en-l3-animal-ears
+      - en-l3-lagrange

@@ -23,3 +23,6 @@ stages:
   - title: 叙事科普
     courses:
       - en-l3-sunspots
+  - title: 物理趣谈
+    courses:
+      - en-l3-bigbang
