@@ -55,6 +55,12 @@ const SUBJECT_ITEMS: Record<Subject, Record<EncounterType, Omit<LootItem, "id" |
     elite: { title: "口语勋章", description: "攻克高难度原速跟读的凭证。", rarity: "rare" },
     boss: { title: "母语者之证", description: "把一条跟读线练到张口就来的核心遗物。", rarity: "legendary" },
   },
+  history: {
+    mob: { title: "断简残编", description: "一段史事留下的零散记载。", rarity: "common" },
+    cache: { title: "编年卷轴", description: "串起年代与事件的编年手卷。", rarity: "uncommon" },
+    elite: { title: "青史印鉴", description: "读通一段兴衰治乱的凭证。", rarity: "rare" },
+    boss: { title: "通鉴之钥", description: "贯通一条历史线、以史为鉴的核心遗物。", rarity: "legendary" },
+  },
 };
 
 const LEVEL_COINS: Record<Level, number> = {

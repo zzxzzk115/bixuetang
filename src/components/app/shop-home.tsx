@@ -36,6 +36,7 @@ const SUBJECT_LABEL_SHORT: Record<Subject, string> = {
   physics: "物理",
   ai: "AI",
   en: "英语",
+  history: "历史",
 };
 
 const RARITY_LABEL: Record<string, string> = {

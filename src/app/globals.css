@@ -91,6 +91,8 @@ html {
   --app-red: #ff4b4b;
   /* 英语等语言线学科色 */
   --app-pink: #f25f9c;
+  /* 历史线学科色(青史/竹简) */
+  --app-brown: #b3703a;
 }
 :root[data-theme="dark"] {
   --app-bg: #131f24;

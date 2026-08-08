@@ -35,6 +35,7 @@ const SUBJECT_COLOR: Record<string, string> = {
   physics: "var(--app-orange)",
   ai: "var(--app-green)",
   en: "var(--app-pink)",
+  history: "var(--app-brown)",
 };
 
 export default async function CoursePage({

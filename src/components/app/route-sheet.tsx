@@ -23,6 +23,7 @@ const SUBJECT_LABEL: Record<string, string> = {
   physics: "物理",
   ai: "AI",
   en: "英语",
+  history: "历史",
 };
 
 export function RouteSheet({

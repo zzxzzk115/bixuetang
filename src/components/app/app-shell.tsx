@@ -11,6 +11,7 @@ import {
   FlaskConical,
   Coins,
   Flame,
+  Landmark,
   Languages,
   Map as MapIcon,
   MoreHorizontal,
@@ -47,6 +48,7 @@ const SUBJECT_TONE: Record<string, string> = {
   physics: "var(--app-orange)",
   ai: "var(--app-green)",
   en: "var(--app-pink)",
+  history: "var(--app-brown)",
 };
 
 function SubjectIcon({ subject }: { subject?: string }) {
@@ -56,6 +58,7 @@ function SubjectIcon({ subject }: { subject?: string }) {
   if (subject === "ai") return <Brain size={size} aria-hidden />;
   if (subject === "cs") return <Cpu size={size} aria-hidden />;
   if (subject === "en") return <Languages size={size} aria-hidden />;
+  if (subject === "history") return <Landmark size={size} aria-hidden />;
   return <MapIcon size={size} aria-hidden />;
 }
 
