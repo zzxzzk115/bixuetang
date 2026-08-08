@@ -1,0 +1,27 @@
+id: cn-hexi-corridor
+title: 河西走廊
+institution: CCTV 纪录片(2015)
+subject: history
+level: basic
+tags: [中国史, 丝绸之路, 河西走廊, 汉唐, 敦煌, 专题, 纪录片]
+estimatedHours: 8
+description: >
+  豆瓣高分纪录片《河西走廊》,以雅尼配乐与情景再现著称,从张骞出使、汉设四郡,
+  到魏晋佛法东传、隋唐丝路鼎盛、蒙元会盟与敦煌宝藏——用一条走廊串起两千年
+  中原与西域、东方与世界的交流史。权威唯美,是通史之外极佳的丝路专题。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1kr4y1n7mC
+    uploader: 家庭教育你我同行（搬运）
+    note: CCTV《河西走廊》全 10 集(免费真视频·帧率 25)
+episodes:
+  - { n: 1, title: "第01集 使者(张骞通西域)" }
+  - { n: 2, title: "第02集 通道(汉设河西四郡)" }
+  - { n: 3, title: "第03集 驿站(丝路交通)" }
+  - { n: 4, title: "第04集 根脉(儒学西传)" }
+  - { n: 5, title: "第05集 造像(佛教东渐)" }
+  - { n: 6, title: "第06集 丝路(隋唐盛景)" }
+  - { n: 7, title: "第07集 敦煌(莫高窟)" }
+  - { n: 8, title: "第08集 会盟(蒙元凉州)" }
+  - { n: 9, title: "第09集 苍生(明清河西)" }
+  - { n: 10, title: "第10集 宝藏(走廊今昔)" }

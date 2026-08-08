@@ -10,3 +10,6 @@ stages:
   - title: 中华文明五千年(通史)
     courses:
       - cn-wenming-5000
+  - title: 丝路专题·河西走廊
+    courses:
+      - cn-hexi-corridor
