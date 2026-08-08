@@ -43,7 +43,27 @@ async function main() {
     const v = await gj(`https://api.bilibili.com/x/web-interface/view?bvid=${arg}`);
     const d = v?.data;
     if (!d) return console.error("拿不到 view:", v?.code, v?.message);
-    console.log(`# ${arg} 「${d.title}」 分P ${d.videos} 个 · UP ${d.owner?.name}`);
+    // 查真视频还是「静图配音频」(通史音频版帧率=1):取 playurl dash 的 frame_rate
+    let vhint = "?";
+    try {
+      const cid = d.pages?.[0]?.cid;
+      const pu = await gj(
+        await signedUrl("https://api.bilibili.com/x/player/wbi/playurl", {
+          bvid: arg,
+          cid,
+          fnval: 4048,
+          fourk: 1,
+        }),
+      );
+      const frs = (pu?.data?.dash?.video ?? []).map(
+        (s: { frame_rate?: string }) => parseFloat(s.frame_rate ?? "0"),
+      );
+      const maxFr = Math.max(0, ...frs);
+      vhint = maxFr <= 2 ? `⚠ 疑似纯音频(帧率${maxFr})` : `真视频(帧率${maxFr})`;
+    } catch {
+      vhint = "帧率未知";
+    }
+    console.log(`# ${arg} 「${d.title}」 分P ${d.videos} 个 · UP ${d.owner?.name} · ${vhint}`);
     for (const p of d.pages ?? []) console.log(`${p.page}\t${p.part}`);
   } else {
     console.error('用法: search "关键词" | pages BVxxxx');

@@ -1,0 +1,32 @@
+id: cn-wenming-5000
+title: 中华文明五千年
+institution: CCTV10 纪录片
+subject: history
+level: basic
+tags: [中国史, 通史, 夏商周, 秦汉, 隋唐, 两宋, 元明清, 纪录片]
+estimatedHours: 8
+description: >
+  CCTV10 权威纪录片,十五集走完中华五千年:从文明起源、百家争鸣、秦汉一统,
+  到魏晋、南北朝、隋唐、两宋、元明清——朝代脉络完整、画面考究、解说平实权威。
+  作为中国史的通史主线。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1h7411p74g
+    uploader: 成大拙（搬运）
+    note: CCTV10《中华文明五千年》全 15 集·1080P(免费真视频)
+episodes:
+  - { n: 1, title: "文明起源(新石器·夏商周)" }
+  - { n: 2, title: "百家争鸣(春秋战国)" }
+  - { n: 3, title: "一统天下(秦汉)" }
+  - { n: 4, title: "书圣诞生(魏晋)" }
+  - { n: 5, title: "远古探源(回顾篇一)" }
+  - { n: 6, title: "佛道盛行(南北朝)" }
+  - { n: 7, title: "长安之春(隋唐)" }
+  - { n: 8, title: "大唐遗风(唐·五代)" }
+  - { n: 9, title: "汴京梦华(北宋)" }
+  - { n: 10, title: "盛世畅想(回顾篇二)" }
+  - { n: 11, title: "锦绣江南(南宋)" }
+  - { n: 12, title: "文人书画(元代)" }
+  - { n: 13, title: "紫禁风云(明代)" }
+  - { n: 14, title: "最后王朝(清代)" }
+  - { n: 15, title: "千年回望(回顾篇三)" }
