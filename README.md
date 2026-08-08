@@ -105,9 +105,7 @@
 git clone https://github.com/zzxzzk115/bixuetang.git
 cd bixuetang
 printf 'SITE_DOMAIN=bixuetang.com\n' > .env
-# 若该 GHCR package 是私有的，先登录（PAT 只需 read:packages）：
-#   echo <GHCR_PAT> | docker login ghcr.io -u zzxzzk115 --password-stdin
-docker compose up -d          # 自动 pull 镜像并起容器
+docker compose up -d          # 自动 pull 公开镜像并起容器，无需登录
 ```
 
 访问 `https://bixuetang.com`。Caddy 会在容器里读取 `.env` 的 `SITE_DOMAIN`，自动申请和续期 HTTPS 证书。

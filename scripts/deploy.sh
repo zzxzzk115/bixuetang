@@ -4,11 +4,8 @@
 #   ssh root@<host> '/srv/bixuetang/scripts/deploy.sh'
 #
 # 镜像由 GitHub Actions 在 master push 时构建并推到 GHCR
-# (ghcr.io/zzxzzk115/bixuetang:latest)，服务器上不再跑 npm build，省盘省内存。
-#
-# 首次需在服务器登录 GHCR（私有包才需要；若把该 package 设为 public 可跳过）：
-#   echo <GHCR_PAT> | docker login ghcr.io -u zzxzzk115 --password-stdin
-#   PAT 只需勾选 read:packages 权限。
+# (ghcr.io/zzxzzk115/bixuetang:latest，public 包，pull 无需登录)，
+# 服务器上不再跑 npm build，省盘省内存。
 #
 # 开机自启不靠这个脚本：compose 里 restart: unless-stopped，机器重启容器自会回来。
 set -euo pipefail
