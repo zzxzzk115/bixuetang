@@ -6,6 +6,7 @@ import { getCurrentUser } from "../auth/session";
 import { getContent } from "../content/load";
 import { db } from "../db/client";
 import { users, videoReports } from "../db/schema";
+import { containsSensitive } from "../moderation/filter";
 
 // 视频失效反馈。播放器解析不出流(主源+全部备源都挂)或用户发现内容不对时,
 // 点「视频不见了」落一行给运营。同一 (用户,课程,集,稿件) 只留最近一次。
@@ -36,6 +37,9 @@ export async function reportVideoIssue(input: {
 
   if (!courseId || !Number.isInteger(episodeN) || episodeN <= 0 || !bvid) {
     return { ok: false, error: "参数不完整" };
+  }
+  if (note && containsSensitive(note)) {
+    return { ok: false, error: "反馈内容含有不当词汇,请修改" };
   }
 
   try {

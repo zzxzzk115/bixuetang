@@ -522,6 +522,18 @@ export const videoReports = sqliteTable(
   ],
 );
 
+// 用户在目标选择里选「其他」时写下想成为的角色,供运营考虑是否新增「成为 X」路线。
+export const careerSuggestions = sqliteTable("career_suggestions", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  text: text("text").notNull(),
+  /** 运营是否已处理(已采纳/已忽略) */
+  resolved: integer("resolved", { mode: "boolean" }).notNull().default(false),
+  createdAt: integer("created_at").notNull(),
+});
+
 // ---- 独立管理端(admin. 子域)---- //
 // 与游戏 users/sessions 完全隔离:管理员是运营账户,不是玩家。
 

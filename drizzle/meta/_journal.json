@@ -232,6 +232,13 @@
       "when": 1786310000000,
       "tag": "0032_goal_prompt",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "6",
+      "when": 1786320000000,
+      "tag": "0033_career_suggestions",
+      "breakpoints": true
     }
   ]
 }

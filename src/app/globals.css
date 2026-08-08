@@ -3770,6 +3770,36 @@ math-field {
   color: var(--app-faint);
   line-height: 1.35;
 }
+/* 「其他（我想成为…）」卡:虚线描边,与实心职业卡区分 */
+.onboard-career-other {
+  border-style: dashed;
+}
+.onboard-career-other .onboard-career-icon {
+  background: var(--app-faint);
+}
+/* 展开后的输入区 */
+.onboard-other-form {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 2px dashed var(--app-line);
+  border-radius: 14px;
+}
+.onboard-other-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--app-line);
+  background: var(--app-bg);
+  color: var(--app-ink);
+  font-size: 14px;
+}
+.onboard-other-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 /* 「只想学某一科 / 看职业目标」次级切换链接 */
 .onboard-alt {
   border: none;

@@ -9,6 +9,7 @@ import { dismissGoalPrompt, setGoalRoadmap } from "@/lib/game/goal-actions";
 import { celebrate } from "@/lib/celebrate";
 import { rewardToast } from "@/lib/reward-feedback";
 import { CareerGlyph, ROADMAP_TONE } from "./career-glyph";
+import { CareerOther } from "./career-other";
 
 // 老用户补弹:引导上线前就注册、还没定「成为 X」目标的用户,进地图弹一次,
 // 介绍新功能 + 让其挑一个目标。选或「以后再说」都记 goalPromptedAt,只弹一次。
@@ -84,6 +85,12 @@ export function GoalPromptOverlay({
               </span>
             </button>
           ))}
+          <CareerOther
+            onDone={() => {
+              setDismissed(true);
+              router.refresh();
+            }}
+          />
         </div>
         <button className="onboard-skip" onClick={later} disabled={pending}>
           以后再说

@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { db } from "../db/client";
 import { users } from "../db/schema";
+import { containsSensitive } from "../moderation/filter";
 import { passwordStrength, verifyCaptcha } from "./captcha";
 import { isValidEmail, normalizeEmail } from "./email";
 import { hashPassword, verifyPassword } from "./password";
@@ -28,6 +29,9 @@ export async function register(
 
   if (!USERNAME_RE.test(username)) {
     return { error: "用户名需为 3–32 位小写字母、数字或下划线" };
+  }
+  if (displayName && containsSensitive(displayName)) {
+    return { error: "昵称含有不当词汇,换一个吧" };
   }
   // 邮箱可留空;填了就得合法,且不能与他人重复(用于找回)
   const email = emailRaw.trim() ? normalizeEmail(emailRaw) : null;

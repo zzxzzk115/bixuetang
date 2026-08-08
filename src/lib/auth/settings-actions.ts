@@ -4,6 +4,7 @@ import { and, eq, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "../db/client";
 import { users } from "../db/schema";
+import { containsSensitive } from "../moderation/filter";
 import { isValidEmail, normalizeEmail } from "./email";
 import { hashPassword, verifyPassword } from "./password";
 import { getCurrentUser } from "./session";
@@ -48,6 +49,9 @@ export async function updateProfile(
 
   const displayName = String(formData.get("displayName") ?? "").trim();
   if (displayName.length > 32) return { error: "角色名最长 32 个字符" };
+  if (displayName && containsSensitive(displayName)) {
+    return { error: "角色名含有不当词汇,换一个吧" };
+  }
 
   db.update(users)
     .set({ displayName: displayName || null })

@@ -508,7 +508,7 @@ export function RouteMap({
             <div className="map-goalbar-route">
               <MapPin size={13} aria-hidden />
               <span>
-                当前路线 · <b>{path?.title}</b>
+                暂时随便逛逛 · 在爬 <b>{path?.title}</b>
               </span>
               <button
                 className="map-goalbar-link"

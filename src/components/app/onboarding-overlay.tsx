@@ -9,6 +9,7 @@ import { completeOnboarding } from "@/lib/game/onboarding-actions";
 import { celebrate } from "@/lib/celebrate";
 import { rewardToast } from "@/lib/reward-feedback";
 import { CareerGlyph, ROADMAP_TONE } from "./career-glyph";
+import { CareerOther } from "./career-other";
 
 // 首次运行引导。新用户(未引导 + 零进度)进 /play 弹出:
 //   欢迎 → 选「成为 X」职业目标(或退回选单科入门)→ 发启程礼包 + 指到第一关。
@@ -170,6 +171,7 @@ export function OnboardingOverlay({
                   </span>
                 </button>
               ))}
+              <CareerOther onDone={skip} />
             </div>
             <button
               className="onboard-alt"

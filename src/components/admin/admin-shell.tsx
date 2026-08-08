@@ -10,6 +10,7 @@ import {
   MoreHorizontal,
   Settings,
   ShieldCheck,
+  Target,
   Users,
 } from "lucide-react";
 import { adminLogout } from "@/lib/admin/auth-actions";
@@ -20,6 +21,7 @@ const NAV = [
   { href: "/console", label: "概览", icon: LayoutDashboard, exact: true, primary: true },
   { href: "/console/users", label: "用户", icon: Users, exact: false, primary: true },
   { href: "/console/reports", label: "视频反馈", icon: Inbox, exact: false, primary: true },
+  { href: "/console/career-suggestions", label: "职业建议", icon: Target, exact: false, primary: false },
   { href: "/console/settings", label: "设置", icon: Settings, exact: false, primary: false },
 ];
 
