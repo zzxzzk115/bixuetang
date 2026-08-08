@@ -3967,6 +3967,57 @@ math-field {
   color: var(--app-ink);
 }
 
+/* 详情操作面板 */
+.admin-tools {
+  display: grid;
+  gap: 8px;
+}
+.admin-tool-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.admin-tool-row input,
+.admin-tool-row select {
+  padding: 8px 10px;
+  border-radius: 9px;
+  border: 1px solid var(--app-line);
+  background: var(--app-bg);
+  color: var(--app-ink);
+  font-size: 14px;
+  min-width: 0;
+}
+.admin-tool-row input[type="number"] {
+  width: 150px;
+}
+.admin-tool-row input[list],
+.admin-tool-row input:not([type="number"]) {
+  flex: 1;
+  min-width: 160px;
+}
+.admin-tool-row button {
+  border: none;
+  border-radius: 9px;
+  background: var(--app-green);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 14px;
+  cursor: pointer;
+  flex: none;
+}
+.admin-tool-row button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.admin-tool-actions {
+  margin-top: 2px;
+}
+.admin-tool-row button.admin-danger {
+  background: var(--app-red, #e5533c);
+}
+
 @media (max-width: 720px) {
   .admin-shell {
     grid-template-columns: 1fr;
