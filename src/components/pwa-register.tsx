@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 type StandaloneNavigator = Navigator & { standalone?: boolean };
 
-export function PwaRegister() {
+export function PwaRegister({ swPath = "/sw.js" }: { swPath?: string }) {
   useEffect(() => {
     const standalone =
       window.matchMedia("(display-mode: standalone)").matches ||
@@ -36,10 +36,10 @@ export function PwaRegister() {
       return;
     }
     // 挂载即注册；失败不打扰用户，控制台留个记录就够了
-    navigator.serviceWorker.register("/sw.js").catch((err) => {
+    navigator.serviceWorker.register(swPath).catch((err) => {
       console.warn("Service Worker 注册失败", err);
     });
-  }, []);
+  }, [swPath]);
 
   return null;
 }

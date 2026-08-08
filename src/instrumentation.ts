@@ -7,5 +7,8 @@ export async function register() {
   ) {
     const { runMigrations } = await import("./lib/db/migrate");
     runMigrations();
+    // 迁移落地后播种默认管理员(表空时才建)
+    const { seedAdmin } = await import("./lib/admin/seed");
+    await seedAdmin();
   }
 }

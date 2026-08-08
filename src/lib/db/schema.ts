@@ -497,6 +497,49 @@ export const videoReports = sqliteTable(
   ],
 );
 
+// ---- 独立管理端(admin. 子域)---- //
+// 与游戏 users/sessions 完全隔离:管理员是运营账户,不是玩家。
+
+export const adminUsers = sqliteTable("admin_users", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  username: text("username").notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
+  /** 首启播种的默认账户密码是弱口令,强制首登修改 */
+  mustChangePassword: integer("must_change_password", { mode: "boolean" })
+    .notNull()
+    .default(false),
+  createdAt: integer("created_at").notNull(),
+});
+
+export const adminSessions = sqliteTable("admin_sessions", {
+  tokenHash: text("token_hash").primaryKey(),
+  adminUserId: integer("admin_user_id")
+    .notNull()
+    .references(() => adminUsers.id, { onDelete: "cascade" }),
+  expiresAt: integer("expires_at").notNull(),
+  createdAt: integer("created_at").notNull(),
+});
+
+// 管理端所有改动的留痕(谁在何时对哪个玩家做了什么)。玩家删号后保留记录,
+// 故 target_user_id 可空且 SET NULL。
+export const adminAudit = sqliteTable(
+  "admin_audit",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    adminUserId: integer("admin_user_id")
+      .notNull()
+      .references(() => adminUsers.id, { onDelete: "cascade" }),
+    action: text("action").notNull(),
+    targetUserId: integer("target_user_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    /** 操作细节(JSON 文本):前后值、课程 id、金额等 */
+    detail: text("detail"),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [index("admin_audit_target").on(t.targetUserId)],
+);
+
 // 连胜状态。派生自 xp_events 的旧算法要全表扫且 UTC 日切,
 // 冻结道具(损失厌恶的安全阀)也必须有持久状态才能实现。
 export const streakState = sqliteTable("streak_state", {

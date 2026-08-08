@@ -3590,6 +3590,266 @@ math-field {
   margin-bottom: 4px;
 }
 
+/* ===== 独立管理端(/console,admin. 子域)===== */
+.admin-auth-page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--app-bg);
+}
+.admin-auth-card {
+  width: 100%;
+  max-width: 380px;
+  display: grid;
+  gap: 12px;
+  padding: 28px 24px;
+  border-radius: 16px;
+  background: var(--app-card, #fff);
+  border: 1px solid var(--app-line);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+.admin-auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  color: var(--app-green);
+}
+.admin-auth-card h1 {
+  font-size: 20px;
+  font-weight: 800;
+}
+.admin-auth-lead {
+  font-size: 13px;
+  color: var(--app-faint);
+}
+.admin-auth-lead code,
+.admin-auth-form code {
+  font-family: ui-monospace, monospace;
+  background: color-mix(in srgb, var(--app-line) 40%, transparent);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+.admin-auth-form {
+  display: grid;
+  gap: 12px;
+}
+.admin-auth-form label {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.admin-auth-form input {
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1px solid var(--app-line);
+  background: var(--app-bg);
+  color: var(--app-ink);
+  font-size: 15px;
+}
+.admin-auth-form button {
+  margin-top: 4px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: var(--app-green);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+}
+.admin-auth-form button:disabled {
+  opacity: 0.6;
+}
+.admin-auth-error {
+  color: var(--app-red, #e5533c);
+  font-size: 13px;
+  font-weight: 700;
+}
+.admin-auth-ok {
+  color: var(--app-green);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* 外壳:左侧栏 + 主区 */
+.admin-shell {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  background: var(--app-bg);
+  color: var(--app-ink);
+}
+.admin-side {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 12px;
+  border-right: 1px solid var(--app-line);
+  background: var(--app-card, color-mix(in srgb, var(--app-line) 12%, transparent));
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+}
+.admin-side-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 12px;
+  color: var(--app-green);
+}
+.admin-side-nav {
+  display: grid;
+  gap: 3px;
+}
+.admin-side-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--app-faint);
+  text-decoration: none;
+}
+.admin-side-link:hover {
+  color: var(--app-ink);
+  background: color-mix(in srgb, var(--app-line) 30%, transparent);
+}
+.admin-side-link.is-active {
+  color: #fff;
+  background: var(--app-green);
+}
+.admin-side-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid var(--app-line);
+}
+.admin-side-who {
+  font-size: 12px;
+  color: var(--app-faint);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.admin-side-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: none;
+  color: var(--app-faint);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+.admin-side-logout:hover {
+  color: var(--app-red, #e5533c);
+}
+.admin-main {
+  padding: 22px;
+  min-width: 0;
+  max-width: 980px;
+}
+.admin-banner {
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-red, #e5533c) 14%, transparent);
+  color: var(--app-ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+.admin-banner a {
+  color: var(--app-green);
+  font-weight: 800;
+}
+.admin-page-head {
+  margin-bottom: 14px;
+}
+.admin-page-head h1 {
+  font-size: 21px;
+  font-weight: 800;
+}
+.admin-muted {
+  color: var(--app-faint);
+  font-size: 13px;
+}
+.admin-card {
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--app-line);
+  background: var(--app-card, color-mix(in srgb, var(--app-line) 10%, transparent));
+}
+.admin-card h2 {
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+.admin-stat {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--app-line);
+  background: var(--app-card, color-mix(in srgb, var(--app-line) 10%, transparent));
+  text-decoration: none;
+  color: var(--app-ink);
+}
+.admin-stat:not(.is-static):hover {
+  border-color: var(--app-green);
+}
+.admin-stat b {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+.admin-stat span {
+  font-size: 13px;
+  color: var(--app-faint);
+}
+.admin-stat svg {
+  color: var(--app-green);
+}
+
+@media (max-width: 720px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+  .admin-side {
+    position: static;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    border-right: none;
+    border-bottom: 1px solid var(--app-line);
+  }
+  .admin-side-brand {
+    padding: 6px 8px;
+  }
+  .admin-side-nav {
+    grid-auto-flow: column;
+    gap: 2px;
+  }
+  .admin-side-link {
+    padding: 8px 10px;
+  }
+  .admin-side-foot {
+    margin: 0 0 0 auto;
+    border-top: none;
+    padding: 6px;
+  }
+}
+
 /* ---- 视频失效反馈列表 ---- */
 .app-page-head {
   margin-bottom: 4px;
