@@ -3435,6 +3435,57 @@ math-field {
   background: color-mix(in srgb, var(--app-line) 30%, transparent);
   text-align: center;
 }
+.biliplayer-fallback-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+/* 视频失效反馈:按钮 → 展开三选一 → 已收到 */
+.video-report-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+}
+.video-report-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-green);
+}
+.video-report-cancel {
+  border: none;
+  background: none;
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px 8px;
+}
+.video-report-subtle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: none;
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+.video-report-subtle:hover {
+  color: var(--app-ink);
+}
+.app-btn-plain .spin,
+.video-report-menu .spin {
+  margin-right: 4px;
+}
 .spin {
   animation: spin 1s linear infinite;
 }

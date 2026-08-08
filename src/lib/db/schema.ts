@@ -466,6 +466,37 @@ export const videoNotes = sqliteTable(
   ],
 );
 
+// 视频失效反馈。用户点「视频不见了」时落一行,运营据此换备用搬运。
+// 同一 (用户,课程,集,稿件) 只记最近一次(onConflict 更新时间戳),防刷屏。
+export const videoReports = sqliteTable(
+  "video_reports",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    courseId: text("course_id").notNull(),
+    episodeN: integer("episode_n").notNull(),
+    /** 报错时正在尝试的稿件号(主源或某个备源) */
+    bvid: text("bvid").notNull(),
+    /** 反馈类型:gone=打不开/下架,wrong=内容不对,other */
+    kind: text("kind").notNull().default("gone"),
+    note: text("note"),
+    /** 运营是否已处理 */
+    resolved: integer("resolved", { mode: "boolean" }).notNull().default(false),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [
+    uniqueIndex("video_reports_uniq").on(
+      t.userId,
+      t.courseId,
+      t.episodeN,
+      t.bvid,
+    ),
+    index("video_reports_course").on(t.courseId, t.episodeN),
+  ],
+);
+
 // 连胜状态。派生自 xp_events 的旧算法要全表扫且 UTC 日切,
 // 冻结道具(损失厌恶的安全阀)也必须有持久状态才能实现。
 export const streakState = sqliteTable("streak_state", {

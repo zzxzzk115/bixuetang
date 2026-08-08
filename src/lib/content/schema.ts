@@ -31,6 +31,9 @@ const slug = z
   .string()
   .regex(/^[a-z0-9][a-z0-9-]*$/, "id 须为小写字母/数字/连字符");
 
+/** bilibili 稿件号:BV 开头 + 10 位字母数字 */
+const bvidStr = z.string().regex(/^BV[0-9A-Za-z]{8,}$/, "bvid 须形如 BVxxxxxxxxxx");
+
 // ---------- 实验室 ----------
 
 export const LAB_IDS = ["hack", "math"] as const;
@@ -59,6 +62,12 @@ export const SourceSchema = z.object({
   title: z.string().optional(),
   uploader: z.string().optional(),
   note: z.string().optional(),
+  /**
+   * 备用稿件号:同一份内容的其他搬运(**同样的分 P 顺序**)。
+   * 主稿件被下架/风控时,播放器按顺序自动切到备源。仅对 bilibili 多分 P 课有意义
+   * (合集课每集是独立稿件,备源写在 EpisodeSchema.mirrors)。
+   */
+  mirrors: z.array(bvidStr).optional(),
 });
 export type Source = z.infer<typeof SourceSchema>;
 
@@ -70,6 +79,11 @@ export const EpisodeSchema = z.object({
    * 缺省时视为同一稿件的第 n 个分 P。
    */
   bvid: z.string().optional(),
+  /**
+   * 该集的备用稿件号:同一集内容的其他搬运。主稿件失效时播放器自动切备源。
+   * 仅对合集课(每集独立 bvid)有意义;多分 P 课的整稿备源写在 SourceSchema.mirrors。
+   */
+  mirrors: z.array(bvidStr).optional(),
   /** 视频时长（秒），由 fetch:episodes 从平台拉取；用于 XP 计分 */
   durationSec: z.number().int().positive().optional(),
 });

@@ -94,6 +94,11 @@ export function CoursePlayer({
   // 合集课每集是独立稿件(episodes[].bvid);多分 P 课共用稿件 bvid + page
   const bvid = episode?.bvid ?? (biliSource ? bvidOf(biliSource.url) : null);
   const page = episode?.bvid ? 1 : (episode?.n ?? 1);
+  // 备用搬运:合集课看本集的 mirrors;多分 P 课看整稿的 source.mirrors。
+  // 备源与主源同一个 page 定位(合集课都是 page 1,多分 P 课同为第 n P)。
+  const mirrors = episode?.bvid
+    ? (episode.mirrors ?? [])
+    : (biliSource?.mirrors ?? []);
 
   if (!biliSource || !bvid || !episode) {
     return (
@@ -120,6 +125,7 @@ export function CoursePlayer({
         ref={playerRef}
         bvid={bvid}
         page={page}
+        mirrors={mirrors}
         courseId={courseId}
         episodeN={episode.n}
         resumeAt={resumeByEpisode[episode.n]?.positionSec ?? 0}

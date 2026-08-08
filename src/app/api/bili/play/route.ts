@@ -29,13 +29,15 @@ function streamUrl(request: NextRequest, url: string): string {
     request.nextUrl.host;
   return new URL(proxied(url), `${proto}://${host}`).toString();
 }
+const BVID_RE = /^BV[0-9A-Za-z]{8,}$/;
+
 export async function GET(request: NextRequest) {
   const user = await getCurrentUser();
   if (!user) return Response.json({ error: "请先登录" }, { status: 401 });
 
   const bvid = request.nextUrl.searchParams.get("bvid");
   const pageParam = Number(request.nextUrl.searchParams.get("page") ?? "1");
-  if (!bvid || !/^BV[0-9A-Za-z]{8,}$/.test(bvid)) {
+  if (!bvid || !BVID_RE.test(bvid)) {
     return Response.json({ error: "bvid 不合法" }, { status: 400 });
   }
   const page = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
@@ -45,20 +47,27 @@ export async function GET(request: NextRequest) {
   const mode = request.nextUrl.searchParams.get("mode");
   const sessdata = getBiliSessdata(user.id) ?? undefined;
 
-  try {
-    const view = await fetchView(bvid, sessdata);
+  // 主源 + 备用搬运(?fb=BV…,可多个)。主稿件被下架/风控解析不出流时，
+  // 按顺序切到同内容的备源；成功的稿件号回传 usedBvid（MPD 直链也用它）。
+  const fallbacks = request.nextUrl.searchParams
+    .getAll("fb")
+    .filter((v) => BVID_RE.test(v) && v !== bvid);
+  const candidates = [bvid, ...fallbacks];
+
+  // 解析单个稿件：出流成功返回响应体，失败抛错交由外层切下一个备源。
+  const resolveOne = async (id: string) => {
+    const view = await fetchView(id, sessdata);
     const target =
       view.pages.find((p) => p.page === page) ?? view.pages[0] ?? null;
-    if (!target) {
-      return Response.json({ error: "该稿件没有可播放分P" }, { status: 404 });
-    }
+    if (!target) throw new Error("该稿件没有可播放分P");
 
     if (mode === "dash" || mode === "mp4") {
       // 章节数据（进度条刻度 + 分段学习）；失败不阻塞播放
-      const viewPoints = await fetchViewPoints(bvid, target.cid, sessdata).catch(
+      const viewPoints = await fetchViewPoints(id, target.cid, sessdata).catch(
         () => [],
       );
       const base = {
+        usedBvid: id,
         aid: view.aid,
         cid: target.cid,
         title: target.part,
@@ -69,14 +78,14 @@ export async function GET(request: NextRequest) {
       };
 
       if (mode === "dash") {
-        const dash = await fetchDashPlayUrl(bvid, target.cid, sessdata);
+        const dash = await fetchDashPlayUrl(id, target.cid, sessdata);
         const usable = dash ? pickVideoStreams(dash.video) : [];
         if (dash && usable.length > 0) {
-          return Response.json({
+          return {
             ...base,
             durationSec: dash.durationSec || target.duration,
             dash: {
-              mpd: `/api/bili/mpd?bvid=${encodeURIComponent(bvid)}&page=${target.page}`,
+              mpd: `/api/bili/mpd?bvid=${encodeURIComponent(id)}&page=${target.page}`,
               qualities: usable.map((s) => ({
                 id: s.id,
                 name: dash.qualityNames[s.id] ?? String(s.id),
@@ -84,13 +93,13 @@ export async function GET(request: NextRequest) {
               })),
             },
             progressive: null,
-          });
+          };
         }
         // DASH 取不到（字段漂移/风控）就当场降级——客户端不用二次往返
       }
 
-      const play = await fetchPlayUrl(bvid, target.cid, sessdata);
-      return Response.json({
+      const play = await fetchPlayUrl(id, target.cid, sessdata);
+      return {
         ...base,
         durationSec: play.durationSec || target.duration,
         dash: null,
@@ -101,10 +110,10 @@ export async function GET(request: NextRequest) {
             url: streamUrl(request, stream.url),
           })),
         },
-      });
+      };
     }
 
-    const play = await fetchPlayUrl(bvid, target.cid, sessdata);
+    const play = await fetchPlayUrl(id, target.cid, sessdata);
 
     // 同一清晰度 bilibili 会给 AVC / HEVC / AV1 三种编码。
     //
@@ -120,7 +129,8 @@ export async function GET(request: NextRequest) {
     const single =
       qualities[0]?.url ??
       (play.progressive ? streamUrl(request, play.progressive.url) : null);
-    return Response.json({
+    return {
+      usedBvid: id,
       aid: view.aid,
       cid: target.cid,
       title: target.part,
@@ -132,11 +142,19 @@ export async function GET(request: NextRequest) {
       audio: null,
       progressive: single,
       dashManifest: null,
-    });
-  } catch (error) {
-    return Response.json(
-      { error: error instanceof Error ? error.message : "解析失败" },
-      { status: 502 },
-    );
+    };
+  };
+
+  let lastError: unknown = null;
+  for (const id of candidates) {
+    try {
+      return Response.json(await resolveOne(id));
+    } catch (error) {
+      lastError = error; // 主源/前面的备源不行，继续试下一个
+    }
   }
+  return Response.json(
+    { error: lastError instanceof Error ? lastError.message : "解析失败" },
+    { status: 502 },
+  );
 }

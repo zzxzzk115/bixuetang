@@ -30,6 +30,7 @@ import { TermUnlockPopup, type UnlockedTerm } from "./term-unlock-popup";
 import { MarkdownEditor } from "./markdown-editor";
 import { detectPlayMode } from "./player-capability";
 import { prefsStore } from "./player-settings";
+import { VideoReportButton } from "./video-report-button";
 
 // bilibili 播放器,ArtPlayer(MIT)+ dash.js 组合:
 //   · DASH 分片流交给 dash.js 走 MSE / ManagedMediaSource(iOS 17.1+),
@@ -54,6 +55,8 @@ interface Mp4Quality {
 }
 
 interface PlayPayload {
+  /** 实际出流的稿件号(主源或某个备源);反馈按钮上报的是它 */
+  usedBvid?: string;
   aid: number;
   cid: number;
   title: string;
@@ -134,6 +137,7 @@ function accentColor(): string {
 export function BiliPlayer({
   bvid,
   page,
+  mirrors = [],
   courseId,
   episodeN,
   resumeAt = 0,
@@ -145,6 +149,8 @@ export function BiliPlayer({
 }: {
   bvid: string;
   page: number;
+  /** 备用搬运稿件号:主源出不了流时按序自动切;失效反馈时并入候选 */
+  mirrors?: string[];
   courseId: string;
   episodeN: number;
   resumeAt?: number;
@@ -166,6 +172,11 @@ export function BiliPlayer({
 
   const [payload, setPayload] = useState<PlayPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // 备用搬运拼进 query(?fb=BV…),主源解析不出流时服务端按序自动切。
+  const fbQuery = useMemo(
+    () => mirrors.map((m) => `&fb=${encodeURIComponent(m)}`).join(""),
+    [mirrors],
+  );
   const [tracks, setTracks] = useState<SubtitleTrack[]>([]);
   const [cues, setCues] = useState<string[]>([]);
   const [newTerms, setNewTerms] = useState<UnlockedTerm[]>([]);
@@ -245,7 +256,7 @@ export function BiliPlayer({
     completedRef.current = false;
     const mode = detectPlayMode();
     fetch(
-      `/api/bili/play?bvid=${encodeURIComponent(bvid)}&page=${page}&mode=${mode}`,
+      `/api/bili/play?bvid=${encodeURIComponent(bvid)}&page=${page}&mode=${mode}${fbQuery}`,
     )
       .then((r) => r.json())
       .then((data: PlayPayload) => {
@@ -263,7 +274,7 @@ export function BiliPlayer({
     return () => {
       cancelled = true;
     };
-  }, [bvid, page, onLoaded]);
+  }, [bvid, page, fbQuery, onLoaded]);
 
   // CC 字幕轨 + 本视频已存的时间轴偏移
   useEffect(() => {
@@ -1406,8 +1417,10 @@ export function BiliPlayer({
     const video = document.createElement("video");
     (async () => {
       try {
+        // 缩略图从实际出流的稿件抓(可能是备源),否则主源已挂时抓不到帧
+        const thumbBvid = payload?.usedBvid ?? bvid;
         const res = await fetch(
-          `/api/bili/play?bvid=${encodeURIComponent(bvid)}&page=${page}&mode=mp4`,
+          `/api/bili/play?bvid=${encodeURIComponent(thumbBvid)}&page=${page}&mode=mp4${fbQuery}`,
         );
         const data = (await res.json()) as {
           progressive?: { qualities: { url: string }[] } | null;
@@ -1470,6 +1483,8 @@ export function BiliPlayer({
         video.load();
       }
     })();
+    // thumbsStartedRef 单次触发,payload/fbQuery 只在首次读取
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chaptersOpen, chapters, bvid, page]);
 
   useImperativeHandle(
@@ -1499,14 +1514,21 @@ export function BiliPlayer({
     return (
       <div className="biliplayer-fallback">
         <p>{error}</p>
-        <a
-          href={`https://www.bilibili.com/video/${bvid}?p=${page}`}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="app-btn-plain"
-        >
-          去 bilibili 看这一集
-        </a>
+        <div className="biliplayer-fallback-actions">
+          <a
+            href={`https://www.bilibili.com/video/${bvid}?p=${page}`}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="app-btn-plain"
+          >
+            去 bilibili 看这一集
+          </a>
+          <VideoReportButton
+            courseId={courseId}
+            episodeN={episodeN}
+            bvid={payload?.usedBvid ?? bvid}
+          />
+        </div>
       </div>
     );
   }
