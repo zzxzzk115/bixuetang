@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { db } from "../db/client";
 import { users } from "../db/schema";
 import { passwordStrength, verifyCaptcha } from "./captcha";
+import { isValidEmail, normalizeEmail } from "./email";
 import { hashPassword, verifyPassword } from "./password";
 import { createSession, destroySession } from "./session";
 import { takeReferrer } from "../referral";
@@ -21,11 +22,17 @@ export async function register(
   const password = String(formData.get("password") ?? "");
   const password2 = String(formData.get("password2") ?? "");
   const displayName = String(formData.get("displayName") ?? "").trim();
+  const emailRaw = String(formData.get("email") ?? "");
   const captchaToken = String(formData.get("captchaToken") ?? "");
   const captchaAnswer = String(formData.get("captchaAnswer") ?? "");
 
   if (!USERNAME_RE.test(username)) {
     return { error: "用户名需为 3–32 位小写字母、数字或下划线" };
+  }
+  // 邮箱可留空;填了就得合法,且不能与他人重复(用于找回)
+  const email = emailRaw.trim() ? normalizeEmail(emailRaw) : null;
+  if (email && !isValidEmail(email)) {
+    return { error: "邮箱格式不正确(可留空,之后在设置里补绑)" };
   }
   if (password.length < 8) {
     return { error: "密码至少 8 位" };
@@ -48,6 +55,14 @@ export async function register(
   if (existing) {
     return { error: "该用户名已被占用" };
   }
+  if (email) {
+    const emailTaken = db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.email, email))
+      .get();
+    if (emailTaken) return { error: "该邮箱已被注册" };
+  }
 
   const passwordHash = await hashPassword(password);
   const inserted = db
@@ -56,6 +71,7 @@ export async function register(
       username,
       passwordHash,
       displayName: displayName || null,
+      email,
       createdAt: Date.now(),
     })
     .returning({ id: users.id })

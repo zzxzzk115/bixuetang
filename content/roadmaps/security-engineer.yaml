@@ -1,0 +1,21 @@
+id: security-engineer
+title: 成为安全工程师
+tagline: 懂系统底层才懂攻防,从计算机基础到密码学一条线
+description: >
+  安全不是背漏洞名词,而是比别人更懂系统怎么跑、会在哪里出错。这条路线先打牢
+  计算机系统与操作系统、网络的基础,再进到系统安全与攻防,最后补上密码学与
+  内存安全的硬核内容。走完你能看懂常见漏洞的成因、读懂安全论文,并从底层视角
+  评估一个系统的攻击面。
+stages:
+  - title: 第一章 · 计算机系统地基
+    note: 不懂系统怎么跑,就不懂它怎么坏
+    courses: [cs50, csapp]
+  - title: 第二章 · 操作系统与网络
+    note: 攻防都发生在系统调用与协议栈里
+    courses: [mit-6-s081, cs144]
+  - title: 第三章 · 安全核心与攻防
+    note: 系统性地看漏洞、威胁模型与防御
+    courses: [ucb-cs161, mit-6-858]
+  - title: 第四章 · 密码学与内存安全
+    note: 从数学根基到用 Rust 写安全的系统
+    courses: [stanford-crypto, cs110l]

@@ -1,13 +1,43 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "../db/client";
 import { users } from "../db/schema";
+import { isValidEmail, normalizeEmail } from "./email";
 import { hashPassword, verifyPassword } from "./password";
 import { getCurrentUser } from "./session";
 
 export type SettingsFormState = { error?: string; success?: string } | null;
+
+export async function updateEmail(
+  _prev: SettingsFormState,
+  formData: FormData,
+): Promise<SettingsFormState> {
+  const user = await getCurrentUser();
+  if (!user) return { error: "请先登录" };
+
+  const raw = String(formData.get("email") ?? "");
+  // 留空 = 解绑找回邮箱
+  if (!raw.trim()) {
+    db.update(users).set({ email: null }).where(eq(users.id, user.id)).run();
+    return { success: "已解除邮箱绑定" };
+  }
+
+  const email = normalizeEmail(raw);
+  if (!isValidEmail(email)) return { error: "请输入有效的邮箱地址" };
+
+  // 邮箱要能唯一定位账号,不能与他人重复
+  const taken = db
+    .select({ id: users.id })
+    .from(users)
+    .where(and(eq(users.email, email), ne(users.id, user.id)))
+    .get();
+  if (taken) return { error: "该邮箱已被其他账号绑定" };
+
+  db.update(users).set({ email }).where(eq(users.id, user.id)).run();
+  return { success: "邮箱已绑定,之后可用它找回密码" };
+}
 
 export async function updateProfile(
   _prev: SettingsFormState,

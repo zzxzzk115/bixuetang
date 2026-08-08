@@ -9,6 +9,8 @@ import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { pickNextStep } from "@/lib/game/next-step";
 import { getDailyQuests, getMonthlyQuest } from "@/lib/game/quests";
 import { getDueCount } from "@/lib/game/review-actions";
+import { getContent } from "@/lib/content/load";
+import { roadmapChoices } from "@/lib/game/roadmap-choices";
 
 export const metadata = { title: "冒险地图" };
 
@@ -23,14 +25,26 @@ export default async function PlayPage() {
   const quests = getDailyQuests(user.id);
   const monthly = getMonthlyQuest(user.id);
   const dueCount = await getDueCount();
-  const nextStep = pickNextStep(bootstrap);
+
+  // 选定职业目标(成为 X)时,「下一步」按该路线的课程顺序推进
+  const content = getContent();
+  const goal = bootstrap.goalRoadmap
+    ? content.roadmapsById.get(bootstrap.goalRoadmap)
+    : undefined;
+  const goalCourseIds = goal ? goal.stages.flatMap((s) => s.courses) : [];
+  const nextStep = pickNextStep(bootstrap, goalCourseIds);
+  const roadmaps = roadmapChoices(content.roadmaps);
 
   return (
     <RouteMap
       bootstrap={bootstrap}
+      roadmaps={roadmaps}
       topSlot={
         <>
-          <NextStepCard step={nextStep} />
+          <NextStepCard
+            step={nextStep}
+            goal={goal ? { id: goal.id, title: goal.title } : null}
+          />
           {dueCount > 0 && (
             <Link href="/review" className="review-entry">
               <span className="review-entry-icon" aria-hidden>

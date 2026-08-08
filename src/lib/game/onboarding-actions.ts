@@ -16,13 +16,13 @@ export interface OnboardingResult {
 }
 
 export async function completeOnboarding(
-  pathId: string | null,
+  opts: { pathId?: string | null; goalRoadmap?: string | null } = {},
 ): Promise<OnboardingResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false };
   const now = Date.now();
 
-  // 已引导过则不重复发礼包,只兜底把路线选择存上(若给了)
+  // 已引导过则不重复发礼包,只兜底把选择存上(若给了)
   const existing = db
     .select({ onboardedAt: userState.onboardedAt })
     .from(userState)
@@ -30,19 +30,26 @@ export async function completeOnboarding(
     .get();
   const already = existing?.onboardedAt != null;
 
-  const routeId = typeof pathId === "string" && pathId ? pathId : null;
+  const routeId =
+    typeof opts.pathId === "string" && opts.pathId ? opts.pathId : null;
+  const goalRoadmap =
+    typeof opts.goalRoadmap === "string" && opts.goalRoadmap
+      ? opts.goalRoadmap
+      : null;
   db.insert(userState)
     .values({
       userId: user.id,
       routeId,
+      goalRoadmap,
       onboardedAt: now,
       updatedAt: now,
     })
     .onConflictDoUpdate({
       target: userState.userId,
       set: {
-        // 选了目标就落线;没选(跳过)不覆盖已有路线
+        // 选了才覆盖;跳过(随便逛逛)不动已有的路线/目标
         ...(routeId ? { routeId } : {}),
+        ...(goalRoadmap ? { goalRoadmap } : {}),
         onboardedAt: now,
         updatedAt: now,
       },

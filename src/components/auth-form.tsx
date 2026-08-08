@@ -77,6 +77,19 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         </label>
       )}
 
+      {mode === "register" && (
+        <label className="bili-signup-field">
+          <span>邮箱</span>
+          <input
+            name="email"
+            type="email"
+            autoComplete="email"
+            maxLength={254}
+            placeholder="可留空,用于日后找回密码"
+          />
+        </label>
+      )}
+
       <label className="bili-signup-field">
         <span>密码</span>
         <input

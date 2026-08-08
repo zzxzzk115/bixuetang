@@ -24,6 +24,7 @@ export function getUserState(userId: number): {
   last: LastWatched | null;
   playerPrefs: string | null;
   onboardedAt: number | null;
+  goalRoadmap: string | null;
 } {
   const row = db
     .select()
@@ -44,6 +45,7 @@ export function getUserState(userId: number): {
     routeId: row?.routeId ?? null,
     playerPrefs: row?.playerPrefs ?? null,
     onboardedAt: row?.onboardedAt ?? null,
+    goalRoadmap: row?.goalRoadmap ?? null,
     last: recent
       ? {
           courseId: recent.courseId,

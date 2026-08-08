@@ -18,6 +18,7 @@ import { openShadowChest } from "@/lib/game/shadow-actions";
 import { saveRouteChoice } from "@/lib/game/user-state-actions";
 import { AppShell } from "./app-shell";
 import { OnboardingOverlay } from "./onboarding-overlay";
+import type { RoadmapChoice } from "@/lib/game/roadmap-choices";
 import { RouteSheet } from "./route-sheet";
 
 // 多邻国式路线地图（纯 DOM）。一门课不再是一个节点，而是一个「单元」：
@@ -133,10 +134,13 @@ function captionFor(node: LessonNode, isLastQuiz: boolean): string {
 export function RouteMap({
   bootstrap,
   topSlot,
+  roadmaps = [],
 }: {
   bootstrap: GameBootstrap;
   /** 地图顶部的注入位(每日任务板 / 今日复习入口),server 端拼好传进来 */
   topSlot?: React.ReactNode;
+  /** 首进引导「成为 X」职业目标卡数据 */
+  roadmaps?: RoadmapChoice[];
 }) {
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -432,7 +436,11 @@ export function RouteMap({
       routeSubject={path?.subject}
       onRoutePress={() => setSheetOpen(true)}
     >
-      <OnboardingOverlay bootstrap={bootstrap} onPick={selectRoute} />
+      <OnboardingOverlay
+        bootstrap={bootstrap}
+        roadmaps={roadmaps}
+        onPick={selectRoute}
+      />
       <div className="route-map" ref={scrollRef}>
         {topSlot && <div className="route-map-top">{topSlot}</div>}
 

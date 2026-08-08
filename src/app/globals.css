@@ -3719,6 +3719,75 @@ math-field {
   color: var(--app-faint);
 }
 
+/* 「成为 X」职业目标卡:单列横排(图标 + 标题 + 一句话) */
+.onboard-careers {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+}
+.onboard-career {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 2px solid var(--app-line);
+  background: var(--app-bg);
+  color: var(--app-ink);
+  cursor: pointer;
+  transition: border-color 0.12s, transform 0.12s;
+}
+.onboard-career:hover:not(:disabled) {
+  border-color: var(--tone, var(--app-blue));
+  transform: translateY(-2px);
+}
+.onboard-career:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.onboard-career-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--tone, var(--app-blue));
+}
+.onboard-career-body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.onboard-career-body b {
+  font-size: 15px;
+  font-weight: 800;
+}
+.onboard-career-body small {
+  font-size: 12px;
+  color: var(--app-faint);
+  line-height: 1.35;
+}
+/* 「只想学某一科 / 看职业目标」次级切换链接 */
+.onboard-alt {
+  border: none;
+  background: none;
+  color: var(--app-blue);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+.onboard-alt:hover:not(:disabled) {
+  text-decoration: underline;
+}
+.onboard-alt:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 /* ===== 独立管理端(/console,admin. 子域)===== */
 .admin-auth-page {
   min-height: 100dvh;
@@ -4693,6 +4762,28 @@ math-field {
   color: var(--app-faint);
   font-size: 11px;
   line-height: 1.6;
+}
+/* 重置成功回登录页的提示条 */
+.auth-reset-ok {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 14%, transparent);
+}
+/* 忘记密码申请成功的说明块 */
+.auth-reset-done {
+  align-items: center;
+  text-align: center;
+  color: var(--app-green);
+  gap: 8px;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.auth-reset-done p {
+  color: var(--app-text);
 }
 .bili-auth {
   display: grid;
@@ -6104,6 +6195,22 @@ body:has(.art-video-player.art-fullscreen-web) {
   border: 2px solid color-mix(in srgb, var(--app-green) 40%, transparent);
   border-radius: 16px;
   background: color-mix(in srgb, var(--app-green) 9%, var(--app-surface));
+}
+.nextstep-goal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: start;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 16%, transparent);
+  text-decoration: none;
+}
+.nextstep-goal b {
+  font-weight: 900;
 }
 .nextstep-row {
   display: flex;

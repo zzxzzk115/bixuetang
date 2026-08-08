@@ -13,10 +13,10 @@ export const metadata = { title: "登录" };
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ pwd?: string; reg?: string }>;
+  searchParams: Promise<{ pwd?: string; reg?: string; reset?: string }>;
 }) {
   if (await getCurrentUser()) redirect("/play");
-  const { pwd, reg } = await searchParams;
+  const { pwd, reg, reset } = await searchParams;
 
   return (
     <div className="auth-page">
@@ -30,6 +30,10 @@ export default async function LoginPage({
           用 bilibili 账号扫码即可登录；没有账号会引导你开一个，
           昵称取自 bilibili（之后可改）。
         </p>
+
+        {reset ? (
+          <p className="auth-reset-ok">密码已重置,请用新密码登录。</p>
+        ) : null}
 
         <BiliAuth />
 
@@ -50,6 +54,9 @@ export default async function LoginPage({
             <>
               <span className="auth-divider">或用账号密码</span>
               <AuthForm mode="login" />
+              <Link href="/forgot-password" className="auth-alt-link">
+                忘记密码？
+              </Link>
               <Link href="/login?reg=1" className="auth-alt-link">
                 没有账号？注册一个
               </Link>

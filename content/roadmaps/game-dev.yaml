@@ -1,0 +1,21 @@
+id: game-dev
+title: 成为游戏开发者
+tagline: 从图形数学到亲手写引擎、点亮屏幕的每一个像素
+description: >
+  游戏开发是数学、图形学与工程的交汇。这条路线先补齐线性代数与图形学的直觉,
+  打好 C++ 编程功底,再从游戏开发入门走到自己动手写渲染器与引擎,最后深入实时
+  渲染、物理动画等进阶方向。走完你能理解一帧画面是怎么被算出来的,并独立做出
+  自己的小游戏或引擎模块。
+stages:
+  - title: 第一章 · 数学与编程地基
+    note: 图形的一切都是向量与矩阵
+    courses: [essence-of-linear-algebra, cs50]
+  - title: 第二章 · 图形学入门
+    note: 先看懂一帧是怎么画出来的
+    courses: [games101, cs106l]
+  - title: 第三章 · 上手做游戏与引擎
+    note: 从做出一个游戏到写出一个引擎
+    courses: [cs50g, games104, thecherno-engine]
+  - title: 第四章 · 渲染与物理进阶
+    note: 实时渲染、物理与角色动画,挑一个扎进去
+    courses: [games202, games103, games105]

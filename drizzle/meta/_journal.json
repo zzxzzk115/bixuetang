@@ -211,6 +211,20 @@
       "when": 1786280000000,
       "tag": "0029_referral",
       "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "6",
+      "when": 1786290000000,
+      "tag": "0030_goal_roadmap",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "6",
+      "when": 1786300000000,
+      "tag": "0031_password_reset",
+      "breakpoints": true
     }
   ]
 }

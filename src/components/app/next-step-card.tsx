@@ -1,17 +1,34 @@
 import Link from "next/link";
-import { Compass, Play, Route } from "lucide-react";
+import { Compass, Play, Route, Target } from "lucide-react";
 import { SUBJECT_LABEL, type Subject } from "@/lib/content/schema";
 import type { NextStep } from "@/lib/game/next-step";
 
 // 「继续学习 / 下一步」推荐卡:挂在地图顶部,给用户一个明确的下一步,
 // 免得面对满屏关卡不知道从哪开始。数据来自 pickNextStep(bootstrap)。
+// 选了职业目标(成为 X)时顶部亮出目标,下一步即按该路线推进。
 
-export function NextStepCard({ step }: { step: NextStep }) {
+export function NextStepCard({
+  step,
+  goal,
+}: {
+  step: NextStep;
+  /** 选定的职业目标(成为 X),未选则 null */
+  goal?: { id: string; title: string } | null;
+}) {
   const { continue: cont, next } = step;
   if (!cont && !next) return null;
 
   return (
     <div className="nextstep-card">
+      {goal ? (
+        <Link href={`/roadmaps/${goal.id}`} className="nextstep-goal">
+          <Target size={14} aria-hidden />
+          <span>
+            目标 · <b>{goal.title}</b>
+          </span>
+        </Link>
+      ) : null}
+
       {cont ? (
         <Link
           href={`/courses/${cont.courseId}?ep=${cont.episodeN}`}
@@ -44,9 +61,12 @@ export function NextStepCard({ step }: { step: NextStep }) {
         </Link>
       ) : null}
 
-      <Link href="/roadmaps" className="nextstep-roadmap">
+      <Link
+        href={goal ? `/roadmaps/${goal.id}` : "/roadmaps"}
+        className="nextstep-roadmap"
+      >
         <Route size={15} aria-hidden />
-        看完整学习路线：成为 X →
+        {goal ? "查看完整路线 →" : "看完整学习路线：成为 X →"}
       </Link>
     </div>
   );

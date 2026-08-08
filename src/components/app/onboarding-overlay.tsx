@@ -4,20 +4,26 @@ import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   Atom,
+  BarChart3,
   Brain,
   Cpu,
+  Gamepad2,
+  Globe,
   Languages,
   Landmark,
+  Server,
+  ShieldCheck,
   Sigma,
   Sparkles,
 } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
+import type { RoadmapChoice } from "@/lib/game/roadmap-choices";
 import { completeOnboarding } from "@/lib/game/onboarding-actions";
 import { celebrate } from "@/lib/celebrate";
 import { rewardToast } from "@/lib/reward-feedback";
 
 // 首次运行引导。新用户(未引导 + 零进度)进 /play 弹出:
-//   欢迎 → 选一个目标(basic 入门线)→ 发启程礼包 + 指到第一关。
+//   欢迎 → 选「成为 X」职业目标(或退回选单科入门)→ 发启程礼包 + 指到第一关。
 // 挂在 RouteMap 里,选目标复用它的 selectRoute(切线 + 存库)。
 
 const SUBJECT_LABEL: Record<string, string> = {
@@ -37,6 +43,16 @@ const SUBJECT_TONE: Record<string, string> = {
   history: "var(--app-brown)",
 };
 
+// 职业路线的配色,按 id 上色让六张卡有区分
+const ROADMAP_TONE: Record<string, string> = {
+  "ai-engineer": "var(--app-green)",
+  "fullstack-dev": "var(--app-blue)",
+  "data-scientist": "var(--app-teal)",
+  "game-dev": "var(--app-pink)",
+  "security-engineer": "var(--app-orange)",
+  "backend-engineer": "var(--app-brown)",
+};
+
 function SubjectGlyph({ subject }: { subject: string }) {
   const s = 26;
   if (subject === "math") return <Sigma size={s} aria-hidden />;
@@ -48,21 +64,37 @@ function SubjectGlyph({ subject }: { subject: string }) {
   return <Sparkles size={s} aria-hidden />;
 }
 
+function CareerGlyph({ icon }: { icon: string }) {
+  const s = 26;
+  if (icon === "brain") return <Brain size={s} aria-hidden />;
+  if (icon === "globe") return <Globe size={s} aria-hidden />;
+  if (icon === "chart") return <BarChart3 size={s} aria-hidden />;
+  if (icon === "gamepad") return <Gamepad2 size={s} aria-hidden />;
+  if (icon === "shield") return <ShieldCheck size={s} aria-hidden />;
+  if (icon === "server") return <Server size={s} aria-hidden />;
+  return <Sparkles size={s} aria-hidden />;
+}
+
+type Step = "welcome" | "career" | "subject" | "done";
+
 export function OnboardingOverlay({
   bootstrap,
+  roadmaps,
   onPick,
 }: {
   bootstrap: GameBootstrap;
+  /** 首进「成为 X」职业目标卡 */
+  roadmaps: RoadmapChoice[];
   /** 复用 RouteMap.selectRoute:切线 + saveRouteChoice + 滚到第一关 */
   onPick: (pathId: string) => void;
 }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [step, setStep] = useState<"welcome" | "goal" | "done">("welcome");
+  const [step, setStep] = useState<Step>("welcome");
   const [dismissed, setDismissed] = useState(false);
   const [chosen, setChosen] = useState<string>("");
 
-  // 一学科一张卡:每个学科取第一条可选的 basic 入门线
+  // 一学科一张卡:每个学科取第一条可选的 basic 入门线(退回单科时用)
   const goals = useMemo(() => {
     const bySubject = new Map<string, GameBootstrap["paths"][number]>();
     for (const p of bootstrap.paths) {
@@ -78,21 +110,42 @@ export function OnboardingOverlay({
     !bootstrap.onboarded && bootstrap.level.totalXp === 0 && !dismissed;
   if (!show) return null;
 
+  // 选定单科入门线(退回路径):切线 + 发礼包
   function pick(p: GameBootstrap["paths"][number]) {
     setChosen(p.title);
     onPick(p.id); // 立刻切线,让地图在浮层关掉前就定位到第一关
     startTransition(async () => {
-      const r = await completeOnboarding(p.id);
-      if (r.coins) {
-        rewardToast({ text: `启程礼包 +${r.coins} 金币`, tone: "coin" });
-        celebrate({
-          kind: "quest",
-          title: "启程!",
-          subtitle: `已为你选好「${p.title}」`,
-        });
-      }
-      setStep("done");
+      const r = await completeOnboarding({ pathId: p.id });
+      finish(p.title, r.coins);
     });
+  }
+
+  // 选定「成为 X」职业目标:存目标 + 尽量把地图切到含首门课的路线
+  function pickCareer(r: RoadmapChoice) {
+    setChosen(r.title);
+    const route = bootstrap.paths.find(
+      (p) => p.mode === "course" && p.courseIds.includes(r.firstCourseId),
+    );
+    if (route) onPick(route.id);
+    startTransition(async () => {
+      const res = await completeOnboarding({
+        goalRoadmap: r.id,
+        pathId: route?.id ?? null,
+      });
+      finish(r.title, res.coins);
+    });
+  }
+
+  function finish(title: string, coins?: number) {
+    if (coins) {
+      rewardToast({ text: `启程礼包 +${coins} 金币`, tone: "coin" });
+      celebrate({
+        kind: "quest",
+        title: "启程!",
+        subtitle: `已为你选好「${title}」`,
+      });
+    }
+    setStep("done");
   }
 
   function close() {
@@ -102,7 +155,7 @@ export function OnboardingOverlay({
 
   function skip() {
     startTransition(async () => {
-      await completeOnboarding(null);
+      await completeOnboarding({});
       close();
     });
   }
@@ -117,17 +170,59 @@ export function OnboardingOverlay({
             </div>
             <h1>欢迎来到必学堂</h1>
             <p className="onboard-lead">
-              把公开课学成闯关。先选一个想入门的方向,我们给你排好第一条路线,
-              5 分钟就能迈出第一步。
+              把公开课学成闯关。先想好你要成为什么,我们把散落的公开课串成一条
+              清晰的路,陪你从第一关走到目标。
             </p>
-            <button className="onboard-primary" onClick={() => setStep("goal")}>
+            <button
+              className="onboard-primary"
+              onClick={() => setStep("career")}
+            >
               开始
             </button>
             <button className="onboard-skip" onClick={skip} disabled={pending}>
               先逛逛
             </button>
           </>
-        ) : step === "goal" ? (
+        ) : step === "career" ? (
+          <>
+            <h1>你想成为?</h1>
+            <p className="onboard-lead">
+              选一个目标,我们按「成为 X」的路线给你排好该先学什么。之后随时能换。
+            </p>
+            <div className="onboard-careers">
+              {roadmaps.map((r) => (
+                <button
+                  key={r.id}
+                  className="onboard-career"
+                  disabled={pending}
+                  onClick={() => pickCareer(r)}
+                  style={{
+                    ["--tone" as string]:
+                      ROADMAP_TONE[r.id] ?? "var(--app-blue)",
+                  }}
+                >
+                  <span className="onboard-career-icon">
+                    <CareerGlyph icon={r.icon} />
+                  </span>
+                  <span className="onboard-career-body">
+                    <b>{r.title}</b>
+                    {r.tagline ? <small>{r.tagline}</small> : null}
+                  </span>
+                </button>
+              ))}
+            </div>
+            <button
+              className="onboard-alt"
+              onClick={() => setStep("subject")}
+              disabled={pending}
+            >
+              只想学某一科 →
+            </button>
+            <button className="onboard-skip" onClick={skip} disabled={pending}>
+              随便逛逛
+            </button>
+          </>
+        ) : step === "subject" ? (
           <>
             <h1>先从哪个方向入门?</h1>
             <p className="onboard-lead">选一个开始,之后随时能换或加线。</p>
@@ -148,8 +243,15 @@ export function OnboardingOverlay({
                 </button>
               ))}
             </div>
+            <button
+              className="onboard-alt"
+              onClick={() => setStep("career")}
+              disabled={pending}
+            >
+              ← 看职业目标
+            </button>
             <button className="onboard-skip" onClick={skip} disabled={pending}>
-              先逛逛
+              随便逛逛
             </button>
           </>
         ) : (

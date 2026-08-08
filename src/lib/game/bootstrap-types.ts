@@ -138,4 +138,6 @@ export interface GameBootstrap {
   } | null;
   /** 是否已完成/跳过首次运行引导（false + 零进度 = 新用户弹欢迎） */
   onboarded: boolean;
+  /** 选定的职业目标（成为 X 路线 id），未选则 null */
+  goalRoadmap: string | null;
 }

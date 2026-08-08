@@ -4,7 +4,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { BiliBind } from "@/components/app/bili-bind";
 import { getBiliBinding } from "@/lib/bili/account";
 import { AvatarForm } from "@/components/app/avatar-form";
-import { PasswordForm, ProfileForm } from "@/components/settings-forms";
+import { EmailForm, PasswordForm, ProfileForm } from "@/components/settings-forms";
 import { UserAvatar } from "@/components/user-avatar";
 import { logout } from "@/lib/auth/actions";
 import { requireUser } from "@/lib/auth/session";
@@ -95,6 +95,19 @@ export default async function SettingsPage() {
             <h2>bilibili 账号</h2>
           </div>
           <BiliBind binding={getBiliBinding(user.id)} />
+        </section>
+
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>找回邮箱</h2>
+          </div>
+          <p className="me-note">
+            绑定邮箱后,忘记密码时可自助收重置链接。不绑也能用,但只能靠 bilibili
+            扫码登录或联系管理员找回。
+          </p>
+          <div className="app-skin">
+            <EmailForm email={user.email ?? null} />
+          </div>
         </section>
 
         <section className="course-card">

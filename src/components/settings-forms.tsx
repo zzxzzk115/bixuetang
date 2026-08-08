@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import {
   changePassword,
+  updateEmail,
   updateProfile,
   type SettingsFormState,
 } from "@/lib/auth/settings-actions";
@@ -61,6 +62,40 @@ export function ProfileForm({
       <div className="flex items-center gap-3">
         <button disabled={pending} className={btnCls}>
           {pending ? "保存中……" : "保存"}
+        </button>
+        <Feedback state={state} />
+      </div>
+    </form>
+  );
+}
+
+export function EmailForm({ email }: { email: string | null }) {
+  const [state, action, pending] = useActionState<SettingsFormState, FormData>(
+    updateEmail,
+    null,
+  );
+  const [value, setValue] = useState(email ?? "");
+
+  return (
+    <form action={action} className="space-y-3">
+      <label className="block text-sm">
+        <span className="text-muted">
+          找回邮箱（绑定后可在忘记密码时自助重置；留空则解绑）
+        </span>
+        <input
+          name="email"
+          type="email"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          maxLength={254}
+          autoComplete="email"
+          placeholder="you@example.com"
+          className={inputCls}
+        />
+      </label>
+      <div className="flex items-center gap-3">
+        <button disabled={pending} className={btnCls}>
+          {pending ? "保存中……" : email ? "更新邮箱" : "绑定邮箱"}
         </button>
         <Feedback state={state} />
       </div>

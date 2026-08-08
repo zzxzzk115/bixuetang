@@ -85,3 +85,16 @@ test("无 lastWatched、无路线 → 兜底全库首门可学未学", () => {
   assert.equal(r.continue, null);
   assert.equal(r.next?.courseId, "only");
 });
+
+test("有职业目标 → next 按目标路线顺序,压过地图路线", () => {
+  const r = pickNextStep(
+    boot({
+      courses: [course({ id: "x" }), course({ id: "y" }), course({ id: "z" })],
+      // 地图路线把 x 排在前
+      paths: [{ id: "p1", mode: "course", courseIds: ["x", "y"] } as never],
+      routeId: "p1",
+    }),
+    ["z", "y", "x"], // 目标路线 z 在最前
+  );
+  assert.equal(r.next?.courseId, "z"); // 听目标的,不听地图路线
+});

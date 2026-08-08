@@ -10,18 +10,35 @@ import {
 // 所有时间戳均为 unix 毫秒。内容（课程/技能/职业）不入库，
 // course_id / skill_id / job_id 存 content/ 里的 slug，应用层校验存在性。
 
-export const users = sqliteTable("users", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  username: text("username").notNull().unique(),
-  passwordHash: text("password_hash").notNull(),
-  displayName: text("display_name"),
-  // 头像：`preset:<id>` 指向内置像素头像，`upload:<版本号>` 指向 <数据目录>/avatars/<userId>.png。
-  // 版本号用于给 <img> 加 query 破缓存——文件名固定为 userId，换图后 URL 不变。
-  // 空值回退到用户名首字母色块。
-  avatar: text("avatar"),
-  activeJobId: text("active_job_id"),
-  /** 拉新归因:经谁的分享链接(?ref=<userId>)注册来的;空=自然流量 */
-  referredBy: integer("referred_by"),
+export const users = sqliteTable(
+  "users",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    username: text("username").notNull().unique(),
+    passwordHash: text("password_hash").notNull(),
+    displayName: text("display_name"),
+    // 头像：`preset:<id>` 指向内置像素头像，`upload:<版本号>` 指向 <数据目录>/avatars/<userId>.png。
+    // 版本号用于给 <img> 加 query 破缓存——文件名固定为 userId，换图后 URL 不变。
+    // 空值回退到用户名首字母色块。
+    avatar: text("avatar"),
+    activeJobId: text("active_job_id"),
+    /** 拉新归因:经谁的分享链接(?ref=<userId>)注册来的;空=自然流量 */
+    referredBy: integer("referred_by"),
+    /** 找回邮箱(可选);绑定后可用「忘记密码」自助重置。规范化小写存储 */
+    email: text("email"),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [uniqueIndex("users_email_idx").on(t.email)],
+);
+
+// 密码重置令牌:发到邮箱的链接带原始 token,DB 只存其 SHA-256(泄库不泄 token)。
+export const passwordResets = sqliteTable("password_resets", {
+  tokenHash: text("token_hash").primaryKey(),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  expiresAt: integer("expires_at").notNull(),
+  usedAt: integer("used_at"),
   createdAt: integer("created_at").notNull(),
 });
 
@@ -228,6 +245,8 @@ export const userState = sqliteTable("user_state", {
   playerPrefs: text("player_prefs"),
   /** 首次运行引导完成/跳过的时间戳;空=还没引导过(新用户首屏弹欢迎) */
   onboardedAt: integer("onboarded_at"),
+  /** 选定的职业目标(成为 X 路线 id);驱动推荐卡「下一步」与目标展示 */
+  goalRoadmap: text("goal_roadmap"),
   updatedAt: integer("updated_at").notNull(),
 });
 

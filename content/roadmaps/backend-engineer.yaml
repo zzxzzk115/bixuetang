@@ -1,0 +1,21 @@
+id: backend-engineer
+title: 成为后端工程师
+tagline: 从算法功底到数据库、网络与分布式,撑起服务的那一端
+description: >
+  后端工程师的价值在于让系统跑得又稳又快。这条路线先打好编程与数据结构算法的
+  底子,再补上计算机系统与操作系统的地基,然后系统学网络与数据库,最后进到分布式
+  系统与工程实践。走完你能设计一个后端服务、理解它在高并发下的瓶颈,并读懂主流
+  分布式系统的论文与实现。
+stages:
+  - title: 第一章 · 编程与算法功底
+    note: 会写、会调,还要写得快
+    courses: [cs61a, cs61b]
+  - title: 第二章 · 系统地基
+    note: 服务跑在系统之上,得懂它
+    courses: [csapp, ucb-cs162]
+  - title: 第三章 · 网络与数据库
+    note: 后端两大支柱:数据怎么存、怎么传
+    courses: [cs144, cmu-15-445]
+  - title: 第四章 · 分布式与工程实践
+    note: 从一台机器到一片集群
+    courses: [mit-6-824, cloud-native, missing-semester]

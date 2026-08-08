@@ -15,7 +15,14 @@ export interface NextStep {
   next: { courseId: string; title: string; subject: string } | null;
 }
 
-export function pickNextStep(b: GameBootstrap): NextStep {
+/**
+ * @param goalCourseIds 选定职业目标(成为 X)路线的课程顺序;有则优先按它推进,
+ *   让「下一步」始终指向目标路线上首门可学未学的课。
+ */
+export function pickNextStep(
+  b: GameBootstrap,
+  goalCourseIds: string[] = [],
+): NextStep {
   const byId = new Map(b.courses.map((c) => [c.id, c]));
 
   let cont: NextStep["continue"] = null;
@@ -36,9 +43,10 @@ export function pickNextStep(b: GameBootstrap): NextStep {
     c.unlocked && c.watchedCount === 0 && c.status !== "done";
 
   let next: NextStep["next"] = null;
-  // 优先按当前路线的课程顺序找首门可学未学的
+  // 优先按目标路线(成为 X)的课程顺序;没设目标再退回当前地图路线
   const path = b.paths.find((p) => p.id === b.routeId);
-  const order = path?.mode === "course" ? path.courseIds : [];
+  const pathOrder = path?.mode === "course" ? path.courseIds : [];
+  const order = goalCourseIds.length ? goalCourseIds : pathOrder;
   for (const id of order) {
     const c = byId.get(id);
     if (c && startable(c) && c.id !== cont?.courseId) {
