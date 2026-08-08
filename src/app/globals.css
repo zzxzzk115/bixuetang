@@ -3992,7 +3992,8 @@ math-field {
   width: 150px;
 }
 .admin-tool-row input[list],
-.admin-tool-row input:not([type="number"]) {
+.admin-tool-row input:not([type="number"]),
+.admin-tool-row select {
   flex: 1;
   min-width: 160px;
 }
@@ -4018,6 +4019,86 @@ math-field {
   background: var(--app-red, #e5533c);
 }
 
+/* 「⋯ 更多」溢出菜单:桌面隐藏(侧栏放得下),手机才出现 */
+.admin-more {
+  display: none;
+  position: relative;
+}
+.admin-more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--app-line);
+  border-radius: 10px;
+  background: var(--app-bg);
+  color: var(--app-ink);
+  cursor: pointer;
+}
+.admin-more-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+.admin-more-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 41;
+  min-width: 168px;
+  display: grid;
+  gap: 2px;
+  padding: 6px;
+  border-radius: 12px;
+  border: 1px solid var(--app-line);
+  background: var(--app-card, #fff);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+.admin-more-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--app-ink);
+  text-decoration: none;
+}
+.admin-more-item:hover,
+.admin-more-item.is-active {
+  background: color-mix(in srgb, var(--app-line) 30%, transparent);
+}
+.admin-more-sep {
+  height: 1px;
+  background: var(--app-line);
+  margin: 4px 0;
+}
+.admin-more-who {
+  padding: 2px 11px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-faint);
+}
+.admin-more-logout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 11px;
+  border: none;
+  border-radius: 9px;
+  background: none;
+  color: var(--app-red, #e5533c);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.admin-more-logout:hover {
+  background: color-mix(in srgb, var(--app-red, #e5533c) 12%, transparent);
+}
+
 @media (max-width: 720px) {
   .admin-shell {
     grid-template-columns: 1fr;
@@ -4026,25 +4107,40 @@ math-field {
     position: static;
     height: auto;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
+    gap: 4px;
+    padding: 8px 10px;
     border-right: none;
     border-bottom: 1px solid var(--app-line);
   }
   .admin-side-brand {
-    padding: 6px 8px;
+    padding: 0 4px 0 2px;
+    flex: none;
+  }
+  .admin-side-brand b {
+    display: none; /* 窄屏只留盾牌图标,给标签让位 */
   }
   .admin-side-nav {
     grid-auto-flow: column;
     gap: 2px;
+    overflow: hidden;
   }
   .admin-side-link {
     padding: 8px 10px;
+    white-space: nowrap;
+  }
+  /* 溢出项(设置等)在手机上从行内隐藏,改由「⋯」菜单进入 */
+  .admin-side-link--overflow {
+    display: none;
   }
   .admin-side-foot {
-    margin: 0 0 0 auto;
-    border-top: none;
-    padding: 6px;
+    display: none; /* 账户/退出移入「⋯」菜单 */
+  }
+  .admin-more {
+    display: block;
+    margin-left: auto;
+    flex: none;
   }
 }
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { AdminUserTools } from "@/components/admin/admin-user-tools";
+import { courseCatalog, itemCatalog } from "@/lib/admin/catalog";
 import { adminGetUserDetail } from "@/lib/admin/users";
 
 export const metadata = { title: "用户详情" };
@@ -69,7 +70,8 @@ export default async function AdminUserDetailPage({
 
       <AdminUserTools
         userId={u.id}
-        courses={u.courses.map((c) => ({ courseId: c.courseId, title: c.title }))}
+        courseOptions={courseCatalog()}
+        itemOptions={itemCatalog()}
       />
 
       <section className="admin-card">

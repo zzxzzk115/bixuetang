@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import type { CatalogEntry } from "@/lib/admin/catalog";
 import {
   adminForceUnlock,
   adminGiveItem,
@@ -22,26 +23,65 @@ const STATUSES: { value: "planned" | "learning" | "done" | "dropped"; label: str
   { value: "dropped", label: "已放弃" },
 ];
 
+/** 按 group 分 optgroup 的下拉,省得运营手敲 id */
+function GroupedSelect({
+  value,
+  onChange,
+  options,
+  placeholder,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: CatalogEntry[];
+  placeholder: string;
+}) {
+  const groups = useMemo(
+    () => [...new Set(options.map((o) => o.group))],
+    [options],
+  );
+  return (
+    <select value={value} onChange={(e) => onChange(e.target.value)}>
+      <option value="">{placeholder}</option>
+      {groups.map((g) => (
+        <optgroup key={g} label={g}>
+          {options
+            .filter((o) => o.group === g)
+            .map((o) => (
+              <option key={o.id} value={o.id}>
+                {o.label}
+              </option>
+            ))}
+        </optgroup>
+      ))}
+    </select>
+  );
+}
+
 export function AdminUserTools({
   userId,
-  courses,
+  courseOptions,
+  itemOptions,
 }: {
   userId: number;
-  courses: { courseId: string; title: string }[];
+  courseOptions: CatalogEntry[];
+  itemOptions: CatalogEntry[];
 }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
 
-  // XP / 金币 / 护盾 / 道具 表单值
   const [xp, setXp] = useState("");
   const [coins, setCoins] = useState("");
   const [shield, setShield] = useState("");
   const [itemId, setItemId] = useState("");
   const [itemQty, setItemQty] = useState("");
-  // 进度
   const [courseId, setCourseId] = useState("");
   const [status, setStatus] = useState<(typeof STATUSES)[number]["value"]>("done");
+
+  const courseLabel = useMemo(
+    () => courseOptions.find((c) => c.id === courseId)?.label ?? courseId,
+    [courseOptions, courseId],
+  );
 
   function run(fn: () => Promise<AdminActionResult>) {
     startTransition(async () => {
@@ -102,10 +142,11 @@ export function AdminUserTools({
             </button>
           </div>
           <div className="admin-tool-row">
-            <input
-              placeholder="道具 id(如 cs-boss)"
+            <GroupedSelect
               value={itemId}
-              onChange={(e) => setItemId(e.target.value)}
+              onChange={setItemId}
+              options={itemOptions}
+              placeholder="选择道具…"
             />
             <input
               type="number"
@@ -127,19 +168,12 @@ export function AdminUserTools({
         <h2>进度与解锁</h2>
         <div className="admin-tools">
           <div className="admin-tool-row">
-            <input
-              list="admin-course-list"
-              placeholder="课程 id"
+            <GroupedSelect
               value={courseId}
-              onChange={(e) => setCourseId(e.target.value)}
+              onChange={setCourseId}
+              options={courseOptions}
+              placeholder="选择课程…"
             />
-            <datalist id="admin-course-list">
-              {courses.map((c) => (
-                <option key={c.courseId} value={c.courseId}>
-                  {c.title}
-                </option>
-              ))}
-            </datalist>
           </div>
           <div className="admin-tool-row">
             <select
@@ -179,7 +213,7 @@ export function AdminUserTools({
               disabled={pending || !courseId}
               onClick={() => {
                 if (
-                  confirm(`确定清除该用户在「${courseId}」的全部进度?此操作不可撤销。`)
+                  confirm(`确定清除该用户在「${courseLabel}」的全部进度?此操作不可撤销。`)
                 ) {
                   run(() => adminResetCourse(userId, courseId));
                 }
