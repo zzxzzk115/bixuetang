@@ -3820,6 +3820,153 @@ math-field {
   color: var(--app-green);
 }
 
+/* 搜索框 */
+.admin-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--app-line);
+  background: var(--app-card, transparent);
+  margin-bottom: 12px;
+  max-width: 460px;
+}
+.admin-search svg {
+  color: var(--app-faint);
+  flex: none;
+}
+.admin-search input {
+  flex: 1;
+  border: none;
+  background: none;
+  color: var(--app-ink);
+  font-size: 14px;
+  outline: none;
+  min-width: 0;
+}
+.admin-search button {
+  border: none;
+  border-radius: 8px;
+  background: var(--app-green);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 12px;
+  cursor: pointer;
+  flex: none;
+}
+
+/* 表格 */
+.admin-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--app-line);
+  border-radius: 12px;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--app-line);
+  white-space: nowrap;
+}
+.admin-table th {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-faint);
+  background: color-mix(in srgb, var(--app-line) 18%, transparent);
+}
+.admin-table tbody tr:last-child td,
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.admin-table a {
+  color: var(--app-green);
+  font-weight: 700;
+}
+.admin-pager {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  font-size: 13px;
+}
+.admin-pager a {
+  color: var(--app-green);
+  font-weight: 700;
+}
+.admin-pager .is-disabled {
+  color: var(--app-faint);
+  opacity: 0.5;
+}
+.admin-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-faint);
+  margin-bottom: 10px;
+}
+.admin-back:hover {
+  color: var(--app-ink);
+}
+
+/* 详情:数值键值组 / 道具 chips / 反馈迷你列表 */
+.admin-kv {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+.admin-kv > div {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--app-line) 16%, transparent);
+}
+.admin-kv b {
+  font-size: 20px;
+  font-weight: 800;
+}
+.admin-kv span {
+  font-size: 12px;
+  color: var(--app-faint);
+}
+.admin-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.admin-chips li {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-line) 24%, transparent);
+  font-size: 13px;
+}
+.admin-chips code,
+.admin-report-mini code {
+  font-family: ui-monospace, monospace;
+}
+.admin-report-mini {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  color: var(--app-ink);
+}
+
 @media (max-width: 720px) {
   .admin-shell {
     grid-template-columns: 1fr;
