@@ -89,12 +89,21 @@ function pickDistractors(
   const used = new Set([entry.answer]);
   const lenOk = (s: string) =>
     s.length >= entry.answer.length * 0.4 && s.length <= entry.answer.length * 1.6;
+  const sameCourse = (e: QuizEntry) => e.courseId === entry.courseId;
+  const sameSubject = (e: QuizEntry) => e.subject === entry.subject;
+  const sameKind = (e: QuizEntry) => e.kind === entry.kind;
 
-  // 三轮放宽：同 kind+长度相近 → 同 kind → 任意
+  // 干扰项要「相关但易混」:同一门课的其它知识点最容易混淆,优先选;
+  // 逐轮放宽——同课 → 同学科 → 跨科兜底,每档内再偏好同 kind、长度相近。
   const rounds: ((e: QuizEntry) => boolean)[] = [
-    (e) => e.kind === entry.kind && lenOk(e.answer),
-    (e) => e.kind === entry.kind,
-    () => true,
+    (e) => sameCourse(e) && sameKind(e) && lenOk(e.answer),
+    (e) => sameCourse(e) && sameKind(e),
+    (e) => sameCourse(e),
+    (e) => sameSubject(e) && sameKind(e) && lenOk(e.answer),
+    (e) => sameSubject(e) && sameKind(e),
+    (e) => sameSubject(e),
+    (e) => sameKind(e) && lenOk(e.answer),
+    () => true, // 实在凑不齐才跨学科
   ];
   for (const okFn of rounds) {
     for (const source of [pool, fallback]) {

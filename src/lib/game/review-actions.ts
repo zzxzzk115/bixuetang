@@ -3,6 +3,7 @@
 import { and, asc, eq, lte, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "../auth/session";
+import { getContent } from "../content/load";
 import { db } from "../db/client";
 import { reviewCards, xpEvents } from "../db/schema";
 import { applyTimedBoost } from "./boosts";
@@ -26,6 +27,8 @@ const REVIEW_XP = 20;
 export interface ReviewCardView {
   cardId: number;
   courseId: string;
+  /** 出处课程名(题面上下文,免得只给个孤零零的知识点标题) */
+  courseTitle: string;
   episodeN: number;
   question: QuizQuestion;
   /** 复习进度(第几次答对) */
@@ -81,6 +84,7 @@ export async function getDueReview(): Promise<DueReview | { error: string }> {
     cards.push({
       cardId: row.id,
       courseId: row.courseId,
+      courseTitle: getContent().coursesById.get(row.courseId)?.title ?? "",
       episodeN: row.episodeN,
       question,
       reps: row.reps,

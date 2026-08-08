@@ -164,6 +164,11 @@ export function ReviewSession({ cards }: { cards: ReviewCardView[] }) {
 
       <main className="quiz-body">
         <p className="quiz-kind">
+          {card.courseTitle && (
+            <span className="quiz-source-tag">
+              {card.courseTitle} · 第 {card.episodeN} 集
+            </span>
+          )}
           {q.kind === "term" ? "还记得这个术语吗?" : "这个知识点讲的是?"}
         </p>
         <h1 className="quiz-prompt">{q.prompt}</h1>

@@ -871,6 +871,15 @@ html {
   font-size: 13px;
   font-weight: 800;
 }
+.quiz-source-tag {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-blue) 14%, transparent);
+  color: var(--app-blue);
+  font-size: 12px;
+}
 .quiz-prompt {
   margin: 8px 0 18px;
   color: var(--app-strong);
