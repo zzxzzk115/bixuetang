@@ -58,14 +58,21 @@ export async function requestPasswordReset(
       })
       .run();
     const link = `${await siteOrigin()}/reset-password?token=${token}`;
-    await sendMail({
-      to: email,
-      subject: "必学堂 · 重置密码",
-      text:
-        `你(或有人)申请重置必学堂账号的密码。\n` +
-        `点击下面的链接,在 1 小时内设置新密码:\n\n${link}\n\n` +
-        `若不是你本人操作,忽略此邮件即可,密码不会变动。`,
-    });
+    // 发信失败(SMTP 配错/网络)不能把整个动作抛崩:一崩前端就 500、还会用
+    // 「注册邮箱报错、未注册邮箱正常」的差异泄露账号是否存在。吞掉并记日志,
+    // 让运营据日志修 SMTP;对用户一律回同样的成功文案。
+    try {
+      await sendMail({
+        to: email,
+        subject: "必学堂 · 重置密码",
+        text:
+          `你(或有人)申请重置必学堂账号的密码。\n` +
+          `点击下面的链接,在 1 小时内设置新密码:\n\n${link}\n\n` +
+          `若不是你本人操作,忽略此邮件即可,密码不会变动。`,
+      });
+    } catch (err) {
+      console.error("[reset] 发送重置邮件失败(请检查 SMTP_* 配置):", err);
+    }
   }
 
   // 不论邮箱是否注册,一律回成功,避免被拿来枚举已注册邮箱
