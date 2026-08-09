@@ -26,6 +26,7 @@ export async function updateEmail(
       .set({ email: null, emailVerified: false })
       .where(eq(users.id, user.id))
       .run();
+    revalidatePath("/settings"); // 让「未验证」徽标/按钮即时刷新,不用手动重载
     return { success: "已解除邮箱绑定" };
   }
 
@@ -50,6 +51,7 @@ export async function updateEmail(
     .set({ email, emailVerified: false })
     .where(eq(users.id, user.id))
     .run();
+  revalidatePath("/settings"); // 绑定后即时显示「未验证」徽标 + 重发按钮
   try {
     await sendEmailVerification(user.id, email);
   } catch (err) {
