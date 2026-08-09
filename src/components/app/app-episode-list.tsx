@@ -65,11 +65,19 @@ export function AppEpisodeList({
   const toastSeq = useRef(0);
   const router = useRouter();
   const returnedRef = useRef(false);
+  // 挂载时就已全部看完 = 用户是来「重温」的,别庆祝、别把人踢回地图。
+  // 只有本次会话里把最后一集看完(从未完成→完成)才庆祝并返回。
+  const initiallyDoneRef = useRef(
+    !!scopedNode &&
+      episodes.length > 0 &&
+      episodes.every((e) => watchedSet.has(e.n)),
+  );
 
   // 分集节点(1-4 集)全部看完 → 庆祝一下,自动回地图主线。
   // 只在作用域视图触发,且只触发一次;给用户看两秒庆祝再跳。
   useEffect(() => {
     if (!scopedNode || returnedRef.current || episodes.length === 0) return;
+    if (initiallyDoneRef.current) return; // 一进来就全看完 = 重温,不庆祝不跳走
     const allDone = episodes.every((e) => watchedSet.has(e.n));
     if (!allDone) return;
     returnedRef.current = true;
