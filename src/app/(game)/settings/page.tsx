@@ -120,7 +120,7 @@ export default async function SettingsPage() {
             扫码登录或联系管理员找回。
           </p>
           <div className="app-skin">
-            <EmailForm email={user.email ?? null} />
+            <EmailForm email={user.email ?? null} verified={user.emailVerified} />
           </div>
         </section>
 

@@ -2,13 +2,13 @@
 
 import crypto from "node:crypto";
 import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { db } from "../db/client";
 import { passwordResets, sessions, users } from "../db/schema";
 import { sendMail } from "../mail";
 import { passwordStrength } from "./captcha";
 import { isValidEmail, normalizeEmail } from "./email";
+import { siteOrigin } from "./origin";
 import { hashPassword } from "./password";
 
 // 忘记密码 → 发重置链接 → 凭链接改密。
@@ -21,16 +21,6 @@ function sha256(s: string): string {
   return crypto.createHash("sha256").update(s).digest("hex");
 }
 
-// 重置链接的站点源:优先 APP_ORIGIN,否则据请求头(反代会带 x-forwarded-*)推断
-async function siteOrigin(): Promise<string> {
-  if (process.env.APP_ORIGIN) return process.env.APP_ORIGIN.replace(/\/+$/, "");
-  const h = await headers();
-  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
-  const proto =
-    h.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
-  return `${proto}://${host}`;
-}
-
 export type ResetRequestState = { done?: boolean; error?: string } | null;
 
 export async function requestPasswordReset(
@@ -41,12 +31,14 @@ export async function requestPasswordReset(
   if (!isValidEmail(email)) return { error: "请输入有效的邮箱地址" };
 
   const user = db
-    .select({ id: users.id })
+    .select({ id: users.id, emailVerified: users.emailVerified })
     .from(users)
     .where(eq(users.email, email))
     .get();
 
-  if (user) {
+  // 只有已验证归属的邮箱才发重置信:防止有人绑了不属于自己的邮箱来劫持找回。
+  // 未验证一律当作「查无此邮箱」,同样回成功文案,不外泄。
+  if (user?.emailVerified) {
     const token = crypto.randomBytes(32).toString("hex");
     const now = Date.now();
     db.insert(passwordResets)

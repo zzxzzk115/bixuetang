@@ -26,10 +26,27 @@ export const users = sqliteTable(
     referredBy: integer("referred_by"),
     /** 找回邮箱(可选);绑定后可用「忘记密码」自助重置。规范化小写存储 */
     email: text("email"),
+    /** 邮箱是否已验证归属;仅验证过的邮箱能用于找回密码。绑定/改邮箱都会重置为 false */
+    emailVerified: integer("email_verified", { mode: "boolean" })
+      .notNull()
+      .default(false),
     createdAt: integer("created_at").notNull(),
   },
   (t) => [uniqueIndex("users_email_idx").on(t.email)],
 );
+
+// 邮箱归属验证令牌:绑定/改邮箱后发到该邮箱的确认链接。DB 只存 SHA-256。
+// email 记下当时申请验证的地址,确认时比对用户当前邮箱,防「改了又验旧的」。
+export const emailVerifications = sqliteTable("email_verifications", {
+  tokenHash: text("token_hash").primaryKey(),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  email: text("email").notNull(),
+  expiresAt: integer("expires_at").notNull(),
+  usedAt: integer("used_at"),
+  createdAt: integer("created_at").notNull(),
+});
 
 // 密码重置令牌:发到邮箱的链接带原始 token,DB 只存其 SHA-256(泄库不泄 token)。
 export const passwordResets = sqliteTable("password_resets", {

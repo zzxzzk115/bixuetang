@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, useTransition } from "react";
 import {
   changePassword,
+  resendEmailVerification,
   updateEmail,
   updateProfile,
   type SettingsFormState,
@@ -69,18 +70,29 @@ export function ProfileForm({
   );
 }
 
-export function EmailForm({ email }: { email: string | null }) {
+export function EmailForm({
+  email,
+  verified,
+}: {
+  email: string | null;
+  verified: boolean;
+}) {
   const [state, action, pending] = useActionState<SettingsFormState, FormData>(
     updateEmail,
     null,
   );
   const [value, setValue] = useState(email ?? "");
+  const [resendState, setResendState] = useState<SettingsFormState>(null);
+  const [resending, startResend] = useTransition();
+
+  // 绑了但没验证:提示 + 重发按钮
+  const showUnverified = !!email && !verified;
 
   return (
     <form action={action} className="space-y-3">
       <label className="block text-sm">
         <span className="text-muted">
-          找回邮箱（绑定后可在忘记密码时自助重置；留空则解绑）
+          找回邮箱（绑定后需点邮件里的链接验证，验证过才能用于找回密码；留空则解绑）
         </span>
         <input
           name="email"
@@ -93,11 +105,33 @@ export function EmailForm({ email }: { email: string | null }) {
           className={inputCls}
         />
       </label>
-      <div className="flex items-center gap-3">
+      {email && (
+        <p className="text-sm">
+          {verified ? (
+            <span className="text-xp">✓ 已验证</span>
+          ) : (
+            <span className="text-hp">● 未验证——去邮箱点确认链接完成绑定</span>
+          )}
+        </p>
+      )}
+      <div className="flex flex-wrap items-center gap-3">
         <button disabled={pending} className={btnCls}>
           {pending ? "保存中……" : email ? "更新邮箱" : "绑定邮箱"}
         </button>
+        {showUnverified && (
+          <button
+            type="button"
+            disabled={resending}
+            className="app-btn-plain"
+            onClick={() =>
+              startResend(async () => setResendState(await resendEmailVerification()))
+            }
+          >
+            {resending ? "发送中……" : "重新发送验证邮件"}
+          </button>
+        )}
         <Feedback state={state} />
+        <Feedback state={resendState} />
       </div>
     </form>
   );

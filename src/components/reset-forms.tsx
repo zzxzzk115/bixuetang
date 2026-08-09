@@ -2,12 +2,14 @@
 
 import { useActionState, useState } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
+import Link from "next/link";
 import {
   requestPasswordReset,
   resetPassword,
   type ResetRequestState,
   type ResetState,
 } from "@/lib/auth/reset-actions";
+import { verifyEmail, type VerifyState } from "@/lib/auth/verify-actions";
 
 // 忘记密码:输邮箱申请重置链接。无论邮箱是否注册都回同样的成功文案(防枚举)。
 export function ForgotForm() {
@@ -49,6 +51,43 @@ export function ForgotForm() {
           </>
         ) : (
           "发送重置链接"
+        )}
+      </button>
+      {state?.error && <p className="bili-bind-error">{state.error}</p>}
+    </form>
+  );
+}
+
+// 凭邮件链接里的 token 确认邮箱归属。按钮 POST 触发,防邮件预取误消耗。
+export function VerifyEmailForm({ token }: { token: string }) {
+  const [state, formAction, pending] = useActionState<VerifyState, FormData>(
+    verifyEmail,
+    null,
+  );
+
+  if (state?.ok) {
+    return (
+      <div className="auth-pwd auth-reset-done">
+        <CheckCircle2 size={30} aria-hidden />
+        <p>邮箱验证成功!现在可以用它找回密码了。</p>
+        <Link href="/settings" className="auth-alt-link">
+          返回设置
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <form action={formAction} className="auth-pwd">
+      <input type="hidden" name="token" value={token} />
+      <button className="app-btn-primary" disabled={pending}>
+        {pending ? (
+          <>
+            <Loader2 size={15} className="spin" aria-hidden />
+            验证中…
+          </>
+        ) : (
+          "确认验证邮箱"
         )}
       </button>
       {state?.error && <p className="bili-bind-error">{state.error}</p>}
