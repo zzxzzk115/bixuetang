@@ -92,6 +92,33 @@ export async function suggestCareer(
   return { ok: true };
 }
 
+// 路线总览页(成为 X)给已有目标的老用户用:只提交「我想要的路线」建议,
+// 不像 suggestCareer 那样顺手清目标进「随便逛逛」——他们只是想反馈,别动其目标。
+export async function submitRouteSuggestion(
+  text: string,
+): Promise<GoalResult & { error?: string }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false };
+  const t = text.trim().slice(0, 100);
+  if (!t) return { ok: false, error: "写点你想要的路线吧" };
+  if (containsSensitive(t))
+    return { ok: false, error: "内容含有不当词汇,换个说法" };
+  if (
+    overRateLimit(
+      careerSuggestions,
+      careerSuggestions.userId,
+      careerSuggestions.createdAt,
+      user.id,
+      RATE.careerSuggestion,
+    )
+  )
+    return { ok: false, error: "提交太频繁了,明天再来吧" };
+  db.insert(careerSuggestions)
+    .values({ userId: user.id, text: t, createdAt: Date.now() })
+    .run();
+  return { ok: true };
+}
+
 export interface CareerSuggestionRow {
   id: number;
   text: string;

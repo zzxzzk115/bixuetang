@@ -10,7 +10,7 @@ import {
 } from "@/lib/social/actions";
 import { InviteSharePopup } from "./invite-share-popup";
 import { UserAvatar } from "@/components/user-avatar";
-import { avatarSrc } from "@/lib/avatar/presets";
+import { avatarSrc, parseAvatar } from "@/lib/avatar/presets";
 
 /** 邀请链接:本站源 + /login?reg=1&ref=<我>。localhost 开发用局域网地址 */
 function useInviteLink(viewerId: number): string {
@@ -83,7 +83,12 @@ export function InviteCard({
         <InviteSharePopup
           onClose={() => setShareOpen(false)}
           inviterName={viewerName}
-          avatarUrl={avatarSrc(viewerAvatar, viewerId)}
+          avatarUrl={
+            // bilibili 头像走同源代理,否则 canvas 跨域画不出(hdslb 无 CORS)
+            parseAvatar(viewerAvatar).kind === "remote"
+              ? `/api/avatar/${viewerId}`
+              : avatarSrc(viewerAvatar, viewerId)
+          }
           link={link}
         />
       )}

@@ -5947,9 +5947,10 @@ body:has(.art-video-player.art-fullscreen-web) {
 .map-goalbar-goal {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   align-self: start;
-  padding: 4px 10px;
+  padding: 7px 8px 7px 12px;
+  min-height: 36px;
   border-radius: 999px;
   font-size: 13px;
   font-weight: 800;
@@ -5960,13 +5961,64 @@ body:has(.art-video-player.art-fullscreen-web) {
 .map-goalbar-goal b {
   font-weight: 900;
 }
-.map-goalbar-edit {
-  margin-left: 2px;
-  padding-left: 8px;
-  border-left: 1px solid color-mix(in srgb, var(--app-green) 40%, transparent);
-  font-size: 11px;
+/* 路线总览页:反馈想要的路线 */
+.route-suggest {
+  margin-top: 18px;
+}
+.route-suggest-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px dashed color-mix(in srgb, var(--app-blue) 45%, transparent);
+  background: color-mix(in srgb, var(--app-blue) 8%, transparent);
+  color: var(--app-blue);
   font-weight: 700;
-  opacity: 0.85;
+  font-size: 14px;
+  cursor: pointer;
+}
+.route-suggest-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--app-green);
+  font-weight: 700;
+}
+.route-suggest-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 480px;
+}
+.route-suggest-form input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--app-border, #e5e7eb);
+  background: var(--app-card, #fff);
+  font-size: 14px;
+}
+.map-goalbar-goalrow {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-self: start;
+}
+/* 「换目标」做成明显可点的独立胶囊,别只是行尾小字 */
+.map-goalbar-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  min-height: 32px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--app-green) 50%, transparent);
+  background: color-mix(in srgb, var(--app-green) 12%, transparent);
+  color: var(--app-green);
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
 }
 .map-goalbar-route {
   display: flex;

@@ -476,16 +476,24 @@ export function RouteMap({
         <div className="map-goalbar">
           {goalRoute && bootstrap.goalRoadmap ? (
             <>
-              <Link
-                href={`/roadmaps/${bootstrap.goalRoadmap}`}
-                className="map-goalbar-goal"
-              >
-                <CareerGlyph icon={roadmapIcon(bootstrap.goalRoadmap)} size={14} />
-                <span>
-                  目标 · <b>{goalTitle}</b>
-                </span>
-                <span className="map-goalbar-edit">换目标</span>
-              </Link>
+              <div className="map-goalbar-goalrow">
+                <Link
+                  href={`/roadmaps/${bootstrap.goalRoadmap}`}
+                  className="map-goalbar-goal"
+                >
+                  <CareerGlyph
+                    icon={roadmapIcon(bootstrap.goalRoadmap)}
+                    size={14}
+                  />
+                  <span>
+                    目标 · <b>{goalTitle}</b>
+                  </span>
+                </Link>
+                {/* 独立链接到路线总览,在那里换成别的目标 */}
+                <Link href="/roadmaps" className="map-goalbar-edit">
+                  换目标
+                </Link>
+              </div>
               <div className="map-goalbar-route">
                 {/* 整行就是换路线入口:点开路线选择,不再单列「换路线」按钮 */}
                 <button

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ChevronRight, Route } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { CareerGlyph, ROADMAP_TONE } from "@/components/app/career-glyph";
+import { RouteSuggest } from "@/components/app/route-suggest";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getContent } from "@/lib/content/load";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
@@ -62,6 +63,8 @@ export default async function RoadmapsPage() {
             );
           })}
         </div>
+
+        <RouteSuggest />
       </div>
     </AppShell>
   );
