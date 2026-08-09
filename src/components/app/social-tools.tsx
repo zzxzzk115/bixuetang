@@ -8,6 +8,7 @@ import {
   searchUsers,
   type SearchRow,
 } from "@/lib/social/actions";
+import type { FollowerRow } from "@/lib/social/queries";
 import { InviteSharePopup } from "./invite-share-popup";
 import { UserAvatar } from "@/components/user-avatar";
 import { avatarSrc, parseAvatar } from "@/lib/avatar/presets";
@@ -96,6 +97,60 @@ export function InviteCard({
         />
       )}
     </section>
+  );
+}
+
+// 关注我的(粉丝):未回关的排前面,一键回关变互相关注。
+export function FollowerList({ followers }: { followers: FollowerRow[] }) {
+  const [rows, setRows] = useState(followers);
+  const [pending, startTransition] = useTransition();
+
+  if (!rows.length) {
+    return <p className="me-note">还没有人关注你。多分享、多上榜,粉丝就来了。</p>;
+  }
+
+  function followBack(id: number) {
+    setRows((rs) =>
+      rs.map((r) => (r.userId === id ? { ...r, iFollowBack: true } : r)),
+    );
+    startTransition(async () => {
+      const res = await followUser(id);
+      if (!res.ok) {
+        setRows((rs) =>
+          rs.map((r) => (r.userId === id ? { ...r, iFollowBack: false } : r)),
+        );
+      }
+    });
+  }
+
+  return (
+    <ul className="follower-list">
+      {rows.map((f) => (
+        <li key={f.userId} className="follower-row">
+          <UserAvatar
+            userId={f.userId}
+            avatar={f.avatar}
+            name={f.name}
+            size={34}
+          />
+          <b className="follower-name">{f.name}</b>
+          {f.iFollowBack ? (
+            <span className="follower-mutual">
+              <Check size={13} aria-hidden /> 已互关
+            </span>
+          ) : (
+            <button
+              type="button"
+              className="follower-back"
+              disabled={pending}
+              onClick={() => followBack(f.userId)}
+            >
+              <UserPlus size={14} aria-hidden /> 回关
+            </button>
+          )}
+        </li>
+      ))}
+    </ul>
   );
 }
 

@@ -18,6 +18,18 @@ export interface FriendRow {
   rankKey: string;
   rankLabel: string;
   isSelf: boolean;
+  /** 这个我关注的人,是否也回关了我(互相关注) */
+  followsMe: boolean;
+}
+
+/** userId 的粉丝(关注我的人)的 id 列表 */
+export function getFollowerIds(userId: number): number[] {
+  return db
+    .select({ id: follows.followerId })
+    .from(follows)
+    .where(eq(follows.followeeId, userId))
+    .all()
+    .map((r) => r.id);
 }
 
 /** userId 关注的人的 id 列表 */
@@ -30,9 +42,10 @@ export function getFolloweeIds(userId: number): number[] {
     .map((r) => r.id);
 }
 
-/** 好友榜:自己 + 关注的人,按总 XP 降序 */
+/** 好友榜:自己 + 关注的人,按总 XP 降序;标出谁回关了我(互关) */
 export function getFriendLeaderboard(userId: number): FriendRow[] {
   const ids = [...new Set([userId, ...getFolloweeIds(userId)])];
+  const followerSet = new Set(getFollowerIds(userId));
 
   const xpRows = db
     .select({
@@ -77,10 +90,44 @@ export function getFriendLeaderboard(userId: number): FriendRow[] {
       rankKey: rank.key,
       rankLabel: rank.label,
       isSelf: u.id === userId,
+      followsMe: followerSet.has(u.id),
     };
   });
   rows.sort((a, z) => z.totalXp - a.totalXp || a.userId - z.userId);
   return rows;
+}
+
+export interface FollowerRow {
+  userId: number;
+  name: string;
+  avatar: string | null;
+  /** 我是否已回关 TA */
+  iFollowBack: boolean;
+}
+
+/** 关注我的人(粉丝),标出我是否已回关;未回关的排前面好回关 */
+export function getFollowers(userId: number): FollowerRow[] {
+  const followerIds = getFollowerIds(userId);
+  if (!followerIds.length) return [];
+  const followeeSet = new Set(getFolloweeIds(userId));
+  const uRows = db
+    .select({
+      id: users.id,
+      username: users.username,
+      displayName: users.displayName,
+      avatar: users.avatar,
+    })
+    .from(users)
+    .where(inArray(users.id, followerIds))
+    .all();
+  return uRows
+    .map((u) => ({
+      userId: u.id,
+      name: u.displayName || u.username,
+      avatar: u.avatar,
+      iFollowBack: followeeSet.has(u.id),
+    }))
+    .sort((a, z) => Number(a.iFollowBack) - Number(z.iFollowBack));
 }
 
 export interface SocialStats {

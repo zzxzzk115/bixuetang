@@ -6236,6 +6236,65 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-variant-numeric: tabular-nums;
   flex: none;
 }
+/* 好友榜里「互相关注」小标 */
+.friend-mutual {
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 15%, transparent);
+  vertical-align: middle;
+}
+/* 关注我的(粉丝)列表 */
+.follower-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.follower-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.follower-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.follower-mutual {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-green);
+  flex: none;
+}
+.follower-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  border-radius: 999px;
+  background: var(--app-blue);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 6px 14px;
+  cursor: pointer;
+  flex: none;
+}
+.follower-back:disabled {
+  opacity: 0.6;
+}
 .add-friend {
   display: grid;
   gap: 10px;

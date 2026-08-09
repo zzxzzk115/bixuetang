@@ -2,11 +2,19 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight, Crown, Users } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
-import { AddFriend, InviteCard } from "@/components/app/social-tools";
+import {
+  AddFriend,
+  FollowerList,
+  InviteCard,
+} from "@/components/app/social-tools";
 import { UserAvatar } from "@/components/user-avatar";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
-import { getFriendLeaderboard, getSocialStats } from "@/lib/social/queries";
+import {
+  getFollowers,
+  getFriendLeaderboard,
+  getSocialStats,
+} from "@/lib/social/queries";
 import { encodeRef } from "@/lib/ref-code";
 
 export const metadata = { title: "好友" };
@@ -18,6 +26,7 @@ export default async function SocialPage() {
 
   const bootstrap = getGameBootstrap(user);
   const board = getFriendLeaderboard(user.id);
+  const followers = getFollowers(user.id);
   const stats = getSocialStats(user.id);
 
   return (
@@ -76,6 +85,9 @@ export default async function SocialPage() {
                   <b>
                     {f.name}
                     {f.isSelf ? " · 你" : ""}
+                    {!f.isSelf && f.followsMe ? (
+                      <span className="friend-mutual">互关</span>
+                    ) : null}
                   </b>
                   <small>
                     Lv.{f.level} · {f.rankLabel}
@@ -87,6 +99,13 @@ export default async function SocialPage() {
               </li>
             ))}
           </ol>
+        </section>
+
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>关注我的 · {followers.length}</h2>
+          </div>
+          <FollowerList followers={followers} />
         </section>
 
         <section className="course-card">
