@@ -1663,6 +1663,45 @@ html {
   display: grid;
   gap: 12px;
 }
+/* 本节完成后询问是否回地图(不自动跳) */
+.node-done-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.45);
+}
+.node-done-card {
+  width: 100%;
+  max-width: 340px;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  text-align: center;
+  padding: 24px 22px;
+  border-radius: 18px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  border: 1px solid var(--app-line);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+.node-done-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--app-strong);
+}
+.node-done-sub {
+  font-size: 14px;
+  color: var(--app-faint);
+}
+.node-done-actions {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
 .app-eps-toasts {
   position: absolute;
   top: -6px;

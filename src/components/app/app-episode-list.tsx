@@ -65,6 +65,8 @@ export function AppEpisodeList({
   const toastSeq = useRef(0);
   const router = useRouter();
   const returnedRef = useRef(false);
+  // 本节完成后询问是否回地图(而非自动跳)
+  const [returnPrompt, setReturnPrompt] = useState(false);
   // 挂载时就已全部看完 = 用户是来「重温」的,别庆祝、别把人踢回地图。
   // 只有本次会话里把最后一集看完(从未完成→完成)才庆祝并返回。
   const initiallyDoneRef = useRef(
@@ -73,22 +75,24 @@ export function AppEpisodeList({
       episodes.every((e) => watchedSet.has(e.n)),
   );
 
-  // 分集节点(1-4 集)全部看完 → 庆祝一下,自动回地图主线。
-  // 只在作用域视图触发,且只触发一次;给用户看两秒庆祝再跳。
+  // 分集节点(1-4 集)本次会话里全部看完 → 庆祝一下,并「询问」是否回地图,
+  // 不再自动跳走:用户可以选择回地图继续,或留下重温。只触发一次。
+  // 一进来就已全部看完 = 来重温的,不庆祝也不询问(见 initiallyDoneRef)。
   useEffect(() => {
     if (!scopedNode || returnedRef.current || episodes.length === 0) return;
-    if (initiallyDoneRef.current) return; // 一进来就全看完 = 重温,不庆祝不跳走
+    if (initiallyDoneRef.current) return;
     const allDone = episodes.every((e) => watchedSet.has(e.n));
     if (!allDone) return;
     returnedRef.current = true;
     celebrate({
       kind: "quest",
       title: "本节全部完成！",
-      subtitle: "干得漂亮,回地图继续闯关",
+      subtitle: "干得漂亮",
     });
-    const t = setTimeout(() => router.push("/play"), 2200);
-    return () => clearTimeout(t);
-  }, [scopedNode, episodes, watchedSet, router]);
+    // 完成一次性触发询问弹窗(returnedRef 保证只跑一次),非派生态,故豁免
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setReturnPrompt(true);
+  }, [scopedNode, episodes, watchedSet]);
 
   const pushToast = (text: string) => {
     const id = ++toastSeq.current;
@@ -168,6 +172,36 @@ export function AppEpisodeList({
           <span key={toast.id}>{toast.text}</span>
         ))}
       </div>
+
+      {returnPrompt && (
+        <div
+          className="node-done-mask"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setReturnPrompt(false)}
+        >
+          <div className="node-done-card" onClick={(e) => e.stopPropagation()}>
+            <b className="node-done-title">🎉 本节全部完成！</b>
+            <p className="node-done-sub">回地图继续闯关,还是留下再看看?</p>
+            <div className="node-done-actions">
+              <button
+                type="button"
+                className="app-btn-primary"
+                onClick={() => router.push("/play")}
+              >
+                回地图继续
+              </button>
+              <button
+                type="button"
+                className="app-btn-plain"
+                onClick={() => setReturnPrompt(false)}
+              >
+                留下再看看
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="app-eps-progress">
         <div className="app-eps-bar">
