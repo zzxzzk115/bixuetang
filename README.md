@@ -230,7 +230,7 @@ cd /srv/bixuetang && ./scripts/deploy.sh
 滚动重启 → 清理旧层。**不在服务器上构建**，不吃 `next build` 的内存与磁盘峰值。
 
 配置向导把上面「环境变量 / 学习提醒与邮件」那些值交互式写进 `.env`（含**自动生成
-VAPID 密钥**、密码类输入不回显、已填项回车保留）：
+VAPID 密钥**、**首次自动随机生成 `REF_SECRET`**、密码类输入不回显、已填项回车保留）：
 
 ```bash
 ./scripts/deploy.sh --config        # 只跑配置向导，不部署

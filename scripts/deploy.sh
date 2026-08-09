@@ -98,12 +98,31 @@ gen_vapid() {
   return 1
 }
 
+# 生成一个 URL 安全的随机密钥(base64url,去掉 =)。openssl 优先,退化到 /dev/urandom。
+gen_secret() {
+  if command -v openssl >/dev/null 2>&1; then
+    openssl rand -base64 24 | tr '+/' '-_' | tr -d '=\n'
+  else
+    head -c 24 /dev/urandom | base64 | tr '+/' '-_' | tr -d '=\n'
+  fi
+}
+
 wizard() {
   echo "════════ 配置向导（写入 $ENV_FILE） ════════"
 
   echo; echo "── 必填 ──"
   prompt_env SITE_DOMAIN "生产域名（Caddy 据此签发 HTTPS，如 bixuetang.com）"
   prompt_env ADMIN_INITIAL_PASSWORD "管理端 admin 初始密码（留空=弱口令 admin，首次登录强制改）" "" secret
+
+  # 邀请链接签名密钥:首次自动随机生成,不用手填。重生成会让旧邀请链接失效,故要确认。
+  if [ -z "$(get_env REF_SECRET)" ]; then
+    set_env REF_SECRET "$(gen_secret)"
+    echo "  ✓ 已自动生成随机 REF_SECRET（邀请链接签名用）"
+  elif [ "$FORCE_WIZARD" = 1 ] &&
+    confirm "  重新生成 REF_SECRET?（会让已发出的旧邀请链接失效）" N; then
+    set_env REF_SECRET "$(gen_secret)"
+    echo "  ✓ 已重置 REF_SECRET"
+  fi
 
   echo; echo "── 学习提醒 · Web Push（可跳过，不配则设置页开关自动失效）──"
   if [ -n "$(get_env VAPID_PUBLIC_KEY)" ] && [ "$FORCE_WIZARD" = 0 ]; then
