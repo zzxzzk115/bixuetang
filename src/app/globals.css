@@ -3620,7 +3620,8 @@ math-field {
   text-align: center;
   padding: 28px 24px;
   border-radius: 20px;
-  background: var(--app-card, #fff);
+  background: var(--app-surface);
+  color: var(--app-text);
   border: 1px solid var(--app-line);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
@@ -3652,6 +3653,7 @@ math-field {
 .onboard-card h1 {
   font-size: 22px;
   font-weight: 800;
+  color: var(--app-strong);
 }
 .onboard-lead {
   font-size: 14px;
@@ -3840,7 +3842,7 @@ math-field {
   gap: 12px;
   padding: 28px 24px;
   border-radius: 16px;
-  background: var(--app-card, #fff);
+  background: var(--app-surface);
   border: 1px solid var(--app-line);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
@@ -4287,7 +4289,7 @@ math-field {
   padding: 6px;
   border-radius: 12px;
   border: 1px solid var(--app-line);
-  background: var(--app-card, #fff);
+  background: var(--app-surface);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
 }
 .admin-more-item {
@@ -5996,8 +5998,8 @@ body:has(.art-video-player.art-fullscreen-web) {
 .route-suggest-form input {
   padding: 10px 12px;
   border-radius: 10px;
-  border: 1px solid var(--app-border, #e5e7eb);
-  background: var(--app-card, #fff);
+  border: 1px solid var(--app-line);
+  background: var(--app-surface);
   font-size: 14px;
 }
 .map-goalbar-goalrow {

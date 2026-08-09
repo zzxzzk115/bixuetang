@@ -31,6 +31,12 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
     action,
     null,
   );
+  // 受控字段:React 19 的 <form action> 在动作结束后会自动 reset 表单——包括出错时。
+  // 若字段不受控,验证码错一次就把用户名/邮箱/密码全清了。受控值存 state 不受 reset
+  // 影响,报错后原样保留(只有验证码答案故意留空,因为已换了新码)。
+  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [pwd2, setPwd2] = useState("");
   const [captcha, setCaptcha] = useState<{ svg: string; token: string } | null>(
@@ -64,6 +70,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           name="username"
           required
           autoComplete="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           // 登录允许用邮箱,故不加用户名字符限制;注册仍限用户名格式
           pattern={mode === "register" ? "[a-z0-9_]{3,32}" : undefined}
           title={
@@ -80,7 +88,13 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
       {mode === "register" && (
         <label className="bili-signup-field">
           <span>昵称</span>
-          <input name="displayName" maxLength={32} placeholder="可留空" />
+          <input
+            name="displayName"
+            maxLength={32}
+            placeholder="可留空"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+          />
         </label>
       )}
 
@@ -93,6 +107,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             autoComplete="email"
             maxLength={254}
             placeholder="可留空,用于日后找回密码"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </label>
       )}
@@ -106,9 +122,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           minLength={mode === "register" ? 8 : undefined}
           autoComplete={mode === "login" ? "current-password" : "new-password"}
           placeholder={mode === "register" ? "至少 8 位,字母数字混合" : ""}
-          onChange={
-            mode === "register" ? (e) => setPwd(e.target.value) : undefined
-          }
+          value={pwd}
+          onChange={(e) => setPwd(e.target.value)}
         />
       </label>
 
@@ -134,6 +149,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               minLength={8}
               autoComplete="new-password"
               placeholder="再输一遍"
+              value={pwd2}
               onChange={(e) => setPwd2(e.target.value)}
             />
           </label>
