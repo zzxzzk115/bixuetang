@@ -26,7 +26,7 @@ export function CoursePlayer({
   resumeByEpisode,
   serverPrefs,
   keyPointsByEpisode = {},
-  viewerId,
+  refCode,
 }: {
   courseId: string;
   sources: Source[];
@@ -37,8 +37,8 @@ export function CoursePlayer({
   serverPrefs: string | null;
   /** 各集带时间戳的关键点(进度条刻度 + 分段边界),来自 AI 分析 */
   keyPointsByEpisode?: Record<number, { t: number; title: string }[]>;
-  /** 当前用户 id:分享链接带 ?ref= 拉新 */
-  viewerId?: number;
+  /** 当前用户的签名邀请码:分享链接带 ?ref= 拉新(不暴露原始 id) */
+  refCode?: string;
 }) {
   const router = useRouter();
   const [episodeN, setEpisodeN] = useState(initialEpisode);
@@ -147,7 +147,7 @@ export function CoursePlayer({
         episodeTitle={episode.title}
         episodeN={episode.n}
         owner={owner}
-        viewerId={viewerId}
+        refCode={refCode}
         notesOpen={notesOpen}
         onToggleNotes={() => {
           // 展开笔记 = 进入记录状态,视频同步暂停(收起不打扰)

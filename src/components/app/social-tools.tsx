@@ -12,8 +12,8 @@ import { InviteSharePopup } from "./invite-share-popup";
 import { UserAvatar } from "@/components/user-avatar";
 import { avatarSrc, parseAvatar } from "@/lib/avatar/presets";
 
-/** 邀请链接:本站源 + /login?reg=1&ref=<我>。localhost 开发用局域网地址 */
-function useInviteLink(viewerId: number): string {
+/** 邀请链接:本站源 + /login?reg=1&ref=<签名码>。localhost 开发用局域网地址 */
+function useInviteLink(refCode: string): string {
   const [link, setLink] = useState("");
   useEffect(() => {
     const lan = document.documentElement.dataset.lanOrigin;
@@ -22,24 +22,27 @@ function useInviteLink(viewerId: number): string {
         ? lan
         : window.location.origin;
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLink(`${origin}/login?reg=1&ref=${viewerId}`);
-  }, [viewerId]);
+    setLink(`${origin}/login?reg=1&ref=${refCode}`);
+  }, [refCode]);
   return link;
 }
 
 // 邀请卡:复制链接(不显示原文)或生成带二维码的邀请图分享,复用分享图逻辑。
 export function InviteCard({
   viewerId,
+  refCode,
   viewerName,
   viewerAvatar,
   invited,
 }: {
   viewerId: number;
+  /** 当前用户的签名邀请码:链接带 ?ref=,不暴露原始 id */
+  refCode: string;
   viewerName: string;
   viewerAvatar: string | null;
   invited: number;
 }) {
-  const link = useInviteLink(viewerId);
+  const link = useInviteLink(refCode);
   const [msg, setMsg] = useState<string | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
 

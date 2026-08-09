@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { encodeRef } from "@/lib/ref-code";
 import { FlaskConical, Map as MapIcon, Sparkles } from "lucide-react";
 import { AppAnalysisMap } from "@/components/app/app-analysis-map";
 import { AppEpisodeList } from "@/components/app/app-episode-list";
@@ -266,7 +267,7 @@ export default async function CoursePage({
             resumeByEpisode={watchProgress}
             serverPrefs={playerPrefs}
             keyPointsByEpisode={keyPointsByEpisode}
-            viewerId={user.id}
+            refCode={encodeRef(user.id)}
           />
         </div>
 

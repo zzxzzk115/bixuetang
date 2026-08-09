@@ -7,6 +7,7 @@ import { UserAvatar } from "@/components/user-avatar";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { getFriendLeaderboard, getSocialStats } from "@/lib/social/queries";
+import { encodeRef } from "@/lib/ref-code";
 
 export const metadata = { title: "好友" };
 export const dynamic = "force-dynamic";
@@ -29,6 +30,7 @@ export default async function SocialPage() {
 
         <InviteCard
           viewerId={user.id}
+          refCode={encodeRef(user.id)}
           viewerName={user.displayName || user.username}
           viewerAvatar={user.avatar}
           invited={stats.invited}

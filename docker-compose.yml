@@ -40,6 +40,9 @@ services:
       SMTP_USER: "${SMTP_USER:-}"
       SMTP_PASS: "${SMTP_PASS:-}"
       SMTP_FROM: "${SMTP_FROM:-}"
+      # 邀请/分享链接里 ?ref= 的签名密钥(隐去用户 id)。不设则用内置弱默认,
+      # 仅影响拉新归因防伪,建议生产设一个随机串。
+      REF_SECRET: "${REF_SECRET:-}"
     restart: unless-stopped
 
 volumes:

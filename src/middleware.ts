@@ -64,9 +64,10 @@ export function middleware(request: NextRequest) {
   }
 
   const res = NextResponse.next();
-  // 拉新:分享链接带 ?ref=<数字> 就种一个 cookie,注册时读取归因(见 lib/referral.ts)
+  // 拉新:分享链接带 ?ref=<签名码> 就种一个 cookie,注册时解码归因(见 lib/referral.ts)。
+  // middleware 跑在 edge,不验签(HMAC 在 Node 侧做),这里只按安全格式透传挡垃圾。
   const ref = request.nextUrl.searchParams.get("ref");
-  if (ref && /^\d{1,12}$/.test(ref)) {
+  if (ref && /^[0-9a-z]{1,9}~[A-Za-z0-9_-]{8,16}$/.test(ref)) {
     res.cookies.set("ref", ref, {
       httpOnly: true,
       sameSite: "lax",
