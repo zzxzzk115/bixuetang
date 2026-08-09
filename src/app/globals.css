@@ -4764,7 +4764,9 @@ math-field {
 /* ==== 登录页（扫码为主） ==== */
 .auth-page {
   display: grid;
-  place-items: center;
+  justify-items: center;
+  /* 内容能放下时居中,放不下时从顶部开始(safe),别把卡片顶到视口外点不到按钮 */
+  align-content: safe center;
   min-height: 100dvh;
   padding: 24px 16px;
   background: var(--app-bg);
