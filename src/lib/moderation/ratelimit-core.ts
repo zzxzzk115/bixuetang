@@ -19,6 +19,7 @@ export const RATE = {
   careerSuggestion: { windowMs: DAY, max: 5 }, // 职业建议:5 条/天
   studyRoom: { windowMs: DAY, max: 5 }, // 建自习室:5 间/天
   follow: { windowMs: HOUR, max: 60 }, // 关注:60 次/时
+  feedComment: { windowMs: HOUR, max: 30 }, // 动态评论:30 条/时
 } satisfies Record<string, RateRule>;
 
 // 数该用户在 [now-windowMs, now] 内往这张表写了几行。传入 db,便于测试。

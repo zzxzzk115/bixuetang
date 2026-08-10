@@ -221,6 +221,41 @@ export const feedEvents = sqliteTable(
   ],
 );
 
+// 动态点赞:一条动态每人只能赞一次((动态,用户) 复合主键即幂等)。
+export const feedReactions = sqliteTable(
+  "feed_reactions",
+  {
+    feedId: integer("feed_id")
+      .notNull()
+      .references(() => feedEvents.id, { onDelete: "cascade" }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.feedId, t.userId] }),
+    index("feed_react_feed").on(t.feedId),
+  ],
+);
+
+// 动态评论:一条动态下的留言,按时间正序展示。文本过敏感词、限长。
+export const feedComments = sqliteTable(
+  "feed_comments",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    feedId: integer("feed_id")
+      .notNull()
+      .references(() => feedEvents.id, { onDelete: "cascade" }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    body: text("body").notNull(),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [index("feed_comment_feed").on(t.feedId, t.createdAt)],
+);
+
 
 export const rpgProfiles = sqliteTable("rpg_profiles", {
   userId: integer("user_id")

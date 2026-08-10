@@ -1,8 +1,14 @@
 import "server-only";
 
-import { desc, eq, inArray } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "../db/client";
-import { feedEvents, follows, users } from "../db/schema";
+import {
+  feedComments,
+  feedEvents,
+  feedReactions,
+  follows,
+  users,
+} from "../db/schema";
 import { tierByKey } from "./league";
 
 // 好友动态流:里程碑事件的落库与读取。事件在各处「达标即 emit」(幂等),
@@ -45,6 +51,12 @@ export interface FeedItem {
   createdAt: number;
   /** 相对时间(服务端算好,免得组件里调 Date.now) */
   ago: string;
+  /** 点赞数 */
+  likeCount: number;
+  /** 当前用户是否已赞 */
+  liked: boolean;
+  /** 评论数 */
+  commentCount: number;
 }
 
 function timeAgo(ms: number, now: number): string {
@@ -105,6 +117,45 @@ export function getFriendFeed(userId: number, limit = 40): FeedItem[] {
     .limit(limit)
     .all();
 
+  // 批量取这批动态的点赞/评论计数与「我是否赞过」,避免逐条查库。
+  const feedIds = rows.map((r) => r.id);
+  const likeCounts = new Map<number, number>();
+  const commentCounts = new Map<number, number>();
+  const likedByMe = new Set<number>();
+  if (feedIds.length > 0) {
+    for (const r of db
+      .select({
+        feedId: feedReactions.feedId,
+        n: sql<number>`count(*)`,
+      })
+      .from(feedReactions)
+      .where(inArray(feedReactions.feedId, feedIds))
+      .groupBy(feedReactions.feedId)
+      .all())
+      likeCounts.set(r.feedId, r.n);
+    for (const r of db
+      .select({
+        feedId: feedComments.feedId,
+        n: sql<number>`count(*)`,
+      })
+      .from(feedComments)
+      .where(inArray(feedComments.feedId, feedIds))
+      .groupBy(feedComments.feedId)
+      .all())
+      commentCounts.set(r.feedId, r.n);
+    for (const r of db
+      .select({ feedId: feedReactions.feedId })
+      .from(feedReactions)
+      .where(
+        and(
+          eq(feedReactions.userId, userId),
+          inArray(feedReactions.feedId, feedIds),
+        ),
+      )
+      .all())
+      likedByMe.add(r.feedId);
+  }
+
   return rows.map((r) => {
     const payload = (() => {
       try {
@@ -123,6 +174,9 @@ export function getFriendFeed(userId: number, limit = 40): FeedItem[] {
       isSelf: r.actorId === userId,
       createdAt: r.createdAt,
       ago: timeAgo(r.createdAt, now),
+      likeCount: likeCounts.get(r.id) ?? 0,
+      liked: likedByMe.has(r.id),
+      commentCount: commentCounts.get(r.id) ?? 0,
     };
   });
 }

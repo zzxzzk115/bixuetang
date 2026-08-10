@@ -7080,10 +7080,14 @@ body:has(.art-video-player.art-fullscreen-web) {
   gap: 8px;
 }
 .feed-item {
+  display: grid;
+  gap: 6px;
+  padding: 8px 4px;
+}
+.feed-top {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 4px;
 }
 .feed-body {
   flex: 1;
@@ -7110,6 +7114,113 @@ body:has(.art-video-player.art-fullscreen-web) {
   height: 30px;
   border-radius: 9px;
   background: color-mix(in srgb, currentColor 12%, transparent);
+}
+/* 动态互动:点赞 + 评论 */
+.feed-actions {
+  display: flex;
+  gap: 14px;
+  padding-left: 44px;
+}
+.feed-act {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--app-faint);
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 3px 2px;
+  border-radius: 7px;
+  transition: color 0.12s;
+}
+.feed-act:hover {
+  color: var(--app-text);
+}
+.feed-act.on {
+  color: var(--app-pink);
+}
+.feed-comments {
+  display: grid;
+  gap: 8px;
+  padding: 8px 4px 4px 44px;
+}
+.feed-comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.feed-comment-body {
+  flex: 1;
+  min-width: 0;
+}
+.feed-comment-body p {
+  color: var(--app-text);
+  font-size: 13px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+.feed-comment-body p b {
+  color: var(--app-strong);
+  font-weight: 800;
+  margin-right: 4px;
+}
+.feed-comment-body small {
+  color: var(--app-faint);
+  font-size: 11px;
+}
+.feed-comment-del {
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  color: var(--app-faint);
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 6px;
+}
+.feed-comment-del:hover {
+  color: var(--app-danger, #e5484d);
+}
+.feed-comment-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.feed-comment-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--app-line);
+  background: var(--app-surface-2, var(--app-surface));
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 13px;
+  color: var(--app-text);
+}
+.feed-comment-input:focus {
+  outline: none;
+  border-color: var(--app-brand, var(--app-green));
+}
+.feed-comment-send {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: var(--app-brand, var(--app-green));
+  color: #fff;
+  cursor: pointer;
+}
+.feed-comment-send:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.feed-comment-err {
+  color: var(--app-danger, #e5484d);
+  font-size: 12px;
+  padding-left: 2px;
 }
 /* 成就收集(分级成就轨) */
 .track-grid {
