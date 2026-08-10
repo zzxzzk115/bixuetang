@@ -1,23 +1,112 @@
 import { redirect } from "next/navigation";
-import { Award, Lock } from "lucide-react";
+import {
+  Award,
+  BookOpen,
+  Clock,
+  Flame,
+  Layers,
+  Medal,
+  NotebookPen,
+  Play,
+  TrendingUp,
+  Trophy,
+  Users,
+} from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
-import { syncAchievements } from "@/lib/game/achievements";
+import { syncAchievements, type TrackView } from "@/lib/game/achievements";
 
 export const metadata = { title: "成就收集" };
 
-function dateStr(ms: number): string {
-  return new Date(ms + 8 * 3600 * 1000).toISOString().slice(0, 10);
+function TrackIcon({ icon }: { icon: string }) {
+  const p = { size: 22, "aria-hidden": true } as const;
+  switch (icon) {
+    case "play":
+      return <Play {...p} />;
+    case "trophy":
+      return <Trophy {...p} />;
+    case "flame":
+      return <Flame {...p} />;
+    case "pen":
+      return <NotebookPen {...p} />;
+    case "book":
+      return <BookOpen {...p} />;
+    case "trending":
+      return <TrendingUp {...p} />;
+    case "clock":
+      return <Clock {...p} />;
+    case "layers":
+      return <Layers {...p} />;
+    case "medal":
+      return <Medal {...p} />;
+    case "users":
+      return <Users {...p} />;
+    default:
+      return <Award {...p} />;
+  }
+}
+
+function TrackCard({ track }: { track: TrackView }) {
+  const reached = track.reachedIdx >= 0 ? track.tiers[track.reachedIdx] : null;
+  const tone = reached ? `var(${reached.colorVar})` : "var(--app-faint)";
+  // 到下一级的进度(已满级则满格)
+  const prevNeed = track.reachedIdx >= 0 ? track.tiers[track.reachedIdx].need : 0;
+  const pct =
+    track.nextNeed == null
+      ? 100
+      : Math.max(
+          0,
+          Math.min(100, ((track.value - prevNeed) / (track.nextNeed - prevNeed)) * 100),
+        );
+
+  return (
+    <div className={`track-card${reached ? " on" : ""}`}>
+      <span className="track-icon" style={{ background: tone }}>
+        <TrackIcon icon={track.icon} />
+      </span>
+      <div className="track-body">
+        <div className="track-head">
+          <b>{track.title}</b>
+          <span className="track-tier" style={{ color: tone }}>
+            {reached ? `${reached.label}级` : "未开始"}
+          </span>
+        </div>
+        <div className="track-pips">
+          {track.tiers.map((tier, i) => (
+            <span
+              key={i}
+              className={`track-pip${tier.unlocked ? " on" : ""}`}
+              style={tier.unlocked ? { background: `var(${tier.colorVar})` } : undefined}
+              title={`${tier.label}级 · ${tier.desc}`}
+            >
+              {tier.label}
+            </span>
+          ))}
+        </div>
+        <div className="track-bar">
+          <i style={{ width: `${pct}%`, background: tone }} />
+        </div>
+        <small className="track-progress">
+          {track.value}
+          {track.unit}
+          {track.nextNeed != null
+            ? ` · 距${track.tiers[track.reachedIdx + 1].label}级还差 ${track.nextNeed - track.value}`
+            : " · 已满级 🎉"}
+        </small>
+      </div>
+    </div>
+  );
 }
 
 export default async function AchievementsPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
   const bootstrap = getGameBootstrap(user);
-  // 顺手检测并解锁达成的成就(幂等),新解锁的会落一条好友动态
-  const achievements = syncAchievements(user.id);
-  const got = achievements.filter((a) => a.unlocked).length;
+  // 顺手检测并解锁达成的等级(幂等),新达成的会落一条好友动态
+  const tracks = syncAchievements(user.id);
+  const gotTiers = tracks.reduce((s, t) => s + t.tiers.filter((x) => x.unlocked).length, 0);
+  const totalTiers = tracks.reduce((s, t) => s + t.tiers.length, 0);
 
   return (
     <AppShell bootstrap={bootstrap}>
@@ -26,27 +115,18 @@ export default async function AchievementsPage() {
           <div className="course-hero-tags">
             <span>收藏册</span>
             <span>
-              {got}/{achievements.length}
+              {gotTiers}/{totalTiers} 枚
             </span>
           </div>
           <h1>
             <Award size={20} aria-hidden /> 成就收集
           </h1>
-          <p>完成课程、攒连胜、升段、认全假名……每达成一项,就点亮一枚。</p>
+          <p>每条成就都能一路升级:铜 → 银 → 金 → 钻 → 王。学得越多,点亮得越亮。</p>
         </header>
 
-        <section className="ach-grid">
-          {achievements.map((a) => (
-            <div key={a.id} className={`ach-card${a.unlocked ? " on" : ""}`}>
-              <span className="ach-icon">
-                {a.unlocked ? <Award size={22} aria-hidden /> : <Lock size={18} aria-hidden />}
-              </span>
-              <b>{a.title}</b>
-              <small>{a.description}</small>
-              {a.unlocked && a.unlockedAt && (
-                <em className="ach-date">{dateStr(a.unlockedAt)} 解锁</em>
-              )}
-            </div>
+        <section className="track-grid">
+          {tracks.map((track) => (
+            <TrackCard key={track.id} track={track} />
           ))}
         </section>
       </div>
