@@ -2,9 +2,25 @@ import "server-only";
 
 import { eq } from "drizzle-orm";
 import { db } from "../db/client";
-import { streakState, xpEvents } from "../db/schema";
+import { streakState, userState, xpEvents } from "../db/schema";
 import { dayKey, diffDays } from "./day";
 import { advanceStreak, emptyStreak, type StreakAdvance, type StreakState } from "./streak";
+
+/** 读取请假截止 dayKey(含);未请假为 null */
+export function vacationUntilOf(userId: number): string | null {
+  const row = db
+    .select({ v: userState.vacationUntil })
+    .from(userState)
+    .where(eq(userState.userId, userId))
+    .get();
+  return row?.v ?? null;
+}
+
+/** 是否此刻处于请假期(今天 <= 截止日) */
+export function isOnVacation(userId: number, today = dayKey()): boolean {
+  const v = vacationUntilOf(userId);
+  return !!v && today <= v;
+}
 
 // streak 的持久层封装。状态存 streak_state 表(纯函数逻辑见 streak.ts);
 // 老用户第一次读取时用 xp_events 流水按 UTC+8 日切回填一次,连胜不清零。
@@ -42,14 +58,34 @@ export function getStreak(userId: number): StreakState {
     .where(eq(streakState.userId, userId))
     .get();
   if (row) {
+    const today = dayKey();
+    const vac = vacationUntilOf(userId);
+    // 请假中:连胜冻结,缺勤不算断
+    if (vac && today <= vac) {
+      return {
+        current: row.current,
+        best: row.best,
+        lastDay: row.lastDay,
+        freezes: row.freezes,
+      };
+    }
+    // 请假刚过:把假期缺的天数一并原谅(锚点挪到假期最后一天),并清掉标记
+    let lastDay = row.lastDay;
+    if (vac) {
+      if (lastDay < vac) lastDay = vac;
+      db.update(userState)
+        .set({ vacationUntil: null, updatedAt: Date.now() })
+        .where(eq(userState.userId, userId))
+        .run();
+    }
     // 断档但还没有新学习行为时,显示上仍要如实归零(状态行不动,
     // 等下次 recordActivity 再落库)
-    const gap = row.lastDay ? diffDays(row.lastDay, dayKey()) : 0;
+    const gap = lastDay ? diffDays(lastDay, today) : 0;
     const broken = gap > 2 || (gap === 2 && row.freezes <= 0);
     return {
       current: broken ? 0 : row.current,
       best: row.best,
-      lastDay: row.lastDay,
+      lastDay,
       freezes: row.freezes,
     };
   }
@@ -73,6 +109,11 @@ export function getStreak(userId: number): StreakState {
  * 返回推进结果,UI 据 changed/usedFreeze 决定要不要庆祝或提示。
  */
 export function recordActivity(userId: number): StreakAdvance {
+  // 请假中:连胜冻结,今天学不学都不动(不断也不涨)
+  if (isOnVacation(userId)) {
+    const s = getStreak(userId);
+    return { ...s, changed: false, usedFreeze: false };
+  }
   const state = (() => {
     const row = db
       .select()

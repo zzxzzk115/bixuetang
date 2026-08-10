@@ -18,6 +18,7 @@ import {
   getSocialStats,
 } from "@/lib/social/queries";
 import { encodeRef } from "@/lib/ref-code";
+import { getWellbeing } from "@/lib/game/wellbeing-actions";
 
 export const metadata = { title: "好友" };
 export const dynamic = "force-dynamic";
@@ -30,6 +31,7 @@ export default async function SocialPage() {
   const board = getFriendLeaderboard(user.id);
   const followers = getFollowers(user.id);
   const stats = getSocialStats(user.id);
+  const { calmMode } = await getWellbeing();
 
   return (
     <AppShell bootstrap={bootstrap}>
@@ -92,14 +94,19 @@ export default async function SocialPage() {
                     ) : null}
                   </b>
                   <small>
-                    Lv.{f.level} ·{" "}
-                    <span
-                      className="friend-tier"
-                      style={{ color: `var(${tierByKey(f.rankKey).colorVar})` }}
-                    >
-                      <TierIcon icon={tierByKey(f.rankKey).icon} size={12} />
-                      {f.rankLabel}
-                    </span>
+                    Lv.{f.level}
+                    {!calmMode && (
+                      <>
+                        {" · "}
+                        <span
+                          className="friend-tier"
+                          style={{ color: `var(${tierByKey(f.rankKey).colorVar})` }}
+                        >
+                          <TierIcon icon={tierByKey(f.rankKey).icon} size={12} />
+                          {f.rankLabel}
+                        </span>
+                      </>
+                    )}
                   </small>
                 </div>
                 <span className="friend-xp">

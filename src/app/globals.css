@@ -1413,6 +1413,166 @@ html {
   color: var(--app-text);
   font-size: 12.5px;
 }
+/* 静心与休息 */
+.wellbeing {
+  display: grid;
+  gap: 12px;
+}
+.wellbeing-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.wellbeing-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  color: #fff;
+  flex-shrink: 0;
+}
+.wellbeing-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.wellbeing-body b {
+  color: var(--app-strong);
+  font-size: 14.5px;
+}
+.wellbeing-body small {
+  color: var(--app-text);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.wellbeing-switch {
+  flex-shrink: 0;
+  width: 46px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: var(--app-line);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.wellbeing-switch.on {
+  background: var(--app-green);
+}
+.wellbeing-switch i {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s;
+}
+.wellbeing-switch.on i {
+  transform: translateX(18px);
+}
+.wellbeing-leave {
+  display: flex;
+  gap: 8px;
+  padding-left: 48px;
+  flex-wrap: wrap;
+}
+.wellbeing-leave-btn {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--app-line);
+  background: var(--app-surface);
+  color: var(--app-text);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+/* 学习足迹 */
+.journey-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.journey-stat {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 16px 8px;
+  border: 2px solid var(--app-line);
+  border-radius: 14px;
+  text-align: center;
+}
+.journey-stat-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.journey-stat b {
+  color: var(--app-strong);
+  font-size: 16px;
+}
+.journey-stat small {
+  color: var(--app-faint);
+  font-size: 12px;
+}
+.journey-bars {
+  display: grid;
+  gap: 10px;
+}
+.journey-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.journey-bar-label {
+  width: 44px;
+  flex-shrink: 0;
+  color: var(--app-strong);
+  font-weight: 700;
+  font-size: 13px;
+}
+.journey-bar-track {
+  flex: 1;
+  height: 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-line) 60%, transparent);
+  overflow: hidden;
+}
+.journey-bar-track i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+.journey-bar-num {
+  width: 44px;
+  flex-shrink: 0;
+  text-align: right;
+  color: var(--app-faint);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.journey-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-text);
+  font-size: 13px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--app-teal) 8%, transparent);
+}
+@media (max-width: 380px) {
+  .journey-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 .export-grid {
   display: grid;
   gap: 12px;

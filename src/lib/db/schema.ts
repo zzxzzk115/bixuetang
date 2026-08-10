@@ -266,6 +266,10 @@ export const userState = sqliteTable("user_state", {
   goalRoadmap: text("goal_roadmap"),
   /** 是否已就「成为 X 目标」弹过提示;空=老用户还没见过这功能,补弹一次 */
   goalPromptedAt: integer("goal_prompted_at"),
+  /** 静心模式:1=隐藏段位/幽灵对战/排行榜等竞争元素,只留学习本身 */
+  calmMode: integer("calm_mode").notNull().default(0),
+  /** 请假/休息:此 dayKey(含)之前处于休假,连胜不因缺勤中断;空=未请假 */
+  vacationUntil: text("vacation_until"),
   updatedAt: integer("updated_at").notNull(),
 });
 

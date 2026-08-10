@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { Bug, ChevronRight, Download, ExternalLink, LogOut, Star } from "lucide-react";
+import { Bug, ChevronRight, Download, ExternalLink, LogOut, Sparkles, Star } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BiliBind } from "@/components/app/bili-bind";
 import { getBiliBinding } from "@/lib/bili/account";
 import { AvatarForm } from "@/components/app/avatar-form";
 import { EmailForm, PasswordForm, ProfileForm } from "@/components/settings-forms";
+import { WellbeingControls } from "@/components/app/wellbeing-controls";
+import { getWellbeing } from "@/lib/game/wellbeing-actions";
 import { PushToggle } from "@/components/push-toggle";
 import { UserAvatar } from "@/components/user-avatar";
 import { logout } from "@/lib/auth/actions";
@@ -132,6 +134,28 @@ export default async function SettingsPage() {
           <div className="app-skin">
             <PasswordForm />
           </div>
+        </section>
+
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>静心与休息</h2>
+          </div>
+          <div className="app-skin">
+            <WellbeingControls initial={await getWellbeing()} />
+          </div>
+        </section>
+
+        <section className="course-card">
+          <Link href="/journey" className="settings-nav-row">
+            <span className="settings-nav-icon" style={{ background: "var(--app-purple)" }}>
+              <Sparkles size={18} aria-hidden />
+            </span>
+            <span className="settings-nav-body">
+              <b>学习足迹</b>
+              <small>看看你一路走来学了多少——为自己骄傲一下</small>
+            </span>
+            <ChevronRight size={18} aria-hidden />
+          </Link>
         </section>
 
         <section className="course-card">

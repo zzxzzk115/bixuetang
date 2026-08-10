@@ -6,6 +6,7 @@ import { getPkOverview } from "@/lib/game/pk";
 import { getLeagueOverview } from "@/lib/game/league-server";
 import { getDailyQuests, getMonthlyQuest } from "@/lib/game/quests";
 import { getDueCount } from "@/lib/game/review-actions";
+import { getWellbeing } from "@/lib/game/wellbeing-actions";
 
 export const metadata = { title: "试炼场" };
 
@@ -17,11 +18,13 @@ export default async function TrialPage() {
   const quests = getDailyQuests(user.id);
   const monthly = getMonthlyQuest(user.id);
   const dueCount = await getDueCount();
+  const { calmMode } = await getWellbeing();
   return (
     <TrialHome
       bootstrap={bootstrap}
       pk={getPkOverview(user.id)}
       league={getLeagueOverview(user.id)}
+      calmMode={calmMode}
       quests={quests}
       monthly={monthly}
       dueCount={dueCount}

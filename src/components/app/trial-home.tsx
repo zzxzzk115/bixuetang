@@ -44,6 +44,7 @@ export function TrialHome({
   bootstrap,
   pk,
   league,
+  calmMode = false,
   quests,
   monthly,
   dueCount,
@@ -52,6 +53,8 @@ export function TrialHome({
   pk: PkOverview;
   /** 段位联赛(按本周经验升降段,取代旧的 ELO 段位) */
   league: LeagueOverview;
+  /** 静心模式:隐藏段位联赛与幽灵对战等竞争元素 */
+  calmMode?: boolean;
   /** 每日任务(从地图页搬来:任务本就偏「今天该做什么」,和试炼同属日常) */
   quests: DailyQuestView[];
   monthly: MonthlyQuestView;
@@ -150,13 +153,15 @@ export function TrialHome({
           <DailyQuestBoard quests={quests} monthly={monthly} />
         </section>
 
-        <section className="trial-league">
-          <div className="trial-section-head">
-            <span className="trial-section-kicker">RANKED</span>
-            <h2>段位联赛</h2>
-          </div>
-          <LeaguePanel overview={league} />
-        </section>
+        {!calmMode && (
+          <section className="trial-league">
+            <div className="trial-section-head">
+              <span className="trial-section-kicker">RANKED</span>
+              <h2>段位联赛</h2>
+            </div>
+            <LeaguePanel overview={league} />
+          </section>
+        )}
 
         <section className="trial-mode">
           <span className="trial-mode-icon endless">
@@ -195,6 +200,7 @@ export function TrialHome({
           </div>
         </section>
 
+        {!calmMode && (
         <section className="trial-mode">
           <span className="trial-mode-icon pk">
             <Ghost size={30} strokeWidth={2.2} />
@@ -214,6 +220,7 @@ export function TrialHome({
             </button>
           </div>
         </section>
+        )}
 
         {error && <p className="trial-error">{error}</p>}
       </div>
