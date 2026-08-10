@@ -288,6 +288,13 @@
       "when": 1786390000000,
       "tag": "0040_api_tokens_v2",
       "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "6",
+      "when": 1786400000000,
+      "tag": "0041_integrations",
+      "breakpoints": true
     }
   ]
 }

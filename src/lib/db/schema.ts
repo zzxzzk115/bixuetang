@@ -450,6 +450,25 @@ export const apiTokens = sqliteTable("api_tokens", {
   lastUsedAt: integer("last_used_at"),
 });
 
+// 三方联动连接:用户粘贴自己在 Readwise / Notion 的令牌,把笔记推过去。
+// token 是「用户自己的、对其自己账号的」访问令牌(用户主动提供并可随时断开);
+// config 存目标信息(如 Notion 的数据库 id)。每人每 provider 一行。
+export const integrations = sqliteTable(
+  "integrations",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    provider: text("provider").notNull(), // 'readwise' | 'notion'
+    token: text("token").notNull(),
+    config: text("config"), // JSON:如 { databaseId }
+    lastSyncedAt: integer("last_synced_at"),
+    createdAt: integer("created_at").notNull(),
+    updatedAt: integer("updated_at").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.provider] })],
+);
+
 // 装备栏：槽位 → 遗物种类的引用，不消耗数量（加成随持有总量涨，见 relics.ts）。
 // 与 rpg_inventory 分表：inventory 行是数量聚合（掉落链路 PK upsert quantity+1），
 // 装备是引用语义，混在一起会把两条写路径搅在一张表上。

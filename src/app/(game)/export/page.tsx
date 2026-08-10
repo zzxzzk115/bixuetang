@@ -2,10 +2,12 @@ import { redirect } from "next/navigation";
 import { Boxes, Braces, Download, FileText, Layers } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { ExportTokens } from "@/components/app/export-tokens";
+import { ExportIntegrations } from "@/components/app/export-integrations";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { gatherExport } from "@/lib/export/gather";
 import { listApiTokens } from "@/lib/export/token-actions";
+import { getIntegrationStatus } from "@/lib/export/integration-actions";
 
 export const metadata = { title: "导出与联动" };
 
@@ -17,6 +19,7 @@ export default async function ExportPage() {
   const noteCount = bundle.notes.length;
   const termCount = bundle.terms.length;
   const tokens = await listApiTokens();
+  const integrations = await getIntegrationStatus();
 
   const downloads = [
     {
@@ -109,6 +112,18 @@ export default async function ExportPage() {
           </p>
           <div className="app-skin">
             <ExportTokens initial={tokens} />
+          </div>
+        </section>
+
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>直连 Readwise / Notion</h2>
+          </div>
+          <p className="me-note">
+            粘贴你自己在 Readwise / Notion 的令牌，一键把笔记推过去。令牌只属于你、随时可断开。
+          </p>
+          <div className="app-skin">
+            <ExportIntegrations statuses={integrations} />
           </div>
         </section>
       </div>
