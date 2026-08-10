@@ -216,6 +216,144 @@ export async function drawInviteCard(
   return canvas;
 }
 
+export interface JourneyCardInput {
+  name: string;
+  avatarUrl: string | null;
+  logoUrl: string;
+  /** 二维码目标:必学堂站点(推广) */
+  link: string;
+  /** 副标题,如「自 2026-08-10 · Lv.5」 */
+  subtitle: string;
+  /** 6 个足迹数据:大数字 + 小标签 */
+  stats: { value: string; label: string }[];
+}
+
+/** 学习足迹分享图:头像 + 数据战报 + 推广二维码 */
+export async function drawJourneyCard(
+  input: JourneyCardInput,
+): Promise<HTMLCanvasElement> {
+  const { default: QRCode } = await import("qrcode");
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d")!;
+  const accent = "#ce82ff";
+  const font = (s: string) => `${s} 'PingFang SC', 'Microsoft YaHei', sans-serif`;
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = accent;
+  ctx.fillRect(0, 0, W, 12);
+
+  ctx.textBaseline = "alphabetic";
+  ctx.textAlign = "left";
+
+  // 顶部:logo + 品牌
+  const logo = await loadImage(input.logoUrl);
+  if (logo) {
+    ctx.save();
+    roundRect(ctx, 40, 52, 60, 60, 15);
+    ctx.clip();
+    ctx.drawImage(logo, 40, 52, 60, 60);
+    ctx.restore();
+  }
+  ctx.fillStyle = "#26313c";
+  ctx.font = font("bold 32px");
+  ctx.fillText("必学堂", 116, 92);
+
+  // 头像(居中)
+  const cx = W / 2;
+  const avatarY = 244;
+  const r = 84;
+  const isSameOrigin = !!input.avatarUrl && input.avatarUrl.startsWith("/");
+  const avatar = input.avatarUrl
+    ? await loadImage(input.avatarUrl, !isSameOrigin)
+    : null;
+  if (avatar) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, avatarY, r, 0, Math.PI * 2);
+    ctx.clip();
+    const scale = Math.max((2 * r) / avatar.width, (2 * r) / avatar.height);
+    ctx.drawImage(
+      avatar,
+      cx - (avatar.width * scale) / 2,
+      avatarY - (avatar.height * scale) / 2,
+      avatar.width * scale,
+      avatar.height * scale,
+    );
+    ctx.restore();
+    ctx.beginPath();
+    ctx.arc(cx, avatarY, r, 0, Math.PI * 2);
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 6;
+    ctx.stroke();
+  } else {
+    drawLetterAvatar(ctx, input.name, cx, avatarY, r);
+  }
+
+  // 名字 + 副标题 + 标题
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#26313c";
+  ctx.font = font("bold 44px");
+  ctx.fillText(
+    `${(wrapText(ctx, input.name, W - 160, 1)[0] ?? "")} 的学习足迹`,
+    cx,
+    avatarY + r + 66,
+  );
+  ctx.fillStyle = "#9aa7b3";
+  ctx.font = font("24px");
+  ctx.fillText(input.subtitle, cx, avatarY + r + 106);
+
+  // 数据战报:2 列 × 3 行网格
+  const stats = input.stats.slice(0, 6);
+  const gx0 = 70;
+  const gw = (W - 140) / 2;
+  const gy0 = 520;
+  const gh = 118;
+  ctx.textAlign = "center";
+  stats.forEach((s, i) => {
+    const col = i % 2;
+    const row = Math.floor(i / 2);
+    const bx = gx0 + col * gw;
+    const by = gy0 + row * gh;
+    ctx.save();
+    roundRect(ctx, bx + 8, by, gw - 16, gh - 16, 18);
+    ctx.fillStyle = "#f7f4fb";
+    ctx.fill();
+    ctx.restore();
+    ctx.fillStyle = accent;
+    ctx.font = font("bold 40px");
+    ctx.fillText(s.value, bx + gw / 2, by + 52);
+    ctx.fillStyle = "#7b8a99";
+    ctx.font = font("22px");
+    ctx.fillText(s.label, bx + gw / 2, by + 84);
+  });
+
+  // 二维码(底部居中,推广)
+  const qrSize = 180;
+  const qrCanvas = document.createElement("canvas");
+  await QRCode.toCanvas(qrCanvas, input.link, {
+    width: qrSize,
+    margin: 1,
+    color: { dark: "#26313c", light: "#ffffff" },
+  });
+  const qrX = (W - qrSize) / 2;
+  const qrY = 900;
+  ctx.save();
+  roundRect(ctx, qrX - 16, qrY - 16, qrSize + 32, qrSize + 32, 20);
+  ctx.fillStyle = "#f4f7f9";
+  ctx.fill();
+  ctx.restore();
+  ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
+  ctx.fillStyle = "#7b8a99";
+  ctx.font = font("24px");
+  ctx.fillText("扫码,开启你的自学之旅", cx, qrY + qrSize + 44);
+  ctx.textAlign = "left";
+
+  return canvas;
+}
+
 export async function drawShareCard(
   input: ShareCardInput,
 ): Promise<HTMLCanvasElement> {

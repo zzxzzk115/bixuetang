@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { BookOpen, Clock, Flame, GraduationCap, NotebookPen, Sparkles } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
+import { JourneyShare } from "@/components/app/journey-share";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { getJourney } from "@/lib/game/journey";
@@ -62,6 +63,19 @@ export default async function JourneyPage() {
             你已经在这里活跃了 {j.activeDays} 天、攒下 {j.totalXp.toLocaleString()} 点经验，
             到了 Lv.{j.level}。每一步都算数——为你骄傲。
           </p>
+          <JourneyShare
+            name={j.name}
+            avatarUrl={user.avatar}
+            subtitle={`自 ${j.joinedDay} · Lv.${j.level}`}
+            stats={[
+              { value: hoursText(j.focusMinutes), label: "累计专注" },
+              { value: `${j.episodesWatched}`, label: "看过(集)" },
+              { value: `${j.notes}`, label: "笔记(条)" },
+              { value: `${j.terms}`, label: "术语(个)" },
+              { value: `${j.streakBest}`, label: "最长连胜(天)" },
+              { value: `${j.activeDays}`, label: "活跃(天)" },
+            ]}
+          />
         </header>
 
         <section className="journey-grid">
