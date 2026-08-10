@@ -46,6 +46,7 @@ const TABS = [
   { key: "lexicon", label: "卷宗", href: "/glossary", icon: BookOpen },
   // 工坊要键盘，窄屏上藏起来（CSS 控制），底部 Tab 也塞不下这么多项
   { key: "lab", label: "工坊", href: "/lab/hack", icon: FlaskConical, desktopOnly: true, hideForNewUser: true },
+  { key: "kana", label: "五十音", href: "/kana", icon: Feather, hideForNewUser: true },
   { key: "me", label: "我的", href: "/settings", icon: User },
 ] as const;
 

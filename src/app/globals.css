@@ -8993,3 +8993,177 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-size: 14px;
   font-weight: 700;
 }
+
+/* ==== 五十音图交互 ==== */
+.kana {
+  display: grid;
+  gap: 14px;
+}
+.kana-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.kana-scripts {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-line) 22%, transparent);
+}
+.kana-tab {
+  border: none;
+  background: transparent;
+  color: var(--app-text);
+  font-weight: 800;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.kana-tab.on {
+  background: var(--app-surface);
+  color: var(--app-purple);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+.kana-quiz-start {
+  border: none;
+  border-radius: 999px;
+  background: var(--app-purple);
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.kana-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--app-faint);
+}
+.kana-grid {
+  display: grid;
+  gap: 6px;
+  overflow-x: auto;
+}
+.kana-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  min-width: 300px;
+}
+.kana-cell {
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--app-line);
+  border-radius: 12px;
+  background: var(--app-surface);
+  color: var(--app-strong);
+  cursor: pointer;
+  padding: 4px;
+}
+.kana-cell b {
+  font-size: clamp(18px, 5vw, 26px);
+  line-height: 1;
+  font-weight: 800;
+}
+.kana-cell small {
+  font-size: 11px;
+  color: var(--app-faint);
+}
+.kana-cell.on {
+  border-color: var(--app-purple);
+  background: color-mix(in srgb, var(--app-purple) 14%, transparent);
+}
+.kana-cell-empty {
+  border: 1px dashed color-mix(in srgb, var(--app-line) 60%, transparent);
+  background: transparent;
+  cursor: default;
+}
+/* 测验 */
+.kana-quiz {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding: 8px 0;
+}
+.kana-quiz-progress {
+  font-size: 13px;
+  color: var(--app-faint);
+  font-weight: 700;
+}
+.kana-quiz-glyph {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid var(--app-line);
+  border-radius: 20px;
+  background: var(--app-surface);
+  color: var(--app-strong);
+  font-size: 64px;
+  line-height: 1;
+  font-weight: 900;
+  padding: 20px 34px;
+  cursor: pointer;
+}
+.kana-quiz-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(110px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 360px;
+}
+.kana-opt {
+  border: 1px solid var(--app-line);
+  border-radius: 12px;
+  background: var(--app-surface);
+  color: var(--app-strong);
+  font-weight: 800;
+  font-size: 16px;
+  padding: 14px;
+  cursor: pointer;
+}
+.kana-opt:disabled {
+  cursor: default;
+}
+.kana-opt.right {
+  border-color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 16%, transparent);
+  color: var(--app-green);
+}
+.kana-opt.wrong {
+  border-color: var(--app-red);
+  background: color-mix(in srgb, var(--app-red) 14%, transparent);
+  color: var(--app-red);
+}
+.kana-result {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 16px 0;
+}
+.kana-result > b {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--app-strong);
+}
+.kana-result-ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-green);
+  font-weight: 800;
+}
+.kana-result-actions {
+  display: flex;
+  gap: 10px;
+}
+.kana-foot {
+  margin-top: 4px;
+}

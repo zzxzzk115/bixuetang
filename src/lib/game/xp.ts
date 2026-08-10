@@ -44,7 +44,17 @@ export const XP_REASON = {
   segment: "segment",
   /** 影子跟读:练完一个跟读段(ref 见 shadowSegRef) */
   shadow: "shadow",
+  /** 五十音图:通关一套假名测验(ref 见 kanaQuizRef,一次性) */
+  kana: "kana",
 } as const;
+
+/** 五十音图某套(平/片假名)测验通关的幂等键 */
+export function kanaQuizRef(script: string): string {
+  return `kana:${script}`;
+}
+
+/** 五十音测验通关奖励 XP */
+export const KANA_QUIZ_XP = 30;
 
 /** 影子跟读某段(单元内第 seg 段)的幂等键 */
 export function shadowSegRef(unitId: string, seg: number): string {
