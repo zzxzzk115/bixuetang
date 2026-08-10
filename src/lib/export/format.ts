@@ -2,6 +2,10 @@
 // Anki 可导入的 TSV、以及给 API 用的 JSON。数据采集在 gather.ts(server)。
 
 import { makeZip, type ZipEntry } from "./zip";
+import { fmtTime } from "../format/time";
+
+// fmtTime 已迁到 lib/format/time.ts;此处转出以兼容既有从本模块导入的调用方
+export { fmtTime };
 
 export interface ExportNote {
   courseId: string;
@@ -30,16 +34,6 @@ export interface ExportBundle {
   dateStr: string; // YYYY-MM-DD
   notes: ExportNote[];
   terms: ExportTerm[];
-}
-
-/** 秒 → mm:ss 或 h:mm:ss */
-export function fmtTime(sec: number): string {
-  const s = Math.max(0, Math.floor(sec));
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  const ss = s % 60;
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return h > 0 ? `${h}:${pad(m)}:${pad(ss)}` : `${m}:${pad(ss)}`;
 }
 
 /** 去掉可能破坏 YAML/文件名的字符 */

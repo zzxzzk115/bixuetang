@@ -3,17 +3,12 @@
 import Link from "next/link";
 import { Calculator, ChevronDown, Play, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { fmtTime } from "@/lib/format/time";
 import type { CourseAnalysis, Episode } from "@/lib/content/schema";
 import { seekTo } from "@/lib/seek";
 
 // 知识点地图（原生 App 版）：每集一张卡，展开后是「时间轴条目 + 术语 chip」。
 // 时间戳做成可点的胶囊，点了播放器跳过去；公式卡右侧一键送数学工坊。
-
-function fmtTime(time: number): string {
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-  return `${minutes}:${String(seconds).padStart(2, "0")}`;
-}
 
 function RichText({
   text,

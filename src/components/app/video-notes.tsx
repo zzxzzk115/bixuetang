@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Loader2, NotebookPen, Pencil, Trash2 } from "lucide-react";
+import { fmtTime } from "@/lib/format/time";
 import {
   addVideoNote,
   deleteVideoNote,
@@ -17,15 +18,6 @@ import { MarkdownEditor } from "./markdown-editor";
 // 视频笔记面板(评论区右侧/下方):按时间戳记 Markdown 笔记。
 // 点时间戳 → 播放器跳到那一秒(跨集会先切集);播放器全屏速记层
 // 存的笔记通过 NOTES_CHANGED_EVENT 同步进来。
-
-function fmtTime(sec: number): string {
-  const h = Math.floor(sec / 3600);
-  const m = Math.floor((sec % 3600) / 60);
-  const s = sec % 60;
-  return h > 0
-    ? `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`
-    : `${m}:${String(s).padStart(2, "0")}`;
-}
 
 export function VideoNotes({
   courseId,

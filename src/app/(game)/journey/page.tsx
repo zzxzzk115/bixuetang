@@ -7,15 +7,9 @@ import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { getJourney } from "@/lib/game/journey";
 import { parseAvatar } from "@/lib/avatar/presets";
 import { subjectTone } from "@/lib/game/subjects";
+import { hoursText } from "@/lib/format/time";
 
 export const metadata = { title: "学习足迹" };
-
-function hoursText(min: number): string {
-  if (min < 60) return `${min} 分钟`;
-  const h = Math.floor(min / 60);
-  const m = min % 60;
-  return m ? `${h} 小时 ${m} 分` : `${h} 小时`;
-}
 
 export default async function JourneyPage() {
   const user = await getCurrentUser();
