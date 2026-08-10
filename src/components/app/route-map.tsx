@@ -49,7 +49,10 @@ const SUBJECT_COLOR: Record<string, string> = {
   physics: "var(--app-orange)",
   ai: "var(--app-green)",
   en: "var(--app-pink)",
+  ja: "var(--app-purple)",
   history: "var(--app-brown)",
+  research: "var(--app-gold)",
+  politics: "var(--app-red)",
 };
 
 type NodeState = "done" | "current" | "locked";

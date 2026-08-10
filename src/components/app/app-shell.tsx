@@ -11,10 +11,13 @@ import {
   FlaskConical,
   Coins,
   Flame,
+  Feather,
   Landmark,
   Languages,
   Map as MapIcon,
+  Microscope,
   MoreHorizontal,
+  Scale,
   ShoppingBag,
   Sigma,
   Swords,
@@ -52,7 +55,10 @@ const SUBJECT_TONE: Record<string, string> = {
   physics: "var(--app-orange)",
   ai: "var(--app-green)",
   en: "var(--app-pink)",
+  ja: "var(--app-purple)",
   history: "var(--app-brown)",
+  research: "var(--app-gold)",
+  politics: "var(--app-red)",
 };
 
 function SubjectIcon({ subject }: { subject?: string }) {
@@ -62,7 +68,10 @@ function SubjectIcon({ subject }: { subject?: string }) {
   if (subject === "ai") return <Brain size={size} aria-hidden />;
   if (subject === "cs") return <Cpu size={size} aria-hidden />;
   if (subject === "en") return <Languages size={size} aria-hidden />;
+  if (subject === "ja") return <Feather size={size} aria-hidden />;
   if (subject === "history") return <Landmark size={size} aria-hidden />;
+  if (subject === "research") return <Microscope size={size} aria-hidden />;
+  if (subject === "politics") return <Scale size={size} aria-hidden />;
   return <MapIcon size={size} aria-hidden />;
 }
 

@@ -61,6 +61,24 @@ const SUBJECT_ITEMS: Record<Subject, Record<EncounterType, Omit<LootItem, "id" |
     elite: { title: "青史印鉴", description: "读通一段兴衰治乱的凭证。", rarity: "rare" },
     boss: { title: "通鉴之钥", description: "贯通一条历史线、以史为鉴的核心遗物。", rarity: "legendary" },
   },
+  ja: {
+    mob: { title: "假名符牒", description: "一次假名练习凝结的音节材料。", rarity: "common" },
+    cache: { title: "词汇卷物", description: "收录单词与惯用句的手卷。", rarity: "uncommon" },
+    elite: { title: "敬语印记", description: "攻克敬语与语法难关的凭证。", rarity: "rare" },
+    boss: { title: "母语之匙", description: "把一门日语课练到脱口而出的核心遗物。", rarity: "legendary" },
+  },
+  research: {
+    mob: { title: "文献残页", description: "一次检索留下的文献碎片。", rarity: "common" },
+    cache: { title: "综述札记", description: "梳理脉络与研究空白的综述札记。", rarity: "uncommon" },
+    elite: { title: "论文徽记", description: "完成一篇高难度学术写作的凭证。", rarity: "rare" },
+    boss: { title: "学术之印", description: "贯通选题—写作—投稿的核心遗物。", rarity: "legendary" },
+  },
+  politics: {
+    mob: { title: "考点卡片", description: "一次背诵留下的知识卡片。", rarity: "common" },
+    cache: { title: "时政手册", description: "串起考点与时政热点的手册。", rarity: "uncommon" },
+    elite: { title: "论述勋章", description: "攻克主观论述大题的凭证。", rarity: "rare" },
+    boss: { title: "上岸之钥", description: "把一门政治背到滚瓜烂熟的核心遗物。", rarity: "legendary" },
+  },
 };
 
 const LEVEL_COINS: Record<Level, number> = {

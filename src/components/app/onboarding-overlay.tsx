@@ -2,7 +2,18 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Atom, Brain, Cpu, Languages, Landmark, Sigma, Sparkles } from "lucide-react";
+import {
+  Atom,
+  Brain,
+  Cpu,
+  Feather,
+  Languages,
+  Landmark,
+  Microscope,
+  Scale,
+  Sigma,
+  Sparkles,
+} from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import type { RoadmapChoice } from "@/lib/game/roadmap-choices";
 import { completeOnboarding } from "@/lib/game/onboarding-actions";
@@ -21,7 +32,10 @@ const SUBJECT_LABEL: Record<string, string> = {
   physics: "物理",
   ai: "人工智能",
   en: "英语",
+  ja: "日语",
   history: "历史",
+  research: "科研",
+  politics: "政治",
 };
 const SUBJECT_TONE: Record<string, string> = {
   cs: "var(--app-blue)",
@@ -29,7 +43,10 @@ const SUBJECT_TONE: Record<string, string> = {
   physics: "var(--app-orange)",
   ai: "var(--app-green)",
   en: "var(--app-pink)",
+  ja: "var(--app-purple)",
   history: "var(--app-brown)",
+  research: "var(--app-gold)",
+  politics: "var(--app-red)",
 };
 
 function SubjectGlyph({ subject }: { subject: string }) {
@@ -39,7 +56,10 @@ function SubjectGlyph({ subject }: { subject: string }) {
   if (subject === "ai") return <Brain size={s} aria-hidden />;
   if (subject === "cs") return <Cpu size={s} aria-hidden />;
   if (subject === "en") return <Languages size={s} aria-hidden />;
+  if (subject === "ja") return <Feather size={s} aria-hidden />;
   if (subject === "history") return <Landmark size={s} aria-hidden />;
+  if (subject === "research") return <Microscope size={s} aria-hidden />;
+  if (subject === "politics") return <Scale size={s} aria-hidden />;
   return <Sparkles size={s} aria-hidden />;
 }
 

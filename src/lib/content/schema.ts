@@ -2,7 +2,17 @@ import { z } from "zod";
 
 // ---------- 基础枚举 ----------
 
-export const SUBJECTS = ["cs", "math", "physics", "ai", "en", "history"] as const;
+export const SUBJECTS = [
+  "cs",
+  "math",
+  "physics",
+  "ai",
+  "en",
+  "ja",
+  "history",
+  "research",
+  "politics",
+] as const;
 export type Subject = (typeof SUBJECTS)[number];
 export const SUBJECT_LABEL: Record<Subject, string> = {
   cs: "计算机",
@@ -10,7 +20,10 @@ export const SUBJECT_LABEL: Record<Subject, string> = {
   physics: "物理",
   ai: "人工智能",
   en: "英语",
+  ja: "日语",
   history: "历史",
+  research: "科研",
+  politics: "政治",
 };
 
 export const LEVELS = ["basic", "intermediate", "advanced"] as const;
