@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { Check, Volume2 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Check, Volume2, VolumeX } from "lucide-react";
 import { celebrate } from "@/lib/celebrate";
 import { completeKanaQuiz } from "@/lib/game/kana-actions";
 import {
@@ -21,16 +21,22 @@ function glyph(kana: Kana, script: KanaScript): string {
   return script === "hira" ? kana.hira : kana.kata;
 }
 
+function jaVoice(): SpeechSynthesisVoice | undefined {
+  if (typeof window === "undefined" || !window.speechSynthesis) return undefined;
+  return window.speechSynthesis.getVoices().find((v) => /^ja/i.test(v.lang));
+}
+
 /** 用浏览器语音朗读假名;没有日语语音时静默(界面已有罗马音兜底) */
 function speak(text: string) {
   if (typeof window === "undefined" || !window.speechSynthesis) return;
   const synth = window.speechSynthesis;
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "ja-JP";
-  u.rate = 0.9;
-  const ja = synth.getVoices().find((v) => v.lang.toLowerCase().startsWith("ja"));
-  if (ja) u.voice = ja;
-  synth.cancel();
+  u.rate = 0.85;
+  const v = jaVoice();
+  if (v) u.voice = v;
+  // 只在正在朗读时打断——无条件 cancel() 在部分浏览器会连新念的也一起取消
+  if (synth.speaking || synth.pending) synth.cancel();
   synth.speak(u);
 }
 
@@ -68,6 +74,20 @@ export function KanaChart() {
   const [script, setScript] = useState<KanaScript>("hira");
   const [mode, setMode] = useState<"chart" | "quiz">("chart");
   const [active, setActive] = useState<string | null>(null);
+  // 本机是否有日语语音(TTS 靠系统语音;语音异步加载,监听 voiceschanged)
+  const [noVoice, setNoVoice] = useState(false);
+  useEffect(() => {
+    const synth = window.speechSynthesis;
+    if (!synth) {
+      setNoVoice(true);
+      return;
+    }
+    const check = () => setNoVoice(!jaVoice());
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- 初次检测,与下方订阅同源
+    check();
+    synth.addEventListener("voiceschanged", check);
+    return () => synth.removeEventListener("voiceschanged", check);
+  }, []);
 
   // 测验状态
   const [quiz, setQuiz] = useState<Question[]>([]);
@@ -156,8 +176,17 @@ export function KanaChart() {
 
       {mode === "chart" ? (
         <>
-          <p className="kana-hint">
-            <Volume2 size={14} aria-hidden /> 点任意假名听发音;下方是罗马音。
+          <p className={`kana-hint${noVoice ? " kana-hint-warn" : ""}`}>
+            {noVoice ? (
+              <>
+                <VolumeX size={14} aria-hidden />{" "}
+                本机没检测到日语语音,点击只显示罗马音——装上系统日语语音包即可有发音。
+              </>
+            ) : (
+              <>
+                <Volume2 size={14} aria-hidden /> 点任意假名听发音;下方是罗马音。
+              </>
+            )}
           </p>
           <div className="kana-grid">
             {KANA_ROWS.map((row) => (

@@ -9045,6 +9045,9 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-size: 13px;
   color: var(--app-faint);
 }
+.kana-hint-warn {
+  color: var(--app-orange);
+}
 .kana-grid {
   display: grid;
   gap: 6px;
