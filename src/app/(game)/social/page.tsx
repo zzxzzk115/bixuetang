@@ -1,6 +1,14 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Award, ChevronRight, Crown, Flame, Newspaper, Users } from "lucide-react";
+import {
+  Award,
+  ChevronRight,
+  Crown,
+  Flame,
+  Newspaper,
+  Swords,
+  Users,
+} from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import {
   AddFriend,
@@ -141,6 +149,16 @@ export default async function SocialPage() {
                 <span className="friend-xp">
                   {f.totalXp.toLocaleString()} XP
                 </span>
+                {!f.isSelf && !calmMode && (
+                  <Link
+                    href={`/play/trial?vs=${f.userId}`}
+                    className="friend-pk"
+                    aria-label={`约战 ${f.name}`}
+                    title={`约战 ${f.name}`}
+                  >
+                    <Swords size={15} aria-hidden />
+                  </Link>
+                )}
               </li>
             ))}
           </ol>

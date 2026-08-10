@@ -7115,6 +7115,65 @@ body:has(.art-video-player.art-fullscreen-web) {
   border-radius: 9px;
   background: color-mix(in srgb, currentColor 12%, transparent);
 }
+/* 约战好友:试炼页顶部横幅 + 好友榜行内约战按钮 */
+.pk-challenge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--app-pink) 22%, var(--app-surface)),
+    color-mix(in srgb, var(--app-orange) 16%, var(--app-surface))
+  );
+  border: 1px solid color-mix(in srgb, var(--app-pink) 30%, transparent);
+  margin-bottom: 12px;
+}
+.pk-challenge-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--app-pink);
+  color: #fff;
+}
+.pk-challenge-body {
+  flex: 1;
+  min-width: 0;
+}
+.pk-challenge-body b {
+  display: block;
+  color: var(--app-strong);
+  font-weight: 800;
+  font-size: 15px;
+}
+.pk-challenge-body small {
+  color: var(--app-faint);
+  font-size: 12px;
+}
+.pk-challenge-btn {
+  flex-shrink: 0;
+  width: auto;
+  padding: 9px 20px;
+}
+.friend-pk {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-left: 6px;
+  border-radius: 10px;
+  color: var(--app-pink);
+  background: color-mix(in srgb, var(--app-pink) 12%, transparent);
+  transition: background 0.12s;
+}
+.friend-pk:hover {
+  background: color-mix(in srgb, var(--app-pink) 22%, transparent);
+}
 /* 动态互动:点赞 + 评论 */
 .feed-actions {
   display: flex;

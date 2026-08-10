@@ -127,6 +127,44 @@ export function findGhost(userId: number, myRating: number, botSeed: number): Gh
   return botGhost(botSeed, myRating);
 }
 
+/**
+ * 约战好友：指定好友的最近一场对局录像作幽灵。TA 没打过则返回 null
+ * （约战方需先有对局才能被挑战）。
+ */
+export function findFriendGhost(
+  userId: number,
+  friendId: number,
+): GhostCandidate | null {
+  if (friendId === userId) return null;
+  const run = db
+    .select({
+      id: pkRuns.id,
+      userId: pkRuns.userId,
+      seed: pkRuns.seed,
+      questionCount: pkRuns.questionCount,
+      outcomes: pkRuns.outcomes,
+      name: users.displayName,
+      username: users.username,
+    })
+    .from(pkRuns)
+    .innerJoin(users, eq(users.id, pkRuns.userId))
+    .where(eq(pkRuns.userId, friendId))
+    .orderBy(desc(pkRuns.id))
+    .limit(1)
+    .get();
+  if (!run) return null;
+  return {
+    runId: run.id,
+    ownerId: run.userId,
+    name: run.name || run.username,
+    rating: loadRating(run.userId).rating,
+    seed: run.seed,
+    questionCount: run.questionCount,
+    outcomes: JSON.parse(run.outcomes) as PkOutcome[],
+    isBot: false,
+  };
+}
+
 /** bot 幽灵：表现由 seed 确定（答对率 ~55%，用时 4~13s），强度与排位无关 */
 export function botGhost(seed: number, myRating: number): GhostCandidate {
   let a = (seed ^ 0xb07) >>> 0;

@@ -23,6 +23,17 @@ export interface FriendRow {
   followsMe: boolean;
 }
 
+/** 取某用户的展示名(约战横幅等用),不存在返回 null。 */
+export function getPublicName(userId: number): string | null {
+  if (!Number.isInteger(userId)) return null;
+  const u = db
+    .select({ displayName: users.displayName, username: users.username })
+    .from(users)
+    .where(eq(users.id, userId))
+    .get();
+  return u ? u.displayName || u.username : null;
+}
+
 /** userId 的粉丝(关注我的人)的 id 列表 */
 export function getFollowerIds(userId: number): number[] {
   return db

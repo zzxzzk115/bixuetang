@@ -8,10 +8,15 @@ import { getDailyQuests, getMonthlyQuest } from "@/lib/game/quests";
 import { getDueCount } from "@/lib/game/review-actions";
 import { getWellbeing } from "@/lib/game/wellbeing-actions";
 import { getDailyProgress } from "@/lib/game/daily-goal-query";
+import { getPublicName } from "@/lib/social/queries";
 
 export const metadata = { title: "试炼场" };
 
-export default async function TrialPage() {
+export default async function TrialPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ vs?: string }>;
+}) {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
 
@@ -20,6 +25,17 @@ export default async function TrialPage() {
   const monthly = getMonthlyQuest(user.id);
   const dueCount = await getDueCount();
   const { calmMode } = await getWellbeing();
+
+  // 约战好友:?vs=<friendId> 带出对方名字,试炼页顶部弹约战横幅。
+  const vsId = Number((await searchParams).vs);
+  const challenge =
+    !calmMode && Number.isInteger(vsId) && vsId !== user.id
+      ? (() => {
+          const name = getPublicName(vsId);
+          return name ? { id: vsId, name } : null;
+        })()
+      : null;
+
   return (
     <TrialHome
       bootstrap={bootstrap}
@@ -30,6 +46,7 @@ export default async function TrialPage() {
       quests={quests}
       monthly={monthly}
       dueCount={dueCount}
+      challenge={challenge}
     />
   );
 }

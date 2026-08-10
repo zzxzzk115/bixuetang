@@ -10,6 +10,7 @@ import type { DailyProgress } from "@/lib/game/daily-goal";
 import { LeaguePanel } from "./league-panel";
 import { DailyGoalRing } from "./daily-goal-ring";
 import {
+  getFriendPkMatch,
   getPkMatch,
   type PkGhostDto,
   type PkMatchPayload,
@@ -47,6 +48,7 @@ export function TrialHome({
   pk,
   league,
   calmMode = false,
+  challenge = null,
   dailyGoal,
   quests,
   monthly,
@@ -58,6 +60,8 @@ export function TrialHome({
   league: LeagueOverview;
   /** 静心模式:隐藏段位联赛与幽灵对战等竞争元素 */
   calmMode?: boolean;
+  /** 约战好友:从好友榜带 ?vs=<id> 进来,顶部弹约战横幅 */
+  challenge?: { id: number; name: string } | null;
   /** 每日目标进度 */
   dailyGoal: DailyProgress;
   /** 每日任务(从地图页搬来:任务本就偏「今天该做什么」,和试炼同属日常) */
@@ -69,6 +73,8 @@ export function TrialHome({
   const [session, setSession] = useState<Session | null>(null);
   const [starting, setStarting] = useState<"trial" | "pk" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // 当前这局对战是不是约的某个好友(用于重赛时再约同一人)
+  const [pkTarget, setPkTarget] = useState<number | null>(null);
 
   const startTrial = async () => {
     if (starting) return;
@@ -83,12 +89,14 @@ export function TrialHome({
     }
   };
 
-  const startPk = async () => {
+  const startPk = async (friendId?: number) => {
     if (starting) return;
     setStarting("pk");
     setError(null);
+    setPkTarget(friendId ?? null);
     try {
-      const r: PkMatchPayload = await getPkMatch();
+      const r: PkMatchPayload =
+        friendId != null ? await getFriendPkMatch(friendId) : await getPkMatch();
       if (!r.ok || !r.questions) return setError(r.error ?? "匹配失败");
       setSession({
         kind: "pk",
@@ -128,7 +136,7 @@ export function TrialHome({
         perks={session.perks}
         ghost={session.ghost}
         onExit={exitSession}
-        onRematch={startPk}
+        onRematch={() => startPk(pkTarget ?? undefined)}
       />
     );
   }
@@ -136,6 +144,24 @@ export function TrialHome({
   return (
     <AppShell bootstrap={bootstrap}>
       <div className="trial-root">
+        {challenge && !calmMode && (
+          <section className="pk-challenge">
+            <span className="pk-challenge-icon" aria-hidden>
+              <Swords size={22} strokeWidth={2.4} />
+            </span>
+            <div className="pk-challenge-body">
+              <b>约战 {challenge.name}</b>
+              <small>打 TA 最近一场对局的录像,同套题同屏竞速</small>
+            </div>
+            <button
+              className="app-btn-primary pk-challenge-btn"
+              onClick={() => startPk(challenge.id)}
+              disabled={starting !== null}
+            >
+              {starting === "pk" ? "搜寻中…" : "开战"}
+            </button>
+          </section>
+        )}
         {/* 每日任务与今日复习:日常清单,和试炼一起构成「今天的功课」 */}
         <section className="trial-daily">
           <div className="trial-section-head">
@@ -219,7 +245,7 @@ export function TrialHome({
             </p>
             <button
               className="app-btn-primary"
-              onClick={startPk}
+              onClick={() => startPk()}
               disabled={starting !== null}
             >
               {starting === "pk" ? "搜寻幽灵…" : "匹配对手"}

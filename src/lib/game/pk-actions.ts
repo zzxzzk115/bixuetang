@@ -10,7 +10,13 @@ import {
   rankFromRating,
   type PkOutcome,
 } from "./elo";
-import { botGhost, findGhost, getRunById, loadRating } from "./pk";
+import {
+  botGhost,
+  findFriendGhost,
+  findGhost,
+  getRunById,
+  loadRating,
+} from "./pk";
 import { dailyDateKey } from "./quests";
 import { getQuizBank } from "./quiz-bank";
 import { drawQuiz, type QuizQuestion } from "./quiz-draw";
@@ -62,6 +68,25 @@ export async function getPkMatch(): Promise<PkMatchPayload> {
     }
     return payload(bot, botQuestions, myRating, user.id);
   }
+  return payload(ghost, questions, myRating, user.id);
+}
+
+/** 约战指定好友：拿 TA 的最近录像当幽灵。TA 没打过对局则给出提示。 */
+export async function getFriendPkMatch(
+  friendId: number,
+): Promise<PkMatchPayload> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "请先登录" };
+  if (!Number.isInteger(friendId) || friendId === user.id)
+    return { ok: false, error: "约战对象无效" };
+
+  const myRating = loadRating(user.id).rating;
+  const ghost = findFriendGhost(user.id, friendId);
+  if (!ghost)
+    return { ok: false, error: "TA 还没有对局录像,先自己打一场约 TA 吧" };
+  const questions = drawPkQuestions(ghost.seed, ghost.questionCount);
+  if (questions.length < ghost.questionCount)
+    return { ok: false, error: "TA 的录像已失效,过会儿再约" };
   return payload(ghost, questions, myRating, user.id);
 }
 
