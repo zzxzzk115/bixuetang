@@ -177,9 +177,19 @@ function metrics(userId: number): Record<string, number> {
   };
 }
 
-/** 检测并解锁达成的成就等级(幂等);新达成的各落一条好友动态。返回全部成就轨视图。 */
-export function syncAchievements(userId: number): TrackView[] {
+export interface JustUnlocked {
+  /** 展示名,如「看课人 · Lv.2」 */
+  title: string;
+  reward: number;
+}
+
+/** 检测并解锁达成的成就等级(幂等);新达成的各落一条好友动态。返回轨视图 + 本次新解锁列表。 */
+export function syncAchievements(userId: number): {
+  tracks: TrackView[];
+  justUnlocked: JustUnlocked[];
+} {
   const m = metrics(userId);
+  const justUnlocked: JustUnlocked[] = [];
   const before = new Set(
     db
       .select({ id: achievementUnlocks.achievementId })
@@ -204,9 +214,9 @@ export function syncAchievements(userId: number): TrackView[] {
             .values({ userId, achievementId: id, unlockedAt: now })
             .onConflictDoNothing()
             .run();
-          recordFeed(userId, "achievement", id, {
-            title: `${track.title} · ${meta.label}`,
-          });
+          const label = `${track.title} · ${meta.label}`;
+          recordFeed(userId, "achievement", id, { title: label });
+          justUnlocked.push({ title: label, reward: meta.reward });
         }
       }
       return {
@@ -249,5 +259,10 @@ export function syncAchievements(userId: number): TrackView[] {
       tier.claimed = !!row?.claimedAt;
     });
   }
-  return views;
+  return { tracks: views, justUnlocked };
+}
+
+/** 只做检测+解锁(不建完整视图),返回本次新解锁的等级。学习动作里调,用于当场庆祝。 */
+export function detectAchievements(userId: number): JustUnlocked[] {
+  return syncAchievements(userId).justUnlocked;
 }

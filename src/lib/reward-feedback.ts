@@ -77,4 +77,17 @@ export function announceSettle(settle: ToggleResult) {
       subtitle: "继续保持",
     });
   }
+  // 刚解锁的成就等级:当场吐司提示可领金币 + 一次庆祝
+  if (settle.achievements?.length) {
+    for (const a of settle.achievements) {
+      rewardToast({ text: `🏅 解锁「${a.title}」· 去成就页领 +${a.reward} 金币`, tone: "coin" });
+    }
+    const first = settle.achievements[0];
+    const more = settle.achievements.length > 1 ? ` 等 ${settle.achievements.length} 项` : "";
+    celebrate({
+      kind: "quest",
+      title: "解锁新成就!",
+      subtitle: `${first.title}${more} · 去成就页领金币`,
+    });
+  }
 }

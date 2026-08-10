@@ -110,7 +110,7 @@ export default async function AchievementsPage() {
   if (!user) redirect("/login");
   const bootstrap = getGameBootstrap(user);
   // 顺手检测并解锁达成的等级(幂等),新达成的会落一条好友动态
-  const tracks = syncAchievements(user.id);
+  const { tracks } = syncAchievements(user.id);
   const gotTiers = tracks.reduce((s, t) => s + t.tiers.filter((x) => x.unlocked).length, 0);
   const totalTiers = tracks.reduce((s, t) => s + t.tiers.length, 0);
   const unclaimed = tracks.flatMap((t) => t.tiers).filter((x) => x.unlocked && !x.claimed);

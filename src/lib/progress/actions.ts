@@ -23,6 +23,7 @@ import { newlyUnlocked } from "../game/glossary-unlock";
 import { enqueueEpisodeCards } from "../game/review-enqueue";
 import { recordActivity } from "../game/streak-server";
 import { recordFeed } from "../game/feed";
+import { detectAchievements, type JustUnlocked } from "../game/achievements";
 import { getTotalXp, getUserProgress } from "./queries";
 
 export interface ToggleResult {
@@ -48,6 +49,8 @@ export interface ToggleResult {
   usedFreeze?: boolean;
   /** 本次是否掉了一颗护盾血(蓝心) */
   shieldDropped?: boolean;
+  /** 本次刚解锁的成就等级(当场庆祝用) */
+  achievements?: JustUnlocked[];
 }
 
 function upsertStatus(userId: number, courseId: string, status: CourseStatus) {
@@ -280,6 +283,8 @@ export async function toggleEpisode(
 
   const totalXp = getTotalXp(user.id);
   const newLevel = levelFromXp(totalXp);
+  // 刚看完/通关可能达成新成就等级——当场检测,好在客户端立刻庆祝
+  const achievements = detectAchievements(user.id);
 
   revalidatePath(`/courses/${courseId}`);
   revalidatePath("/me");
@@ -289,6 +294,7 @@ export async function toggleEpisode(
     ok: true,
     gained: totalXp - before,
     bossBonus,
+    achievements,
     levelUp: newLevel > levelBefore,
     newLevel,
     totalXp,
