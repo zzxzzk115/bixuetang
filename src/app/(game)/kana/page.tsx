@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Feather } from "lucide-react";
+import { ChevronRight, Feather } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { KanaChart } from "@/components/app/kana-chart";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -34,10 +34,14 @@ export default async function KanaPage() {
           <KanaChart />
         </section>
 
-        <p className="me-note kana-foot">
-          认得差不多了?去 <Link href="/roadmaps/language-master">成为语言大师</Link>{" "}
-          路线,按视频课系统学下去。
-        </p>
+        <Link href="/roadmaps/language-master" className="kana-cta">
+          <Feather size={18} aria-hidden />
+          <span>
+            <b>认得差不多了?</b>
+            <small>进「成为语言大师」路线,按视频课系统学下去</small>
+          </span>
+          <ChevronRight size={20} aria-hidden />
+        </Link>
       </div>
     </AppShell>
   );

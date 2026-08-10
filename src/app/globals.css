@@ -9164,6 +9164,38 @@ body:has(.art-video-player.art-fullscreen-web) {
   display: flex;
   gap: 10px;
 }
-.kana-foot {
+/* 五十音页脚:去「成为语言大师」路线的醒目 CTA */
+.kana-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin-top: 4px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--app-purple) 14%, var(--app-surface));
+  border: 1px solid color-mix(in srgb, var(--app-purple) 45%, transparent);
+  color: var(--app-strong);
+  text-decoration: none;
+}
+.kana-cta > svg:first-child {
+  color: var(--app-purple);
+  flex: none;
+}
+.kana-cta span {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.kana-cta b {
+  font-weight: 900;
+  font-size: 15px;
+}
+.kana-cta small {
+  color: var(--app-faint);
+  font-size: 13px;
+}
+.kana-cta > svg:last-child {
+  color: var(--app-purple);
+  flex: none;
 }
