@@ -1,4 +1,5 @@
-import { Bug, ExternalLink, LogOut, Star } from "lucide-react";
+import Link from "next/link";
+import { Bug, ChevronRight, Download, ExternalLink, LogOut, Star } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BiliBind } from "@/components/app/bili-bind";
@@ -131,6 +132,19 @@ export default async function SettingsPage() {
           <div className="app-skin">
             <PasswordForm />
           </div>
+        </section>
+
+        <section className="course-card">
+          <Link href="/export" className="settings-nav-row">
+            <span className="settings-nav-icon" style={{ background: "var(--app-teal)" }}>
+              <Download size={18} aria-hidden />
+            </span>
+            <span className="settings-nav-body">
+              <b>导出与联动</b>
+              <small>笔记导出到 Obsidian / Anki，或用 API 接自己的工具</small>
+            </span>
+            <ChevronRight size={18} aria-hidden />
+          </Link>
         </section>
 
         <section className="course-card">
