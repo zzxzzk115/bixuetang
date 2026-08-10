@@ -79,14 +79,17 @@ export function KanaChart() {
   useEffect(() => {
     const synth = window.speechSynthesis;
     if (!synth) {
-      setNoVoice(true);
-      return;
+      const t = setTimeout(() => setNoVoice(true), 0);
+      return () => clearTimeout(t);
     }
     const check = () => setNoVoice(!jaVoice());
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- 初次检测,与下方订阅同源
-    check();
     synth.addEventListener("voiceschanged", check);
-    return () => synth.removeEventListener("voiceschanged", check);
+    // 立即测一次(放进 setTimeout,既避开 set-state-in-effect,又给语音一点加载时间)
+    const t = setTimeout(check, 0);
+    return () => {
+      clearTimeout(t);
+      synth.removeEventListener("voiceschanged", check);
+    };
   }, []);
 
   // 测验状态
