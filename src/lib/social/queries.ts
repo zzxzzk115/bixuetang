@@ -85,7 +85,7 @@ export function getFriendLeaderboard(userId: number): FriendRow[] {
       totalXp,
       level: levelFromXp(totalXp),
       rankKey: tier.key,
-      rankLabel: `${tier.label}联赛`,
+      rankLabel: tier.label,
       isSelf: u.id === userId,
       followsMe: followerSet.has(u.id),
     };

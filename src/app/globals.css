@@ -6499,6 +6499,14 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-variant-numeric: tabular-nums;
   flex: none;
 }
+/* 好友榜里的段位徽记:段位专属图标 + 段位色 */
+.friend-tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 700;
+  vertical-align: middle;
+}
 /* 好友榜里「互相关注」小标 */
 .friend-mutual {
   margin-left: 6px;

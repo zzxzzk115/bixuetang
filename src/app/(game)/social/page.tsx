@@ -8,6 +8,8 @@ import {
   InviteCard,
 } from "@/components/app/social-tools";
 import { UserAvatar } from "@/components/user-avatar";
+import { TierIcon } from "@/components/app/tier-icon";
+import { tierByKey } from "@/lib/game/league";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import {
@@ -90,7 +92,14 @@ export default async function SocialPage() {
                     ) : null}
                   </b>
                   <small>
-                    Lv.{f.level} · {f.rankLabel}
+                    Lv.{f.level} ·{" "}
+                    <span
+                      className="friend-tier"
+                      style={{ color: `var(${tierByKey(f.rankKey).colorVar})` }}
+                    >
+                      <TierIcon icon={tierByKey(f.rankKey).icon} size={12} />
+                      {f.rankLabel}
+                    </span>
                   </small>
                 </div>
                 <span className="friend-xp">

@@ -7,18 +7,21 @@ export interface LeagueTier {
   label: string;
   /** 徽章配色对应的 CSS 变量名(见 globals.css 的 --app-*) */
   colorVar: string;
+  /** 段位专属图标键,前端映射到 lucide 图标(见 league-panel 的 TierIcon) */
+  icon: string;
 }
 
 // 从低到高。新人从青铜起步,黑铁是掉段兜底(见 START_TIER)。
+// 图标随段位升高从「盾牌→奖牌→宝石→皇冠」递进,一眼看出高低。
 export const LEAGUE_TIERS: LeagueTier[] = [
-  { key: "iron", label: "黑铁", colorVar: "--app-gray" },
-  { key: "bronze", label: "青铜", colorVar: "--app-brown" },
-  { key: "silver", label: "白银", colorVar: "--app-silver" },
-  { key: "gold", label: "黄金", colorVar: "--app-gold" },
-  { key: "platinum", label: "铂金", colorVar: "--app-teal" },
-  { key: "diamond", label: "钻石", colorVar: "--app-blue" },
-  { key: "master", label: "大师", colorVar: "--app-purple" },
-  { key: "king", label: "王者", colorVar: "--app-red" },
+  { key: "iron", label: "黑铁", colorVar: "--app-gray", icon: "hexagon" },
+  { key: "bronze", label: "青铜", colorVar: "--app-brown", icon: "shield" },
+  { key: "silver", label: "白银", colorVar: "--app-silver", icon: "award" },
+  { key: "gold", label: "黄金", colorVar: "--app-gold", icon: "medal" },
+  { key: "platinum", label: "铂金", colorVar: "--app-teal", icon: "gem" },
+  { key: "diamond", label: "钻石", colorVar: "--app-blue", icon: "diamond" },
+  { key: "master", label: "大师", colorVar: "--app-purple", icon: "star" },
+  { key: "king", label: "王者", colorVar: "--app-red", icon: "crown" },
 ];
 
 export const IRON_INDEX = 0;

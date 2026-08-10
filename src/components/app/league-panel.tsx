@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { ChevronDown, ChevronUp, Crown, Minus, Shield, Trophy } from "lucide-react";
+import { ChevronDown, ChevronUp, Minus, Shield } from "lucide-react";
 import { ackLeagueResult } from "@/lib/game/league-actions";
+import { tierByKey } from "@/lib/game/league";
 import type { LeagueOverview } from "@/lib/game/league-server";
+import { TierIcon } from "./tier-icon";
 
 // 段位联赛面板:结算横幅(弹一次)+ 段位卡 + 本周联赛榜(晋级/降级区着色)。
-// 段位 = 本周获得经验的多邻国式周赛升降段结果,规则见 lib/game/league.ts。
+// 段位 = 本周获得经验的周赛升降段结果,规则见 lib/game/league.ts。
 
 function daysLeft(seasonEnd: number): number {
   return Math.max(0, Math.ceil((seasonEnd - Date.now()) / 86400000));
@@ -58,9 +60,9 @@ export function LeaguePanel({ overview }: { overview: LeagueOverview }) {
           </span>
           <div className="league-banner-body">
             {pending.result === "promote" ? (
-              <b>晋级到「{pending.toLabel}联赛」!</b>
+              <b>晋级到「{pending.toLabel}」段位!</b>
             ) : (
-              <b>掉到「{pending.toLabel}联赛」了</b>
+              <b>掉到「{pending.toLabel}」段位了</b>
             )}
             <small>
               上赛季从 {pending.fromLabel} {pending.result === "promote" ? "升到" : "降到"}{" "}
@@ -75,15 +77,11 @@ export function LeaguePanel({ overview }: { overview: LeagueOverview }) {
 
       <div className="league-card">
         <span className="league-badge" style={{ background: tone }}>
-          {overview.tierIndex >= 7 ? (
-            <Crown size={24} aria-hidden />
-          ) : (
-            <Trophy size={22} aria-hidden />
-          )}
+          <TierIcon icon={tierByKey(overview.tierKey).icon} size={26} />
         </span>
         <div className="league-card-body">
           <div className="league-card-head">
-            <b style={{ color: tone }}>{tierLabel}联赛</b>
+            <b style={{ color: tone }}>{tierLabel}段位</b>
             <span className="league-season">赛季还剩 {left} 天</span>
           </div>
           <div className="league-card-stats">
