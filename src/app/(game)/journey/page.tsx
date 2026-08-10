@@ -5,6 +5,7 @@ import { JourneyShare } from "@/components/app/journey-share";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { getJourney } from "@/lib/game/journey";
+import { parseAvatar } from "@/lib/avatar/presets";
 
 export const metadata = { title: "学习足迹" };
 
@@ -32,6 +33,14 @@ export default async function JourneyPage() {
   if (!user) redirect("/login");
   const bootstrap = getGameBootstrap(user);
   const j = getJourney(user.id);
+  // canvas 画头像要同源:bilibili 头像走代理,上传头像走 /avatars/,预设/无则留空画首字母
+  const av = parseAvatar(user.avatar);
+  const shareAvatar =
+    av.kind === "remote"
+      ? `/api/avatar/${user.id}`
+      : av.kind === "upload"
+        ? `/avatars/${user.id}?v=${av.version}`
+        : null;
 
   const maxEp = Math.max(1, ...j.subjects.map((s) => s.episodes));
   const stats = [
@@ -65,7 +74,7 @@ export default async function JourneyPage() {
           </p>
           <JourneyShare
             name={j.name}
-            avatarUrl={user.avatar}
+            avatarUrl={shareAvatar}
             subtitle={`自 ${j.joinedDay} · Lv.${j.level}`}
             stats={[
               { value: hoursText(j.focusMinutes), label: "累计专注" },

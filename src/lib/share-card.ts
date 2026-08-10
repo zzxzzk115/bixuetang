@@ -263,8 +263,8 @@ export async function drawJourneyCard(
 
   // 头像(居中)
   const cx = W / 2;
-  const avatarY = 244;
-  const r = 84;
+  const avatarY = 210;
+  const r = 78;
   const isSameOrigin = !!input.avatarUrl && input.avatarUrl.startsWith("/");
   const avatar = input.avatarUrl
     ? await loadImage(input.avatarUrl, !isSameOrigin)
@@ -299,18 +299,18 @@ export async function drawJourneyCard(
   ctx.fillText(
     `${(wrapText(ctx, input.name, W - 160, 1)[0] ?? "")} 的学习足迹`,
     cx,
-    avatarY + r + 66,
+    avatarY + r + 58,
   );
   ctx.fillStyle = "#9aa7b3";
   ctx.font = font("24px");
-  ctx.fillText(input.subtitle, cx, avatarY + r + 106);
+  ctx.fillText(input.subtitle, cx, avatarY + r + 94);
 
   // 数据战报:2 列 × 3 行网格
   const stats = input.stats.slice(0, 6);
   const gx0 = 70;
   const gw = (W - 140) / 2;
-  const gy0 = 520;
-  const gh = 118;
+  const gy0 = 440;
+  const gh = 112;
   ctx.textAlign = "center";
   stats.forEach((s, i) => {
     const col = i % 2;
@@ -331,7 +331,7 @@ export async function drawJourneyCard(
   });
 
   // 二维码(底部居中,推广)
-  const qrSize = 180;
+  const qrSize = 168;
   const qrCanvas = document.createElement("canvas");
   await QRCode.toCanvas(qrCanvas, input.link, {
     width: qrSize,
@@ -339,7 +339,7 @@ export async function drawJourneyCard(
     color: { dark: "#26313c", light: "#ffffff" },
   });
   const qrX = (W - qrSize) / 2;
-  const qrY = 900;
+  const qrY = 800;
   ctx.save();
   roundRect(ctx, qrX - 16, qrY - 16, qrSize + 32, qrSize + 32, 20);
   ctx.fillStyle = "#f4f7f9";
@@ -348,7 +348,7 @@ export async function drawJourneyCard(
   ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
   ctx.fillStyle = "#7b8a99";
   ctx.font = font("24px");
-  ctx.fillText("扫码,开启你的自学之旅", cx, qrY + qrSize + 44);
+  ctx.fillText("扫码,开启你的自学之旅", cx, qrY + qrSize + 42);
   ctx.textAlign = "left";
 
   return canvas;
