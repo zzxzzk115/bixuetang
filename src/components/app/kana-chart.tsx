@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Check, Volume2, VolumeX } from "lucide-react";
+import { useCallback, useState } from "react";
+import { Check, Volume2 } from "lucide-react";
 import { celebrate } from "@/lib/celebrate";
 import { completeKanaQuiz } from "@/lib/game/kana-actions";
 import {
@@ -40,6 +40,13 @@ function speak(text: string) {
   synth.speak(u);
 }
 
+/** 发音:优先播打包音频(任何设备都响),失败再退回浏览器 TTS(需系统日语语音) */
+function playKana(kana: Kana) {
+  if (typeof window === "undefined") return;
+  const audio = new Audio(`/kana/${kana.romaji}.mp3`);
+  audio.play().catch(() => speak(kana.hira));
+}
+
 interface Question {
   kana: Kana;
   options: string[];
@@ -74,23 +81,6 @@ export function KanaChart() {
   const [script, setScript] = useState<KanaScript>("hira");
   const [mode, setMode] = useState<"chart" | "quiz">("chart");
   const [active, setActive] = useState<string | null>(null);
-  // 本机是否有日语语音(TTS 靠系统语音;语音异步加载,监听 voiceschanged)
-  const [noVoice, setNoVoice] = useState(false);
-  useEffect(() => {
-    const synth = window.speechSynthesis;
-    if (!synth) {
-      const t = setTimeout(() => setNoVoice(true), 0);
-      return () => clearTimeout(t);
-    }
-    const check = () => setNoVoice(!jaVoice());
-    synth.addEventListener("voiceschanged", check);
-    // 立即测一次(放进 setTimeout,既避开 set-state-in-effect,又给语音一点加载时间)
-    const t = setTimeout(check, 0);
-    return () => {
-      clearTimeout(t);
-      synth.removeEventListener("voiceschanged", check);
-    };
-  }, []);
 
   // 测验状态
   const [quiz, setQuiz] = useState<Question[]>([]);
@@ -110,7 +100,7 @@ export function KanaChart() {
 
   function tapKana(kana: Kana) {
     setActive(kana.romaji);
-    speak(glyph(kana, script));
+    playKana(kana);
   }
 
   function answer(opt: string) {
@@ -118,7 +108,7 @@ export function KanaChart() {
     const cur = quiz[qi];
     const right = opt === cur.kana.romaji;
     setPicked(opt);
-    speak(glyph(cur.kana, script));
+    playKana(cur.kana);
     const nextCorrect = correct + (right ? 1 : 0);
     setTimeout(async () => {
       if (qi + 1 < quiz.length) {
@@ -179,17 +169,8 @@ export function KanaChart() {
 
       {mode === "chart" ? (
         <>
-          <p className={`kana-hint${noVoice ? " kana-hint-warn" : ""}`}>
-            {noVoice ? (
-              <>
-                <VolumeX size={14} aria-hidden />{" "}
-                本机没检测到日语语音,点击只显示罗马音——装上系统日语语音包即可有发音。
-              </>
-            ) : (
-              <>
-                <Volume2 size={14} aria-hidden /> 点任意假名听发音;下方是罗马音。
-              </>
-            )}
+          <p className="kana-hint">
+            <Volume2 size={14} aria-hidden /> 点任意假名听发音;下方是罗马音。
           </p>
           <div className="kana-grid">
             {KANA_ROWS.map((row) => (
@@ -248,7 +229,7 @@ export function KanaChart() {
           <button
             type="button"
             className="kana-quiz-glyph"
-            onClick={() => speak(glyph(quiz[qi].kana, script))}
+            onClick={() => playKana(quiz[qi].kana)}
             title="听发音"
           >
             {glyph(quiz[qi].kana, script)}
