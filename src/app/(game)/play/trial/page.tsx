@@ -3,6 +3,7 @@ import { TrialHome } from "@/components/app/trial-home";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { getPkOverview } from "@/lib/game/pk";
+import { getLeagueOverview } from "@/lib/game/league-server";
 import { getDailyQuests, getMonthlyQuest } from "@/lib/game/quests";
 import { getDueCount } from "@/lib/game/review-actions";
 
@@ -20,6 +21,7 @@ export default async function TrialPage() {
     <TrialHome
       bootstrap={bootstrap}
       pk={getPkOverview(user.id)}
+      league={getLeagueOverview(user.id)}
       quests={quests}
       monthly={monthly}
       dueCount={dueCount}

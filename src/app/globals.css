@@ -93,6 +93,9 @@ html {
   --app-pink: #f25f9c;
   /* 历史线学科色(青史/竹简) */
   --app-brown: #b3703a;
+  /* 联赛段位色:黑铁(灰)与白银(银灰),其余段位复用上面的品牌色 */
+  --app-gray: #7c8794;
+  --app-silver: #a9b4c0;
 }
 :root[data-theme="dark"] {
   --app-bg: #131f24;
@@ -1160,6 +1163,223 @@ html {
 }
 .trial-board li b {
   color: var(--app-strong);
+}
+
+/* ---------- 段位联赛 ---------- */
+.trial-league {
+  display: grid;
+  gap: 12px;
+}
+.trial-pk-record {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-text);
+  font-weight: 700;
+  font-size: 13px;
+}
+.trial-pk-record svg {
+  color: var(--app-gold);
+}
+.league {
+  display: grid;
+  gap: 12px;
+}
+.league-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 2px solid;
+}
+.league-banner.promote {
+  border-color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 12%, transparent);
+}
+.league-banner.demote {
+  border-color: var(--app-orange);
+  background: color-mix(in srgb, var(--app-orange) 12%, transparent);
+}
+.league-banner-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #fff;
+  flex-shrink: 0;
+}
+.league-banner.promote .league-banner-icon {
+  background: var(--app-green);
+}
+.league-banner.demote .league-banner-icon {
+  background: var(--app-orange);
+}
+.league-banner-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.league-banner-body b {
+  color: var(--app-strong);
+  font-size: 14px;
+}
+.league-banner-body small {
+  color: var(--app-text);
+  font-size: 12px;
+}
+.league-banner-x {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1.5px solid var(--app-line);
+  background: var(--app-surface);
+  color: var(--app-text);
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+.league-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+}
+.league-badge {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+.league-card-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.league-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.league-card-head b {
+  font-size: 18px;
+  font-weight: 900;
+}
+.league-season {
+  color: var(--app-faint);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.league-card-stats {
+  display: flex;
+  gap: 16px;
+  color: var(--app-text);
+  font-size: 13px;
+}
+.league-card-stats b {
+  color: var(--app-strong);
+  font-size: 15px;
+}
+.league-status {
+  color: var(--app-text);
+  font-size: 12.5px;
+}
+.league-zonehint {
+  display: flex;
+  gap: 14px;
+  padding: 0 4px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.league-zonehint .promote {
+  color: var(--app-green);
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.league-zonehint .demote {
+  color: var(--app-orange);
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.league-board {
+  display: grid;
+  gap: 5px;
+}
+.league-board li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+  border-radius: 11px;
+  border: 1.5px solid transparent;
+  background: var(--app-surface);
+  font-size: 13px;
+  font-weight: 700;
+}
+.league-board li.promote {
+  background: color-mix(in srgb, var(--app-green) 8%, transparent);
+}
+.league-board li.demote {
+  background: color-mix(in srgb, var(--app-orange) 8%, transparent);
+}
+.league-board li.me {
+  border-color: var(--app-blue);
+}
+.league-rank {
+  width: 22px;
+  text-align: center;
+  color: var(--app-faint);
+  font-weight: 900;
+}
+.league-zonemark {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  color: var(--app-faint);
+}
+.league-board li.promote .league-zonemark {
+  color: var(--app-green);
+}
+.league-board li.demote .league-zonemark {
+  color: var(--app-orange);
+}
+.league-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--app-strong);
+}
+.league-name em {
+  color: var(--app-blue);
+  font-style: normal;
+  font-size: 12px;
+}
+.league-xp {
+  color: var(--app-strong);
+  font-variant-numeric: tabular-nums;
+}
+.league-lonely {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-faint);
+  font-size: 12px;
+  padding: 0 4px;
 }
 
 /* ---------- 幽灵对战会话 ---------- */

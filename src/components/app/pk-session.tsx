@@ -144,12 +144,12 @@ export function PkSession({
           </div>
           {settle?.ok && (
             <p className="quiz-result-note">
-              排位分 {settle.ratingBefore} →{" "}
+              对战积分 {settle.ratingBefore} →{" "}
               <b className={delta >= 0 ? "pk-up" : "pk-down"}>
                 {settle.ratingAfter}
               </b>{" "}
               （{delta >= 0 ? "+" : ""}
-              {delta}） · {settle.rankLabel}
+              {delta}）
               {settle.gained ? (
                 <>
                   <br />

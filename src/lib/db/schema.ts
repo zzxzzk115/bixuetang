@@ -414,6 +414,29 @@ export const pkRatings = sqliteTable("pk_ratings", {
   updatedAt: integer("updated_at").notNull(),
 });
 
+// 段位联赛:每人的当前段位 + 惰性结算游标。段位由「本周获得经验」的周赛升降段决定
+// (见 lib/game/league.ts);幽灵对战的 ELO(pk_ratings)只留作对战匹配,不再是段位来源。
+export const leagueStanding = sqliteTable("league_standing", {
+  userId: integer("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  tier: text("tier").notNull().default("bronze"),
+  // 已结算到的周序号(该周及之前都结算过);惰性结算据此推进,避免重复结算
+  settledWeek: integer("settled_week").notNull(),
+  // 最近一次结算结果,供前端弹一次横幅;确认后置空
+  pendingResult: text("pending_result"), // 'promote' | 'demote' | null
+  pendingFromTier: text("pending_from_tier"),
+  pendingToTier: text("pending_to_tier"),
+  updatedAt: integer("updated_at").notNull(),
+});
+
+// 联赛全局元信息:单行(id=1),记录已全局结算到的周序号——惰性结算的去重锁,
+// 谁在新一周首次打开排位页,谁就触发上一周的全服结算,只结算一次。
+export const leagueMeta = sqliteTable("league_meta", {
+  id: integer("id").primaryKey(),
+  settledWeek: integer("settled_week").notNull(),
+});
+
 // 装备栏：槽位 → 遗物种类的引用，不消耗数量（加成随持有总量涨，见 relics.ts）。
 // 与 rpg_inventory 分表：inventory 行是数量聚合（掉落链路 PK upsert quantity+1），
 // 装备是引用语义，混在一起会把两条写路径搅在一张表上。

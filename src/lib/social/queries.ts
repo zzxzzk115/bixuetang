@@ -2,11 +2,11 @@ import "server-only";
 
 import { eq, inArray, sql } from "drizzle-orm";
 import { db } from "../db/client";
-import { follows, pkRatings, users, xpEvents } from "../db/schema";
-import { rankFromRating } from "../game/elo";
+import { follows, leagueStanding, users, xpEvents } from "../db/schema";
+import { tierByKey } from "../game/league";
 import { levelFromXp } from "../game/level";
 
-// 社交读侧:好友榜(自己 + 关注的人,按总 XP 排,带等级与 PK 段位)、社交统计。
+// 社交读侧:好友榜(自己 + 关注的人,按总 XP 排,带等级与联赛段位)、社交统计。
 
 export interface FriendRow {
   userId: number;
@@ -14,7 +14,6 @@ export interface FriendRow {
   avatar: string | null;
   totalXp: number;
   level: number;
-  rating: number;
   rankKey: string;
   rankLabel: string;
   isSelf: boolean;
@@ -69,26 +68,24 @@ export function getFriendLeaderboard(userId: number): FriendRow[] {
     .where(inArray(users.id, ids))
     .all();
 
-  const rRows = db
-    .select({ userId: pkRatings.userId, rating: pkRatings.rating })
-    .from(pkRatings)
-    .where(inArray(pkRatings.userId, ids))
+  const tRows = db
+    .select({ userId: leagueStanding.userId, tier: leagueStanding.tier })
+    .from(leagueStanding)
+    .where(inArray(leagueStanding.userId, ids))
     .all();
-  const rMap = new Map(rRows.map((r) => [r.userId, r.rating]));
+  const tierMap = new Map(tRows.map((r) => [r.userId, r.tier]));
 
   const rows: FriendRow[] = uRows.map((u) => {
     const totalXp = xpMap.get(u.id) ?? 0;
-    const rating = rMap.get(u.id) ?? 1000;
-    const rank = rankFromRating(rating);
+    const tier = tierByKey(tierMap.get(u.id) ?? "bronze");
     return {
       userId: u.id,
       name: u.displayName || u.username,
       avatar: u.avatar,
       totalXp,
       level: levelFromXp(totalXp),
-      rating,
-      rankKey: rank.key,
-      rankLabel: rank.label,
+      rankKey: tier.key,
+      rankLabel: `${tier.label}联赛`,
       isSelf: u.id === userId,
       followsMe: followerSet.has(u.id),
     };

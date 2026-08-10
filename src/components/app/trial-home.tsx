@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Ghost, Heart, Swords, Timer, Trophy, Zap } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import type { PkOverview } from "@/lib/game/pk";
+import type { LeagueOverview } from "@/lib/game/league-server";
+import { LeaguePanel } from "./league-panel";
 import {
   getPkMatch,
   type PkGhostDto,
@@ -41,12 +43,15 @@ type Session =
 export function TrialHome({
   bootstrap,
   pk,
+  league,
   quests,
   monthly,
   dueCount,
 }: {
   bootstrap: GameBootstrap;
   pk: PkOverview;
+  /** 段位联赛(按本周经验升降段,取代旧的 ELO 段位) */
+  league: LeagueOverview;
   /** 每日任务(从地图页搬来:任务本就偏「今天该做什么」,和试炼同属日常) */
   quests: DailyQuestView[];
   monthly: MonthlyQuestView;
@@ -145,6 +150,15 @@ export function TrialHome({
           <DailyQuestBoard quests={quests} monthly={monthly} />
         </section>
 
+        <section className="trial-league">
+          <div className="trial-section-head">
+            <span className="trial-section-kicker">RANKED</span>
+            <h2>段位联赛</h2>
+            <p>本周赚的经验就是段位分,周一结算 · 升 7 降 5——和多邻国一样</p>
+          </div>
+          <LeaguePanel overview={league} />
+        </section>
+
         <section className="trial-mode">
           <span className="trial-mode-icon endless">
             <Swords size={30} strokeWidth={2.2} />
@@ -187,18 +201,11 @@ export function TrialHome({
             <Ghost size={30} strokeWidth={2.2} />
           </span>
           <div className="trial-mode-body">
-            <h2>幽灵对战 · 排位</h2>
-            <p>挑战其他学者的对局录像：同一套题、同屏竞速</p>
-            <div className="pk-rank-card">
-              <span className={`pk-rank-badge tier-${pk.rankKey}`}>
-                <Trophy size={16} aria-hidden />
-                {pk.rankLabel}
-              </span>
-              <b>{pk.rating}</b>
-              <small>
-                {pk.wins} 胜 {pk.losses} 负
-              </small>
-            </div>
+            <h2>幽灵对战</h2>
+            <p>挑战其他学者的对局录像：同一套题、同屏竞速。打赢照样进经验,间接助攻段位</p>
+            <p className="trial-pk-record">
+              <Trophy size={15} aria-hidden /> 战绩 {pk.wins} 胜 {pk.losses} 负
+            </p>
             <button
               className="app-btn-primary"
               onClick={startPk}
@@ -208,27 +215,6 @@ export function TrialHome({
             </button>
           </div>
         </section>
-
-        {pk.leaderboard.length > 0 && (
-          <section className="trial-board">
-            <h3>
-              <Trophy size={16} aria-hidden /> 排行榜
-            </h3>
-            <ol>
-              {pk.leaderboard.map((row, i) => (
-                <li key={i} className={row.me ? "me" : undefined}>
-                  <span className="trial-board-no">{i + 1}</span>
-                  <span className="trial-board-name">
-                    {row.name}
-                    {row.me && <em>（我）</em>}
-                  </span>
-                  <small>{row.rankLabel}</small>
-                  <b>{row.rating}</b>
-                </li>
-              ))}
-            </ol>
-          </section>
-        )}
 
         {error && <p className="trial-error">{error}</p>}
       </div>
