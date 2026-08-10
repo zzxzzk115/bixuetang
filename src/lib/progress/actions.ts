@@ -22,6 +22,7 @@ import { allTermInputs } from "../game/glossary-source";
 import { newlyUnlocked } from "../game/glossary-unlock";
 import { enqueueEpisodeCards } from "../game/review-enqueue";
 import { recordActivity } from "../game/streak-server";
+import { recordFeed } from "../game/feed";
 import { getTotalXp, getUserProgress } from "./queries";
 
 export interface ToggleResult {
@@ -257,7 +258,11 @@ export async function toggleEpisode(
         .onConflictDoNothing()
         .returning({ amount: xpEvents.amount })
         .get();
-      if (bonus) bossBonus = bonus.amount;
+      if (bonus) {
+        bossBonus = bonus.amount;
+        // 首次通关才有 bonus(幂等键挡住重复)——顺手落一条好友动态
+        recordFeed(user.id, "course_done", courseId, { courseTitle: course.title });
+      }
       upsertStatus(user.id, courseId, "done");
     }
   } else {

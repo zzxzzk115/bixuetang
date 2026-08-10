@@ -5,6 +5,10 @@ import { db } from "../db/client";
 import { streakState, userState, xpEvents } from "../db/schema";
 import { dayKey, diffDays } from "./day";
 import { advanceStreak, emptyStreak, type StreakAdvance, type StreakState } from "./streak";
+import { recordFeed } from "./feed";
+
+/** 连胜里程碑:达到这些天数时播一条好友动态 */
+const STREAK_MILESTONES = new Set([3, 7, 14, 30, 60, 100, 200, 365]);
 
 /** 读取请假截止 dayKey(含);未请假为 null */
 export function vacationUntilOf(userId: number): string | null {
@@ -153,6 +157,10 @@ export function recordActivity(userId: number): StreakAdvance {
         },
       })
       .run();
+  }
+  // 连胜达标(且今天确实推进了)播一条动态,幂等键=天数,同一里程碑一辈子只播一次
+  if (advanced.changed && STREAK_MILESTONES.has(advanced.current)) {
+    recordFeed(userId, "streak", String(advanced.current), { days: advanced.current });
   }
   return advanced;
 }

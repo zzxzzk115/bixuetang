@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ChevronRight, Crown, Users } from "lucide-react";
+import { Award, ChevronRight, Crown, Flame, Newspaper, Users } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import {
   AddFriend,
@@ -9,7 +9,9 @@ import {
 } from "@/components/app/social-tools";
 import { UserAvatar } from "@/components/user-avatar";
 import { TierIcon } from "@/components/app/tier-icon";
+import { FeedList } from "@/components/app/feed-list";
 import { tierByKey } from "@/lib/game/league";
+import { getFriendFeed } from "@/lib/game/feed";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import {
@@ -32,6 +34,7 @@ export default async function SocialPage() {
   const followers = getFollowers(user.id);
   const stats = getSocialStats(user.id);
   const { calmMode } = await getWellbeing();
+  const feed = getFriendFeed(user.id);
 
   return (
     <AppShell bootstrap={bootstrap}>
@@ -59,6 +62,26 @@ export default async function SocialPage() {
           </span>
           <ChevronRight size={18} aria-hidden />
         </Link>
+
+        <Link href="/achievements" className="study-entry">
+          <span className="study-entry-icon" aria-hidden style={{ background: "var(--app-gold)" }}>
+            <Award size={20} />
+          </span>
+          <span className="study-entry-body">
+            <b>成就收集</b>
+            <small>完成课程、攒连胜、升段……解锁一枚枚成就</small>
+          </span>
+          <ChevronRight size={18} aria-hidden />
+        </Link>
+
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>
+              <Newspaper size={17} aria-hidden /> 好友动态
+            </h2>
+          </div>
+          <FeedList items={feed} />
+        </section>
 
         <section className="course-card">
           <div className="course-card-head">
@@ -106,6 +129,12 @@ export default async function SocialPage() {
                           {f.rankLabel}
                         </span>
                       </>
+                    )}
+                    {f.streak > 0 && (
+                      <span className="friend-streak">
+                        {" · "}
+                        <Flame size={12} aria-hidden /> {f.streak}
+                      </span>
                     )}
                   </small>
                 </div>

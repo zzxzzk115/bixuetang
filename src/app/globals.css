@@ -6975,6 +6975,102 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-weight: 700;
   vertical-align: middle;
 }
+/* 好友榜里的连胜:火苗 + 天数 */
+.friend-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--app-orange);
+  font-weight: 700;
+  vertical-align: middle;
+}
+/* 好友动态流 */
+.feed-list {
+  display: grid;
+  gap: 8px;
+}
+.feed-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px;
+}
+.feed-body {
+  flex: 1;
+  min-width: 0;
+}
+.feed-body p {
+  color: var(--app-text);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.feed-body p b {
+  color: var(--app-strong);
+  font-weight: 800;
+}
+.feed-body small {
+  color: var(--app-faint);
+  font-size: 11.5px;
+}
+.feed-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+/* 成就收集 */
+.ach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+.ach-card {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 4px;
+  padding: 18px 12px;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+  opacity: 0.6;
+}
+.ach-card.on {
+  opacity: 1;
+  border-color: var(--app-gold);
+  background: color-mix(in srgb, var(--app-gold) 7%, transparent);
+}
+.ach-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--app-line);
+  color: var(--app-faint);
+  margin-bottom: 2px;
+}
+.ach-card.on .ach-icon {
+  background: var(--app-gold);
+  color: #fff;
+}
+.ach-card b {
+  color: var(--app-strong);
+  font-size: 14px;
+}
+.ach-card small {
+  color: var(--app-text);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.ach-date {
+  color: var(--app-gold);
+  font-size: 10.5px;
+  font-style: normal;
+  margin-top: 2px;
+}
 /* 好友榜里「互相关注」小标 */
 .friend-mutual {
   margin-left: 6px;

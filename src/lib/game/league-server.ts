@@ -14,6 +14,7 @@ import {
   zoneCounts,
   type LeagueMember,
 } from "./league";
+import { recordFeed } from "./feed";
 
 // 段位联赛的服务端读写:惰性全服结算 + 当前周联赛总览。段位规则在纯模块 league.ts。
 
@@ -83,6 +84,10 @@ function settleWeek(tx: DbTx, w: number, now: number) {
           })
           .where(eq(leagueStanding.userId, o.userId))
           .run();
+        // 晋级才播动态(掉段不声张);幂等键含周序号,每次晋级各一条
+        if (o.result === "promote") {
+          recordFeed(o.userId, "tier_up", `w${w}:${toKey}`, { tier: toKey });
+        }
       }
     }
   }

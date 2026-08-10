@@ -2,11 +2,11 @@ import "server-only";
 
 import { eq, inArray, sql } from "drizzle-orm";
 import { db } from "../db/client";
-import { follows, leagueStanding, users, xpEvents } from "../db/schema";
+import { follows, leagueStanding, streakState, users, xpEvents } from "../db/schema";
 import { tierByKey } from "../game/league";
 import { levelFromXp } from "../game/level";
 
-// 社交读侧:好友榜(自己 + 关注的人,按总 XP 排,带等级与联赛段位)、社交统计。
+// 社交读侧:好友榜(自己 + 关注的人,按总 XP 排,带等级、联赛段位与连胜)、社交统计。
 
 export interface FriendRow {
   userId: number;
@@ -16,6 +16,8 @@ export interface FriendRow {
   level: number;
   rankKey: string;
   rankLabel: string;
+  /** 当前连胜天数(社交可见,互相较劲) */
+  streak: number;
   isSelf: boolean;
   /** 这个我关注的人,是否也回关了我(互相关注) */
   followsMe: boolean;
@@ -75,6 +77,13 @@ export function getFriendLeaderboard(userId: number): FriendRow[] {
     .all();
   const tierMap = new Map(tRows.map((r) => [r.userId, r.tier]));
 
+  const sRows = db
+    .select({ userId: streakState.userId, current: streakState.current })
+    .from(streakState)
+    .where(inArray(streakState.userId, ids))
+    .all();
+  const streakMap = new Map(sRows.map((r) => [r.userId, r.current]));
+
   const rows: FriendRow[] = uRows.map((u) => {
     const totalXp = xpMap.get(u.id) ?? 0;
     const tier = tierByKey(tierMap.get(u.id) ?? "bronze");
@@ -86,6 +95,7 @@ export function getFriendLeaderboard(userId: number): FriendRow[] {
       level: levelFromXp(totalXp),
       rankKey: tier.key,
       rankLabel: tier.label,
+      streak: streakMap.get(u.id) ?? 0,
       isSelf: u.id === userId,
       followsMe: followerSet.has(u.id),
     };

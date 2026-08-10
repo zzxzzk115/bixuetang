@@ -198,6 +198,27 @@ export const achievementUnlocks = sqliteTable(
   (t) => [primaryKey({ columns: [t.userId, t.achievementId] })],
 );
 
+// 好友动态流:自己与好友的里程碑事件(完成课程/连胜达标/升段/升级/解成就)。
+// refKey 幂等:同一里程碑只落一条(如 streak:7 一辈子只播一次)。payload 存渲染用的 JSON。
+export const feedEvents = sqliteTable(
+  "feed_events",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    // course_done | streak | tier_up | achievement | level_up
+    type: text("type").notNull(),
+    refKey: text("ref_key").notNull(),
+    payload: text("payload"),
+    createdAt: integer("created_at").notNull(),
+  },
+  (t) => [
+    uniqueIndex("feed_user_type_ref").on(t.userId, t.type, t.refKey),
+    index("feed_created").on(t.createdAt),
+  ],
+);
+
 
 export const rpgProfiles = sqliteTable("rpg_profiles", {
   userId: integer("user_id")

@@ -7,6 +7,7 @@ import { getContent } from "@/lib/content/load";
 import { checkpointAttempts, learningSessions, xpEvents } from "@/lib/db/schema";
 import { db } from "@/lib/db/client";
 import { levelFromXp } from "@/lib/game/level";
+import { recordFeed } from "@/lib/game/feed";
 import {
   FOCUS_REWARD_MINUTES,
   isSummaryEvidence,
@@ -138,6 +139,7 @@ export async function completeLearningSession(
 
   const totalXp = getTotalXp(user.id);
   const newLevel = levelFromXp(totalXp);
+  if (newLevel > beforeLevel) recordFeed(user.id, "level_up", String(newLevel), { level: newLevel });
   revalidatePath("/");
   revalidatePath(`/courses/${courseId}`);
   revalidatePath("/me");
