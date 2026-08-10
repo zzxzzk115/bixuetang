@@ -293,6 +293,8 @@ export const userState = sqliteTable("user_state", {
   calmMode: integer("calm_mode").notNull().default(0),
   /** 请假/休息:此 dayKey(含)之前处于休假,连胜不因缺勤中断;空=未请假 */
   vacationUntil: text("vacation_until"),
+  /** 每日目标:今天要挣的 XP(多邻国式),默认 50 */
+  dailyGoal: integer("daily_goal").notNull().default(50),
   updatedAt: integer("updated_at").notNull(),
 });
 

@@ -12,6 +12,11 @@ export function dayKey(now: number = Date.now()): string {
   return new Date(now + TZ_OFFSET_MS).toISOString().slice(0, 10);
 }
 
+/** 今天(UTC+8)00:00 的时间戳(ms)——按天汇总当日数据用 */
+export function dayStartMs(now: number = Date.now()): number {
+  return Math.floor((now + TZ_OFFSET_MS) / DAY_MS) * DAY_MS - TZ_OFFSET_MS;
+}
+
 /** b - a 的天数差(键格式同 dayKey;a、b 顺序颠倒时为负) */
 export function diffDays(a: string, b: string): number {
   const ta = Date.parse(`${a}T00:00:00Z`);

@@ -6,7 +6,9 @@ import { Ghost, Heart, Swords, Timer, Trophy, Zap } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import type { PkOverview } from "@/lib/game/pk";
 import type { LeagueOverview } from "@/lib/game/league-server";
+import type { DailyProgress } from "@/lib/game/daily-goal";
 import { LeaguePanel } from "./league-panel";
+import { DailyGoalRing } from "./daily-goal-ring";
 import {
   getPkMatch,
   type PkGhostDto,
@@ -45,6 +47,7 @@ export function TrialHome({
   pk,
   league,
   calmMode = false,
+  dailyGoal,
   quests,
   monthly,
   dueCount,
@@ -55,6 +58,8 @@ export function TrialHome({
   league: LeagueOverview;
   /** 静心模式:隐藏段位联赛与幽灵对战等竞争元素 */
   calmMode?: boolean;
+  /** 每日目标进度 */
+  dailyGoal: DailyProgress;
   /** 每日任务(从地图页搬来:任务本就偏「今天该做什么」,和试炼同属日常) */
   quests: DailyQuestView[];
   monthly: MonthlyQuestView;
@@ -138,6 +143,7 @@ export function TrialHome({
             <h2>今天的功课</h2>
             <p>看一集 · 清复习 · 打一场,三件小事攒满今日</p>
           </div>
+          <DailyGoalRing initial={dailyGoal} />
           {dueCount > 0 && (
             <Link href="/review" className="review-entry">
               <span className="review-entry-icon" aria-hidden>

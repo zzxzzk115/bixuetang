@@ -7,6 +7,7 @@ import { getLeagueOverview } from "@/lib/game/league-server";
 import { getDailyQuests, getMonthlyQuest } from "@/lib/game/quests";
 import { getDueCount } from "@/lib/game/review-actions";
 import { getWellbeing } from "@/lib/game/wellbeing-actions";
+import { getDailyProgress } from "@/lib/game/daily-goal-query";
 
 export const metadata = { title: "试炼场" };
 
@@ -25,6 +26,7 @@ export default async function TrialPage() {
       pk={getPkOverview(user.id)}
       league={getLeagueOverview(user.id)}
       calmMode={calmMode}
+      dailyGoal={getDailyProgress(user.id)}
       quests={quests}
       monthly={monthly}
       dueCount={dueCount}

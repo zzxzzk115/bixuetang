@@ -1181,6 +1181,96 @@ html {
 .trial-pk-record svg {
   color: var(--app-gold);
 }
+/* 每日目标圆环 */
+.dgoal {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border: 2px solid var(--app-line);
+  border-radius: 16px;
+}
+.dgoal.met {
+  border-color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 7%, transparent);
+}
+.dgoal-ring-wrap {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+}
+.dgoal-ring {
+  width: 76px;
+  height: 76px;
+}
+.dgoal-track {
+  fill: none;
+  stroke: color-mix(in srgb, var(--app-line) 70%, transparent);
+  stroke-width: 8;
+}
+.dgoal-arc {
+  fill: none;
+  stroke: var(--app-green);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s ease;
+}
+.dgoal-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  line-height: 1;
+}
+.dgoal-center b {
+  color: var(--app-strong);
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.dgoal-center small {
+  color: var(--app-faint);
+  font-size: 11px;
+}
+.dgoal-check {
+  color: var(--app-green);
+}
+.dgoal-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+.dgoal-body > b {
+  color: var(--app-strong);
+  font-size: 15px;
+}
+.dgoal-body > small {
+  color: var(--app-text);
+  font-size: 12.5px;
+}
+.dgoal-picks {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+.dgoal-pick {
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1.5px solid var(--app-line);
+  background: var(--app-surface);
+  color: var(--app-text);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.dgoal-pick.on {
+  border-color: var(--app-green);
+  color: var(--app-green);
+  background: color-mix(in srgb, var(--app-green) 10%, transparent);
+}
 .league {
   display: grid;
   gap: 12px;
