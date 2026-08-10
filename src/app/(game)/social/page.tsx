@@ -18,6 +18,7 @@ import {
 import { UserAvatar } from "@/components/user-avatar";
 import { TierIcon } from "@/components/app/tier-icon";
 import { FeedList } from "@/components/app/feed-list";
+import { Fold } from "@/components/app/fold";
 import { tierByKey } from "@/lib/game/league";
 import { getFriendFeed } from "@/lib/game/feed";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -82,19 +83,21 @@ export default async function SocialPage() {
           <ChevronRight size={18} aria-hidden />
         </Link>
 
-        <section className="course-card">
-          <div className="course-card-head">
-            <h2>
-              <Newspaper size={17} aria-hidden /> 好友动态
-            </h2>
-          </div>
+        <Fold
+          icon={<Newspaper size={17} aria-hidden />}
+          title="好友动态"
+          note={feed.length > 0 ? `${feed.length} 条` : undefined}
+          defaultOpen
+        >
           <FeedList items={feed} />
-        </section>
+        </Fold>
 
-        <section className="course-card">
-          <div className="course-card-head">
-            <h2>好友榜 · {board.length}</h2>
-          </div>
+        <Fold
+          icon={<Crown size={17} aria-hidden />}
+          title="好友榜"
+          note={`${board.length} 人`}
+          defaultOpen
+        >
           {board.length <= 1 ? (
             <p className="me-note">
               还没有好友。用上面的邀请链接拉朋友进来,或在下面搜人关注,
@@ -162,21 +165,19 @@ export default async function SocialPage() {
               </li>
             ))}
           </ol>
-        </section>
+        </Fold>
 
-        <section className="course-card">
-          <div className="course-card-head">
-            <h2>关注我的 · {followers.length}</h2>
-          </div>
+        <Fold
+          icon={<Users size={17} aria-hidden />}
+          title="关注我的"
+          note={`${followers.length} 人`}
+        >
           <FollowerList followers={followers} />
-        </section>
+        </Fold>
 
-        <section className="course-card">
-          <div className="course-card-head">
-            <h2>加好友</h2>
-          </div>
+        <Fold icon={<Users size={17} aria-hidden />} title="加好友">
           <AddFriend />
-        </section>
+        </Fold>
       </div>
     </AppShell>
   );

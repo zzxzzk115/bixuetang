@@ -33,7 +33,15 @@ const META: Record<FeedType, { tone: string; Icon: typeof Flame }> = {
   level_up: { tone: "var(--app-blue)", Icon: Sparkles },
 };
 
-export function FeedList({ items }: { items: FeedItem[] }) {
+export function FeedList({
+  items,
+  initialVisible = 8,
+}: {
+  items: FeedItem[];
+  /** 先只渲染这么多条,其余「展开更多」再显示,防止动态多了把页面撑长 */
+  initialVisible?: number;
+}) {
+  const [showAll, setShowAll] = useState(false);
   if (items.length === 0) {
     return (
       <p className="me-note">
@@ -41,12 +49,26 @@ export function FeedList({ items }: { items: FeedItem[] }) {
       </p>
     );
   }
+  const shown = showAll ? items : items.slice(0, initialVisible);
+  const rest = items.length - shown.length;
   return (
-    <ul className="feed-list">
-      {items.map((it) => (
-        <FeedRow key={it.id} item={it} />
-      ))}
-    </ul>
+    <>
+      <ul className="feed-list">
+        {shown.map((it) => (
+          <FeedRow key={it.id} item={it} />
+        ))}
+      </ul>
+      {rest > 0 && (
+        <button className="feed-more" onClick={() => setShowAll(true)}>
+          展开剩余 {rest} 条
+        </button>
+      )}
+      {showAll && items.length > initialVisible && (
+        <button className="feed-more" onClick={() => setShowAll(false)}>
+          收起
+        </button>
+      )}
+    </>
   );
 }
 

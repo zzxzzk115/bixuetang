@@ -7281,6 +7281,22 @@ body:has(.art-video-player.art-fullscreen-web) {
   font-size: 12px;
   padding-left: 2px;
 }
+.feed-more {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  border: none;
+  background: none;
+  color: var(--app-brand, var(--app-green));
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.feed-more:hover {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
 /* 成就收集(分级成就轨) */
 .track-grid {
   display: grid;
