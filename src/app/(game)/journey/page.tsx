@@ -6,20 +6,9 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { getJourney } from "@/lib/game/journey";
 import { parseAvatar } from "@/lib/avatar/presets";
+import { subjectTone } from "@/lib/game/subjects";
 
 export const metadata = { title: "学习足迹" };
-
-const SUBJECT_TONE_VAR: Record<string, string> = {
-  cs: "--app-blue",
-  math: "--app-teal",
-  physics: "--app-orange",
-  ai: "--app-green",
-  en: "--app-pink",
-  ja: "--app-purple",
-  history: "--app-brown",
-  research: "--app-gold",
-  politics: "--app-red",
-};
 
 function hoursText(min: number): string {
   if (min < 60) return `${min} 分钟`;
@@ -115,7 +104,7 @@ export default async function JourneyPage() {
                     <i
                       style={{
                         width: `${Math.round((s.episodes / maxEp) * 100)}%`,
-                        background: `var(${SUBJECT_TONE_VAR[s.subject] ?? "--app-blue"})`,
+                        background: subjectTone(s.subject),
                       }}
                     />
                   </span>

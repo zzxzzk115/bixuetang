@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { Lock, X } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import { PATH_TIER_LABEL, type PathTier } from "@/lib/content/schema";
+import { SUBJECT_LABEL_SHORT } from "@/lib/game/subjects";
 
 // 路线选择：多邻国「切换课程」式底部弹层，列出全部冒险路径与进度。
 
@@ -15,18 +16,6 @@ const TIER_HINT: Record<PathTier, string> = {
   basic: "没有任何前置，现在就能开始",
   intermediate: "学完对应的前置课后开启",
   advanced: "需要相当的基础，慢慢来",
-};
-
-const SUBJECT_LABEL: Record<string, string> = {
-  cs: "计算机",
-  math: "数学",
-  physics: "物理",
-  ai: "AI",
-  en: "英语",
-  ja: "日语",
-  history: "历史",
-  research: "科研",
-  politics: "政治",
 };
 
 export function RouteSheet({
@@ -107,7 +96,8 @@ export function RouteSheet({
             >
               <span className="app-route-card-subject">
                 {path.unlocked ? (
-                  (SUBJECT_LABEL[path.subject] ?? path.subject)
+                  (SUBJECT_LABEL_SHORT[path.subject as keyof typeof SUBJECT_LABEL_SHORT] ??
+                    path.subject)
                 ) : (
                   <>
                     <Lock size={11} aria-hidden /> 未解锁

@@ -16,6 +16,7 @@ import {
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import type { PotionKind, TimedPotionKind } from "@/lib/game/boosts";
 import type { Subject } from "@/lib/content/schema";
+import { SUBJECT_LABEL_SHORT } from "@/lib/game/subjects";
 import {
   buyEquipSlot,
   buyPotion,
@@ -30,17 +31,6 @@ import {
 // 扩展柜台:装备槽扩容(3→6)、遗物直售(融合素材)、遗物融合(3 同稀有度
 // 合 1,有几率升一级——变率强化的开箱时刻)。
 
-const SUBJECT_LABEL_SHORT: Record<Subject, string> = {
-  cs: "计算机",
-  math: "数学",
-  physics: "物理",
-  ai: "AI",
-  en: "英语",
-  ja: "日语",
-  history: "历史",
-  research: "科研",
-  politics: "政治",
-};
 
 const RARITY_LABEL: Record<string, string> = {
   common: "普通",

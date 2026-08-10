@@ -3,23 +3,15 @@
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
-  Atom,
   Backpack,
   BookOpen,
-  Brain,
-  Cpu,
   FlaskConical,
   Coins,
   Flame,
   Feather,
-  Landmark,
-  Languages,
   Map as MapIcon,
-  Microscope,
   MoreHorizontal,
-  Scale,
   ShoppingBag,
-  Sigma,
   Swords,
   Timer,
   User,
@@ -28,6 +20,8 @@ import {
   Zap,
 } from "lucide-react";
 import { GuildSigil } from "@/components/guild-sigil";
+import { SubjectIcon } from "./subject-icon";
+import { subjectTone } from "@/lib/game/subjects";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 
 // App 壳，随视口变形（多邻国式）：
@@ -49,32 +43,6 @@ const TABS = [
   { key: "kana", label: "五十音", href: "/kana", icon: Feather, hideForNewUser: true },
   { key: "me", label: "我的", href: "/settings", icon: User },
 ] as const;
-
-const SUBJECT_TONE: Record<string, string> = {
-  cs: "var(--app-blue)",
-  math: "var(--app-teal)",
-  physics: "var(--app-orange)",
-  ai: "var(--app-green)",
-  en: "var(--app-pink)",
-  ja: "var(--app-purple)",
-  history: "var(--app-brown)",
-  research: "var(--app-gold)",
-  politics: "var(--app-red)",
-};
-
-function SubjectIcon({ subject }: { subject?: string }) {
-  const size = 17;
-  if (subject === "math") return <Sigma size={size} aria-hidden />;
-  if (subject === "physics") return <Atom size={size} aria-hidden />;
-  if (subject === "ai") return <Brain size={size} aria-hidden />;
-  if (subject === "cs") return <Cpu size={size} aria-hidden />;
-  if (subject === "en") return <Languages size={size} aria-hidden />;
-  if (subject === "ja") return <Feather size={size} aria-hidden />;
-  if (subject === "history") return <Landmark size={size} aria-hidden />;
-  if (subject === "research") return <Microscope size={size} aria-hidden />;
-  if (subject === "politics") return <Scale size={size} aria-hidden />;
-  return <MapIcon size={size} aria-hidden />;
-}
 
 /** 底部 Tab 直接摆出来的数量，其余收进「更多」。
  *  地图/试炼/商店/背包/卷宗都是天天点的，留在外面；
@@ -217,7 +185,7 @@ export function AppShell({
               {/* 一眼看出这条线是什么学科，比一个通用的地图 emoji 有用 */}
               <span
                 className="app-route-pill-icon"
-                style={{ color: SUBJECT_TONE[routeSubject ?? ""] }}
+                style={{ color: subjectTone(routeSubject) }}
               >
                 <SubjectIcon subject={routeSubject} />
               </span>

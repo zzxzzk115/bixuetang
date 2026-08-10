@@ -2,66 +2,20 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Atom,
-  Brain,
-  Cpu,
-  Feather,
-  Languages,
-  Landmark,
-  Microscope,
-  Scale,
-  Sigma,
-  Sparkles,
-} from "lucide-react";
+import { Sparkles } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import type { RoadmapChoice } from "@/lib/game/roadmap-choices";
 import { completeOnboarding } from "@/lib/game/onboarding-actions";
+import { SUBJECT_LABEL, subjectTone } from "@/lib/game/subjects";
 import { celebrate } from "@/lib/celebrate";
 import { rewardToast } from "@/lib/reward-feedback";
 import { CareerGlyph, ROADMAP_TONE } from "./career-glyph";
 import { CareerOther } from "./career-other";
+import { SubjectIcon } from "./subject-icon";
 
 // 首次运行引导。新用户(未引导 + 零进度)进 /play 弹出:
 //   欢迎 → 选「成为 X」职业目标(或退回选单科入门)→ 发启程礼包 + 指到第一关。
 // 挂在 RouteMap 里,选目标复用它的 selectRoute(切线 + 存库)。
-
-const SUBJECT_LABEL: Record<string, string> = {
-  cs: "计算机",
-  math: "数学",
-  physics: "物理",
-  ai: "人工智能",
-  en: "英语",
-  ja: "日语",
-  history: "历史",
-  research: "科研",
-  politics: "政治",
-};
-const SUBJECT_TONE: Record<string, string> = {
-  cs: "var(--app-blue)",
-  math: "var(--app-teal)",
-  physics: "var(--app-orange)",
-  ai: "var(--app-green)",
-  en: "var(--app-pink)",
-  ja: "var(--app-purple)",
-  history: "var(--app-brown)",
-  research: "var(--app-gold)",
-  politics: "var(--app-red)",
-};
-
-function SubjectGlyph({ subject }: { subject: string }) {
-  const s = 26;
-  if (subject === "math") return <Sigma size={s} aria-hidden />;
-  if (subject === "physics") return <Atom size={s} aria-hidden />;
-  if (subject === "ai") return <Brain size={s} aria-hidden />;
-  if (subject === "cs") return <Cpu size={s} aria-hidden />;
-  if (subject === "en") return <Languages size={s} aria-hidden />;
-  if (subject === "ja") return <Feather size={s} aria-hidden />;
-  if (subject === "history") return <Landmark size={s} aria-hidden />;
-  if (subject === "research") return <Microscope size={s} aria-hidden />;
-  if (subject === "politics") return <Scale size={s} aria-hidden />;
-  return <Sparkles size={s} aria-hidden />;
-}
 
 type Step = "welcome" | "career" | "subject" | "done";
 
@@ -215,13 +169,15 @@ export function OnboardingOverlay({
                   className="onboard-goal"
                   disabled={pending}
                   onClick={() => pick(p)}
-                  style={{ ["--tone" as string]: SUBJECT_TONE[p.subject] }}
+                  style={{ ["--tone" as string]: subjectTone(p.subject) }}
                 >
                   <span className="onboard-goal-icon">
-                    <SubjectGlyph subject={p.subject} />
+                    <SubjectIcon subject={p.subject} size={26} fallback="sparkles" />
                   </span>
                   <b>{p.title}</b>
-                  <small>{SUBJECT_LABEL[p.subject] ?? p.subject}</small>
+                  <small>
+                    {SUBJECT_LABEL[p.subject as keyof typeof SUBJECT_LABEL] ?? p.subject}
+                  </small>
                 </button>
               ))}
             </div>

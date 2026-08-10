@@ -21,6 +21,7 @@ import { boostedXp, episodeXp } from "@/lib/game/xp";
 import { buildLessonTrack, findTrackNode } from "@/lib/game/lesson-track";
 import { courseHasQuiz } from "@/lib/game/quiz-bank";
 import { LEVEL_LABEL, SUBJECT_LABEL } from "@/lib/content/schema";
+import { subjectTone } from "@/lib/game/subjects";
 import { LABS } from "@/lib/labs";
 import { getCourseMastery, getUserProgress } from "@/lib/progress/queries";
 import { listCourseTips } from "@/lib/game/course-tips";
@@ -31,18 +32,6 @@ import { listCourseTips } from "@/lib/game/course-tips";
 // 分段作用域：地图视频节点带 ?seg=<index> 进来时，本页只呈现该节点覆盖
 // 的集数（清单/进度/知识点/学习面板全部收窄），与地图节点一一对应；
 // 分集线性解锁（看完上一集才开下一集）在 AppEpisodeList 内实施。
-
-const SUBJECT_COLOR: Record<string, string> = {
-  cs: "var(--app-blue)",
-  math: "var(--app-teal)",
-  physics: "var(--app-orange)",
-  ai: "var(--app-green)",
-  en: "var(--app-pink)",
-  ja: "var(--app-purple)",
-  history: "var(--app-brown)",
-  research: "var(--app-gold)",
-  politics: "var(--app-red)",
-};
 
 export default async function CoursePage({
   params,
@@ -199,7 +188,7 @@ export default async function CoursePage({
     xpByEpisode[ep.n] = boost ? boostedXp(base, boost.multiplierPct) : base;
   }
 
-  const color = SUBJECT_COLOR[course.subject] ?? "var(--app-blue)";
+  const color = subjectTone(course.subject);
   const watchedCount = episodes.filter((e) => watched?.has(e.n)).length;
   const percent =
     episodes.length === 0

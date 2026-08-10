@@ -23,6 +23,7 @@ import {
   type StatKey,
 } from "@/lib/game/relics";
 import { sessionPerks } from "@/lib/game/session-perks";
+import { subjectTone } from "@/lib/game/subjects";
 import { AppShell } from "./app-shell";
 
 // 背包：装备栏（3 槽）+ 遗物网格 + 四维/道具效果面板。
@@ -34,18 +35,6 @@ const RARITY_LABEL: Record<string, string> = {
   uncommon: "优秀",
   rare: "稀有",
   legendary: "传说",
-};
-
-const SUBJECT_COLOR: Record<string, string> = {
-  cs: "var(--app-blue)",
-  math: "var(--app-teal)",
-  physics: "var(--app-orange)",
-  ai: "var(--app-green)",
-  en: "var(--app-pink)",
-  ja: "var(--app-purple)",
-  history: "var(--app-brown)",
-  research: "var(--app-gold)",
-  politics: "var(--app-red)",
 };
 
 interface EquipVm {
@@ -306,9 +295,7 @@ export function BagHome({
             {Array.from({ length: bootstrap.rpg.equipSlots }, (_, slot) => {
               const vm = equipped.find((e) => e.slot === slot);
               const relic = vm ? byId.get(vm.itemId) : undefined;
-              const color = relic
-                ? SUBJECT_COLOR[relic.subject]
-                : "var(--app-line)";
+              const color = relic ? subjectTone(relic.subject) : "var(--app-line)";
               const stat = relic ? SUBJECT_STAT[relic.subject] : null;
               return (
                 <button
@@ -405,7 +392,7 @@ export function BagHome({
           ) : (
             <div className="bag-grid">
               {sorted.map((r) => {
-                const color = SUBJECT_COLOR[r.subject];
+                const color = subjectTone(r.subject);
                 const b = relicBonus(r, r.quantity);
                 // 诅咒遗物有两项非零(主属性增益 + 惩罚属性负增益)
                 const deltas = (Object.keys(STAT_LABEL) as StatKey[])

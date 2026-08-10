@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { subjectTone } from "@/lib/game/subjects";
 import {
   Brain,
   Check,
@@ -43,17 +44,6 @@ const NODE_SPACING = 132;
 const BANNER_SPACING = 140;
 const BOTTOM_PAD = 140;
 
-const SUBJECT_COLOR: Record<string, string> = {
-  cs: "var(--app-blue)",
-  math: "var(--app-teal)",
-  physics: "var(--app-orange)",
-  ai: "var(--app-green)",
-  en: "var(--app-pink)",
-  ja: "var(--app-purple)",
-  history: "var(--app-brown)",
-  research: "var(--app-gold)",
-  politics: "var(--app-red)",
-};
 
 type NodeState = "done" | "current" | "locked";
 
@@ -547,7 +537,7 @@ export function RouteMap({
               className="route-map-sticky-dot"
               style={{
                 background:
-                  SUBJECT_COLOR[stickyCourse.subject] ?? "var(--app-blue)",
+                  subjectTone(stickyCourse.subject),
               }}
               aria-hidden
             />
@@ -691,7 +681,7 @@ export function RouteMap({
           )}
 
           {banners.map((b) => {
-            const color = SUBJECT_COLOR[b.course.subject] ?? "var(--app-blue)";
+            const color = subjectTone(b.course.subject);
             return (
               <div
                 key={b.key}
@@ -718,7 +708,7 @@ export function RouteMap({
             const color =
               n.node.kind === "chest"
                 ? "var(--app-gold)"
-                : (SUBJECT_COLOR[n.course.subject] ?? "var(--app-blue)");
+                : subjectTone(n.course.subject);
             const Icon =
               n.state === "done"
                 ? Check
