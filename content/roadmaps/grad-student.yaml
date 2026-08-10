@@ -1,0 +1,17 @@
+id: grad-student
+title: 成为研究生
+tagline: 三门公共课一条线,从零搭起考研的基本盘
+description: >
+  考研赢在公共课的基本盘。这条路线把数学、英语、政治三门公共课的入门打通:先用
+  武忠祥高数 0 基础课把数学捡起来,再用三合一阅读方法论攻下英语的半壁江山,最后
+  跟徐涛核心考案搭起政治框架。走完你就有了一套可持续推进的复习地基,再上强化与真题。
+stages:
+  - title: 第一章 · 数学地基
+    note: 高数是考研数学的大头,先把它捡起来
+    courses: [kaoyan-math]
+  - title: 第二章 · 英语攻坚
+    note: 阅读拿分,全靠方法论
+    courses: [kaoyan-english]
+  - title: 第三章 · 政治框架
+    note: 马原重理解,其余重框架
+    courses: [kaoyan-politics]

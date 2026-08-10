@@ -3,6 +3,9 @@ import {
   Brain,
   Gamepad2,
   Globe,
+  GraduationCap,
+  Languages,
+  Microscope,
   Server,
   ShieldCheck,
   Sparkles,
@@ -17,6 +20,9 @@ export const ROADMAP_TONE: Record<string, string> = {
   "game-dev": "var(--app-pink)",
   "security-engineer": "var(--app-orange)",
   "backend-engineer": "var(--app-brown)",
+  "grad-student": "var(--app-red)",
+  "phd-researcher": "var(--app-gold)",
+  "language-master": "var(--app-purple)",
 };
 
 export function CareerGlyph({ icon, size = 26 }: { icon: string; size?: number }) {
@@ -26,5 +32,8 @@ export function CareerGlyph({ icon, size = 26 }: { icon: string; size?: number }
   if (icon === "gamepad") return <Gamepad2 size={size} aria-hidden />;
   if (icon === "shield") return <ShieldCheck size={size} aria-hidden />;
   if (icon === "server") return <Server size={size} aria-hidden />;
+  if (icon === "graduation") return <GraduationCap size={size} aria-hidden />;
+  if (icon === "microscope") return <Microscope size={size} aria-hidden />;
+  if (icon === "languages") return <Languages size={size} aria-hidden />;
   return <Sparkles size={size} aria-hidden />;
 }

@@ -1,0 +1,10 @@
+id: kaoyan-math
+title: 考研数学
+subject: math
+tier: basic
+description: >
+  考研数学的入门闯关线:用武忠祥高数 0 基础课把高等数学捡起来,先过「看得懂、算得对」
+  这一关,再上强化与真题。数一/数二/数三通用。
+stages:
+  - title: 第一章 · 高数地基
+    courses: [kaoyan-math]

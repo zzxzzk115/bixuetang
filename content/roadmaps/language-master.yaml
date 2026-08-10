@@ -1,0 +1,14 @@
+id: language-master
+title: 成为语言大师
+tagline: 从五十音到能读能听,把日语一路啃下来
+description: >
+  语言是通向另一个世界的钥匙。这条路线从日语开始:先在「五十音图」把假名练熟(站内
+  交互,点着听、跟着测),再用《新标准日本语》初级系统入门,最后一路啃到初中级全程,
+  难度覆盖 N5 到 N2。走完你能读懂日常短文、听懂基础对话,真正把日语学「进去」。
+stages:
+  - title: 第一章 · 假名与入门
+    note: 先练熟五十音,再上标日初级
+    courses: [japanese-intro]
+  - title: 第二章 · 系统进阶
+    note: 初级到中级全程,啃到 N3-N2
+    courses: [japanese-systematic]

@@ -20,6 +20,9 @@ const ICON: Record<string, string> = {
   "game-dev": "gamepad",
   "security-engineer": "shield",
   "backend-engineer": "server",
+  "grad-student": "graduation",
+  "phd-researcher": "microscope",
+  "language-master": "languages",
 };
 
 /** roadmap id → CareerGlyph 图标键(供卡片/关系条直接取图标) */

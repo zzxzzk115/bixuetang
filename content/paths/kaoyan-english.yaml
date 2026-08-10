@@ -1,0 +1,10 @@
+id: kaoyan-english
+title: 考研英语
+subject: en
+tier: basic
+description: >
+  考研英语的入门闯关线:阅读是拿分大头,用唐迟等名师的三合一阅读方法论,把「凭感觉」
+  的阅读变成「有章法」的解题。
+stages:
+  - title: 第一章 · 阅读方法论
+    courses: [kaoyan-english]

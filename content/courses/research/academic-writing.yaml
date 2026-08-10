@@ -1,0 +1,20 @@
+id: academic-writing
+title: 学术论文写作系列讲座
+code: 科研进阶
+institution: 科研方法（自学）
+subject: research
+level: intermediate
+tags: [科研, 论文写作, 选题, 引言, 投稿]
+prerequisites: [literature-review]
+estimatedHours: 2
+description: >
+  北美老刘的论文写作讲座合集,从论文结构、选题、研究目标到引言与文献综述,一条龙
+  讲清一篇学术论文该怎么搭。面向要写第一篇论文的研究生:先懂「一篇好论文长什么样、
+  各部分承担什么功能」,动笔才不慌。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1mJ411m7YQ
+    uploader: 北美老刘ResearchTIPS
+    note: 如何写论文系列讲座合集（1-10）
+    title: 论文写作：如何写论文系列讲座合集 (1-10) 论文结构|引言|选题|研究目标|文献综述
+episodeCount: 1

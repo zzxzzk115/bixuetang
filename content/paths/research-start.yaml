@@ -1,0 +1,12 @@
+id: research-start
+title: 科研入门
+subject: research
+tier: basic
+description: >
+  给准研究生 / 研究生的科研基本功闯关线:先学系统性文献综述会读文献,再用 Zotero
+  把文献管起来,最后跟论文写作讲座学会动笔。读、管、写一条龙。
+stages:
+  - title: 第一章 · 读与管
+    courses: [literature-review, research-zotero]
+  - title: 第二章 · 动笔写
+    courses: [academic-writing]

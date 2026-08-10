@@ -1,0 +1,55 @@
+id: research-zotero
+title: Zotero 文献管理保姆级教程
+code: 科研工具
+institution: 科研方法（自学）
+subject: research
+level: basic
+tags: [ 科研, Zotero, 文献管理, 工具, 参考文献 ]
+prerequisites: []
+estimatedHours: 3
+description: >
+  Zotero 是科研党管理文献的免费利器:一键抓取文献、自动生成参考文献、写作时随手 插引用。这门保姆级教程从安装、抓取、分类到与 Word/LaTeX 联动全讲透。学会它, 读文献、攒综述、写论文的效率能翻一倍——研究生越早上手越好。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV136dUYKEYU
+    uploader: 沧浪同学
+    note: Zotero7 保姆级教程 · 全 11 讲
+    title: Zotero7保姆级教程｜科研党/研究生必备文献管理终极指南
+notes:
+  - title: Zotero 官网
+    url: https://www.zotero.org/
+    kind: site
+episodes:
+  - n: 1
+    title: 01 导语部分：教程介绍-
+    durationSec: 109
+  - n: 2
+    title: 02 Zotero 简介与安装 -
+    durationSec: 483
+  - n: 3
+    title: 03 文献抓取初尝试
+    durationSec: 288
+  - n: 4
+    title: 04 WebDAV云盘账号注册-以坚果云为例
+    durationSec: 370
+  - n: 5
+    title: 05 Zotero首选项的配置与更改
+    durationSec: 328
+  - n: 6
+    title: 06 初识Zotero主界面
+    durationSec: 154
+  - n: 7
+    title: 07 Zotero的文献抓取
+    durationSec: 1000
+  - n: 8
+    title: 08 Zotero的文献管理
+    durationSec: 1327
+  - n: 9
+    title: 09 Zotero的文献阅读与批注
+    durationSec: 1754
+  - n: 10
+    title: 10 Zotero的引文插入与参考文献生成v2
+    durationSec: 1341
+  - n: 11
+    title: 11 Zotero的相关知识拓展
+    durationSec: 1591

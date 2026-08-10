@@ -1,0 +1,76 @@
+id: kaoyan-english
+title: 考研英语 · 阅读技巧三合一
+code: 考研公共课
+institution: 考研英语（自学）
+subject: en
+level: intermediate
+tags: [ 考研, 英语, 阅读理解, 长难句, 方法论 ]
+prerequisites: []
+estimatedHours: 15
+description: >
+  阅读是考研英语的半壁江山。这门课把唐迟、颉斌斌、Monkey 三位老师的阅读技巧 合在一处:从长难句拆解到题型套路、从定位到排除,一套「先读题、再回文、按逻辑 排除」的方法论。跟完能把阅读从「凭感觉」变成「有章法」。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1VD5x6NE7a
+    uploader: 上岸诗兄
+    note: 三合一阅读技巧课（已更完）全 18 讲
+    title: 【27考研】唐迟+颉斌斌+Monkey 三合一阅读技巧课（已更完）
+notes:
+  - title: 唐迟老师 · 长难句方法论（可作补充）
+    url: https://www.bilibili.com/video/BV1H64y1679G
+    kind: site
+episodes:
+  - n: 1
+    title: 01 导学
+    durationSec: 302
+  - n: 2
+    title: 02 阅读技巧大总结（上）
+    durationSec: 1398
+  - n: 3
+    title: 03 阅读技巧大总结（下）
+    durationSec: 735
+  - n: 4
+    title: 04 做题顺序
+    durationSec: 1046
+  - n: 5
+    title: 05 快速找到文章主旨
+    durationSec: 1290
+  - n: 6
+    title: 06 把握作者观点和态度
+    durationSec: 1039
+  - n: 7
+    title: 07 识别同义改写
+    durationSec: 620
+  - n: 8
+    title: 08 命题组【正确选项】特点
+    durationSec: 1008
+  - n: 9
+    title: 09 命题组【错误选项】特点
+    durationSec: 1015
+  - n: 10
+    title: 10 蒙题的技巧
+    durationSec: 790
+  - n: 11
+    title: 11 细节题
+    durationSec: 707
+  - n: 12
+    title: 12 推理题
+    durationSec: 518
+  - n: 13
+    title: 13例证题
+    durationSec: 481
+  - n: 14
+    title: 14 态度题
+    durationSec: 521
+  - n: 15
+    title: 15 词汇题
+    durationSec: 405
+  - n: 16
+    title: 16 主旨题
+    durationSec: 646
+  - n: 17
+    title: 17 如何提升阅读正确率
+    durationSec: 710
+  - n: 18
+    title: 18 复盘五步法，榨干每篇阅读
+    durationSec: 752

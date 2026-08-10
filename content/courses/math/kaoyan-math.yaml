@@ -1,0 +1,160 @@
+id: kaoyan-math
+title: 考研数学 · 高等数学 0 基础
+code: 考研公共课
+institution: 考研数学（自学）
+subject: math
+level: basic
+tags: [ 考研, 高等数学, 数学一二三, 零基础 ]
+prerequisites: []
+estimatedHours: 32
+description: >
+  武忠祥老师的考研高等数学零基础课,被公认为考研数学入门口碑标杆。从函数、极限、 连续讲起,把高数的核心定理与解题套路一遍打透,数一/数二/数三通用。没有微积分底子 也能跟——先把「看得懂、算得对」这一关过了,再上强化与真题。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1gA411j7Ta
+    uploader: 考研数学武忠祥老师
+    note: 官方账号 · 高等数学 0 基础课全 46 讲
+    title: 【建议收藏】考研数学武忠祥 高等数学0基础课
+notes:
+  - title: 考研数学备考经验（知乎）
+    url: https://www.zhihu.com/topic/19559084
+    kind: site
+episodes:
+  - n: 1
+    title: 28考研数学高分-全年怎么复习（武老师直播版）
+    durationSec: 2048
+  - n: 2
+    title: 01函数与极限 绪论
+    durationSec: 2623
+  - n: 3
+    title: 01.函数与极限第一节 映射与函数 01
+    durationSec: 1815
+  - n: 4
+    title: 01.函数与极限第一节 映射与函数 02
+    durationSec: 1951
+  - n: 5
+    title: 01.函数与极限第二节 数列极限01
+    durationSec: 2164
+  - n: 6
+    title: 01.函数与极限第二节 数列的极限02
+    durationSec: 1836
+  - n: 7
+    title: 01函数与极限第三节 函数的极限01
+    durationSec: 2077
+  - n: 8
+    title: 01函数与极限第三节 函数的极限02
+    durationSec: 1292
+  - n: 9
+    title: 01.函数与极限第四节 无穷小与无穷大
+    durationSec: 1017
+  - n: 10
+    title: 01.函数与极限第五节 极限运算法则
+    durationSec: 3322
+  - n: 11
+    title: 01.函数与极限第六节 极限存在法则 两个重要极限 01
+    durationSec: 1650
+  - n: 12
+    title: 01.函数与极限第六节 极限存在法则 两个重要极限 02
+    durationSec: 1731
+  - n: 13
+    title: 01.函数与极限第七节 无穷小的比较
+    durationSec: 1824
+  - n: 14
+    title: 01.函数与极限第八节 函数连续性与间断点
+    durationSec: 1913
+  - n: 15
+    title: 01.函数与极限第九节 连续函数的运算与初等函数的连续性
+    durationSec: 2974
+  - n: 16
+    title: 01.函数与极限第十节 闭区间上连续函数性质
+    durationSec: 1241
+  - n: 17
+    title: 02.导数与微分第一节 导数概念
+    durationSec: 2881
+  - n: 18
+    title: 02.导数与微分第二节 函数的求导法则
+    durationSec: 2708
+  - n: 19
+    title: 02.导数与微分第三节 高阶导数
+    durationSec: 1957
+  - n: 20
+    title: 02.导数与微分第四节 隐函数及由参数方程确定的函数的导数
+    durationSec: 2947
+  - n: 21
+    title: 02.导数与微分第五节 函数的微分
+    durationSec: 2141
+  - n: 22
+    title: 03.微分中值定理与导数应用 微分中值定理
+    durationSec: 3372
+  - n: 23
+    title: 03.微分中值定理与导数应用 洛必达法则
+    durationSec: 3207
+  - n: 24
+    title: 03.微分中值定理与导数应用 泰勒公式
+    durationSec: 2707
+  - n: 25
+    title: 03.微分中值定理与导数应用 函数的单调性与曲线的凹凸性
+    durationSec: 2916
+  - n: 26
+    title: 03.微分中值定理与导数应用 函数的极值与最值
+    durationSec: 2548
+  - n: 27
+    title: 03.微分中值定理与导数应用 函数图形的描绘
+    durationSec: 1535
+  - n: 28
+    title: 04.不定积分 换元积分法
+    durationSec: 3146
+  - n: 29
+    title: 04.不定积分 分部积分
+    durationSec: 1495
+  - n: 30
+    title: 05.定积分
+    durationSec: 2441
+  - n: 31
+    title: 06.定积分的应用
+    durationSec: 5008
+  - n: 32
+    title: 07. 微分方程 一阶线性微分方程
+    durationSec: 2038
+  - n: 33
+    title: 07. 微分方程 常系数齐次线性微分方程
+    durationSec: 1655
+  - n: 34
+    title: 07. 微分方程 常系数非齐次线性微分方程
+    durationSec: 1400
+  - n: 35
+    title: 08. 多元函数微分法及其应用 全微分
+    durationSec: 2797
+  - n: 36
+    title: 08. 多元复合函数微分法
+    durationSec: 2755
+  - n: 37
+    title: 09. 二重积分的计算（上）
+    durationSec: 2600
+  - n: 38
+    title: 09. 二重积分的计算（下）
+    durationSec: 2240
+  - n: 39
+    title: 09. 三重积分
+    durationSec: 3123
+  - n: 40
+    title: 10. 线面积分 对坐标的曲线积分
+    durationSec: 3377
+  - n: 41
+    title: 10. 高斯公式
+    durationSec: 2219
+  - n: 42
+    title: 10. 线面积分 对坐标的曲面积分
+    durationSec: 3503
+  - n: 43
+    title: 10. 线面积分 格林公式（上）
+    durationSec: 2826
+  - n: 44
+    title: 10. 线面积分 格林公式（下）
+    durationSec: 4040
+  - n: 45
+    title: 11. 无穷级数 常数项级数审敛法
+    durationSec: 2831
+  - n: 46
+    title: 11. 无穷级数 函数展开为幂级数
+    durationSec: 3527

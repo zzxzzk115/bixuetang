@@ -1,0 +1,12 @@
+id: japanese-start
+title: 日语启程
+subject: ja
+tier: basic
+description: >
+  零基础日语的闯关线:先去「五十音图」把假名点熟(站内交互,能听能测),再用标日初级
+  系统入门,最后一路啃到初中级全程。从五十音到 N2,一条线走下来。
+stages:
+  - title: 第一章 · 假名入门
+    courses: [japanese-intro]
+  - title: 第二章 · 系统进阶
+    courses: [japanese-systematic]

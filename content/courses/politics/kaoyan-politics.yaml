@@ -1,0 +1,178 @@
+id: kaoyan-politics
+title: 考研政治 · 核心考案强化
+code: 考研公共课
+institution: 考研政治（自学）
+subject: politics
+level: basic
+tags: [ 考研, 政治, 马原, 毛中特, 徐涛 ]
+prerequisites: []
+estimatedHours: 40
+description: >
+  徐涛老师的考研政治强化课(核心考案),把马原、毛中特、史纲、思修法基一遍串讲。 马原重理解、其余重框架与记忆——徐涛的风格是把枯燥考点讲成人话,配合核心考案 搭好知识骨架,后期再上冲刺与肖四肖八。适合从零开始搭政治框架。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1KtuK6DEcY
+    uploader: Nailing研学（搬运）
+    note: 徐涛核心考案强化课（年度更新版，集数随年份变动）
+    title: 【2027考研政治徐涛强化课】徐涛27考研全程班--2027考研徐涛核心考案【全年持续更新】
+notes:
+  - title: 考研政治备考经验（知乎）
+    url: https://www.zhihu.com/topic/19566373
+    kind: site
+episodes:
+  - n: 1
+    title: 马原01-导论
+    durationSec: 17610
+  - n: 2
+    title: 马原02-哲学及其基本问题
+    durationSec: 16873
+  - n: 3
+    title: 马原03-物质观
+    durationSec: 17380
+  - n: 4
+    title: 马原04-识观、世界的物质统一性
+    durationSec: 18231
+  - n: 5
+    title: 马原05-两大总特征
+    durationSec: 16664
+  - n: 6
+    title: 6马原06-对立统一规律
+    durationSec: 17785
+  - n: 7
+    title: 马原07-量变质变规律、否定之否定规律
+    durationSec: 16797
+  - n: 8
+    title: 马原08-五对基本范畴
+    durationSec: 16949
+  - n: 9
+    title: 马原09-实践
+    durationSec: 17870
+  - n: 10
+    title: 马原10-认识
+    durationSec: 17391
+  - n: 11
+    title: 马原11-真理与价值、认识世界和改造世界
+    durationSec: 18862
+  - n: 12
+    title: 马原12-历史观基本问题、社会基本矛盾
+    durationSec: 19063
+  - n: 13
+    title: 马原13-社会形态更替、人民群众
+    durationSec: 17037
+  - n: 14
+    title: 马原14-简单商品经济（上）
+    durationSec: 17459
+  - n: 15
+    title: 马原15-.简单商品经济（下）
+    durationSec: 17022
+  - n: 16
+    title: 马原16-发达商品经济（上）
+    durationSec: 17670
+  - n: 17
+    title: 马原17.发达商品经济（中）
+    durationSec: 17545
+  - n: 18
+    title: 马原18-发达商品经济（下）
+    durationSec: 16364
+  - n: 19
+    title: 思修01-绪论、人生观
+    durationSec: 9625
+  - n: 20
+    title: 思修02-理想信念
+    durationSec: 15788
+  - n: 21
+    title: 思修03-中国精神
+    durationSec: 17018
+  - n: 22
+    title: 思修04-社会主义核心价值观
+    durationSec: 16160
+  - n: 23
+    title: 思修05-道德
+    durationSec: 18359
+  - n: 24
+    title: 思修07-社会主义法律的特征和运行、全面依法治国
+    durationSec: 17458
+  - n: 25
+    title: 思修08-尊重宪法权威、尊法学法守法用法
+    durationSec: 16817
+  - n: 26
+    title: 史纲01-进入近代后中华民族的磨难与抗争
+    durationSec: 19117
+  - n: 27
+    title: 史纲02-不同社会力量对国家出路的早期探索
+    durationSec: 18569
+  - n: 28
+    title: 史纲03-辛亥革命
+    durationSec: 18853
+  - n: 29
+    title: 史纲04-新文化运动、五四运动和中国共产党诞生
+    durationSec: 18515
+  - n: 30
+    title: 史纲05-中国革命的新局面
+    durationSec: 16812
+  - n: 31
+    title: 史纲06-中国革命的新道路
+    durationSec: 19076
+  - n: 32
+    title: 史纲07-抗日战争
+    durationSec: 20159
+  - n: 33
+    title: 史纲08-解放战争与建立新中国
+    durationSec: 9548
+  - n: 34
+    title: 毛中特01-导论、毛泽东思想及其历史地位
+    durationSec: 17003
+  - n: 35
+    title: 毛中特02-新民主主义革命理论（上）
+    durationSec: 18083
+  - n: 36
+    title: 毛中特03-新民主主义革命理论（下）
+    durationSec: 16698
+  - n: 37
+    title: 毛中特04-社会主义改造理论
+    durationSec: 17735
+  - n: 38
+    title: 毛中特05-社会主义建设道路初步探索的理论成果
+    durationSec: 16618
+  - n: 39
+    title: 毛中特06-中国特色社会主义理论体系
+    durationSec: 17961
+  - n: 40
+    title: 新思想01-导论、新时代坚持和发展中国特色社会主义
+    durationSec: 18509
+  - n: 41
+    title: 新思想02-以中国式现代化全面推进中华民族伟大复兴
+    durationSec: 17092
+  - n: 42
+    title: 43.新思想04-全面深化改革开放
+    durationSec: 17838
+  - n: 43
+    title: 44.新思想05-推动高质量发展（上）
+    durationSec: 17316
+  - n: 44
+    title: 45.新思想06-推动高质量发展（下）
+    durationSec: 17616
+  - n: 45
+    title: 46.新思想07-社会主义现代化建设的教育、科技、人才战略
+    durationSec: 16094
+  - n: 46
+    title: 47.马原01-导论
+    durationSec: 17610
+  - n: 47
+    title: 48.马原02-哲学及其基本问题
+    durationSec: 16873
+  - n: 48
+    title: 49.马原03-物质观
+    durationSec: 17380
+  - n: 49
+    title: 50.马原04-识观、世界的物质统一性
+    durationSec: 18231
+  - n: 50
+    title: 51.马原05-两大总特征
+    durationSec: 16664
+  - n: 51
+    title: 52.马原06-对立统一规律
+    durationSec: 17785
+  - n: 52
+    title: 53.马原07-量变质变规律、否定之否定规律
+    durationSec: 16797

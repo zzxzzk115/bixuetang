@@ -1,0 +1,172 @@
+id: japanese-intro
+title: 新标准日本语 · 初级
+code: 日语入门
+institution: 日语（自学）
+subject: ja
+level: basic
+tags: [ 日语, 标日, 初级, N5, N4, 入门 ]
+prerequisites: []
+estimatedHours: 25
+description: >
+  认全五十音之后,用《新标准日本语》初级上下册系统入门。课文 + 语法 + 单词逐课 精讲,覆盖到 N5-N4 的基础语法与常用表达。跟完能读懂简单短文、做基础日常对话, 为进一步冲 N3/N2 打好地基。建议先在「五十音图」把假名练熟再开。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1Nx411b7Gj
+    uploader: ホリ星人灬ぶんぶん
+    note: 新标准日本语初级上下册 · 全 50 讲
+    title: 新标准日本语初级上下册
+notes:
+  - title: 先练五十音（站内交互）
+    url: https://www.bixuetang.com/kana
+    kind: site
+episodes:
+  - n: 1
+    title: 入门单元1 日语的发音
+    durationSec: 1408
+  - n: 2
+    title: 入门单元2 日语的书写方法
+    durationSec: 2099
+  - n: 3
+    title: 第1课 李さんは中国人です
+    durationSec: 1592
+  - n: 4
+    title: 第2课 これは本です
+    durationSec: 1715
+  - n: 5
+    title: 第3课 ここはデパートです
+    durationSec: 1359
+  - n: 6
+    title: 第4课 部屋に机といすがあります
+    durationSec: 1709
+  - n: 7
+    title: 第5课 森さんは７時に起きます
+    durationSec: 1774
+  - n: 8
+    title: 第6课 吉田さんは来月中国へ行きます
+    durationSec: 1508
+  - n: 9
+    title: 第7课 李さんは毎日コーヒーを飲みます
+    durationSec: 1662
+  - n: 10
+    title: 第8课 李さんは日本語で手紙を書きます
+    durationSec: 1498
+  - n: 11
+    title: 第9课 四川料理は辛いです
+    durationSec: 1724
+  - n: 12
+    title: 第10课 京都の紅葉は有名です
+    durationSec: 1634
+  - n: 13
+    title: 第11课 小野さんは歌が好きです
+    durationSec: 1365
+  - n: 14
+    title: 第12课 李さんは森さんより若いです
+    durationSec: 1578
+  - n: 15
+    title: 第13课 机の上に本が３冊あります
+    durationSec: 1634
+  - n: 16
+    title: 第14课 昨日デパートへ行って，買い物しました
+    durationSec: 1499
+  - n: 17
+    title: 第15课 小野さんは今新聞を読んでいます
+    durationSec: 1433
+  - n: 18
+    title: 第16课 ホテルの部屋は広くて明るいです
+    durationSec: 1817
+  - n: 19
+    title: 第17课 わたしは新しい洋服が欲しいです
+    durationSec: 1334
+  - n: 20
+    title: 第18课 携帯電話はとても小さくなりました
+    durationSec: 1555
+  - n: 21
+    title: 第19课 部屋のかぎを忘れないでください
+    durationSec: 1249
+  - n: 22
+    title: 第20课 スミスさんはピアノを弾くことができます
+    durationSec: 1305
+  - n: 23
+    title: 第21课 わたしはすき焼きを食べだことがあります
+    durationSec: 1623
+  - n: 24
+    title: 第22课 森さんは毎晩テレビを見る
+    durationSec: 1947
+  - n: 25
+    title: 第23课 休みの日，散歩したり買い物に行ったりします
+    durationSec: 1519
+  - n: 26
+    title: 第24课 李さんはもうすぐ来ると思います
+    durationSec: 1673
+  - n: 27
+    title: 第25课 これは明日会議で使う資料です
+    durationSec: 1560
+  - n: 28
+    title: 第26课 自転車に2人で乗るのは危ないです
+    durationSec: 1694
+  - n: 29
+    title: 第27课 子供の時、大きな地震がありました
+    durationSec: 1856
+  - n: 30
+    title: 第28课 馬さんは私に地図をくれました
+    durationSec: 1717
+  - n: 31
+    title: 第29课 電気を消せ
+    durationSec: 1870
+  - n: 32
+    title: 第30课 もう11時だから寝よう
+    durationSec: 1467
+  - n: 33
+    title: 第31课 このボタンを押すと、電源が入ります
+    durationSec: 1649
+  - n: 34
+    title: 第32课 今度の日曜日に遊園地へ行くつもりです
+    durationSec: 1657
+  - n: 35
+    title: 第33课 電車ガ急に止まりました
+    durationSec: 1659
+  - n: 36
+    title: 第34课 壁にカレンダーが掛けてあります
+    durationSec: 1612
+  - n: 37
+    title: 第35课 明日雨が降ったら，マラソン大会は中止です
+    durationSec: 1637
+  - n: 38
+    title: 第36课 遅くなって、すみません
+    durationSec: 1656
+  - n: 39
+    title: 第37课 優勝すれば、オリンピックに出場することができます
+    durationSec: 1704
+  - n: 40
+    title: 第38课 戴さんは英語が話せます
+    durationSec: 1559
+  - n: 41
+    title: 第39课 眼鏡をかけて本を読みます
+    durationSec: 1625
+  - n: 42
+    title: 新标日 - 初级 第40课 これから友達と食事に行くところです
+    durationSec: 1460
+  - n: 43
+    title: 第41课 李さんは部長にほめられました
+    durationSec: 1579
+  - n: 44
+    title: 第42课 テレビをつけたまま，出かけてしまいました
+    durationSec: 1555
+  - n: 45
+    title: 第43课 陳さんは、息子をアメリカに留学させます
+    durationSec: 1717
+  - n: 46
+    title: 第44课 玄関のところにだれかいるようです
+    durationSec: 1680
+  - n: 47
+    title: 第45课 少子化が進んで、日本の人口はだんだん減ってい...
+    durationSec: 1687
+  - n: 48
+    title: 第46课 これは柔らかくて，まるで本物の毛皮のようです
+    durationSec: 1634
+  - n: 49
+    title: 第47课 周先生は明日日本へ行かれます
+    durationSec: 1617
+  - n: 50
+    title: 第48课 お荷物は私がお持ちします
+    durationSec: 1743

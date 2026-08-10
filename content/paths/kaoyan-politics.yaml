@@ -1,0 +1,10 @@
+id: kaoyan-politics
+title: 考研政治
+subject: politics
+tier: basic
+description: >
+  考研政治的入门闯关线:跟徐涛核心考案强化课,把马原、毛中特、史纲、思修法基的知识
+  框架搭起来,后期再上冲刺与肖四肖八。
+stages:
+  - title: 第一章 · 核心考案
+    courses: [kaoyan-politics]

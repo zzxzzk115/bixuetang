@@ -1,0 +1,17 @@
+id: phd-researcher
+title: 成为博士生
+tagline: 从读文献到写论文,把科研的基本功一次练齐
+description: >
+  科研的入门不是做实验,而是「会读、会管、会写」。这条路线先学系统性文献综述,把
+  海量文献读成一张知识地图;再用 Zotero 把文献管起来、随手引用;最后跟着论文写作
+  讲座,懂一篇学术论文该怎么搭。走完你能独立完成一篇文献综述,并动笔写出第一篇论文。
+stages:
+  - title: 第一章 · 读文献
+    note: 系统检索、筛选、批判性综合
+    courses: [literature-review]
+  - title: 第二章 · 管文献
+    note: Zotero 一把梭,效率翻倍
+    courses: [research-zotero]
+  - title: 第三章 · 写论文
+    note: 懂结构,动笔才不慌
+    courses: [academic-writing]

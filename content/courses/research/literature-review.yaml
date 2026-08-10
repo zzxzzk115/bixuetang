@@ -1,0 +1,46 @@
+id: literature-review
+title: 系统性文献综述写作
+code: 科研入门
+institution: 科研方法（自学）
+subject: research
+level: intermediate
+tags: [ 科研, 文献综述, systematic review, 论文 ]
+prerequisites: []
+estimatedHours: 2
+description: >
+  文献综述不是「把读过的论文复述一遍」,而是系统地检索、筛选、归纳、批判。这门课 按 systematic review 的规范流程走:定研究问题、定检索式、按纳入/排除标准筛文献、 提炼主题并批判性综合。研究生入门第一课,少走很多弯路。
+sources:
+  - platform: bilibili
+    url: https://www.bilibili.com/video/BV1514y1374R
+    uploader: 科研人FrankG
+    note: 系统性文献综述写作教程
+    title: 这可能是史上最全的系统性文献综述写作教程systematic review
+episodes:
+  - n: 1
+    title: 这可能是史上最全的系统性文献综述写作教程systematic review
+    bvid: BV1514y1374R
+    durationSec: 2398
+  - n: 2
+    title: 有手就会的评论性文献综述写作教程
+    bvid: BV1CM4y197A5
+    durationSec: 2015
+  - n: 3
+    title: 写论文之前一定要知道的系统性文献综述参考指南
+    bvid: BV1Lm421j7C9
+    durationSec: 149
+  - n: 4
+    title: 我为什么推荐刚入学的研究生/博士生先写一篇系统性综述？
+    bvid: BV1R8411B7S7
+    durationSec: 247
+  - n: 5
+    title: 文献综述和研究论文有什么区别？
+    bvid: BV1FL411z7Lp
+    durationSec: 117
+  - n: 6
+    title: 导师为什么叫你写系统性文献综述？好处在这里：
+    bvid: BV1st421P7Ge
+    durationSec: 216
+  - n: 7
+    title: 写系统性文献综述如何组建自己的团队，让写论文事半功倍？
+    bvid: BV1Ps421T7B7
+    durationSec: 535
