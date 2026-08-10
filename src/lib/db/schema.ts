@@ -194,6 +194,8 @@ export const achievementUnlocks = sqliteTable(
       .references(() => users.id, { onDelete: "cascade" }),
     achievementId: text("achievement_id").notNull(),
     unlockedAt: integer("unlocked_at").notNull(),
+    /** 首次领取金币奖励的时间;空=解锁了但还没领 */
+    claimedAt: integer("claimed_at"),
   },
   (t) => [primaryKey({ columns: [t.userId, t.achievementId] })],
 );

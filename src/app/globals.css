@@ -7107,6 +7107,69 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-faint);
   font-size: 12px;
 }
+.track-claim-dot {
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--app-gold);
+  animation: claim-pulse 1.6s ease-in-out infinite;
+}
+@keyframes claim-pulse {
+  50% {
+    opacity: 0.6;
+  }
+}
+/* 待领取横幅 */
+.ach-claim {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(100deg, var(--app-gold), var(--app-orange));
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--app-orange) 35%, transparent);
+}
+.ach-claim-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+.ach-claim-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+  text-align: left;
+}
+.ach-claim-body b {
+  font-size: 15px;
+}
+.ach-claim-body small {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  opacity: 0.95;
+}
+.ach-claim-btn {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--app-orange);
+  font-weight: 900;
+  font-size: 14px;
+}
 /* 好友榜里「互相关注」小标 */
 .friend-mutual {
   margin-left: 6px;

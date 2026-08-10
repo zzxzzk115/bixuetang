@@ -23,13 +23,13 @@ import { recordFeed } from "./feed";
 // 指标全部由现有数据推导(看课/通关/连胜/笔记/术语/等级/专注/学科/段位/社交),无需额外埋点。
 // 每达到一个新等级,幂等落一条 achievement_unlocks(id=`轨.等级下标`)并广播好友动态。
 
-/** 等级名与配色(按下标) */
+/** 等级名、配色、首次领取的金币奖励(按下标,等级越高奖励越多) */
 export const TIER_META = [
-  { label: "铜", colorVar: "--app-brown" },
-  { label: "银", colorVar: "--app-silver" },
-  { label: "金", colorVar: "--app-gold" },
-  { label: "钻", colorVar: "--app-blue" },
-  { label: "王", colorVar: "--app-purple" },
+  { label: "Lv.1", colorVar: "--app-brown", reward: 20 },
+  { label: "Lv.2", colorVar: "--app-teal", reward: 40 },
+  { label: "Lv.3", colorVar: "--app-gold", reward: 80 },
+  { label: "Lv.4", colorVar: "--app-blue", reward: 150 },
+  { label: "Lv.5", colorVar: "--app-purple", reward: 300 },
 ] as const;
 
 interface TierDef {
@@ -77,12 +77,18 @@ function t(...needs: number[]): TierDef[] {
 }
 
 export interface TierView {
+  /** 该等级的成就 id(轨.下标),领取用 */
+  id: string;
   label: string;
   colorVar: string;
   need: number;
   desc: string;
+  /** 首次领取的金币奖励 */
+  reward: number;
   unlocked: boolean;
   unlockedAt?: number;
+  /** 已领取金币 */
+  claimed: boolean;
 }
 
 export interface TrackView {
@@ -204,11 +210,14 @@ export function syncAchievements(userId: number): TrackView[] {
         }
       }
       return {
+        id,
         label: meta.label,
         colorVar: meta.colorVar,
         need: tier.need,
         desc: tier.desc ?? `${track.title}达到 ${tier.need}${track.unit}`,
+        reward: meta.reward,
         unlocked: reached,
+        claimed: false,
       };
     });
     const next = track.tiers[reachedIdx + 1];
@@ -224,18 +233,20 @@ export function syncAchievements(userId: number): TrackView[] {
     };
   });
 
-  // 补回 unlockedAt(供页面展示解锁日期)
-  const unlockedAt = new Map(
+  // 补回 unlockedAt / claimed(供页面展示解锁日期与领取状态)
+  const rows = new Map(
     db
       .select()
       .from(achievementUnlocks)
       .where(eq(achievementUnlocks.userId, userId))
       .all()
-      .map((r) => [r.achievementId, r.unlockedAt]),
+      .map((r) => [r.achievementId, r]),
   );
   for (const v of views) {
-    v.tiers.forEach((tier, i) => {
-      tier.unlockedAt = unlockedAt.get(`${v.id}.${i}`);
+    v.tiers.forEach((tier) => {
+      const row = rows.get(tier.id);
+      tier.unlockedAt = row?.unlockedAt;
+      tier.claimed = !!row?.claimedAt;
     });
   }
   return views;

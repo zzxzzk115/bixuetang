@@ -309,6 +309,13 @@
       "when": 1786420000000,
       "tag": "0043_feed_events",
       "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "6",
+      "when": 1786430000000,
+      "tag": "0044_achievement_claim",
+      "breakpoints": true
     }
   ]
 }

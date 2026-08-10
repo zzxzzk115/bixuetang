@@ -13,6 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
+import { AchievementClaim } from "@/components/app/achievement-claim";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { syncAchievements, type TrackView } from "@/lib/game/achievements";
@@ -50,6 +51,7 @@ function TrackIcon({ icon }: { icon: string }) {
 function TrackCard({ track }: { track: TrackView }) {
   const reached = track.reachedIdx >= 0 ? track.tiers[track.reachedIdx] : null;
   const tone = reached ? `var(${reached.colorVar})` : "var(--app-faint)";
+  const hasUnclaimed = track.tiers.some((t) => t.unlocked && !t.claimed);
   // 到下一级的进度(已满级则满格)
   const prevNeed = track.reachedIdx >= 0 ? track.tiers[track.reachedIdx].need : 0;
   const pct =
@@ -68,9 +70,13 @@ function TrackCard({ track }: { track: TrackView }) {
       <div className="track-body">
         <div className="track-head">
           <b>{track.title}</b>
-          <span className="track-tier" style={{ color: tone }}>
-            {reached ? `${reached.label}级` : "未开始"}
-          </span>
+          {hasUnclaimed ? (
+            <span className="track-claim-dot">待领取</span>
+          ) : (
+            <span className="track-tier" style={{ color: tone }}>
+              {reached ? reached.label : "未开始"}
+            </span>
+          )}
         </div>
         <div className="track-pips">
           {track.tiers.map((tier, i) => (
@@ -91,7 +97,7 @@ function TrackCard({ track }: { track: TrackView }) {
           {track.value}
           {track.unit}
           {track.nextNeed != null
-            ? ` · 距${track.tiers[track.reachedIdx + 1].label}级还差 ${track.nextNeed - track.value}`
+            ? ` · 距 ${track.tiers[track.reachedIdx + 1].label} 还差 ${track.nextNeed - track.value}`
             : " · 已满级 🎉"}
         </small>
       </div>
@@ -107,6 +113,8 @@ export default async function AchievementsPage() {
   const tracks = syncAchievements(user.id);
   const gotTiers = tracks.reduce((s, t) => s + t.tiers.filter((x) => x.unlocked).length, 0);
   const totalTiers = tracks.reduce((s, t) => s + t.tiers.length, 0);
+  const unclaimed = tracks.flatMap((t) => t.tiers).filter((x) => x.unlocked && !x.claimed);
+  const claimCoins = unclaimed.reduce((s, x) => s + x.reward, 0);
 
   return (
     <AppShell bootstrap={bootstrap}>
@@ -121,8 +129,12 @@ export default async function AchievementsPage() {
           <h1>
             <Award size={20} aria-hidden /> 成就收集
           </h1>
-          <p>每条成就都能一路升级:铜 → 银 → 金 → 钻 → 王。学得越多,点亮得越亮。</p>
+          <p>每条成就都能一路升级:Lv.1 → Lv.5。达成新等级,记得回来领金币。</p>
         </header>
+
+        {unclaimed.length > 0 && (
+          <AchievementClaim count={unclaimed.length} coins={claimCoins} />
+        )}
 
         <section className="track-grid">
           {tracks.map((track) => (
