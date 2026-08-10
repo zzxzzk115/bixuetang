@@ -34,13 +34,13 @@ export function LeaguePanel({ overview }: { overview: LeagueOverview }) {
   // 我此刻处于哪个区(晋级/降级/保级)
   const myZone = board.find((r) => r.me)?.zone ?? "hold";
   const statusText =
-    promoteCount > 0 && myZone === "promote"
-      ? "在晋级区 · 稳住就升段"
+    myZone === "promote"
+      ? "在晋级区"
       : myZone === "demote"
-        ? "在降级区 · 加把劲别掉段"
+        ? "在降级区"
         : weekXp === 0
-          ? "本周还没得分 · 去学一集攒经验"
-          : "暂时安全 · 冲一冲晋级区";
+          ? "本周还没得分"
+          : "暂时安全";
 
   const ackBanner = () => {
     setDismissed(true);
@@ -134,7 +134,7 @@ export function LeaguePanel({ overview }: { overview: LeagueOverview }) {
       </ol>
       {cohortSize <= 1 && (
         <p className="league-lonely">
-          <Shield size={14} aria-hidden /> 同段位暂时只有你 · 拉朋友一起卷,榜才热闹
+          <Shield size={14} aria-hidden /> 同段位暂时只有你
         </p>
       )}
     </section>

@@ -154,7 +154,6 @@ export function TrialHome({
           <div className="trial-section-head">
             <span className="trial-section-kicker">RANKED</span>
             <h2>段位联赛</h2>
-            <p>本周赚的经验就是段位分,周一结算 · 升 7 降 5——和多邻国一样</p>
           </div>
           <LeaguePanel overview={league} />
         </section>
@@ -202,9 +201,9 @@ export function TrialHome({
           </span>
           <div className="trial-mode-body">
             <h2>幽灵对战</h2>
-            <p>挑战其他学者的对局录像：同一套题、同屏竞速。打赢照样进经验,间接助攻段位</p>
+            <p>挑战其他学者的对局录像：同一套题、同屏竞速</p>
             <p className="trial-pk-record">
-              <Trophy size={15} aria-hidden /> 战绩 {pk.wins} 胜 {pk.losses} 负
+              <Trophy size={15} aria-hidden /> {pk.wins} 胜 {pk.losses} 负
             </p>
             <button
               className="app-btn-primary"
