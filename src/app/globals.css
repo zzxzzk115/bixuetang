@@ -1468,6 +1468,129 @@ html {
   color: var(--app-faint);
   flex-shrink: 0;
 }
+/* 个人 API 令牌 */
+.tokens {
+  display: grid;
+  gap: 12px;
+}
+.tokens-fresh {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 2px solid var(--app-green);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--app-green) 8%, transparent);
+}
+.tokens-fresh-note {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--app-strong);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.tokens-fresh-row,
+.tokens-curl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tokens-fresh-row code,
+.tokens-curl code {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-line);
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--app-strong);
+}
+.tokens-curl code {
+  color: var(--app-text);
+}
+.tokens-fresh-row button,
+.tokens-curl button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--app-line);
+  background: var(--app-surface);
+  color: var(--app-text);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.tokens-create {
+  display: flex;
+  gap: 8px;
+}
+.tokens-create input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--app-line);
+  background: var(--app-surface);
+  color: var(--app-strong);
+  font-size: 14px;
+}
+.tokens-create .app-btn-primary {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.tokens-error {
+  color: var(--app-red);
+  font-size: 12.5px;
+}
+.tokens-list {
+  display: grid;
+  gap: 6px;
+}
+.tokens-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--app-line);
+  border-radius: 10px;
+}
+.tokens-list-icon {
+  color: var(--app-faint);
+  flex-shrink: 0;
+}
+.tokens-list-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+.tokens-list-body b {
+  color: var(--app-strong);
+  font-size: 14px;
+}
+.tokens-list-body small {
+  color: var(--app-faint);
+  font-size: 11.5px;
+}
+.tokens-revoke {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--app-line);
+  background: var(--app-surface);
+  color: var(--app-red);
+  cursor: pointer;
+  flex-shrink: 0;
+}
 
 /* ---------- 幽灵对战会话 ---------- */
 .pk-hud {

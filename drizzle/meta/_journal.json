@@ -281,6 +281,13 @@
       "when": 1786380000000,
       "tag": "0039_league",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "6",
+      "when": 1786390000000,
+      "tag": "0040_api_tokens_v2",
+      "breakpoints": true
     }
   ]
 }

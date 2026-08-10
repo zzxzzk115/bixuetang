@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
 import { Boxes, Braces, Download, FileText, Layers } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
+import { ExportTokens } from "@/components/app/export-tokens";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { gatherExport } from "@/lib/export/gather";
+import { listApiTokens } from "@/lib/export/token-actions";
 
 export const metadata = { title: "导出与联动" };
 
@@ -14,6 +16,7 @@ export default async function ExportPage() {
   const bundle = gatherExport(user.id);
   const noteCount = bundle.notes.length;
   const termCount = bundle.terms.length;
+  const tokens = await listApiTokens();
 
   const downloads = [
     {
@@ -94,6 +97,19 @@ export default async function ExportPage() {
               </a>
             );
           })}
+        </section>
+
+        <section className="course-card">
+          <div className="course-card-head">
+            <h2>个人 API 令牌</h2>
+          </div>
+          <p className="me-note">
+            生成一个只读令牌，用 <code>GET /api/v1/export</code> 拉自己的笔记/术语
+            JSON，接 Zapier / n8n / 自建脚本。令牌只读，不能改你的数据。
+          </p>
+          <div className="app-skin">
+            <ExportTokens initial={tokens} />
+          </div>
         </section>
       </div>
     </AppShell>

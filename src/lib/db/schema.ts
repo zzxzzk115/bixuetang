@@ -437,6 +437,19 @@ export const leagueMeta = sqliteTable("league_meta", {
   settledWeek: integer("settled_week").notNull(),
 });
 
+// 个人只读 API 令牌:用户自助生成,拉自己的笔记/术语 JSON(接 Zapier/n8n/自建脚本)。
+// 只存 sha256 哈希,明文仅创建时展示一次。用途限「读自己的数据」,无写权限。
+export const apiTokens = sqliteTable("api_tokens", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  tokenHash: text("token_hash").notNull().unique(),
+  label: text("label").notNull(),
+  createdAt: integer("created_at").notNull(),
+  lastUsedAt: integer("last_used_at"),
+});
+
 // 装备栏：槽位 → 遗物种类的引用，不消耗数量（加成随持有总量涨，见 relics.ts）。
 // 与 rpg_inventory 分表：inventory 行是数量聚合（掉落链路 PK upsert quantity+1），
 // 装备是引用语义，混在一起会把两条写路径搅在一张表上。
