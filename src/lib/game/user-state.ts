@@ -19,6 +19,16 @@ export interface LastWatched {
   ratioPct: number;
 }
 
+/** 断学邮件提醒是否已开启(设置页用) */
+export function getEmailRecall(userId: number): boolean {
+  const row = db
+    .select({ emailRecall: userState.emailRecall })
+    .from(userState)
+    .where(eq(userState.userId, userId))
+    .get();
+  return row?.emailRecall === 1;
+}
+
 export function getUserState(userId: number): {
   routeId: string | null;
   last: LastWatched | null;

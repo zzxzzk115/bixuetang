@@ -7115,6 +7115,42 @@ body:has(.art-video-player.art-fullscreen-web) {
   border-radius: 9px;
   background: color-mix(in srgb, currentColor 12%, transparent);
 }
+/* 学习提醒附加项:测试通知按钮 + 断学邮件提醒开关 */
+.push-extras {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+.recall-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+.recall-toggle.disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+.recall-toggle input {
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: var(--app-brand, var(--app-green));
+}
+.recall-toggle > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--app-strong);
+  font-weight: 700;
+  font-size: 14px;
+}
+.recall-toggle > span small {
+  color: var(--app-faint);
+  font-weight: 500;
+  font-size: 12px;
+}
 /* 跳级考:题号计数 + 课程页跳级入口行 */
 .exam-count {
   flex-shrink: 0;

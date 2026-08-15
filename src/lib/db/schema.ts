@@ -330,6 +330,10 @@ export const userState = sqliteTable("user_state", {
   vacationUntil: text("vacation_until"),
   /** 每日目标:今天要挣的 XP(多邻国式),默认 50 */
   dailyGoal: integer("daily_goal").notNull().default(50),
+  /** 断学邮件提醒:1=太久没学习时邮件召回(需已验证邮箱);默认关(需显式开) */
+  emailRecall: integer("email_recall").notNull().default(0),
+  /** 上次发断学召回(push/邮件)的 dayKey;用于限频,避免天天打扰 */
+  recallSentDay: text("recall_sent_day").notNull().default(""),
   updatedAt: integer("updated_at").notNull(),
 });
 

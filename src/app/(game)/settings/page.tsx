@@ -9,6 +9,8 @@ import { EmailForm, PasswordForm, ProfileForm } from "@/components/settings-form
 import { WellbeingControls } from "@/components/app/wellbeing-controls";
 import { getWellbeing } from "@/lib/game/wellbeing-actions";
 import { PushToggle } from "@/components/push-toggle";
+import { PushExtras } from "@/components/push-extras";
+import { getEmailRecall } from "@/lib/game/user-state";
 import { UserAvatar } from "@/components/user-avatar";
 import { logout } from "@/lib/auth/actions";
 import { requireUser } from "@/lib/auth/session";
@@ -111,6 +113,10 @@ export default async function SettingsPage() {
           </p>
           <div className="app-skin">
             <PushToggle />
+            <PushExtras
+              emailRecall={getEmailRecall(user.id)}
+              emailVerified={user.emailVerified}
+            />
           </div>
         </section>
 

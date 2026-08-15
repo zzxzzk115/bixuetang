@@ -330,6 +330,13 @@
       "when": 1786680000000,
       "tag": "0046_feed_social",
       "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "6",
+      "when": 1786900000000,
+      "tag": "0047_email_recall",
+      "breakpoints": true
     }
   ]
 }
