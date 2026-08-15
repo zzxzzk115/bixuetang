@@ -653,6 +653,32 @@ html {
   color: #fff;
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.22);
 }
+/* 有跳过入口的课程横幅改成两栏(文字 + 跳过胶囊);影子横幅不含 main,不受影响 */
+.route-banner:has(.route-banner-main) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.route-banner-main {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+.route-banner-skip {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.route-banner-skip:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
 .route-banner b {
   font-size: 15px;
   line-height: 1.35;
@@ -7264,6 +7290,56 @@ body:has(.art-video-player.art-fullscreen-web) {
   color: var(--app-faint);
   font-weight: 500;
   font-size: 12px;
+}
+/* 纯视频课「标记看过」卡 */
+.mark-watched {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--app-blue) 26%, transparent);
+  background: color-mix(in srgb, var(--app-blue) 7%, var(--app-surface));
+}
+.mark-watched-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  color: var(--app-blue);
+  background: color-mix(in srgb, var(--app-blue) 14%, transparent);
+}
+.mark-watched-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.mark-watched-body b {
+  color: var(--app-strong);
+  font-weight: 800;
+  font-size: 14px;
+}
+.mark-watched-body small {
+  color: var(--app-faint);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.mark-watched-err {
+  color: var(--app-danger, #e5484d) !important;
+}
+.mark-watched-actions {
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+}
+.mark-watched .app-btn-primary,
+.mark-watched .app-btn-plain {
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
 }
 /* 跳级考:题号计数 + 课程页跳级入口行 */
 .exam-count {

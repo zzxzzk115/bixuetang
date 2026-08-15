@@ -7,6 +7,7 @@ import { AppEpisodeList } from "@/components/app/app-episode-list";
 import { AppShell } from "@/components/app/app-shell";
 import { CoursePlayer } from "@/components/app/course-player";
 import { CourseTips } from "@/components/app/course-tips";
+import { MarkWatched } from "@/components/app/mark-watched";
 import { Fold } from "@/components/app/fold";
 import { renderLatex } from "@/lib/math/render-latex";
 import { renderMathText } from "@/lib/math/render-math-text";
@@ -315,6 +316,13 @@ export default async function CoursePage({
               </span>
               <span aria-hidden>›</span>
             </Link>
+          )}
+
+        {/* 纯视频课(没题库、开不了跳级考)→ 允许「标记看过」直接解锁下一门 */}
+        {!segLabel &&
+          !courseHasQuiz(id) &&
+          progress.statusByCourse.get(id) !== "done" && (
+            <MarkWatched courseId={id} title={course.title} />
           )}
 
         {analysis && analysis.episodes.length > 0 && (

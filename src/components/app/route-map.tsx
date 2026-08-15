@@ -201,9 +201,14 @@ export function RouteMap({
   const followingGoal = !routeId && !!goalRoute;
   const detoured = !!routeId && !!goalRoute && routeId !== goalRoute.id;
 
-  const { nodes, banners, totalH } = useMemo(() => {
+  const { nodes, banners, totalH, currentCourseId } = useMemo(() => {
     if (!path || width === 0)
-      return { nodes: [] as MapNode[], banners: [] as MapBanner[], totalH: 0 };
+      return {
+        nodes: [] as MapNode[],
+        banners: [] as MapBanner[],
+        totalH: 0,
+        currentCourseId: null as string | null,
+      };
     const byId = new Map(bootstrap.courses.map((c) => [c.id, c]));
     const quizDone = new Set(bootstrap.quizDone);
     const chestDone = new Set(bootstrap.chestDone);
@@ -247,7 +252,9 @@ export function RouteMap({
       (n) => n.state !== "done" && n.course.unlocked,
     );
     if (currentIdx >= 0) nodes[currentIdx].state = "current";
-    return { nodes, banners, totalH: y + BOTTOM_PAD };
+    // 当前所在的课(横幅上给它一个「跳过本课」入口,免得用户去课程页里翻)
+    const currentCourseId = currentIdx >= 0 ? nodes[currentIdx].course.id : null;
+    return { nodes, banners, totalH: y + BOTTOM_PAD, currentCourseId };
   }, [bootstrap, path, width]);
 
   // 跟读线(mode:shadow):每个单元 = 一个范围(横幅),范围里是若干「跟读」节点
@@ -685,17 +692,35 @@ export function RouteMap({
 
           {banners.map((b) => {
             const color = subjectTone(b.course.subject);
+            const isCurrent = b.course.id === currentCourseId;
             return (
               <div
                 key={b.key}
                 className="route-banner"
                 style={{ top: b.y, background: color }}
               >
-                <b>{b.course.title}</b>
-                <small>
-                  {b.course.watchedCount}/{b.course.episodeCount} 集
-                  {b.course.code ? ` · ${b.course.code}` : ""}
-                </small>
+                <div className="route-banner-main">
+                  <b>{b.course.title}</b>
+                  <small>
+                    {b.course.watchedCount}/{b.course.episodeCount} 集
+                    {b.course.code ? ` · ${b.course.code}` : ""}
+                  </small>
+                </div>
+                {/* 当前这门课:给个跳过入口。有题库→跳级考,纯视频课→去课程页标记看过 */}
+                {isCurrent && (
+                  <button
+                    className="route-banner-skip"
+                    onClick={() =>
+                      router.push(
+                        b.course.hasQuiz
+                          ? `/courses/${b.course.id}/exam`
+                          : `/courses/${b.course.id}`,
+                      )
+                    }
+                  >
+                    {b.course.hasQuiz ? "跳级" : "已看过"}
+                  </button>
+                )}
               </div>
             );
           })}
