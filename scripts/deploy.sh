@@ -14,6 +14,8 @@ set -euo pipefail
 
 APP_DIR="${APP_DIR:-/srv/bixuetang}"
 ENV_FILE="$APP_DIR/.env"
+# 定时任务标记:装/删都靠它认行,勿改
+CRON_TAG="bixuetang-reminders"
 
 MODE=deploy            # deploy | config
 FORCE_WIZARD=0         # --reconfigure 时逐项过一遍(含已填项)
@@ -98,6 +100,29 @@ gen_vapid() {
   return 1
 }
 
+# 幂等安装两条学习提醒定时任务到当前用户 crontab(每天推送提醒、每周日周报)。
+# 靠 CRON_TAG 认行:先删掉旧的同标记行再重写,重复部署不会叠加。失败不影响部署。
+install_crons() {
+  command -v crontab >/dev/null 2>&1 || {
+    echo "  未找到 crontab,跳过定时任务安装(可手动挂,见 README「学习提醒与邮件」)。"
+    return 0
+  }
+  local dc="docker compose"
+  docker compose version >/dev/null 2>&1 || dc="docker-compose"
+  local kept
+  kept="$(crontab -l 2>/dev/null | grep -v "$CRON_TAG" || true)"
+  if {
+    [ -n "$kept" ] && printf '%s\n' "$kept"
+    echo "# $CRON_TAG — 必学堂学习提醒/周报(deploy.sh 自动维护,勿手改)"
+    echo "0 9 * * * cd $APP_DIR && $dc exec -T bixuetang pnpm push:reminders >/dev/null 2>&1 # $CRON_TAG"
+    echo "0 20 * * 0 cd $APP_DIR && $dc exec -T bixuetang pnpm weekly:digest >/dev/null 2>&1 # $CRON_TAG"
+  } | crontab - 2>/dev/null; then
+    echo "  ✓ 定时任务已安装:每天 09:00 学习提醒、每周日 20:00 学习周报"
+  else
+    echo "  ✗ 安装定时任务失败(可能无 cron 权限),可手动挂,见 README。"
+  fi
+}
+
 # 生成一个 URL 安全的随机密钥(base64url,去掉 =)。openssl 优先,退化到 /dev/urandom。
 gen_secret() {
   if command -v openssl >/dev/null 2>&1; then
@@ -136,7 +161,7 @@ wizard() {
     fi
     local dom; dom="$(get_env SITE_DOMAIN)"
     prompt_env VAPID_SUBJECT "VAPID_SUBJECT（联系人邮箱）" "mailto:admin@${dom:-bixuetang.com}"
-    echo "  提示：到期召回还需挂 cron，见 README「学习提醒与邮件」。"
+    echo "  提示：到期召回/周报的定时任务会在部署时自动挂上,无需手动。"
   fi
 
   echo; echo "── 密码重置邮件 · SMTP（可跳过，不配则重置链接只打进容器日志）──"
@@ -193,6 +218,15 @@ docker compose up -d
 
 echo "==> 清理悬空旧镜像层"
 docker image prune -f >/dev/null
+
+# 学习提醒/周报要靠定时任务才会发。配了推送(VAPID)或发信(SMTP)才装,
+# 否则脚本跑起来也没东西可发。容器此时已起,cron 里的 compose exec 能命中。
+if [ -n "$(get_env VAPID_PUBLIC_KEY)" ] || [ -n "$(get_env SMTP_HOST)" ]; then
+  echo "==> 安装/更新学习提醒定时任务"
+  install_crons
+else
+  echo "==> 未配 VAPID/SMTP,跳过定时任务(学习提醒/周报暂不发)"
+fi
 
 echo "==> 当前状态"
 docker compose ps
