@@ -11,6 +11,8 @@ import {
   type QuizSettleResult,
   type TrialSettleResult,
 } from "@/lib/game/quiz-actions";
+import { recordMistakes } from "@/lib/game/mistakes-actions";
+import type { MistakeItem } from "@/lib/game/mistakes";
 import type { SessionPerks } from "@/lib/game/session-perks";
 
 // 全屏答题会话（多邻国式）：顶部 X + 进度/生命，中间题面，下面四个大选项。
@@ -66,6 +68,8 @@ export function QuizSession({
   const startRef = useRef(0);
   const settledRef = useRef(false);
   const fetchingRef = useRef(false);
+  // 本场答错的题(含超时),收尾一并进错题本
+  const wrongRef = useRef<MistakeItem[]>([]);
 
   const q = questions[idx];
 
@@ -74,6 +78,7 @@ export function QuizSession({
       setPhase("result");
       if (settledRef.current) return;
       settledRef.current = true;
+      if (wrongRef.current.length > 0) void recordMistakes(wrongRef.current);
       if (mode === "lesson" && courseId !== undefined && quizIndex !== undefined) {
         const r = await submitQuizNode(
           courseId,
@@ -146,6 +151,13 @@ export function QuizSession({
         });
       } else {
         setCombo(0);
+        wrongRef.current.push({
+          courseId: q.courseId,
+          epN: q.epN,
+          kind: q.kind,
+          prompt: q.prompt,
+          answer: q.options[q.answerIndex],
+        });
       }
       setTimeout(() => advance(wasCorrect, fastAnswer), FEEDBACK_MS);
     },

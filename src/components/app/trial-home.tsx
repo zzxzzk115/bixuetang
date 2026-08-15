@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Ghost, Heart, Swords, Timer, Trophy, Zap } from "lucide-react";
+import { BookX, Ghost, Heart, Swords, Timer, Trophy, Zap } from "lucide-react";
 import type { GameBootstrap } from "@/lib/game/bootstrap-types";
 import type { PkOverview } from "@/lib/game/pk";
 import type { LeagueOverview } from "@/lib/game/league-server";
@@ -53,6 +53,7 @@ export function TrialHome({
   quests,
   monthly,
   dueCount,
+  mistakeCount,
 }: {
   bootstrap: GameBootstrap;
   pk: PkOverview;
@@ -68,6 +69,8 @@ export function TrialHome({
   quests: DailyQuestView[];
   monthly: MonthlyQuestView;
   dueCount: number;
+  /** 错题本待重刷数(>0 时今日功课里露一条入口) */
+  mistakeCount: number;
 }) {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
@@ -180,6 +183,18 @@ export function TrialHome({
                 <small>{dueCount} 张卡片到期,清空续上记忆曲线</small>
               </span>
               <span className="review-entry-count">{dueCount}</span>
+            </Link>
+          )}
+          {mistakeCount > 0 && (
+            <Link href="/mistakes" className="review-entry mistake-entry">
+              <span className="review-entry-icon" aria-hidden>
+                <BookX size={18} />
+              </span>
+              <span className="review-entry-body">
+                <b>错题本</b>
+                <small>{mistakeCount} 道答错的题,重刷答对就划掉</small>
+              </span>
+              <span className="review-entry-count">{mistakeCount}</span>
             </Link>
           )}
           <DailyQuestBoard quests={quests} monthly={monthly} />

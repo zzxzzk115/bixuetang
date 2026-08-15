@@ -9,6 +9,7 @@ import { getDueCount } from "@/lib/game/review-actions";
 import { getWellbeing } from "@/lib/game/wellbeing-actions";
 import { getDailyProgress } from "@/lib/game/daily-goal-query";
 import { getPublicName } from "@/lib/social/queries";
+import { getMistakeCount } from "@/lib/game/mistakes";
 
 export const metadata = { title: "试炼场" };
 
@@ -46,6 +47,7 @@ export default async function TrialPage({
       quests={quests}
       monthly={monthly}
       dueCount={dueCount}
+      mistakeCount={getMistakeCount(user.id)}
       challenge={challenge}
     />
   );

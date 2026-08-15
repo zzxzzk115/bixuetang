@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GraduationCap, X, Zap } from "lucide-react";
 import type { QuizQuestion } from "@/lib/game/quiz-draw";
@@ -8,6 +8,8 @@ import {
   submitCourseExam,
   type ExamResult,
 } from "@/lib/game/course-exam-actions";
+import { recordMistakes } from "@/lib/game/mistakes-actions";
+import type { MistakeItem } from "@/lib/game/mistakes";
 import { celebrate } from "@/lib/celebrate";
 import { rewardToast } from "@/lib/reward-feedback";
 
@@ -38,6 +40,7 @@ export function ExamSession({
   const [answers, setAnswers] = useState<number[]>([]);
   const [correct, setCorrect] = useState(0);
   const [result, setResult] = useState<ExamResult | null>(null);
+  const wrongRef = useRef<MistakeItem[]>([]);
 
   const q = questions[idx];
   const passLine = Math.ceil(questions.length * PASS_RATIO);
@@ -46,6 +49,15 @@ export function ExamSession({
     if (phase !== "question") return;
     const nextAnswers = [...answers, i];
     const wasCorrect = i === q.answerIndex;
+    if (!wasCorrect) {
+      wrongRef.current.push({
+        courseId: q.courseId,
+        epN: q.epN,
+        kind: q.kind,
+        prompt: q.prompt,
+        answer: q.options[q.answerIndex],
+      });
+    }
     setSelected(i);
     setAnswers(nextAnswers);
     if (wasCorrect) setCorrect((c) => c + 1);
@@ -64,6 +76,7 @@ export function ExamSession({
 
   const finish = async (finalAnswers: number[]) => {
     setPhase("result");
+    if (wrongRef.current.length > 0) void recordMistakes(wrongRef.current);
     const r = await submitCourseExam(courseId, seed, finalAnswers);
     setResult(r);
     if (r.ok && r.passed && r.skipped) {

@@ -256,6 +256,37 @@ export const feedComments = sqliteTable(
   (t) => [index("feed_comment_feed").on(t.feedId, t.createdAt)],
 );
 
+// 错题本:测验/试炼答错的题按 (用户,课程,题面) 去重收集,可重刷。
+// 只存题面/正确答案/出处;干扰项在重刷时按题库现抽,始终新鲜。
+export const mistakes = sqliteTable(
+  "mistakes",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    courseId: text("course_id").notNull(),
+    epN: integer("ep_n").notNull(),
+    // term | keypoint
+    kind: text("kind").notNull(),
+    prompt: text("prompt").notNull(),
+    /** 正确答案文本(展示 + 重刷时作为正解) */
+    answer: text("answer").notNull(),
+    /** 累计答错次数 */
+    timesWrong: integer("times_wrong").notNull().default(1),
+    addedAt: integer("added_at").notNull(),
+    lastWrongAt: integer("last_wrong_at").notNull(),
+  },
+  (t) => [
+    uniqueIndex("mistake_user_course_prompt").on(
+      t.userId,
+      t.courseId,
+      t.prompt,
+    ),
+    index("mistake_user").on(t.userId),
+  ],
+);
+
 
 export const rpgProfiles = sqliteTable("rpg_profiles", {
   userId: integer("user_id")
