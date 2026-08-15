@@ -557,6 +557,21 @@ export function RouteMap({
                 {stickyCourse.watchedCount}/{stickyCourse.episodeCount} 集
               </small>
             </div>
+            {/* 正在学的这门课:吸顶条上直接给跳关入口(一直可见,不用滚到彩色横幅) */}
+            {stickyCourse.id === currentCourseId && (
+              <button
+                className="route-map-sticky-skip"
+                onClick={() =>
+                  router.push(
+                    stickyCourse.hasQuiz
+                      ? `/courses/${stickyCourse.id}/exam`
+                      : `/courses/${stickyCourse.id}`,
+                  )
+                }
+              >
+                {stickyCourse.hasQuiz ? "跳级" : "已看过"}
+              </button>
+            )}
             <button onClick={scrollToCurrent}>去当前</button>
           </div>
         )}

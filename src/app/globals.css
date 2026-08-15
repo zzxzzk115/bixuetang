@@ -526,6 +526,11 @@ html {
   font-weight: 800;
   cursor: pointer;
 }
+/* 跳关按钮:填色胶囊,和「去当前」区分开(更高特异性覆盖上面的通用 button 样式) */
+.route-map-sticky button.route-map-sticky-skip {
+  background: var(--app-purple);
+  color: #fff;
+}
 
 /* 视频节点气泡：各集标题预览 */
 .route-pop-backdrop {
