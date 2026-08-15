@@ -840,5 +840,9 @@ export const streakState = sqliteTable("streak_state", {
   lastDay: text("last_day").notNull().default(""),
   /** 连胜冻结存量(商店购买,断一天时自动消耗) */
   freezes: integer("freezes").notNull().default(0),
+  /** 断掉时快照的连胜天数(供「连胜修复」;0=无可修复) */
+  lostStreak: integer("lost_streak").notNull().default(0),
+  /** 断掉那次的最后活跃 dayKey;修复限时窗口据此判定 */
+  lostDay: text("lost_day").notNull().default(""),
   updatedAt: integer("updated_at").notNull(),
 });

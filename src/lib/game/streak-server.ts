@@ -3,7 +3,7 @@ import "server-only";
 import { eq } from "drizzle-orm";
 import { db } from "../db/client";
 import { streakState, userState, xpEvents } from "../db/schema";
-import { dayKey, diffDays } from "./day";
+import { addDays, dayKey, diffDays } from "./day";
 import { advanceStreak, emptyStreak, type StreakAdvance, type StreakState } from "./streak";
 import { recordFeed } from "./feed";
 
@@ -86,6 +86,17 @@ export function getStreak(userId: number): StreakState {
     // 等下次 recordActivity 再落库)
     const gap = lastDay ? diffDays(lastDay, today) : 0;
     const broken = gap > 2 || (gap === 2 && row.freezes <= 0);
+    // 刚断掉:快照断掉的连胜天数,供「连胜修复」在限时窗口内补回(只写一次)
+    if (
+      broken &&
+      row.current > 0 &&
+      (row.lostStreak !== row.current || row.lostDay !== lastDay)
+    ) {
+      db.update(streakState)
+        .set({ lostStreak: row.current, lostDay: lastDay, updatedAt: Date.now() })
+        .where(eq(streakState.userId, userId))
+        .run();
+    }
     return {
       current: broken ? 0 : row.current,
       best: row.best,
@@ -169,6 +180,63 @@ export function recordActivity(userId: number): StreakAdvance {
 export const MAX_FREEZES = 2;
 /** 连胜冻结售价(损失厌恶的安全阀:断一天时自动消耗、连胜不清零) */
 export const FREEZE_PRICE = 200;
+
+// —— 连胜修复:断掉后限时窗口内,花金币把连胜补回原来的天数 ——
+/** 至少断掉这么多天的连胜才值得修复(太短不给,免得刷) */
+export const STREAK_REPAIR_MIN = 3;
+/** 断掉后多少天内可修复(过期作废) */
+export const STREAK_REPAIR_GRACE_DAYS = 7;
+
+/** 修复断掉的 N 天连胜要多少金币(封顶 300) */
+export function streakRepairCost(lostStreak: number): number {
+  return Math.min(300, lostStreak * 20);
+}
+
+export interface StreakRepairInfo {
+  available: boolean;
+  lostStreak: number;
+  cost: number;
+}
+
+export function getStreakRepair(userId: number): StreakRepairInfo {
+  // 先走 getStreak(会在断掉时落快照);再读原始行拿 lostStreak
+  const shown = getStreak(userId);
+  const row = db
+    .select({ lostStreak: streakState.lostStreak, lostDay: streakState.lostDay })
+    .from(streakState)
+    .where(eq(streakState.userId, userId))
+    .get();
+  const lost = row?.lostStreak ?? 0;
+  const lostDay = row?.lostDay ?? "";
+  const withinGrace = lostDay
+    ? diffDays(lostDay, dayKey()) <= STREAK_REPAIR_GRACE_DAYS
+    : false;
+  const available =
+    shown.current === 0 && lost >= STREAK_REPAIR_MIN && withinGrace;
+  return { available, lostStreak: lost, cost: streakRepairCost(lost) };
+}
+
+/** 执行修复:把连胜补回 lostStreak,锚点挪到昨天(今天再学就接着 +1)。清空快照。 */
+export function applyStreakRepair(userId: number, lostStreak: number): void {
+  const now = Date.now();
+  const yesterday = addDays(dayKey(), -1);
+  const row = db
+    .select({ best: streakState.best })
+    .from(streakState)
+    .where(eq(streakState.userId, userId))
+    .get();
+  db.update(streakState)
+    .set({
+      current: lostStreak,
+      best: Math.max(row?.best ?? 0, lostStreak),
+      lastDay: yesterday,
+      lostStreak: 0,
+      lostDay: "",
+      updatedAt: now,
+    })
+    .where(eq(streakState.userId, userId))
+    .run();
+}
 
 export function addFreeze(userId: number): { ok: boolean; freezes: number } {
   const state = getStreak(userId);

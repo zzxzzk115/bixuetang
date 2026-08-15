@@ -9,6 +9,8 @@ import type { LeagueOverview } from "@/lib/game/league-server";
 import type { DailyProgress } from "@/lib/game/daily-goal";
 import { LeaguePanel } from "./league-panel";
 import { DailyGoalRing } from "./daily-goal-ring";
+import { StreakRepairBanner } from "./streak-repair-banner";
+import type { StreakRepairInfo } from "@/lib/game/streak-server";
 import {
   getFriendPkMatch,
   getPkMatch,
@@ -54,6 +56,7 @@ export function TrialHome({
   monthly,
   dueCount,
   mistakeCount,
+  streakRepair,
 }: {
   bootstrap: GameBootstrap;
   pk: PkOverview;
@@ -71,6 +74,8 @@ export function TrialHome({
   dueCount: number;
   /** 错题本待重刷数(>0 时今日功课里露一条入口) */
   mistakeCount: number;
+  /** 连胜修复:断掉且在限时窗口内时,顶部弹修复横幅 */
+  streakRepair: StreakRepairInfo | null;
 }) {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
@@ -147,6 +152,12 @@ export function TrialHome({
   return (
     <AppShell bootstrap={bootstrap}>
       <div className="trial-root">
+        {streakRepair?.available && (
+          <StreakRepairBanner
+            lostStreak={streakRepair.lostStreak}
+            cost={streakRepair.cost}
+          />
+        )}
         {challenge && !calmMode && (
           <section className="pk-challenge">
             <span className="pk-challenge-icon" aria-hidden>

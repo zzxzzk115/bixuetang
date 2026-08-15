@@ -7115,6 +7115,50 @@ body:has(.art-video-player.art-fullscreen-web) {
   border-radius: 9px;
   background: color-mix(in srgb, currentColor 12%, transparent);
 }
+/* 连胜修复横幅 */
+.streak-repair {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--app-orange) 24%, var(--app-surface)),
+    color-mix(in srgb, var(--app-danger, #e5484d) 14%, var(--app-surface))
+  );
+  border: 1px solid color-mix(in srgb, var(--app-orange) 32%, transparent);
+  margin-bottom: 12px;
+}
+.streak-repair-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--app-orange);
+  color: #fff;
+}
+.streak-repair-body {
+  flex: 1;
+  min-width: 0;
+}
+.streak-repair-body b {
+  display: block;
+  color: var(--app-strong);
+  font-weight: 800;
+  font-size: 15px;
+}
+.streak-repair-body small {
+  color: var(--app-faint);
+  font-size: 12px;
+}
+.streak-repair-btn {
+  flex-shrink: 0;
+  width: auto;
+  padding: 9px 18px;
+}
 /* 错题本 */
 .mistake-entry .review-entry-icon {
   background: color-mix(in srgb, var(--app-danger, #e5484d) 16%, transparent);

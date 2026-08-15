@@ -351,6 +351,13 @@
       "when": 1787100000000,
       "tag": "0049_email_weekly",
       "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "6",
+      "when": 1787200000000,
+      "tag": "0050_streak_repair",
+      "breakpoints": true
     }
   ]
 }

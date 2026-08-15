@@ -10,6 +10,7 @@ import { getWellbeing } from "@/lib/game/wellbeing-actions";
 import { getDailyProgress } from "@/lib/game/daily-goal-query";
 import { getPublicName } from "@/lib/social/queries";
 import { getMistakeCount } from "@/lib/game/mistakes";
+import { getStreakRepair } from "@/lib/game/streak-server";
 
 export const metadata = { title: "试炼场" };
 
@@ -48,6 +49,7 @@ export default async function TrialPage({
       monthly={monthly}
       dueCount={dueCount}
       mistakeCount={getMistakeCount(user.id)}
+      streakRepair={calmMode ? null : getStreakRepair(user.id)}
       challenge={challenge}
     />
   );
