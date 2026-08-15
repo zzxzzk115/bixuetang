@@ -6075,6 +6075,9 @@ math-field {
 .course-locked {
   display: grid;
   justify-items: center;
+  /* 这个 div 同时是 .app-page(absolute inset:0,占满整页),不加 align-content
+     的话网格行会被拉满整页高度,按钮跟着涨到半屏高。居中收拢,按钮回到自身高度。 */
+  align-content: center;
   gap: 12px;
   padding: 48px 20px;
   text-align: center;

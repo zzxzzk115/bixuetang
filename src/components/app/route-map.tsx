@@ -125,6 +125,9 @@ function nodeDone(
   quizDone: Set<string>,
   chestDone: Set<string>,
 ): boolean {
+  // 整门课已完成(含跳级/分级测测出)→ 所有节点都算完成,不然测验/宝箱节点
+  // 没单独做过会把线性进度卡住,后面的课永远解不开
+  if (course.status === "done") return true;
   const ref = `${course.id}:${node.index}`;
   if (node.kind === "quiz") return quizDone.has(ref);
   if (node.kind === "chest") return chestDone.has(ref);
