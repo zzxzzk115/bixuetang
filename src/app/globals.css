@@ -7115,6 +7115,18 @@ body:has(.art-video-player.art-fullscreen-web) {
   border-radius: 9px;
   background: color-mix(in srgb, currentColor 12%, transparent);
 }
+/* 跳级考:题号计数 + 课程页跳级入口行 */
+.exam-count {
+  flex-shrink: 0;
+  color: var(--app-faint);
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.skip-row {
+  border: 1px solid color-mix(in srgb, var(--app-purple) 30%, transparent);
+  background: color-mix(in srgb, var(--app-purple) 7%, var(--app-surface));
+}
 /* 约战好友:试炼页顶部横幅 + 好友榜行内约战按钮 */
 .pk-challenge {
   display: flex;

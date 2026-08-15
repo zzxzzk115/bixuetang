@@ -46,6 +46,8 @@ export const XP_REASON = {
   shadow: "shadow",
   /** 五十音图:通关一套假名测验(ref 见 kanaQuizRef,一次性) */
   kana: "kana",
+  /** 跳级:综合测验通过跳过整门课(ref=courseId,一次性固定奖励) */
+  skip: "skip",
 } as const;
 
 /** 五十音图某套(平/片假名)测验通关的幂等键 */

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { encodeRef } from "@/lib/ref-code";
-import { FlaskConical, Map as MapIcon, Sparkles } from "lucide-react";
+import { FlaskConical, GraduationCap, Map as MapIcon, Sparkles } from "lucide-react";
 import { AppAnalysisMap } from "@/components/app/app-analysis-map";
 import { AppEpisodeList } from "@/components/app/app-episode-list";
 import { AppShell } from "@/components/app/app-shell";
@@ -295,6 +295,27 @@ export default async function CoursePage({
             )}
           />
         </section>
+
+        {/* 跳级:已会的课不必逐集刷,做套综合测验 ≥70% 即可跳过、解锁下一门 */}
+        {!segLabel &&
+          courseHasQuiz(id) &&
+          progress.statusByCourse.get(id) !== "done" && (
+            <Link href={`/courses/${id}/exam`} className="course-row skip-row">
+              <span
+                className="course-row-icon"
+                style={{ color: "var(--app-purple)" }}
+              >
+                <GraduationCap size={20} />
+              </span>
+              <span className="course-row-body">
+                <b>综合测验 · 跳级</b>
+                <small>
+                  已经会了?做套综合测验,答对 70% 即可跳过本课、直接解锁下一门
+                </small>
+              </span>
+              <span aria-hidden>›</span>
+            </Link>
+          )}
 
         {analysis && analysis.episodes.length > 0 && (
           <Fold
