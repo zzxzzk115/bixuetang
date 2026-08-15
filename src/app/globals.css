@@ -7115,6 +7115,23 @@ body:has(.art-video-player.art-fullscreen-web) {
   border-radius: 9px;
   background: color-mix(in srgb, currentColor 12%, transparent);
 }
+/* 入学分级测入口(路线详情页) */
+.placement-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-purple);
+  background: color-mix(in srgb, var(--app-purple) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--app-purple) 26%, transparent);
+}
+.placement-entry:hover {
+  background: color-mix(in srgb, var(--app-purple) 20%, transparent);
+}
 /* 连胜修复横幅 */
 .streak-repair {
   display: flex;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, Check, Lock } from "lucide-react";
+import { ArrowLeft, Check, GraduationCap, Lock } from "lucide-react";
 import { AppShell } from "@/components/app/app-shell";
 import { CareerGlyph, ROADMAP_TONE } from "@/components/app/career-glyph";
 import { GoalButton } from "@/components/app/goal-button";
@@ -9,6 +9,7 @@ import { getContent } from "@/lib/content/load";
 import { SUBJECT_LABEL } from "@/lib/content/schema";
 import { getGameBootstrap } from "@/lib/game/bootstrap";
 import { roadmapIcon } from "@/lib/game/roadmap-choices";
+import { placementSequence } from "@/lib/game/placement";
 
 export const metadata = { title: "学习路线" };
 export const dynamic = "force-dynamic";
@@ -72,6 +73,11 @@ export default async function RoadmapDetailPage({
             currentGoalId={currentGoalId}
             currentGoalTitle={currentGoalTitle}
           />
+          {placementSequence(user.id, roadmap.id).length > 0 && (
+            <Link href={`/roadmaps/${roadmap.id}/placement`} className="placement-entry">
+              <GraduationCap size={16} aria-hidden /> 入学分级测 · 会的直接跳过
+            </Link>
+          )}
         </header>
 
         <div className="roadmap-stages">

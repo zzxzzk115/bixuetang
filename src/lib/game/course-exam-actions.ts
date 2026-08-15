@@ -1,28 +1,14 @@
 "use server";
 
-import { sql } from "drizzle-orm";
 import { getCurrentUser } from "../auth/session";
 import { getContent } from "../content/load";
-import { db } from "../db/client";
-import {
-  courseProgress,
-  episodeProgress,
-  rpgProfiles,
-  xpEvents,
-} from "../db/schema";
 import { getTotalXp } from "../progress/queries";
 import { getGameBootstrap } from "./bootstrap";
 import { levelFromXp } from "./level";
-import { XP_REASON } from "./xp";
-import { recordFeed } from "./feed";
 import { recordActivity } from "./streak-server";
 import { detectAchievements, type JustUnlocked } from "./achievements";
-import {
-  EXAM_PASS_RATIO,
-  SKIP_COINS,
-  SKIP_XP,
-  examQuestionsForSeed,
-} from "./course-exam";
+import { EXAM_PASS_RATIO, examQuestionsForSeed } from "./course-exam";
+import { skipCourse } from "./course-skip";
 import { courseHasQuiz } from "./quiz-bank";
 
 // 跳级考交卷:服务端按 seed 复现考卷、核对答案(不信客户端转述的分数)。
@@ -82,54 +68,9 @@ export async function submitCourseExam(
     return { ok: true, passed: false, correct, total, pct };
   }
 
-  // —— 通过:执行跳级(全部幂等) ——
-  const now = Date.now();
+  // —— 通过:执行跳级(共用 skipCourse,全部幂等) ——
   const before = getTotalXp(user.id);
-
-  // 全集标记已学(不发逐集 XP/掉落——跳级只给一次性固定奖励)
-  for (const ep of course.episodes) {
-    db.insert(episodeProgress)
-      .values({ userId: user.id, courseId, episodeN: ep.n, watchedAt: now })
-      .onConflictDoNothing()
-      .run();
-  }
-  // 本课置为已完成 → 满足后续课程的前置,自动解锁下一门
-  db.insert(courseProgress)
-    .values({ userId: user.id, courseId, status: "done", updatedAt: now })
-    .onConflictDoUpdate({
-      target: [courseProgress.userId, courseProgress.courseId],
-      set: { status: "done", updatedAt: now },
-    })
-    .run();
-
-  // 一次性固定奖励(幂等键 reason+ref);首次才发金币与好友动态
-  const inserted = db
-    .insert(xpEvents)
-    .values({
-      userId: user.id,
-      amount: SKIP_XP,
-      reason: XP_REASON.skip,
-      ref: courseId,
-      createdAt: now,
-    })
-    .onConflictDoNothing()
-    .returning({ amount: xpEvents.amount })
-    .get();
-
-  let gained = 0;
-  let coins = 0;
-  if (inserted) {
-    gained = inserted.amount;
-    coins = SKIP_COINS;
-    db.insert(rpgProfiles)
-      .values({ userId: user.id, coins, updatedAt: now })
-      .onConflictDoUpdate({
-        target: rpgProfiles.userId,
-        set: { coins: sql`${rpgProfiles.coins} + ${coins}`, updatedAt: now },
-      })
-      .run();
-    recordFeed(user.id, "course_done", courseId, { courseTitle: course.title });
-  }
+  const outcome = skipCourse(user.id, courseId);
 
   // 通过考试也是当天的学习行为 → 推进连胜(幂等)
   recordActivity(user.id);
@@ -144,12 +85,12 @@ export async function submitCourseExam(
     ok: true,
     passed: true,
     skipped: true,
-    alreadyDone: !inserted,
+    alreadyDone: !outcome.wasNew,
     correct,
     total,
     pct,
-    gained,
-    coins,
+    gained: outcome.gained,
+    coins: outcome.coins,
     levelUp: levelFromXp(totalXp) > levelFromXp(before),
     newLevel: levelFromXp(totalXp),
     courseTitle: course.title,

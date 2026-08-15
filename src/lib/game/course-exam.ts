@@ -12,9 +12,6 @@ import { drawQuiz, type QuizQuestion } from "./quiz-draw";
 export const EXAM_SIZE = 10;
 /** 通过线:答对比例 ≥ 此值 */
 export const EXAM_PASS_RATIO = 0.7;
-/** 跳级一次性奖励(固定,明显低于逐集学完,只作「证明掌握」的凭据) */
-export const SKIP_XP = 60;
-export const SKIP_COINS = 30;
 /** 至少能出这么多题才允许开跳级考(题库太薄凑不出像样的考卷) */
 const MIN_EXAM_QUESTIONS = 6;
 
