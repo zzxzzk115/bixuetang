@@ -31,7 +31,7 @@ export function MistakeBook({
         </header>
         <div className="course-card mistake-empty">
           <BookX size={40} aria-hidden />
-          <p>还没有错题。测验、试炼、跳级考里答错的题会自动收进这里,方便你重刷。</p>
+          <p>还没有错题。测验、试炼、跳级考里做错的题会自动收进这里,方便你回头再练。</p>
           <Link className="app-btn-primary" href="/play/trial">
             去练一场
           </Link>
@@ -48,7 +48,7 @@ export function MistakeBook({
     <div className="app-page">
       <header className="app-page-head">
         <h1>错题本 · {list.length}</h1>
-        <p className="me-note">答错的题都在这。重刷答对就从本子上划掉。</p>
+        <p className="me-note">这里是你做错过的题。再做一遍，答对了就算掌握，自动移出。</p>
       </header>
 
       {drill.length > 0 && (
@@ -56,7 +56,7 @@ export function MistakeBook({
           className="app-btn-primary mistake-drill-start"
           onClick={() => setDrilling(true)}
         >
-          <RotateCcw size={16} aria-hidden /> 开始重刷 {drill.length} 道
+          <RotateCcw size={16} aria-hidden /> 开始重做 {drill.length} 道
         </button>
       )}
 
@@ -68,7 +68,7 @@ export function MistakeBook({
               <small className="mistake-answer">正解:{m.answer}</small>
               <small className="mistake-meta">
                 {m.courseTitle}
-                {m.timesWrong > 1 ? ` · 错过 ${m.timesWrong} 次` : ""}
+                {m.timesWrong > 1 ? ` · 做错过 ${m.timesWrong} 次` : ""}
               </small>
             </div>
           </li>
@@ -128,21 +128,21 @@ function Drill({
           <span className="quiz-result-icon pass" aria-hidden>
             <Check size={44} strokeWidth={2.2} />
           </span>
-          <h1>重刷完成</h1>
+          <h1>这轮做完了</h1>
           <div className="quiz-result-stats">
             <div>
               <b>{cleared}</b>
-              <small>已划掉</small>
+              <small>已掌握</small>
             </div>
             <div>
               <b>{missed}</b>
-              <small>还要练</small>
+              <small>待巩固</small>
             </div>
           </div>
           <p className="quiz-result-note">
             {missed === 0
-              ? "全清了,漂亮!"
-              : `还有 ${missed} 道没答对,留在本子上下次再来。`}
+              ? "这些错题都掌握啦，真棒！"
+              : `还有 ${missed} 道没做对，留在错题本里，下次再来。`}
           </p>
           <div className="quiz-result-actions">
             <button

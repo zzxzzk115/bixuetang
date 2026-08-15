@@ -119,7 +119,7 @@ export function ExamSession({
             <p className="quiz-result-note">结算中…</p>
           ) : !passed ? (
             <p className="quiz-result-note">
-              答对 {passLine}/{questions.length}（70%）才能跳级,再学学回来挑战!
+              跳级需要答对 {passLine}/{questions.length}（70%）,再巩固一下,回头来挑战！
             </p>
           ) : result.alreadyDone ? (
             <p className="quiz-result-note">这门课之前已跳过,奖励已发过</p>

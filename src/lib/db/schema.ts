@@ -365,6 +365,10 @@ export const userState = sqliteTable("user_state", {
   emailRecall: integer("email_recall").notNull().default(0),
   /** 上次发断学召回(push/邮件)的 dayKey;用于限频,避免天天打扰 */
   recallSentDay: text("recall_sent_day").notNull().default(""),
+  /** 学习周报邮件:1=每周发一封本周学习汇总(需已验证邮箱);默认关 */
+  emailWeekly: integer("email_weekly").notNull().default(0),
+  /** 上次发周报的 dayKey;限频,避免一周多封 */
+  weeklySentDay: text("weekly_sent_day").notNull().default(""),
   updatedAt: integer("updated_at").notNull(),
 });
 

@@ -192,7 +192,7 @@ export function TrialHome({
               </span>
               <span className="review-entry-body">
                 <b>错题本</b>
-                <small>{mistakeCount} 道答错的题,重刷答对就划掉</small>
+                <small>{mistakeCount} 道做错的题,再练一遍就掌握</small>
               </span>
               <span className="review-entry-count">{mistakeCount}</span>
             </Link>

@@ -19,14 +19,23 @@ export interface LastWatched {
   ratioPct: number;
 }
 
-/** 断学邮件提醒是否已开启(设置页用) */
-export function getEmailRecall(userId: number): boolean {
+/** 通知邮件偏好(断学召回 / 学习周报),设置页用 */
+export function getEmailPrefs(userId: number): {
+  recall: boolean;
+  weekly: boolean;
+} {
   const row = db
-    .select({ emailRecall: userState.emailRecall })
+    .select({
+      emailRecall: userState.emailRecall,
+      emailWeekly: userState.emailWeekly,
+    })
     .from(userState)
     .where(eq(userState.userId, userId))
     .get();
-  return row?.emailRecall === 1;
+  return {
+    recall: row?.emailRecall === 1,
+    weekly: row?.emailWeekly === 1,
+  };
 }
 
 export function getUserState(userId: number): {

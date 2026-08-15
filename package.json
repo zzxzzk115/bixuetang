@@ -16,6 +16,7 @@
     "check:links": "tsx scripts/check-links.ts",
     "check:videos": "tsx scripts/check-videos.ts",
     "push:reminders": "tsx scripts/push-reminders.ts",
+    "weekly:digest": "tsx scripts/weekly-digest.ts",
     "fetch:subtitles": "tsx scripts/fetch-subtitles.ts",
     "fetch:yt-subs": "tsx scripts/fetch-yt-subs.ts",
     "merge:analysis": "tsx scripts/merge-analysis-parts.ts",

@@ -1,8 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { Loader2, Mail, Send } from "lucide-react";
-import { sendTestPush, setEmailRecall } from "@/lib/game/notify-actions";
+import { useState, type ReactNode } from "react";
+import { CalendarDays, Loader2, Mail, Send } from "lucide-react";
+import {
+  sendTestPush,
+  setEmailRecall,
+  setEmailWeekly,
+} from "@/lib/game/notify-actions";
 
 // 学习提醒的两个附加项:
 //   · 发送测试通知——当场验证推送通道是否打通(排查「从没收到过通知」)
@@ -16,15 +20,15 @@ const TEST_MSG: Record<string, string> = {
 
 export function PushExtras({
   emailRecall,
+  emailWeekly,
   emailVerified,
 }: {
   emailRecall: boolean;
+  emailWeekly: boolean;
   emailVerified: boolean;
 }) {
   const [testing, setTesting] = useState(false);
   const [testMsg, setTestMsg] = useState<string | null>(null);
-  const [recall, setRecall] = useState(emailRecall);
-  const [savingRecall, setSavingRecall] = useState(false);
 
   const test = async () => {
     setTesting(true);
@@ -36,16 +40,6 @@ export function PushExtras({
         ? `已发送到 ${r.sent} 台设备,留意通知栏~`
         : (TEST_MSG[r.reason ?? "send-failed"] ?? "发送失败"),
     );
-  };
-
-  const toggleRecall = async () => {
-    if (savingRecall) return;
-    const next = !recall;
-    setRecall(next);
-    setSavingRecall(true);
-    const r = await setEmailRecall(next);
-    setSavingRecall(false);
-    if (!r.ok) setRecall(!next);
   };
 
   return (
@@ -60,22 +54,66 @@ export function PushExtras({
       </button>
       {testMsg && <p className="me-note">{testMsg}</p>}
 
-      <label className={`recall-toggle${emailVerified ? "" : " disabled"}`}>
-        <input
-          type="checkbox"
-          checked={recall}
-          disabled={!emailVerified || savingRecall}
-          onChange={toggleRecall}
-        />
-        <span>
-          <Mail size={14} aria-hidden /> 断学邮件提醒
-          <small>
-            {emailVerified
-              ? "太久没学习时,发邮件提醒你回来"
-              : "先在下方「邮箱」绑定并验证邮箱后可开启"}
-          </small>
-        </span>
-      </label>
+      <EmailToggle
+        icon={<Mail size={14} aria-hidden />}
+        label="断学邮件提醒"
+        onHint="太久没学习时,发邮件提醒你回来"
+        initial={emailRecall}
+        emailVerified={emailVerified}
+        save={setEmailRecall}
+      />
+      <EmailToggle
+        icon={<CalendarDays size={14} aria-hidden />}
+        label="学习周报"
+        onHint="每周一封,汇总你这周学了多少"
+        initial={emailWeekly}
+        emailVerified={emailVerified}
+        save={setEmailWeekly}
+      />
     </div>
+  );
+}
+
+function EmailToggle({
+  icon,
+  label,
+  onHint,
+  initial,
+  emailVerified,
+  save,
+}: {
+  icon: ReactNode;
+  label: string;
+  onHint: string;
+  initial: boolean;
+  emailVerified: boolean;
+  save: (on: boolean) => Promise<{ ok: boolean }>;
+}) {
+  const [on, setOn] = useState(initial);
+  const [saving, setSaving] = useState(false);
+  const toggle = async () => {
+    if (saving) return;
+    const next = !on;
+    setOn(next);
+    setSaving(true);
+    const r = await save(next);
+    setSaving(false);
+    if (!r.ok) setOn(!next);
+  };
+  return (
+    <label className={`recall-toggle${emailVerified ? "" : " disabled"}`}>
+      <input
+        type="checkbox"
+        checked={on}
+        disabled={!emailVerified || saving}
+        onChange={toggle}
+      />
+      <span>
+        {icon} {label}
+        <small>
+          {emailVerified ? onHint : "先在下方「邮箱」绑定并验证邮箱后可开启"}
+        </small>
+      </span>
+    </label>
   );
 }

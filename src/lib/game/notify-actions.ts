@@ -24,6 +24,22 @@ export async function setEmailRecall(
   return { ok: true };
 }
 
+export async function setEmailWeekly(
+  on: boolean,
+): Promise<{ ok: boolean }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false };
+  const now = Date.now();
+  db.insert(userState)
+    .values({ userId: user.id, emailWeekly: on ? 1 : 0, updatedAt: now })
+    .onConflictDoUpdate({
+      target: userState.userId,
+      set: { emailWeekly: on ? 1 : 0, updatedAt: now },
+    })
+    .run();
+  return { ok: true };
+}
+
 export interface TestPushResult {
   ok: boolean;
   sent?: number;
