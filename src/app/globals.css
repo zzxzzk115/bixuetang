@@ -684,6 +684,12 @@ html {
 .route-banner-skip:hover {
   background: rgba(255, 255, 255, 0.32);
 }
+/* 锁定弹窗里的「跳级到这」按钮:和锁提示分开一点 */
+.route-pop-jump {
+  margin-top: 8px;
+  min-height: 40px;
+  font-size: 13px;
+}
 .route-banner b {
   font-size: 15px;
   line-height: 1.35;

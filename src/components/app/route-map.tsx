@@ -201,13 +201,15 @@ export function RouteMap({
   const followingGoal = !routeId && !!goalRoute;
   const detoured = !!routeId && !!goalRoute && routeId !== goalRoute.id;
 
-  const { nodes, banners, totalH, currentCourseId } = useMemo(() => {
+  const { nodes, banners, totalH, nextCourseId, jumpHref } = useMemo(() => {
     if (!path || width === 0)
       return {
         nodes: [] as MapNode[],
         banners: [] as MapBanner[],
         totalH: 0,
         currentCourseId: null as string | null,
+        nextCourseId: null as string | null,
+        jumpHref: null as string | null,
       };
     const byId = new Map(bootstrap.courses.map((c) => [c.id, c]));
     const quizDone = new Set(bootstrap.quizDone);
@@ -252,9 +254,30 @@ export function RouteMap({
       (n) => n.state !== "done" && n.course.unlocked,
     );
     if (currentIdx >= 0) nodes[currentIdx].state = "current";
-    // 当前所在的课(横幅上给它一个「跳过本课」入口,免得用户去课程页里翻)
-    const currentCourseId = currentIdx >= 0 ? nodes[currentIdx].course.id : null;
-    return { nodes, banners, totalH: y + BOTTOM_PAD, currentCourseId };
+    // 跳级(多邻国式):入口放在「下一门锁着的课」上,点它 = 做「当前挡路那门」的
+    // 综合测验/标记看过,过了就跳到下一门。currentCourseId=挡路的课(要测/看的),
+    // nextCourseId=要跳到的目标课,jumpHref=点了去哪(有题库→考试,纯视频→课程页)。
+    const currentCourse = currentIdx >= 0 ? nodes[currentIdx].course : null;
+    const currentCourseId = currentCourse?.id ?? null;
+    let nextCourseId: string | null = null;
+    if (currentCourseId) {
+      const i = path.courseIds.indexOf(currentCourseId);
+      nextCourseId =
+        i >= 0 && i + 1 < path.courseIds.length ? path.courseIds[i + 1] : null;
+    }
+    const jumpHref = currentCourse
+      ? currentCourse.hasQuiz
+        ? `/courses/${currentCourse.id}/exam`
+        : `/courses/${currentCourse.id}`
+      : null;
+    return {
+      nodes,
+      banners,
+      totalH: y + BOTTOM_PAD,
+      currentCourseId,
+      nextCourseId,
+      jumpHref,
+    };
   }, [bootstrap, path, width]);
 
   // 跟读线(mode:shadow):每个单元 = 一个范围(横幅),范围里是若干「跟读」节点
@@ -557,19 +580,13 @@ export function RouteMap({
                 {stickyCourse.watchedCount}/{stickyCourse.episodeCount} 集
               </small>
             </div>
-            {/* 正在学的这门课:吸顶条上直接给跳关入口(一直可见,不用滚到彩色横幅) */}
-            {stickyCourse.id === currentCourseId && (
+            {/* 滚到「下一门锁着的课」时,吸顶条上给跳级入口(点了做当前那门的测验) */}
+            {stickyCourse.id === nextCourseId && jumpHref && (
               <button
                 className="route-map-sticky-skip"
-                onClick={() =>
-                  router.push(
-                    stickyCourse.hasQuiz
-                      ? `/courses/${stickyCourse.id}/exam`
-                      : `/courses/${stickyCourse.id}`,
-                  )
-                }
+                onClick={() => router.push(jumpHref)}
               >
-                {stickyCourse.hasQuiz ? "跳级" : "已看过"}
+                跳级到这
               </button>
             )}
             <button onClick={scrollToCurrent}>去当前</button>
@@ -707,7 +724,8 @@ export function RouteMap({
 
           {banners.map((b) => {
             const color = subjectTone(b.course.subject);
-            const isCurrent = b.course.id === currentCourseId;
+            // 「下一门锁着的课」上给跳级入口:点它去做当前挡路那门的测验,过了就跳到这门
+            const isJumpTarget = b.course.id === nextCourseId && !!jumpHref;
             return (
               <div
                 key={b.key}
@@ -721,19 +739,12 @@ export function RouteMap({
                     {b.course.code ? ` · ${b.course.code}` : ""}
                   </small>
                 </div>
-                {/* 当前这门课:给个跳过入口。有题库→跳级考,纯视频课→去课程页标记看过 */}
-                {isCurrent && (
+                {isJumpTarget && (
                   <button
                     className="route-banner-skip"
-                    onClick={() =>
-                      router.push(
-                        b.course.hasQuiz
-                          ? `/courses/${b.course.id}/exam`
-                          : `/courses/${b.course.id}`,
-                      )
-                    }
+                    onClick={() => router.push(jumpHref!)}
                   >
-                    {b.course.hasQuiz ? "跳级" : "已看过"}
+                    跳级到这
                   </button>
                 )}
               </div>
@@ -876,14 +887,25 @@ export function RouteMap({
                 </ul>
               )}
               {pop.node.state === "locked" ? (
-                <small className="route-pop-lockhint">
-                  {pop.node.course.missingPrereqs.length > 0
-                    ? // 整门课被前置挡着，说清楚挡在哪，别让人干瞪眼
-                      `先学完「${pop.node.course.missingPrereqs
-                        .map((p) => p.title)
-                        .join("、")}」才能开这门课`
-                    : "完成前面的小节即可解锁"}
-                </small>
+                <>
+                  <small className="route-pop-lockhint">
+                    {pop.node.course.missingPrereqs.length > 0
+                      ? // 整门课被前置挡着，说清楚挡在哪，别让人干瞪眼
+                        `先学完「${pop.node.course.missingPrereqs
+                          .map((p) => p.title)
+                          .join("、")}」才能开这门课`
+                      : "完成前面的小节即可解锁"}
+                  </small>
+                  {/* 这门正是「下一门」→ 给个跳级入口:测出前面那门就跳到这 */}
+                  {pop.node.course.id === nextCourseId && jumpHref && (
+                    <button
+                      className="app-btn-primary route-pop-jump"
+                      onClick={() => router.push(jumpHref)}
+                    >
+                      已经会了?跳级到这
+                    </button>
+                  )}
+                </>
               ) : (
                 <button
                   className="app-btn-primary"
