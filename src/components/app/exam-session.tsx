@@ -140,11 +140,9 @@ export function ExamSession({
             )}
             <button
               className={passed ? "app-btn-primary" : "app-btn-plain"}
-              onClick={() => {
-                router.push(passed ? "/play" : `/courses/${courseId}`);
-              }}
+              onClick={() => router.push("/play")}
             >
-              {passed ? "回到地图" : "回课程页"}
+              回到地图
             </button>
           </div>
         </div>
@@ -159,7 +157,7 @@ export function ExamSession({
       <header className="quiz-head">
         <button
           className="quiz-close"
-          onClick={() => router.push(`/courses/${courseId}`)}
+          onClick={() => router.push("/play")}
           aria-label="退出"
         >
           <X size={26} />
